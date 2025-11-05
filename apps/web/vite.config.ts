@@ -15,7 +15,12 @@ export default defineConfig(({ mode }) => ({
   preview: {
     host: true,
     port: 8080,
-    allowedHosts: ['daveenci.ai', 'www.daveenci.ai', '.daveenci.ai'],
+    allowedHosts: [
+      'daveenci.ai',
+      'www.daveenci.ai',
+      '.daveenci.ai',
+      'daveenci-ai-backend.onrender.com'
+    ],
   },
   plugins: [
     react(),
