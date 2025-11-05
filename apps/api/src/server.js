@@ -1490,15 +1490,38 @@ app.post('/api/newsletter/unsubscribe', async (req, res) => {
 
 // Serve static files from the built frontend
 const frontendPath = join(__dirname, '..', '..', 'web', 'dist');
-app.use(express.static(frontendPath));
+app.use(express.static(frontendPath, { 
+  maxAge: '1d',
+  setHeaders: (res, path) => {
+    // Set proper MIME types for JavaScript modules
+    if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    } else if (path.endsWith('.mjs')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    } else if (path.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css');
+    }
+  }
+}));
 
-// Handle SPA routing - serve index.html for all non-API routes
+// ==================== SPA ROUTING ====================
+
+// Handle SPA routing - serve index.html for non-API, non-static-file routes
 app.get('*', (req, res, next) => {
   // Skip API routes
-  if (req.path.startsWith('/api')) {
+  if (req.path.startsWith('/api/')) {
     return next();
   }
-  res.sendFile(join(frontendPath, 'index.html'));
+  
+  // Skip static files (they should have been served already by express.static)
+  // If we got here, it's a frontend route like /admin or /articles
+  const frontendPath = join(__dirname, '..', '..', 'web', 'dist');
+  res.sendFile(join(frontendPath, 'index.html'), (err) => {
+    if (err) {
+      console.error('Error serving index.html:', err);
+      next();
+    }
+  });
 });
 
 // ==================== ERROR HANDLING ====================
