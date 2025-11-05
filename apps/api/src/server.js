@@ -46,6 +46,8 @@ app.use(cors({
   origin: [
     'http://localhost:8080',
     'http://localhost:8081',
+    'https://daveenci.ai',
+    'https://www.daveenci.ai',
     process.env.FRONTEND_URL
   ].filter(Boolean),
   credentials: true,
