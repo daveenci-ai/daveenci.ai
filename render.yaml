@@ -1,39 +1,18 @@
 services:
-  # Frontend - Static Site
+  # Combined Frontend + Backend Service
   - type: web
-    name: daveenci-web
-    env: static
-    buildCommand: npm install --include=dev && npm run build:web
-    staticPublishPath: apps/web/dist
-    pullRequestPreviewsEnabled: true
-    envVars:
-      - key: API_URL
-        value: https://daveenci-ai-backend.onrender.com/api
-    headers:
-      - path: /*
-        name: X-Frame-Options
-        value: SAMEORIGIN
-      - path: /*
-        name: X-Content-Type-Options
-        value: nosniff
-      - path: /*
-        name: X-XSS-Protection
-        value: 1; mode=block
-
-  # Backend - Node.js API
-  - type: web
-    name: daveenci-ai-backend
+    name: daveenci-ai
     env: node
     plan: starter
-    buildCommand: npm install --include=dev
+    buildCommand: npm install --include=dev && npm run build:web
     startCommand: node apps/api/src/server.js
     healthCheckPath: /health
     autoDeploy: true
     envVars:
+      - key: API_URL
+        value: /api
       - key: DATABASE_URL
         sync: false
-      - key: FRONTEND_URL
-        value: https://daveenci.ai
       - key: OPENAI_API_KEY
         sync: false
       - key: R2_ACCOUNT_ID

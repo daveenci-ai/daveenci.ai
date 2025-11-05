@@ -42,14 +42,12 @@ pool.connect((err, client, release) => {
 let articleScheduler = null;
 
 // Middleware
+// CORS - Allow localhost for development
 app.use(cors({
   origin: [
     'http://localhost:8080',
-    'http://localhost:8081',
-    'https://daveenci.ai',
-    'https://www.daveenci.ai',
-    process.env.FRONTEND_URL
-  ].filter(Boolean),
+    'http://localhost:8081'
+  ],
   credentials: true,
 }));
 app.use(express.json());
@@ -1487,6 +1485,21 @@ app.post('/api/newsletter/unsubscribe', async (req, res) => {
   }
 });
 
+
+// ==================== SERVE STATIC FRONTEND ====================
+
+// Serve static files from the built frontend
+const frontendPath = join(__dirname, '..', '..', 'web', 'dist');
+app.use(express.static(frontendPath));
+
+// Handle SPA routing - serve index.html for all non-API routes
+app.get('*', (req, res, next) => {
+  // Skip API routes
+  if (req.path.startsWith('/api')) {
+    return next();
+  }
+  res.sendFile(join(frontendPath, 'index.html'));
+});
 
 // ==================== ERROR HANDLING ====================
 
