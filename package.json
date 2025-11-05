@@ -10,8 +10,11 @@
     "dev": "npm-run-all --parallel dev:*",
     "dev:web": "npm run dev --workspace=@daveenci/web",
     "dev:api": "npm run dev --workspace=@daveenci/api",
-    "build": "npm run build --workspace=@daveenci/web",
+    "build": "npm install --include=dev && npm run build --workspace=@daveenci/web",
+    "build:web": "npm run build --workspace=@daveenci/web",
+    "build:api": "npm install --include=dev",
     "start:api": "npm run start --workspace=@daveenci/api",
+    "start:web": "npm run preview --workspace=@daveenci/web",
     "lint": "npm run lint --workspace=@daveenci/web",
     "clean": "rm -rf apps/*/node_modules node_modules",
     "install:all": "npm install && npm install --workspace=@daveenci/web && npm install --workspace=@daveenci/api"
