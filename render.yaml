@@ -8,7 +8,7 @@ services:
     pullRequestPreviewsEnabled: true
     envVars:
       - key: API_URL
-        value: https://daveenci-api.onrender.com/api
+        value: https://daveenci-ai-backend.onrender.com/api
     headers:
       - path: /*
         name: X-Frame-Options
@@ -22,7 +22,7 @@ services:
 
   # Backend - Node.js API
   - type: web
-    name: daveenci-api
+    name: daveenci-ai-backend
     env: node
     plan: starter
     buildCommand: npm install --include=dev
