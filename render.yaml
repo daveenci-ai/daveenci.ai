@@ -3,9 +3,12 @@ services:
   - type: web
     name: daveenci-web
     env: static
-    buildCommand: cd apps/web && npm install && npm run build
+    buildCommand: npm install --include=dev && npm run build:web
     staticPublishPath: apps/web/dist
     pullRequestPreviewsEnabled: true
+    envVars:
+      - key: API_URL
+        value: https://daveenci-ai-backend.onrender.com/api
     headers:
       - path: /*
         name: X-Frame-Options
@@ -22,8 +25,8 @@ services:
     name: daveenci-api
     env: node
     plan: starter
-    buildCommand: cd apps/api && npm install
-    startCommand: cd apps/api && npm start
+    buildCommand: npm install --include=dev
+    startCommand: node apps/api/src/server.js
     healthCheckPath: /health
     autoDeploy: true
     envVars:
