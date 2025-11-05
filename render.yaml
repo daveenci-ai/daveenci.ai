@@ -8,7 +8,7 @@ services:
     pullRequestPreviewsEnabled: true
     envVars:
       - key: API_URL
-        value: https://daveenci-ai-backend.onrender.com/api
+        value: https://daveenci-api.onrender.com/api
     headers:
       - path: /*
         name: X-Frame-Options
@@ -52,8 +52,6 @@ services:
         sync: false
       - key: GOOGLE_CALENDAR_ID
         sync: false
-      - key: PORT
-        value: 3001
 
 # Database
 databases:
