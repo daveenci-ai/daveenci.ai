@@ -1,0 +1,319 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* DaVeenci Brand Colors */
+    --background: 0 0% 100%; /* #ffffff */
+    --foreground: 0 0% 0%; /* #000000 */
+    
+    /* Primary CTA (Red #db2626) */
+    --primary: 0 73% 50%; /* #db2626 */
+    --primary-foreground: 0 0% 100%;
+    
+    /* Muted text */
+    --muted-text: 0 0% 20%; /* #333333 */
+    
+    /* Card and surface colors */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    
+    /* Secondary and muted elements */
+    --secondary: 0 0% 96%; /* Gray-100 #f5f5f5 */
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 98%; /* Gray-50 #fafafa */
+    --muted-foreground: 0 0% 45%; /* Gray-500 #737373 */
+    
+    /* Accent (subtle red) */
+    --accent: 0 93% 94%; /* Red-100 #fee2e2 - cta-ghost */
+    --accent-foreground: 0 73% 50%;
+    
+    /* Sidebar */
+    --sidebar: 0 0% 98%;
+    --sidebar-border: 0 0% 90%;
+    --sidebar-foreground: 0 0% 0%;
+    
+    /* Borders */
+    --border: 0 0% 90%; /* Gray-200 #e5e5e5 - border-soft */
+    --border-strong: 0 0% 0%; /* #000000 */
+    --input: 0 0% 90%;
+    
+    /* Focus ring (accessible red) */
+    --ring: 0 88% 80%; /* Red-300 #fca5a5 */
+    
+    /* Utility colors */
+    --destructive: 0 73% 50%; /* #db2626 - same as CTA */
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 71% 45%; /* #16a34a */
+    --warning: 38 92% 50%; /* #f59e0b */
+    
+    /* CTA states */
+    --cta-hover: 0 73% 42%; /* #b91c1c */
+    --cta-active: 0 60% 35%; /* #991b1b */
+    
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 100%;
+    --secondary: 210 40% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 210 40% 10%;
+    --muted-foreground: 210 40% 65%;
+    --accent: 210 40% 10%;
+    --accent-foreground: 0 0% 100%;
+    --sidebar: 210 40% 5%;
+    --sidebar-border: 210 40% 15%;
+    --sidebar-foreground: 0 0% 100%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 210 40% 15%;
+    --input: 210 40% 15%;
+    --ring: 0 0% 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+    font-optical-sizing: auto;
+    line-height: 1.6;
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    width: 100% !important;
+    position: relative !important;
+  }
+  
+  /* Prevent Radix UI from modifying body styles */
+  body[data-scroll-locked] {
+    overflow-y: scroll !important;
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+  }
+  
+  /* Typography hierarchy with modern font pairings */
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 300;
+    line-height: 1.1;
+  }
+  
+  h1 {
+    @apply text-6xl md:text-8xl;
+    font-weight: 200;
+    letter-spacing: -0.025em;
+    font-family: 'DM Serif Display', serif;
+  }
+  
+  h2 {
+    @apply text-4xl md:text-5xl;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+  }
+  
+  /* Enhanced body text */
+  p {
+    line-height: 1.7;
+    font-weight: 400;
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Section scroll-snap */
+  main {
+    scroll-snap-type: y mandatory;
+  }
+  
+  section {
+    scroll-snap-align: start;
+  }
+  
+  /* Enhanced focus states */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-offset-2 ring-offset-background;
+    ring-color: hsl(var(--ring)); /* Brand red focus ring */
+  }
+  
+  /* Button interactions with microinteractions */
+  button {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  button:hover {
+    transform: translateY(-2px);
+  }
+  
+  button:active {
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced animation utilities */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    opacity: 0;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes scaleIn {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  /* Enhanced hover effects */
+  .hover-lift {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hover-scale {
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .hover-scale:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Premium backdrop blur effects */
+  .backdrop-blur-premium {
+    backdrop-filter: blur(24px) saturate(180%) brightness(110%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(110%);
+  }
+  
+  /* Custom gradient backgrounds */
+  .bg-gradient-premium {
+    background: linear-gradient(135deg, #db2626 0%, #991b1b 100%);
+  }
+  
+  .bg-gradient-brand {
+    background: linear-gradient(135deg, #fecaca 0%, #db2626 100%);
+  }
+  
+  .bg-gradient-dark {
+    background: linear-gradient(135deg, #000000 0%, #171717 100%);
+  }
+}
+
+/* Enhanced scrollbar styling */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced mobile touch targets */
+@media (max-width: 768px) {
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* Premium shadow utilities */
+.shadow-premium {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+.shadow-3xl {
+  box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.2);
+}

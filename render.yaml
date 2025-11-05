@@ -1,0 +1,62 @@
+services:
+  # Frontend - Static Site
+  - type: web
+    name: daveenci-web
+    env: static
+    buildCommand: cd apps/web && npm install && npm run build
+    staticPublishPath: apps/web/dist
+    pullRequestPreviewsEnabled: true
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: X-XSS-Protection
+        value: 1; mode=block
+
+  # Backend - Node.js API
+  - type: web
+    name: daveenci-api
+    env: node
+    plan: starter
+    buildCommand: cd apps/api && npm install
+    startCommand: cd apps/api && npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: daveenci-postgres
+          property: connectionString
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: R2_ACCOUNT_ID
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: R2_BUCKET_NAME
+        sync: false
+      - key: R2_PUBLIC_URL
+        sync: false
+      - key: GOOGLE_SERVICE_ACCOUNT_EMAIL
+        sync: false
+      - key: GOOGLE_PRIVATE_KEY
+        sync: false
+      - key: GOOGLE_CALENDAR_ID
+        sync: false
+      - key: GOOGLE_ADMIN_EMAIL
+        sync: false
+      - key: PORT
+        value: 3001
+
+# Database
+databases:
+  - name: daveenci-postgres
+    plan: starter
+    databaseName: daveenci_crm
+    user: admin
