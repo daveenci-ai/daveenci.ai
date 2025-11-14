@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import CCVLogo from './CCVLogo';
 import { Linkedin, Instagram, Facebook, FileText, Mail, Calendar } from 'lucide-react';
 
 const CCVFooter = () => {
@@ -36,12 +35,9 @@ const CCVFooter = () => {
 
         <div className="grid md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-2 space-y-8">
-            <div className="flex items-center gap-4">
-              <CCVLogo size="md" variant="light" />
-              <div>
-                <h4 className="text-2xl font-semibold">DaVeenci</h4>
-                <p className="text-slate-400">Strategy • Systems • Scale</p>
-              </div>
+            <div className="space-y-2">
+              <h4 className="text-2xl font-semibold">DaVeenci</h4>
+              <p className="text-slate-400 text-lg">Strategy • Systems • Scale</p>
             </div>
             <p className="text-slate-300 text-lg leading-relaxed max-w-md">
               AI & Automation Consultancy — strategy, systems, and shipped results.
