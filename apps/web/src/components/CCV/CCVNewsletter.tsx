@@ -90,7 +90,7 @@ const CCVNewsletter = () => {
                   placeholder="Your Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-6 py-4 border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all text-lg font-medium hover:border-slate-300"
+                  className="w-full px-6 py-4 border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-colors duration-200 text-lg font-medium hover:border-slate-300"
                 />
               </div>
               <div className="space-y-2">
@@ -100,7 +100,7 @@ const CCVNewsletter = () => {
                   placeholder="you@company.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-6 py-4 border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all text-lg font-medium hover:border-slate-300"
+                  className="w-full px-6 py-4 border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-colors duration-200 text-lg font-medium hover:border-slate-300"
                 />
               </div>
             </div>
@@ -110,7 +110,7 @@ const CCVNewsletter = () => {
               <select
                 value={interests}
                 onChange={(e) => setInterests(e.target.value)}
-                className="w-full px-6 py-4 border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all text-lg font-medium hover:border-slate-300"
+                className="w-full px-6 py-4 border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-colors duration-200 text-lg font-medium hover:border-slate-300"
               >
                 <option value="">Choose your focus area</option>
                 <option value="ai-strategy">AI Strategy & Roadmaps</option>
@@ -139,7 +139,7 @@ const CCVNewsletter = () => {
               <Button 
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-black text-white hover:bg-slate-800 px-10 py-4 text-lg rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="bg-black text-white hover:bg-slate-800 px-10 py-4 text-lg rounded-xl font-semibold transition-colors duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? 'Subscribing...' : 'Get Monthly Notes'}
                 <ArrowRight className="ml-3 h-5 w-5" />

@@ -361,7 +361,7 @@ const CCVEvents = () => {
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-500/50"
+                    className="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/50"
                   >
                     {isLoading ? 'Sending...' : 'Send Request'}
                   </Button>

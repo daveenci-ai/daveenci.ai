@@ -52,7 +52,7 @@ const CCVHero = () => {
               <div className="flex flex-col sm:flex-row gap-3 pt-6">
                 <Button 
                   onClick={handleBookCall}
-                  className="bg-white text-black hover:bg-white/90 px-8 py-5 text-base md:text-lg h-auto font-semibold transition-all duration-300 hover:scale-105 shadow-2xl hover:shadow-white/25 group"
+                  className="bg-white text-black hover:bg-white/90 px-8 py-5 text-base md:text-lg h-auto font-semibold transition-colors duration-200 shadow-2xl group"
                 >
                   <Calendar className="mr-2 h-4 w-4 md:h-5 md:w-5 group-hover:rotate-12 transition-transform" />
                   Book an AI Strategy Call
@@ -60,7 +60,7 @@ const CCVHero = () => {
                 <Button 
                   onClick={() => scrollToSection('offerings')}
                   variant="outline" 
-                  className="border-2 border-white/50 text-white hover:bg-white hover:text-black px-8 py-5 text-base md:text-lg h-auto font-semibold transition-all duration-300 hover:scale-105 shadow-lg backdrop-blur-sm bg-white/10"
+                  className="border-2 border-white/50 text-white hover:bg-white hover:text-black px-8 py-5 text-base md:text-lg h-auto font-semibold transition-colors duration-200 shadow-lg backdrop-blur-sm bg-white/10"
                 >
                   See AI Playbooks
                   <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />

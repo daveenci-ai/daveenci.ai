@@ -66,7 +66,7 @@ const CCVBookingNew = () => {
               {/* 30-min Fit Check */}
               <button
                 onClick={() => handleMeetingTypeSelect('30min-fit-check')}
-                className="group relative bg-white border-2 border-slate-200 rounded-2xl p-8 hover:border-black hover:shadow-lg transition-all duration-300 text-left"
+                className="group relative bg-white border-2 border-slate-200 rounded-2xl p-8 hover:border-black hover:shadow-lg transition-shadow duration-200 text-left"
               >
                 <div className="space-y-4">
                   <div className="w-14 h-14 bg-slate-100 group-hover:bg-black rounded-xl flex items-center justify-center transition-colors duration-300">
@@ -106,7 +106,7 @@ const CCVBookingNew = () => {
               {/* 90-min Deep Dive Consultation */}
               <button
                 onClick={() => handleMeetingTypeSelect('90min-consultation')}
-                className="group relative bg-white border-2 border-slate-200 rounded-2xl p-8 hover:border-black hover:shadow-lg transition-all duration-300 text-left"
+                className="group relative bg-white border-2 border-slate-200 rounded-2xl p-8 hover:border-black hover:shadow-lg transition-shadow duration-200 text-left"
               >
                 <div className="space-y-4">
                   <div className="w-14 h-14 bg-slate-100 group-hover:bg-black rounded-xl flex items-center justify-center transition-colors duration-300">
@@ -370,7 +370,7 @@ const CCVBookingNew = () => {
             <span className="text-lg">Prefer email?</span>
             <a 
               href="mailto:astrid@daveenci.com?subject=AI Strategy Call Request&body=Hi, I'd like to schedule an AI strategy call. Please let me know your availability." 
-              className="text-black font-semibold hover:underline transition-all duration-300 hover:scale-105 inline-block"
+              className="text-black font-semibold hover:underline transition-colors duration-200 inline-block"
             >
               astrid@daveenci.com
             </a>
