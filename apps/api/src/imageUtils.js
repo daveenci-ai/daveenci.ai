@@ -392,46 +392,65 @@ export async function generateWebinarImage(eventData, apiKey) {
     const content = `${eventData.title} ${eventData.description}`;
     const contentLower = content.toLowerCase();
     
-    // Step 1: Check for specific tools/topics
-    const specificTopic = detectSpecificTopic(content);
+    // Step 1: Check for comparison/battle/vs scenarios
+    const isComparison = contentLower.includes(' vs ') || contentLower.includes(' versus ') || 
+                         contentLower.includes('battle') || contentLower.includes('comparison') ||
+                         contentLower.includes('before and after') || contentLower.includes('vs.') ||
+                         contentLower.includes('between') && (contentLower.includes(' and ') || contentLower.includes(' or '));
     
     let scenario, selectedPrompt, scenarioDesc;
     
-    if (specificTopic) {
-      // SPECIFIC TOPIC: Focus image on the tool/topic
-      scenario = 'specific-topic';
-      console.log(`   🎯 Scenario: ${scenario} (${specificTopic})`);
+    if (isComparison) {
+      // COMPARISON: Create split-screen or before/after visual
+      scenario = 'comparison';
+      console.log(`   🎯 Scenario: ${scenario} (visual contrast)`);
       
-      selectedPrompt = `${PREFIX} ${FORBIDDEN} FORBIDDEN: casual clothing, bright colors. REQUIRED: business professionals in black/white/gray suits ONLY. ${REQUIRED_COLORS}
+      selectedPrompt = `${PREFIX} ${FORBIDDEN} FORBIDDEN: people, faces, bodies, casual clothing. REQUIRED: abstract conceptual visualization ONLY. ${REQUIRED_COLORS}
 
-Professional ${specificTopic} presentation: Modern tech conference room, business executives (CEOs, CTOs) at sleek black table, large screen displaying "${specificTopic}" interface/dashboard/concept with red accent highlights. Presenter explaining ${specificTopic} strategies to engaged audience. Dark minimalist aesthetic, black furniture, white walls, red accent lighting on screen. Everyone wearing black/white/gray business suits. MacBooks, professional atmosphere, modern tech visualization. ${BASE_QUALITY}`;
+Split-screen comparison visualization: LEFT side shows traditional/old approach in muted gray tones, RIGHT side shows modern AI/new approach with red accent highlights. Clean vertical divider line in center. Minimalist abstract infographic style with data points, arrows, charts. Dark background (black/dark gray), white text elements, red highlights on modern side. Professional tech aesthetic, geometric shapes, clean typography. NO PEOPLE. Conceptual before/after comparison. ${BASE_QUALITY}`;
       
-      scenarioDesc = `Professional ${specificTopic} session with business executives`;
+      scenarioDesc = `Split-screen comparison visualization for ${eventData.title}`;
       
     } else {
-      // Step 2: Fall back to educational vs networking detection
-      const isEducational = contentLower.includes('workshop') || contentLower.includes('training') || 
-                            contentLower.includes('learn') || contentLower.includes('tutorial') ||
-                            contentLower.includes('guide') || contentLower.includes('how to');
+      // Step 2: Check for specific tools/topics
+      const specificTopic = detectSpecificTopic(content);
       
-      scenario = isEducational ? 'educational' : 'networking';
-      console.log(`   🎯 Scenario: ${scenario}`);
-      
-      // Webinar-specific prompts with people (CEOs, CTOs, business professionals)
-      const WEBINAR_PROMPTS = {
-        educational: `${PREFIX} ${FORBIDDEN} FORBIDDEN: casual clothing, bright colors. REQUIRED: business professionals in black/white/gray suits ONLY. ${REQUIRED_COLORS}
+      if (specificTopic) {
+        // SPECIFIC TOPIC: Focus image on the tool/topic
+        scenario = 'specific-topic';
+        console.log(`   🎯 Scenario: ${scenario} (${specificTopic})`);
+        
+        selectedPrompt = `${PREFIX} ${FORBIDDEN} FORBIDDEN: casual clothing, bright colors. REQUIRED: business professionals in black/white/gray suits ONLY. ${REQUIRED_COLORS}
+
+Professional ${specificTopic} presentation: Modern tech conference room, business executives (CEOs, CTOs) at sleek black table, large screen displaying "${specificTopic}" interface/dashboard/concept with red accent highlights. Presenter explaining ${specificTopic} strategies to engaged audience. Dark minimalist aesthetic, black furniture, white walls, red accent lighting on screen. Everyone wearing black/white/gray business suits. MacBooks, professional atmosphere, modern tech visualization. ${BASE_QUALITY}`;
+        
+        scenarioDesc = `Professional ${specificTopic} session with business executives`;
+        
+      } else {
+        // Step 3: Fall back to educational vs networking detection
+        const isEducational = contentLower.includes('workshop') || contentLower.includes('training') || 
+                              contentLower.includes('learn') || contentLower.includes('tutorial') ||
+                              contentLower.includes('guide') || contentLower.includes('how to');
+        
+        scenario = isEducational ? 'educational' : 'networking';
+        console.log(`   🎯 Scenario: ${scenario}`);
+        
+        // Webinar-specific prompts with people (CEOs, CTOs, business professionals)
+        const WEBINAR_PROMPTS = {
+          educational: `${PREFIX} ${FORBIDDEN} FORBIDDEN: casual clothing, bright colors. REQUIRED: business professionals in black/white/gray suits ONLY. ${REQUIRED_COLORS}
 
 Professional AI workshop scene: Modern conference room, business executives (CEOs, CTOs) sitting at sleek black tables with MacBooks, presenter at front explaining AI concepts on screen with red accent lighting. Dark professional atmosphere, minimal modern tech aesthetic. Everyone wearing black/white/gray business attire ONLY. Red accent lighting on screen/podium. ${BASE_QUALITY}`,
-        
-        networking: `${PREFIX} ${FORBIDDEN} FORBIDDEN: casual clothing, bright colors. REQUIRED: business professionals in black/white/gray suits ONLY. ${REQUIRED_COLORS}
+          
+          networking: `${PREFIX} ${FORBIDDEN} FORBIDDEN: casual clothing, bright colors. REQUIRED: business professionals in black/white/gray suits ONLY. ${REQUIRED_COLORS}
 
 Professional AI networking event: Modern minimalist space, business executives (CEOs, CTOs, founders) in small groups discussing AI and automation. Everyone wearing elegant black/white/gray business suits. Dark sleek environment with white walls, black furniture, red accent lighting. Professional handshakes and conversations. ${BASE_QUALITY}`
-      };
-      
-      selectedPrompt = WEBINAR_PROMPTS[scenario];
-      scenarioDesc = scenario === 'educational' 
-        ? 'Professional AI workshop with business executives' 
-        : 'Professional networking event with business leaders discussing AI';
+        };
+        
+        selectedPrompt = WEBINAR_PROMPTS[scenario];
+        scenarioDesc = scenario === 'educational' 
+          ? 'Professional AI workshop with business executives' 
+          : 'Professional networking event with business leaders discussing AI';
+      }
     }
     
     // Generate image using DALL-E
@@ -453,7 +472,7 @@ Professional AI networking event: Modern minimalist space, business executives (
     const altText = `${scenarioDesc}: ${eventData.title}`;
     
     console.log('🎉 Webinar image generation complete!');
-    console.log(`   Scenario: ${scenario}${specificTopic ? ` (${specificTopic})` : ''}`);
+    console.log(`   Scenario: ${scenario}`);
     console.log(`   URL: ${publicUrl}`);
     console.log(`   Alt: ${altText}`);
     console.log('===============================================\n');
