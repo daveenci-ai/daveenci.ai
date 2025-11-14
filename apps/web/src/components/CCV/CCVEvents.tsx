@@ -194,12 +194,12 @@ const CCVEvents = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-light text-black mb-6">
-            Monthly Webinar <span className="text-brand-600">Events</span>
+            Happy <span className="text-brand-600">Fridays</span>
           </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Monthly networking, build sessions, automation workshops, case studies, plus expert talks and office hours—all focused on practical AI you can use.
+            End your week on a high note with our Friday sessions—where AI founders, operators, and builders connect, learn, and ship together.
           <br /><br />
-            Join to meet peers, learn proven tactics, and leave with templates and next steps you can put to work immediately.
+            Join us for live demos, practical workshops, peer networking, and expert talks. Leave with templates, tactics, and next steps you can implement right away.
           </p>
         </div>
 
