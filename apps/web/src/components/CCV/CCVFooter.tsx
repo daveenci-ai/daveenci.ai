@@ -7,7 +7,11 @@ const CCVFooter = memo(() => {
   const currentYear = new Date().getFullYear();
   
   const scrollToSection = useCallback((sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    const element = document.getElementById(sectionId);
+    if (element) {
+      // Use instant scroll to avoid performance issues
+      element.scrollIntoView({ behavior: 'auto', block: 'start' });
+    }
   }, []);
   
   return (
@@ -78,7 +82,7 @@ const CCVFooter = memo(() => {
               <li>
                 <button 
                   onClick={() => scrollToSection('about')}
-                  className="text-slate-400 hover:text-white transition-colors text-lg hover:underline"
+                  className="text-slate-400 hover:text-white transition-colors duration-200 text-lg"
                 >
                   Our Mission
                 </button>
@@ -86,7 +90,7 @@ const CCVFooter = memo(() => {
               <li>
                 <button 
                   onClick={() => scrollToSection('offerings')}
-                  className="text-slate-400 hover:text-white transition-colors text-lg hover:underline"
+                  className="text-slate-400 hover:text-white transition-colors duration-200 text-lg"
                 >
                   Services & Advisory
                 </button>
@@ -94,7 +98,7 @@ const CCVFooter = memo(() => {
               <li>
                 <button 
                   onClick={() => scrollToSection('booking')}
-                  className="text-slate-400 hover:text-white transition-colors text-lg hover:underline"
+                  className="text-slate-400 hover:text-white transition-colors duration-200 text-lg"
                 >
                   Book AI Strategy Call
                 </button>
@@ -102,7 +106,7 @@ const CCVFooter = memo(() => {
               <li>
                 <button 
                   onClick={() => scrollToSection('newsletter')}
-                  className="text-slate-400 hover:text-white transition-colors text-lg hover:underline"
+                  className="text-slate-400 hover:text-white transition-colors duration-200 text-lg"
                 >
                   Newsletter
                 </button>
@@ -110,7 +114,7 @@ const CCVFooter = memo(() => {
               <li>
                 <Link 
                   to="/articles"
-                  className="text-slate-400 hover:text-white transition-colors text-lg hover:underline"
+                  className="text-slate-400 hover:text-white transition-colors duration-200 text-lg"
                 >
                   Articles
                 </Link>
@@ -124,7 +128,7 @@ const CCVFooter = memo(() => {
               <li>
                 <a 
                   href="mailto:astrid@daveenci.com"
-                  className="text-slate-400 hover:text-white transition-colors text-lg hover:underline flex items-center gap-3"
+                  className="text-slate-400 hover:text-white transition-colors duration-200 text-lg flex items-center gap-3"
                 >
                   <Mail className="h-5 w-5" />
                   astrid@daveenci.com
@@ -133,7 +137,7 @@ const CCVFooter = memo(() => {
               <li>
                 <button 
                   onClick={() => scrollToSection('booking')}
-                  className="text-slate-400 hover:text-white transition-colors text-lg hover:underline flex items-center gap-3"
+                  className="text-slate-400 hover:text-white transition-colors duration-200 text-lg flex items-center gap-3"
                 >
                   <Calendar className="h-5 w-5" />
                   Schedule a Call
@@ -152,10 +156,10 @@ const CCVFooter = memo(() => {
               © {currentYear} DaVeenci – Clarity on AI. Automation that Ships.
             </p>
             <div className="flex items-center gap-8">
-              <a href="/admin" className="text-slate-400 hover:text-white transition-colors">Admin</a>
-              <a href="/terms" className="text-slate-400 hover:text-white transition-colors">Terms</a>
-              <a href="/privacy" className="text-slate-400 hover:text-white transition-colors">Privacy</a>
-              <a href="/press-kit" className="text-slate-400 hover:text-white transition-colors">Press Kit</a>
+              <Link to="/admin" className="text-slate-400 hover:text-white transition-colors duration-200">Admin</Link>
+              <Link to="/terms" className="text-slate-400 hover:text-white transition-colors duration-200">Terms</Link>
+              <Link to="/privacy" className="text-slate-400 hover:text-white transition-colors duration-200">Privacy</Link>
+              <Link to="/press-kit" className="text-slate-400 hover:text-white transition-colors duration-200">Press Kit</Link>
             </div>
           </div>
         </div>
