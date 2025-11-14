@@ -149,7 +149,7 @@ const Articles = () => {
                 placeholder="Search articles..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-14 pr-6 py-4 text-lg bg-white/10 backdrop-blur-xl border-2 border-white/20 focus:border-white/40 rounded-xl text-white placeholder:text-slate-400 transition-colors duration-200"
+                className="pl-14 pr-6 py-4 text-lg bg-white/20 border-2 border-white/20 focus:border-white/40 rounded-xl text-white placeholder:text-slate-400 transition-colors duration-200"
               />
             </div>
           </div>

@@ -32,7 +32,7 @@ const CCVHero = () => {
         <div className="grid grid-cols-12 gap-8 items-center">
           <div className="col-span-12 lg:col-span-7 space-y-8 animate-fade-in">
             <div className="space-y-6">
-              <div className="hidden md:inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 text-white/90 font-medium">
+              <div className="hidden md:inline-flex items-center gap-2 bg-white/15 border border-white/20 rounded-full px-6 py-3 text-white/90 font-medium">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                 Strategy • Systems • Scale
               </div>
@@ -60,7 +60,7 @@ const CCVHero = () => {
                 <Button 
                   onClick={() => scrollToSection('offerings')}
                   variant="outline" 
-                  className="border-2 border-white/50 text-white hover:bg-white hover:text-black px-8 py-5 text-base md:text-lg h-auto font-semibold transition-colors duration-200 shadow-lg backdrop-blur-sm bg-white/10"
+                  className="border-2 border-white/50 text-white hover:bg-white hover:text-black px-8 py-5 text-base md:text-lg h-auto font-semibold transition-colors duration-200 shadow-lg bg-white/15"
                 >
                   See AI Playbooks
                   <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />

@@ -58,7 +58,7 @@ const CCVNavbar = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-slate-200/50 shadow-lg">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200/50 shadow-lg">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center gap-3 cursor-pointer" onClick={handleLogoClick}>
@@ -127,8 +127,8 @@ const CCVNavbar = () => {
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-40 md:hidden">
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} />
-          <div className="absolute top-20 left-0 right-0 bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-xl animate-slide-up">
+          <div className="absolute inset-0 bg-black/60" onClick={() => setIsMobileMenuOpen(false)} />
+          <div className="absolute top-20 left-0 right-0 bg-white border-b border-slate-200 shadow-xl animate-slide-up">
             <nav className="px-6 py-6 space-y-4">
               <button 
                 onClick={() => scrollToSection('about')}

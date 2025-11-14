@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, memo } from 'react';
 import { Calendar, MapPin, Loader2 } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Card, CardContent } from '@/components/ui/card';
@@ -94,18 +94,18 @@ const CCVEvents = () => {
     };
   }, []);
 
-  const handleRequestInvite = (eventTitle: string) => {
+  const handleRequestInvite = useCallback((eventTitle: string) => {
     setSelectedEvent(events.find(e => e.title === eventTitle) || null);
     setShowForm(true);
-  };
+  }, [events]);
 
-  const handleJoinWebinar = (event: Event) => {
+  const handleJoinWebinar = useCallback((event: Event) => {
     setSelectedEvent(event);
     setRegistrationEmail('');
     setShowRegistrationModal(true);
-  };
+  }, []);
 
-  const handleRegistrationSubmit = async (e: React.FormEvent) => {
+  const handleRegistrationSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!registrationEmail || !selectedEvent) return;
@@ -161,9 +161,9 @@ const CCVEvents = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [selectedEvent, registrationEmail, toast]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -381,7 +381,7 @@ const CCVEvents = () => {
 
         {/* Registration Modal */}
         {showRegistrationModal && selectedEvent && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl relative">
               {/* Close button */}
               <button
