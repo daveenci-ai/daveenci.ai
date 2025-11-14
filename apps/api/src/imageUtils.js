@@ -334,8 +334,48 @@ export async function generateArticleImage(articleData, apiKey, folder = 'articl
 }
 
 /**
+ * Detect specific tools/topics in event content
+ * @param {string} content - Combined title and description
+ * @returns {string|null} - Detected topic or null
+ */
+function detectSpecificTopic(content) {
+  const contentLower = content.toLowerCase();
+  
+  // Define specific tools/topics to detect
+  const topicPatterns = [
+    { keywords: ['aeo', 'answer engine', 'answer engines'], name: 'AEO' },
+    { keywords: ['seo', 'search engine optimization'], name: 'SEO' },
+    { keywords: ['n8n'], name: 'n8n' },
+    { keywords: ['make.com', 'make automation'], name: 'Make.com' },
+    { keywords: ['zapier'], name: 'Zapier' },
+    { keywords: ['render', 'render.com'], name: 'Render' },
+    { keywords: ['claude', 'anthropic'], name: 'Claude AI' },
+    { keywords: ['chatgpt', 'gpt-4', 'openai'], name: 'ChatGPT' },
+    { keywords: ['midjourney'], name: 'Midjourney' },
+    { keywords: ['stable diffusion'], name: 'Stable Diffusion' },
+    { keywords: ['robotics', 'robot'], name: 'Robotics' },
+    { keywords: ['blockchain', 'web3'], name: 'Blockchain' },
+    { keywords: ['computer vision', 'cv', 'image recognition'], name: 'Computer Vision' },
+    { keywords: ['nlp', 'natural language'], name: 'NLP' },
+    { keywords: ['machine learning', 'ml model'], name: 'Machine Learning' },
+    { keywords: ['data science', 'data analytics'], name: 'Data Science' },
+    { keywords: ['copilot', 'github copilot'], name: 'AI Copilot' },
+    { keywords: ['cursor', 'cursor ide'], name: 'Cursor IDE' },
+  ];
+  
+  // Check for matches
+  for (const pattern of topicPatterns) {
+    if (pattern.keywords.some(keyword => contentLower.includes(keyword))) {
+      return pattern.name;
+    }
+  }
+  
+  return null;
+}
+
+/**
  * Generate webinar-specific image with professional business setting
- * Focuses on educational or networking scenarios with business professionals
+ * Focuses on specific tools/topics, or falls back to educational/networking scenarios
  * 
  * @param {Object} eventData - Event data
  * @param {string} eventData.title - Event title
@@ -349,26 +389,50 @@ export async function generateWebinarImage(eventData, apiKey) {
   
   try {
     // Analyze event content to determine best scenario
-    const content = `${eventData.title} ${eventData.description}`.toLowerCase();
-    const isEducational = content.includes('workshop') || content.includes('training') || 
-                          content.includes('learn') || content.includes('tutorial') ||
-                          content.includes('guide') || content.includes('how to');
+    const content = `${eventData.title} ${eventData.description}`;
+    const contentLower = content.toLowerCase();
     
-    const scenario = isEducational ? 'educational' : 'networking';
-    console.log(`   🎯 Scenario: ${scenario}`);
+    // Step 1: Check for specific tools/topics
+    const specificTopic = detectSpecificTopic(content);
     
-    // Webinar-specific prompts with people (CEOs, CTOs, business professionals)
-    const WEBINAR_PROMPTS = {
-      educational: `${PREFIX} ${FORBIDDEN} FORBIDDEN: casual clothing, bright colors. REQUIRED: business professionals in black/white/gray suits ONLY. ${REQUIRED_COLORS}
+    let scenario, selectedPrompt, scenarioDesc;
+    
+    if (specificTopic) {
+      // SPECIFIC TOPIC: Focus image on the tool/topic
+      scenario = 'specific-topic';
+      console.log(`   🎯 Scenario: ${scenario} (${specificTopic})`);
+      
+      selectedPrompt = `${PREFIX} ${FORBIDDEN} FORBIDDEN: casual clothing, bright colors. REQUIRED: business professionals in black/white/gray suits ONLY. ${REQUIRED_COLORS}
+
+Professional ${specificTopic} presentation: Modern tech conference room, business executives (CEOs, CTOs) at sleek black table, large screen displaying "${specificTopic}" interface/dashboard/concept with red accent highlights. Presenter explaining ${specificTopic} strategies to engaged audience. Dark minimalist aesthetic, black furniture, white walls, red accent lighting on screen. Everyone wearing black/white/gray business suits. MacBooks, professional atmosphere, modern tech visualization. ${BASE_QUALITY}`;
+      
+      scenarioDesc = `Professional ${specificTopic} session with business executives`;
+      
+    } else {
+      // Step 2: Fall back to educational vs networking detection
+      const isEducational = contentLower.includes('workshop') || contentLower.includes('training') || 
+                            contentLower.includes('learn') || contentLower.includes('tutorial') ||
+                            contentLower.includes('guide') || contentLower.includes('how to');
+      
+      scenario = isEducational ? 'educational' : 'networking';
+      console.log(`   🎯 Scenario: ${scenario}`);
+      
+      // Webinar-specific prompts with people (CEOs, CTOs, business professionals)
+      const WEBINAR_PROMPTS = {
+        educational: `${PREFIX} ${FORBIDDEN} FORBIDDEN: casual clothing, bright colors. REQUIRED: business professionals in black/white/gray suits ONLY. ${REQUIRED_COLORS}
 
 Professional AI workshop scene: Modern conference room, business executives (CEOs, CTOs) sitting at sleek black tables with MacBooks, presenter at front explaining AI concepts on screen with red accent lighting. Dark professional atmosphere, minimal modern tech aesthetic. Everyone wearing black/white/gray business attire ONLY. Red accent lighting on screen/podium. ${BASE_QUALITY}`,
-      
-      networking: `${PREFIX} ${FORBIDDEN} FORBIDDEN: casual clothing, bright colors. REQUIRED: business professionals in black/white/gray suits ONLY. ${REQUIRED_COLORS}
+        
+        networking: `${PREFIX} ${FORBIDDEN} FORBIDDEN: casual clothing, bright colors. REQUIRED: business professionals in black/white/gray suits ONLY. ${REQUIRED_COLORS}
 
 Professional AI networking event: Modern minimalist space, business executives (CEOs, CTOs, founders) in small groups discussing AI and automation. Everyone wearing elegant black/white/gray business suits. Dark sleek environment with white walls, black furniture, red accent lighting. Professional handshakes and conversations. ${BASE_QUALITY}`
-    };
-    
-    const selectedPrompt = WEBINAR_PROMPTS[scenario];
+      };
+      
+      selectedPrompt = WEBINAR_PROMPTS[scenario];
+      scenarioDesc = scenario === 'educational' 
+        ? 'Professional AI workshop with business executives' 
+        : 'Professional networking event with business leaders discussing AI';
+    }
     
     // Generate image using DALL-E
     const { imageUrl, revisedPrompt } = await generateImage(selectedPrompt, apiKey);
@@ -386,13 +450,10 @@ Professional AI networking event: Modern minimalist space, business executives (
     const publicUrl = await saveImage(optimizedBuffer, filename, 'webinars');
     
     // Generate alt text
-    const scenarioDesc = scenario === 'educational' 
-      ? 'Professional AI workshop with business executives' 
-      : 'Professional networking event with business leaders discussing AI';
     const altText = `${scenarioDesc}: ${eventData.title}`;
     
     console.log('🎉 Webinar image generation complete!');
-    console.log(`   Scenario: ${scenario}`);
+    console.log(`   Scenario: ${scenario}${specificTopic ? ` (${specificTopic})` : ''}`);
     console.log(`   URL: ${publicUrl}`);
     console.log(`   Alt: ${altText}`);
     console.log('===============================================\n');
