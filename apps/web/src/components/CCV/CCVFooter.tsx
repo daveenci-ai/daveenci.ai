@@ -1,14 +1,14 @@
 
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Linkedin, Instagram, Facebook, FileText, Mail, Calendar } from 'lucide-react';
 
-const CCVFooter = () => {
+const CCVFooter = memo(() => {
   const currentYear = new Date().getFullYear();
   
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = useCallback((sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-  };
+  }, []);
   
   return (
     <footer className="py-24 px-6 lg:px-8 bg-gradient-to-b from-black to-slate-900 text-white">
@@ -25,7 +25,7 @@ const CCVFooter = () => {
             </p>
             <button
               onClick={() => scrollToSection('newsletter')}
-              className="inline-flex items-center gap-3 bg-white text-black hover:bg-slate-100 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center gap-3 bg-white text-black hover:bg-slate-100 px-8 py-4 rounded-xl font-semibold text-lg transition-colors duration-200"
             >
               <Mail className="h-5 w-5" />
               Subscribe Now
@@ -45,7 +45,7 @@ const CCVFooter = () => {
             <div className="flex items-center justify-between">
               <button 
                 onClick={() => scrollToSection('newsletter')}
-                className="text-slate-400 hover:text-white transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg p-1"
+                className="text-slate-400 hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg p-1"
                 aria-label="View newsletter section"
               >
                 <FileText className="h-6 w-6" />
@@ -57,14 +57,14 @@ const CCVFooter = () => {
                   target="_blank" 
                   rel="noopener noreferrer"
                   aria-label="Follow DaVeenci on LinkedIn"
-                  className="text-[#AAAAAA] hover:text-brand-600 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg p-1"
+                  className="text-[#AAAAAA] hover:text-brand-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg p-1"
                 >
                   <Linkedin className="h-6 w-6" />
                 </a>
                 <a 
                   href="mailto:astrid@daveenci.com" 
                   aria-label="Email DaVeenci"
-                  className="text-[#AAAAAA] hover:text-white transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg p-1"
+                  className="text-[#AAAAAA] hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg p-1"
                 >
                   <Mail className="h-6 w-6" />
                 </a>
@@ -162,6 +162,8 @@ const CCVFooter = () => {
       </div>
     </footer>
   );
-};
+});
+
+CCVFooter.displayName = 'CCVFooter';
 
 export default CCVFooter;
