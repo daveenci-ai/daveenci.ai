@@ -85,12 +85,12 @@ const CCVNavbar = () => {
               >
                 Articles
               </Link>
-              <Link 
-                to="/events"
+              <button 
+                onClick={() => scrollToSection('events')}
                 className="font-medium text-lg transition-all duration-300 hover:scale-105 text-slate-700 hover:text-black"
               >
                 Events
-              </Link>
+              </button>
               <Button 
                 onClick={handleBookCall}
                 className="bg-black text-white hover:bg-slate-800 px-8 py-3 text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
@@ -146,13 +146,12 @@ const CCVNavbar = () => {
               >
                 Articles
               </Link>
-              <Link 
-                to="/events"
+              <button 
+                onClick={() => scrollToSection('events')}
                 className="block w-full text-left text-lg font-medium text-slate-800 hover:text-black transition-colors py-3 px-2 rounded-lg hover:bg-slate-50"
-                onClick={() => setIsMobileMenuOpen(false)}
               >
                 Events
-              </Link>
+              </button>
               <Button 
                 onClick={handleBookCall}
                 className="w-full bg-black text-white hover:bg-slate-800 px-8 py-4 text-lg font-semibold mt-4 rounded-lg"

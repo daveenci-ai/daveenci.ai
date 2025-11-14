@@ -190,7 +190,7 @@ const CCVEvents = () => {
   };
 
   return (
-    <section className="py-24 px-6 lg:px-8 bg-white">
+    <section id="events" className="py-24 px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-light text-black mb-6">
