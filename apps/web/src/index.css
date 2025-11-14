@@ -95,7 +95,6 @@
   }
   
   html {
-    scroll-behavior: smooth;
     overflow-y: scroll !important;
     overflow-x: hidden !important;
   }
@@ -152,19 +151,8 @@
     font-weight: 400;
   }
   
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
-  }
-  
-  /* Section scroll-snap */
-  main {
-    scroll-snap-type: y mandatory;
-  }
-  
-  section {
-    scroll-snap-align: start;
-  }
+  /* Smooth scrolling removed for performance */
+  /* Section scroll-snap removed for performance */
   
   /* Enhanced focus states */
   *:focus-visible {
@@ -172,18 +160,7 @@
     ring-color: hsl(var(--ring)); /* Brand red focus ring */
   }
   
-  /* Button interactions with microinteractions */
-  button {
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-  
-  button:hover {
-    transform: translateY(-2px);
-  }
-  
-  button:active {
-    transform: translateY(0);
-  }
+  /* Button interactions - removed global transforms for performance */
 }
 
 /* Enhanced animation utilities */
@@ -238,29 +215,7 @@
     }
   }
   
-  /* Enhanced hover effects */
-  .hover-lift {
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-  
-  .hover-lift:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  }
-  
-  .hover-scale {
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-  
-  .hover-scale:hover {
-    transform: scale(1.05);
-  }
-  
-  /* Premium backdrop blur effects */
-  .backdrop-blur-premium {
-    backdrop-filter: blur(24px) saturate(180%) brightness(110%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(110%);
-  }
+  /* Hover effects and backdrop blur removed for performance */
   
   /* Custom gradient backgrounds */
   .bg-gradient-premium {
