@@ -149,7 +149,7 @@ const Articles = () => {
                 placeholder="Search articles..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-14 pr-6 py-4 text-lg bg-white/10 backdrop-blur-xl border-2 border-white/20 focus:border-white/40 rounded-xl text-white placeholder:text-slate-400 transition-all duration-300"
+                className="pl-14 pr-6 py-4 text-lg bg-white/10 backdrop-blur-xl border-2 border-white/20 focus:border-white/40 rounded-xl text-white placeholder:text-slate-400 transition-colors duration-200"
               />
             </div>
           </div>
@@ -186,7 +186,7 @@ const Articles = () => {
                 key={category}
                 variant={selectedCategory === category ? "default" : "outline"}
                 onClick={() => setSelectedCategory(category)}
-                className={`rounded-xl px-6 py-3 text-base font-medium transition-all duration-300 ${
+                className={`rounded-xl px-6 py-3 text-base font-medium transition-colors duration-200 ${
                   selectedCategory === category
                     ? 'bg-black text-white hover:bg-slate-800 shadow-lg'
                     : 'bg-white text-slate-700 hover:bg-slate-100 border-2 border-slate-200'
@@ -206,7 +206,7 @@ const Articles = () => {
                   <Link 
                     key={article.id} 
                     to={`/articles/${article.url}`}
-                    className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-200"
+                    className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-slate-200"
                   >
                     {/* Hero Image */}
                     {article.image_url && (
@@ -214,7 +214,7 @@ const Articles = () => {
                         <img 
                           src={article.image_url} 
                           alt={article.image_alt || article.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full object-cover"
                         />
                       </div>
                     )}
@@ -252,7 +252,7 @@ const Articles = () => {
                           )}
                         </div>
                       </div>
-                      <div className="flex items-center gap-2 text-black font-medium group-hover:gap-3 transition-all">
+                      <div className="flex items-center gap-2 text-black font-medium">
                         Read article <ArrowRight className="h-5 w-5" />
                       </div>
                     </div>
@@ -274,7 +274,7 @@ const Articles = () => {
                   <Link 
                     key={article.id} 
                     to={`/articles/${article.url}`}
-                    className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 border border-slate-200"
+                    className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 border border-slate-200"
                   >
                     {/* Hero Image */}
                     {article.image_url && (
@@ -282,7 +282,7 @@ const Articles = () => {
                         <img 
                           src={article.image_url} 
                           alt={article.image_alt || article.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full object-cover"
                         />
                       </div>
                     )}

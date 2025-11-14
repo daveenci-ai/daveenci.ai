@@ -241,7 +241,7 @@ const CCVEvents = () => {
               <CarouselContent className="-ml-4">
                 {events.map((event) => (
                   <CarouselItem key={event.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                    <Card className="h-full bg-white border border-slate-200 hover:border-slate-300 transition-all duration-300 hover:shadow-lg flex flex-col">
+                    <Card className="h-full bg-white border border-slate-200 hover:border-slate-300 transition-shadow duration-200 hover:shadow-lg flex flex-col">
                       <CardContent className="p-0 flex flex-col h-full">
                         <div className="aspect-video bg-gradient-to-br from-brand-50 to-slate-100 rounded-t-lg overflow-hidden">
                           {event.image_url ? (
@@ -292,7 +292,7 @@ const CCVEvents = () => {
                           
                           <Button
                             onClick={() => handleJoinWebinar(event)}
-                            className="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-500/50 mt-auto"
+                            className="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/50 mt-auto"
                           >
                             Join Webinar
                           </Button>

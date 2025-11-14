@@ -49,10 +49,10 @@ const CCVNavbar = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-slate-200/50 shadow-lg transition-all duration-500">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-slate-200/50 shadow-lg">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            <div className="flex items-center gap-3 cursor-pointer hover:scale-105 transition-transform" onClick={handleLogoClick}>
+            <div className="flex items-center gap-3 cursor-pointer" onClick={handleLogoClick}>
               <CCVLogo size="sm" variant="dark" />
               <span className="text-lg font-semibold tracking-tight hidden sm:block text-black">
                 DaVeenci
@@ -63,37 +63,37 @@ const CCVNavbar = () => {
             <nav className="hidden md:flex items-center gap-8">
               <button 
                 onClick={() => scrollToSection('about')}
-                className="font-medium text-lg transition-all duration-300 hover:scale-105 text-slate-700 hover:text-black"
+                className="font-medium text-lg transition-colors duration-200 text-slate-700 hover:text-black"
               >
                 About
               </button>
               <button 
                 onClick={() => scrollToSection('offerings')}
-                className="font-medium text-lg transition-all duration-300 hover:scale-105 text-slate-700 hover:text-black"
+                className="font-medium text-lg transition-colors duration-200 text-slate-700 hover:text-black"
               >
                 Services
               </button>
               <button 
                 onClick={() => scrollToSection('newsletter')}
-                className="font-medium text-lg transition-all duration-300 hover:scale-105 text-slate-700 hover:text-black"
+                className="font-medium text-lg transition-colors duration-200 text-slate-700 hover:text-black"
               >
                 Newsletter
               </button>
               <Link 
                 to="/articles"
-                className="font-medium text-lg transition-all duration-300 hover:scale-105 text-slate-700 hover:text-black"
+                className="font-medium text-lg transition-colors duration-200 text-slate-700 hover:text-black"
               >
                 Articles
               </Link>
               <button 
                 onClick={() => scrollToSection('events')}
-                className="font-medium text-lg transition-all duration-300 hover:scale-105 text-slate-700 hover:text-black"
+                className="font-medium text-lg transition-colors duration-200 text-slate-700 hover:text-black"
               >
                 Events
               </button>
               <Button 
                 onClick={handleBookCall}
-                className="bg-black text-white hover:bg-slate-800 px-8 py-3 text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
+                className="bg-black text-white hover:bg-slate-800 px-8 py-3 text-lg font-semibold transition-colors duration-200 shadow-lg"
               >
                 Book a Session
               </Button>
