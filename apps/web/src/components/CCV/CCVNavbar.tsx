@@ -24,7 +24,11 @@ const CCVNavbar = () => {
     if (location.pathname !== '/') {
       navigate('/', { state: { scrollTo: sectionId } });
     } else {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+      // Use instant scroll to avoid performance issues
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'auto', block: 'start' });
+      }
     }
     setIsMobileMenuOpen(false);
   };
@@ -34,7 +38,11 @@ const CCVNavbar = () => {
     if (location.pathname !== '/') {
       navigate('/', { state: { scrollTo: 'booking' } });
     } else {
-      document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
+      // Use instant scroll to avoid performance issues
+      const element = document.getElementById('booking');
+      if (element) {
+        element.scrollIntoView({ behavior: 'auto', block: 'start' });
+      }
     }
     setIsMobileMenuOpen(false);
   };
@@ -43,7 +51,8 @@ const CCVNavbar = () => {
     if (location.pathname !== '/') {
       navigate('/');
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Use instant scroll to avoid performance issues
+      window.scrollTo({ top: 0, behavior: 'auto' });
     }
   };
 
