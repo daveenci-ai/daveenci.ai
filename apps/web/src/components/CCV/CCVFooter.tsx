@@ -1,7 +1,7 @@
 
 import React, { memo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Linkedin, Instagram, Facebook, FileText, Mail, Calendar } from 'lucide-react';
+import { Linkedin, Instagram, FileText, Mail, Calendar } from 'lucide-react';
 
 const CCVFooter = memo(() => {
   const currentYear = new Date().getFullYear();
@@ -57,13 +57,22 @@ const CCVFooter = memo(() => {
               
               <div className="flex items-center gap-6">
                 <a 
-                  href="https://www.linkedin.com/company/daveenci/" 
+                  href="https://www.linkedin.com/company/daveenci" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   aria-label="Follow DaVeenci on LinkedIn"
                   className="text-[#AAAAAA] hover:text-brand-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg p-1"
                 >
                   <Linkedin className="h-6 w-6" />
+                </a>
+                <a 
+                  href="https://www.instagram.com/daveenci.ai/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  aria-label="Follow DaVeenci on Instagram"
+                  className="text-[#AAAAAA] hover:text-pink-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg p-1"
+                >
+                  <Instagram className="h-6 w-6" />
                 </a>
                 <a 
                   href="mailto:astrid@daveenci.com" 
