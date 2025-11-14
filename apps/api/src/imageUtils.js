@@ -398,6 +398,12 @@ export async function generateWebinarImage(eventData, apiKey) {
                          contentLower.includes('before and after') || contentLower.includes('vs.') ||
                          contentLower.includes('between') && (contentLower.includes(' and ') || contentLower.includes(' or '));
     
+    // Step 2: Check for infrastructure/hardware topics
+    const isInfrastructure = contentLower.includes('hosting') || contentLower.includes('server') ||
+                            contentLower.includes('gpu') || contentLower.includes('hardware') ||
+                            contentLower.includes('infrastructure') || contentLower.includes('cloud') ||
+                            contentLower.includes('deployment') || contentLower.includes('devops');
+    
     let scenario, selectedPrompt, scenarioDesc;
     
     if (isComparison) {
@@ -411,8 +417,19 @@ Split-screen comparison visualization: LEFT side shows traditional/old approach 
       
       scenarioDesc = `Split-screen comparison visualization for ${eventData.title}`;
       
+    } else if (isInfrastructure) {
+      // INFRASTRUCTURE: Focus on server hardware/GPU visualization
+      scenario = 'infrastructure';
+      console.log(`   🎯 Scenario: ${scenario} (hardware focus)`);
+      
+      selectedPrompt = `${PREFIX} ${FORBIDDEN} FORBIDDEN: people, faces, bodies, text, words, labels. REQUIRED: pure hardware visualization ONLY. ${REQUIRED_COLORS}
+
+Professional server infrastructure visualization: Close-up of modern black server rack with sleek GPU units, glowing red LED indicators, clean cable management. Dark data center aesthetic with dramatic lighting - red accent lights highlighting server blades. Minimalist tech photography, high-end hardware, black metal chassis with white brand accents. Geometric patterns of server components, circuit boards with red highlights. Professional product photography style, shallow depth of field focusing on hardware details. Dark background (pure black), white/silver metal surfaces, red LED glows. NO PEOPLE, NO TEXT. Pure hardware beauty. ${BASE_QUALITY}`;
+      
+      scenarioDesc = `Professional server infrastructure and hardware visualization`;
+      
     } else {
-      // Step 2: Check for specific tools/topics
+      // Step 3: Check for specific tools/topics
       const specificTopic = detectSpecificTopic(content);
       
       if (specificTopic) {
@@ -427,7 +444,7 @@ Professional ${specificTopic} presentation: Modern tech conference room, busines
         scenarioDesc = `Professional ${specificTopic} session with business executives`;
         
       } else {
-        // Step 3: Fall back to educational vs networking detection
+        // Step 4: Fall back to educational vs networking detection
         const isEducational = contentLower.includes('workshop') || contentLower.includes('training') || 
                               contentLower.includes('learn') || contentLower.includes('tutorial') ||
                               contentLower.includes('guide') || contentLower.includes('how to');
