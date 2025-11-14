@@ -42,6 +42,8 @@ const CCVEvents = () => {
 
   // Fetch events from API
   useEffect(() => {
+    const abortController = new AbortController();
+    
     const fetchEvents = async () => {
       const apiUrl = import.meta.env.API_URL;
       
@@ -53,7 +55,9 @@ const CCVEvents = () => {
       }
       
       try {
-        const response = await fetch(`${apiUrl}/events?status=upcoming`);
+        const response = await fetch(`${apiUrl}/events?status=upcoming`, {
+          signal: abortController.signal
+        });
         
         if (!response.ok) {
           throw new Error('Failed to load events');
@@ -69,14 +73,25 @@ const CCVEvents = () => {
         
         setEvents(upcomingEvents);
       } catch (error) {
+        if (error.name === 'AbortError') {
+          console.log('Events fetch aborted');
+          return;
+        }
         console.error('Error loading events:', error);
         setEvents([]);
       } finally {
-        setIsLoadingEvents(false);
+        if (!abortController.signal.aborted) {
+          setIsLoadingEvents(false);
+        }
       }
     };
 
     fetchEvents();
+    
+    // Cleanup: abort fetch if component unmounts
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   const handleRequestInvite = (eventTitle: string) => {

@@ -27,6 +27,8 @@ const ArticleDetail = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const abortController = new AbortController();
+    
     const fetchArticle = async () => {
       const apiUrl = import.meta.env.API_URL;
       
@@ -37,7 +39,9 @@ const ArticleDetail = () => {
       }
 
       try {
-        const response = await fetch(`${apiUrl}/articles`);
+        const response = await fetch(`${apiUrl}/articles`, {
+          signal: abortController.signal
+        });
         
         if (!response.ok) {
           throw new Error('Failed to fetch articles');
@@ -57,6 +61,10 @@ const ArticleDetail = () => {
         setArticle(foundArticle);
         setLoading(false);
       } catch (err) {
+        if (err.name === 'AbortError') {
+          console.log('Article fetch aborted');
+          return;
+        }
         console.error('Error fetching article:', err);
         setError('Failed to load article');
         setLoading(false);
@@ -64,6 +72,11 @@ const ArticleDetail = () => {
     };
 
     fetchArticle();
+    
+    // Cleanup: abort fetch if component unmounts or urlSlug changes
+    return () => {
+      abortController.abort();
+    };
   }, [urlSlug]);
 
   // Inject hero image after Quick Answer, before Introduction

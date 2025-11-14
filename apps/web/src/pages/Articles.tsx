@@ -39,6 +39,8 @@ const Articles = () => {
 
   // Fetch articles from database
   useEffect(() => {
+    const abortController = new AbortController();
+    
     const fetchArticles = async () => {
       const apiUrl = import.meta.env.API_URL;
       
@@ -49,7 +51,9 @@ const Articles = () => {
       }
 
       try {
-        const response = await fetch(`${apiUrl}/articles`);
+        const response = await fetch(`${apiUrl}/articles`, {
+          signal: abortController.signal
+        });
         
         if (!response.ok) {
           throw new Error('Failed to fetch articles');
@@ -69,6 +73,10 @@ const Articles = () => {
         
         setLoading(false);
       } catch (err) {
+        if (err.name === 'AbortError') {
+          console.log('Articles fetch aborted');
+          return;
+        }
         console.error('Error fetching articles:', err);
         setError('Failed to load articles');
         setLoading(false);
@@ -76,6 +84,11 @@ const Articles = () => {
     };
 
     fetchArticles();
+    
+    // Cleanup: abort fetch if component unmounts
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   // Filter articles based on search term and category
