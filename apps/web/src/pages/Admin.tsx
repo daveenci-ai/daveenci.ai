@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Plus, Settings, FileText, Calendar, Sparkles, Loader2, CheckCircle, AlertCircle, X, Search, Trash2, ExternalLink } from 'lucide-react';
+import { Plus, Settings, FileText, Calendar, Sparkles, Loader2, CheckCircle, AlertCircle, X, Search, Trash2, ExternalLink, RefreshCw, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import CCVNavbar from '@/components/CCV/CCVNavbar';
 import CCVFooter from '@/components/CCV/CCVFooter';
@@ -114,6 +114,13 @@ const AdminDashboard: React.FC = React.memo(() => {
   const [eventDate, setEventDate] = useState('');
   const [eventTime, setEventTime] = useState('');
   const [isCreatingEvent, setIsCreatingEvent] = useState(false);
+  
+  // Edit event state
+  const [showEditDateModal, setShowEditDateModal] = useState(false);
+  const [editingEvent, setEditingEvent] = useState<any>(null);
+  const [editEventDate, setEditEventDate] = useState('');
+  const [editEventTime, setEditEventTime] = useState('');
+  const [isRegeneratingImage, setIsRegeneratingImage] = useState<number | null>(null);
   
   // Simple notification state
   const [showNotification, setShowNotification] = useState(false);
@@ -392,6 +399,99 @@ const AdminDashboard: React.FC = React.memo(() => {
       toast({
         title: 'Error',
         description: 'Failed to delete event.',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const handleRegenerateImage = async (event: any) => {
+    const apiUrl = import.meta.env.API_URL;
+    if (!apiUrl) return;
+
+    setIsRegeneratingImage(event.id);
+
+    try {
+      const response = await fetch(`${apiUrl}/events/${event.id}/regenerate-image`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to regenerate image');
+      }
+
+      const result = await response.json();
+
+      toast({
+        title: 'Image Regenerated!',
+        description: `New image created for "${event.title}".`,
+      });
+
+      await loadEvents();
+    } catch (error: any) {
+      console.error('Error regenerating image:', error);
+      toast({
+        title: 'Error',
+        description: error.message || 'Failed to regenerate image.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsRegeneratingImage(null);
+    }
+  };
+
+  const handleOpenEditDate = (event: any) => {
+    setEditingEvent(event);
+    // Parse existing date/time
+    const eventDate = new Date(event.event_date);
+    const dateStr = eventDate.toISOString().split('T')[0]; // YYYY-MM-DD
+    const timeStr = eventDate.toLocaleTimeString('en-US', { 
+      hour12: false, 
+      hour: '2-digit', 
+      minute: '2-digit',
+      timeZone: 'America/Chicago'
+    });
+    setEditEventDate(dateStr);
+    setEditEventTime(timeStr);
+    setShowEditDateModal(true);
+  };
+
+  const handleSaveEditDate = async () => {
+    const apiUrl = import.meta.env.API_URL;
+    if (!apiUrl || !editingEvent) return;
+
+    try {
+      const eventDateTime = `${editEventDate}T${editEventTime}:00`;
+
+      const response = await fetch(`${apiUrl}/events/${editingEvent.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          event_date: eventDateTime,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update event');
+      }
+
+      toast({
+        title: 'Event Updated!',
+        description: `Date/time updated for "${editingEvent.title}".`,
+      });
+
+      setShowEditDateModal(false);
+      setEditingEvent(null);
+      await loadEvents();
+    } catch (error: any) {
+      console.error('Error updating event:', error);
+      toast({
+        title: 'Error',
+        description: error.message || 'Failed to update event.',
         variant: 'destructive',
       });
     }
@@ -1540,7 +1640,30 @@ const AdminDashboard: React.FC = React.memo(() => {
                               </a>
                             )}
 
-                            <div className="flex gap-2 pt-2">
+                            <div className="flex flex-wrap gap-2 pt-2">
+                              <Button
+                                variant="outline"
+                                onClick={() => handleRegenerateImage(event)}
+                                disabled={isRegeneratingImage === event.id}
+                                className="border-2 border-blue-200 text-blue-700 hover:bg-blue-50"
+                              >
+                                {isRegeneratingImage === event.id ? (
+                                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                                ) : (
+                                  <RefreshCw className="h-4 w-4 mr-2" />
+                                )}
+                                Regenerate Image
+                              </Button>
+                              
+                              <Button
+                                variant="outline"
+                                onClick={() => handleOpenEditDate(event)}
+                                className="border-2 border-slate-200 text-slate-700 hover:bg-slate-50"
+                              >
+                                <Clock className="h-4 w-4 mr-2" />
+                                Change Date/Time
+                              </Button>
+                              
                               <Button
                                 variant="outline"
                                 onClick={() => handleDeleteEvent(event.id)}
@@ -1563,6 +1686,87 @@ const AdminDashboard: React.FC = React.memo(() => {
       </div>
 
       <CCVFooter />
+
+      {/* Edit Date/Time Modal */}
+      {showEditDateModal && editingEvent && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl relative">
+            <button
+              onClick={() => {
+                setShowEditDateModal(false);
+                setEditingEvent(null);
+              }}
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"
+            >
+              <X className="h-6 w-6" />
+            </button>
+
+            <h3 className="text-2xl font-semibold text-black mb-2">Change Date & Time</h3>
+            <p className="text-slate-600 mb-6">{editingEvent.title}</p>
+
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="editEventDate">Event Date *</Label>
+                  <Input
+                    id="editEventDate"
+                    type="date"
+                    value={editEventDate}
+                    onChange={(e) => setEditEventDate(e.target.value)}
+                    required
+                    className="mt-1"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="editEventTime">Event Time (CST) *</Label>
+                  <Select value={editEventTime} onValueChange={setEditEventTime}>
+                    <SelectTrigger className="mt-1">
+                      <SelectValue placeholder="Select time" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="10:00">10:00 AM</SelectItem>
+                      <SelectItem value="10:30">10:30 AM</SelectItem>
+                      <SelectItem value="11:00">11:00 AM</SelectItem>
+                      <SelectItem value="11:30">11:30 AM</SelectItem>
+                      <SelectItem value="12:00">12:00 PM</SelectItem>
+                      <SelectItem value="12:30">12:30 PM</SelectItem>
+                      <SelectItem value="13:00">1:00 PM</SelectItem>
+                      <SelectItem value="13:30">1:30 PM</SelectItem>
+                      <SelectItem value="14:00">2:00 PM</SelectItem>
+                      <SelectItem value="14:30">2:30 PM</SelectItem>
+                      <SelectItem value="15:00">3:00 PM</SelectItem>
+                      <SelectItem value="15:30">3:30 PM</SelectItem>
+                      <SelectItem value="16:00">4:00 PM</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <Button
+                  onClick={handleSaveEditDate}
+                  disabled={!editEventDate || !editEventTime}
+                  className="flex-1 bg-black hover:bg-slate-800 text-white"
+                >
+                  <CheckCircle className="h-4 w-4 mr-2" />
+                  Save Changes
+                </Button>
+                <Button
+                  onClick={() => {
+                    setShowEditDateModal(false);
+                    setEditingEvent(null);
+                  }}
+                  variant="outline"
+                  className="flex-1"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 });

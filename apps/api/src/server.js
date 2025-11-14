@@ -8,7 +8,7 @@ import { google } from 'googleapis';
 import ArticleScheduler from './scheduler.js';
 import { getRichContentSections, buildBrandContext, getLengthGuidance, getFormattingPrompt } from './prompts.js';
 import { generateArticleImage, generateWebinarImage } from './imageUtils.js';
-import { getAvailableSlots, createCalendarEvent, cancelCalendarEvent } from './googleCalendar.js';
+import { getAvailableSlots, createCalendarEvent, cancelCalendarEvent, rescheduleCalendarEvent } from './googleCalendar.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -1179,6 +1179,104 @@ app.delete('/api/events/:id', async (req, res) => {
       error: 'Failed to delete event', 
       details: err.message 
     });
+  }
+});
+
+// Regenerate event image
+app.post('/api/events/:id/regenerate-image', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Get event details
+    const event = await pool.query('SELECT * FROM webinar_events WHERE id = $1', [id]);
+    
+    if (event.rows.length === 0) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+
+    const eventData = event.rows[0];
+
+    console.log(`🎨 Regenerating image for event: ${eventData.title}`);
+
+    // Generate new image
+    const imageResult = await generateWebinarImage(
+      { title: eventData.title, description: eventData.description, slug: eventData.title }, 
+      process.env.OPENAI_API_KEY
+    );
+
+    // Update database with new image URL
+    await pool.query(
+      'UPDATE webinar_events SET image_url = $1, image_alt = $2, date_updated = CURRENT_TIMESTAMP WHERE id = $3',
+      [imageResult.imageUrl, imageResult.imageAlt, id]
+    );
+
+    console.log('✅ Image regenerated successfully:', imageResult.imageUrl);
+
+    res.json({ 
+      success: true, 
+      message: 'Image regenerated successfully',
+      imageUrl: imageResult.imageUrl,
+      imageAlt: imageResult.imageAlt
+    });
+  } catch (err) {
+    console.error('Error regenerating image:', err);
+    res.status(500).json({ error: 'Failed to regenerate image' });
+  }
+});
+
+// Update event date/time
+app.put('/api/events/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { event_date } = req.body;
+
+    if (!event_date) {
+      return res.status(400).json({ error: 'event_date is required' });
+    }
+
+    // Get current event details
+    const event = await pool.query('SELECT * FROM webinar_events WHERE id = $1', [id]);
+    
+    if (event.rows.length === 0) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+
+    const eventData = event.rows[0];
+
+    // Update event date in CST
+    const eventDateTimeCST = `${event_date}-06:00`; // CST is UTC-6
+    const eventDateTime = new Date(eventDateTimeCST);
+    const endDateTime = new Date(eventDateTime.getTime() + eventData.duration_minutes * 60000);
+
+    // Update Google Calendar event if it exists
+    if (eventData.google_calendar_event_id) {
+      try {
+        await rescheduleCalendarEvent(eventData.google_calendar_event_id, {
+          startTime: eventDateTime.toISOString(),
+          endTime: endDateTime.toISOString(),
+          timezone: 'America/Chicago'
+        });
+        console.log('✅ Google Calendar event updated');
+      } catch (calErr) {
+        console.error('⚠️  Failed to update calendar event:', calErr.message);
+      }
+    }
+
+    // Update database
+    await pool.query(
+      'UPDATE webinar_events SET event_date = $1, date_updated = CURRENT_TIMESTAMP WHERE id = $2',
+      [eventDateTimeCST, id]
+    );
+
+    console.log('✅ Event date/time updated successfully:', id);
+
+    res.json({ 
+      success: true, 
+      message: 'Event date/time updated successfully'
+    });
+  } catch (err) {
+    console.error('Error updating event:', err);
+    res.status(500).json({ error: 'Failed to update event' });
   }
 });
 
