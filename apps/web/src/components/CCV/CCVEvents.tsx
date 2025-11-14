@@ -202,7 +202,7 @@ const CCVEvents = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [formData, selectedEvent, toast]);
 
   return (
     <section id="events" className="py-24 px-6 lg:px-8 bg-white">
