@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -101,6 +101,9 @@ const AdminDashboard: React.FC = React.memo(() => {
   
   // Generation input state
   const [isFeatured, setIsFeatured] = useState(false);
+  
+  // Store polling interval ref for cleanup
+  const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Articles state
   const [articles, setArticles] = useState<any[]>([]);
@@ -578,6 +581,12 @@ const AdminDashboard: React.FC = React.memo(() => {
 
   // Polling function that can be used for both new and resumed generations
   const startPolling = useCallback((jobId: string, startTime: number, initialArticleCount: number) => {
+    // Clear any existing polling interval to prevent multiple intervals
+    if (pollingIntervalRef.current) {
+      clearInterval(pollingIntervalRef.current);
+      pollingIntervalRef.current = null;
+    }
+    
     const maxDuration = 600000; // 10 minutes
     let pollCount = 0;
     const maxPolls = 60; // Poll for up to 10 minutes (60 * 10 seconds)
@@ -588,6 +597,7 @@ const AdminDashboard: React.FC = React.memo(() => {
       // Check if we've exceeded max duration
       if (Date.now() - startTime >= maxDuration) {
         clearInterval(pollInterval);
+        pollingIntervalRef.current = null;
         updateGeneratingState(false);
         setGenerationStatus(null);
         setNotificationMessage('Generation taking longer than expected. Please check back in a few minutes.');
@@ -605,6 +615,7 @@ const AdminDashboard: React.FC = React.memo(() => {
           // Check for error status
           if (statusData.step === 'error') {
             clearInterval(pollInterval);
+            pollingIntervalRef.current = null;
             updateGeneratingState(false);
             setGenerationStatus(null);
             toast({
@@ -628,6 +639,7 @@ const AdminDashboard: React.FC = React.memo(() => {
       // Check if a new article was added
       if (latestArticles.length > initialArticleCount) {
         clearInterval(pollInterval);
+        pollingIntervalRef.current = null;
         updateGeneratingState(false);
         setGenerationStatus(null);
         setArticles(latestArticles);
@@ -642,6 +654,7 @@ const AdminDashboard: React.FC = React.memo(() => {
       // Stop polling after max attempts
       if (pollCount >= maxPolls) {
         clearInterval(pollInterval);
+        pollingIntervalRef.current = null;
         updateGeneratingState(false);
         setGenerationStatus(null);
         setNotificationMessage('Generation taking longer than expected. Please check back in a few minutes.');
@@ -649,7 +662,8 @@ const AdminDashboard: React.FC = React.memo(() => {
       }
     }, 10000); // Poll every 10 seconds
     
-    // Store interval ID for cleanup
+    // Store interval ID in ref for cleanup
+    pollingIntervalRef.current = pollInterval;
     return pollInterval;
   }, [toast, updateGeneratingState]);
 
@@ -682,6 +696,17 @@ const AdminDashboard: React.FC = React.memo(() => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Run once on mount - only dependencies are stable
+
+  // Cleanup polling interval on component unmount
+  useEffect(() => {
+    return () => {
+      if (pollingIntervalRef.current) {
+        console.log('Cleaning up polling interval on unmount');
+        clearInterval(pollingIntervalRef.current);
+        pollingIntervalRef.current = null;
+      }
+    };
+  }, []);
 
   const handleGenerateArticle = useCallback(async () => {
     // API key check removed - handled by backend
