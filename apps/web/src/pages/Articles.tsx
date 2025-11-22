@@ -42,7 +42,7 @@ const Articles = () => {
     const abortController = new AbortController();
 
     const fetchArticles = async () => {
-      const apiUrl = import.meta.env.API_URL;
+      const apiUrl = import.meta.env.API_URL || import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
       if (!apiUrl) {
         setError('Backend API not configured');

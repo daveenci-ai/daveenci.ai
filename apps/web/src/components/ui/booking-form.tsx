@@ -36,7 +36,7 @@ export function BookingForm({ selectedSlot, meetingType, onSuccess, onCancel }: 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+  const apiUrl = import.meta.env.API_URL || import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

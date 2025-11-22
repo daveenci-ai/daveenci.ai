@@ -11,7 +11,7 @@ const CCVNewsletter = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+  const apiUrl = import.meta.env.API_URL || import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -104,7 +104,7 @@ const CCVNewsletter = () => {
                 />
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <label className="text-sm font-semibold text-slate-700 uppercase tracking-wide">What interests you most?</label>
               <select
@@ -119,7 +119,7 @@ const CCVNewsletter = () => {
                 <option value="all">Everything (Recommended)</option>
               </select>
             </div>
-            
+
             {isSuccess && (
               <div className="bg-green-50 border-2 border-green-200 rounded-xl p-6 flex items-center justify-center gap-3">
                 <CheckCircle2 className="h-6 w-6 text-green-600" />
@@ -134,9 +134,9 @@ const CCVNewsletter = () => {
                 <p className="text-red-700 text-center">{error}</p>
               </div>
             )}
-            
+
             <div className="flex justify-center pt-6">
-              <Button 
+              <Button
                 type="submit"
                 disabled={isSubmitting}
                 className="bg-black text-white hover:bg-slate-800 px-10 py-4 text-lg rounded-xl font-semibold transition-colors duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"

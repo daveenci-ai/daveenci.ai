@@ -106,7 +106,7 @@ export async function saveSettings(settings: {
   tone?: string;
   brand_pillars?: string;
 }): Promise<void> {
-  const apiUrl = import.meta.env.API_URL;
+  const apiUrl = import.meta.env.API_URL || import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
   if (!apiUrl) {
     console.warn('VITE_API_URL not configured. Settings saved to localStorage only.');
@@ -139,7 +139,7 @@ export async function saveSettings(settings: {
  * Load settings from database (requires backend API)
  */
 export async function loadSettings(): Promise<ArticlesSettings | null> {
-  const apiUrl = import.meta.env.API_URL;
+  const apiUrl = import.meta.env.API_URL || import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
   if (!apiUrl) {
     // Load from localStorage as fallback (backend not configured)

@@ -26,7 +26,7 @@ export function CalendarPicker({ onSelectSlot, selectedSlot, timezone = 'America
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+  const apiUrl = import.meta.env.API_URL || import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
   // Fetch available slots when date is selected
   useEffect(() => {
