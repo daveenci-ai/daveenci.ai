@@ -68,32 +68,40 @@ export async function getAvailableSlots(startDate, endDate, timezone = 'America/
       // Skip weekends
       if (current.getDay() !== 0 && current.getDay() !== 6) {
         // Generate slots for each day (1-hour intervals)
-        for (let hour = businessStartHour; hour < businessEndHour; hour++) {
+        // We iterate through 24 hours and check if the time in the target timezone is within business hours
+        for (let i = 0; i < 24; i++) {
           const slotStart = new Date(current);
-          slotStart.setHours(hour, 0, 0, 0);
+          slotStart.setUTCHours(i, 0, 0, 0);
 
-          const slotEnd = new Date(slotStart);
-          slotEnd.setMinutes(slotEnd.getMinutes() + 60);
+          // Check what time this is in the target timezone
+          const timeInZone = new Date(slotStart.toLocaleString('en-US', { timeZone: timezone }));
+          const hourInZone = timeInZone.getHours();
 
-          // Check if slot conflicts with existing events
-          const isAvailable = !busySlots.some(event => {
-            const eventStart = new Date(event.start.dateTime || event.start.date);
-            const eventEnd = new Date(event.end.dateTime || event.end.date);
-            return (slotStart >= eventStart && slotStart < eventEnd) ||
-              (slotEnd > eventStart && slotEnd <= eventEnd) ||
-              (slotStart <= eventStart && slotEnd >= eventEnd);
-          });
+          // Business hours: 9 AM - 5 PM (17:00) in target timezone
+          if (hourInZone >= businessStartHour && hourInZone < businessEndHour) {
+            const slotEnd = new Date(slotStart);
+            slotEnd.setMinutes(slotEnd.getMinutes() + 60);
 
-          if (isAvailable && slotStart > new Date()) {
-            availableSlots.push({
-              start: slotStart.toISOString(),
-              end: slotEnd.toISOString(),
-              display: slotStart.toLocaleTimeString('en-US', {
-                hour: 'numeric',
-                minute: '2-digit',
-                timeZone: timezone,
-              }),
+            // Check if slot conflicts with existing events
+            const isAvailable = !busySlots.some(event => {
+              const eventStart = new Date(event.start.dateTime || event.start.date);
+              const eventEnd = new Date(event.end.dateTime || event.end.date);
+              return (slotStart >= eventStart && slotStart < eventEnd) ||
+                (slotEnd > eventStart && slotEnd <= eventEnd) ||
+                (slotStart <= eventStart && slotEnd >= eventEnd);
             });
+
+            if (isAvailable && slotStart > new Date()) {
+              availableSlots.push({
+                start: slotStart.toISOString(),
+                end: slotEnd.toISOString(),
+                display: slotStart.toLocaleTimeString('en-US', {
+                  hour: 'numeric',
+                  minute: '2-digit',
+                  timeZone: timezone,
+                }),
+              });
+            }
           }
         }
       }
