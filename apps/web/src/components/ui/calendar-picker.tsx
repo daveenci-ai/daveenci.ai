@@ -49,14 +49,15 @@ export function CalendarPicker({ onSelectSlot, selectedSlot, timezone = 'America
         );
 
         if (!response.ok) {
-          throw new Error('Failed to fetch availability');
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || errorData.details || 'Failed to fetch availability');
         }
 
         const data = await response.json();
         setAvailableSlots(data.slots || []);
       } catch (err) {
         console.error('Error fetching slots:', err);
-        setError('Unable to load available times. Please try again.');
+        setError(err instanceof Error ? err.message : 'Unable to load available times. Please try again.');
         setAvailableSlots([]);
       } finally {
         setLoading(false);

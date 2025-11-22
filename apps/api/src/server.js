@@ -44,10 +44,7 @@ let articleScheduler = null;
 // Middleware
 // CORS - Allow localhost for development
 app.use(cors({
-  origin: [
-    'http://localhost:8080',
-    'http://localhost:8081'
-  ],
+  origin: true, // Allow all origins for now to fix production issues
   credentials: true,
 }));
 app.use(express.json());
@@ -78,10 +75,10 @@ async function enforceFeaturedLimit(excludeId = null) {
     const query = excludeId
       ? 'SELECT id FROM articles WHERE featured = true AND id != $1 ORDER BY date_created ASC'
       : 'SELECT id FROM articles WHERE featured = true ORDER BY date_created ASC';
-    
+
     const params = excludeId ? [excludeId] : [];
     const result = await pool.query(query, params);
-    
+
     // If we have 2 or more featured articles, unfeature the oldest one(s)
     if (result.rows.length >= 2) {
       const oldestId = result.rows[0].id;
@@ -107,8 +104,8 @@ app.get('/api/health', (req, res) => {
 app.get('/api/openai/status', (req, res) => {
   const hasApiKey = !!process.env.OPENAI_API_KEY;
   const hasModels = !!(CONTENT_MODEL && FORMATTER_MODEL);
-  
-  res.json({ 
+
+  res.json({
     connected: hasApiKey && hasModels,
     hasApiKey,
     hasModels,
@@ -129,7 +126,7 @@ app.get('/api/scheduler/status', (req, res) => {
       nextRun: 'Scheduler not initialized'
     });
   }
-  
+
   res.json(articleScheduler.getStatus());
 });
 
@@ -138,13 +135,13 @@ app.post('/api/scheduler/trigger', async (req, res) => {
   if (!articleScheduler) {
     return res.status(503).json({ error: 'Scheduler not initialized' });
   }
-  
+
   try {
     // Trigger in background
     articleScheduler.triggerManual();
-    res.json({ 
-      success: true, 
-      message: 'Manual generation triggered. Check articles in a few minutes.' 
+    res.json({
+      success: true,
+      message: 'Manual generation triggered. Check articles in a few minutes.'
     });
   } catch (error) {
     res.status(500).json({ error: 'Failed to trigger manual generation', details: error.message });
@@ -156,7 +153,7 @@ app.get('/api/settings', async (req, res) => {
     const result = await pool.query(
       'SELECT id, topics, schedule, auto, positioning, tone, brand_pillars, updated_at FROM articles_settings ORDER BY id LIMIT 1'
     );
-    
+
     if (result.rows.length > 0) {
       res.json(result.rows[0]);
     } else {
@@ -177,7 +174,7 @@ app.get('/api/settings', async (req, res) => {
 
 app.put('/api/settings', async (req, res) => {
   const { topics, schedule, auto, positioning, tone, brand_pillars } = req.body;
-  
+
   if (!topics || !schedule || auto === undefined) {
     return res.status(400).json({ error: 'Missing required fields: topics, schedule, auto' });
   }
@@ -196,14 +193,14 @@ app.put('/api/settings', async (req, res) => {
         updated_at = CURRENT_TIMESTAMP
       RETURNING *;
     `;
-    
+
     const result = await pool.query(query, [topics, schedule, auto, positioning || '', tone || '', brand_pillars || '']);
-    
+
     // Reload scheduler with new settings
     if (articleScheduler) {
       await articleScheduler.reloadSettings();
     }
-    
+
     res.json(result.rows[0]);
   } catch (err) {
     console.error('Error saving settings:', err);
@@ -217,19 +214,19 @@ app.put('/api/settings', async (req, res) => {
 app.post('/api/articles/generate', async (req, res) => {
   try {
     const { topic, inputType, customBrief, keywordList, model, featured } = req.body;
-    
+
     const jobId = Date.now().toString();
-    
+
     // Immediately respond to client with jobId
-    res.status(202).json({ 
+    res.status(202).json({
       message: 'Your article will be published within the next 5-10 minutes',
       status: 'processing',
       jobId: jobId
     });
-    
+
     // Generate article in background (don't await)
     generateArticleInBackground({ topic, inputType, customBrief, keywordList, model, featured }, jobId);
-    
+
   } catch (err) {
     console.error('Error initiating article generation:', err);
     res.status(500).json({ error: 'Failed to initiate article generation', details: err.message });
@@ -240,11 +237,11 @@ app.post('/api/articles/generate', async (req, res) => {
 app.get('/api/articles/status/:jobId', (req, res) => {
   const { jobId } = req.params;
   const status = generationStatus.get(jobId);
-  
+
   if (!status) {
     return res.status(404).json({ error: 'Job not found or completed' });
   }
-  
+
   res.json(status);
 });
 
@@ -254,17 +251,17 @@ const generationStatus = new Map();
 // Background article generation function (2-step AI process)
 async function generateArticleInBackground(params, jobId) {
   generationStatus.set(jobId, { step: 'generating', message: 'Generating raw content...' });
-  
+
   try {
     console.log('🚀 Starting 2-step background article generation:', params);
-    
+
     // Load Brand Essence settings from database
     let brandEssence = {
       positioning: '',
       tone: '',
       brand_pillars: ''
     };
-    
+
     try {
       const settingsResult = await pool.query(
         'SELECT positioning, tone, brand_pillars FROM articles_settings ORDER BY id LIMIT 1'
@@ -280,41 +277,41 @@ async function generateArticleInBackground(params, jobId) {
     } catch (err) {
       console.warn('⚠️ Could not load Brand Essence, using defaults:', err.message);
     }
-    
+
     // Import OpenAI
     const OpenAI = (await import('openai')).default;
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-    
+
     // Get current date for context
     const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
-    
+
     // ========== RANDOMLY SELECT 2 RICH CONTENT SECTIONS ==========
     const availableSections = getRichContentSections();
-    
+
     // Randomly select 2 sections
     const shuffled = availableSections.sort(() => Math.random() - 0.5);
     const selectedSections = shuffled.slice(0, 2);
     console.log(`🎲 Randomly selected sections: ${selectedSections.map(s => s.name).join(', ')}`);
-    
+
     // Build the instructions for selected sections
     const selectedContentInstructions = selectedSections.map(s => s.contentInstructions).join('\n\n   ');
     const selectedFormatInstructions = selectedSections.map(s => s.formatInstructions).join('\n\n   ');
-    
+
     // Build Brand Essence context for system prompt
     const brandContext = buildBrandContext(brandEssence, currentDate);
-    
+
     // ========== STEP 1: CONTENT GENERATION ==========
     generationStatus.set(jobId, { step: 'generating', message: 'Step 1: Generating raw content...' });
     console.log(`📝 Step 1: Generating raw content with ${CONTENT_MODEL}...`);
-    
+
     // Calculate target word count for 9-15 min read time (200 words per minute)
     const targetReadTime = Math.floor(Math.random() * 7) + 9; // Random between 9-15
     const targetWordCount = targetReadTime * 200; // e.g., 9 min = 1800 words, 15 min = 3000 words
     console.log(`🎯 Target article length: ${targetReadTime} min read (${targetWordCount} words)`);
-    
+
     let contentPrompt = '';
     const lengthGuidance = getLengthGuidance(targetWordCount, targetReadTime, selectedContentInstructions);
-    
+
     if (params.inputType === 'brief') {
       contentPrompt = `Write a comprehensive, in-depth blog article based on this brief:\n\n${params.customBrief}\n\nFocus on the latest, most up-to-date information (${currentDate}). Provide the raw content with clear structure but no HTML formatting.${lengthGuidance}`;
     } else if (params.inputType === 'keywords') {
@@ -322,17 +319,17 @@ async function generateArticleInBackground(params, jobId) {
     } else {
       contentPrompt = `Write a comprehensive, in-depth blog article about: ${params.topic}\n\nFocus on the latest, most up-to-date information (${currentDate}). Provide the raw content with clear structure but no HTML formatting.${lengthGuidance}`;
     }
-    
+
     // Try primary content model first, fallback if it fails
     let contentCompletion;
     let actualContentModel = CONTENT_MODEL;
-    
+
     try {
       contentCompletion = await openai.chat.completions.create({
         model: CONTENT_MODEL,
         messages: [
-          { 
-            role: 'system', 
+          {
+            role: 'system',
             content: brandContext
           },
           { role: 'user', content: contentPrompt }
@@ -343,12 +340,12 @@ async function generateArticleInBackground(params, jobId) {
     } catch (error) {
       console.warn(`⚠️ ${CONTENT_MODEL} failed, falling back to ${CONTENT_MODEL_FALLBACK}:`, error.message);
       actualContentModel = CONTENT_MODEL_FALLBACK;
-      
+
       contentCompletion = await openai.chat.completions.create({
         model: CONTENT_MODEL_FALLBACK,
         messages: [
-          { 
-            role: 'system', 
+          {
+            role: 'system',
             content: brandContext
           },
           { role: 'user', content: contentPrompt }
@@ -357,26 +354,26 @@ async function generateArticleInBackground(params, jobId) {
       });
       console.log(`✅ Successfully used ${CONTENT_MODEL_FALLBACK} as fallback`);
     }
-    
+
     const rawContent = contentCompletion.choices[0].message.content;
     console.log(`✅ Step 1 complete: Generated ${rawContent.length} characters of raw content with ${actualContentModel}`);
-    
+
     // ========== STEP 2: HTML/CSS FORMATTING ==========
     generationStatus.set(jobId, { step: 'formatting', message: 'Step 2: Formatting content...' });
     console.log(`🎨 Step 2: Formatting content with ${FORMATTER_MODEL}...`);
-    
+
     const formattingPrompt = getFormattingPrompt(rawContent, selectedFormatInstructions);
-    
+
     // Try primary formatter model first, fallback if it fails
     let formattingCompletion;
     let actualFormatterModel = FORMATTER_MODEL;
-    
+
     try {
       formattingCompletion = await openai.chat.completions.create({
         model: FORMATTER_MODEL,
         messages: [
-          { 
-            role: 'system', 
+          {
+            role: 'system',
             content: 'You are an expert HTML/CSS formatter. You take raw content and format it into clean, semantic HTML that matches specific design system requirements. Always follow the exact CSS classes provided.'
           },
           { role: 'user', content: formattingPrompt }
@@ -387,12 +384,12 @@ async function generateArticleInBackground(params, jobId) {
     } catch (error) {
       console.warn(`⚠️ ${FORMATTER_MODEL} failed, falling back to ${FORMATTER_MODEL_FALLBACK}:`, error.message);
       actualFormatterModel = FORMATTER_MODEL_FALLBACK;
-      
+
       formattingCompletion = await openai.chat.completions.create({
         model: FORMATTER_MODEL_FALLBACK,
         messages: [
-          { 
-            role: 'system', 
+          {
+            role: 'system',
             content: 'You are an expert HTML/CSS formatter. You take raw content and format it into clean, semantic HTML that matches specific design system requirements. Always follow the exact CSS classes provided.'
           },
           { role: 'user', content: formattingPrompt }
@@ -401,15 +398,15 @@ async function generateArticleInBackground(params, jobId) {
       });
       console.log(`✅ Successfully used ${FORMATTER_MODEL_FALLBACK} as fallback`);
     }
-    
+
     let formattedContent = formattingCompletion.choices[0].message.content;
     formattedContent = formattedContent.replace(/```html\n?/g, '').replace(/```\n?/g, '').trim();
     console.log(`✅ Step 2 complete: Formatted into HTML with ${actualFormatterModel}`);
-    
+
     // ========== STEP 3: GENERATE METADATA ==========
     generationStatus.set(jobId, { step: 'metadata', message: 'Step 3: Generating title and metadata...' });
     console.log('📌 Step 3: Generating title and metadata...');
-    
+
     // Generate title
     const titleCompletion = await openai.chat.completions.create({
       model: FORMATTER_MODEL,
@@ -419,27 +416,27 @@ async function generateArticleInBackground(params, jobId) {
       ],
       max_completion_tokens: 100
     });
-    
+
     const title = titleCompletion.choices[0].message.content.replace(/^["']|["']$/g, '').trim() || 'Untitled Article';
-    
+
     // Generate slug
     const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-    
+
     // Check for duplicate URL before continuing (saves API costs)
     console.log('🔍 Checking for duplicate URL:', slug);
     const duplicateCheck = await pool.query('SELECT id FROM articles WHERE url = $1', [slug]);
     if (duplicateCheck.rows.length > 0) {
       const errorMessage = `Article with URL "${slug}" already exists. Please delete the existing article or choose a different topic.`;
       console.error('❌', errorMessage);
-      generationStatus.set(jobId, { 
-        step: 'error', 
+      generationStatus.set(jobId, {
+        step: 'error',
         message: errorMessage,
         error: 'DUPLICATE_URL'
       });
       throw new Error(errorMessage);
     }
     console.log('✅ URL is unique, continuing...');
-    
+
     // Generate excerpt
     const excerptCompletion = await openai.chat.completions.create({
       model: FORMATTER_MODEL,
@@ -449,22 +446,22 @@ async function generateArticleInBackground(params, jobId) {
       ],
       max_completion_tokens: 150
     });
-    
+
     const excerpt = excerptCompletion.choices[0].message.content.replace(/^["']|["']$/g, '');
-    
+
     // Calculate read time
     const wordCount = formattedContent.split(/\s+/).length;
     const readTime = `${Math.ceil(wordCount / 200)} min read`;
-    
+
     console.log(`✅ Step 3 complete: Title: "${title}"`);
-    
+
     // ========== STEP 4: GENERATE HERO IMAGE ==========
     generationStatus.set(jobId, { step: 'image', message: 'Step 4: Generating hero image...' });
     console.log('🎨 Step 4: Generating article hero image...');
-    
+
     let imageUrl = null;
     let imageAlt = null;
-    
+
     try {
       const imageResult = await generateArticleImage({
         title,
@@ -472,16 +469,16 @@ async function generateArticleInBackground(params, jobId) {
         slug,
         quickAnswer: excerpt  // Use excerpt as quick answer
       }, process.env.OPENAI_API_KEY);
-      
+
       imageUrl = imageResult.imageUrl;
       imageAlt = imageResult.imageAlt;
-      
+
       console.log('✅ Step 4 complete: Hero image generated');
     } catch (error) {
       console.warn('⚠️ Image generation failed, continuing without image:', error.message);
       // Continue without image - not critical
     }
-    
+
     // ========== STEP 5: SAVE TO DATABASE ==========
     console.log('💾 Step 5: Saving to database...');
     const query = `
@@ -493,7 +490,7 @@ async function generateArticleInBackground(params, jobId) {
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
       RETURNING *;
     `;
-    
+
     await pool.query(query, [
       title.substring(0, 255),
       excerpt,
@@ -510,19 +507,19 @@ async function generateArticleInBackground(params, jobId) {
       imageUrl,
       imageAlt
     ]);
-    
+
     console.log('✅ Article published successfully:', title);
     if (imageUrl) {
       console.log(`📸 With hero image: ${imageUrl}`);
     }
     console.log('🎉 Full article generation process complete!');
-    
+
     // Mark as complete
     generationStatus.set(jobId, { step: 'complete', message: 'Article published!' });
-    
+
     // Clean up after 5 minutes
     setTimeout(() => generationStatus.delete(jobId), 300000);
-    
+
   } catch (err) {
     console.error('❌ Error in background article generation:', err);
     generationStatus.set(jobId, { step: 'error', message: 'Generation failed' });
@@ -532,27 +529,27 @@ async function generateArticleInBackground(params, jobId) {
 app.get('/api/articles', async (req, res) => {
   try {
     const { status, search, limit = 100 } = req.query;
-    
+
     let query = 'SELECT * FROM articles WHERE 1=1';
     const params = [];
     let paramCount = 1;
-    
+
     if (status && status !== 'all') {
       query += ` AND status = $${paramCount}`;
       params.push(status);
       paramCount++;
     }
-    
+
     if (search) {
       query += ` AND (title ILIKE $${paramCount} OR description ILIKE $${paramCount} OR topic ILIKE $${paramCount})`;
       params.push(`%${search}%`);
       paramCount++;
     }
-    
+
     query += ' ORDER BY date_created DESC';
     query += ` LIMIT $${paramCount}`;
     params.push(limit);
-    
+
     const result = await pool.query(query, params);
     res.json(result.rows);
   } catch (err) {
@@ -565,11 +562,11 @@ app.get('/api/articles/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const result = await pool.query('SELECT * FROM articles WHERE id = $1', [id]);
-    
+
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Article not found' });
     }
-    
+
     res.json(result.rows[0]);
   } catch (err) {
     console.error('Error fetching article:', err);
@@ -593,16 +590,16 @@ app.post('/api/articles', async (req, res) => {
       read_time,
       date_published
     } = req.body;
-    
+
     if (!title || !description || !article || !url) {
       return res.status(400).json({ error: 'Missing required fields: title, description, article, url' });
     }
-    
+
     // If marking as featured, enforce the 2-article limit
     if (featured === true) {
       await enforceFeaturedLimit();
     }
-    
+
     const query = `
       INSERT INTO articles (
         title, description, article, url, meta_description, topic, 
@@ -611,12 +608,12 @@ app.post('/api/articles', async (req, res) => {
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
       RETURNING *;
     `;
-    
+
     const result = await pool.query(query, [
       title, description, article, url, meta_description, topic,
       author, publisher, status, featured, read_time, date_published
     ]);
-    
+
     res.status(201).json(result.rows[0]);
   } catch (err) {
     console.error('Error creating article:', err);
@@ -628,7 +625,7 @@ app.patch('/api/articles/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { status, date_published } = req.body;
-    
+
     const query = `
       UPDATE articles SET
         status = COALESCE($1, status),
@@ -637,13 +634,13 @@ app.patch('/api/articles/:id', async (req, res) => {
       WHERE id = $3
       RETURNING *;
     `;
-    
+
     const result = await pool.query(query, [status, date_published, id]);
-    
+
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Article not found' });
     }
-    
+
     res.json(result.rows[0]);
   } catch (err) {
     console.error('Error updating article:', err);
@@ -666,12 +663,12 @@ app.put('/api/articles/:id', async (req, res) => {
       status,
       featured
     } = req.body;
-    
+
     // If marking as featured, enforce the 2-article limit (excluding this article)
     if (featured === true) {
       await enforceFeaturedLimit(id);
     }
-    
+
     const query = `
       UPDATE articles SET
         title = COALESCE($1, title),
@@ -689,16 +686,16 @@ app.put('/api/articles/:id', async (req, res) => {
       WHERE id = $11
       RETURNING *;
     `;
-    
+
     const result = await pool.query(query, [
       title, description, article, url, meta_description, topic,
       author, publisher, status, featured, id
     ]);
-    
+
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Article not found' });
     }
-    
+
     res.json(result.rows[0]);
   } catch (err) {
     console.error('Error updating article:', err);
@@ -710,11 +707,11 @@ app.delete('/api/articles/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const result = await pool.query('DELETE FROM articles WHERE id = $1 RETURNING id', [id]);
-    
+
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Article not found' });
     }
-    
+
     res.json({ success: true, message: 'Article deleted successfully' });
   } catch (err) {
     console.error('Error deleting article:', err);
@@ -728,11 +725,11 @@ app.delete('/api/articles/:id', async (req, res) => {
 app.get('/api/bookings/availability', async (req, res) => {
   try {
     const { startDate, endDate, timezone = 'America/Chicago' } = req.query;
-    
+
     if (!startDate || !endDate) {
       return res.status(400).json({ error: 'startDate and endDate are required' });
     }
-    
+
     const slots = await getAvailableSlots(startDate, endDate, timezone);
     res.json({ slots });
   } catch (err) {
@@ -755,19 +752,19 @@ app.post('/api/bookings', async (req, res) => {
       timezone,
       notes
     } = req.body;
-    
+
     // Validation
     if (!name || !email || !meetingType || !startTime) {
-      return res.status(400).json({ 
-        error: 'Missing required fields: name, email, meetingType, startTime' 
+      return res.status(400).json({
+        error: 'Missing required fields: name, email, meetingType, startTime'
       });
     }
-    
+
     // Calculate correct end time based on meeting type
     const start = new Date(startTime);
     const durationMinutes = meetingType === '30min-fit-check' ? 30 : 90; // 30 min or 90 min
     const calculatedEndTime = new Date(start.getTime() + durationMinutes * 60000).toISOString();
-    
+
     // Create Google Calendar event
     const calendarEvent = await createCalendarEvent({
       name,
@@ -780,7 +777,7 @@ app.post('/api/bookings', async (req, res) => {
       timezone: timezone || 'America/Chicago',
       notes
     });
-    
+
     // Store booking in database
     const query = `
       INSERT INTO bookings (
@@ -791,11 +788,11 @@ app.post('/api/bookings', async (req, res) => {
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, CURRENT_TIMESTAMP)
       RETURNING *;
     `;
-    
-    const meetingTitle = meetingType === '30min-fit-check' 
+
+    const meetingTitle = meetingType === '30min-fit-check'
       ? '30-Minute AI Strategy Call - DaVeenci'
       : '90-Minute AI Consultation Call - DaVeenci';
-    
+
     const result = await pool.query(query, [
       name,
       email,
@@ -811,7 +808,7 @@ app.post('/api/bookings', async (req, res) => {
       'confirmed',
       notes || null
     ]);
-    
+
     res.status(201).json({
       success: true,
       booking: result.rows[0],
@@ -828,32 +825,32 @@ app.post('/api/bookings', async (req, res) => {
 app.get('/api/bookings', async (req, res) => {
   try {
     const { status, email, startDate, endDate } = req.query;
-    
+
     let query = 'SELECT * FROM bookings WHERE 1=1';
     const params = [];
-    
+
     if (status) {
       params.push(status);
       query += ` AND status = $${params.length}`;
     }
-    
+
     if (email) {
       params.push(email);
       query += ` AND email = $${params.length}`;
     }
-    
+
     if (startDate) {
       params.push(startDate);
       query += ` AND start_time >= $${params.length}`;
     }
-    
+
     if (endDate) {
       params.push(endDate);
       query += ` AND start_time <= $${params.length}`;
     }
-    
+
     query += ' ORDER BY start_time ASC';
-    
+
     const result = await pool.query(query, params);
     res.json({ bookings: result.rows });
   } catch (err) {
@@ -867,21 +864,21 @@ app.delete('/api/bookings/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { reason } = req.body;
-    
+
     // Get booking details
     const booking = await pool.query('SELECT * FROM bookings WHERE id = $1', [id]);
-    
+
     if (booking.rows.length === 0) {
       return res.status(404).json({ error: 'Booking not found' });
     }
-    
+
     const bookingData = booking.rows[0];
-    
+
     // Cancel in Google Calendar
     if (bookingData.google_event_id) {
       await cancelCalendarEvent(bookingData.google_event_id);
     }
-    
+
     // Update database
     await pool.query(
       `UPDATE bookings 
@@ -889,7 +886,7 @@ app.delete('/api/bookings/:id', async (req, res) => {
        WHERE id = $2`,
       [reason || null, id]
     );
-    
+
     res.json({ success: true, message: 'Booking cancelled successfully' });
   } catch (err) {
     console.error('Error cancelling booking:', err);
@@ -903,17 +900,17 @@ app.delete('/api/bookings/:id', async (req, res) => {
 app.get('/api/events', async (req, res) => {
   try {
     const { status } = req.query;
-    
+
     let query = 'SELECT * FROM webinar_events';
     const params = [];
-    
+
     if (status) {
       query += ' WHERE status = $1';
       params.push(status);
     }
-    
+
     query += ' ORDER BY event_date ASC';
-    
+
     const result = await pool.query(query, params);
     res.json(result.rows);
   } catch (err) {
@@ -927,11 +924,11 @@ app.get('/api/events/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const result = await pool.query('SELECT * FROM webinar_events WHERE id = $1', [id]);
-    
+
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Event not found' });
     }
-    
+
     res.json(result.rows[0]);
   } catch (err) {
     console.error('Error fetching event:', err);
@@ -953,7 +950,7 @@ app.post('/api/events', async (req, res) => {
 
     // Validation
     if (!title || !description || !event_date) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         error: 'Missing required fields',
         required: ['title', 'description', 'event_date']
       });
@@ -965,10 +962,10 @@ app.post('/api/events', async (req, res) => {
     console.log('🎨 Generating webinar event image...');
     let imageUrl = null;
     let imageAlt = null;
-    
+
     try {
       const imageResult = await generateWebinarImage(
-        { title, description, slug: title }, 
+        { title, description, slug: title },
         process.env.OPENAI_API_KEY
       );
       imageUrl = imageResult.imageUrl;
@@ -982,7 +979,7 @@ app.post('/api/events', async (req, res) => {
     console.log('📆 Creating Google Calendar event...');
     let calendarEventId = null;
     let meetLink = null;
-    
+
     try {
       // Parse date as CST timezone
       // event_date format: "2024-12-15T10:00:00"
@@ -990,7 +987,7 @@ app.post('/api/events', async (req, res) => {
       const eventDateTimeCST = `${event_date}-06:00`; // CST is UTC-6
       const eventDateTime = new Date(eventDateTimeCST);
       const endDateTime = new Date(eventDateTime.getTime() + duration_minutes * 60000);
-      
+
       const calendarEvent = await createCalendarEvent({
         summary: title,
         description: description,
@@ -1001,7 +998,7 @@ app.post('/api/events', async (req, res) => {
         attendeeName: null,
         meetingType: 'webinar'
       });
-      
+
       calendarEventId = calendarEvent.id;
       meetLink = calendarEvent.hangoutLink;
       console.log('✅ Google Calendar event created:', calendarEventId);
@@ -1015,7 +1012,7 @@ app.post('/api/events', async (req, res) => {
     // Step 3: Insert event into database (with CST timezone)
     // Store as timestamptz with CST offset
     const eventDateCST = `${event_date}-06:00`;
-    
+
     const result = await pool.query(
       `INSERT INTO webinar_events (
         title, description, event_date, duration_minutes, 
@@ -1025,9 +1022,9 @@ app.post('/api/events', async (req, res) => {
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) 
       RETURNING *`,
       [
-        title, 
-        description, 
-        eventDateCST, 
+        title,
+        description,
+        eventDateCST,
         duration_minutes,
         imageUrl,
         imageAlt,
@@ -1048,9 +1045,9 @@ app.post('/api/events', async (req, res) => {
 
   } catch (err) {
     console.error('❌ Error creating event:', err);
-    res.status(500).json({ 
-      error: 'Failed to create event', 
-      details: err.message 
+    res.status(500).json({
+      error: 'Failed to create event',
+      details: err.message
     });
   }
 });
@@ -1132,9 +1129,9 @@ app.put('/api/events/:id', async (req, res) => {
 
   } catch (err) {
     console.error('Error updating event:', err);
-    res.status(500).json({ 
-      error: 'Failed to update event', 
-      details: err.message 
+    res.status(500).json({
+      error: 'Failed to update event',
+      details: err.message
     });
   }
 });
@@ -1146,7 +1143,7 @@ app.delete('/api/events/:id', async (req, res) => {
 
     // Get event details for calendar deletion
     const event = await pool.query('SELECT * FROM webinar_events WHERE id = $1', [id]);
-    
+
     if (event.rows.length === 0) {
       return res.status(404).json({ error: 'Event not found' });
     }
@@ -1168,16 +1165,16 @@ app.delete('/api/events/:id', async (req, res) => {
 
     console.log('✅ Event deleted successfully:', id);
 
-    res.json({ 
-      success: true, 
-      message: 'Event deleted successfully' 
+    res.json({
+      success: true,
+      message: 'Event deleted successfully'
     });
 
   } catch (err) {
     console.error('Error deleting event:', err);
-    res.status(500).json({ 
-      error: 'Failed to delete event', 
-      details: err.message 
+    res.status(500).json({
+      error: 'Failed to delete event',
+      details: err.message
     });
   }
 });
@@ -1189,7 +1186,7 @@ app.post('/api/events/:id/regenerate-image', async (req, res) => {
 
     // Get event details
     const event = await pool.query('SELECT * FROM webinar_events WHERE id = $1', [id]);
-    
+
     if (event.rows.length === 0) {
       return res.status(404).json({ error: 'Event not found' });
     }
@@ -1200,7 +1197,7 @@ app.post('/api/events/:id/regenerate-image', async (req, res) => {
 
     // Generate new image
     const imageResult = await generateWebinarImage(
-      { title: eventData.title, description: eventData.description, slug: eventData.title }, 
+      { title: eventData.title, description: eventData.description, slug: eventData.title },
       process.env.OPENAI_API_KEY
     );
 
@@ -1212,8 +1209,8 @@ app.post('/api/events/:id/regenerate-image', async (req, res) => {
 
     console.log('✅ Image regenerated successfully:', imageResult.imageUrl);
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: 'Image regenerated successfully',
       imageUrl: imageResult.imageUrl,
       imageAlt: imageResult.imageAlt
@@ -1236,7 +1233,7 @@ app.put('/api/events/:id', async (req, res) => {
 
     // Get current event details
     const event = await pool.query('SELECT * FROM webinar_events WHERE id = $1', [id]);
-    
+
     if (event.rows.length === 0) {
       return res.status(404).json({ error: 'Event not found' });
     }
@@ -1270,8 +1267,8 @@ app.put('/api/events/:id', async (req, res) => {
 
     console.log('✅ Event date/time updated successfully:', id);
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: 'Event date/time updated successfully'
     });
   } catch (err) {
@@ -1292,7 +1289,7 @@ app.post('/api/events/:id/register', async (req, res) => {
 
     // Get event details
     const event = await pool.query('SELECT * FROM webinar_events WHERE id = $1', [id]);
-    
+
     if (event.rows.length === 0) {
       return res.status(404).json({ error: 'Event not found' });
     }
@@ -1329,12 +1326,14 @@ app.post('/api/events/:id/register', async (req, res) => {
       console.log('📆 Adding attendee to Google Calendar event...');
       console.log('   Calendar Event ID:', eventData.google_calendar_event_id);
 
-      const calendar = google.calendar({ version: 'v3', auth: new google.auth.JWT({
-        email: process.env.GOOGLE_CLIENT_EMAIL,
-        key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-        scopes: ['https://www.googleapis.com/auth/calendar'],
-        subject: process.env.GOOGLE_CALENDAR_ID || 'anton.osipov@daveenci.com',
-      })});
+      const calendar = google.calendar({
+        version: 'v3', auth: new google.auth.JWT({
+          email: process.env.GOOGLE_CLIENT_EMAIL,
+          key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+          scopes: ['https://www.googleapis.com/auth/calendar'],
+          subject: process.env.GOOGLE_CALENDAR_ID || 'anton.osipov@daveenci.com',
+        })
+      });
 
       const calendarId = process.env.GOOGLE_CALENDAR_ID || 'primary';
 
@@ -1357,8 +1356,8 @@ app.post('/api/events/:id/register', async (req, res) => {
       }
 
       // Add new attendee
-      attendees.push({ 
-        email, 
+      attendees.push({
+        email,
         displayName: email,
         responseStatus: 'needsAction' // User needs to accept/decline
       });
@@ -1387,7 +1386,7 @@ app.post('/api/events/:id/register', async (req, res) => {
     } catch (calErr) {
       console.error('❌ Failed to send calendar invite:', calErr.message);
       console.error('   Error details:', calErr);
-      
+
       // Still return success to user so they don't see an error
       res.json({
         success: true,
@@ -1397,9 +1396,9 @@ app.post('/api/events/:id/register', async (req, res) => {
 
   } catch (err) {
     console.error('Error registering for event:', err);
-    res.status(500).json({ 
-      error: 'Failed to register for event', 
-      details: err.message 
+    res.status(500).json({
+      error: 'Failed to register for event',
+      details: err.message
     });
   }
 });
@@ -1431,9 +1430,9 @@ app.get('/api/events/:id/participants', async (req, res) => {
 
   } catch (err) {
     console.error('Error fetching participants:', err);
-    res.status(500).json({ 
-      error: 'Failed to fetch participants', 
-      details: err.message 
+    res.status(500).json({
+      error: 'Failed to fetch participants',
+      details: err.message
     });
   }
 });
@@ -1448,16 +1447,16 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
 
     // Validate required fields
     if (!name || !email) {
-      return res.status(400).json({ 
-        error: 'Name and email are required' 
+      return res.status(400).json({
+        error: 'Name and email are required'
       });
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return res.status(400).json({ 
-        error: 'Invalid email format' 
+      return res.status(400).json({
+        error: 'Invalid email format'
       });
     }
 
@@ -1469,7 +1468,7 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
 
     if (existing.rows.length > 0) {
       const subscriber = existing.rows[0];
-      
+
       // If unsubscribed, resubscribe them
       if (subscriber.status === 'unsubscribed') {
         await pool.query(
@@ -1483,17 +1482,17 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
            WHERE email = $3`,
           [name, interests || null, email]
         );
-        
-        return res.json({ 
-          success: true, 
+
+        return res.json({
+          success: true,
           message: 'Successfully resubscribed!',
           subscriber: { id: subscriber.id, email, name, interests, status: 'active' }
         });
       }
-      
+
       // Already subscribed
-      return res.status(409).json({ 
-        error: 'This email is already subscribed to the newsletter' 
+      return res.status(409).json({
+        error: 'This email is already subscribed to the newsletter'
       });
     }
 
@@ -1505,17 +1504,17 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
       [name, email, interests || null]
     );
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: 'Successfully subscribed to newsletter!',
       subscriber: result.rows[0]
     });
 
   } catch (err) {
     console.error('Error subscribing to newsletter:', err);
-    res.status(500).json({ 
-      error: 'Failed to subscribe to newsletter', 
-      details: err.message 
+    res.status(500).json({
+      error: 'Failed to subscribe to newsletter',
+      details: err.message
     });
   }
 });
@@ -1529,17 +1528,17 @@ app.get('/api/newsletter/subscribers', async (req, res) => {
        ORDER BY subscribed_at DESC`
     );
 
-    res.json({ 
+    res.json({
       success: true,
       total: result.rows.length,
-      subscribers: result.rows 
+      subscribers: result.rows
     });
 
   } catch (err) {
     console.error('Error fetching subscribers:', err);
-    res.status(500).json({ 
-      error: 'Failed to fetch subscribers', 
-      details: err.message 
+    res.status(500).json({
+      error: 'Failed to fetch subscribers',
+      details: err.message
     });
   }
 });
@@ -1564,21 +1563,21 @@ app.post('/api/newsletter/unsubscribe', async (req, res) => {
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ 
-        error: 'Subscriber not found or already unsubscribed' 
+      return res.status(404).json({
+        error: 'Subscriber not found or already unsubscribed'
       });
     }
 
-    res.json({ 
-      success: true, 
-      message: 'Successfully unsubscribed from newsletter' 
+    res.json({
+      success: true,
+      message: 'Successfully unsubscribed from newsletter'
     });
 
   } catch (err) {
     console.error('Error unsubscribing from newsletter:', err);
-    res.status(500).json({ 
-      error: 'Failed to unsubscribe', 
-      details: err.message 
+    res.status(500).json({
+      error: 'Failed to unsubscribe',
+      details: err.message
     });
   }
 });
@@ -1588,7 +1587,7 @@ app.post('/api/newsletter/unsubscribe', async (req, res) => {
 
 // Serve static files from the built frontend
 const frontendPath = join(__dirname, '..', '..', 'web', 'dist');
-app.use(express.static(frontendPath, { 
+app.use(express.static(frontendPath, {
   maxAge: '1d',
   setHeaders: (res, path) => {
     // Set proper MIME types for JavaScript modules
@@ -1610,7 +1609,7 @@ app.get('*', (req, res, next) => {
   if (req.path.startsWith('/api/')) {
     return next();
   }
-  
+
   // Skip static files (they should have been served already by express.static)
   // If we got here, it's a frontend route like /admin or /articles
   const frontendPath = join(__dirname, '..', '..', 'web', 'dist');
@@ -1645,7 +1644,7 @@ app.listen(port, async () => {
   console.log(`📅 Bookings API: http://localhost:${port}/api/bookings`);
   console.log(`🎉 Events API: http://localhost:${port}/api/events`);
   console.log(`✉️  Newsletter API: http://localhost:${port}/api/newsletter/subscribe`);
-  
+
   // Initialize scheduler after server starts
   articleScheduler = new ArticleScheduler(pool, generateArticleInBackground);
   await articleScheduler.initialize();
