@@ -9,9 +9,20 @@ import { google } from 'googleapis';
  * Initialize Google Calendar API client with domain-wide delegation
  */
 function getCalendarClient() {
+  let privateKey = process.env.GOOGLE_PRIVATE_KEY;
+
+  if (privateKey) {
+    // Remove wrapping quotes if present
+    if (privateKey.startsWith('"') && privateKey.endsWith('"')) {
+      privateKey = privateKey.slice(1, -1);
+    }
+    // Handle escaped newlines
+    privateKey = privateKey.replace(/\\n/g, '\n');
+  }
+
   const auth = new google.auth.JWT({
     email: process.env.GOOGLE_CLIENT_EMAIL,
-    key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    key: privateKey,
     scopes: ['https://www.googleapis.com/auth/calendar'],
     // Subject: The user to impersonate (domain-wide delegation)
     subject: process.env.GOOGLE_CALENDAR_ID || 'anton.osipov@daveenci.com',
@@ -35,7 +46,7 @@ export async function getAvailableSlots(startDate, endDate, timezone = 'America/
     // Define business hours (9 AM - 5 PM)
     const businessStartHour = 9;
     const businessEndHour = 17;
-    
+
     // Query for existing events
     const response = await calendar.events.list({
       calendarId,
@@ -47,7 +58,7 @@ export async function getAvailableSlots(startDate, endDate, timezone = 'America/
     });
 
     const busySlots = response.data.items || [];
-    
+
     // Generate all possible time slots
     const availableSlots = [];
     const current = new Date(startDate);
@@ -60,7 +71,7 @@ export async function getAvailableSlots(startDate, endDate, timezone = 'America/
         for (let hour = businessStartHour; hour < businessEndHour; hour++) {
           const slotStart = new Date(current);
           slotStart.setHours(hour, 0, 0, 0);
-          
+
           const slotEnd = new Date(slotStart);
           slotEnd.setMinutes(slotEnd.getMinutes() + 60);
 
@@ -69,8 +80,8 @@ export async function getAvailableSlots(startDate, endDate, timezone = 'America/
             const eventStart = new Date(event.start.dateTime || event.start.date);
             const eventEnd = new Date(event.end.dateTime || event.end.date);
             return (slotStart >= eventStart && slotStart < eventEnd) ||
-                   (slotEnd > eventStart && slotEnd <= eventEnd) ||
-                   (slotStart <= eventStart && slotEnd >= eventEnd);
+              (slotEnd > eventStart && slotEnd <= eventEnd) ||
+              (slotStart <= eventStart && slotEnd >= eventEnd);
           });
 
           if (isAvailable && slotStart > new Date()) {
@@ -86,7 +97,7 @@ export async function getAvailableSlots(startDate, endDate, timezone = 'America/
           }
         }
       }
-      
+
       current.setDate(current.getDate() + 1);
     }
 
@@ -167,10 +178,10 @@ export async function createCalendarEvent(eventData) {
     }
 
     // Handle regular booking events
-    const title = meetingType === '30min-fit-check' 
+    const title = meetingType === '30min-fit-check'
       ? '30-Minute AI Strategy Call - DaVeenci'
       : '90-Minute AI Consultation Call - DaVeenci';
-    
+
     const duration = meetingType === '30min-fit-check' ? '30 minutes' : '90 minutes';
     const meetingTypeLabel = meetingType === '30min-fit-check' ? 'Fit Check (FREE)' : 'Deep Dive Consultation ($150)';
 
