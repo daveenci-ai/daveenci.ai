@@ -19,31 +19,32 @@ export interface ArticlesSettings {
  */
 export function toCronExpression(frequency: string, day: string, time: string): string {
   const [hours, minutes] = time.split(':');
-  
+
+  const dayMap: { [key: string]: number } = {
+    'sunday': 0,
+    'monday': 1,
+    'tuesday': 2,
+    'wednesday': 3,
+    'thursday': 4,
+    'friday': 5,
+    'saturday': 6
+  };
+
   switch (frequency) {
     case 'daily':
       return `${minutes} ${hours} * * *`;
-    
+
     case 'weekly':
-      const dayMap: { [key: string]: number } = {
-        'sunday': 0,
-        'monday': 1,
-        'tuesday': 2,
-        'wednesday': 3,
-        'thursday': 4,
-        'friday': 5,
-        'saturday': 6
-      };
       return `${minutes} ${hours} * * ${dayMap[day.toLowerCase()]}`;
-    
+
     case 'biweekly':
       // Run every 2 weeks on the specified day
       return `${minutes} ${hours} * * ${dayMap[day.toLowerCase()]}`;
-    
+
     case 'monthly':
       // day parameter should be a number (1-28) for monthly
       return `${minutes} ${hours} ${day} * *`;
-    
+
     default:
       return `${minutes} ${hours} * * 1`; // Default to Monday
   }
@@ -55,9 +56,9 @@ export function toCronExpression(frequency: string, day: string, time: string): 
 export function fromCronExpression(cron: string): { frequency: string; day: string; time: string } {
   const parts = cron.split(' ');
   const [minutes, hours, dayOfMonth, month, dayOfWeek] = parts;
-  
+
   const time = `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
-  
+
   // Monthly (has specific day of month)
   if (dayOfMonth !== '*') {
     return {
@@ -66,7 +67,7 @@ export function fromCronExpression(cron: string): { frequency: string; day: stri
       time
     };
   }
-  
+
   // Daily (runs every day)
   if (dayOfWeek === '*') {
     return {
@@ -75,7 +76,7 @@ export function fromCronExpression(cron: string): { frequency: string; day: stri
       time
     };
   }
-  
+
   // Weekly or Biweekly (has specific day of week)
   const dayMap: { [key: number]: string } = {
     0: 'sunday',
@@ -86,7 +87,7 @@ export function fromCronExpression(cron: string): { frequency: string; day: stri
     5: 'friday',
     6: 'saturday'
   };
-  
+
   return {
     frequency: 'weekly', // Default to weekly
     day: dayMap[parseInt(dayOfWeek)] || 'monday',
@@ -106,14 +107,14 @@ export async function saveSettings(settings: {
   brand_pillars?: string;
 }): Promise<void> {
   const apiUrl = import.meta.env.API_URL;
-  
+
   if (!apiUrl) {
     console.warn('VITE_API_URL not configured. Settings saved to localStorage only.');
     // Save to localStorage as fallback
     localStorage.setItem('articles_settings', JSON.stringify(settings));
     return;
   }
-  
+
   try {
     const response = await fetch(`${apiUrl}/settings`, {
       method: 'PUT',
@@ -122,7 +123,7 @@ export async function saveSettings(settings: {
       },
       body: JSON.stringify(settings),
     });
-    
+
     if (!response.ok) {
       throw new Error('Failed to save settings');
     }
@@ -139,7 +140,7 @@ export async function saveSettings(settings: {
  */
 export async function loadSettings(): Promise<ArticlesSettings | null> {
   const apiUrl = import.meta.env.API_URL;
-  
+
   if (!apiUrl) {
     // Load from localStorage as fallback (backend not configured)
     const stored = localStorage.getItem('articles_settings');
@@ -153,14 +154,14 @@ export async function loadSettings(): Promise<ArticlesSettings | null> {
     }
     return null;
   }
-  
+
   try {
     const response = await fetch(`${apiUrl}/settings`);
-    
+
     if (!response.ok) {
       throw new Error('Failed to load settings');
     }
-    
+
     return await response.json();
   } catch (error) {
     console.error('Error loading settings:', error);

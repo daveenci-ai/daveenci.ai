@@ -30,43 +30,43 @@ export function CalendarPicker({ onSelectSlot, selectedSlot, timezone = 'America
 
   // Fetch available slots when date is selected
   useEffect(() => {
+    const fetchAvailableSlotsForDate = async (date: Date) => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const startOfDay = new Date(date);
+        startOfDay.setHours(0, 0, 0, 0);
+
+        const endOfDay = new Date(date);
+        endOfDay.setHours(23, 59, 59, 999);
+
+        const response = await fetch(
+          `${apiUrl}/bookings/availability?` +
+          `startDate=${startOfDay.toISOString()}&` +
+          `endDate=${endOfDay.toISOString()}&` +
+          `timezone=${timezone}`
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch availability');
+        }
+
+        const data = await response.json();
+        setAvailableSlots(data.slots || []);
+      } catch (err) {
+        console.error('Error fetching slots:', err);
+        setError('Unable to load available times. Please try again.');
+        setAvailableSlots([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (selectedDate) {
       fetchAvailableSlotsForDate(selectedDate);
     }
-  }, [selectedDate]);
-
-  const fetchAvailableSlotsForDate = async (date: Date) => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const startOfDay = new Date(date);
-      startOfDay.setHours(0, 0, 0, 0);
-
-      const endOfDay = new Date(date);
-      endOfDay.setHours(23, 59, 59, 999);
-
-      const response = await fetch(
-        `${apiUrl}/bookings/availability?` +
-        `startDate=${startOfDay.toISOString()}&` +
-        `endDate=${endOfDay.toISOString()}&` +
-        `timezone=${timezone}`
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch availability');
-      }
-
-      const data = await response.json();
-      setAvailableSlots(data.slots || []);
-    } catch (err) {
-      console.error('Error fetching slots:', err);
-      setError('Unable to load available times. Please try again.');
-      setAvailableSlots([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [selectedDate, apiUrl, timezone]);
 
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
@@ -223,10 +223,10 @@ export function CalendarPicker({ onSelectSlot, selectedSlot, timezone = 'America
           <div className="flex items-center gap-2 mb-3">
             <Clock className="h-4 w-4 text-slate-600" />
             <h4 className="text-base font-semibold text-slate-900">
-              Available Times - {selectedDate.toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                month: 'long', 
-                day: 'numeric' 
+              Available Times - {selectedDate.toLocaleDateString('en-US', {
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric'
               })}
             </h4>
           </div>
@@ -255,7 +255,7 @@ export function CalendarPicker({ onSelectSlot, selectedSlot, timezone = 'America
           {!loading && !error && availableSlots.length > 0 && (
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-64 overflow-y-auto">
               {availableSlots.map((slot, index) => {
-                const isSlotSelected = 
+                const isSlotSelected =
                   selectedSlot &&
                   selectedSlot.start === slot.start &&
                   selectedSlot.end === slot.end;
@@ -266,8 +266,8 @@ export function CalendarPicker({ onSelectSlot, selectedSlot, timezone = 'America
                     onClick={() => handleTimeSlotClick(slot)}
                     variant={isSlotSelected ? "default" : "outline"}
                     className={`
-                      ${isSlotSelected 
-                        ? 'bg-black text-white hover:bg-slate-800' 
+                      ${isSlotSelected
+                        ? 'bg-black text-white hover:bg-slate-800'
                         : 'hover:bg-slate-100'
                       }
                     `}

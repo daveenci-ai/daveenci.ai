@@ -7,10 +7,20 @@ import React, { useState } from 'react';
 import { Button } from './button';
 import { Mail, User, Phone, Building, MessageSquare, CheckCircle, Loader2 } from 'lucide-react';
 
+export interface Booking {
+  id: number;
+  name: string;
+  email: string;
+  start_time: string;
+  end_time: string;
+  meeting_type: string;
+  google_meet_link?: string;
+}
+
 interface BookingFormProps {
   selectedSlot: { start: string; end: string; display: string };
   meetingType: '30min-fit-check' | '90min-consultation';
-  onSuccess: (booking: any) => void;
+  onSuccess: (booking: { booking: Booking; meetLink?: string }) => void;
   onCancel: () => void;
 }
 
@@ -55,9 +65,9 @@ export function BookingForm({ selectedSlot, meetingType, onSuccess, onCancel }: 
 
       const data = await response.json();
       onSuccess(data);
-    } catch (err: any) {
+    } catch (err) {
       console.error('Error creating booking:', err);
-      setError(err.message || 'Failed to create booking. Please try again.');
+      setError(err instanceof Error ? err.message : 'Failed to create booking. Please try again.');
     } finally {
       setLoading(false);
     }

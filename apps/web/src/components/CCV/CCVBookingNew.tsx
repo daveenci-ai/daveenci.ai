@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Calendar, Mail, CheckCircle2, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import CalendarPicker from '@/components/ui/calendar-picker';
-import BookingForm from '@/components/ui/booking-form';
+import BookingForm, { Booking } from '@/components/ui/booking-form';
 
 type MeetingType = '30min-fit-check' | '90min-consultation';
 
@@ -10,7 +10,7 @@ const CCVBookingNew = () => {
   const [step, setStep] = useState<'type' | 'calendar' | 'form' | 'confirmation'>('type');
   const [meetingType, setMeetingType] = useState<MeetingType | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<{ start: string; end: string; display: string } | null>(null);
-  const [bookingData, setBookingData] = useState<any>(null);
+  const [bookingData, setBookingData] = useState<{ booking: Booking; meetLink?: string } | null>(null);
 
   const handleMeetingTypeSelect = (type: MeetingType) => {
     setMeetingType(type);
@@ -27,7 +27,7 @@ const CCVBookingNew = () => {
     }
   };
 
-  const handleBookingSuccess = (booking: any) => {
+  const handleBookingSuccess = (booking: { booking: Booking; meetLink?: string }) => {
     setBookingData(booking);
     setStep('confirmation');
   };
@@ -190,19 +190,19 @@ const CCVBookingNew = () => {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div>
                       <h4 className="text-xl font-semibold text-slate-900 mb-2">
                         {meetingType === '30min-fit-check' ? '30-min Fit Check' : 'Deep Dive Consultation'}
                       </h4>
                       <p className="text-slate-600 leading-relaxed">
-                        {meetingType === '30min-fit-check' 
+                        {meetingType === '30min-fit-check'
                           ? 'Introductory call to understand your needs and see if there\'s a good fit.'
                           : 'Comprehensive strategy session to review your stack and build a custom automation roadmap.'
                         }
                       </p>
                     </div>
-                    
+
                     <ul className="space-y-2 text-sm text-slate-600 flex-1">
                       {meetingType === '30min-fit-check' ? (
                         <>
@@ -368,8 +368,8 @@ const CCVBookingNew = () => {
           <div className="flex items-center justify-center gap-3 text-slate-600">
             <Mail className="h-5 w-5" />
             <span className="text-lg">Prefer email?</span>
-            <a 
-              href="mailto:astrid@daveenci.com?subject=AI Strategy Call Request&body=Hi, I'd like to schedule an AI strategy call. Please let me know your availability." 
+            <a
+              href="mailto:astrid@daveenci.com?subject=AI Strategy Call Request&body=Hi, I'd like to schedule an AI strategy call. Please let me know your availability."
               className="text-black font-semibold hover:underline transition-colors duration-200 inline-block"
             >
               astrid@daveenci.com

@@ -11,6 +11,7 @@ type ToasterToast = ToastProps & {
   title?: React.ReactNode
   description?: React.ReactNode
   action?: ToastActionElement
+  duration?: number
 }
 
 const TOAST_LIMIT = 5
@@ -49,9 +50,9 @@ export function toast(props: Omit<ToasterToast, "id">) {
   const id = genId()
 
   const update = (props: ToasterToast) =>
-    (toastState.toasts = toastState.toasts.map((t) =>
-      t.id === props.id ? { ...t, ...props } : t,
-    ))
+  (toastState.toasts = toastState.toasts.map((t) =>
+    t.id === props.id ? { ...t, ...props } : t,
+  ))
   const dismiss = () => (toastState.toasts = toastState.toasts.filter((t) => t.id !== id))
 
   toastState.toasts = [
@@ -60,7 +61,7 @@ export function toast(props: Omit<ToasterToast, "id">) {
   ].slice(0, TOAST_LIMIT)
 
   // Pass duration to addToRemoveQueue
-  addToRemoveQueue(id, (props as any).duration)
+  addToRemoveQueue(id, props.duration)
 
   listeners.forEach((listener) => {
     listener(toastState)

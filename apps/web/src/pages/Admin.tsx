@@ -17,6 +17,40 @@ import CCVFooter from '@/components/CCV/CCVFooter';
 import { DEFAULT_TOPICS, FREQUENCY_OPTIONS } from '@/config/settings';
 import { saveSettings, loadSettings, toCronExpression, fromCronExpression } from '@/lib/db';
 
+interface Event {
+  id: number;
+  title: string;
+  description: string;
+  event_date: string;
+  duration_minutes: number;
+  max_attendees: number;
+  image_url?: string;
+  image_alt?: string;
+  status?: string;
+  google_meet_link?: string;
+}
+
+interface SchedulerStatus {
+  initialized: boolean;
+  active: boolean;
+  schedule: string | null;
+  nextRun: string;
+}
+
+interface Article {
+  id: number;
+  title: string;
+  description: string;
+  topic: string;
+  status: string;
+  date_published: string | null;
+  image_url?: string;
+  image_alt?: string;
+  article: string;
+  url: string;
+  featured: boolean;
+}
+
 const AdminLogin: React.FC<{ onLogin: (password: string) => void }> = React.memo(({ onLogin }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -67,11 +101,8 @@ const AdminLogin: React.FC<{ onLogin: (password: string) => void }> = React.memo
 });
 
 const AdminDashboard: React.FC = React.memo(() => {
-  const toastHook = useToast();
-  
-  // Memoize toast to prevent useCallback dependencies from changing
-  const toast = useCallback(toastHook.toast, []);
-  
+  const { toast } = useToast();
+
   // Settings state
   const [frequency, setFrequency] = useState('weekly');
   const [day, setDay] = useState('monday');
@@ -79,7 +110,7 @@ const AdminDashboard: React.FC = React.memo(() => {
   const [autoGenerate, setAutoGenerate] = useState(true);
   const [topics, setTopics] = useState(DEFAULT_TOPICS.join(', '));
   const [newTopic, setNewTopic] = useState('');
-  
+
   // Brand Essence state
   const [positioning, setPositioning] = useState('');
   const [tone, setTone] = useState('');
@@ -94,41 +125,41 @@ const AdminDashboard: React.FC = React.memo(() => {
   const [selectedTopic, setSelectedTopic] = useState('');
   // Removed: generatedArticle state (using background generation)
   const [apiConnected, setApiConnected] = useState<boolean | null>(null);
-  
+
   // Scheduler state
-  const [schedulerStatus, setSchedulerStatus] = useState<any>(null);
+  const [schedulerStatus, setSchedulerStatus] = useState<SchedulerStatus | null>(null);
   const [isTestingScheduler, setIsTestingScheduler] = useState(false);
-  
+
   // Generation input state
   const [isFeatured, setIsFeatured] = useState(false);
-  
+
   // Store polling interval ref for cleanup
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Articles state
-  const [articles, setArticles] = useState<any[]>([]);
+  const [articles, setArticles] = useState<Article[]>([]);
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   // Events state
-  const [events, setEvents] = useState<any[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const [eventTitle, setEventTitle] = useState('');
   const [eventDescription, setEventDescription] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [eventTime, setEventTime] = useState('');
   const [isCreatingEvent, setIsCreatingEvent] = useState(false);
-  
+
   // Edit event state
   const [showEditDateModal, setShowEditDateModal] = useState(false);
-  const [editingEvent, setEditingEvent] = useState<any>(null);
+  const [editingEvent, setEditingEvent] = useState<Event | null>(null);
   const [editEventDate, setEditEventDate] = useState('');
   const [editEventTime, setEditEventTime] = useState('');
   const [isRegeneratingImage, setIsRegeneratingImage] = useState<number | null>(null);
-  
+
   // Simple notification state
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
-  
+
   // Generation status state
   const [generationStatus, setGenerationStatus] = useState<'generating' | 'formatting' | 'metadata' | null>(null);
 
@@ -150,7 +181,7 @@ const AdminDashboard: React.FC = React.memo(() => {
       const timer = setTimeout(() => {
         setShowNotification(false);
       }, 5000);
-      
+
       return () => clearTimeout(timer);
     }
   }, [showNotification]);
@@ -159,6 +190,81 @@ const AdminDashboard: React.FC = React.memo(() => {
   const topicsArray = useMemo(() => {
     return topics.split(',').map(t => t.trim()).filter(t => t.length > 0);
   }, [topics]);
+
+
+
+
+
+  // Memoize filtered articles to prevent unnecessary re-renders
+  const filteredArticles = useMemo(() => {
+    let filtered = articles;
+
+    // Filter by status
+    if (statusFilter !== 'all') {
+      filtered = filtered.filter(article => article.status === statusFilter);
+    }
+
+    // Filter by search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(article =>
+        article.title.toLowerCase().includes(query) ||
+        article.description.toLowerCase().includes(query) ||
+        article.topic.toLowerCase().includes(query)
+      );
+    }
+
+    return filtered;
+  }, [articles, statusFilter, searchQuery]);
+
+  const loadArticles = useCallback(async () => {
+    const apiUrl = import.meta.env.API_URL;
+
+    if (!apiUrl) {
+      console.warn('Backend API not configured. Using empty articles list.');
+      setArticles([]);
+      return;
+    }
+
+    try {
+      const response = await fetch(`${apiUrl}/articles`);
+
+      if (!response.ok) {
+        throw new Error('Failed to load articles');
+      }
+
+      const articlesData = await response.json();
+      setArticles(articlesData);
+    } catch (error) {
+      console.error('Error loading articles:', error);
+      // Set empty array on error to prevent UI issues
+      setArticles([]);
+    }
+  }, []);
+
+  const loadEvents = useCallback(async () => {
+    const apiUrl = import.meta.env.API_URL;
+
+    if (!apiUrl) {
+      console.warn('Backend API not configured. Using empty events list.');
+      setEvents([]);
+      return;
+    }
+
+    try {
+      const response = await fetch(`${apiUrl}/events`);
+
+      if (!response.ok) {
+        throw new Error('Failed to load events');
+      }
+
+      const eventsData = await response.json();
+      setEvents(eventsData);
+    } catch (error) {
+      console.error('Error loading events:', error);
+      setEvents([]);
+    }
+  }, []);
 
   // Test OpenAI API connection via backend and load settings on mount
   useEffect(() => {
@@ -169,7 +275,7 @@ const AdminDashboard: React.FC = React.memo(() => {
         setApiConnected(false);
         return;
       }
-      
+
       try {
         const response = await fetch(`${apiUrl}/openai/status`);
         if (response.ok) {
@@ -186,12 +292,12 @@ const AdminDashboard: React.FC = React.memo(() => {
         setApiConnected(false);
       }
     };
-    
+
     // Load scheduler status
     const loadSchedulerStatus = async () => {
       const apiUrl = import.meta.env.API_URL;
       if (!apiUrl) return;
-      
+
       try {
         const response = await fetch(`${apiUrl}/scheduler/status`);
         if (response.ok) {
@@ -202,22 +308,22 @@ const AdminDashboard: React.FC = React.memo(() => {
         console.error('Failed to load scheduler status:', error);
       }
     };
-    
+
     testOpenAIConnection();
     loadSchedulerStatus();
-    
+
     // Load settings from database
     loadSettings().then(settings => {
       if (settings) {
         setTopics(settings.topics.join(', '));
         setAutoGenerate(settings.auto);
-        
+
         // Parse cron expression
         const parsed = fromCronExpression(settings.schedule);
         setFrequency(parsed.frequency);
         setDay(parsed.day);
         setTime(parsed.time);
-        
+
         // Load Brand Essence fields
         if (settings.positioning) setPositioning(settings.positioning);
         if (settings.tone) setTone(settings.tone);
@@ -230,81 +336,7 @@ const AdminDashboard: React.FC = React.memo(() => {
     // Load articles and events
     loadArticles();
     loadEvents();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  
-  
-
-  // Memoize filtered articles to prevent unnecessary re-renders
-  const filteredArticles = useMemo(() => {
-    let filtered = articles;
-
-    // Filter by status
-    if (statusFilter !== 'all') {
-      filtered = filtered.filter(article => article.status === statusFilter);
-    }
-
-    // Filter by search query
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(article => 
-        article.title.toLowerCase().includes(query) ||
-        article.description.toLowerCase().includes(query) ||
-        article.topic.toLowerCase().includes(query)
-      );
-    }
-
-    return filtered;
-  }, [articles, statusFilter, searchQuery]);
-
-  const loadArticles = useCallback(async () => {
-    const apiUrl = import.meta.env.API_URL;
-    
-    if (!apiUrl) {
-      console.warn('Backend API not configured. Using empty articles list.');
-      setArticles([]);
-      return;
-    }
-    
-    try {
-      const response = await fetch(`${apiUrl}/articles`);
-      
-      if (!response.ok) {
-        throw new Error('Failed to load articles');
-      }
-      
-      const articlesData = await response.json();
-      setArticles(articlesData);
-    } catch (error) {
-      console.error('Error loading articles:', error);
-      // Set empty array on error to prevent UI issues
-      setArticles([]);
-    }
-  }, []);
-
-  const loadEvents = useCallback(async () => {
-    const apiUrl = import.meta.env.API_URL;
-    
-    if (!apiUrl) {
-      console.warn('Backend API not configured. Using empty events list.');
-      setEvents([]);
-      return;
-    }
-    
-    try {
-      const response = await fetch(`${apiUrl}/events`);
-      
-      if (!response.ok) {
-        throw new Error('Failed to load events');
-      }
-      
-      const eventsData = await response.json();
-      setEvents(eventsData);
-    } catch (error) {
-      console.error('Error loading events:', error);
-      setEvents([]);
-    }
-  }, []);
+  }, [loadArticles, loadEvents]);
 
   const handleCreateEvent = async () => {
     if (!eventTitle || !eventDescription || !eventDate || !eventTime) {
@@ -366,11 +398,11 @@ const AdminDashboard: React.FC = React.memo(() => {
       // Reload events
       await loadEvents();
 
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error creating event:', error);
       toast({
         title: 'Error Creating Event',
-        description: error.message || 'Failed to create event. Please try again.',
+        description: error instanceof Error ? error.message : 'Failed to create event. Please try again.',
         variant: 'destructive',
       });
     } finally {
@@ -407,7 +439,7 @@ const AdminDashboard: React.FC = React.memo(() => {
     }
   };
 
-  const handleRegenerateImage = async (event: any) => {
+  const handleRegenerateImage = async (event: Event) => {
     const apiUrl = import.meta.env.API_URL;
     if (!apiUrl) return;
 
@@ -433,11 +465,11 @@ const AdminDashboard: React.FC = React.memo(() => {
       });
 
       await loadEvents();
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error regenerating image:', error);
       toast({
         title: 'Error',
-        description: error.message || 'Failed to regenerate image.',
+        description: error instanceof Error ? error.message : 'Failed to regenerate image.',
         variant: 'destructive',
       });
     } finally {
@@ -445,14 +477,14 @@ const AdminDashboard: React.FC = React.memo(() => {
     }
   };
 
-  const handleOpenEditDate = (event: any) => {
+  const handleOpenEditDate = (event: Event) => {
     setEditingEvent(event);
     // Parse existing date/time
     const eventDate = new Date(event.event_date);
     const dateStr = eventDate.toISOString().split('T')[0]; // YYYY-MM-DD
-    const timeStr = eventDate.toLocaleTimeString('en-US', { 
-      hour12: false, 
-      hour: '2-digit', 
+    const timeStr = eventDate.toLocaleTimeString('en-US', {
+      hour12: false,
+      hour: '2-digit',
       minute: '2-digit',
       timeZone: 'America/Chicago'
     });
@@ -490,11 +522,11 @@ const AdminDashboard: React.FC = React.memo(() => {
       setShowEditDateModal(false);
       setEditingEvent(null);
       await loadEvents();
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error updating event:', error);
       toast({
         title: 'Error',
-        description: error.message || 'Failed to update event.',
+        description: error instanceof Error ? error.message : 'Failed to update event.',
         variant: 'destructive',
       });
     }
@@ -504,7 +536,7 @@ const AdminDashboard: React.FC = React.memo(() => {
     try {
       // Convert frequency/day/time to cron expression
       const schedule = toCronExpression(frequency, day, time);
-      
+
       // Save to database
       await saveSettings({
         topics: topicsArray,
@@ -514,7 +546,7 @@ const AdminDashboard: React.FC = React.memo(() => {
         tone,
         brand_pillars: brandPillars
       });
-      
+
       // Reload scheduler status
       const apiUrl = import.meta.env.API_URL;
       if (apiUrl) {
@@ -524,7 +556,7 @@ const AdminDashboard: React.FC = React.memo(() => {
           setSchedulerStatus(data);
         }
       }
-      
+
       toast({
         title: 'Settings Saved',
         description: 'Your AI generation settings have been saved successfully.',
@@ -549,20 +581,20 @@ const AdminDashboard: React.FC = React.memo(() => {
       });
       return;
     }
-    
+
     setIsTestingScheduler(true);
-    
+
     try {
       const response = await fetch(`${apiUrl}/scheduler/trigger`, {
         method: 'POST',
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to trigger scheduler');
       }
-      
+
       const data = await response.json();
-      
+
       toast({
         title: 'Scheduler Triggered!',
         description: data.message,
@@ -586,14 +618,14 @@ const AdminDashboard: React.FC = React.memo(() => {
       clearInterval(pollingIntervalRef.current);
       pollingIntervalRef.current = null;
     }
-    
+
     const maxDuration = 600000; // 10 minutes
     let pollCount = 0;
     const maxPolls = 60; // Poll for up to 10 minutes (60 * 10 seconds)
-    
+
     const pollInterval = setInterval(async () => {
       pollCount++;
-      
+
       // Check if we've exceeded max duration
       if (Date.now() - startTime >= maxDuration) {
         clearInterval(pollInterval);
@@ -604,14 +636,14 @@ const AdminDashboard: React.FC = React.memo(() => {
         setShowNotification(true);
         return;
       }
-      
+
       // Fetch generation status
       const apiUrl = import.meta.env.API_URL;
       try {
         const statusResponse = await fetch(`${apiUrl}/articles/status/${jobId}`);
         if (statusResponse.ok) {
           const statusData = await statusResponse.json();
-          
+
           // Check for error status
           if (statusData.step === 'error') {
             clearInterval(pollInterval);
@@ -625,17 +657,17 @@ const AdminDashboard: React.FC = React.memo(() => {
             });
             return;
           }
-          
+
           setGenerationStatus(statusData.step);
         }
       } catch (err) {
         console.log('Status check failed:', err);
       }
-      
+
       // Fetch latest articles
       const response = await fetch(`${apiUrl}/articles`);
       const latestArticles = await response.json();
-      
+
       // Check if a new article was added
       if (latestArticles.length > initialArticleCount) {
         clearInterval(pollInterval);
@@ -647,10 +679,10 @@ const AdminDashboard: React.FC = React.memo(() => {
         setShowNotification(true);
         return;
       }
-      
+
       // Update articles list
       setArticles(latestArticles);
-      
+
       // Stop polling after max attempts
       if (pollCount >= maxPolls) {
         clearInterval(pollInterval);
@@ -661,7 +693,7 @@ const AdminDashboard: React.FC = React.memo(() => {
         setShowNotification(true);
       }
     }, 10000); // Poll every 10 seconds
-    
+
     // Store interval ID in ref for cleanup
     pollingIntervalRef.current = pollInterval;
     return pollInterval;
@@ -678,11 +710,11 @@ const AdminDashboard: React.FC = React.memo(() => {
   useEffect(() => {
     const jobId = localStorage.getItem('generationJobId');
     const startTime = localStorage.getItem('generationStartTime');
-    
+
     if (isGenerating && jobId && startTime) {
       const elapsed = Date.now() - parseInt(startTime);
       const maxDuration = 600000; // 10 minutes
-      
+
       // If less than 10 minutes have passed, resume polling
       if (elapsed < maxDuration) {
         console.log('Resuming article generation polling...');
@@ -723,16 +755,16 @@ const AdminDashboard: React.FC = React.memo(() => {
         updateGeneratingState(false);
         return;
       }
-      
+
       // Select topic (use selected or random)
       const topic = selectedTopic || topicsArray[Math.floor(Math.random() * topicsArray.length)];
-      
+
       const params = {
         inputType: 'topic',
         topic: topic,
         featured: isFeatured
       };
-      
+
       // Call backend to generate in background
       const apiUrl = import.meta.env.API_URL;
       const response = await fetch(`${apiUrl}/articles/generate`, {
@@ -745,28 +777,28 @@ const AdminDashboard: React.FC = React.memo(() => {
 
       const data = await response.json();
       const jobId = data.jobId;
-      
+
       // Save generation state to localStorage
       const startTime = Date.now();
       localStorage.setItem('generationJobId', jobId);
       localStorage.setItem('generationStartTime', startTime.toString());
-      
+
       // Show simple notification
       setNotificationMessage('Article generation started! Your article will be published within the next 5-10 minutes.');
       setShowNotification(true);
-      
+
       // Set initial status
       setGenerationStatus('generating');
 
       // Start polling
       const initialArticleCount = articles.length;
       startPolling(jobId, startTime, initialArticleCount);
-      
-    } catch (error: any) {
+
+    } catch (error) {
       console.error('Generation error:', error);
       toast({
         title: 'Generation Failed',
-        description: error.message || 'Failed to start article generation.',
+        description: error instanceof Error ? error.message : 'Failed to start article generation.',
         variant: 'destructive',
       });
       updateGeneratingState(false);
@@ -788,7 +820,7 @@ const AdminDashboard: React.FC = React.memo(() => {
 
   const handleDeleteArticle = useCallback(async (articleId: number) => {
     const apiUrl = import.meta.env.API_URL;
-    
+
     if (!apiUrl) {
       toast({
         title: 'Backend Not Configured',
@@ -797,19 +829,19 @@ const AdminDashboard: React.FC = React.memo(() => {
       });
       return;
     }
-    
+
     try {
-      const response = await fetch(`${apiUrl}/articles/${articleId}`, { 
-        method: 'DELETE' 
+      const response = await fetch(`${apiUrl}/articles/${articleId}`, {
+        method: 'DELETE'
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to delete article');
       }
-      
+
       // Remove from local state
       setArticles(prev => prev.filter(article => article.id !== articleId));
-      
+
       toast({
         title: 'Article Deleted',
         description: 'The article has been permanently deleted.',
@@ -840,9 +872,9 @@ const AdminDashboard: React.FC = React.memo(() => {
   const formatDate = useCallback((dateString: string | null) => {
     if (!dateString) return 'Not published';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
@@ -852,7 +884,7 @@ const AdminDashboard: React.FC = React.memo(() => {
   return (
     <div className="min-h-screen bg-slate-50">
       <CCVNavbar />
-      
+
       {/* Simple Notification Popup */}
       {showNotification && (
         <div className="fixed top-4 right-4 z-[9999] max-w-md">
@@ -867,7 +899,7 @@ const AdminDashboard: React.FC = React.memo(() => {
           </div>
         </div>
       )}
-      
+
       {/* Header - Added pt-20 to prevent navbar overlap */}
       <div className="bg-gradient-to-br from-black via-slate-900 to-slate-800 py-12 pt-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -900,7 +932,7 @@ const AdminDashboard: React.FC = React.memo(() => {
                 Events
               </TabsTrigger>
             </TabsList>
-            
+
             {/* API Connection Status Badge - Inline with tabs */}
             {apiConnected === null ? (
               <Badge className="bg-slate-500 text-white px-4 py-2 text-sm">
@@ -974,22 +1006,21 @@ const AdminDashboard: React.FC = React.memo(() => {
                     <Label htmlFor="auto-generate" className="text-sm font-medium text-slate-700 cursor-pointer">
                       Automatic Generation
                     </Label>
-                    <Switch 
-                      id="auto-generate" 
-                      checked={autoGenerate} 
+                    <Switch
+                      id="auto-generate"
+                      checked={autoGenerate}
                       onCheckedChange={setAutoGenerate}
                       className="data-[state=checked]:bg-green-600"
                     />
                   </div>
                 </div>
-                
+
                 {/* Scheduler Status Banner */}
                 {schedulerStatus && (
-                  <div className={`mt-4 p-4 rounded-lg border-2 ${
-                    schedulerStatus.active && autoGenerate 
-                      ? 'bg-green-50 border-green-200' 
-                      : 'bg-slate-50 border-slate-200'
-                  }`}>
+                  <div className={`mt-4 p-4 rounded-lg border-2 ${schedulerStatus.active && autoGenerate
+                    ? 'bg-green-50 border-green-200'
+                    : 'bg-slate-50 border-slate-200'
+                    }`}>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         {schedulerStatus.active && autoGenerate ? (
@@ -1012,15 +1043,15 @@ const AdminDashboard: React.FC = React.memo(() => {
                                 Scheduler Inactive
                               </p>
                               <p className="text-xs text-slate-600 mt-1">
-                                {!autoGenerate 
-                                  ? 'Enable Automatic Generation to activate' 
+                                {!autoGenerate
+                                  ? 'Enable Automatic Generation to activate'
                                   : 'Configure settings and save to activate'}
                               </p>
                             </div>
                           </>
                         )}
                       </div>
-                      
+
                       {schedulerStatus.active && (
                         <Button
                           onClick={handleTestScheduler}
@@ -1187,9 +1218,9 @@ const AdminDashboard: React.FC = React.memo(() => {
               <CardContent className="space-y-4">
                 <div className="flex flex-wrap gap-2">
                   {topicsArray.map((topic) => (
-                    <Badge 
-                      key={topic} 
-                      variant="secondary" 
+                    <Badge
+                      key={topic}
+                      variant="secondary"
                       className="px-3 py-1.5 flex items-center gap-2 hover:bg-slate-300 transition-none"
                     >
                       {topic}
@@ -1278,7 +1309,7 @@ const AdminDashboard: React.FC = React.memo(() => {
                   </div>
 
                   {/* Generate Button - At Bottom */}
-                  <Button 
+                  <Button
                     onClick={handleGenerateArticle}
                     className="w-full bg-black hover:bg-slate-800 text-white py-6 text-lg transition-none disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={isGenerating || !apiConnected}
@@ -1303,7 +1334,7 @@ const AdminDashboard: React.FC = React.memo(() => {
             </Card>
 
             {/* Generated Article Preview */}
-            
+
           </TabsContent>
 
           {/* All Articles Tab */}
@@ -1349,16 +1380,16 @@ const AdminDashboard: React.FC = React.memo(() => {
                     <FileText className="h-12 w-12 text-slate-300 mx-auto mb-4" />
                     <p className="text-slate-500">No articles found</p>
                     <p className="text-sm text-slate-400 mt-2">
-                      {searchQuery || statusFilter !== 'all' 
-                        ? 'Try adjusting your filters' 
+                      {searchQuery || statusFilter !== 'all'
+                        ? 'Try adjusting your filters'
                         : 'Generate your first article to get started'}
                     </p>
                   </div>
                 ) : (
                   <Accordion type="single" collapsible className="space-y-4">
                     {filteredArticles.map((article) => (
-                      <AccordionItem 
-                        key={article.id} 
+                      <AccordionItem
+                        key={article.id}
                         value={`article-${article.id}`}
                         className="border-2 border-slate-200 rounded-xl overflow-hidden"
                       >
@@ -1368,15 +1399,15 @@ const AdminDashboard: React.FC = React.memo(() => {
                             {article.image_url && (
                               <div className="flex-shrink-0">
                                 <div className="w-32 h-20 rounded-lg overflow-hidden bg-slate-900">
-                                  <img 
-                                    src={article.image_url} 
+                                  <img
+                                    src={article.image_url}
                                     alt={article.image_alt || article.title}
                                     className="w-full h-full object-cover"
                                   />
                                 </div>
                               </div>
                             )}
-                            
+
                             <div className="flex-1 text-left space-y-2">
                               <div className="flex items-center gap-3 flex-wrap">
                                 <Badge className={getStatusBadgeColor(article.status)}>
@@ -1396,11 +1427,11 @@ const AdminDashboard: React.FC = React.memo(() => {
                           </div>
                         </AccordionTrigger>
                         <AccordionContent className="px-6 pb-4">
-                          <div className="space-y-4 pt-4 border-t-2 border-slate-100">   
+                          <div className="space-y-4 pt-4 border-t-2 border-slate-100">
                             <div>
-                              <div 
+                              <div
                                 className="text-sm text-slate-600 mt-1"
-                                dangerouslySetInnerHTML={{ 
+                                dangerouslySetInnerHTML={{
                                   __html: (() => {
                                     // Extract Quick Answer content without the title
                                     const parser = new DOMParser();
@@ -1493,7 +1524,7 @@ const AdminDashboard: React.FC = React.memo(() => {
                   <div className="space-y-4">
                     <div className="space-y-4 bg-slate-50 rounded-xl p-6 border-2 border-slate-200">
                       <h3 className="font-semibold text-slate-900 text-lg">Scheduling</h3>
-                      
+
                       {/* Event Date and Time - Side by Side */}
                       <div className="grid grid-cols-2 gap-4">
                         {/* Event Date */}
@@ -1507,7 +1538,7 @@ const AdminDashboard: React.FC = React.memo(() => {
                             className="border-2 border-slate-200 bg-white"
                           />
                         </div>
-                        
+
                         {/* Event Time */}
                         <div className="space-y-2">
                           <Label htmlFor="eventTime">Event Time *</Label>
@@ -1595,7 +1626,7 @@ const AdminDashboard: React.FC = React.memo(() => {
                 ) : (
                   <div className="space-y-4">
                     {events.map((event) => (
-                      <div 
+                      <div
                         key={event.id}
                         className="border-2 border-slate-200 rounded-xl p-6 hover:border-slate-300 transition-colors"
                       >
@@ -1603,14 +1634,14 @@ const AdminDashboard: React.FC = React.memo(() => {
                           {/* Event Image */}
                           {event.image_url && (
                             <div className="flex-shrink-0">
-                              <img 
-                                src={event.image_url} 
+                              <img
+                                src={event.image_url}
                                 alt={event.image_alt || event.title}
                                 className="w-48 h-32 object-cover rounded-lg"
                               />
                             </div>
                           )}
-                          
+
                           {/* Event Details */}
                           <div className="flex-1 space-y-3">
                             <div className="flex items-start justify-between gap-4">
@@ -1640,21 +1671,21 @@ const AdminDashboard: React.FC = React.memo(() => {
                                   </span>
                                   <Badge className={
                                     event.status === 'upcoming' ? 'bg-green-600' :
-                                    event.status === 'completed' ? 'bg-slate-600' :
-                                    'bg-brand-600'
+                                      event.status === 'completed' ? 'bg-slate-600' :
+                                        'bg-brand-600'
                                   }>
                                     {event.status}
                                   </Badge>
                                 </div>
                               </div>
                             </div>
-                            
+
                             <p className="text-slate-600 text-sm line-clamp-2">
                               {event.description}
                             </p>
 
                             {event.google_meet_link && (
-                              <a 
+                              <a
                                 href={event.google_meet_link}
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -1679,7 +1710,7 @@ const AdminDashboard: React.FC = React.memo(() => {
                                 )}
                                 Regenerate Image
                               </Button>
-                              
+
                               <Button
                                 variant="outline"
                                 onClick={() => handleOpenEditDate(event)}
@@ -1688,7 +1719,7 @@ const AdminDashboard: React.FC = React.memo(() => {
                                 <Clock className="h-4 w-4 mr-2" />
                                 Change Date/Time
                               </Button>
-                              
+
                               <Button
                                 variant="outline"
                                 onClick={() => handleDeleteEvent(event.id)}
