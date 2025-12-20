@@ -1,0 +1,12 @@
+{
+  "name": "daveenci-ai-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "install-all": "npm install && cd frontend && npm install && cd ../backend && npm install"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
