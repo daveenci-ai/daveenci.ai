@@ -61,12 +61,12 @@ router.post('/calendar/book', async (req: Request, res: Response) => {
         if (error?.code === '23505') {
             return res.status(409).json({
                 success: false,
-                error: 'You already have a consultation scheduled at this time. Check your email for the calendar invite.',
+                error: 'You already have a meeting scheduled at this time. Check your email for the calendar invite.',
                 isDuplicate: true
             });
         }
 
-        res.status(500).json({ success: false, error: 'Failed to book consultation' });
+        res.status(500).json({ success: false, error: 'Failed to book the call' });
     }
 });
 

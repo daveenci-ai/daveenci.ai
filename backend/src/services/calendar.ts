@@ -35,11 +35,11 @@ export const createCalendarEvent = async (eventDetails: any) => {
     const endDateTime = new Date(startDateTime.getTime() + 45 * 60000); // 45 min duration
 
     const event = {
-        summary: `${name} | Astrid - AI Consultation`,
-        description: `Agenda:
-• Identify inefficiencies in your current process.
-• Validate the right solutions for your goals.
-• Draft a roadmap for costs, savings, and timeline.
+        summary: `${name} | Meet Astrid`,
+        description: `Proposed Agenda:
+• Get to know each other and your business goals.
+• Identify potential areas where we can provide value.
+• Discuss next steps for working together.
 
 Client Details:
 Company: ${company || 'N/A'}
