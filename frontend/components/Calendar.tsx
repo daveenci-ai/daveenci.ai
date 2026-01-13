@@ -258,7 +258,8 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
             },
             body: JSON.stringify({
                ...formData,
-               dateTime: selectedTime // Send ISO string
+               dateTime: selectedTime, // Send ISO string
+               bookingType: 'meet-astrid'
             }),
          });
 

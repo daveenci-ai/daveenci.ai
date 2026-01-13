@@ -34,12 +34,24 @@ export const createCalendarEvent = async (eventDetails: any) => {
 
     const endDateTime = new Date(startDateTime.getTime() + 45 * 60000); // 45 min duration
 
+    const isMeetAstrid = eventDetails.bookingType === 'meet-astrid';
+
     const event = {
-        summary: `${name} | Meet Astrid`,
-        description: `Proposed Agenda:
+        summary: isMeetAstrid ? `${name} | Meet Astrid` : `${name} | Strategic Consultation`,
+        description: isMeetAstrid
+            ? `Proposed Agenda:
 • Get to know each other and your business goals.
 • Identify potential areas where we can provide value.
 • Discuss next steps for working together.
+
+Client Details:
+Company: ${company || 'N/A'}
+Reason: ${reason || 'N/A'}
+Notes: ${notes || 'N/A'}`
+            : `Agenda:
+• Identify inefficiencies in your current process.
+• Validate the right solutions for your goals.
+• Draft a roadmap for costs, savings, and timeline.
 
 Client Details:
 Company: ${company || 'N/A'}

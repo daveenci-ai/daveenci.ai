@@ -216,7 +216,8 @@ const Booking: React.FC = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                ...formData,
-               dateTime: selectedTime // Send ISO string
+               dateTime: selectedTime, // Send ISO string
+               bookingType: 'consultation'
             }),
          });
 
