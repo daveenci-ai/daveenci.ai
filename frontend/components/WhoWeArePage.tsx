@@ -74,7 +74,7 @@ const WhoWeArePage: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                            onClick={() => onNavigate('calendar')}
                            className="font-mono text-xs font-bold text-accent uppercase tracking-widest cursor-default"
                         >
-                           Strategic Automation Consultant
+                           Partner & Solution Architect
                         </button>
                      </div>
                   </ScrollReveal>

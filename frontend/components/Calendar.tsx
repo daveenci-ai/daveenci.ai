@@ -268,7 +268,7 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
             setStep('success');
          } else if (response.status === 409 && data.isDuplicate) {
             // Already booked - show friendly message and refresh availability
-            alert(data.error || 'You already have a consultation scheduled at this time.');
+            alert(data.error || 'You already have a meeting scheduled at this time.');
             // Refresh availability to update the calendar
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth();
@@ -284,7 +284,7 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
             setSelectedTime(null);
          } else {
             console.error('Booking failed:', data.error);
-            alert(data.error || 'Failed to book consultation. Please try again.');
+            alert(data.error || 'Failed to book the call. Please try again.');
          }
       } catch (error) {
          console.error('Error submitting booking:', error);
@@ -306,7 +306,7 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                         <div className="mb-8">
                            <Logo className="w-12 h-12 text-ink mb-6" />
                            <span className="font-mono text-xs font-bold text-ink-muted/60 uppercase tracking-widest mb-2 block">Private Calendar</span>
-                           <h1 className="font-serif text-3xl lg:text-4xl text-ink mb-4">Strategic Consultation</h1>
+                           <h1 className="font-serif text-3xl lg:text-4xl text-ink mb-4">Meet Astrid</h1>
 
                            <div className="flex items-center gap-6 text-sm font-medium text-ink-muted mb-8">
                               <div className="flex items-center gap-2">
@@ -318,7 +318,7 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                            </div>
 
                            <p className="text-ink-muted leading-relaxed mb-8">
-                              A focused session to map your operational territory and identify high-leverage automation opportunities.
+                              A casual introductory call to get to know each other and explore how we can support your vision.
                            </p>
 
                            <div className="flex items-center gap-4 py-6 border-y border-ink/5 mb-6">
@@ -327,25 +327,25 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                               </div>
                               <div>
                                  <div className="font-serif text-ink text-lg leading-none mb-1">Astrid Abrahamyan</div>
-                                 <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest">Strategic Automation Consultant</div>
+                                 <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest">Partner & Solution Architect</div>
                               </div>
                            </div>
                         </div>
 
                         <div className="mt-auto">
-                           <h3 className="font-serif text-lg text-ink mb-4 border-b border-ink/10 pb-2">Session Agenda</h3>
+                           <h3 className="font-serif text-lg text-ink mb-4 border-b border-ink/10 pb-2">Proposed Agenda</h3>
                            <ul className="space-y-4">
                               <li className="flex gap-3 text-sm text-ink-muted">
                                  <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0"></div>
-                                 <span>Identify inefficiencies in your current process</span>
+                                 <span>Get to know each other and your business goals</span>
                               </li>
                               <li className="flex gap-3 text-sm text-ink-muted">
                                  <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0"></div>
-                                 <span>Validate the right solutions for your goals</span>
+                                 <span>Identify potential areas where we can provide value</span>
                               </li>
                               <li className="flex gap-3 text-sm text-ink-muted">
                                  <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0"></div>
-                                 <span>Draft a roadmap for costs, savings, and timeline</span>
+                                 <span>Discuss next steps for working together</span>
                               </li>
                            </ul>
 
@@ -552,36 +552,36 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
 
                                        <div>
                                           <CustomSelect
-                                             label="What do you want help with?"
+                                             label="What's on your mind?"
                                              required
                                              value={formData.reason}
                                              onChange={(val) => setFormData({ ...formData, reason: val })}
                                              options={[
-                                                "Multiple areas (we will prioritize together)",
-                                                "Improve sales pipeline & CRM",
-                                                "Grow inbound leads & marketing",
-                                                "Automate workflows & reduce costs",
-                                                "Not sure yet – I need guidance"
+                                                "Just want to say hi & learn more",
+                                                "Curious about what's possible with AI",
+                                                "Feeling some friction in my workflows",
+                                                "I have a specific question or project",
+                                                "Not sure – let's just chat"
                                              ]}
                                           />
                                        </div>
 
                                        <div>
                                           <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
-                                             <HelpCircle className="w-3 h-3" /> Anything else we should know?
+                                             <HelpCircle className="w-3 h-3" /> Anything else you want to share?
                                           </label>
                                           <textarea
                                              value={formData.notes}
                                              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                                              className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm min-h-[100px] resize-y"
-                                             placeholder="Specific questions or context..."
+                                             placeholder="Optional - feel free to share any context or specific questions..."
                                           />
                                        </div>
                                     </div>
 
                                     <div className="mt-auto flex gap-4">
                                        <Button variant="secondary" onClick={() => setStep('datetime')} className="px-6">Back</Button>
-                                       <Button variant="primary" className="flex-1">Confirm Consultation</Button>
+                                       <Button variant="primary" className="flex-1">Schedule Call</Button>
                                     </div>
                                  </form>
                               )}
