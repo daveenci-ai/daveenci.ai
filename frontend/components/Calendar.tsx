@@ -95,6 +95,18 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
    const [displaySlots, setDisplaySlots] = useState<{ display: string, value: string, localTime: string }[]>([]);
 
    useEffect(() => {
+      document.title = "Meet Astrid | DaVeenci";
+      // Optional: Update meta description if needed
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) {
+         metaDesc.setAttribute("content", "Schedule a casual introductory call with Astrid to explore how we can support your vision.");
+      }
+      return () => {
+         document.title = "DaVeenci | AI & Automation Consultancy";
+      };
+   }, []);
+
+   useEffect(() => {
       if (!selectedDate) {
          setDisplaySlots([]);
          return;
