@@ -1,12 +1,10 @@
 import { google } from 'googleapis';
 
-const SCOPES = [
-    'https://www.googleapis.com/auth/calendar',
-    'https://www.googleapis.com/auth/gmail.send'
-];
+const CALENDAR_SCOPES = ['https://www.googleapis.com/auth/calendar'];
+const GMAIL_SCOPES = ['https://www.googleapis.com/auth/gmail.send'];
 
 // Create auth client with Domain-Wide Delegation (impersonating the calendar owner)
-const createAuthClient = () => {
+const createAuthClient = (scopes: string[]) => {
     return new google.auth.GoogleAuth({
         credentials: {
             client_email: process.env.GOOGLE_CLIENT_EMAIL,
@@ -14,7 +12,7 @@ const createAuthClient = () => {
                 ? process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n').replace(/"/g, '')
                 : undefined,
         },
-        scopes: SCOPES,
+        scopes: scopes,
         clientOptions: {
             subject: process.env.GOOGLE_CALENDAR_OWNER_EMAIL, // Impersonate this user
         },
@@ -23,7 +21,7 @@ const createAuthClient = () => {
 
 const sendOwnerEmail = async (eventDetails: any) => {
     const { name, email, company, reason, notes, date, time } = eventDetails;
-    const auth = createAuthClient();
+    const auth = createAuthClient([...CALENDAR_SCOPES, ...GMAIL_SCOPES]);
     const gmail = google.gmail({ version: 'v1', auth });
 
     const isMeetAstrid = eventDetails.bookingType === 'meet-astrid';
@@ -74,7 +72,7 @@ Time: ${date} at ${time}
 export const createCalendarEvent = async (eventDetails: any) => {
     const { name, email, company, phone, reason, notes, date, time, dateTime } = eventDetails;
 
-    const auth = createAuthClient();
+    const auth = createAuthClient(CALENDAR_SCOPES);
     const calendar = google.calendar({ version: 'v3', auth });
 
     // Use provided ISO dateTime or fallback to constructing it (legacy support)
@@ -132,7 +130,7 @@ export const createCalendarEvent = async (eventDetails: any) => {
 };
 
 export const getBusySlots = async (start: string, end: string) => {
-    const auth = createAuthClient();
+    const auth = createAuthClient(CALENDAR_SCOPES);
     const calendar = google.calendar({ version: 'v3', auth });
 
     try {
