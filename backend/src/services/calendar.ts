@@ -1,6 +1,9 @@
 import { google } from 'googleapis';
 
-const SCOPES = ['https://www.googleapis.com/auth/calendar'];
+const SCOPES = [
+    'https://www.googleapis.com/auth/calendar',
+    'https://www.googleapis.com/auth/gmail.send'
+];
 
 // Create auth client with Domain-Wide Delegation (impersonating the calendar owner)
 const createAuthClient = () => {
@@ -16,6 +19,56 @@ const createAuthClient = () => {
             subject: process.env.GOOGLE_CALENDAR_OWNER_EMAIL, // Impersonate this user
         },
     });
+};
+
+const sendOwnerEmail = async (eventDetails: any) => {
+    const { name, email, company, reason, notes, date, time } = eventDetails;
+    const auth = createAuthClient();
+    const gmail = google.gmail({ version: 'v1', auth });
+
+    const isMeetAstrid = eventDetails.bookingType === 'meet-astrid';
+    const subject = isMeetAstrid ? `New Booking: ${name} | Meet Astrid` : `New Booking: ${name} | Strategic Consultation`;
+
+    const body = `
+Client Details:
+Name: ${name}
+Email: ${email}
+Company: ${company || 'N/A'}
+Reason: ${reason || 'N/A'}
+Notes: ${notes || 'N/A'}
+
+Agent: Astrid Abrahamyan
+Time: ${date} at ${time}
+`;
+
+    const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
+    const messageParts = [
+        `To: ${process.env.GOOGLE_CALENDAR_OWNER_EMAIL}`,
+        'Content-Type: text/html; charset=utf-8',
+        'MIME-Version: 1.0',
+        `Subject: ${utf8Subject}`,
+        '',
+        body.replace(/\n/g, '<br>'),
+    ];
+    const message = messageParts.join('\n');
+
+    // The body needs to be base64url encoded.
+    const encodedMessage = Buffer.from(message)
+        .toString('base64')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+
+    try {
+        await gmail.users.messages.send({
+            userId: 'me',
+            requestBody: {
+                raw: encodedMessage,
+            },
+        });
+    } catch (error) {
+        console.error('Error sending owner confirmation email:', error);
+    }
 };
 
 export const createCalendarEvent = async (eventDetails: any) => {
@@ -42,21 +95,11 @@ export const createCalendarEvent = async (eventDetails: any) => {
             ? `Proposed Agenda:
 • Get to know each other and your business goals.
 • Identify potential areas where we can provide value.
-• Discuss next steps for working together.
-
-Client Details:
-Company: ${company || 'N/A'}
-Reason: ${reason || 'N/A'}
-Notes: ${notes || 'N/A'}`
+• Discuss next steps for working together.`
             : `Agenda:
 • Identify inefficiencies in your current process.
 • Validate the right solutions for your goals.
-• Draft a roadmap for costs, savings, and timeline.
-
-Client Details:
-Company: ${company || 'N/A'}
-Reason: ${reason || 'N/A'}
-Notes: ${notes || 'N/A'}`,
+• Draft a roadmap for costs, savings, and timeline.`,
         start: {
             dateTime: startDateTime.toISOString(),
             timeZone: 'UTC', // We are providing absolute ISO time
@@ -77,6 +120,10 @@ Notes: ${notes || 'N/A'}`,
             requestBody: event,
             sendUpdates: 'all', // Send email invitations to attendees
         });
+
+        // Send detailed email to owner in background
+        sendOwnerEmail(eventDetails).catch(err => console.error('Background email error:', err));
+
         return response.data;
     } catch (error) {
         console.error('Error creating calendar event:', error);
