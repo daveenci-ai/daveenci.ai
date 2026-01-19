@@ -4,7 +4,7 @@ const CALENDAR_SCOPES = ['https://www.googleapis.com/auth/calendar'];
 const GMAIL_SCOPES = ['https://www.googleapis.com/auth/gmail.send'];
 
 // Create auth client with Domain-Wide Delegation (impersonating the calendar owner)
-const createAuthClient = (scopes: string[]) => {
+export const createAuthClient = (scopes: string[]) => {
     return new google.auth.GoogleAuth({
         credentials: {
             client_email: process.env.GOOGLE_CLIENT_EMAIL,
@@ -25,7 +25,7 @@ const sendOwnerEmail = async (eventDetails: any) => {
     const gmail = google.gmail({ version: 'v1', auth });
 
     const isMeetAstrid = eventDetails.bookingType === 'meet-astrid';
-    const subject = isMeetAstrid ? `New Booking: ${name} | Meet Astrid` : `New Booking: ${name} | Strategic Consultation`;
+    const subject = isMeetAstrid ? `New Booking: ${name} | Meet Astrid` : `New Booking: ${name} | Schedule A Demo`;
 
     const body = `
 Client Details:
@@ -88,16 +88,16 @@ export const createCalendarEvent = async (eventDetails: any) => {
     const isMeetAstrid = eventDetails.bookingType === 'meet-astrid';
 
     const event = {
-        summary: isMeetAstrid ? `${name} | Meet Astrid` : `${name} | Strategic Consultation`,
+        summary: isMeetAstrid ? `${name} | Meet Astrid` : `${name} | Schedule A Demo`,
         description: isMeetAstrid
             ? `Proposed Agenda:
 • Get to know each other and your business goals.
 • Identify potential areas where we can provide value.
 • Discuss next steps for working together.`
             : `Agenda:
-• Identify inefficiencies in your current process.
-• Validate the right solutions for your goals.
-• Draft a roadmap for costs, savings, and timeline.`,
+• Explore custom AI agents and automation workflows.
+• Demo of live pipelines for CRM and Marketing.
+• Discuss implementation roadmap and ROI projections.`,
         start: {
             dateTime: startDateTime.toISOString(),
             timeZone: 'UTC', // We are providing absolute ISO time

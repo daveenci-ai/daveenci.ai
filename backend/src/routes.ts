@@ -3,6 +3,7 @@ import { createCalendarEvent, getBusySlots } from './services/calendar';
 import { saveConsultationRequest, getBookedSlots } from './services/consultation';
 import { registerForEvent } from './services/events';
 import { subscribeToNewsletter } from './services/newsletter';
+import { getAuthUrl, verifyGoogleToken } from './services/auth';
 
 const router = Router();
 
@@ -91,6 +92,47 @@ router.get('/calendar/availability', async (req: Request, res: Response) => {
         console.error('Availability error:', error);
         res.status(500).json({ error: 'Failed to fetch availability' });
     }
+});
+
+// --- Auth Routes ---
+
+router.get('/auth/google/url', (req: Request, res: Response) => {
+    try {
+        const url = getAuthUrl();
+        res.json({ url });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to generate auth URL' });
+    }
+});
+
+router.get('/auth/callback/google', async (req: Request, res: Response) => {
+    try {
+        const { code } = req.query;
+        if (!code) {
+            return res.status(400).send('Code is required');
+        }
+
+        const user = await verifyGoogleToken(code as string);
+
+        // Pass user info back to frontend via query params for now (Middleman pattern)
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+        const params = new URLSearchParams({
+            success: 'true',
+            name: user.name || '',
+            email: user.email || '',
+            picture: user.picture || ''
+        });
+
+        res.redirect(`${frontendUrl}/admin?${params.toString()}`);
+    } catch (error: any) {
+        console.error('Auth callback error:', error);
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+        res.redirect(`${frontendUrl}/admin?error=${encodeURIComponent(error.message)}`);
+    }
+});
+
+router.get('/auth/me', async (req: Request, res: Response) => {
+    res.status(401).json({ success: false });
 });
 
 export default router;

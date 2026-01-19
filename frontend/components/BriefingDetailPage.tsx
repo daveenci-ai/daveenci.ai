@@ -1774,7 +1774,7 @@ const BriefingDetailPage: React.FC<BriefingDetailPageProps> = ({ onNavigate, id 
             </article>
          </div>
 
-         <Footer />
+         <Footer onNavigate={onNavigate} />
       </div>
    );
 };

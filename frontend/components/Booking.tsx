@@ -258,8 +258,8 @@ const Booking: React.FC = () => {
       <Section className="bg-alt/20 border-t border-ink/5" overflow={true}>
          <div id="booking" className="mb-12 text-center">
             <ScrollReveal>
-               <h2 className="font-serif text-4xl md:text-5xl text-ink mb-4">Select Date & Time</h2>
-               <p className="text-ink-muted">Secure your spot for a Fit Check.</p>
+               <h2 className="font-serif text-4xl md:text-5xl text-ink mb-4">Schedule A Demo</h2>
+               <p className="text-ink-muted">Experience the future of your operations.</p>
             </ScrollReveal>
          </div>
 
@@ -271,7 +271,7 @@ const Booking: React.FC = () => {
                   <div className="mb-8">
                      <Logo className="w-12 h-12 text-ink mb-6" />
                      <span className="font-mono text-xs font-bold text-ink-muted/60 uppercase tracking-widest mb-2 block">Private Calendar</span>
-                     <h1 className="font-serif text-3xl lg:text-4xl text-ink mb-4">Strategic Consultation</h1>
+                     <h1 className="font-serif text-3xl lg:text-4xl text-ink mb-4">Schedule A Demo</h1>
 
                      <div className="flex items-center gap-6 text-sm font-medium text-ink-muted mb-8">
                         <div className="flex items-center gap-2">
@@ -283,7 +283,7 @@ const Booking: React.FC = () => {
                      </div>
 
                      <p className="text-ink-muted leading-relaxed mb-8">
-                        A focused session to map your operational territory and identify high-leverage automation opportunities.
+                        Discover how DaVeenci's AI & Automation systems can scale your operations and drive growth.
                      </p>
 
                      <div className="flex items-center gap-4 py-6 border-y border-ink/5 mb-6">
@@ -292,25 +292,25 @@ const Booking: React.FC = () => {
                         </div>
                         <div>
                            <div className="font-serif text-ink text-lg leading-none mb-1">Astrid Abrahamyan</div>
-                           <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest">Strategic Automation Consultant</div>
+                           <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest">Solution Architect</div>
                         </div>
                      </div>
                   </div>
 
                   <div className="mt-auto">
-                     <h3 className="font-serif text-lg text-ink mb-4 border-b border-ink/10 pb-2">Session Agenda</h3>
+                     <h3 className="font-serif text-lg text-ink mb-4 border-b border-ink/10 pb-2">Demo Agenda</h3>
                      <ul className="space-y-4">
                         <li className="flex gap-3 text-sm text-ink-muted">
                            <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0"></div>
-                           <span>Identify inefficiencies in your current process</span>
+                           <span>Explore custom AI agents and automation workflows</span>
                         </li>
                         <li className="flex gap-3 text-sm text-ink-muted">
                            <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0"></div>
-                           <span>Validate the right solutions for your goals</span>
+                           <span>Demo of live pipelines for CRM and Marketing</span>
                         </li>
                         <li className="flex gap-3 text-sm text-ink-muted">
                            <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0"></div>
-                           <span>Draft a roadmap for costs, savings, and timeline</span>
+                           <span>Discuss implementation roadmap and ROI projections</span>
                         </li>
                      </ul>
                   </div>

@@ -195,7 +195,7 @@ const BriefingsPage: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
         )}
       </Section>
 
-      <Footer />
+      <Footer onNavigate={onNavigate} />
     </div>
   );
 };

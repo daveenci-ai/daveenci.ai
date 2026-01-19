@@ -5,9 +5,12 @@
 export const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export const API_ENDPOINTS = {
+  base: `${API_BASE_URL}/api`,
   availability: `${API_BASE_URL}/api/calendar/availability`,
   book: `${API_BASE_URL}/api/calendar/book`,
   register: `${API_BASE_URL}/api/events/register`,
   newsletter: `${API_BASE_URL}/api/newsletter/subscribe`,
+  authUrl: `${API_BASE_URL}/api/auth/google/url`,
+  authCallback: `${API_BASE_URL}/api/auth/google/callback`,
 };
 

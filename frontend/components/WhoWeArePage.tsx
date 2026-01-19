@@ -204,7 +204,7 @@ const WhoWeArePage: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
             </div>
          </Section>
 
-         <Footer />
+         <Footer onNavigate={onNavigate} />
       </div>
    );
 };
