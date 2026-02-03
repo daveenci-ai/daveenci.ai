@@ -95,12 +95,40 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
    const [displaySlots, setDisplaySlots] = useState<{ display: string, value: string, localTime: string }[]>([]);
 
    useEffect(() => {
-      document.title = "Meet Astrid | DaVeenci";
-      // Optional: Update meta description if needed
+      document.title = "Talk To Astrid";
+
+      // Update meta description
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) {
          metaDesc.setAttribute("content", "Schedule a casual introductory call with Astrid to explore how we can support your vision.");
       }
+
+      // Update Open Graph meta tags for link previews
+      let ogTitle = document.querySelector('meta[property="og:title"]');
+      if (!ogTitle) {
+         ogTitle = document.createElement('meta');
+         ogTitle.setAttribute('property', 'og:title');
+         document.head.appendChild(ogTitle);
+      }
+      ogTitle.setAttribute('content', 'Talk To Astrid');
+
+      let ogDescription = document.querySelector('meta[property="og:description"]');
+      if (!ogDescription) {
+         ogDescription = document.createElement('meta');
+         ogDescription.setAttribute('property', 'og:description');
+         document.head.appendChild(ogDescription);
+      }
+      ogDescription.setAttribute('content', 'Schedule a casual introductory call with Astrid to explore how we can support your vision.');
+
+      // Twitter Card meta tags
+      let twitterTitle = document.querySelector('meta[name="twitter:title"]');
+      if (!twitterTitle) {
+         twitterTitle = document.createElement('meta');
+         twitterTitle.setAttribute('name', 'twitter:title');
+         document.head.appendChild(twitterTitle);
+      }
+      twitterTitle.setAttribute('content', 'Talk To Astrid');
+
       return () => {
          document.title = "DaVeenci | AI & Automation Consultancy";
       };
