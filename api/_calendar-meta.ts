@@ -1,16 +1,7 @@
-export const config = {
-  matcher: '/calendar',
-};
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-export default function middleware(request: Request) {
-  const userAgent = request.headers.get('user-agent') || '';
-
-  // Detect social media crawlers and bots
-  const isBot = /bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot/i.test(userAgent);
-
-  if (isBot) {
-    // Serve HTML with proper Open Graph meta tags for crawlers
-    const html = `<!DOCTYPE html>
+export default function handler(req: VercelRequest, res: VercelResponse) {
+  const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -43,21 +34,16 @@ export default function middleware(request: Request) {
     body { background-color: #F5F0E6; color: #222222; }
   </style>
 
-  <meta http-equiv="refresh" content="0;url=/calendar" />
+  <script>
+    window.location.href = '/calendar';
+  </script>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
+  <p>Redirecting...</p>
 </body>
 </html>`;
 
-    return new Response(html, {
-      headers: {
-        'content-type': 'text/html; charset=utf-8',
-        'cache-control': 'public, max-age=3600',
-      },
-    });
-  }
-
-  // For regular users, continue to the SPA - no return means pass through
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=3600');
+  res.status(200).send(html);
 }

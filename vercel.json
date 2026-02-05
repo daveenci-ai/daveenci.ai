@@ -1,9 +1,18 @@
 {
-    "functions": {
-        "middleware.ts": {
-            "runtime": "edge"
+    "redirects": [
+        {
+            "source": "/calendar",
+            "has": [
+                {
+                    "type": "header",
+                    "key": "user-agent",
+                    "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*"
+                }
+            ],
+            "destination": "/api/_calendar-meta",
+            "permanent": false
         }
-    },
+    ],
     "rewrites": [
         {
             "source": "/api/(.*)",
