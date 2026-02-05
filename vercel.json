@@ -9,7 +9,7 @@
                     "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*"
                 }
             ],
-            "destination": "/meta/calendar",
+            "destination": "/calendar-og.html",
             "permanent": false
         }
     ],
@@ -19,7 +19,7 @@
             "destination": "/api/index.ts"
         },
         {
-            "source": "/((?!meta/).*)",
+            "source": "/(.*)",
             "destination": "/index.html"
         }
     ]
