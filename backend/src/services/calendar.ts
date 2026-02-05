@@ -110,11 +110,18 @@ export const createCalendarEvent = async (eventDetails: any) => {
             { email: email }, // Client gets invited
             { email: process.env.GOOGLE_CALENDAR_ID }, // Send notification to the calendar ID
         ],
+        conferenceData: {
+            createRequest: {
+                requestId: `${Date.now()}-${Math.random().toString(36).substring(7)}`,
+                conferenceSolutionKey: { type: 'hangoutsMeet' },
+            },
+        },
     };
 
     try {
         const response = await calendar.events.insert({
             calendarId: process.env.GOOGLE_CALENDAR_ID,
+            conferenceDataVersion: 1, // Required to create Google Meet links
             requestBody: event,
             sendUpdates: 'all', // Send email invitations to attendees
         });
