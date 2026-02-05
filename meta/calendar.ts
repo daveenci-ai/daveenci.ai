@@ -13,16 +13,18 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://daveenci.ai/calendar" />
   <meta property="og:title" content="Talk To Astrid" />
-  <meta property="og:description" content="Schedule a casual introductory call with Astrid to explore how we can support your vision." />
+  <meta property="og:description" content="Schedule a casual introductory call with Astrid Abrahamyan, Partner & Solution Architect at DaVeenci. Explore how we can support your vision with AI and automation solutions tailored to your business needs." />
+  <meta property="og:image" content="https://daveenci.ai/astrid-og.jpg" />
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:url" content="https://daveenci.ai/calendar" />
   <meta property="twitter:title" content="Talk To Astrid" />
-  <meta property="twitter:description" content="Schedule a casual introductory call with Astrid to explore how we can support your vision." />
+  <meta property="twitter:description" content="Schedule a casual introductory call with Astrid Abrahamyan, Partner & Solution Architect at DaVeenci. Explore how we can support your vision with AI and automation solutions tailored to your business needs." />
+  <meta property="twitter:image" content="https://daveenci.ai/astrid-og.jpg" />
 
   <!-- Regular meta -->
-  <meta name="description" content="Schedule a casual introductory call with Astrid to explore how we can support your vision." />
+  <meta name="description" content="Schedule a casual introductory call with Astrid Abrahamyan, Partner & Solution Architect at DaVeenci. Explore how we can support your vision with AI and automation solutions tailored to your business needs." />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
