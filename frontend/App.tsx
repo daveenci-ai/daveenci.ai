@@ -6,6 +6,7 @@ import BriefingDetailPage from './components/BriefingDetailPage';
 import WhoWeArePage from './components/WhoWeArePage';
 import Calendar from './components/Calendar';
 import AdminPage from './components/AdminPage';
+import PulseLandingPage from './components/PulseLandingPage';
 import type { Page } from './components/types';
 
 const App: React.FC = () => {
@@ -37,6 +38,8 @@ const App: React.FC = () => {
         setPage('calendar');
       } else if (path === '/admin') {
         setPage('admin');
+      } else if (path === '/book-demo') {
+        setPage('book-demo');
       }
       // Note: We intentionally don't handle 'unknown' routes here to allow fallback to landing
     };
@@ -121,6 +124,7 @@ const App: React.FC = () => {
     if (targetPage === 'who-we-are') path = '/who-we-are';
     if (targetPage === 'calendar') path = '/calendar';
     if (targetPage === 'admin') path = '/admin';
+    if (targetPage === 'book-demo') path = '/book-demo';
     window.history.pushState({ page: targetPage, briefingId: id }, '', path);
 
     // Immediate Scroll Logic (if not waiting for landing page mount)
@@ -154,6 +158,9 @@ const App: React.FC = () => {
       )}
       {page === 'admin' && (
         <AdminPage onNavigate={handleNavigate} />
+      )}
+      {page === 'book-demo' && (
+        <PulseLandingPage onNavigate={handleNavigate} />
       )}
     </main>
   );

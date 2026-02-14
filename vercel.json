@@ -11,6 +11,18 @@
             ],
             "destination": "/calendar-og.html",
             "permanent": false
+        },
+        {
+            "source": "/book-demo",
+            "has": [
+                {
+                    "type": "header",
+                    "key": "user-agent",
+                    "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*"
+                }
+            ],
+            "destination": "/book-demo-og.html",
+            "permanent": false
         }
     ],
     "rewrites": [
