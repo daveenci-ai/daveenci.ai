@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, ChevronDown, User, Mail, HelpCircle, Clock, Check, Menu, X, Mic, BarChart3, Send, Sparkles, Image, CalendarDays, Lightbulb, MessageCircle, Users, Headphones, Briefcase, RefreshCw, Phone } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown, User, Mail, HelpCircle, Clock, Check, Menu, X, Mic, BarChart3, Send, Sparkles, Image, Lightbulb, MessageCircle, Users, Headphones, Briefcase, RefreshCw, Phone } from 'lucide-react';
 import { format } from 'date-fns';
 import { ScrollReveal, Section, SectionHeader, Button, Logo, GridPattern, VitruvianBackground, CustomSelect } from './Shared';
 import { API_ENDPOINTS } from '../config';
@@ -154,7 +154,7 @@ const PulseHeroDiagram: React.FC = () => (
       <text x="166" y="144" fontSize="7" fill="#222" fontFamily="monospace">LinkedIn Post</text>
       <circle cx="290" cy="141" r="4" fill="#eab308" opacity="0.6" />
       <rect x="158" y="158" width="144" height="22" rx="2" fill="#222" fillOpacity="0.03" stroke="#222" strokeWidth="0.5" />
-      <text x="166" y="172" fontSize="7" fill="#222" fontFamily="monospace">Twitter Thread</text>
+      <text x="166" y="172" fontSize="7" fill="#222" fontFamily="monospace">Meta Thread</text>
       <circle cx="290" cy="169" r="4" fill="#eab308" opacity="0.6" />
     </svg>
 
@@ -219,8 +219,8 @@ const PulseHero: React.FC = () => {
 const steps = [
   {
     icon: <Mic className="w-8 h-8 text-accent" />,
-    title: 'Record',
-    description: 'Pulse joins your meetings or ingests recordings. Every word captured, every nuance preserved.',
+    title: 'Collect Data',
+    description: 'PulseNote automatically pulls the transcripts of your meeting recorders like Fathom, Fireflies or Otter',
   },
   {
     icon: <BarChart3 className="w-8 h-8 text-accent" />,
@@ -228,16 +228,21 @@ const steps = [
     description: 'AI surfaces key themes, aha moments, and actionable insights from your conversations.',
   },
   {
+    icon: <Sparkles className="w-8 h-8 text-accent" />,
+    title: 'Generate',
+    description: 'You select relevant "aha moments" to be used to generate newsletters, social media posts, and images.',
+  },
+  {
     icon: <Send className="w-8 h-8 text-accent" />,
     title: 'Publish',
-    description: 'Drafts newsletters, social posts, and images — ready for review and scheduling.',
+    description: 'Draft newsletters, social posts, and images are approved and scheduled for posting',
   },
 ];
 
 const WhatPulseDoes: React.FC = () => (
   <Section id="product" pattern="grid">
-    <SectionHeader eyebrow="The Product" title="Three steps. Zero blank pages." subtitle="From raw conversation to polished content, automatically." />
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <SectionHeader eyebrow="The Product" title="Four steps. Zero blank pages." subtitle="From raw conversation to polished content, automatically." />
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
       {steps.map((step, i) => (
         <ScrollReveal key={step.title} delay={i * 150} className="h-full">
           <div className="bg-white border border-ink/10 p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group h-full flex flex-col">
@@ -311,10 +316,10 @@ const InsightsDashboard: React.FC = () => (
           From transcripts to&nbsp;<span className="italic">aha moments</span>
         </h2>
         <p className="text-ink-muted leading-relaxed mb-6">
-          Pulse doesn't just transcribe — it thinks. Every recording is processed through layered analysis that extracts themes, highlights breakthrough moments, and clusters related insights across conversations.
+          Pulse Note is not another annoying AI joining your meetings, it leverages your exisiting recordings, past and future. Every recording is processed through layered analysis that extracts themes, highlights breakthrough moments, and clusters related insights across conversations.
         </p>
         <ul className="space-y-4">
-          {['Full transcripts with speaker attribution', 'Key insight extraction & aha-moment highlighting', 'Theme clustering across multiple meetings', 'Searchable knowledge base of all conversations'].map((item, i) => (
+          {['Full transcripts with speaker attribution', 'Key insight extraction & aha-moment highlighting', 'Theme clustering across multiple meetings', 'Searchable knowledge vault of all previous conversations'].map((item, i) => (
             <li key={i} className="flex items-start gap-3 text-ink-muted">
               <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
               <span>{item}</span>
@@ -390,7 +395,7 @@ const WeeklyContentEngine: React.FC = () => (
           Each week, Pulse compiles your conversations into a ready-to-review content package: newsletters that synthesize cross-meeting themes, social posts that capture your authentic voice, and more.
         </p>
         <ul className="space-y-4">
-          {['Weekly newsletter drafts from meeting insights', 'Platform-optimized social posts (LinkedIn, Twitter/X)', 'Maintains your authentic voice and tone', 'Review, edit, and approve before publishing'].map((item, i) => (
+          {['Weekly newsletter drafts from meeting insights', 'Platform-optimized social posts (LinkedIn, Meta)', 'Maintains your authentic voice and tone', 'Review, edit, and approve before publishing'].map((item, i) => (
             <li key={i} className="flex items-start gap-3 text-ink-muted">
               <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
               <span>{item}</span>
@@ -406,7 +411,7 @@ const WeeklyContentEngine: React.FC = () => (
 
 const ImageGeneration: React.FC = () => (
   <Section className="bg-alt/30">
-    <SectionHeader eyebrow="Visuals" title="AI-generated images for every piece" subtitle="Custom visuals that match your content — no stock photos, no design tools needed." />
+    <SectionHeader eyebrow="Visuals" title="Branded creative media and text for every piece" subtitle="Custom visuals that match your content — no stock photos, no design tools needed." />
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {[
         { label: 'Newsletter Header', src: NewsletterVisual, alt: 'Newsletter-style generated visual in parchment sketch style' },
@@ -427,52 +432,6 @@ const ImageGeneration: React.FC = () => (
         </ScrollReveal>
       ))}
     </div>
-  </Section>
-);
-
-// ─── Review + Schedule ─────────────────────────────────────────────────────────
-
-const scheduleItems = [
-  { date: 'Mon, Feb 16', type: 'Newsletter', title: 'This Week in Product', status: 'ready' as const },
-  { date: 'Tue, Feb 17', type: 'LinkedIn', title: 'Integration-First Thinking', status: 'draft' as const },
-  { date: 'Wed, Feb 18', type: 'Twitter', title: 'Customer research thread', status: 'draft' as const },
-  { date: 'Thu, Feb 19', type: 'Image', title: 'Product roadmap visual', status: 'generating' as const },
-  { date: 'Fri, Feb 20', type: 'Newsletter', title: 'Founder Friday Digest', status: 'scheduled' as const },
-];
-
-const statusColors = {
-  ready: 'bg-green-50 text-green-700',
-  draft: 'bg-yellow-50 text-yellow-700',
-  generating: 'bg-blue-50 text-blue-700',
-  scheduled: 'bg-accent/10 text-accent',
-};
-
-const ReviewSchedule: React.FC = () => (
-  <Section id="scheduling" pattern="grid">
-    <SectionHeader eyebrow="Scheduling" title="Review & schedule in one view" subtitle="See your content pipeline for the week. Approve, tweak, or reschedule in seconds." />
-    <ScrollReveal>
-      <div className="max-w-3xl mx-auto bg-white shadow-xl border border-ink/10 rounded-sm overflow-hidden">
-        {/* Week header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-ink/10 bg-base/30">
-          <div className="flex items-center gap-3">
-            <CalendarDays className="w-5 h-5 text-accent" />
-            <span className="font-serif text-lg text-ink">Week of Feb 16</span>
-          </div>
-          <span className="font-mono text-[10px] text-ink-muted/50 uppercase tracking-widest">5 Items Queued</span>
-        </div>
-        {/* Rows */}
-        {scheduleItems.map((item, i) => (
-          <div key={i} className="flex items-center gap-4 px-6 py-4 border-b border-ink/5 last:border-0 hover:bg-base/20 transition-colors">
-            <span className="text-xs text-ink-muted w-24 flex-shrink-0 font-mono">{item.date}</span>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-ink-muted bg-ink/5 px-2 py-0.5 rounded-sm w-20 text-center flex-shrink-0">{item.type}</span>
-            <span className="text-sm text-ink flex-1 truncate">{item.title}</span>
-            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm flex-shrink-0 ${statusColors[item.status]}`}>
-              {item.status}
-            </span>
-          </div>
-        ))}
-      </div>
-    </ScrollReveal>
   </Section>
 );
 
@@ -873,7 +832,7 @@ const faqItems = [
   { q: 'How does Pulse handle my data and privacy?', a: 'Your recordings and transcripts are encrypted at rest and in transit. We never share your data with third parties or use it to train models. You retain full ownership of all content generated.' },
   { q: 'What types of meetings work best with Pulse?', a: 'Pulse works with any recorded conversation — team standups, customer interviews, sales calls, podcast recordings, board meetings, and conference talks. If it has audio, Pulse can process it.' },
   { q: 'Can I edit the content before publishing?', a: "Absolutely. Every draft is fully editable. Pulse generates a starting point, then you refine, approve, or request a re-draft. You're always in control of what goes out." },
-  { q: 'What outputs does Pulse generate?', a: 'Newsletters, LinkedIn posts, Twitter/X threads, blog summaries, AI-generated images, and insight reports. Each format is optimized for its platform and audience.' },
+  { q: 'What outputs does Pulse generate?', a: 'Newsletters, LinkedIn posts, Meta threads, blog summaries, AI-generated images, and insight reports. Each format is optimized for its platform and audience.' },
   { q: 'How does scheduling work?', a: 'Pulse proposes a weekly content calendar based on your meetings. You review the queue, adjust timing, and approve. Content goes out on schedule — or when you hit publish.' },
   { q: 'Who owns the content Pulse creates?', a: 'You do. 100%. Every word, image, and insight belongs to you. Cancel anytime and export everything.' },
 ];
@@ -1307,7 +1266,6 @@ const PulseLandingPage: React.FC<PulseLandingPageProps> = ({ onNavigate }) => {
       <InsightsDashboard />
       <WeeklyContentEngine />
       <ImageGeneration />
-      <ReviewSchedule />
       <CreatorMode />
       <UseCases />
       <FAQ />
