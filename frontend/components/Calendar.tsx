@@ -2,11 +2,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight, Check, User, Briefcase, HelpCircle, ArrowLeft, Mail, Phone, ChevronDown } from 'lucide-react';
 import { format } from 'date-fns';
-import { fromZonedTime } from 'date-fns-tz';
 import { Logo, Button, VitruvianBackground, ScrollReveal } from './Shared';
 import type { CalendarProps } from './types';
 import AstridSketch from '../images/Astrid_Sketch.jpg';
 import { API_ENDPOINTS } from '../config';
+import {
+   BUSINESS_TIMEZONE,
+   BUSINESS_HOURS,
+   MEETING_DURATION_MINUTES,
+   BUFFER_MINUTES,
+   MONTH_NAMES,
+   buildDisplaySlots,
+   getAvailabilityRange,
+   checkSlotAvailability as checkSharedSlotAvailability,
+   isDayDisabled,
+} from './calendarAvailability';
 
 // --- Custom Select Component ---
 interface CustomSelectProps {
@@ -85,10 +95,6 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
       notes: ''
    });
 
-   // Business hours are defined in consultant's timezone (Chicago)
-   const BUSINESS_TIMEZONE = 'America/Chicago';
-   const BUSINESS_HOURS = [6, 7, 8, 9, 10, 11]; // 6 AM - 11 AM Central Time
-
    // But display times in user's local timezone
    const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -139,39 +145,10 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
          setDisplaySlots([]);
          return;
       }
-
-      const year = selectedDate.getFullYear();
-      const month = selectedDate.getMonth() + 1;
-      const day = selectedDate.getDate();
-
-      const slots = BUSINESS_HOURS.map(hour => {
-         // Construct ISO string for Chicago time (business hours)
-         const isoDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:00:00`;
-         // Convert Chicago time to UTC
-         const utcDate = fromZonedTime(isoDateStr, BUSINESS_TIMEZONE);
-
-         // Format for display in user's local timezone
-         const localTimeDisplay = utcDate.toLocaleTimeString(undefined, {
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true,
-            timeZone: USER_TIMEZONE
-         });
-
-         return {
-            display: localTimeDisplay,
-            value: utcDate.toISOString(),
-            localTime: USER_TIMEZONE
-         };
-      });
-
-      // Sort slots chronologically by UTC time (which ensures correct local time order)
-      slots.sort((a, b) => new Date(a.value).getTime() - new Date(b.value).getTime());
-
-      setDisplaySlots(slots);
+      setDisplaySlots(buildDisplaySlots(selectedDate, USER_TIMEZONE, BUSINESS_HOURS, BUSINESS_TIMEZONE));
    }, [selectedDate]);
 
-   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+   const monthNames = MONTH_NAMES;
 
    // Calendar Logic
    const getDaysInMonth = (date: Date) => {
@@ -201,13 +178,7 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
    // Fetch availability function (reusable)
    const fetchAvailability = async () => {
       setIsLoading(true);
-      const year = currentDate.getFullYear();
-      const month = currentDate.getMonth();
-      const start = new Date(year, month, 1 - 7).toISOString();
-      // Get last day of month and extend by 7 days
-      const lastDay = new Date(year, month + 1, 0 + 7);
-      lastDay.setHours(23, 59, 59, 999);
-      const end = lastDay.toISOString();
+      const { start, end } = getAvailabilityRange(currentDate);
 
       try {
          const response = await fetch(`${API_ENDPOINTS.availability}?start=${start}&end=${end}`);
@@ -233,54 +204,20 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
       return () => clearInterval(interval);
    }, [currentDate]);
 
-   const MEETING_DURATION_MINUTES = 45;
-   const BUFFER_MINUTES = 10;
-
    const checkSlotAvailability = (slotIsoTime: string) => {
-      const slotStart = new Date(slotIsoTime);
-
-      // Our meeting window: need buffer BEFORE, meeting duration, and buffer AFTER
-      const slotStartWithBuffer = new Date(slotStart.getTime() - BUFFER_MINUTES * 60000); // 10 min before
-      const slotEnd = new Date(slotStart.getTime() + MEETING_DURATION_MINUTES * 60000); // 45 min meeting
-      const slotEndWithBuffer = new Date(slotEnd.getTime() + BUFFER_MINUTES * 60000); // 10 min after
-
-      const now = new Date();
-      if (slotStart < now) return false;
-
-      // Check if any busy period overlaps with our full blocked window (buffer + meeting + buffer)
-      const hasConflict = busySlots.some(slot => {
-         const busyStart = new Date(slot.start);
-         const busyEnd = new Date(slot.end);
-         // Conflict if busy period overlaps with [slotStartWithBuffer, slotEndWithBuffer]
-         // Two ranges overlap if: start1 < end2 AND end1 > start2
-         return slotStartWithBuffer < busyEnd && slotEndWithBuffer > busyStart;
-      });
-
-      return !hasConflict;
-   };
-
-   const getSlotsForDate = (date: Date) => {
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
-
-      return BUSINESS_HOURS.map(hour => {
-         const isoDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:00:00`;
-         return fromZonedTime(isoDateStr, BUSINESS_TIMEZONE).toISOString();
-      });
+      return checkSharedSlotAvailability(slotIsoTime, busySlots, MEETING_DURATION_MINUTES, BUFFER_MINUTES);
    };
 
    const isDateDisabled = (day: number) => {
-      const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      if (date < today) return true;
-
-      // Check if all slots are unavailable
-      const slots = getSlotsForDate(date);
-      const hasAvailableSlot = slots.some(slotIso => checkSlotAvailability(slotIso));
-      return !hasAvailableSlot;
+      return isDayDisabled(
+         day,
+         currentDate,
+         busySlots,
+         BUSINESS_HOURS,
+         BUSINESS_TIMEZONE,
+         MEETING_DURATION_MINUTES,
+         BUFFER_MINUTES
+      );
    };
 
    const isTimeDisabled = (slotIso: string) => {

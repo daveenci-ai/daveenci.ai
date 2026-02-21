@@ -1,11 +1,22 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, ChevronDown, User, Mail, HelpCircle, Clock, Check, Menu, X, Mic, BarChart3, Send, Sparkles, Image, CalendarDays, Lightbulb, MessageCircle, Users, Headphones, Briefcase, RefreshCw } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown, User, Mail, HelpCircle, Clock, Check, Menu, X, Mic, BarChart3, Send, Sparkles, Image, CalendarDays, Lightbulb, MessageCircle, Users, Headphones, Briefcase, RefreshCw, Phone } from 'lucide-react';
 import { format } from 'date-fns';
-import { fromZonedTime } from 'date-fns-tz';
 import { ScrollReveal, Section, SectionHeader, Button, Logo, GridPattern, VitruvianBackground, CustomSelect } from './Shared';
 import { API_ENDPOINTS } from '../config';
 import type { Page } from './types';
+import AstridSketch from '../images/Astrid_Sketch.jpg';
+import {
+  BUSINESS_TIMEZONE,
+  BUSINESS_HOURS,
+  MEETING_DURATION_MINUTES,
+  BUFFER_MINUTES,
+  MONTH_NAMES,
+  buildDisplaySlots,
+  getAvailabilityRange,
+  checkSlotAvailability as checkSharedSlotAvailability,
+  isDayDisabled,
+} from './calendarAvailability';
 
 interface PulseLandingPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -170,14 +181,14 @@ const PulseHero: React.FC = () => {
         <div className="lg:col-span-6 relative z-20">
           <ScrollReveal delay={200}>
             <span className="inline-block mb-4 font-mono text-xs font-bold text-accent uppercase tracking-widest bg-accent/5 px-3 py-1 border border-accent/10 rounded-sm">
-              Introducing Pulse
+              Introducing Pulse Note
             </span>
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-ink leading-[1.1] mb-6">
               Your meetings,<br />
               <span className="italic text-ink-muted/80">turned into content.</span>
             </h1>
             <p className="font-sans text-lg md:text-xl text-ink-muted max-w-xl leading-relaxed mb-8">
-              Pulse records your calls, surfaces the insights that matter, and drafts publish-ready content — newsletters, social posts, and visuals — on autopilot.
+              Pulse Note analyzes your calls, surfaces the insights and themes that matter, and drafts publish-ready newsletters, social posts, and visuals on autopilot.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button variant="primary" onClick={() => scrollTo('booking')} className="text-base px-8 py-4">Book a Demo</Button>
@@ -601,80 +612,11 @@ const FAQ: React.FC = () => (
   </Section>
 );
 
-// ─── Lead Form + Calendar Booking ──────────────────────────────────────────────
-
-const LEAD_STORAGE_KEY = 'pulse-demo-lead';
-
-const LeadForm: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [notes, setNotes] = useState('');
-  const [saved, setSaved] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(LEAD_STORAGE_KEY);
-    if (stored) {
-      try {
-        const data = JSON.parse(stored);
-        setName(data.name || '');
-        setEmail(data.email || '');
-        setNotes(data.notes || '');
-        setSaved(true);
-      } catch { /* ignore */ }
-    }
-  }, []);
-
-  const handleSave = (e: React.FormEvent) => {
-    e.preventDefault();
-    localStorage.setItem(LEAD_STORAGE_KEY, JSON.stringify({ name, email, notes }));
-    setSaved(true);
-    onComplete();
-  };
-
-  if (saved) {
-    return (
-      <div className="text-center py-8">
-        <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-100">
-          <Check className="w-6 h-6 text-green-600" />
-        </div>
-        <p className="font-serif text-xl text-ink mb-1">Details saved</p>
-        <p className="text-sm text-ink-muted mb-4">Select a time below to book your demo.</p>
-        <button onClick={() => setSaved(false)} className="text-xs text-accent hover:underline">Edit details</button>
-      </div>
-    );
-  }
-
-  return (
-    <form onSubmit={handleSave} className="space-y-4">
-      <h3 className="font-serif text-xl text-ink mb-2">Tell us about yourself</h3>
-      <p className="text-sm text-ink-muted mb-4">We'll personalize your demo based on your needs.</p>
-      <div>
-        <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
-          <User className="w-3 h-3" /> Name <span className="text-red-500">*</span>
-        </label>
-        <input type="text" required value={name} onChange={e => setName(e.target.value)} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm" placeholder="Your name" />
-      </div>
-      <div>
-        <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
-          <Mail className="w-3 h-3" /> Email <span className="text-red-500">*</span>
-        </label>
-        <input type="email" required value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm" placeholder="you@company.com" />
-      </div>
-      <div>
-        <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
-          <HelpCircle className="w-3 h-3" /> What are you hoping to learn? <span className="text-ink-muted/60 lowercase font-normal">(optional)</span>
-        </label>
-        <textarea value={notes} onChange={e => setNotes(e.target.value)} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm min-h-[80px] resize-y" placeholder="E.g. repurposing podcast episodes..." />
-      </div>
-      <Button variant="primary" className="w-full">Continue to Scheduling</Button>
-    </form>
-  );
-};
+// ─── Calendar Booking ───────────────────────────────────────────────────────────
 
 // Calendar booking (adapted from Booking.tsx)
 
 const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: string) => void }> = ({ onNavigate }) => {
-  const [leadComplete, setLeadComplete] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -682,11 +624,7 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
   const [busySlots, setBusySlots] = useState<{ start: string; end: string }[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const BUSINESS_TIMEZONE = 'America/Chicago';
-  const BUSINESS_HOURS = [6, 7, 8, 9, 10, 11];
   const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const MEETING_DURATION_MINUTES = 45;
-  const BUFFER_MINUTES = 10;
 
   const [displaySlots, setDisplaySlots] = useState<{ display: string; value: string }[]>([]);
 
@@ -695,53 +633,20 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
     email: '',
     company: '',
     phone: '',
-    reason: 'See Pulse in action (full demo)',
+    reason: 'Multiple areas (we will prioritize together)',
     notes: '',
   });
-
-  // Hydrate form from lead localStorage
-  useEffect(() => {
-    const stored = localStorage.getItem(LEAD_STORAGE_KEY);
-    if (stored) {
-      try {
-        const data = JSON.parse(stored);
-        setFormData(prev => ({
-          ...prev,
-          name: data.name || prev.name,
-          email: data.email || prev.email,
-          notes: data.notes || prev.notes,
-        }));
-        setLeadComplete(true);
-      } catch { /* ignore */ }
-    }
-  }, []);
 
   // Generate display slots when date changes
   useEffect(() => {
     if (!selectedDate) { setDisplaySlots([]); return; }
-    const year = selectedDate.getFullYear();
-    const month = selectedDate.getMonth() + 1;
-    const day = selectedDate.getDate();
-
-    const slots = BUSINESS_HOURS.map(hour => {
-      const isoDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:00:00`;
-      const utcDate = fromZonedTime(isoDateStr, BUSINESS_TIMEZONE);
-      const localTimeDisplay = utcDate.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: USER_TIMEZONE });
-      return { display: localTimeDisplay, value: utcDate.toISOString() };
-    });
-    slots.sort((a, b) => new Date(a.value).getTime() - new Date(b.value).getTime());
-    setDisplaySlots(slots);
+    setDisplaySlots(buildDisplaySlots(selectedDate, USER_TIMEZONE, BUSINESS_HOURS, BUSINESS_TIMEZONE));
   }, [selectedDate]);
 
   // Fetch availability
   const fetchAvailability = async () => {
     setIsLoading(true);
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
-    const start = new Date(year, month, 1 - 7).toISOString();
-    const lastDay = new Date(year, month + 1, 0 + 7);
-    lastDay.setHours(23, 59, 59, 999);
-    const end = lastDay.toISOString();
+    const { start, end } = getAvailabilityRange(currentDate);
     try {
       const response = await fetch(`${API_ENDPOINTS.availability}?start=${start}&end=${end}`);
       if (response.ok) {
@@ -762,35 +667,19 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
   }, [currentDate]);
 
   const checkSlotAvailability = (slotIsoTime: string) => {
-    const slotStart = new Date(slotIsoTime);
-    const slotStartWithBuffer = new Date(slotStart.getTime() - BUFFER_MINUTES * 60000);
-    const slotEnd = new Date(slotStart.getTime() + MEETING_DURATION_MINUTES * 60000);
-    const slotEndWithBuffer = new Date(slotEnd.getTime() + BUFFER_MINUTES * 60000);
-    if (slotStart < new Date()) return false;
-    return !busySlots.some(slot => {
-      const busyStart = new Date(slot.start);
-      const busyEnd = new Date(slot.end);
-      return slotStartWithBuffer < busyEnd && slotEndWithBuffer > busyStart;
-    });
-  };
-
-  const getSlotsForDate = (date: Date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    return BUSINESS_HOURS.map(hour => {
-      const isoDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:00:00`;
-      return fromZonedTime(isoDateStr, BUSINESS_TIMEZONE).toISOString();
-    });
+    return checkSharedSlotAvailability(slotIsoTime, busySlots, MEETING_DURATION_MINUTES, BUFFER_MINUTES);
   };
 
   const isDateDisabled = (day: number) => {
-    const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    if (date < today) return true;
-    const slots = getSlotsForDate(date);
-    return !slots.some(s => checkSlotAvailability(s));
+    return isDayDisabled(
+      day,
+      currentDate,
+      busySlots,
+      BUSINESS_HOURS,
+      BUSINESS_TIMEZONE,
+      MEETING_DURATION_MINUTES,
+      BUFFER_MINUTES
+    );
   };
 
   const isTimeDisabled = (slotIso: string) => !checkSlotAvailability(slotIso);
@@ -807,7 +696,7 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
   const { days, firstDay } = getDaysInMonth(currentDate);
   const daysArray = Array.from({ length: days }, (_, i) => i + 1);
   const blanksArray = Array.from({ length: firstDay }, (_, i) => i);
-  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const monthNames = MONTH_NAMES;
 
   const handleDateClick = (day: number) => {
     setSelectedDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), day));
@@ -819,7 +708,7 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
     setStep('datetime');
     setSelectedDate(null);
     setSelectedTime(null);
-    setFormData(prev => ({ ...prev, company: '', phone: '', reason: 'See Pulse in action (full demo)' }));
+    setFormData(prev => ({ ...prev, company: '', phone: '', reason: 'Multiple areas (we will prioritize together)' }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -828,7 +717,7 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
       const response = await fetch(API_ENDPOINTS.book, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, dateTime: selectedTime, bookingType: 'book-demo' }),
+        body: JSON.stringify({ ...formData, dateTime: selectedTime, bookingType: 'meet-astrid' }),
       });
       const data = await response.json();
       if (response.ok) {
@@ -868,18 +757,19 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
                 <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" /> Available</div>
               </div>
               <p className="text-ink-muted leading-relaxed mb-8">
-                We'll walk you through how Pulse captures meetings, extracts insights, and generates publish-ready content — tailored to your workflow.
+                I will walk you through how Pulse Note captures meetings, extracts insights, and generates publish-ready content, tailored to your brand and workflow.
               </p>
+              <div className="flex items-center gap-4 py-6 border-y border-ink/5 mb-6">
+                <div className="w-20 h-20 rounded-sm overflow-hidden border border-ink/10 flex-shrink-0">
+                  <img src={AstridSketch} alt="Astrid Abrahamyan" className="w-full h-full object-cover object-top scale-125" />
+                </div>
+                <div>
+                  <div className="font-serif text-ink text-lg leading-none mb-1">Astrid Abrahamyan</div>
+                  <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest">Partner & Solution Architect</div>
+                </div>
+              </div>
             </div>
 
-            {/* Lead form */}
-            <LeadForm onComplete={() => setLeadComplete(true)} />
-
-            <div className="mt-auto pt-6">
-              <button onClick={() => onNavigate('calendar')} className="text-xs text-accent hover:underline flex items-center gap-1">
-                Or open our full calendar in a new view →
-              </button>
-            </div>
           </div>
 
           {/* Right Panel — Calendar */}
@@ -889,8 +779,10 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
                 <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6 shadow-sm border border-green-100">
                   <Check className="w-10 h-10 text-green-600" />
                 </div>
-                <h2 className="font-serif text-3xl text-ink mb-2">Demo Confirmed</h2>
-                <p className="text-ink-muted text-lg mb-8 max-w-md">A calendar invitation has been sent to your inbox. We look forward to showing you Pulse.</p>
+                <h2 className="font-serif text-3xl text-ink mb-2">Request Confirmed</h2>
+                <p className="text-ink-muted text-lg mb-8 max-w-md">
+                  A calendar invitation has been sent to your inbox. I look forward to our conversation.
+                </p>
                 <div className="bg-base/50 p-6 rounded-sm border border-ink/5 w-full max-w-sm mb-8">
                   <div className="flex justify-between text-sm mb-2">
                     <span className="text-ink-muted">Date</span>
@@ -900,8 +792,17 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
                     <span className="text-ink-muted">Time</span>
                     <span className="font-medium text-ink">{selectedTime ? format(new Date(selectedTime), 'hh:mm a') : ''}</span>
                   </div>
+
+                  {formData.notes && (
+                    <div className="mt-4 pt-4 border-t border-ink/5">
+                      <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <HelpCircle className="w-3 h-3" /> Anything else we should know?
+                      </label>
+                      <p className="text-sm text-ink-muted text-left">{formData.notes}</p>
+                    </div>
+                  )}
                 </div>
-                <Button variant="secondary" onClick={resetBooking}>Book Another</Button>
+                <Button variant="secondary" onClick={() => onNavigate('landing')}>Return to Homepage</Button>
               </div>
             ) : (
               <div className="p-8 lg:p-12 h-full flex flex-col justify-center items-center">
@@ -1005,13 +906,13 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
                         <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
                           <User className="w-3 h-3" /> Full Name <span className="text-red-500">*</span>
                         </label>
-                        <input type="text" required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm" placeholder="Your name" />
+                        <input type="text" required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm" placeholder="Leonardo da Vinci" />
                       </div>
                       <div>
                         <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
                           <Mail className="w-3 h-3" /> Email <span className="text-red-500">*</span>
                         </label>
-                        <input type="email" required value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm" placeholder="you@company.com" />
+                        <input type="email" required value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm" placeholder="leo@florence.it" />
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
@@ -1022,36 +923,36 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
                         </div>
                         <div>
                           <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
-                            <User className="w-3 h-3" /> Phone <span className="text-ink-muted/60 lowercase font-normal">(optional)</span>
+                            <Phone className="w-3 h-3" /> Phone <span className="text-ink-muted/60 lowercase font-normal">(optional)</span>
                           </label>
                           <input type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm" placeholder="+1 555..." />
                         </div>
                       </div>
                       <div>
                         <CustomSelect
-                          label="What interests you most?"
+                          label="What's on your mind?"
                           required
                           value={formData.reason}
                           onChange={val => setFormData({ ...formData, reason: val })}
                           options={[
-                            'See Pulse in action (full demo)',
-                            'Content repurposing from meetings',
-                            'Insights dashboard & analytics',
-                            'Image generation capabilities',
-                            'Not sure yet — just exploring',
+                            'Just want to say hi & learn more',
+                            "Curious about what's possible with AI",
+                            'Feeling some friction in my workflows',
+                            'I have a specific question or project',
+                            "Not sure - let's just chat",
                           ]}
                         />
                       </div>
                       <div>
                         <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
-                          <HelpCircle className="w-3 h-3" /> Anything else we should know?
+                          <HelpCircle className="w-3 h-3" /> Anything else you want to share?
                         </label>
-                        <textarea value={formData.notes} onChange={e => setFormData({ ...formData, notes: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm min-h-[80px] resize-y" placeholder="Specific questions or context..." />
+                        <textarea value={formData.notes} onChange={e => setFormData({ ...formData, notes: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm min-h-[100px] resize-y" placeholder="Optional - feel free to share any context or specific questions..." />
                       </div>
                     </div>
                     <div className="mt-auto flex gap-4">
                       <Button variant="secondary" onClick={() => setStep('datetime')} className="px-6">Back</Button>
-                      <Button variant="primary" className="flex-1">Confirm Demo</Button>
+                      <Button variant="primary" className="flex-1">Schedule Call</Button>
                     </div>
                   </form>
                 )}
@@ -1099,7 +1000,7 @@ const FinalCTA: React.FC = () => {
 
 const PulseLandingPage: React.FC<PulseLandingPageProps> = ({ onNavigate }) => {
   return (
-    <div className="min-h-screen bg-base text-ink">
+    <div className="min-h-screen bg-base text-ink [&_h1]:[text-wrap:balance] [&_h2]:[text-wrap:balance] [&_h3]:[text-wrap:balance] [&_p]:[text-wrap:pretty]">
       <PulseNav />
       <PulseHero />
       <WhatPulseDoes />
