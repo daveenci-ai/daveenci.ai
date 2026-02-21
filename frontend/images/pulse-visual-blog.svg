@@ -1,0 +1,41 @@
+<svg width="1600" height="1000" viewBox="0 0 1600 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="paper3" x1="0" y1="0" x2="1600" y2="1000" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F6EBD4"/>
+      <stop offset="1" stop-color="#E6D4B5"/>
+    </linearGradient>
+    <filter id="grain3" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.05"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#paper3)"/>
+  <rect width="1600" height="1000" filter="url(#grain3)"/>
+
+  <ellipse cx="290" cy="190" rx="220" ry="120" fill="#8B5E3C" opacity="0.07"/>
+  <ellipse cx="1310" cy="820" rx="230" ry="120" fill="#8B5E3C" opacity="0.07"/>
+
+  <rect x="180" y="150" width="1240" height="700" rx="26" stroke="#3F3A33" stroke-width="6" opacity="0.65"/>
+
+  <rect x="280" y="230" width="660" height="560" rx="18" fill="#FBF5E8" stroke="#3F3A33" stroke-width="5"/>
+  <text x="340" y="320" fill="#3F3A33" font-family="Georgia, serif" font-size="54">Blog Feature</text>
+  <line x1="340" y1="380" x2="860" y2="380" stroke="#3F3A33" stroke-width="4" opacity="0.45"/>
+  <line x1="340" y1="435" x2="900" y2="435" stroke="#3F3A33" stroke-width="4" opacity="0.32"/>
+  <line x1="340" y1="490" x2="860" y2="490" stroke="#3F3A33" stroke-width="4" opacity="0.32"/>
+  <line x1="340" y1="545" x2="880" y2="545" stroke="#3F3A33" stroke-width="4" opacity="0.32"/>
+  <line x1="340" y1="600" x2="760" y2="600" stroke="#3F3A33" stroke-width="4" opacity="0.32"/>
+
+  <path d="M1020 650L1210 460L1260 510L1070 700L990 720L1020 650Z" fill="#EFE4CF" stroke="#3F3A33" stroke-width="6"/>
+  <path d="M1210 460L1260 510" stroke="#3F3A33" stroke-width="8"/>
+
+  <polyline points="990,590 1060,540 1120,560 1180,500 1260,450" fill="none" stroke="#3F3A33" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <polygon points="1260,450 1225,448 1245,420" fill="#3F3A33"/>
+
+  <rect x="960" y="260" width="330" height="220" rx="16" fill="#FBF5E8" stroke="#3F3A33" stroke-width="5"/>
+  <text x="1020" y="340" fill="#3F3A33" font-family="Georgia, serif" font-size="44">SEO</text>
+  <text x="1020" y="390" fill="#3F3A33" font-family="Georgia, serif" font-size="44">Brief</text>
+</svg>

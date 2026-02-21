@@ -1,0 +1,42 @@
+<svg width="1600" height="1000" viewBox="0 0 1600 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="paper2" x1="0" y1="0" x2="1600" y2="1000" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4E8CF"/>
+      <stop offset="1" stop-color="#E4D0AE"/>
+    </linearGradient>
+    <filter id="grain2" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.05"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#paper2)"/>
+  <rect width="1600" height="1000" filter="url(#grain2)"/>
+
+  <ellipse cx="220" cy="820" rx="200" ry="110" fill="#8B5E3C" opacity="0.07"/>
+  <ellipse cx="1350" cy="220" rx="230" ry="120" fill="#8B5E3C" opacity="0.07"/>
+
+  <rect x="180" y="150" width="1240" height="700" rx="26" stroke="#6E4F34" stroke-width="6" opacity="0.6"/>
+
+  <circle cx="420" cy="330" r="70" stroke="#6E4F34" stroke-width="6"/>
+  <circle cx="790" cy="280" r="70" stroke="#6E4F34" stroke-width="6"/>
+  <circle cx="1150" cy="370" r="70" stroke="#6E4F34" stroke-width="6"/>
+  <circle cx="510" cy="670" r="70" stroke="#6E4F34" stroke-width="6"/>
+  <circle cx="930" cy="680" r="70" stroke="#6E4F34" stroke-width="6"/>
+
+  <line x1="490" y1="323" x2="720" y2="287" stroke="#6E4F34" stroke-width="5"/>
+  <line x1="854" y1="301" x2="1086" y2="349" stroke="#6E4F34" stroke-width="5"/>
+  <line x1="467" y1="389" x2="470" y2="601" stroke="#6E4F34" stroke-width="5"/>
+  <line x1="575" y1="645" x2="865" y2="700" stroke="#6E4F34" stroke-width="5"/>
+  <line x1="1088" y1="435" x2="981" y2="620" stroke="#6E4F34" stroke-width="5"/>
+
+  <path d="M700 470H980C996 470 1010 484 1010 500V590C1010 606 996 620 980 620H790L720 690V620H700C684 620 670 606 670 590V500C670 484 684 470 700 470Z" fill="#F9F1E2" stroke="#6E4F34" stroke-width="6"/>
+  <text x="730" y="540" fill="#6E4F34" font-family="Georgia, serif" font-size="44">Social</text>
+  <text x="730" y="586" fill="#6E4F34" font-family="Georgia, serif" font-size="44">Content</text>
+
+  <rect x="270" y="220" width="300" height="58" rx="10" fill="#F9F1E2" stroke="#6E4F34" stroke-width="4"/>
+  <text x="305" y="258" fill="#6E4F34" font-family="Georgia, serif" font-size="34">Hooks &amp; Threads</text>
+</svg>

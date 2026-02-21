@@ -6,6 +6,13 @@ import { ScrollReveal, Section, SectionHeader, Button, Logo, GridPattern, Vitruv
 import { API_ENDPOINTS } from '../config';
 import type { Page } from './types';
 import AstridSketch from '../images/Astrid_Sketch.jpg';
+import NewsletterVisual from '../images/pulse-visual-newsletter.svg';
+import SocialVisual from '../images/pulse-visual-social.svg';
+import BlogVisual from '../images/pulse-visual-blog.svg';
+import WorkflowVisual from '../images/001 - What is an Agentic Workflow.jpg';
+import PipelineVisual from '../images/002 - Synthetic Data Pipelines.jpg';
+import CrmVisual from '../images/003 - Zero-Touch CRM.jpg';
+import RagVisual from '../images/004 - RAG vs. Long Context.jpg';
 import {
   BUSINESS_TIMEZONE,
   BUSINESS_HOURS,
@@ -232,14 +239,14 @@ const WhatPulseDoes: React.FC = () => (
     <SectionHeader eyebrow="The Product" title="Three steps. Zero blank pages." subtitle="From raw conversation to polished content, automatically." />
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {steps.map((step, i) => (
-        <ScrollReveal key={step.title} delay={i * 150}>
-          <div className="bg-white border border-ink/10 p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+        <ScrollReveal key={step.title} delay={i * 150} className="h-full">
+          <div className="bg-white border border-ink/10 p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group h-full flex flex-col">
             <div className="mb-6 w-14 h-14 bg-accent/5 border border-accent/10 rounded-sm flex items-center justify-center group-hover:bg-accent/10 transition-colors">
               {step.icon}
             </div>
             <div className="font-mono text-[10px] text-ink-muted/50 uppercase tracking-widest mb-2">Step {i + 1}</div>
             <h3 className="font-serif text-2xl text-ink mb-3">{step.title}</h3>
-            <p className="text-ink-muted leading-relaxed">{step.description}</p>
+            <p className="text-ink-muted leading-relaxed flex-1">{step.description}</p>
           </div>
         </ScrollReveal>
       ))}
@@ -402,26 +409,14 @@ const ImageGeneration: React.FC = () => (
     <SectionHeader eyebrow="Visuals" title="AI-generated images for every piece" subtitle="Custom visuals that match your content — no stock photos, no design tools needed." />
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {[
-        { label: 'Newsletter Header', accent: '#3f84c8' },
-        { label: 'Social Card', accent: '#C4B59D' },
-        { label: 'Blog Feature', accent: '#222' },
+        { label: 'Newsletter Header', src: NewsletterVisual, alt: 'Newsletter-style generated visual in parchment sketch style' },
+        { label: 'Social Card', src: SocialVisual, alt: 'Social card generated visual with connected content nodes' },
+        { label: 'Blog Feature', src: BlogVisual, alt: 'Blog feature generated visual in editorial sketch style' },
       ].map((item, i) => (
         <ScrollReveal key={item.label} delay={i * 150}>
           <div className="bg-white shadow-lg border border-ink/10 rounded-sm overflow-hidden group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <div className="aspect-[16/10] bg-base/50 flex items-center justify-center relative overflow-hidden">
-              <svg className="w-full h-full" viewBox="0 0 320 200" fill="none">
-                <rect x="0" y="0" width="320" height="200" fill="#F5F0E6" fillOpacity="0.5" />
-                {/* Abstract composition */}
-                <circle cx="160" cy="100" r="50" stroke={item.accent} strokeWidth="1" fill={item.accent} fillOpacity="0.05" />
-                <circle cx="160" cy="100" r="30" stroke={item.accent} strokeWidth="0.5" strokeDasharray="4 3" fill="none" className="animate-spin-slow" style={{ transformOrigin: '160px 100px' }} />
-                <rect x="80" y="60" width="160" height="80" rx="4" stroke="#C4B59D" strokeWidth="0.5" fill="none" />
-                <line x1="100" y1="140" x2="220" y2="140" stroke="#222" strokeWidth="0.5" opacity="0.2" />
-                <line x1="120" y1="150" x2="200" y2="150" stroke="#222" strokeWidth="0.5" opacity="0.1" />
-                {/* Image icon */}
-                <rect x="140" y="80" width="40" height="40" rx="4" stroke={item.accent} strokeWidth="1.5" fill="white" />
-                <circle cx="152" cy="92" r="4" fill={item.accent} opacity="0.3" />
-                <path d="M 144 112 L 155 100 L 165 108 L 175 96" stroke={item.accent} strokeWidth="1" fill="none" />
-              </svg>
+              <img src={item.src} alt={item.alt} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent" />
             </div>
             <div className="p-4 flex items-center justify-between">
@@ -491,49 +486,354 @@ const insightChoices = [
   { id: 5, text: 'Three customers independently asked about API access this week', checked: true },
 ];
 
+type DemoPost = {
+  day: string;
+  title: string;
+  excerpt: string;
+  tags: string;
+  posted: string;
+  image: string;
+};
+
+type DemoScenario = {
+  id: string;
+  article: {
+    postedLabel: string;
+    postedAt: string;
+    title: string;
+    heroImage: string;
+    secondaryImage: string;
+    heading: string;
+    intro: string;
+  };
+  posts: DemoPost[];
+};
+
+const demoScenarios: DemoScenario[] = [
+  {
+    id: 'growth-playbook',
+    article: {
+      postedLabel: 'Posted Sat, February 7, 2026',
+      postedAt: 'Sat, Feb 7, 5:06 PM',
+      title: 'The Growth Playbook: How Smart Businesses Are Winning with AI and Optimized Ads',
+      heroImage: NewsletterVisual,
+      secondaryImage: SocialVisual,
+      heading: 'The Growth Playbook: How Smart Businesses Are Winning with AI and Optimized Ads',
+      intro: "This week, we're cutting through the noise to show small business owners exactly how to boost revenue, retain customers, and build efficiency using smarter ad strategies and the power of AI.",
+    },
+    posts: [
+      {
+        day: 'Day 1',
+        title: 'Stop Bleeding Ad Spend: The Hidden Cost of "Easy" Leads',
+        excerpt: 'Seen this pattern too many times: small business launches ads, captures shallow leads, and misses intent signals that actually convert.',
+        tags: '#SmallBusiness #AI #LeadGeneration #AdOptimization',
+        posted: 'Posted Sat, February 7, 2026',
+        image: WorkflowVisual,
+      },
+      {
+        day: 'Day 2',
+        title: 'Your 3-Step AI Playbook for Sustainable Growth',
+        excerpt: "AI isn't just for big tech anymore. Here's a practical operating model that works for lean teams and busy founders.",
+        tags: '#BusinessGrowth #WorkflowAutomation #ContentMarketing #AEO',
+        posted: 'Posted Tue, February 17, 2026',
+        image: PipelineVisual,
+      },
+      {
+        day: 'Day 3',
+        title: 'From Generic Copy to High-Intent Creative Systems',
+        excerpt: 'How to replace ad guesswork with a repeatable content loop that maps message, offer, and audience by funnel stage.',
+        tags: '#CreativeStrategy #RevenueGrowth #DigitalMarketing #CRO',
+        posted: 'Posted Thu, February 19, 2026',
+        image: CrmVisual,
+      },
+      {
+        day: 'Day 4',
+        title: 'Build a Content Loop from Calls, Retargeting, and CRM',
+        excerpt: 'Use one weekly cadence to turn conversations into campaigns, campaigns into learnings, and learnings into better offers.',
+        tags: '#Retargeting #CRM #Automation #ConversionTracking',
+        posted: 'Posted Fri, February 20, 2026',
+        image: RagVisual,
+      },
+    ],
+  },
+  {
+    id: 'pipeline-ops',
+    article: {
+      postedLabel: 'Posted Tue, February 10, 2026',
+      postedAt: 'Tue, Feb 10, 11:32 AM',
+      title: 'Pipeline Ops Weekly: From Meeting Notes to Predictable Demand',
+      heroImage: BlogVisual,
+      secondaryImage: NewsletterVisual,
+      heading: 'Pipeline Ops Weekly: From Meeting Notes to Predictable Demand',
+      intro: 'This edition outlines a practical workflow for turning recurring sales and customer themes into consistent demand generation, tighter messaging, and faster team alignment.',
+    },
+    posts: [
+      {
+        day: 'Day 1',
+        title: 'Why Most Lead Handoffs Break Before Qualification',
+        excerpt: 'A pattern from this week: teams generate MQLs quickly but lose momentum at the handoff. Here is the fix that keeps context intact.',
+        tags: '#PipelineOps #RevenueOps #LeadFlow #B2BMarketing',
+        posted: 'Posted Tue, February 10, 2026',
+        image: PipelineVisual,
+      },
+      {
+        day: 'Day 2',
+        title: 'Design a Weekly Insight Loop Your Team Will Actually Use',
+        excerpt: 'Build one simple cadence that helps sales, marketing, and product align around real buyer language from calls.',
+        tags: '#TeamAlignment #ContentSystem #VoiceOfCustomer #AIWorkflow',
+        posted: 'Posted Wed, February 11, 2026',
+        image: CrmVisual,
+      },
+      {
+        day: 'Day 3',
+        title: 'From CRM Notes to High-Intent Campaign Angles',
+        excerpt: 'Use extracted objections and wins from conversation data to write ad and email angles that speak to urgency and proof.',
+        tags: '#CRM #DemandGen #CopyStrategy #Conversion',
+        posted: 'Posted Thu, February 12, 2026',
+        image: RagVisual,
+      },
+      {
+        day: 'Day 4',
+        title: 'How to Spot Revenue Themes Before the Quarter Ends',
+        excerpt: 'Four signals to track weekly so you can adjust campaigns and messaging before a slowdown shows up in the dashboard.',
+        tags: '#Forecasting #RevenueGrowth #GoToMarket #OperatorTips',
+        posted: 'Posted Fri, February 13, 2026',
+        image: WorkflowVisual,
+      },
+    ],
+  },
+  {
+    id: 'brand-engine',
+    article: {
+      postedLabel: 'Posted Thu, February 19, 2026',
+      postedAt: 'Thu, Feb 19, 9:18 AM',
+      title: 'Build a Brand Engine: Repurpose Calls into Multi-Channel Content',
+      heroImage: SocialVisual,
+      secondaryImage: BlogVisual,
+      heading: 'Build a Brand Engine: Repurpose Calls into Multi-Channel Content',
+      intro: 'Instead of starting from scratch every week, this framework shows how to turn one set of conversations into newsletters, social content, and visuals that stay on-brand.',
+    },
+    posts: [
+      {
+        day: 'Day 1',
+        title: 'The 20-Minute Debrief That Fuels a Week of Content',
+        excerpt: 'After each key call, capture three themes, one quote, and one objection to seed your weekly publishing plan.',
+        tags: '#ContentOperations #FounderMarketing #AudienceGrowth #PulseNote',
+        posted: 'Posted Thu, February 19, 2026',
+        image: CrmVisual,
+      },
+      {
+        day: 'Day 2',
+        title: 'Use Customer Language as Your Editorial Backbone',
+        excerpt: 'When your headlines mirror how buyers describe their pain, engagement and response quality rise fast.',
+        tags: '#Messaging #CustomerResearch #Editorial #BrandVoice',
+        posted: 'Posted Fri, February 20, 2026',
+        image: WorkflowVisual,
+      },
+      {
+        day: 'Day 3',
+        title: 'One Insight, Four Formats: Newsletter, Post, Carousel, Thread',
+        excerpt: 'A practical repurposing template that helps small teams publish more without sacrificing quality.',
+        tags: '#Repurposing #ContentTeam #MarketingSystem #Efficiency',
+        posted: 'Posted Sat, February 21, 2026',
+        image: PipelineVisual,
+      },
+      {
+        day: 'Day 4',
+        title: 'How to Keep AI Drafts Aligned with Your Brand Standards',
+        excerpt: 'Use lightweight guardrails for structure, tone, and proof points so every draft feels human and trusted.',
+        tags: '#AIGovernance #BrandConsistency #EditorialOps #Trust',
+        posted: 'Posted Sun, February 22, 2026',
+        image: RagVisual,
+      },
+    ],
+  },
+];
+
 const CreatorMode: React.FC = () => {
   const [checks, setChecks] = useState<Record<number, boolean>>(
     Object.fromEntries(insightChoices.map(c => [c.id, c.checked]))
   );
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [showDemoPreview, setShowDemoPreview] = useState(false);
+  const [articleExpanded, setArticleExpanded] = useState(true);
+  const [postsExpanded, setPostsExpanded] = useState(true);
+  const [activeScenarioIndex, setActiveScenarioIndex] = useState(0);
+  const [generationCount, setGenerationCount] = useState(0);
+  const generateTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const toggle = (id: number) => setChecks(prev => ({ ...prev, [id]: !prev[id] }));
   const selectedCount = Object.values(checks).filter(Boolean).length;
+  const activeScenario = demoScenarios[activeScenarioIndex];
+
+  useEffect(() => {
+    return () => {
+      if (generateTimerRef.current) clearTimeout(generateTimerRef.current);
+    };
+  }, []);
+
+  const handleGeneratePreview = () => {
+    if (selectedCount === 0 || isGenerating) return;
+    if (generateTimerRef.current) clearTimeout(generateTimerRef.current);
+    const nextScenarioIndex = generationCount % demoScenarios.length;
+    setActiveScenarioIndex(nextScenarioIndex);
+    setGenerationCount(prev => prev + 1);
+    setIsGenerating(true);
+    generateTimerRef.current = setTimeout(() => {
+      setIsGenerating(false);
+      setShowDemoPreview(true);
+      setArticleExpanded(true);
+      setPostsExpanded(true);
+    }, 900);
+  };
+
+  const resetPreview = () => {
+    setShowDemoPreview(false);
+    setIsGenerating(false);
+  };
 
   return (
     <Section className="bg-alt/30">
-      <SectionHeader eyebrow="Creator Mode" title="Pick insights. Generate content." subtitle="Hand-pick the moments that matter, then let Pulse turn them into polished content." />
+      <SectionHeader eyebrow="Creator Mode" title="Try Now - Pick insights, generate content." subtitle="Hand-pick the moments that matter, then let Pulse turn them into polished content." />
       <ScrollReveal>
-        <div className="max-w-2xl mx-auto bg-white shadow-xl border border-ink/10 rounded-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-ink/10 bg-base/30 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Lightbulb className="w-4 h-4 text-accent" />
-              <span className="font-mono text-[10px] uppercase tracking-widest text-ink-muted/60">This Week's Insights</span>
+        {showDemoPreview ? (
+          <div className="max-w-6xl mx-auto bg-white shadow-2xl border border-ink/10 rounded-sm overflow-hidden">
+            <div className="px-5 py-4 border-b border-ink/10 bg-base/20 flex items-center justify-between">
+              <div className="flex items-center gap-3 text-ink">
+                <Mail className="w-5 h-5 text-accent" />
+                <span className="font-bold text-2xl md:text-3xl">Demo Content Preview</span>
+                <span className="text-sm text-ink-muted bg-base px-3 py-1 rounded-full border border-ink/10">Fake data only</span>
+              </div>
+              <button onClick={resetPreview} className="text-sm font-medium border border-ink/20 px-4 py-2 hover:bg-base transition-colors">
+                Back
+              </button>
             </div>
-            <span className="text-[11px] text-ink-muted">{selectedCount} selected</span>
-          </div>
-          <div className="divide-y divide-ink/5">
-            {insightChoices.map(choice => (
-              <label key={choice.id} className="flex items-start gap-4 px-6 py-4 cursor-pointer hover:bg-base/20 transition-colors">
-                <div className="flex-shrink-0 mt-0.5">
-                  <div
-                    onClick={() => toggle(choice.id)}
-                    className={`w-5 h-5 rounded-sm border-2 flex items-center justify-center transition-all ${checks[choice.id] ? 'bg-accent border-accent' : 'border-ink/20 hover:border-accent/50'}`}
-                  >
-                    {checks[choice.id] && <Check className="w-3 h-3 text-white" />}
+
+            <div className="px-5 py-4 border-b border-ink/10 bg-base/10 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Mail className="w-4 h-4 text-accent" />
+                <span className="font-bold text-ink">Articles</span>
+                <span className="text-ink-muted">Articles & Long-form Content</span>
+                <span className="bg-accent/10 text-accent text-xs font-bold px-2.5 py-0.5 rounded-full">1</span>
+              </div>
+              <button onClick={() => setArticleExpanded(v => !v)} className="text-sm font-medium text-accent bg-accent/10 px-4 py-2 rounded-md inline-flex items-center gap-2">
+                <ChevronDown className={`w-4 h-4 transition-transform ${articleExpanded ? 'rotate-180' : ''}`} />
+                {articleExpanded ? 'Collapse' : 'Expand'}
+              </button>
+            </div>
+
+            {articleExpanded && (
+              <div className="p-5 border-b border-ink/10 bg-white">
+                <div className="border border-ink/10 rounded-2xl overflow-hidden">
+                  <div className="px-4 py-4 border-b border-ink/10 bg-base/10">
+                    <div className="flex flex-wrap items-center gap-3 text-sm mb-3">
+                      <span className="bg-ink text-white px-3 py-1 rounded-full font-medium">{activeScenario.article.postedLabel}</span>
+                      <span className="text-ink-muted">{activeScenario.article.postedAt}</span>
+                    </div>
+                    <h3 className="font-serif text-3xl md:text-4xl text-ink">{activeScenario.article.title}</h3>
+                  </div>
+
+                  <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-xs font-bold tracking-wider text-ink-muted mb-2">HERO IMAGE</p>
+                      <img src={activeScenario.article.heroImage} alt="Demo hero image" className="w-full rounded-xl border border-ink/10" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold tracking-wider text-ink-muted mb-2">SECONDARY IMAGE</p>
+                      <img src={activeScenario.article.secondaryImage} alt="Demo secondary image" className="w-full rounded-xl border border-ink/10" />
+                    </div>
+                  </div>
+
+                  <div className="px-6 py-6 border-t border-ink/10 bg-base/5">
+                    <h4 className="font-serif text-5xl text-ink mb-4">{activeScenario.article.heading}</h4>
+                    <p className="text-xl text-ink-muted leading-relaxed">{activeScenario.article.intro}</p>
                   </div>
                 </div>
-                <span className={`text-sm leading-relaxed transition-colors ${checks[choice.id] ? 'text-ink' : 'text-ink-muted'}`}>
-                  {choice.text}
-                </span>
-              </label>
-            ))}
+              </div>
+            )}
+
+            <div className="px-5 py-4 border-b border-ink/10 bg-base/10 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Send className="w-4 h-4 text-accent" />
+                <span className="font-bold text-ink">Posts</span>
+                <span className="text-ink-muted">Social Media Content</span>
+                <span className="bg-accent/10 text-accent text-xs font-bold px-2.5 py-0.5 rounded-full">{activeScenario.posts.length}</span>
+              </div>
+              <button onClick={() => setPostsExpanded(v => !v)} className="text-sm font-medium text-accent bg-accent/10 px-4 py-2 rounded-md inline-flex items-center gap-2">
+                <ChevronDown className={`w-4 h-4 transition-transform ${postsExpanded ? 'rotate-180' : ''}`} />
+                {postsExpanded ? 'Collapse' : 'Expand'}
+              </button>
+            </div>
+
+            {postsExpanded && (
+              <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-5 bg-white">
+                {activeScenario.posts.map((post, i) => (
+                  <div key={`${activeScenario.id}-${i}`} className="border border-ink/10 rounded-2xl overflow-hidden bg-base/5">
+                    <img src={post.image} alt={`${post.day} post visual`} className="w-full aspect-[16/10] object-cover" />
+                    <div className="p-4">
+                      <p className="text-accent font-bold mb-2">{post.day}</p>
+                      <h5 className="font-serif text-2xl text-ink mb-2">{post.title}</h5>
+                      <p className="text-ink-muted mb-3">{post.excerpt}</p>
+                      <button className="text-accent font-medium mb-4">See more</button>
+                      <p className="text-accent text-sm mb-4">{post.tags}</p>
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="bg-ink text-white text-xs px-3 py-1 rounded-full">{post.posted}</span>
+                        <div className="flex items-center gap-2">
+                          <button className="text-green-700 bg-green-50 border border-green-100 px-3 py-1.5 rounded-md text-sm">Re-Post</button>
+                          <button className="text-ink-muted border border-ink/15 px-3 py-1.5 rounded-md text-sm">Copy</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="px-5 py-4 border-t border-ink/10 bg-base/10 flex justify-end">
+              <button onClick={resetPreview} className="text-sm font-medium border border-ink/20 px-4 py-2 hover:bg-base transition-colors">
+                Try another set
+              </button>
+            </div>
           </div>
-          <div className="px-6 py-4 border-t border-ink/10 bg-base/20">
-            <Button variant="primary" className="w-full">
-              Generate Content from {selectedCount} Insight{selectedCount !== 1 ? 's' : ''}
-            </Button>
+        ) : (
+          <div className="max-w-2xl mx-auto bg-white shadow-xl border border-ink/10 rounded-sm overflow-hidden">
+            <div className="px-6 py-4 border-b border-ink/10 bg-base/30 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Lightbulb className="w-4 h-4 text-accent" />
+                <span className="font-mono text-[10px] uppercase tracking-widest text-ink-muted/60">This Week's Insights</span>
+              </div>
+              <span className="text-[11px] text-ink-muted">{selectedCount} selected</span>
+            </div>
+            <div className="divide-y divide-ink/5">
+              {insightChoices.map(choice => (
+                <label key={choice.id} className="flex items-start gap-4 px-6 py-4 cursor-pointer hover:bg-base/20 transition-colors">
+                  <div className="flex-shrink-0 mt-0.5">
+                    <div
+                      onClick={() => toggle(choice.id)}
+                      className={`w-5 h-5 rounded-sm border-2 flex items-center justify-center transition-all ${checks[choice.id] ? 'bg-accent border-accent' : 'border-ink/20 hover:border-accent/50'}`}
+                    >
+                      {checks[choice.id] && <Check className="w-3 h-3 text-white" />}
+                    </div>
+                  </div>
+                  <span className={`text-sm leading-relaxed transition-colors ${checks[choice.id] ? 'text-ink' : 'text-ink-muted'}`}>
+                    {choice.text}
+                  </span>
+                </label>
+              ))}
+            </div>
+            <div className="px-6 py-4 border-t border-ink/10 bg-base/20">
+              <Button
+                variant="primary"
+                className="w-full"
+                onClick={handleGeneratePreview}
+              >
+                {isGenerating
+                  ? 'Generating Preview...'
+                  : `Generate Content from ${selectedCount} Insight${selectedCount !== 1 ? 's' : ''}`}
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
       </ScrollReveal>
     </Section>
   );
