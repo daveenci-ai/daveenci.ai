@@ -97,7 +97,7 @@ const OpsDiagram: React.FC = () => (
     <div className="relative h-full w-full">
       <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 300 180" fill="none">
         <circle cx="150" cy="90" r="25" fill="#222" />
-        <circle cx="150" cy="90" r="35" stroke="#222" strokeWidth="1" strokeDasharray="2 4" className="animate-spin-slow" />
+        <circle cx="150" cy="90" r="35" stroke="#222" strokeWidth="1" strokeDasharray="2 4" className="animate-spin-slow" style={{ transformOrigin: '150px 90px' }} />
         <text x="150" y="94" textAnchor="middle" fontSize="8" fill="white" fontFamily="monospace" fontWeight="bold">AI CORE</text>
 
         <g transform="translate(20, 50)">
@@ -135,7 +135,7 @@ const OpsDiagram: React.FC = () => (
         </g>
       </svg>
 
-      <div className="absolute bottom-8 left-0 bg-base shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
+      <div className="absolute top-0 left-0 bg-base shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
         <Activity className="w-4 h-4 text-accent" />
         <span className="text-xs font-medium text-ink">Routing Active</span>
       </div>

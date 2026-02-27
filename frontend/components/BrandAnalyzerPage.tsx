@@ -1,7 +1,8 @@
 
 import React, { useState, useMemo } from 'react';
-import { ArrowLeft, ChevronDown, ChevronUp, ArrowUpDown, Loader2, Sparkles, Rocket, TrendingUp, Building2, Search } from 'lucide-react';
-import { Logo, ScrollReveal, Section, SectionHeader, GridPattern } from './Shared';
+import { ChevronDown, ChevronUp, ArrowUpDown, Loader2, Sparkles, Rocket, TrendingUp, Building2, Search } from 'lucide-react';
+import { ScrollReveal, Section, GridPattern } from './Shared';
+import Header from './Header';
 import Footer from './Footer';
 import type { Page } from './types';
 import { API_ENDPOINTS } from '../config';
@@ -88,39 +89,6 @@ function getScoreDot(score: number): string {
   if (score >= 50) return 'bg-amber-500';
   return 'bg-red-500';
 }
-
-// --- Header (minimal, page-specific) ---
-
-const BrandAnalyzerNav: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNavigate }) => {
-  const [scrolled, setScrolled] = useState(false);
-
-  React.useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/85 backdrop-blur-md shadow-sm py-3 border-b border-ink/5' : 'bg-transparent py-6'}`}>
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <div className="flex items-center gap-4 group cursor-pointer" onClick={() => onNavigate('landing')}>
-          <Logo className="w-10 h-10 md:w-12 md:h-12 text-ink group-hover:text-accent transition-colors duration-500" />
-          <div className="flex flex-col justify-center">
-            <span className="font-serif text-2xl md:text-3xl font-bold tracking-tight text-ink leading-none">DaVeenci</span>
-            <span className="text-[0.6rem] md:text-[0.65rem] tracking-[0.25em] text-accent font-semibold uppercase mt-1 md:mt-1.5 ml-0.5">The Art of Automation</span>
-          </div>
-        </div>
-        <button
-          onClick={() => onNavigate('landing')}
-          className="flex items-center gap-2 text-ink-muted hover:text-accent transition-colors font-medium text-sm"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span className="hidden sm:inline">Back to Home</span>
-        </button>
-      </div>
-    </header>
-  );
-};
 
 // --- Stage Selector ---
 
@@ -502,7 +470,7 @@ const BrandAnalyzerPage: React.FC<{ onNavigate: (page: Page, hash?: string, id?:
 
   return (
     <div className="flex flex-col w-full overflow-x-hidden min-h-screen">
-      <BrandAnalyzerNav onNavigate={onNavigate} />
+      <Header onNavigate={onNavigate} currentPage="brand-analyzer" />
 
       {/* Hero */}
       <Section className="pt-44 pb-12 md:pt-52 md:pb-16">
