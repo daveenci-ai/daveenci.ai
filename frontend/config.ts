@@ -12,5 +12,6 @@ export const API_ENDPOINTS = {
   newsletter: `${API_BASE_URL}/api/newsletter/subscribe`,
   authUrl: `${API_BASE_URL}/api/auth/google/url`,
   authCallback: `${API_BASE_URL}/api/auth/google/callback`,
+  analyzeBrand: `${API_BASE_URL}/api/analyze-brand`,
 };
 

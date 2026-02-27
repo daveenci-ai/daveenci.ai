@@ -13,6 +13,18 @@
             "permanent": false
         },
         {
+            "source": "/brand-analyzer",
+            "has": [
+                {
+                    "type": "header",
+                    "key": "user-agent",
+                    "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*"
+                }
+            ],
+            "destination": "/brand-analyzer-og.html",
+            "permanent": false
+        },
+        {
             "source": "/book-demo",
             "has": [
                 {

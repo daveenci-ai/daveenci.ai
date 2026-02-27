@@ -4,6 +4,7 @@ import { saveConsultationRequest, getBookedSlots } from './services/consultation
 import { registerForEvent } from './services/events';
 import { subscribeToNewsletter } from './services/newsletter';
 import { getAuthUrl, verifyGoogleToken } from './services/auth';
+import { analyzeBrands } from './services/brandAnalyzer';
 
 const router = Router();
 
@@ -91,6 +92,26 @@ router.get('/calendar/availability', async (req: Request, res: Response) => {
     } catch (error) {
         console.error('Availability error:', error);
         res.status(500).json({ error: 'Failed to fetch availability' });
+    }
+});
+
+// --- Brand Analyzer Route ---
+
+router.post('/analyze-brand', async (req: Request, res: Response) => {
+    try {
+        const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim()
+            || req.ip
+            || 'unknown';
+        const userAgent = req.headers['user-agent'] || '';
+
+        const result = await analyzeBrands(req.body, ip, userAgent);
+        res.status(200).json({ success: true, ...result });
+    } catch (error: any) {
+        console.error('Brand analysis error:', error);
+        if (error?.status) {
+            return res.status(error.status).json({ success: false, error: error.message });
+        }
+        res.status(500).json({ success: false, error: 'Failed to analyze brand names' });
     }
 });
 
