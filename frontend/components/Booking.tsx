@@ -25,7 +25,7 @@ const Booking: React.FC = () => {
 
    // Business hours are defined in consultant's timezone (Chicago)
    const BUSINESS_TIMEZONE = 'America/Chicago';
-   const BUSINESS_HOURS = [6, 7, 8, 9, 10, 11]; // 6 AM - 11 AM Central Time
+   const BUSINESS_HOURS = [7, 8, 9, 10, 11, 12]; // 7 AM - 12 PM Central Time
 
    // But display times in user's local timezone
    const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -146,12 +146,17 @@ const Booking: React.FC = () => {
       });
    };
 
+   const BUSINESS_DAYS = [1, 2, 3, 4]; // Monday=1 through Thursday=4
+
    const isDateDisabled = (day: number) => {
       const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 
       if (date < today) return true;
+
+      // Disable days outside business days (Mon-Thu)
+      if (!BUSINESS_DAYS.includes(date.getDay())) return true;
 
       const slots = getSlotsForDate(date);
       const hasAvailableSlot = slots.some(slotIso => checkSlotAvailability(slotIso));

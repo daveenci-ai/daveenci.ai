@@ -3,7 +3,8 @@ import { fromZonedTime } from 'date-fns-tz';
 export type BusySlot = { start: string; end: string };
 
 export const BUSINESS_TIMEZONE = 'America/Chicago';
-export const BUSINESS_HOURS = [6, 7, 8, 9, 10, 11];
+export const BUSINESS_HOURS = [7, 8, 9, 10, 11, 12];
+export const BUSINESS_DAYS = [1, 2, 3, 4]; // Monday=1 through Thursday=4
 export const MEETING_DURATION_MINUTES = 45;
 export const BUFFER_MINUTES = 10;
 
@@ -94,11 +95,15 @@ export const isDayDisabled = (
   businessTimezone: string = BUSINESS_TIMEZONE,
   meetingDurationMinutes: number = MEETING_DURATION_MINUTES,
   bufferMinutes: number = BUFFER_MINUTES,
+  businessDays: number[] = BUSINESS_DAYS,
 ) => {
   const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   if (date < today) return true;
+
+  // Disable days outside business days (Mon-Thu)
+  if (!businessDays.includes(date.getDay())) return true;
 
   const slots = getSlotsForDate(date, businessHours, businessTimezone);
   return !slots.some((slotIso) =>
