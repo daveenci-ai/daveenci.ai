@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, ChevronDown, User, Mail, HelpCircle, Clock, Check, Menu, X, Mic, BarChart3, Send, Sparkles, Image, Lightbulb, MessageCircle, Users, Headphones, Briefcase, RefreshCw, Phone } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown, User, Mail, HelpCircle, Clock, Check, Menu, X, Mic, BarChart3, Send, Sparkles, Image, Lightbulb, MessageCircle, Users, Headphones, Briefcase, RefreshCw, Phone, Video, CalendarDays } from 'lucide-react';
 import { format } from 'date-fns';
 import { ScrollReveal, Section, SectionHeader, Button, Logo, GridPattern, VitruvianBackground, CustomSelect } from './Shared';
 import { API_ENDPOINTS } from '../config';
@@ -42,11 +42,10 @@ const PulseNav: React.FC = () => {
   }, []);
 
   const links = [
-    { label: 'Product', href: '#product' },
-    { label: 'How It Works', href: '#how-it-works' },
-    { label: 'Outputs', href: '#outputs' },
+    { label: 'What You Can Do', href: '#product' },
+    { label: 'Try It', href: '#try-it' },
     { label: 'Use Cases', href: '#use-cases' },
-    { label: 'FAQ', href: '#faq' },
+    { label: 'Book a Demo', href: '#booking' },
   ];
 
   const scrollTo = (href: string) => {
@@ -102,73 +101,200 @@ const PulseNav: React.FC = () => {
   );
 };
 
-// ─── Hero Diagram (Dashboard sketch) ───────────────────────────────────────────
+// ─── Hero Diagram (Animated Demo) ───────────────────────────────────────────
 
-const PulseHeroDiagram: React.FC = () => (
-  <div className="relative w-full max-w-lg mx-auto aspect-[4/3] bg-white shadow-2xl shadow-ink/20 rounded-sm border border-ink/10 p-6 md:p-8 rotate-[-2deg] hover:rotate-0 transition-transform duration-700 ease-out group">
-    {/* Window chrome */}
-    <div className="flex justify-between items-center mb-6 border-b border-ink/10 pb-3">
-      <div className="flex gap-2">
-        <div className="w-3 h-3 rounded-full bg-red-300/60"></div>
-        <div className="w-3 h-3 rounded-full bg-yellow-300/60"></div>
-        <div className="w-3 h-3 rounded-full bg-green-300/60"></div>
+const IDEA_TEXT = "How AI is transforming customer onboarding";
+const MEETING_LINES = [
+  { speaker: "You", text: "The biggest pain point is manual data entry..." },
+  { speaker: "Client", text: "We spend 3 hours per onboarding case." },
+  { speaker: "You", text: "What if we automated 80% of that workflow?" },
+  { speaker: "Client", text: "That would save us $40K monthly." },
+];
+
+const GENERATED_POSTS = [
+  { platform: "LinkedIn Post", title: "AI onboarding: 5 strategies that work", tags: ["#AI", "#SaaS", "#Growth"] },
+  { platform: "LinkedIn Post", title: "Why manual onboarding is costing you 40% more", tags: ["#Automation", "#ROI"] },
+];
+
+const PulseHeroDiagram: React.FC = () => {
+  const [scene, setScene] = useState<'idea' | 'meeting'>('idea');
+  const [typedChars, setTypedChars] = useState(0);
+  const [showButton, setShowButton] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [showPosts, setShowPosts] = useState(false);
+  const [visibleLines, setVisibleLines] = useState(0);
+  const [wavePhase, setWavePhase] = useState(0);
+  const [showMeetingInsights, setShowMeetingInsights] = useState(false);
+  const [fadingOut, setFadingOut] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const clearTimers = () => {
+    timerRef.current.forEach(clearTimeout);
+    timerRef.current = [];
+  };
+
+  const addTimer = (fn: () => void, ms: number) => {
+    timerRef.current.push(setTimeout(fn, ms));
+  };
+
+  // Wave animation for meeting recorder
+  useEffect(() => {
+    if (scene !== 'meeting' || showMeetingInsights) return;
+    const interval = setInterval(() => setWavePhase(p => p + 1), 150);
+    return () => clearInterval(interval);
+  }, [scene, showMeetingInsights]);
+
+  // Scene sequencer
+  useEffect(() => {
+    clearTimers();
+    setTypedChars(0);
+    setShowButton(false);
+    setGenerating(false);
+    setShowPosts(false);
+    setVisibleLines(0);
+    setShowMeetingInsights(false);
+    setFadingOut(false);
+
+    if (scene === 'idea') {
+      // Type out the idea
+      for (let i = 1; i <= IDEA_TEXT.length; i++) {
+        addTimer(() => setTypedChars(i), i * 55);
+      }
+      const afterTyping = IDEA_TEXT.length * 55 + 400;
+      addTimer(() => setShowButton(true), afterTyping);
+      addTimer(() => setGenerating(true), afterTyping + 800);
+      addTimer(() => { setGenerating(false); setShowPosts(true); }, afterTyping + 2000);
+      // Fade out and switch scene
+      addTimer(() => setFadingOut(true), afterTyping + 5500);
+      addTimer(() => { setFadingOut(false); setScene('meeting'); }, afterTyping + 6000);
+    } else {
+      // Show meeting lines one by one
+      for (let i = 1; i <= MEETING_LINES.length; i++) {
+        addTimer(() => setVisibleLines(i), i * 1200);
+      }
+      const afterLines = MEETING_LINES.length * 1200 + 800;
+      addTimer(() => setShowMeetingInsights(true), afterLines);
+      // Fade out and switch scene
+      addTimer(() => setFadingOut(true), afterLines + 4500);
+      addTimer(() => { setFadingOut(false); setScene('idea'); }, afterLines + 5000);
+    }
+
+    return clearTimers;
+  }, [scene]);
+
+  return (
+    <div className={`relative w-full max-w-lg mx-auto bg-[#FAF8F4] shadow-2xl shadow-ink/20 rounded-lg border border-ink/10 overflow-hidden transition-opacity duration-500 min-h-[420px] ${fadingOut ? 'opacity-0' : 'opacity-100'}`}>
+      {/* Scene indicator dots */}
+      <div className="absolute top-3 right-3 flex gap-1.5 z-10">
+        <button onClick={() => setScene('idea')} className={`w-2 h-2 rounded-full transition-colors ${scene === 'idea' ? 'bg-accent' : 'bg-ink/20'}`} />
+        <button onClick={() => setScene('meeting')} className={`w-2 h-2 rounded-full transition-colors ${scene === 'meeting' ? 'bg-accent' : 'bg-ink/20'}`} />
       </div>
-      <div className="font-mono text-[10px] tracking-[0.2em] text-ink/40 uppercase">Pulse Dashboard v1.0</div>
+
+      {scene === 'idea' ? (
+        <div className="p-5 md:p-7">
+          {/* Idea input */}
+          <div className="border border-ink/15 rounded-lg bg-white p-4 mb-4 shadow-sm">
+            <div className="font-mono text-[10px] text-ink uppercase tracking-widest mb-2">Your Idea</div>
+            <div className="font-serif text-base md:text-lg text-ink min-h-[28px]">
+              {IDEA_TEXT.slice(0, typedChars)}
+              {typedChars < IDEA_TEXT.length && (
+                <span className="inline-block w-[2px] h-5 bg-ink/70 ml-0.5 animate-pulse align-text-bottom" />
+              )}
+            </div>
+          </div>
+
+          {/* Generate button */}
+          <div className={`flex justify-end mb-4 transition-all duration-300 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
+            <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm text-white ${generating ? 'bg-accent/80' : 'bg-accent'} shadow-md`}>
+              <Sparkles className={`w-4 h-4 ${generating ? 'animate-spin' : ''}`} />
+              {generating ? 'Generating...' : 'Generate Content'}
+            </div>
+          </div>
+
+          {/* Generated post cards */}
+          <div className={`grid grid-cols-2 gap-3 transition-all duration-500 ${showPosts ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            {GENERATED_POSTS.map((post, i) => (
+              <div key={i} className="bg-white border border-ink/10 rounded-lg p-3.5 shadow-sm" style={{ transitionDelay: `${i * 150}ms` }}>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <svg className="w-4 h-4 text-[#0A66C2]" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                  <span className="font-mono text-[10px] text-ink/60 font-medium">{post.platform}</span>
+                </div>
+                <p className="font-serif text-sm text-ink leading-snug mb-2.5">{post.title}</p>
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                  {post.tags.map(tag => (
+                    <span key={tag} className="font-mono text-[10px] text-accent font-medium">{tag}</span>
+                  ))}
+                  <span className="font-mono text-[10px] text-ink/50 font-bold ml-auto">Ready</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="p-5 md:p-7">
+          {/* Meeting recorder header */}
+          <div className="flex items-center gap-3 mb-4">
+            <div className="relative flex items-center justify-center w-9 h-9 rounded-full bg-red-500/10 border border-red-400/30">
+              <Mic className="w-4 h-4 text-red-500" />
+              <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse" />
+            </div>
+            <div>
+              <div className="font-serif text-sm font-medium text-ink">Meeting Recording</div>
+              <div className="font-mono text-[10px] text-ink/40">Strategy Call &middot; Live</div>
+            </div>
+          </div>
+
+          {/* Waveform visualization */}
+          <div className="bg-white border border-ink/10 rounded-lg p-3 mb-4 shadow-sm">
+            <div className="flex items-center justify-center gap-[3px] h-8">
+              {Array.from({ length: 32 }).map((_, i) => {
+                const h = Math.abs(Math.sin((i + wavePhase) * 0.5)) * 24 + 4;
+                return (
+                  <div
+                    key={i}
+                    className="w-[3px] rounded-full bg-red-400/70 transition-all duration-150"
+                    style={{ height: `${h}px` }}
+                  />
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Transcript lines */}
+          <div className="space-y-2.5 mb-4">
+            {MEETING_LINES.map((line, i) => (
+              <div
+                key={i}
+                className={`transition-all duration-400 ${i < visibleLines ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-3'}`}
+              >
+                <span className="font-mono text-[10px] text-accent font-bold">{line.speaker}:</span>
+                <span className="font-sans text-xs text-ink/80 ml-1.5">{line.text}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Insights extracted */}
+          <div className={`transition-all duration-500 ${showMeetingInsights ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
+            <div className="flex items-center gap-2 mb-2">
+              <Lightbulb className="w-3.5 h-3.5 text-accent" />
+              <span className="font-mono text-[10px] text-accent uppercase tracking-widest font-bold">Insights Extracted</span>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="bg-white border border-accent/20 rounded-lg p-2.5 shadow-sm">
+                <p className="font-serif text-xs text-ink leading-snug">"3hrs per case = $40K/mo waste"</p>
+                <span className="font-mono text-[9px] text-accent mt-1 block">Aha Moment</span>
+              </div>
+              <div className="bg-white border border-accent/20 rounded-lg p-2.5 shadow-sm">
+                <p className="font-serif text-xs text-ink leading-snug">"80% automation opportunity"</p>
+                <span className="font-mono text-[9px] text-accent mt-1 block">Key Insight</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-
-    <svg className="w-full h-full" viewBox="0 0 320 200" fill="none">
-      {/* Waveform */}
-      <rect x="10" y="10" width="180" height="60" rx="4" stroke="#C4B59D" strokeWidth="1" fill="none" />
-      <text x="18" y="24" fontSize="8" fill="#5A4A3A" fontFamily="monospace" letterSpacing="0.05em">WAVEFORM</text>
-      <path d="M 20 50 Q 35 30, 50 50 T 80 50 T 110 50 T 140 50 T 170 50" stroke="#3f84c8" strokeWidth="1.5" fill="none" />
-      <path d="M 20 50 Q 35 60, 50 50 T 80 50 T 110 50 T 140 50 T 170 50" stroke="#3f84c8" strokeWidth="1" fill="none" opacity="0.4" />
-
-      {/* Insight cards */}
-      <rect x="200" y="10" width="110" height="28" rx="3" stroke="#222" strokeWidth="1" fill="white" />
-      <circle cx="212" cy="24" r="5" fill="#3f84c8" opacity="0.3" />
-      <line x1="222" y1="21" x2="296" y2="21" stroke="#222" strokeWidth="1" opacity="0.3" />
-      <line x1="222" y1="27" x2="270" y2="27" stroke="#222" strokeWidth="1" opacity="0.15" />
-
-      <rect x="200" y="44" width="110" height="28" rx="3" stroke="#222" strokeWidth="1" fill="white" />
-      <circle cx="212" cy="58" r="5" fill="#C4B59D" opacity="0.5" />
-      <line x1="222" y1="55" x2="296" y2="55" stroke="#222" strokeWidth="1" opacity="0.3" />
-      <line x1="222" y1="61" x2="258" y2="61" stroke="#222" strokeWidth="1" opacity="0.15" />
-
-      {/* Themes cluster */}
-      <rect x="10" y="80" width="130" height="110" rx="4" stroke="#C4B59D" strokeWidth="1" fill="none" />
-      <text x="18" y="94" fontSize="8" fill="#5A4A3A" fontFamily="monospace" letterSpacing="0.05em">THEMES</text>
-      <circle cx="50" cy="140" r="18" stroke="#3f84c8" strokeWidth="1" fill="#3f84c8" fillOpacity="0.08" />
-      <circle cx="90" cy="130" r="14" stroke="#C4B59D" strokeWidth="1" fill="#C4B59D" fillOpacity="0.08" />
-      <circle cx="70" cy="160" r="10" stroke="#222" strokeWidth="1" fill="#222" fillOpacity="0.05" />
-      <text x="50" y="143" textAnchor="middle" fontSize="7" fill="#3f84c8" fontFamily="monospace">Product</text>
-      <text x="90" y="133" textAnchor="middle" fontSize="6" fill="#5A4A3A" fontFamily="monospace">Growth</text>
-      <text x="70" y="163" textAnchor="middle" fontSize="5" fill="#222" fontFamily="monospace">Ops</text>
-
-      {/* Content queue */}
-      <rect x="150" y="80" width="160" height="110" rx="4" stroke="#C4B59D" strokeWidth="1" fill="none" />
-      <text x="158" y="94" fontSize="8" fill="#5A4A3A" fontFamily="monospace" letterSpacing="0.05em">CONTENT QUEUE</text>
-      <rect x="158" y="102" width="144" height="22" rx="2" fill="#3f84c8" fillOpacity="0.06" stroke="#3f84c8" strokeWidth="0.5" />
-      <text x="166" y="116" fontSize="7" fill="#3f84c8" fontFamily="monospace">Newsletter Draft</text>
-      <circle cx="290" cy="113" r="4" fill="#22c55e" opacity="0.6" />
-      <rect x="158" y="130" width="144" height="22" rx="2" fill="#222" fillOpacity="0.03" stroke="#222" strokeWidth="0.5" />
-      <text x="166" y="144" fontSize="7" fill="#222" fontFamily="monospace">LinkedIn Post</text>
-      <circle cx="290" cy="141" r="4" fill="#eab308" opacity="0.6" />
-      <rect x="158" y="158" width="144" height="22" rx="2" fill="#222" fillOpacity="0.03" stroke="#222" strokeWidth="0.5" />
-      <text x="166" y="172" fontSize="7" fill="#222" fontFamily="monospace">Meta Thread</text>
-      <circle cx="290" cy="169" r="4" fill="#eab308" opacity="0.6" />
-    </svg>
-
-    {/* Floating annotation cards */}
-    <div className="absolute -top-4 -right-4 bg-base shadow-lg border border-ink/10 px-3 py-1.5 rounded flex items-center gap-2 animate-float">
-      <Sparkles className="w-3.5 h-3.5 text-accent" />
-      <span className="text-[11px] font-medium text-ink">3 Aha Moments</span>
-    </div>
-    <div className="absolute -bottom-3 -left-3 bg-base shadow-lg border border-ink/10 px-3 py-1.5 rounded flex items-center gap-2 animate-float-delayed">
-      <Send className="w-3.5 h-3.5 text-ink-muted" />
-      <span className="text-[11px] font-medium text-ink">5 Drafts Ready</span>
-    </div>
-  </div>
-);
+  );
+};
 
 // ─── Hero Section ──────────────────────────────────────────────────────────────
 
@@ -191,7 +317,7 @@ const PulseHero: React.FC = () => {
               Introducing Pulse Note
             </span>
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-ink leading-[1.1] mb-6">
-              Your meetings,<br />
+              Your ideas and meeting insights<br />
               <span className="italic text-ink-muted/80">turned into content.</span>
             </h1>
             <p className="font-sans text-lg md:text-xl text-ink-muted max-w-xl leading-relaxed mb-8">
@@ -199,7 +325,7 @@ const PulseHero: React.FC = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button variant="primary" onClick={() => scrollTo('booking')} className="text-base px-8 py-4">Book a Demo</Button>
-              <Button variant="secondary" onClick={() => scrollTo('how-it-works')} className="text-base px-8 py-4">See How It Works</Button>
+              <Button variant="secondary" onClick={() => scrollTo('try-it')} className="text-base px-8 py-4">See How It Works</Button>
             </div>
           </ScrollReveal>
         </div>
@@ -239,22 +365,769 @@ const steps = [
   },
 ];
 
+const AHA_MOMENTS = [
+  "Clients spend 3hrs per onboarding case",
+  "80% of workflow can be automated",
+  "Manual data entry is the #1 pain point",
+  "$40K monthly savings opportunity",
+  "Compliance checks slow down 60% of cases",
+];
+
+const TRANSCRIPT_WORDS = "So the biggest challenge we're seeing is that clients spend over three hours on each onboarding case and most of that time is manual data entry which could easily be automated we estimate about eighty percent of the workflow can be handled by AI and that alone would save roughly forty thousand dollars per month".split(' ');
+
+const MeetingAnalyzerAnimation: React.FC = () => {
+  const [phase, setPhase] = useState<'call' | 'ahas' | 'selecting' | 'post'>('call');
+  const [wavePhase, setWavePhase] = useState(0);
+  const [visibleAhas, setVisibleAhas] = useState(0);
+  const [selected, setSelected] = useState<number[]>([]);
+  const [showPost, setShowPost] = useState(false);
+  const [fadingOut, setFadingOut] = useState(false);
+  const [typedWords, setTypedWords] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const clearTimers = () => { timerRef.current.forEach(clearTimeout); timerRef.current = []; };
+  const addTimer = (fn: () => void, ms: number) => { timerRef.current.push(setTimeout(fn, ms)); };
+
+  // Wave animation during call phase
+  useEffect(() => {
+    if (phase !== 'call') return;
+    const interval = setInterval(() => setWavePhase(p => p + 1), 150);
+    return () => clearInterval(interval);
+  }, [phase]);
+
+  const runSequence = () => {
+    clearTimers();
+    setPhase('call');
+    setVisibleAhas(0);
+    setSelected([]);
+    setShowPost(false);
+    setFadingOut(false);
+    setWavePhase(0);
+    setTypedWords(0);
+
+    // Type transcript words during call phase
+    const wordDelay = 120;
+    for (let i = 1; i <= TRANSCRIPT_WORDS.length; i++) {
+      addTimer(() => setTypedWords(i), i * wordDelay);
+    }
+
+    const callDuration = TRANSCRIPT_WORDS.length * wordDelay + 500;
+
+    // Transition to ahas
+    addTimer(() => setPhase('ahas'), callDuration);
+
+    // Pop in aha moments one by one
+    for (let i = 1; i <= AHA_MOMENTS.length; i++) {
+      addTimer(() => setVisibleAhas(i), callDuration + i * 600);
+    }
+
+    const afterAhas = callDuration + AHA_MOMENTS.length * 600 + 600;
+
+    // Auto-select 3 aha moments
+    addTimer(() => { setPhase('selecting'); setSelected([0]); }, afterAhas);
+    addTimer(() => setSelected([0, 2]), afterAhas + 500);
+    addTimer(() => setSelected([0, 2, 3]), afterAhas + 1000);
+
+    // Show generated post
+    addTimer(() => { setPhase('post'); setShowPost(true); }, afterAhas + 2000);
+
+    // Fade out and restart
+    addTimer(() => setFadingOut(true), afterAhas + 6000);
+    addTimer(() => runSequence(), afterAhas + 6500);
+  };
+
+  // Main sequence
+  useEffect(() => {
+    runSequence();
+    return clearTimers;
+  }, []);
+
+  const isCall = phase === 'call';
+  const isAhas = phase === 'ahas' || phase === 'selecting';
+  const isPost = phase === 'post';
+
+  return (
+    <div className={`w-full bg-[#FAF8F4] rounded-lg border border-ink/10 shadow-xl overflow-hidden transition-opacity duration-500 h-[416px] ${fadingOut ? 'opacity-0' : 'opacity-100'}`}>
+      <div className="p-4 md:p-5 h-full flex flex-col">
+        {/* Zoom call header — always visible */}
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2.5">
+            <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/10 border border-blue-400/30">
+              <Video className="w-4 h-4 text-blue-500" />
+            </div>
+            <div>
+              <div className="font-serif text-sm font-medium text-ink">Strategy Call</div>
+              <div className="font-mono text-[10px] text-ink/40">Zoom &middot; 3 participants</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className={`w-2 h-2 rounded-full ${isCall ? 'bg-red-500 animate-pulse' : 'bg-ink/20'}`} />
+            <span className={`font-mono text-[10px] font-medium ${isCall ? 'text-red-500' : 'text-ink/30'}`}>{isCall ? 'REC' : 'DONE'}</span>
+          </div>
+        </div>
+
+        {/* Content area — relative container with absolute children for fixed height */}
+        <div className="relative flex-1">
+          {/* Call phase: waveform + transcript */}
+          <div className={`absolute inset-0 transition-opacity duration-500 ${isCall ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="flex -space-x-2">
+                  {['bg-blue-400', 'bg-emerald-400', 'bg-amber-400'].map((bg, i) => (
+                    <div key={i} className={`w-8 h-8 rounded-full ${bg} border-2 border-[#FAF8F4] flex items-center justify-center`}>
+                      <User className="w-3.5 h-3.5 text-white" />
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-center gap-[3px] flex-1 h-6">
+                  {Array.from({ length: 24 }).map((_, i) => {
+                    const h = Math.abs(Math.sin((i + wavePhase) * 0.45)) * 16 + 3;
+                    return (
+                      <div key={i} className="w-[2px] rounded-full bg-blue-400/60 transition-all duration-150" style={{ height: `${h}px` }} />
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="bg-white border border-ink/10 rounded-lg p-3 shadow-sm">
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
+                  <span className="font-mono text-[9px] text-ink/40 uppercase tracking-wider">Live Transcript</span>
+                </div>
+                <p className="font-sans text-xs text-ink/70 leading-relaxed">
+                  {TRANSCRIPT_WORDS.slice(0, typedWords).join(' ')}
+                  {typedWords < TRANSCRIPT_WORDS.length && (
+                    <span className="inline-block w-[2px] h-3 bg-ink/50 ml-0.5 animate-pulse align-text-bottom" />
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Aha moments phase */}
+          <div className={`absolute inset-0 transition-opacity duration-500 ${isAhas ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 mb-2">
+                <Lightbulb className="w-3.5 h-3.5 text-accent" />
+                <span className="font-mono text-[10px] text-accent uppercase tracking-widest font-bold">Aha Moments Detected</span>
+              </div>
+              {AHA_MOMENTS.map((aha, i) => {
+                const isSelected = selected.includes(i);
+                return (
+                  <div
+                    key={i}
+                    className={`flex items-center gap-2.5 p-2.5 rounded-lg border transition-all duration-300 ${
+                      i < visibleAhas ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
+                    } ${isSelected ? 'bg-accent/8 border-accent/30' : 'bg-white border-ink/10'}`}
+                  >
+                    <div className={`rounded flex items-center justify-center flex-shrink-0 transition-colors ${
+                      isSelected ? 'bg-accent text-white' : 'border border-ink/20'
+                    }`} style={{ width: 18, height: 18 }}>
+                      {isSelected && <Check className="w-3 h-3" />}
+                    </div>
+                    <span className="font-sans text-xs text-ink/80">{aha}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Post phase */}
+          <div className={`absolute inset-0 overflow-y-auto transition-opacity duration-500 ${isPost ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            <div className="flex items-center gap-2 mb-3">
+              <Sparkles className="w-3.5 h-3.5 text-accent" />
+              <span className="font-mono text-[10px] text-accent uppercase tracking-widest font-bold">Content Generated</span>
+            </div>
+            <div className="bg-white border border-ink/10 rounded-lg p-3 shadow-sm">
+              <div className="flex items-center gap-2 mb-2">
+                <svg className="w-4 h-4 text-[#0A66C2]" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                <span className="font-mono text-[10px] text-ink/60 font-medium">LinkedIn Post</span>
+                <span className="ml-auto font-mono text-[10px] text-green-600 font-bold">Ready</span>
+              </div>
+
+              {/* Compact infographic: Onboarding time cut by 60% */}
+              <div className="rounded-lg overflow-hidden mb-2 bg-gradient-to-br from-[#1a3d54] to-[#2D5A7B] p-3">
+                <div className="flex items-center gap-3">
+                  {/* Before/After bar chart */}
+                  <svg viewBox="0 0 100 60" fill="none" className="w-20 flex-shrink-0">
+                    {/* Before bar */}
+                    <rect x="10" y="8" width="30" height="44" rx="3" fill="white" fillOpacity="0.15" />
+                    <rect x="10" y="8" width="30" height="44" rx="3" fill="#ef4444" fillOpacity="0.3" />
+                    <text x="25" y="34" textAnchor="middle" fontSize="8" fill="white" fontFamily="monospace" fontWeight="bold">3hrs</text>
+                    <text x="25" y="58" textAnchor="middle" fontSize="5" fill="white" fillOpacity="0.5" fontFamily="monospace">BEFORE</text>
+                    {/* After bar */}
+                    <rect x="55" y="30" width="30" height="22" rx="3" fill="#E8A849" fillOpacity="0.5" />
+                    <text x="70" y="45" textAnchor="middle" fontSize="8" fill="white" fontFamily="monospace" fontWeight="bold">1.2h</text>
+                    <text x="70" y="58" textAnchor="middle" fontSize="5" fill="white" fillOpacity="0.5" fontFamily="monospace">AFTER</text>
+                    {/* Arrow */}
+                    <path d="M43 30 L52 30" stroke="#E8A849" strokeWidth="1.5" markerEnd="url(#arrowhead)" />
+                    <defs><marker id="arrowhead" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><path d="M0,0 L6,2 L0,4" fill="#E8A849" /></marker></defs>
+                  </svg>
+                  <div className="flex-1">
+                    <div className="font-serif text-white text-sm font-semibold leading-tight">Onboarding Time Cut by 60%</div>
+                    <div className="font-sans text-white/50 text-[9px] mt-1">$40K/month saved through automation</div>
+                  </div>
+                </div>
+              </div>
+
+              <p className="font-serif text-xs text-ink leading-relaxed mb-1.5">
+                Companies spend 3+ hours on each onboarding case — that's $40K/month in hidden costs.
+              </p>
+              <p className="font-serif text-xs text-ink leading-relaxed mb-2">
+                Automate 80% of the workflow and cut onboarding time by 60%.
+              </p>
+              <div className="flex items-center justify-between">
+                <div className="flex flex-wrap gap-1.5">
+                  {['#Automation', '#SaaS', '#CustomerSuccess'].map(tag => (
+                    <span key={tag} className="font-mono text-[9px] text-accent font-medium">{tag}</span>
+                  ))}
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0A66C2] text-white text-[10px] font-semibold shadow-sm cursor-pointer">
+                  <Send className="w-2.5 h-2.5" />
+                  Post Now
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const IDEA_TO_CONTENT_TEXT = "How to reduce customer churn with proactive outreach";
+const NEWSLETTER_TITLE = "The Proactive Outreach Playbook";
+const NEWSLETTER_BODY = [
+  "Customer churn doesn't happen overnight. It's a slow bleed — missed check-ins, unresolved tickets, and radio silence that compounds until the cancellation email lands.",
+  "But here's what top-performing teams do differently: they don't wait for churn signals. They create them.",
+  "After analyzing 200+ client conversations, one pattern stood out — companies that implemented a 3-touch proactive outreach system reduced churn by 34% in the first quarter alone.",
+];
+
+const IdeaToContentAnimation: React.FC = () => {
+  const [typedChars, setTypedChars] = useState(0);
+  const [showGenBtn, setShowGenBtn] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [showArticle, setShowArticle] = useState(false);
+  const [articleLines, setArticleLines] = useState(0);
+  const [fadingOut, setFadingOut] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const clearTimers = () => { timerRef.current.forEach(clearTimeout); timerRef.current = []; };
+  const addTimer = (fn: () => void, ms: number) => { timerRef.current.push(setTimeout(fn, ms)); };
+
+  const runSequence = () => {
+    clearTimers();
+    setTypedChars(0);
+    setShowGenBtn(false);
+    setGenerating(false);
+    setShowArticle(false);
+    setArticleLines(0);
+    setFadingOut(false);
+
+    // Type the idea
+    for (let i = 1; i <= IDEA_TO_CONTENT_TEXT.length; i++) {
+      addTimer(() => setTypedChars(i), i * 50);
+    }
+    const afterTyping = IDEA_TO_CONTENT_TEXT.length * 50 + 400;
+    addTimer(() => setShowGenBtn(true), afterTyping);
+    addTimer(() => setGenerating(true), afterTyping + 800);
+    addTimer(() => { setGenerating(false); setShowArticle(true); }, afterTyping + 2200);
+
+    // Reveal article paragraphs
+    for (let i = 1; i <= NEWSLETTER_BODY.length; i++) {
+      addTimer(() => setArticleLines(i), afterTyping + 2200 + i * 500);
+    }
+
+    const totalVisible = afterTyping + 2200 + NEWSLETTER_BODY.length * 500 + 4000;
+    addTimer(() => setFadingOut(true), totalVisible);
+    addTimer(() => runSequence(), totalVisible + 500);
+  };
+
+  useEffect(() => {
+    runSequence();
+    return clearTimers;
+  }, []);
+
+  return (
+    <div className={`w-full bg-[#FAF8F4] rounded-lg border border-ink/10 shadow-xl overflow-hidden transition-opacity duration-500 h-[480px] ${fadingOut ? 'opacity-0' : 'opacity-100'}`}>
+      <div className="p-5 md:p-6 h-full flex flex-col">
+        {/* Idea input — always visible */}
+        <div className="border border-ink/15 rounded-lg bg-white p-4 mb-4 shadow-sm">
+          <div className="font-mono text-[10px] text-ink uppercase tracking-widest mb-2">Your Idea</div>
+          <div className="font-serif text-sm md:text-base text-black min-h-[24px]">
+            {IDEA_TO_CONTENT_TEXT.slice(0, typedChars)}
+            {typedChars < IDEA_TO_CONTENT_TEXT.length && (
+              <span className="inline-block w-[2px] h-4 bg-ink/70 ml-0.5 animate-pulse align-text-bottom" />
+            )}
+          </div>
+        </div>
+
+        {/* Generate button — always visible, opacity controlled */}
+        <div className={`flex justify-end mb-4 transition-all duration-300 ${showGenBtn && !showArticle ? 'opacity-100 translate-y-0' : showGenBtn ? 'opacity-0' : 'opacity-0 translate-y-2'}`}>
+          <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm text-white ${generating ? 'bg-accent/80' : 'bg-accent'} shadow-md`}>
+            <Sparkles className={`w-4 h-4 ${generating ? 'animate-spin' : ''}`} />
+            {generating ? 'Generating...' : 'Generate Content'}
+          </div>
+        </div>
+
+        {/* Newsletter article — relative container for stable height */}
+        <div className="relative flex-1">
+          <div className={`absolute inset-0 transition-opacity duration-500 ${showArticle ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            <div className="bg-white border border-ink/10 rounded-lg p-4 shadow-sm h-full overflow-hidden">
+              <div className="flex items-center gap-2 mb-2">
+                <Mail className="w-4 h-4 text-accent" />
+                <span className="font-mono text-[10px] text-ink/50 font-medium uppercase tracking-wider">Newsletter Article</span>
+                <span className="ml-auto font-mono text-[10px] text-green-600 font-bold">Ready</span>
+              </div>
+              <h4 className="font-serif text-base text-ink font-semibold mb-2">{NEWSLETTER_TITLE}</h4>
+              <div className="space-y-2">
+                {NEWSLETTER_BODY.map((para, i) => (
+                  <p
+                    key={i}
+                    className={`font-sans text-xs text-ink/70 leading-relaxed transition-all duration-400 ${
+                      i < articleLines ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+                    }`}
+                  >
+                    {para}
+                  </p>
+                ))}
+              </div>
+              <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-ink/5">
+                {['#CustomerSuccess', '#Retention', '#SaaS'].map(tag => (
+                  <span key={tag} className="font-mono text-[10px] text-accent font-medium">{tag}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const CALENDAR_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const EXISTING_POSTS = [
+  { day: 1, label: '5 AI Tips', color: 'bg-[#0A66C2]' },
+  { day: 3, label: 'Case Study', color: 'bg-[#E1306C]' },
+  { day: 5, label: 'Q&A Thread', color: 'bg-[#1877F2]' },
+];
+const NEW_POST = { day: 4, label: 'Outreach Guide', color: 'bg-accent' };
+
+const LinkedInIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+);
+const FacebookIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+);
+const InstagramIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 100 12.324 6.162 6.162 0 100-12.324zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405a1.441 1.441 0 11-2.882 0 1.441 1.441 0 012.882 0z"/></svg>
+);
+
+const ScheduleAnimation: React.FC = () => {
+  const [phase, setPhase] = useState<'calendar' | 'scheduled' | 'posting' | 'posted'>('calendar');
+  const [fadingOut, setFadingOut] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const clearTimers = () => { timerRef.current.forEach(clearTimeout); timerRef.current = []; };
+  const addTimer = (fn: () => void, ms: number) => { timerRef.current.push(setTimeout(fn, ms)); };
+
+  const runSequence = () => {
+    clearTimers();
+    setPhase('calendar');
+    setFadingOut(false);
+
+    addTimer(() => setPhase('scheduled'), 2500);
+    addTimer(() => setPhase('posting'), 5000);
+    addTimer(() => setPhase('posted'), 6500);
+    addTimer(() => setFadingOut(true), 10000);
+    addTimer(() => runSequence(), 10500);
+  };
+
+  useEffect(() => {
+    runSequence();
+    return clearTimers;
+  }, []);
+
+  const scheduled = phase === 'scheduled' || phase === 'posting' || phase === 'posted';
+  const allPosts = scheduled ? [...EXISTING_POSTS, NEW_POST] : EXISTING_POSTS;
+
+  return (
+    <div className={`w-full bg-[#FAF8F4] rounded-lg border border-ink/10 shadow-xl overflow-hidden transition-opacity duration-500 min-h-[440px] ${fadingOut ? 'opacity-0' : 'opacity-100'}`}>
+      <div className="p-5 md:p-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2.5">
+            <CalendarDays className="w-5 h-5 text-accent" />
+            <div className="font-serif text-sm font-medium text-ink">Content Calendar</div>
+          </div>
+          <div className="font-mono text-[10px] text-ink/40">March 2026</div>
+        </div>
+
+        {/* Calendar grid */}
+        <div className="bg-white border border-ink/10 rounded-lg p-3 mb-4 shadow-sm">
+          {/* Day headers */}
+          <div className="grid grid-cols-7 gap-1 mb-2">
+            {CALENDAR_DAYS.map(day => (
+              <div key={day} className="text-center font-mono text-[9px] text-ink/40 uppercase">{day}</div>
+            ))}
+          </div>
+          {/* Calendar cells - 2 weeks */}
+          {[0, 1].map(week => (
+            <div key={week} className="grid grid-cols-7 gap-1 mb-1">
+              {Array.from({ length: 7 }).map((_, dayIdx) => {
+                const dayNum = week * 7 + dayIdx + 1;
+                const post = allPosts.find(p => p.day === dayIdx + 1 && week === 0);
+                const isNew = post && post === NEW_POST;
+                return (
+                  <div
+                    key={dayIdx}
+                    className={`relative rounded-md p-1.5 min-h-[44px] border transition-all duration-500 ${
+                      isNew ? 'border-accent/40 bg-accent/5 scale-105' : 'border-ink/5 bg-ink/[0.02]'
+                    }`}
+                  >
+                    <div className="font-mono text-[9px] text-ink/30 mb-0.5">{dayNum}</div>
+                    {post && (
+                      <div className={`transition-all duration-500 ${isNew ? 'animate-fade-in' : ''}`}>
+                        <div className={`${post.color} text-white text-[7px] font-mono px-1 py-0.5 rounded leading-tight`}>
+                          {post.label}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+
+        {/* New post card to schedule */}
+        {phase === 'calendar' && (
+          <div className="flex items-center justify-between bg-white border border-ink/10 rounded-lg p-3 mb-3 shadow-sm">
+            <div>
+              <div className="font-serif text-xs text-ink font-medium">Outreach Guide</div>
+              <div className="font-mono text-[9px] text-ink/40">Thursday, 9:00 AM</div>
+            </div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent text-white text-xs font-semibold shadow-sm cursor-pointer">
+              <CalendarDays className="w-3 h-3" />
+              Schedule
+            </div>
+          </div>
+        )}
+
+        {/* Scheduled confirmation */}
+        {phase === 'scheduled' && (
+          <div className="flex items-center gap-2 bg-accent/5 border border-accent/20 rounded-lg p-3 mb-3 transition-all duration-500">
+            <Check className="w-4 h-4 text-accent" />
+            <span className="font-sans text-xs text-ink/70">Scheduled for Thursday, 9:00 AM</span>
+          </div>
+        )}
+
+        {/* Post Now button */}
+        {phase === 'scheduled' && (
+          <div className="flex justify-end">
+            <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-ink text-white text-xs font-semibold shadow-sm cursor-pointer">
+              <Send className="w-3 h-3" />
+              Post Now
+            </div>
+          </div>
+        )}
+
+        {/* Posting animation */}
+        {phase === 'posting' && (
+          <div className="flex items-center justify-center gap-3 py-3">
+            <RefreshCw className="w-4 h-4 text-accent animate-spin" />
+            <span className="font-mono text-xs text-ink/60">Publishing to platforms...</span>
+          </div>
+        )}
+
+        {/* Posted confirmation */}
+        {phase === 'posted' && (
+          <div className="space-y-2">
+            <div className="font-mono text-[10px] text-accent uppercase tracking-widest font-bold mb-2">Published</div>
+            {[
+              { icon: <LinkedInIcon className="w-4 h-4 text-[#0A66C2]" />, name: 'LinkedIn', color: 'border-[#0A66C2]/20' },
+              { icon: <FacebookIcon className="w-4 h-4 text-[#1877F2]" />, name: 'Facebook', color: 'border-[#1877F2]/20' },
+              { icon: <InstagramIcon className="w-4 h-4 text-[#E1306C]" />, name: 'Instagram', color: 'border-[#E1306C]/20' },
+            ].map((platform, i) => (
+              <div
+                key={platform.name}
+                className={`flex items-center gap-2.5 bg-white border ${platform.color} rounded-lg p-2.5 shadow-sm transition-all duration-300`}
+                style={{ animationDelay: `${i * 150}ms` }}
+              >
+                {platform.icon}
+                <span className="font-sans text-xs text-ink/80 font-medium">{platform.name}</span>
+                <Check className="w-3.5 h-3.5 text-green-500 ml-auto" />
+                <span className="font-mono text-[9px] text-green-600 font-medium">Live</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const BRAND_COLORS = [
+  { hex: '#2D5A7B', name: 'Navy' },
+  { hex: '#E8A849', name: 'Gold' },
+  { hex: '#3B3B3B', name: 'Charcoal' },
+  { hex: '#F5F0EB', name: 'Cream' },
+];
+const BRAND_FONTS = ['Playfair Display', 'Inter', 'Lora'];
+const BRAND_AUDIENCES = ['SaaS Founders', 'Marketing Leaders', 'C-Suite Executives'];
+const BRAND_IMAGES = [
+  { title: 'Quarterly Strategy Review', subtitle: 'Leadership Meeting Recap', bg: 'from-[#2D5A7B] to-[#1a3d54]' },
+  { title: 'Client Onboarding Workshop', subtitle: 'Key Takeaways & Next Steps', bg: 'from-[#3B3B3B] to-[#2D5A7B]' },
+];
+
+const BrandingAnimation: React.FC = () => {
+  const [phase, setPhase] = useState<'colors' | 'fonts' | 'audience' | 'generating' | 'images'>('colors');
+  const [selectedColors, setSelectedColors] = useState<number[]>([]);
+  const [selectedFont, setSelectedFont] = useState(-1);
+  const [selectedAudience, setSelectedAudience] = useState(-1);
+  const [visibleImages, setVisibleImages] = useState(0);
+  const [fadingOut, setFadingOut] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const clearTimers = () => { timerRef.current.forEach(clearTimeout); timerRef.current = []; };
+  const addTimer = (fn: () => void, ms: number) => { timerRef.current.push(setTimeout(fn, ms)); };
+
+  const runSequence = () => {
+    clearTimers();
+    setPhase('colors');
+    setSelectedColors([]);
+    setSelectedFont(-1);
+    setSelectedAudience(-1);
+    setVisibleImages(0);
+    setFadingOut(false);
+
+    // Pick colors one by one
+    addTimer(() => setSelectedColors([0]), 600);
+    addTimer(() => setSelectedColors([0, 1]), 1000);
+    addTimer(() => setSelectedColors([0, 1, 2]), 1400);
+    addTimer(() => setSelectedColors([0, 1, 2, 3]), 1800);
+
+    // Switch to fonts
+    addTimer(() => setPhase('fonts'), 2600);
+    addTimer(() => setSelectedFont(0), 3200);
+
+    // Switch to audience
+    addTimer(() => setPhase('audience'), 4000);
+    addTimer(() => setSelectedAudience(0), 4600);
+
+    // Generate
+    addTimer(() => setPhase('generating'), 5400);
+
+    // Show images
+    addTimer(() => setPhase('images'), 6800);
+    for (let i = 1; i <= BRAND_IMAGES.length; i++) {
+      addTimer(() => setVisibleImages(i), 6800 + i * 400);
+    }
+
+    // Fade and restart
+    addTimer(() => setFadingOut(true), 6800 + BRAND_IMAGES.length * 400 + 3500);
+    addTimer(() => runSequence(), 6800 + BRAND_IMAGES.length * 400 + 4000);
+  };
+
+  useEffect(() => {
+    runSequence();
+    return clearTimers;
+  }, []);
+
+  const showConfig = phase === 'colors' || phase === 'fonts' || phase === 'audience' || phase === 'generating';
+  const showImages = phase === 'images';
+
+  return (
+    <div className={`w-full bg-[#FAF8F4] rounded-lg border border-ink/10 shadow-xl overflow-hidden transition-opacity duration-500 h-[520px] ${fadingOut ? 'opacity-0' : 'opacity-100'}`}>
+      <div className="p-5 md:p-6 h-full flex flex-col">
+        {/* Brand setup header */}
+        <div className="flex items-center gap-2.5 mb-4">
+          <div className="w-8 h-8 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
+            <Image className="w-4 h-4 text-accent" />
+          </div>
+          <div>
+            <div className="font-serif text-sm font-medium text-ink">Brand Kit</div>
+            <div className="font-mono text-[10px] text-ink/40">Configure your brand identity</div>
+          </div>
+        </div>
+
+        {/* Config section — always rendered, hidden with opacity */}
+        <div className={`flex-1 transition-all duration-500 ${showConfig ? 'opacity-100' : 'opacity-0 absolute pointer-events-none'}`}>
+          {/* Color picker */}
+          <div className={`mb-4 transition-all duration-300 ${phase === 'colors' ? 'opacity-100' : 'opacity-60'}`}>
+            <div className="font-mono text-[10px] text-ink/50 uppercase tracking-widest mb-2">Brand Colors</div>
+            <div className="flex gap-2.5">
+              {BRAND_COLORS.map((color, i) => (
+                <div key={i} className="flex flex-col items-center gap-1">
+                  <div
+                    className={`w-10 h-10 rounded-lg border-2 transition-all duration-300 cursor-pointer ${
+                      selectedColors.includes(i) ? 'border-accent scale-110 shadow-md' : 'border-ink/10'
+                    }`}
+                    style={{ backgroundColor: color.hex }}
+                  />
+                  <span className="font-mono text-[8px] text-ink/40">{color.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Font picker */}
+          <div className={`mb-4 transition-all duration-300 ${phase === 'fonts' ? 'opacity-100' : phase === 'colors' ? 'opacity-40' : 'opacity-60'}`}>
+            <div className="font-mono text-[10px] text-ink/50 uppercase tracking-widest mb-2">Font Family</div>
+            <div className="flex gap-2">
+              {BRAND_FONTS.map((font, i) => (
+                <div
+                  key={i}
+                  className={`px-3 py-1.5 rounded-lg border text-xs font-medium transition-all duration-300 cursor-pointer ${
+                    selectedFont === i ? 'border-accent bg-accent/8 text-accent' : 'border-ink/10 bg-white text-ink/60'
+                  }`}
+                >
+                  {font}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Audience picker */}
+          <div className={`mb-4 transition-all duration-300 ${phase === 'audience' ? 'opacity-100' : phase === 'colors' || phase === 'fonts' ? 'opacity-40' : 'opacity-60'}`}>
+            <div className="font-mono text-[10px] text-ink/50 uppercase tracking-widest mb-2">Target Audience</div>
+            <div className="flex flex-wrap gap-2">
+              {BRAND_AUDIENCES.map((audience, i) => (
+                <div
+                  key={i}
+                  className={`px-3 py-1.5 rounded-lg border text-xs font-medium transition-all duration-300 cursor-pointer ${
+                    selectedAudience === i ? 'border-accent bg-accent/8 text-accent' : 'border-ink/10 bg-white text-ink/60'
+                  }`}
+                >
+                  {audience}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Generate button */}
+          <div className={`flex justify-end mb-4 transition-all duration-300 ${phase === 'audience' || phase === 'generating' ? 'opacity-100' : 'opacity-0'}`}>
+            <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm text-white ${phase === 'generating' ? 'bg-accent/80' : 'bg-accent'} shadow-md`}>
+              <Sparkles className={`w-4 h-4 ${phase === 'generating' ? 'animate-spin' : ''}`} />
+              {phase === 'generating' ? 'Generating...' : 'Generate Visuals'}
+            </div>
+          </div>
+        </div>
+
+        {/* Generated branded images — meeting scenes */}
+        <div className={`flex-1 transition-all duration-500 ${showImages ? 'opacity-100' : 'opacity-0 absolute pointer-events-none'}`}>
+          <div className="flex items-center gap-2 mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-accent" />
+            <span className="font-mono text-[10px] text-accent uppercase tracking-widest font-bold">Branded Content</span>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            {BRAND_IMAGES.map((img, i) => (
+              <div
+                key={i}
+                className={`rounded-lg overflow-hidden shadow-md border border-ink/10 transition-all duration-500 ${
+                  i < visibleImages ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                }`}
+              >
+                {/* Fake meeting scene illustration */}
+                <div className={`bg-gradient-to-br ${img.bg} relative overflow-hidden`}>
+                  <svg viewBox="0 0 240 160" fill="none" className="w-full">
+                    {/* Conference table */}
+                    <ellipse cx="120" cy="120" rx="80" ry="25" fill="white" fillOpacity="0.08" />
+                    {/* Laptop screens glow */}
+                    <rect x="55" y="85" width="28" height="18" rx="2" fill="white" fillOpacity="0.15" />
+                    <rect x="157" y="85" width="28" height="18" rx="2" fill="white" fillOpacity="0.15" />
+                    <rect x="106" y="78" width="28" height="18" rx="2" fill="white" fillOpacity="0.2" />
+                    {/* People silhouettes */}
+                    <circle cx="69" cy="62" r="10" fill="white" fillOpacity="0.2" />
+                    <path d="M55 82 Q69 72 83 82" fill="white" fillOpacity="0.15" />
+                    <circle cx="120" cy="55" r="11" fill="#E8A849" fillOpacity="0.35" />
+                    <path d="M105 76 Q120 65 135 76" fill="#E8A849" fillOpacity="0.2" />
+                    <circle cx="171" cy="62" r="10" fill="white" fillOpacity="0.2" />
+                    <path d="M157 82 Q171 72 185 82" fill="white" fillOpacity="0.15" />
+                    {/* Presentation screen */}
+                    <rect x="85" y="18" width="70" height="32" rx="3" fill="white" fillOpacity="0.1" stroke="white" strokeOpacity="0.15" strokeWidth="1" />
+                    <line x1="95" y1="28" x2="135" y2="28" stroke="white" strokeOpacity="0.3" strokeWidth="1.5" />
+                    <line x1="95" y1="34" x2="125" y2="34" stroke="white" strokeOpacity="0.15" strokeWidth="1" />
+                    <line x1="95" y1="39" x2="145" y2="39" stroke="white" strokeOpacity="0.1" strokeWidth="1" />
+                    {/* Chart bars on screen */}
+                    <rect x="138" y="30" width="6" height="14" rx="1" fill="#E8A849" fillOpacity="0.4" />
+                    <rect x="146" y="34" width="6" height="10" rx="1" fill="white" fillOpacity="0.2" />
+                  </svg>
+                </div>
+                {/* Card label */}
+                <div className="bg-white p-2.5">
+                  <div className="w-4 h-0.5 bg-[#E8A849] mb-1.5 rounded" />
+                  <div className="font-serif text-xs text-ink font-semibold leading-tight">{img.title}</div>
+                  <div className="font-sans text-ink/50 text-[9px] mt-0.5">{img.subtitle}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const WhatPulseDoes: React.FC = () => (
   <Section id="product" pattern="grid">
-    <SectionHeader eyebrow="The Product" title="Four steps. Zero blank pages." subtitle="From raw conversation to polished content, automatically." />
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-      {steps.map((step, i) => (
-        <ScrollReveal key={step.title} delay={i * 150} className="h-full">
-          <div className="bg-white border border-ink/10 p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group h-full flex flex-col">
-            <div className="mb-6 w-14 h-14 bg-accent/5 border border-accent/10 rounded-sm flex items-center justify-center group-hover:bg-accent/10 transition-colors">
-              {step.icon}
-            </div>
-            <div className="font-mono text-[10px] text-ink-muted/50 uppercase tracking-widest mb-2">Step {i + 1}</div>
-            <h3 className="font-serif text-2xl text-ink mb-3">{step.title}</h3>
-            <p className="text-ink-muted leading-relaxed flex-1">{step.description}</p>
-          </div>
-        </ScrollReveal>
-      ))}
+    <SectionHeader eyebrow="The Product" title="What you can do with PulseNote" subtitle="From raw ideas and meeting insights to polished content, automatically." />
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <ScrollReveal delay={200}>
+        <MeetingAnalyzerAnimation />
+      </ScrollReveal>
+      <ScrollReveal delay={400} direction="left">
+        <div>
+          <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">Turn your meeting Insights to content</h3>
+          <p className="font-sans text-lg text-ink-muted leading-relaxed">
+            Automatically identify trends and Surface the insights that matter from every meeting. Track actions and aha moments that matter the most for your prospects.
+          </p>
+        </div>
+      </ScrollReveal>
+    </div>
+
+    {/* Idea to Content row */}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-20">
+      <ScrollReveal delay={200}>
+        <div>
+          <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">From Idea to Content in Seconds</h3>
+          <p className="font-sans text-lg text-ink-muted leading-relaxed">
+            Type a rough idea, hit generate, and get polished LinkedIn posts instantly. AI drafts, you refine — publish when ready.
+          </p>
+        </div>
+      </ScrollReveal>
+      <ScrollReveal delay={400} direction="left">
+        <IdeaToContentAnimation />
+      </ScrollReveal>
+    </div>
+
+    {/* Stay on Schedule row */}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-20">
+      <ScrollReveal delay={200}>
+        <ScheduleAnimation />
+      </ScrollReveal>
+      <ScrollReveal delay={400} direction="left">
+        <div>
+          <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">Stay on Schedule</h3>
+          <p className="font-sans text-lg text-ink-muted leading-relaxed">
+            Schedule your social media posts on LinkedIn, Facebook and Instagram. One click, every platform.
+          </p>
+        </div>
+      </ScrollReveal>
+    </div>
+
+    {/* Consistent Branding row */}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-20">
+      <ScrollReveal delay={200}>
+        <div>
+          <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">Create Consistent Branding</h3>
+          <p className="font-sans text-lg text-ink-muted leading-relaxed">
+            Add your colors, fonts, voice and target audience and AI will create consistent branded content always.
+          </p>
+        </div>
+      </ScrollReveal>
+      <ScrollReveal delay={400} direction="left">
+        <BrandingAnimation />
+      </ScrollReveal>
     </div>
   </Section>
 );
@@ -652,7 +1525,7 @@ const CreatorMode: React.FC = () => {
   };
 
   return (
-    <Section className="bg-alt/30">
+    <Section id="try-it" className="bg-alt/30">
       <SectionHeader eyebrow="Creator Mode" title="Try Now - Pick insights, generate content." subtitle="Hand-pick the moments that matter, then let Pulse turn them into polished content." />
       <ScrollReveal>
         {showDemoPreview ? (
@@ -800,25 +1673,25 @@ const CreatorMode: React.FC = () => {
 
 // ─── Use Cases ─────────────────────────────────────────────────────────────────
 
-const useCases = [
-  { icon: <Users className="w-6 h-6" />, title: 'Founder Updates', desc: 'Turn board meetings and investor calls into polished updates for stakeholders.' },
-  { icon: <Headphones className="w-6 h-6" />, title: 'Podcast Repurposing', desc: 'Transform podcast episodes into newsletters, clips, and social threads.' },
-  { icon: <Briefcase className="w-6 h-6" />, title: 'Sales Call Learnings', desc: 'Extract winning patterns and objections from your best sales conversations.' },
-  { icon: <HelpCircle className="w-6 h-6" />, title: 'Customer Research', desc: 'Synthesize user interviews into actionable insights and trend reports.' },
-  { icon: <RefreshCw className="w-6 h-6" />, title: 'Team Retros', desc: 'Capture retrospective themes and turn action items into follow-up content.' },
-  { icon: <Mic className="w-6 h-6" />, title: 'Conference Talks', desc: 'Record talks and generate blog posts, summaries, and shareable takeaways.' },
+const personas = [
+  { title: 'The Founder', desc: 'Turn your brilliant business ideas that haunt you during the day into content.', img: '/personas/founder.jpg' },
+  { title: 'The Podcaster', desc: 'Capture millions of great ideas while talking to guests and turn them into content.', img: '/personas/podcaster.jpg' },
+  { title: 'The Salesman', desc: 'Extract winning patterns and objections from your best sales conversations.', img: '/personas/salesman.jpg' },
+  { title: 'The Networker', desc: 'Generate blog posts, summaries, and shareable takeaways from online networking events.', img: '/personas/networker.jpg' },
 ];
 
 const UseCases: React.FC = () => (
   <Section id="use-cases" pattern="grid">
-    <SectionHeader eyebrow="Use Cases" title="Built for how you already work" subtitle="Whether you're a founder, content creator, or team lead — Pulse fits into your workflow." />
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {useCases.map((uc, i) => (
-        <ScrollReveal key={uc.title} delay={i * 100}>
-          <div className="bg-white border border-ink/10 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-            <div className="mb-4 text-ink-muted group-hover:text-accent transition-colors">{uc.icon}</div>
-            <h3 className="font-serif text-xl text-ink mb-2">{uc.title}</h3>
-            <p className="text-sm text-ink-muted leading-relaxed">{uc.desc}</p>
+    <SectionHeader eyebrow="Use Cases" title="Who is PulseNote For?" subtitle="Whether you're a founder, content creator, or team lead — Pulse fits into your workflow." />
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {personas.map((p, i) => (
+        <ScrollReveal key={p.title} delay={i * 120} className="h-full">
+          <div className="bg-white border border-ink/10 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group text-center h-full flex flex-col items-center">
+            <div className="w-44 h-44 mx-auto mb-6 rounded-full bg-[#FAF8F4] border border-ink/10 p-2 group-hover:border-accent/30 transition-colors overflow-hidden">
+              <img src={p.img} alt={p.title} className="w-full h-full object-cover rounded-full" />
+            </div>
+            <h3 className="font-serif text-xl text-ink mb-2">{p.title}</h3>
+            <p className="text-sm text-ink-muted leading-relaxed flex-1">{p.desc}</p>
           </div>
         </ScrollReveal>
       ))}
@@ -1243,7 +2116,7 @@ const FinalCTA: React.FC = () => {
             Stop leaving insights on the table.
           </h2>
           <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-            Every meeting is a goldmine of content. Pulse makes sure nothing gets lost.
+            Every single idea you have is a goldmine of content. PulseNote makes sure nothing gets lost.
           </p>
           <button onClick={scrollTo} className="inline-flex items-center px-8 py-4 text-base font-medium bg-white text-ink hover:bg-base transition-all shadow-lg hover:shadow-xl active:scale-95">
             Book Your Demo
@@ -1263,12 +2136,8 @@ const PulseLandingPage: React.FC<PulseLandingPageProps> = ({ onNavigate }) => {
       <PulseNav />
       <PulseHero />
       <WhatPulseDoes />
-      <InsightsDashboard />
-      <WeeklyContentEngine />
-      <ImageGeneration />
       <CreatorMode />
       <UseCases />
-      <FAQ />
       <PulseBooking onNavigate={onNavigate} />
       <FinalCTA />
     </div>
