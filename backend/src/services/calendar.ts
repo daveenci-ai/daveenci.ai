@@ -20,12 +20,23 @@ export const createAuthClient = (scopes: string[]) => {
 };
 
 const sendOwnerEmail = async (eventDetails: any) => {
-    const { name, email, company, reason, notes, date, time } = eventDetails;
+    const { name, email, company, reason, notes, date, time, dateTime } = eventDetails;
     const auth = createAuthClient([...CALENDAR_SCOPES, ...GMAIL_SCOPES]);
     const gmail = google.gmail({ version: 'v1', auth });
 
     const isMeetAstrid = eventDetails.bookingType === 'meet-astrid';
-    const subject = isMeetAstrid ? `New Booking: ${name} | Meet Astrid` : `New Booking: ${name} | Schedule A Demo`;
+    const subject = isMeetAstrid ? `New Booking: Meet Astrid | ${name}` : `New Booking: Schedule A Demo | ${name}`;
+
+    // Format time from ISO dateTime or fallback to date/time fields
+    let formattedTime = 'N/A';
+    if (dateTime) {
+        formattedTime = new Date(dateTime).toLocaleString('en-US', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+            hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
+        });
+    } else if (date && time) {
+        formattedTime = `${date} at ${time}`;
+    }
 
     const body = `
 Client Details:
@@ -36,7 +47,7 @@ Reason: ${reason || 'N/A'}
 Notes: ${notes || 'N/A'}
 
 Agent: Astrid Abrahamyan
-Time: ${date} at ${time}
+Time: ${formattedTime}
 `;
 
     const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
@@ -64,8 +75,8 @@ Time: ${date} at ${time}
                 raw: encodedMessage,
             },
         });
-    } catch (error) {
-        console.error('Error sending owner confirmation email:', error);
+    } catch (error: any) {
+        console.error('Error sending owner confirmation email:', error?.response?.data || error?.message || error);
     }
 };
 
@@ -88,7 +99,7 @@ export const createCalendarEvent = async (eventDetails: any) => {
     const isMeetAstrid = eventDetails.bookingType === 'meet-astrid';
 
     const event = {
-        summary: isMeetAstrid ? `${name} | Meet Astrid` : `${name} | Schedule A Demo`,
+        summary: isMeetAstrid ? `Meet Astrid | ${name}` : `Schedule A Demo | ${name}`,
         description: isMeetAstrid
             ? `Proposed Agenda:
 • Get to know each other and your business goals.
@@ -127,7 +138,7 @@ export const createCalendarEvent = async (eventDetails: any) => {
         });
 
         // Send detailed email to owner in background
-        sendOwnerEmail(eventDetails).catch(err => console.error('Background email error:', err));
+        sendOwnerEmail(eventDetails).catch(err => console.error('Background email error:', err?.response?.data || err?.message || err));
 
         return response.data;
     } catch (error) {

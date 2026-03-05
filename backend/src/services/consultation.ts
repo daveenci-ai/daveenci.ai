@@ -47,10 +47,10 @@ export const getBookedSlots = async (start: string, end: string) => {
   try {
     const res = await query(text, values);
     // Convert to same format as Google Calendar busy slots
-    // Assume 45 minute meetings
+    // 30 minute meetings
     const slots = res.rows.map(row => ({
       start: new Date(row.schedule_utc).toISOString(),
-      end: new Date(new Date(row.schedule_utc).getTime() + 45 * 60000).toISOString()
+      end: new Date(new Date(row.schedule_utc).getTime() + 30 * 60000).toISOString()
     }));
     return slots;
   } catch (err) {
