@@ -1762,7 +1762,7 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
               <span className="font-mono text-xs font-bold text-ink-muted/60 uppercase tracking-widest mb-2 block">Pulse Demo</span>
               <h1 className="font-serif text-3xl lg:text-4xl text-ink mb-4">Book a Pulse Demo</h1>
               <div className="flex items-center gap-6 text-sm font-medium text-ink-muted mb-8">
-                <div className="flex items-center gap-2"><Clock className="w-4 h-4" /> 45 Min</div>
+                <div className="flex items-center gap-2"><Clock className="w-4 h-4" /> 30 Min</div>
                 <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" /> Available</div>
               </div>
               <p className="text-ink-muted leading-relaxed mb-8">

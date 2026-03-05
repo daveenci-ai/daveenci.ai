@@ -83,7 +83,7 @@ export const createCalendarEvent = async (eventDetails: any) => {
         startDateTime = new Date(`${date}T${time}:00`);
     }
 
-    const endDateTime = new Date(startDateTime.getTime() + 45 * 60000); // 45 min duration
+    const endDateTime = new Date(startDateTime.getTime() + 30 * 60000); // 30 min duration
 
     const isMeetAstrid = eventDetails.bookingType === 'meet-astrid';
 

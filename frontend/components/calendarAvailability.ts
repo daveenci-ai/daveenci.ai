@@ -5,7 +5,7 @@ export type BusySlot = { start: string; end: string };
 export const BUSINESS_TIMEZONE = 'America/Chicago';
 export const BUSINESS_HOURS = [7, 8, 9, 10, 11, 12];
 export const BUSINESS_DAYS = [1, 2, 3, 4]; // Monday=1 through Thursday=4
-export const MEETING_DURATION_MINUTES = 45;
+export const MEETING_DURATION_MINUTES = 30;
 export const BUFFER_MINUTES = 10;
 
 export const MONTH_NAMES = [
@@ -23,19 +23,21 @@ export const buildDisplaySlots = (
   const month = selectedDate.getMonth() + 1;
   const day = selectedDate.getDate();
 
-  const slots = businessHours.map((hour) => {
-    const isoDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:00:00`;
-    const utcDate = fromZonedTime(isoDateStr, businessTimezone);
-    return {
-      display: utcDate.toLocaleTimeString(undefined, {
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-        timeZone: userTimezone,
-      }),
-      value: utcDate.toISOString(),
-      localTime: userTimezone,
-    };
+  const slots = businessHours.flatMap((hour) => {
+    return [0, 30].map((minute) => {
+      const isoDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00`;
+      const utcDate = fromZonedTime(isoDateStr, businessTimezone);
+      return {
+        display: utcDate.toLocaleTimeString(undefined, {
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true,
+          timeZone: userTimezone,
+        }),
+        value: utcDate.toISOString(),
+        localTime: userTimezone,
+      };
+    });
   });
 
   slots.sort((a, b) => new Date(a.value).getTime() - new Date(b.value).getTime());
@@ -61,9 +63,11 @@ export const getSlotsForDate = (
   const month = date.getMonth() + 1;
   const day = date.getDate();
 
-  return businessHours.map((hour) => {
-    const isoDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:00:00`;
-    return fromZonedTime(isoDateStr, businessTimezone).toISOString();
+  return businessHours.flatMap((hour) => {
+    return [0, 30].map((minute) => {
+      const isoDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00`;
+      return fromZonedTime(isoDateStr, businessTimezone).toISOString();
+    });
   });
 };
 

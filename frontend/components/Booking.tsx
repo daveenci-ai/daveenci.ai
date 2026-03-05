@@ -42,25 +42,24 @@ const Booking: React.FC = () => {
       const month = selectedDate.getMonth() + 1;
       const day = selectedDate.getDate();
 
-      const slots = BUSINESS_HOURS.map(hour => {
-         // Construct ISO string for Chicago time (business hours)
-         const isoDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:00:00`;
-         // Convert Chicago time to UTC
-         const utcDate = fromZonedTime(isoDateStr, BUSINESS_TIMEZONE);
+      const slots = BUSINESS_HOURS.flatMap(hour => {
+         return [0, 30].map(minute => {
+            const isoDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00`;
+            const utcDate = fromZonedTime(isoDateStr, BUSINESS_TIMEZONE);
 
-         // Format for display in user's local timezone
-         const localTimeDisplay = utcDate.toLocaleTimeString(undefined, {
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true,
-            timeZone: USER_TIMEZONE
+            const localTimeDisplay = utcDate.toLocaleTimeString(undefined, {
+               hour: 'numeric',
+               minute: '2-digit',
+               hour12: true,
+               timeZone: USER_TIMEZONE
+            });
+
+            return {
+               display: localTimeDisplay,
+               value: utcDate.toISOString(),
+               localTime: USER_TIMEZONE
+            };
          });
-
-         return {
-            display: localTimeDisplay,
-            value: utcDate.toISOString(),
-            localTime: USER_TIMEZONE
-         };
       });
 
       // Sort slots chronologically by UTC time (which ensures correct local time order)
@@ -109,7 +108,7 @@ const Booking: React.FC = () => {
       return () => clearInterval(interval);
    }, [currentDate]);
 
-   const MEETING_DURATION_MINUTES = 45;
+   const MEETING_DURATION_MINUTES = 30;
    const BUFFER_MINUTES = 10;
 
    const checkSlotAvailability = (slotIsoTime: string) => {
@@ -117,7 +116,7 @@ const Booking: React.FC = () => {
 
       // Our meeting window: need buffer BEFORE, meeting duration, and buffer AFTER
       const slotStartWithBuffer = new Date(slotStart.getTime() - BUFFER_MINUTES * 60000); // 10 min before
-      const slotEnd = new Date(slotStart.getTime() + MEETING_DURATION_MINUTES * 60000); // 45 min meeting
+      const slotEnd = new Date(slotStart.getTime() + MEETING_DURATION_MINUTES * 60000); // 30 min meeting
       const slotEndWithBuffer = new Date(slotEnd.getTime() + BUFFER_MINUTES * 60000); // 10 min after
 
       const now = new Date();
@@ -140,9 +139,11 @@ const Booking: React.FC = () => {
       const month = date.getMonth() + 1;
       const day = date.getDate();
 
-      return BUSINESS_HOURS.map(hour => {
-         const isoDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:00:00`;
-         return fromZonedTime(isoDateStr, BUSINESS_TIMEZONE).toISOString();
+      return BUSINESS_HOURS.flatMap(hour => {
+         return [0, 30].map(minute => {
+            const isoDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00`;
+            return fromZonedTime(isoDateStr, BUSINESS_TIMEZONE).toISOString();
+         });
       });
    };
 
@@ -280,7 +281,7 @@ const Booking: React.FC = () => {
 
                      <div className="flex items-center gap-6 text-sm font-medium text-ink-muted mb-8">
                         <div className="flex items-center gap-2">
-                           <Clock className="w-4 h-4" /> 45 Min
+                           <Clock className="w-4 h-4" /> 30 Min
                         </div>
                         <div className="flex items-center gap-2">
                            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div> Available
