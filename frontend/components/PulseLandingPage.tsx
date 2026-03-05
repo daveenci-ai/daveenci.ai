@@ -103,195 +103,151 @@ const PulseNav: React.FC = () => {
 
 // ─── Hero Diagram (Animated Demo) ───────────────────────────────────────────
 
-const IDEA_TEXT = "How AI is transforming customer onboarding";
-const MEETING_LINES = [
-  { speaker: "You", text: "The biggest pain point is manual data entry..." },
-  { speaker: "Client", text: "We spend 3 hours per onboarding case." },
-  { speaker: "You", text: "What if we automated 80% of that workflow?" },
-  { speaker: "Client", text: "That would save us $40K monthly." },
+
+const TRANSCRIPT_LINES = [
+  "The biggest pain point is definitely manual data entry...",
+  "We spend about 3 hours per onboarding case right now.",
+  "What if we automated 80% of that workflow?",
+  "That would save us roughly $40K monthly.",
 ];
 
-const GENERATED_POSTS = [
-  { platform: "LinkedIn Post", title: "AI onboarding: 5 strategies that work", tags: ["#AI", "#SaaS", "#Growth"] },
-  { platform: "LinkedIn Post", title: "Why manual onboarding is costing you 40% more", tags: ["#Automation", "#ROI"] },
+const INSIGHTS = [
+  { label: "Aha Moment", text: "3hrs per case = $40K/mo waste" },
+  { label: "Key Insight", text: "80% automation opportunity" },
+  { label: "Action Item", text: "Build onboarding automation POC" },
 ];
 
 const PulseHeroDiagram: React.FC = () => {
-  const [scene, setScene] = useState<'idea' | 'meeting'>('idea');
-  const [typedChars, setTypedChars] = useState(0);
-  const [showButton, setShowButton] = useState(false);
-  const [generating, setGenerating] = useState(false);
-  const [showPosts, setShowPosts] = useState(false);
-  const [visibleLines, setVisibleLines] = useState(0);
-  const [wavePhase, setWavePhase] = useState(0);
-  const [showMeetingInsights, setShowMeetingInsights] = useState(false);
-  const [fadingOut, setFadingOut] = useState(false);
+  const [mouthOpen, setMouthOpen] = useState(false);
+  const [visibleTranscript, setVisibleTranscript] = useState(0);
+  const [typedChars, setTypedChars] = useState<number[]>([]);
+  const [visibleInsights, setVisibleInsights] = useState(0);
+  const [cycle, setCycle] = useState(0);
   const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const clearTimers = () => {
     timerRef.current.forEach(clearTimeout);
     timerRef.current = [];
   };
-
   const addTimer = (fn: () => void, ms: number) => {
     timerRef.current.push(setTimeout(fn, ms));
   };
 
-  // Wave animation for meeting recorder
+  // Mouth animation while transcript is typing
   useEffect(() => {
-    if (scene !== 'meeting' || showMeetingInsights) return;
-    const interval = setInterval(() => setWavePhase(p => p + 1), 150);
-    return () => clearInterval(interval);
-  }, [scene, showMeetingInsights]);
+    if (visibleTranscript === 0) return;
+    const interval = setInterval(() => setMouthOpen(p => !p), 200);
+    return () => { clearInterval(interval); setMouthOpen(false); };
+  }, [visibleTranscript]);
 
-  // Scene sequencer
+  // Main sequencer
   useEffect(() => {
     clearTimers();
-    setTypedChars(0);
-    setShowButton(false);
-    setGenerating(false);
-    setShowPosts(false);
-    setVisibleLines(0);
-    setShowMeetingInsights(false);
-    setFadingOut(false);
+    setVisibleTranscript(0);
+    setTypedChars([]);
+    setVisibleInsights(0);
 
-    if (scene === 'idea') {
-      // Type out the idea
-      for (let i = 1; i <= IDEA_TEXT.length; i++) {
-        addTimer(() => setTypedChars(i), i * 55);
+    let t = 400;
+
+    // Type each transcript line one by one
+    TRANSCRIPT_LINES.forEach((line, lineIdx) => {
+      const lineStart = t;
+      addTimer(() => setVisibleTranscript(lineIdx + 1), lineStart);
+      for (let c = 1; c <= line.length; c++) {
+        addTimer(() => {
+          setTypedChars(prev => {
+            const next = [...prev];
+            next[lineIdx] = c;
+            return next;
+          });
+        }, lineStart + c * 12);
       }
-      const afterTyping = IDEA_TEXT.length * 55 + 400;
-      addTimer(() => setShowButton(true), afterTyping);
-      addTimer(() => setGenerating(true), afterTyping + 800);
-      addTimer(() => { setGenerating(false); setShowPosts(true); }, afterTyping + 2000);
-      // Fade out and switch scene
-      addTimer(() => setFadingOut(true), afterTyping + 5500);
-      addTimer(() => { setFadingOut(false); setScene('meeting'); }, afterTyping + 6000);
-    } else {
-      // Show meeting lines one by one
-      for (let i = 1; i <= MEETING_LINES.length; i++) {
-        addTimer(() => setVisibleLines(i), i * 1200);
+      // Show insight as soon as line finishes typing
+      const lineEnd = lineStart + line.length * 12;
+      if (lineIdx < INSIGHTS.length) {
+        addTimer(() => setVisibleInsights(lineIdx + 1), lineEnd);
       }
-      const afterLines = MEETING_LINES.length * 1200 + 800;
-      addTimer(() => setShowMeetingInsights(true), afterLines);
-      // Fade out and switch scene
-      addTimer(() => setFadingOut(true), afterLines + 4500);
-      addTimer(() => { setFadingOut(false); setScene('idea'); }, afterLines + 5000);
-    }
+      t = lineEnd + 200;
+    });
+
+    // Restart cycle immediately after last line finishes
+    addTimer(() => setCycle(c => c + 1), t + 800);
 
     return clearTimers;
-  }, [scene]);
+  }, [cycle]);
 
   return (
-    <div className={`relative w-full max-w-lg mx-auto bg-[#FAF8F4] shadow-2xl shadow-ink/20 rounded-lg border border-ink/10 overflow-hidden transition-opacity duration-500 min-h-[420px] ${fadingOut ? 'opacity-0' : 'opacity-100'}`}>
-      {/* Scene indicator dots */}
-      <div className="absolute top-3 right-3 flex gap-1.5 z-10">
-        <button onClick={() => setScene('idea')} className={`w-2 h-2 rounded-full transition-colors ${scene === 'idea' ? 'bg-accent' : 'bg-ink/20'}`} />
-        <button onClick={() => setScene('meeting')} className={`w-2 h-2 rounded-full transition-colors ${scene === 'meeting' ? 'bg-accent' : 'bg-ink/20'}`} />
-      </div>
-
-      {scene === 'idea' ? (
-        <div className="p-5 md:p-7">
-          {/* Idea input */}
-          <div className="border border-ink/15 rounded-lg bg-white p-4 mb-4 shadow-sm">
-            <div className="font-mono text-[10px] text-ink uppercase tracking-widest mb-2">Your Idea</div>
-            <div className="font-serif text-base md:text-lg text-ink min-h-[28px]">
-              {IDEA_TEXT.slice(0, typedChars)}
-              {typedChars < IDEA_TEXT.length && (
-                <span className="inline-block w-[2px] h-5 bg-ink/70 ml-0.5 animate-pulse align-text-bottom" />
-              )}
+    <div className="relative w-full max-w-lg mx-auto bg-[#FAF8F4] shadow-2xl shadow-ink/20 rounded-lg border border-ink/10 overflow-hidden" style={{ height: 420 }}>
+      <div className="p-5 md:p-6 flex flex-col h-full">
+        {/* Zoom-style video header */}
+        <div className="flex items-center gap-3 mb-3">
+          <div className="relative">
+            {/* Avatar circle */}
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent/30 to-accent/10 border-2 border-accent/30 flex items-center justify-center overflow-hidden">
+              {/* Simple person silhouette */}
+              <svg viewBox="0 0 40 40" className="w-10 h-10 text-accent/70">
+                <circle cx="20" cy="14" r="7" fill="currentColor" />
+                <ellipse cx="20" cy="35" rx="13" ry="10" fill="currentColor" />
+                {/* Animated mouth */}
+                <ellipse
+                  cx="20" cy="18"
+                  rx={mouthOpen ? 2.5 : 2}
+                  ry={mouthOpen ? 1.8 : 0.5}
+                  fill="#FAF8F4"
+                  className="transition-all duration-100"
+                />
+              </svg>
             </div>
+            {/* Live indicator */}
+            <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full animate-pulse border-2 border-[#FAF8F4]" />
           </div>
-
-          {/* Generate button */}
-          <div className={`flex justify-end mb-4 transition-all duration-300 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
-            <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm text-white ${generating ? 'bg-accent/80' : 'bg-accent'} shadow-md`}>
-              <Sparkles className={`w-4 h-4 ${generating ? 'animate-spin' : ''}`} />
-              {generating ? 'Generating...' : 'Generate Content'}
+          <div>
+            <div className="font-serif text-sm font-medium text-ink">Strategy Call</div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+              <span className="font-mono text-[10px] text-red-500/80 font-medium">Recording</span>
             </div>
-          </div>
-
-          {/* Generated post cards */}
-          <div className={`grid grid-cols-2 gap-3 transition-all duration-500 ${showPosts ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-            {GENERATED_POSTS.map((post, i) => (
-              <div key={i} className="bg-white border border-ink/10 rounded-lg p-3.5 shadow-sm" style={{ transitionDelay: `${i * 150}ms` }}>
-                <div className="flex items-center gap-1.5 mb-2">
-                  <svg className="w-4 h-4 text-[#0A66C2]" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                  <span className="font-mono text-[10px] text-ink/60 font-medium">{post.platform}</span>
-                </div>
-                <p className="font-serif text-sm text-ink leading-snug mb-2.5">{post.title}</p>
-                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                  {post.tags.map(tag => (
-                    <span key={tag} className="font-mono text-[10px] text-accent font-medium">{tag}</span>
-                  ))}
-                  <span className="font-mono text-[10px] text-ink/50 font-bold ml-auto">Ready</span>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
-      ) : (
-        <div className="p-5 md:p-7">
-          {/* Meeting recorder header */}
-          <div className="flex items-center gap-3 mb-4">
-            <div className="relative flex items-center justify-center w-9 h-9 rounded-full bg-red-500/10 border border-red-400/30">
-              <Mic className="w-4 h-4 text-red-500" />
-              <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse" />
-            </div>
-            <div>
-              <div className="font-serif text-sm font-medium text-ink">Meeting Recording</div>
-              <div className="font-mono text-[10px] text-ink/40">Strategy Call &middot; Live</div>
-            </div>
-          </div>
 
-          {/* Waveform visualization */}
-          <div className="bg-white border border-ink/10 rounded-lg p-3 mb-4 shadow-sm">
-            <div className="flex items-center justify-center gap-[3px] h-8">
-              {Array.from({ length: 32 }).map((_, i) => {
-                const h = Math.abs(Math.sin((i + wavePhase) * 0.5)) * 24 + 4;
-                return (
-                  <div
-                    key={i}
-                    className="w-[3px] rounded-full bg-red-400/70 transition-all duration-150"
-                    style={{ height: `${h}px` }}
-                  />
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Transcript lines */}
-          <div className="space-y-2.5 mb-4">
-            {MEETING_LINES.map((line, i) => (
+        {/* Transcript area */}
+        <div className="flex-1 bg-white border border-ink/10 rounded-lg p-3.5 shadow-sm mb-3 overflow-hidden">
+          <div className="font-mono text-[10px] text-ink/40 uppercase tracking-widest mb-2">Live Transcript</div>
+          <div className="space-y-2">
+            {TRANSCRIPT_LINES.map((line, i) => (
               <div
                 key={i}
-                className={`transition-all duration-400 ${i < visibleLines ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-3'}`}
+                className={`transition-all duration-300 ${i < visibleTranscript ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
               >
-                <span className="font-mono text-[10px] text-accent font-bold">{line.speaker}:</span>
-                <span className="font-sans text-xs text-ink/80 ml-1.5">{line.text}</span>
+                <span className="font-sans text-xs text-ink/80 leading-relaxed">
+                  {line.slice(0, typedChars[i] || 0)}
+                  {i < visibleTranscript && (typedChars[i] || 0) < line.length && (
+                    <span className="inline-block w-[2px] h-3 bg-ink/50 ml-0.5 animate-pulse align-text-bottom" />
+                  )}
+                </span>
               </div>
             ))}
           </div>
-
-          {/* Insights extracted */}
-          <div className={`transition-all duration-500 ${showMeetingInsights ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
-            <div className="flex items-center gap-2 mb-2">
-              <Lightbulb className="w-3.5 h-3.5 text-accent" />
-              <span className="font-mono text-[10px] text-accent uppercase tracking-widest font-bold">Insights Extracted</span>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              <div className="bg-white border border-accent/20 rounded-lg p-2.5 shadow-sm">
-                <p className="font-serif text-xs text-ink leading-snug">"3hrs per case = $40K/mo waste"</p>
-                <span className="font-mono text-[9px] text-accent mt-1 block">Aha Moment</span>
-              </div>
-              <div className="bg-white border border-accent/20 rounded-lg p-2.5 shadow-sm">
-                <p className="font-serif text-xs text-ink leading-snug">"80% automation opportunity"</p>
-                <span className="font-mono text-[9px] text-accent mt-1 block">Key Insight</span>
-              </div>
-            </div>
-          </div>
         </div>
-      )}
+
+        {/* Insights area — gold themed */}
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-1.5 mb-1">
+            <Lightbulb className="w-3 h-3 text-amber-500" />
+            <span className="font-mono text-[10px] text-amber-600 uppercase tracking-widest font-bold">Insights</span>
+          </div>
+          {INSIGHTS.map((insight, i) => (
+            <div
+              key={i}
+              className={`flex items-center gap-2 bg-amber-50 border border-amber-200/60 rounded-md px-3 py-1.5 transition-all duration-400 ${i < visibleInsights ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-2 scale-95'}`}
+            >
+              <Sparkles className="w-3 h-3 text-amber-500 shrink-0" />
+              <span className="font-serif text-xs text-ink leading-snug">"{insight.text}"</span>
+              <span className="font-mono text-[9px] text-amber-500 font-bold ml-auto shrink-0">{insight.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
@@ -381,8 +337,8 @@ const MeetingAnalyzerAnimation: React.FC = () => {
   const [visibleAhas, setVisibleAhas] = useState(0);
   const [selected, setSelected] = useState<number[]>([]);
   const [showPost, setShowPost] = useState(false);
-  const [fadingOut, setFadingOut] = useState(false);
   const [typedWords, setTypedWords] = useState(0);
+  const [cycle, setCycle] = useState(0);
   const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const clearTimers = () => { timerRef.current.forEach(clearTimeout); timerRef.current = []; };
@@ -395,59 +351,45 @@ const MeetingAnalyzerAnimation: React.FC = () => {
     return () => clearInterval(interval);
   }, [phase]);
 
-  const runSequence = () => {
+  useEffect(() => {
     clearTimers();
     setPhase('call');
     setVisibleAhas(0);
     setSelected([]);
     setShowPost(false);
-    setFadingOut(false);
     setWavePhase(0);
     setTypedWords(0);
 
-    // Type transcript words during call phase
-    const wordDelay = 120;
+    const wordDelay = 60;
     for (let i = 1; i <= TRANSCRIPT_WORDS.length; i++) {
       addTimer(() => setTypedWords(i), i * wordDelay);
     }
+    const callDuration = TRANSCRIPT_WORDS.length * wordDelay + 300;
 
-    const callDuration = TRANSCRIPT_WORDS.length * wordDelay + 500;
-
-    // Transition to ahas
     addTimer(() => setPhase('ahas'), callDuration);
 
-    // Pop in aha moments one by one
     for (let i = 1; i <= AHA_MOMENTS.length; i++) {
-      addTimer(() => setVisibleAhas(i), callDuration + i * 600);
+      addTimer(() => setVisibleAhas(i), callDuration + i * 300);
     }
+    const afterAhas = callDuration + AHA_MOMENTS.length * 300 + 300;
 
-    const afterAhas = callDuration + AHA_MOMENTS.length * 600 + 600;
-
-    // Auto-select 3 aha moments
     addTimer(() => { setPhase('selecting'); setSelected([0]); }, afterAhas);
-    addTimer(() => setSelected([0, 2]), afterAhas + 500);
-    addTimer(() => setSelected([0, 2, 3]), afterAhas + 1000);
+    addTimer(() => setSelected([0, 2]), afterAhas + 250);
+    addTimer(() => setSelected([0, 2, 3]), afterAhas + 500);
 
-    // Show generated post
-    addTimer(() => { setPhase('post'); setShowPost(true); }, afterAhas + 2000);
+    addTimer(() => { setPhase('post'); setShowPost(true); }, afterAhas + 800);
 
-    // Fade out and restart
-    addTimer(() => setFadingOut(true), afterAhas + 6000);
-    addTimer(() => runSequence(), afterAhas + 6500);
-  };
+    addTimer(() => setCycle(c => c + 1), afterAhas + 2800);
 
-  // Main sequence
-  useEffect(() => {
-    runSequence();
     return clearTimers;
-  }, []);
+  }, [cycle]);
 
   const isCall = phase === 'call';
   const isAhas = phase === 'ahas' || phase === 'selecting';
   const isPost = phase === 'post';
 
   return (
-    <div className={`w-full bg-[#FAF8F4] rounded-lg border border-ink/10 shadow-xl overflow-hidden transition-opacity duration-500 h-[416px] ${fadingOut ? 'opacity-0' : 'opacity-100'}`}>
+    <div className="w-full bg-[#FAF8F4] rounded-lg border border-ink/10 shadow-xl overflow-hidden h-[416px]">
       <div className="p-4 md:p-5 h-full flex flex-col">
         {/* Zoom call header — always visible */}
         <div className="flex items-center justify-between mb-3">
@@ -469,7 +411,7 @@ const MeetingAnalyzerAnimation: React.FC = () => {
         {/* Content area — relative container with absolute children for fixed height */}
         <div className="relative flex-1">
           {/* Call phase: waveform + transcript */}
-          <div className={`absolute inset-0 transition-opacity duration-500 ${isCall ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          <div className={`absolute inset-0 transition-opacity duration-200 ${isCall ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
@@ -504,7 +446,7 @@ const MeetingAnalyzerAnimation: React.FC = () => {
           </div>
 
           {/* Aha moments phase */}
-          <div className={`absolute inset-0 transition-opacity duration-500 ${isAhas ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          <div className={`absolute inset-0 transition-opacity duration-200 ${isAhas ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="space-y-2">
               <div className="flex items-center gap-2 mb-2">
                 <Lightbulb className="w-3.5 h-3.5 text-accent" />
@@ -532,7 +474,7 @@ const MeetingAnalyzerAnimation: React.FC = () => {
           </div>
 
           {/* Post phase */}
-          <div className={`absolute inset-0 overflow-y-auto transition-opacity duration-500 ${isPost ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          <div className={`absolute inset-0 overflow-y-auto transition-opacity duration-200 ${isPost ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="flex items-center gap-2 mb-3">
               <Sparkles className="w-3.5 h-3.5 text-accent" />
               <span className="font-mono text-[10px] text-accent uppercase tracking-widest font-bold">Content Generated</span>
@@ -608,52 +550,47 @@ const IdeaToContentAnimation: React.FC = () => {
   const [generating, setGenerating] = useState(false);
   const [showArticle, setShowArticle] = useState(false);
   const [articleLines, setArticleLines] = useState(0);
-  const [fadingOut, setFadingOut] = useState(false);
+  const [cycle, setCycle] = useState(0);
   const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const clearTimers = () => { timerRef.current.forEach(clearTimeout); timerRef.current = []; };
   const addTimer = (fn: () => void, ms: number) => { timerRef.current.push(setTimeout(fn, ms)); };
 
-  const runSequence = () => {
+  useEffect(() => {
     clearTimers();
     setTypedChars(0);
     setShowGenBtn(false);
     setGenerating(false);
     setShowArticle(false);
     setArticleLines(0);
-    setFadingOut(false);
 
-    // Type the idea
+    // Type the idea fast
     for (let i = 1; i <= IDEA_TO_CONTENT_TEXT.length; i++) {
-      addTimer(() => setTypedChars(i), i * 50);
+      addTimer(() => setTypedChars(i), i * 15);
     }
-    const afterTyping = IDEA_TO_CONTENT_TEXT.length * 50 + 400;
+    const afterTyping = IDEA_TO_CONTENT_TEXT.length * 15 + 200;
     addTimer(() => setShowGenBtn(true), afterTyping);
-    addTimer(() => setGenerating(true), afterTyping + 800);
-    addTimer(() => { setGenerating(false); setShowArticle(true); }, afterTyping + 2200);
+    addTimer(() => setGenerating(true), afterTyping + 400);
+    addTimer(() => { setGenerating(false); setShowArticle(true); }, afterTyping + 1200);
 
-    // Reveal article paragraphs
+    // Reveal article paragraphs fast
     for (let i = 1; i <= NEWSLETTER_BODY.length; i++) {
-      addTimer(() => setArticleLines(i), afterTyping + 2200 + i * 500);
+      addTimer(() => setArticleLines(i), afterTyping + 1200 + i * 300);
     }
 
-    const totalVisible = afterTyping + 2200 + NEWSLETTER_BODY.length * 500 + 4000;
-    addTimer(() => setFadingOut(true), totalVisible);
-    addTimer(() => runSequence(), totalVisible + 500);
-  };
+    const totalVisible = afterTyping + 1200 + NEWSLETTER_BODY.length * 300 + 800;
+    addTimer(() => setCycle(c => c + 1), totalVisible);
 
-  useEffect(() => {
-    runSequence();
     return clearTimers;
-  }, []);
+  }, [cycle]);
 
   return (
-    <div className={`w-full bg-[#FAF8F4] rounded-lg border border-ink/10 shadow-xl overflow-hidden transition-opacity duration-500 h-[480px] ${fadingOut ? 'opacity-0' : 'opacity-100'}`}>
+    <div className="w-full bg-[#FAF8F4] rounded-lg border border-ink/10 shadow-xl overflow-hidden h-[480px]">
       <div className="p-5 md:p-6 h-full flex flex-col">
         {/* Idea input — always visible */}
         <div className="border border-ink/15 rounded-lg bg-white p-4 mb-4 shadow-sm">
           <div className="font-mono text-[10px] text-ink uppercase tracking-widest mb-2">Your Idea</div>
-          <div className="font-serif text-sm md:text-base text-black min-h-[24px]">
+          <div className="font-serif text-sm md:text-base min-h-[24px]" style={{ color: '#000000' }}>
             {IDEA_TO_CONTENT_TEXT.slice(0, typedChars)}
             {typedChars < IDEA_TO_CONTENT_TEXT.length && (
               <span className="inline-block w-[2px] h-4 bg-ink/70 ml-0.5 animate-pulse align-text-bottom" />
@@ -671,7 +608,7 @@ const IdeaToContentAnimation: React.FC = () => {
 
         {/* Newsletter article — relative container for stable height */}
         <div className="relative flex-1">
-          <div className={`absolute inset-0 transition-opacity duration-500 ${showArticle ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          <div className={`absolute inset-0 transition-opacity duration-200 ${showArticle ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="bg-white border border-ink/10 rounded-lg p-4 shadow-sm h-full overflow-hidden">
               <div className="flex items-center gap-2 mb-2">
                 <Mail className="w-4 h-4 text-accent" />
@@ -724,34 +661,29 @@ const InstagramIcon: React.FC<{ className?: string }> = ({ className }) => (
 
 const ScheduleAnimation: React.FC = () => {
   const [phase, setPhase] = useState<'calendar' | 'scheduled' | 'posting' | 'posted'>('calendar');
-  const [fadingOut, setFadingOut] = useState(false);
+  const [cycle, setCycle] = useState(0);
   const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const clearTimers = () => { timerRef.current.forEach(clearTimeout); timerRef.current = []; };
   const addTimer = (fn: () => void, ms: number) => { timerRef.current.push(setTimeout(fn, ms)); };
 
-  const runSequence = () => {
+  useEffect(() => {
     clearTimers();
     setPhase('calendar');
-    setFadingOut(false);
 
-    addTimer(() => setPhase('scheduled'), 2500);
-    addTimer(() => setPhase('posting'), 5000);
-    addTimer(() => setPhase('posted'), 6500);
-    addTimer(() => setFadingOut(true), 10000);
-    addTimer(() => runSequence(), 10500);
-  };
+    addTimer(() => setPhase('scheduled'), 1200);
+    addTimer(() => setPhase('posting'), 2400);
+    addTimer(() => setPhase('posted'), 3200);
+    addTimer(() => setCycle(c => c + 1), 5200);
 
-  useEffect(() => {
-    runSequence();
     return clearTimers;
-  }, []);
+  }, [cycle]);
 
   const scheduled = phase === 'scheduled' || phase === 'posting' || phase === 'posted';
   const allPosts = scheduled ? [...EXISTING_POSTS, NEW_POST] : EXISTING_POSTS;
 
   return (
-    <div className={`w-full bg-[#FAF8F4] rounded-lg border border-ink/10 shadow-xl overflow-hidden transition-opacity duration-500 min-h-[440px] ${fadingOut ? 'opacity-0' : 'opacity-100'}`}>
+    <div className="w-full bg-[#FAF8F4] rounded-lg border border-ink/10 shadow-xl overflow-hidden min-h-[440px]">
       <div className="p-5 md:p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
@@ -885,59 +817,54 @@ const BrandingAnimation: React.FC = () => {
   const [selectedFont, setSelectedFont] = useState(-1);
   const [selectedAudience, setSelectedAudience] = useState(-1);
   const [visibleImages, setVisibleImages] = useState(0);
-  const [fadingOut, setFadingOut] = useState(false);
+  const [cycle, setCycle] = useState(0);
   const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const clearTimers = () => { timerRef.current.forEach(clearTimeout); timerRef.current = []; };
   const addTimer = (fn: () => void, ms: number) => { timerRef.current.push(setTimeout(fn, ms)); };
 
-  const runSequence = () => {
+  useEffect(() => {
     clearTimers();
     setPhase('colors');
     setSelectedColors([]);
     setSelectedFont(-1);
     setSelectedAudience(-1);
     setVisibleImages(0);
-    setFadingOut(false);
 
-    // Pick colors one by one
-    addTimer(() => setSelectedColors([0]), 600);
-    addTimer(() => setSelectedColors([0, 1]), 1000);
-    addTimer(() => setSelectedColors([0, 1, 2]), 1400);
-    addTimer(() => setSelectedColors([0, 1, 2, 3]), 1800);
+    // Pick colors fast
+    addTimer(() => setSelectedColors([0]), 300);
+    addTimer(() => setSelectedColors([0, 1]), 500);
+    addTimer(() => setSelectedColors([0, 1, 2]), 700);
+    addTimer(() => setSelectedColors([0, 1, 2, 3]), 900);
 
     // Switch to fonts
-    addTimer(() => setPhase('fonts'), 2600);
-    addTimer(() => setSelectedFont(0), 3200);
+    addTimer(() => setPhase('fonts'), 1300);
+    addTimer(() => setSelectedFont(0), 1700);
 
     // Switch to audience
-    addTimer(() => setPhase('audience'), 4000);
-    addTimer(() => setSelectedAudience(0), 4600);
+    addTimer(() => setPhase('audience'), 2100);
+    addTimer(() => setSelectedAudience(0), 2500);
 
     // Generate
-    addTimer(() => setPhase('generating'), 5400);
+    addTimer(() => setPhase('generating'), 2900);
 
     // Show images
-    addTimer(() => setPhase('images'), 6800);
+    addTimer(() => setPhase('images'), 3800);
     for (let i = 1; i <= BRAND_IMAGES.length; i++) {
-      addTimer(() => setVisibleImages(i), 6800 + i * 400);
+      addTimer(() => setVisibleImages(i), 3800 + i * 300);
     }
 
-    // Fade and restart
-    addTimer(() => setFadingOut(true), 6800 + BRAND_IMAGES.length * 400 + 3500);
-    addTimer(() => runSequence(), 6800 + BRAND_IMAGES.length * 400 + 4000);
-  };
+    // Restart
+    addTimer(() => setCycle(c => c + 1), 3800 + BRAND_IMAGES.length * 300 + 1500);
 
-  useEffect(() => {
-    runSequence();
     return clearTimers;
-  }, []);
+  }, [cycle]);
 
   const showConfig = phase === 'colors' || phase === 'fonts' || phase === 'audience' || phase === 'generating';
   const showImages = phase === 'images';
 
   return (
-    <div className={`w-full bg-[#FAF8F4] rounded-lg border border-ink/10 shadow-xl overflow-hidden transition-opacity duration-500 h-[520px] ${fadingOut ? 'opacity-0' : 'opacity-100'}`}>
+    <div className="w-full bg-[#FAF8F4] rounded-lg border border-ink/10 shadow-xl overflow-hidden h-[520px]">
       <div className="p-5 md:p-6 h-full flex flex-col">
         {/* Brand setup header */}
         <div className="flex items-center gap-2.5 mb-4">
@@ -1488,8 +1415,6 @@ const CreatorMode: React.FC = () => {
   );
   const [isGenerating, setIsGenerating] = useState(false);
   const [showDemoPreview, setShowDemoPreview] = useState(false);
-  const [articleExpanded, setArticleExpanded] = useState(true);
-  const [postsExpanded, setPostsExpanded] = useState(true);
   const [activeScenarioIndex, setActiveScenarioIndex] = useState(0);
   const [generationCount, setGenerationCount] = useState(0);
   const generateTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -1529,102 +1454,54 @@ const CreatorMode: React.FC = () => {
       <SectionHeader eyebrow="Creator Mode" title="Try Now - Pick insights, generate content." subtitle="Hand-pick the moments that matter, then let Pulse turn them into polished content." />
       <ScrollReveal>
         {showDemoPreview ? (
-          <div className="max-w-6xl mx-auto bg-white shadow-2xl border border-ink/10 rounded-sm overflow-hidden">
-            <div className="px-5 py-4 border-b border-ink/10 bg-base/20 flex items-center justify-between">
-              <div className="flex items-center gap-3 text-ink">
-                <Mail className="w-5 h-5 text-accent" />
-                <span className="font-bold text-2xl md:text-3xl">Demo Content Preview</span>
-                <span className="text-sm text-ink-muted bg-base px-3 py-1 rounded-full border border-ink/10">Fake data only</span>
+          <div className="max-w-4xl mx-auto bg-white shadow-xl border border-ink/10 rounded-sm overflow-hidden">
+            {/* Header */}
+            <div className="px-4 py-2.5 border-b border-ink/10 bg-base/20 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-3.5 h-3.5 text-accent" />
+                <span className="font-bold text-sm text-ink">Generated Content</span>
+                <span className="text-[10px] text-ink-muted bg-base px-2 py-0.5 rounded-full border border-ink/10">Demo</span>
               </div>
-              <button onClick={resetPreview} className="text-sm font-medium border border-ink/20 px-4 py-2 hover:bg-base transition-colors">
-                Back
+              <button onClick={resetPreview} className="text-xs font-medium border border-ink/20 px-3 py-1 hover:bg-base transition-colors">
+                Try again
               </button>
             </div>
 
-            <div className="px-5 py-4 border-b border-ink/10 bg-base/10 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-accent" />
-                <span className="font-bold text-ink">Articles</span>
-                <span className="text-ink-muted">Articles & Long-form Content</span>
-                <span className="bg-accent/10 text-accent text-xs font-bold px-2.5 py-0.5 rounded-full">1</span>
+            {/* Article — compact */}
+            <div className="px-4 py-3 border-b border-ink/10">
+              <div className="flex items-center gap-2 mb-2">
+                <Mail className="w-3 h-3 text-accent" />
+                <span className="font-mono text-[9px] text-ink/50 uppercase tracking-widest">Newsletter</span>
               </div>
-              <button onClick={() => setArticleExpanded(v => !v)} className="text-sm font-medium text-accent bg-accent/10 px-4 py-2 rounded-md inline-flex items-center gap-2">
-                <ChevronDown className={`w-4 h-4 transition-transform ${articleExpanded ? 'rotate-180' : ''}`} />
-                {articleExpanded ? 'Collapse' : 'Expand'}
-              </button>
-            </div>
-
-            {articleExpanded && (
-              <div className="p-5 border-b border-ink/10 bg-white">
-                <div className="border border-ink/10 rounded-2xl overflow-hidden">
-                  <div className="px-4 py-4 border-b border-ink/10 bg-base/10">
-                    <div className="flex flex-wrap items-center gap-3 text-sm mb-3">
-                      <span className="bg-ink text-white px-3 py-1 rounded-full font-medium">{activeScenario.article.postedLabel}</span>
-                      <span className="text-ink-muted">{activeScenario.article.postedAt}</span>
-                    </div>
-                    <h3 className="font-serif text-3xl md:text-4xl text-ink">{activeScenario.article.title}</h3>
-                  </div>
-
-                  <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-xs font-bold tracking-wider text-ink-muted mb-2">HERO IMAGE</p>
-                      <img src={activeScenario.article.heroImage} alt="Demo hero image" className="w-full rounded-xl border border-ink/10" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold tracking-wider text-ink-muted mb-2">SECONDARY IMAGE</p>
-                      <img src={activeScenario.article.secondaryImage} alt="Demo secondary image" className="w-full rounded-xl border border-ink/10" />
-                    </div>
-                  </div>
-
-                  <div className="px-6 py-6 border-t border-ink/10 bg-base/5">
-                    <h4 className="font-serif text-5xl text-ink mb-4">{activeScenario.article.heading}</h4>
-                    <p className="text-xl text-ink-muted leading-relaxed">{activeScenario.article.intro}</p>
-                  </div>
+              <div className="flex gap-3 items-start">
+                <img src={activeScenario.article.heroImage} alt="" className="w-20 h-14 rounded border border-ink/10 object-cover flex-shrink-0" />
+                <div className="min-w-0">
+                  <h4 className="font-serif text-sm text-ink font-semibold leading-tight mb-0.5 truncate">{activeScenario.article.title}</h4>
+                  <p className="text-[11px] text-ink-muted leading-snug line-clamp-2">{activeScenario.article.intro}</p>
                 </div>
               </div>
-            )}
-
-            <div className="px-5 py-4 border-b border-ink/10 bg-base/10 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Send className="w-4 h-4 text-accent" />
-                <span className="font-bold text-ink">Posts</span>
-                <span className="text-ink-muted">Social Media Content</span>
-                <span className="bg-accent/10 text-accent text-xs font-bold px-2.5 py-0.5 rounded-full">{activeScenario.posts.length}</span>
-              </div>
-              <button onClick={() => setPostsExpanded(v => !v)} className="text-sm font-medium text-accent bg-accent/10 px-4 py-2 rounded-md inline-flex items-center gap-2">
-                <ChevronDown className={`w-4 h-4 transition-transform ${postsExpanded ? 'rotate-180' : ''}`} />
-                {postsExpanded ? 'Collapse' : 'Expand'}
-              </button>
             </div>
 
-            {postsExpanded && (
-              <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-5 bg-white">
+            {/* Posts — 4 in a row, compact cards */}
+            <div className="px-4 py-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Send className="w-3 h-3 text-accent" />
+                <span className="font-mono text-[9px] text-ink/50 uppercase tracking-widest">Social Posts</span>
+                <span className="bg-accent/10 text-accent text-[9px] font-bold px-1.5 py-0.5 rounded-full ml-auto">{activeScenario.posts.length}</span>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                 {activeScenario.posts.map((post, i) => (
-                  <div key={`${activeScenario.id}-${i}`} className="border border-ink/10 rounded-2xl overflow-hidden bg-base/5">
-                    <img src={post.image} alt={`${post.day} post visual`} className="w-full aspect-[16/10] object-cover" />
-                    <div className="p-4">
-                      <p className="text-accent font-bold mb-2">{post.day}</p>
-                      <h5 className="font-serif text-2xl text-ink mb-2">{post.title}</h5>
-                      <p className="text-ink-muted mb-3">{post.excerpt}</p>
-                      <button className="text-accent font-medium mb-4">See more</button>
-                      <p className="text-accent text-sm mb-4">{post.tags}</p>
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="bg-ink text-white text-xs px-3 py-1 rounded-full">{post.posted}</span>
-                        <div className="flex items-center gap-2">
-                          <button className="text-green-700 bg-green-50 border border-green-100 px-3 py-1.5 rounded-md text-sm">Re-Post</button>
-                          <button className="text-ink-muted border border-ink/15 px-3 py-1.5 rounded-md text-sm">Copy</button>
-                        </div>
-                      </div>
+                  <div key={`${activeScenario.id}-${i}`} className="border border-ink/10 rounded-lg overflow-hidden bg-base/5">
+                    <img src={post.image} alt="" className="w-full aspect-square object-cover" />
+                    <div className="p-2">
+                      <p className="text-accent font-bold text-[9px] mb-0.5">{post.day}</p>
+                      <h5 className="font-serif text-[11px] text-ink leading-tight mb-1 line-clamp-2">{post.title}</h5>
+                      <p className="text-[9px] text-ink-muted leading-snug line-clamp-2 mb-1">{post.excerpt}</p>
+                      <p className="text-accent text-[8px]">{post.tags}</p>
                     </div>
                   </div>
                 ))}
               </div>
-            )}
-
-            <div className="px-5 py-4 border-t border-ink/10 bg-base/10 flex justify-end">
-              <button onClick={resetPreview} className="text-sm font-medium border border-ink/20 px-4 py-2 hover:bg-base transition-colors">
-                Try another set
-              </button>
             </div>
           </div>
         ) : (
@@ -1688,7 +1565,7 @@ const UseCases: React.FC = () => (
         <ScrollReveal key={p.title} delay={i * 120} className="h-full">
           <div className="bg-white border border-ink/10 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group text-center h-full flex flex-col items-center">
             <div className="w-44 h-44 mx-auto mb-6 rounded-full bg-[#FAF8F4] border border-ink/10 p-2 group-hover:border-accent/30 transition-colors overflow-hidden">
-              <img src={p.img} alt={p.title} className="w-full h-full object-cover rounded-full" />
+              <img src={p.img} alt={p.title} className="w-full h-full object-cover object-top rounded-full scale-150" />
             </div>
             <h3 className="font-serif text-xl text-ink mb-2">{p.title}</h3>
             <p className="text-sm text-ink-muted leading-relaxed flex-1">{p.desc}</p>
