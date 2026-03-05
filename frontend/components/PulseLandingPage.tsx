@@ -1872,24 +1872,18 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
                         ) : (
                           <>
                             <div className="grid grid-cols-3 gap-3 mb-6">
-                              {displaySlots.map(slot => {
-                                const disabled = isTimeDisabled(slot.value);
-                                return (
+                              {displaySlots.filter(slot => !isTimeDisabled(slot.value)).map(slot => (
                                   <button
                                     key={slot.value}
-                                    disabled={disabled}
-                                    onClick={() => !disabled && setSelectedTime(slot.value)}
+                                    onClick={() => setSelectedTime(slot.value)}
                                     className={`py-3 px-2 text-sm border rounded-sm transition-all text-center ${selectedTime === slot.value
                                       ? 'bg-accent text-white border-accent shadow-md scale-105'
-                                      : disabled
-                                        ? 'bg-base/50 text-ink-muted/30 border-ink/5 cursor-not-allowed'
-                                        : 'bg-white border-ink/10 text-ink hover:border-accent hover:text-accent hover:shadow-sm'
+                                      : 'bg-white border-ink/10 text-ink hover:border-accent hover:text-accent hover:shadow-sm'
                                       }`}
                                   >
                                     {slot.display}
                                   </button>
-                                );
-                              })}
+                              ))}
                             </div>
                             <Button
                               variant="primary"

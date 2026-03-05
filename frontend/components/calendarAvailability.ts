@@ -7,6 +7,7 @@ export const BUSINESS_HOURS = [7, 8, 9, 10, 11, 12];
 export const BUSINESS_DAYS = [1, 2, 3, 4]; // Monday=1 through Thursday=4
 export const MEETING_DURATION_MINUTES = 30;
 export const BUFFER_MINUTES = 10;
+export const MIN_LEAD_HOURS = 3;
 
 export const MONTH_NAMES = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -82,7 +83,8 @@ export const checkSlotAvailability = (
   const slotEnd = new Date(slotStart.getTime() + meetingDurationMinutes * 60000);
   const slotEndWithBuffer = new Date(slotEnd.getTime() + bufferMinutes * 60000);
 
-  if (slotStart < new Date()) return false;
+  const minBookingTime = new Date(Date.now() + MIN_LEAD_HOURS * 60 * 60000);
+  if (slotStart < minBookingTime) return false;
 
   return !busySlots.some((slot) => {
     const busyStart = new Date(slot.start);
