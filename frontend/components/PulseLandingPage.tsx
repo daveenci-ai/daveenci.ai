@@ -1726,7 +1726,7 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
       const response = await fetch(API_ENDPOINTS.book, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, dateTime: selectedTime, bookingType: 'meet-astrid' }),
+        body: JSON.stringify({ ...formData, dateTime: selectedTime, bookingType: 'demo-ai' }),
       });
       const data = await response.json();
       if (response.ok) {

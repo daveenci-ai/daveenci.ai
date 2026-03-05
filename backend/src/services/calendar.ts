@@ -24,8 +24,11 @@ const sendOwnerEmail = async (eventDetails: any) => {
     const auth = createAuthClient([...CALENDAR_SCOPES, ...GMAIL_SCOPES]);
     const gmail = google.gmail({ version: 'v1', auth });
 
-    const isMeetAstrid = eventDetails.bookingType === 'meet-astrid';
-    const subject = isMeetAstrid ? `New Booking: Meet Astrid | ${name}` : `New Booking: Schedule A Demo | ${name}`;
+    const subjectMap: Record<string, string> = {
+        'demo-ai': `New Booking: Astrid Demo AI | ${name}`,
+        'meet-astrid': `New Booking: Meet Astrid | ${name}`,
+    };
+    const subject = subjectMap[eventDetails.bookingType] || `New Booking: Meeting | ${name}`;
 
     // Format time from ISO dateTime or fallback to date/time fields
     let formattedTime = 'N/A';
@@ -96,19 +99,29 @@ export const createCalendarEvent = async (eventDetails: any) => {
 
     const endDateTime = new Date(startDateTime.getTime() + 30 * 60000); // 30 min duration
 
-    const isMeetAstrid = eventDetails.bookingType === 'meet-astrid';
+    const bookingType = eventDetails.bookingType;
+    const isDemoAI = bookingType === 'demo-ai';
+    const isMeetAstrid = bookingType === 'meet-astrid';
 
-    const event = {
-        summary: isMeetAstrid ? `Meet Astrid | ${name}` : `Schedule A Demo | ${name}`,
-        description: isMeetAstrid
-            ? `Proposed Agenda:
-• Get to know each other and your business goals.
-• Identify potential areas where we can provide value.
-• Discuss next steps for working together.`
-            : `Agenda:
+    const summaryMap: Record<string, string> = {
+        'demo-ai': `Astrid Demo AI | ${name}`,
+        'meet-astrid': `Meet Astrid | ${name}`,
+    };
+
+    const descriptionMap: Record<string, string> = {
+        'demo-ai': `Agenda:
 • Explore custom AI agents and automation workflows.
 • Demo of live pipelines for CRM and Marketing.
 • Discuss implementation roadmap and ROI projections.`,
+        'meet-astrid': `Proposed Agenda:
+• Get to know each other and your business goals.
+• Identify potential areas where we can provide value.
+• Discuss next steps for working together.`,
+    };
+
+    const event = {
+        summary: summaryMap[bookingType] || `Meeting | ${name}`,
+        description: descriptionMap[bookingType] || '',
         start: {
             dateTime: startDateTime.toISOString(),
             timeZone: 'UTC', // We are providing absolute ISO time
