@@ -11,6 +11,12 @@ export const saveConsultationRequest = async (data: any) => {
     INSERT INTO consultation_request (
       full_name, email, phone, company, reason, other, scheduled_with, schedule_utc
     ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+    ON CONFLICT (email, schedule_utc) DO UPDATE SET
+      full_name = EXCLUDED.full_name,
+      phone = EXCLUDED.phone,
+      company = EXCLUDED.company,
+      reason = EXCLUDED.reason,
+      other = EXCLUDED.other
     RETURNING *
   `;
 
