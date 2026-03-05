@@ -193,16 +193,10 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
       }
    };
 
-   // Fetch on mount and when month changes
+   // Fetch on mount
    useEffect(() => {
       fetchAvailability();
-   }, [currentDate]);
-
-   // Auto-refresh availability every 30 seconds
-   useEffect(() => {
-      const interval = setInterval(fetchAvailability, 30000);
-      return () => clearInterval(interval);
-   }, [currentDate]);
+   }, []);
 
    const checkSlotAvailability = (slotIsoTime: string) => {
       return checkSharedSlotAvailability(slotIsoTime, busySlots, MEETING_DURATION_MINUTES, BUFFER_MINUTES);

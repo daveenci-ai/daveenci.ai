@@ -1669,11 +1669,7 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
     }
   };
 
-  useEffect(() => { fetchAvailability(); }, [currentDate]);
-  useEffect(() => {
-    const interval = setInterval(fetchAvailability, 30000);
-    return () => clearInterval(interval);
-  }, [currentDate]);
+  useEffect(() => { fetchAvailability(); }, []);
 
   const checkSlotAvailability = (slotIsoTime: string) => {
     return checkSharedSlotAvailability(slotIsoTime, busySlots, MEETING_DURATION_MINUTES, BUFFER_MINUTES);

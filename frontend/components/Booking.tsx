@@ -97,16 +97,10 @@ const Booking: React.FC = () => {
       }
    };
 
-   // Fetch on mount and when month changes
+   // Fetch on mount
    useEffect(() => {
       fetchAvailability();
-   }, [currentDate]);
-
-   // Auto-refresh availability every 30 seconds
-   useEffect(() => {
-      const interval = setInterval(fetchAvailability, 30000);
-      return () => clearInterval(interval);
-   }, [currentDate]);
+   }, []);
 
    const MEETING_DURATION_MINUTES = 30;
    const BUFFER_MINUTES = 10;
