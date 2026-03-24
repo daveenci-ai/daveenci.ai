@@ -25,7 +25,7 @@ const Booking: React.FC = () => {
 
    // Business hours are defined in consultant's timezone (Chicago)
    const BUSINESS_TIMEZONE = 'America/Chicago';
-   const BUSINESS_HOURS = [7, 8, 9, 10, 11, 12]; // 7 AM - 12 PM Central Time
+   const BUSINESS_HOURS = [8, 9, 10, 11, 12, 13, 14, 15]; // 8 AM - 4 PM Central Time
 
    // But display times in user's local timezone
    const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
