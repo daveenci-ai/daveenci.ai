@@ -174,6 +174,7 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
 
    const [busySlots, setBusySlots] = useState<{ start: string, end: string }[]>([]);
    const [isLoading, setIsLoading] = useState(true);
+   const [availabilityError, setAvailabilityError] = useState<string | null>(null);
 
    // Fetch availability function (reusable)
    const fetchAvailability = async () => {
@@ -182,12 +183,15 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
 
       try {
          const response = await fetch(`${API_ENDPOINTS.availability}?start=${start}&end=${end}`);
-         if (response.ok) {
-            const data = await response.json();
-            setBusySlots(data.busySlots);
+         if (!response.ok) {
+            throw new Error(`Availability request failed (${response.status})`);
          }
+         const data = await response.json();
+         setBusySlots(data.busySlots);
+         setAvailabilityError(null);
       } catch (error) {
          console.error('Failed to fetch availability', error);
+         setAvailabilityError("We couldn't load live availability. Times shown may not reflect current bookings.");
       } finally {
          setIsLoading(false);
       }
@@ -416,6 +420,19 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                                        <h3 className="font-serif text-lg text-ink mb-4 text-center">
                                           {selectedDate ? selectedDate.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' }) : 'Select Date Above'}
                                        </h3>
+
+                                       {availabilityError && (
+                                          <div role="alert" className="mb-4 text-sm text-red-700 bg-red-50 border border-red-200 rounded-sm px-3 py-2 flex items-start gap-2">
+                                             <span className="flex-1">{availabilityError}</span>
+                                             <button
+                                                onClick={fetchAvailability}
+                                                className="text-red-700 underline font-medium hover:text-red-900 transition-colors shrink-0"
+                                                type="button"
+                                             >
+                                                Retry
+                                             </button>
+                                          </div>
+                                       )}
 
                                        {selectedDate ? (
                                           isLoading ? (

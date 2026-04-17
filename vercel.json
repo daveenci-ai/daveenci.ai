@@ -35,6 +35,30 @@
             ],
             "destination": "/book-demo-og.html",
             "permanent": false
+        },
+        {
+            "source": "/briefings",
+            "has": [
+                {
+                    "type": "header",
+                    "key": "user-agent",
+                    "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*"
+                }
+            ],
+            "destination": "/briefings-og.html",
+            "permanent": false
+        },
+        {
+            "source": "/who-we-are",
+            "has": [
+                {
+                    "type": "header",
+                    "key": "user-agent",
+                    "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*"
+                }
+            ],
+            "destination": "/who-we-are-og.html",
+            "permanent": false
         }
     ],
     "rewrites": [

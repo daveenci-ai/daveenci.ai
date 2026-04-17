@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-export type Page = 'landing' | 'briefings' | 'briefing-detail' | 'who-we-are' | 'calendar' | 'admin' | 'book-demo' | 'brand-analyzer';
+export type Page = 'landing' | 'briefings' | 'briefing-detail' | 'who-we-are' | 'calendar' | 'admin' | 'book-demo' | 'brand-analyzer' | 'not-found';
 
 export interface NavLink {
   label: string;
