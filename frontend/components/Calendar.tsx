@@ -1,8 +1,8 @@
 
-import React, { useState, useRef, useEffect } from 'react';
-import { Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight, Check, User, Briefcase, HelpCircle, ArrowLeft, Mail, Phone, ChevronDown } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight, Check, User, Briefcase, HelpCircle, ArrowLeft, Mail, Phone } from 'lucide-react';
 import { format } from 'date-fns';
-import { Logo, Button, VitruvianBackground, ScrollReveal } from './Shared';
+import { Logo, Button, VitruvianBackground, ScrollReveal, CustomSelect, FormField, ErrorAlert } from './Shared';
 import type { CalendarProps } from './types';
 import AstridSketch from '../images/Astrid_Sketch.jpg';
 import { API_ENDPOINTS } from '../config';
@@ -17,68 +17,6 @@ import {
    checkSlotAvailability as checkSharedSlotAvailability,
    isDayDisabled,
 } from './calendarAvailability';
-
-// --- Custom Select Component ---
-interface CustomSelectProps {
-   label: string;
-   value: string;
-   onChange: (value: string) => void;
-   options: string[];
-   placeholder?: string;
-   required?: boolean;
-}
-
-const CustomSelect: React.FC<CustomSelectProps> = ({ label, value, onChange, options, placeholder, required }) => {
-   const [isOpen, setIsOpen] = useState(false);
-   const containerRef = useRef<HTMLDivElement>(null);
-
-   useEffect(() => {
-      const handleClickOutside = (event: MouseEvent) => {
-         if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-            setIsOpen(false);
-         }
-      };
-
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-   }, []);
-
-   return (
-      <div className="relative" ref={containerRef}>
-         <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
-            <HelpCircle className="w-3 h-3" /> {label} {required && <span className="text-red-500">*</span>}
-         </label>
-
-         <div
-            onClick={() => setIsOpen(!isOpen)}
-            className={`w-full bg-base/30 border ${isOpen ? 'border-accent' : 'border-ink/20'} p-3 text-ink cursor-pointer rounded-sm flex justify-between items-center transition-colors hover:border-accent/50`}
-         >
-            <span className={!value ? "text-ink-muted" : ""}>{value || placeholder || "Select an option"}</span>
-            <ChevronDown className={`w-4 h-4 text-ink-muted transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
-         </div>
-
-         {isOpen && (
-            <div className="absolute top-full left-0 w-full bg-white border border-ink/10 shadow-xl z-50 mt-1 rounded-sm max-h-60 overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
-               {options.map((option) => (
-                  <div
-                     key={option}
-                     onClick={() => {
-                        onChange(option);
-                        setIsOpen(false);
-                     }}
-                     className={`p-3 text-sm cursor-pointer transition-colors ${value === option
-                        ? 'bg-accent/10 text-accent font-medium'
-                        : 'text-ink hover:bg-accent hover:text-white'
-                        }`}
-                  >
-                     {option}
-                  </div>
-               ))}
-            </div>
-         )}
-      </div>
-   );
-};
 
 const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
    const [step, setStep] = useState<'datetime' | 'details' | 'success'>('datetime');
@@ -422,16 +360,11 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                                        </h3>
 
                                        {availabilityError && (
-                                          <div role="alert" className="mb-4 text-sm text-red-700 bg-red-50 border border-red-200 rounded-sm px-3 py-2 flex items-start gap-2">
-                                             <span className="flex-1">{availabilityError}</span>
-                                             <button
-                                                onClick={fetchAvailability}
-                                                className="text-red-700 underline font-medium hover:text-red-900 transition-colors shrink-0"
-                                                type="button"
-                                             >
-                                                Retry
-                                             </button>
-                                          </div>
+                                          <ErrorAlert
+                                             message={availabilityError}
+                                             onRetry={fetchAvailability}
+                                             className="mb-4"
+                                          />
                                        )}
 
                                        {selectedDate ? (
@@ -478,88 +411,76 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                                     <h3 className="font-serif text-2xl text-ink mb-6">Your Information</h3>
 
                                     <div className="space-y-4 mb-6">
-                                       <div>
-                                          <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
-                                             <User className="w-3 h-3" /> Full Name <span className="text-red-500">*</span>
-                                          </label>
-                                          <input
-                                             type="text"
-                                             required
-                                             value={formData.name}
-                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                             className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm"
-                                             placeholder="Leonardo da Vinci"
-                                          />
-                                       </div>
+                                       <FormField
+                                          label="Full Name"
+                                          name="name"
+                                          type="text"
+                                          required
+                                          value={formData.name}
+                                          onChange={(val) => setFormData({ ...formData, name: val })}
+                                          placeholder="Leonardo da Vinci"
+                                          icon={<User className="w-3 h-3" />}
+                                       />
 
-                                       <div>
-                                          <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
-                                             <Mail className="w-3 h-3" /> Email <span className="text-red-500">*</span>
-                                          </label>
-                                          <input
-                                             type="email"
-                                             required
-                                             value={formData.email}
-                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                             className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm"
-                                             placeholder="leo@florence.it"
-                                          />
-                                       </div>
+                                       <FormField
+                                          label="Email"
+                                          name="email"
+                                          type="email"
+                                          required
+                                          value={formData.email}
+                                          onChange={(val) => setFormData({ ...formData, email: val })}
+                                          placeholder="leo@florence.it"
+                                          icon={<Mail className="w-3 h-3" />}
+                                       />
 
                                        <div className="grid grid-cols-2 gap-4">
-                                          <div>
-                                             <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
-                                                <Briefcase className="w-3 h-3" /> Company <span className="text-ink-muted/60 lowercase font-normal">(optional)</span>
-                                             </label>
-                                             <input
-                                                type="text"
-                                                value={formData.company}
-                                                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                                                className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm"
-                                                placeholder="Florence Inc."
-                                             />
-                                          </div>
-                                          <div>
-                                             <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
-                                                <Phone className="w-3 h-3" /> Phone <span className="text-ink-muted/60 lowercase font-normal">(optional)</span>
-                                             </label>
-                                             <input
-                                                type="tel"
-                                                value={formData.phone}
-                                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                                className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm"
-                                                placeholder="+1 555..."
-                                             />
-                                          </div>
-                                       </div>
-
-                                       <div>
-                                          <CustomSelect
-                                             label="What's on your mind?"
-                                             required
-                                             value={formData.reason}
-                                             onChange={(val) => setFormData({ ...formData, reason: val })}
-                                             options={[
-                                                "Just want to say hi & learn more",
-                                                "Curious about what's possible with AI",
-                                                "Feeling some friction in my workflows",
-                                                "I have a specific question or project",
-                                                "Not sure – let's just chat"
-                                             ]}
+                                          <FormField
+                                             label="Company"
+                                             name="company"
+                                             type="text"
+                                             value={formData.company}
+                                             onChange={(val) => setFormData({ ...formData, company: val })}
+                                             placeholder="Florence Inc."
+                                             icon={<Briefcase className="w-3 h-3" />}
+                                             optionalLabel="(optional)"
+                                          />
+                                          <FormField
+                                             label="Phone"
+                                             name="phone"
+                                             type="tel"
+                                             value={formData.phone}
+                                             onChange={(val) => setFormData({ ...formData, phone: val })}
+                                             placeholder="+1 555..."
+                                             icon={<Phone className="w-3 h-3" />}
+                                             optionalLabel="(optional)"
                                           />
                                        </div>
 
-                                       <div>
-                                          <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
-                                             <HelpCircle className="w-3 h-3" /> Anything else you want to share?
-                                          </label>
-                                          <textarea
-                                             value={formData.notes}
-                                             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                                             className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm min-h-[100px] resize-y"
-                                             placeholder="Optional - feel free to share any context or specific questions..."
-                                          />
-                                       </div>
+                                       <CustomSelect
+                                          label="What's on your mind?"
+                                          required
+                                          value={formData.reason}
+                                          onChange={(val) => setFormData({ ...formData, reason: val })}
+                                          icon={<HelpCircle className="w-3 h-3" />}
+                                          options={[
+                                             "Just want to say hi & learn more",
+                                             "Curious about what's possible with AI",
+                                             "Feeling some friction in my workflows",
+                                             "I have a specific question or project",
+                                             "Not sure – let's just chat"
+                                          ]}
+                                       />
+
+                                       <FormField
+                                          label="Anything else you want to share?"
+                                          name="notes"
+                                          type="textarea"
+                                          value={formData.notes}
+                                          onChange={(val) => setFormData({ ...formData, notes: val })}
+                                          placeholder="Optional - feel free to share any context or specific questions..."
+                                          icon={<HelpCircle className="w-3 h-3" />}
+                                          rows={4}
+                                       />
                                     </div>
 
                                     <div className="mt-auto flex gap-4">
