@@ -418,24 +418,28 @@ export const PageHero: React.FC<{
   actions?: React.ReactNode;
   size?: 'md' | 'lg';
   eyebrowRotation?: 'left' | 'right' | 'slight' | 'none';
+  centered?: boolean;
   className?: string;
-}> = ({ eyebrow, title, description, actions, size = 'lg', eyebrowRotation = 'left', className = '' }) => {
+}> = ({ eyebrow, title, description, actions, size = 'lg', eyebrowRotation = 'left', centered = false, className = '' }) => {
   const titleSize = size === 'lg'
     ? 'text-5xl md:text-6xl lg:text-7xl'
     : 'text-4xl md:text-5xl lg:text-6xl';
   const descriptionSize = size === 'lg'
     ? 'text-xl md:text-2xl'
     : 'text-lg md:text-xl';
+  const alignmentClasses = centered ? 'text-center' : '';
+  const descriptionCentering = centered ? 'mx-auto' : '';
+  const actionsCentering = centered ? 'justify-center' : '';
   return (
-    <div className={className}>
+    <div className={`${alignmentClasses} ${className}`}>
       <Eyebrow rotation={eyebrowRotation}>{eyebrow}</Eyebrow>
       <h1 className={`font-serif ${titleSize} text-ink leading-[1.1] mb-8 mt-4`}>
         {title}
       </h1>
-      <p className={`font-sans ${descriptionSize} text-ink-muted max-w-2xl leading-relaxed mb-10`}>
+      <p className={`font-sans ${descriptionSize} text-ink-muted max-w-2xl leading-relaxed mb-10 ${descriptionCentering}`}>
         {description}
       </p>
-      {actions && <div className="flex flex-col sm:flex-row gap-4">{actions}</div>}
+      {actions && <div className={`flex flex-col sm:flex-row gap-4 ${actionsCentering}`}>{actions}</div>}
     </div>
   );
 };

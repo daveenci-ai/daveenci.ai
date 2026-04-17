@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import { Section, SectionHeader, ScrollReveal, VitruvianBackground, Button } from './Shared';
+import { Section, SectionHeader, ScrollReveal, VitruvianBackground, Button, PageHero } from './Shared';
 import type { Page } from './types';
 import { Target, Users, Zap, Award, BarChart3, Clock } from 'lucide-react';
 import AntonSketch from '../images/Anton_Sketch.jpg';
@@ -30,14 +30,13 @@ const WhoWeArePage: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
             <VitruvianBackground className="opacity-[0.1]" />
             <div className="max-w-7xl mx-auto relative z-10 flex flex-col items-center">
                {/* Hero Text */}
-               <ScrollReveal className="text-center max-w-4xl mx-auto mb-20">
-                  <span className="font-script text-2xl text-accent mb-4 block rotate-[-2deg]">Folio 0 — The Origin</span>
-                  <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl text-ink mb-8 leading-tight">
-                     Engineers of <br /><span className="italic text-ink-muted">Elegant Efficiency.</span>
-                  </h1>
-                  <p className="font-sans text-xl md:text-2xl text-ink-muted leading-relaxed mb-8 max-w-2xl mx-auto">
-                     DaVeenci is an AI & Automation consultancy built for the builders. Founded by ex-unicorn operators to bridge the gap between "cool AI demos" and "shipped revenue systems."
-                  </p>
+               <ScrollReveal className="max-w-4xl mx-auto mb-20">
+                  <PageHero
+                    eyebrow="Folio 0 — The Origin"
+                    title={<>Engineers of <br /><span className="italic text-ink-muted">Elegant Efficiency.</span></>}
+                    description={<>DaVeenci is an AI & Automation consultancy built for the builders. Founded by ex-unicorn operators to bridge the gap between "cool AI demos" and "shipped revenue systems."</>}
+                    centered
+                  />
                   <div className="w-32 h-1 bg-accent/20 mx-auto"></div>
                </ScrollReveal>
 
