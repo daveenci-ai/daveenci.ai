@@ -14,25 +14,25 @@ const CRMFlowDiagram: React.FC = () => (
     </div>
     <div className="relative h-full w-full">
       <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 300 180" fill="none">
-        <path d="M 20 90 C 80 90, 100 90, 140 90 C 180 90, 200 90, 260 90" stroke="#C4B59D" strokeWidth="1.5" strokeDasharray="6 4" />
-        <path d="M 20 90 C 80 90, 100 90, 140 90" stroke="#3f84c8" strokeWidth="2" className="animate-pulse" />
+        <path d="M 20 90 C 80 90, 100 90, 140 90 C 180 90, 200 90, 260 90" stroke="rgb(var(--color-paper-border))" strokeWidth="1.5" strokeDasharray="6 4" />
+        <path d="M 20 90 C 80 90, 100 90, 140 90" stroke="rgb(var(--color-accent))" strokeWidth="2" className="animate-pulse" />
 
-        <circle cx="30" cy="90" r="18" fill="white" stroke="#222" strokeWidth="1.5" />
-        <circle cx="30" cy="90" r="6" fill="#222" />
-        <text x="30" y="130" textAnchor="middle" fontSize="10" fill="#5A4A3A" fontFamily="monospace">LEADS</text>
+        <circle cx="30" cy="90" r="18" fill="white" stroke="rgb(var(--color-ink))" strokeWidth="1.5" />
+        <circle cx="30" cy="90" r="6" fill="rgb(var(--color-ink))" />
+        <text x="30" y="130" textAnchor="middle" fontSize="10" fill="rgb(var(--color-ink-muted))" fontFamily="monospace">LEADS</text>
 
-        <path d="M 140 70 L 157 80 L 157 100 L 140 110 L 123 100 L 123 80 Z" fill="white" stroke="#3f84c8" strokeWidth="1.5" />
-        <circle cx="140" cy="90" r="8" fill="#3f84c8" fillOpacity="0.2" className="animate-ping" style={{ animationDuration: '3s' }} />
-        <text x="140" y="130" textAnchor="middle" fontSize="10" fill="#3f84c8" fontFamily="monospace">ENRICH</text>
+        <path d="M 140 70 L 157 80 L 157 100 L 140 110 L 123 100 L 123 80 Z" fill="white" stroke="rgb(var(--color-accent))" strokeWidth="1.5" />
+        <circle cx="140" cy="90" r="8" fill="rgb(var(--color-accent))" fillOpacity="0.2" className="animate-ping" style={{ animationDuration: '3s' }} />
+        <text x="140" y="130" textAnchor="middle" fontSize="10" fill="rgb(var(--color-accent))" fontFamily="monospace">ENRICH</text>
 
-        <rect x="250" y="70" width="30" height="40" rx="2" fill="#222" />
+        <rect x="250" y="70" width="30" height="40" rx="2" fill="rgb(var(--color-ink))" />
         <line x1="255" y1="80" x2="275" y2="80" stroke="white" strokeWidth="1" opacity="0.5" />
         <line x1="255" y1="90" x2="275" y2="90" stroke="white" strokeWidth="1" opacity="0.5" />
-        <text x="265" y="130" textAnchor="middle" fontSize="10" fill="#5A4A3A" fontFamily="monospace">CRM</text>
+        <text x="265" y="130" textAnchor="middle" fontSize="10" fill="rgb(var(--color-ink-muted))" fontFamily="monospace">CRM</text>
 
-        <path d="M 157 80 C 180 40, 220 40, 240 50" stroke="#C4B59D" strokeWidth="1" strokeDasharray="2 2" />
-        <rect x="240" y="35" width="24" height="24" rx="4" fill="white" stroke="#222" strokeWidth="1" />
-        <path d="M 252 47 L 252 47" stroke="#222" strokeWidth="4" strokeLinecap="round" />
+        <path d="M 157 80 C 180 40, 220 40, 240 50" stroke="rgb(var(--color-paper-border))" strokeWidth="1" strokeDasharray="2 2" />
+        <rect x="240" y="35" width="24" height="24" rx="4" fill="white" stroke="rgb(var(--color-ink))" strokeWidth="1" />
+        <path d="M 252 47 L 252 47" stroke="rgb(var(--color-ink))" strokeWidth="4" strokeLinecap="round" />
       </svg>
 
       <div className="absolute top-0 right-0 bg-base shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
@@ -54,27 +54,27 @@ const MarketingEngineDiagram: React.FC = () => (
     </div>
     <div className="relative h-full w-full">
       <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 300 180" fill="none">
-        <circle cx="150" cy="90" r="24" fill="white" stroke="#222" strokeWidth="1.5" />
-        <polygon points="145,80 160,90 145,100" fill="#222" />
+        <circle cx="150" cy="90" r="24" fill="white" stroke="rgb(var(--color-ink))" strokeWidth="1.5" />
+        <polygon points="145,80 160,90 145,100" fill="rgb(var(--color-ink))" />
 
-        <line x1="174" y1="90" x2="240" y2="50" stroke="#C4B59D" strokeWidth="1.5" />
-        <line x1="174" y1="90" x2="240" y2="130" stroke="#C4B59D" strokeWidth="1.5" />
-        <line x1="126" y1="90" x2="60" y2="90" stroke="#C4B59D" strokeWidth="1.5" />
+        <line x1="174" y1="90" x2="240" y2="50" stroke="rgb(var(--color-paper-border))" strokeWidth="1.5" />
+        <line x1="174" y1="90" x2="240" y2="130" stroke="rgb(var(--color-paper-border))" strokeWidth="1.5" />
+        <line x1="126" y1="90" x2="60" y2="90" stroke="rgb(var(--color-paper-border))" strokeWidth="1.5" />
 
-        <circle cx="150" cy="90" r="30" stroke="#3f84c8" strokeWidth="1" className="animate-ping" style={{ animationDuration: '2s', opacity: 0.2 }} />
+        <circle cx="150" cy="90" r="30" stroke="rgb(var(--color-accent))" strokeWidth="1" className="animate-ping" style={{ animationDuration: '2s', opacity: 0.2 }} />
 
-        <rect x="230" y="30" width="30" height="40" rx="2" fill="white" stroke="#3f84c8" strokeWidth="1.5" />
-        <line x1="238" y1="45" x2="252" y2="45" stroke="#3f84c8" strokeWidth="1" />
-        <line x1="238" y1="55" x2="252" y2="55" stroke="#3f84c8" strokeWidth="1" />
+        <rect x="230" y="30" width="30" height="40" rx="2" fill="white" stroke="rgb(var(--color-accent))" strokeWidth="1.5" />
+        <line x1="238" y1="45" x2="252" y2="45" stroke="rgb(var(--color-accent))" strokeWidth="1" />
+        <line x1="238" y1="55" x2="252" y2="55" stroke="rgb(var(--color-accent))" strokeWidth="1" />
 
-        <circle cx="245" cy="130" r="15" fill="white" stroke="#3f84c8" strokeWidth="1.5" />
-        <path d="M 238 132 L 244 138 L 254 124" stroke="#3f84c8" strokeWidth="1.5" fill="none" />
+        <circle cx="245" cy="130" r="15" fill="white" stroke="rgb(var(--color-accent))" strokeWidth="1.5" />
+        <path d="M 238 132 L 244 138 L 254 124" stroke="rgb(var(--color-accent))" strokeWidth="1.5" fill="none" />
 
-        <rect x="30" y="75" width="30" height="30" rx="2" fill="#222" />
+        <rect x="30" y="75" width="30" height="30" rx="2" fill="rgb(var(--color-ink))" />
         <path d="M 35 85 L 45 92 L 55 85" stroke="white" strokeWidth="1.5" fill="none" />
 
-        <text x="150" y="135" textAnchor="middle" fontSize="10" fill="#222" fontFamily="monospace" letterSpacing="0.1em">SOURCE</text>
-        <text x="245" y="85" textAnchor="middle" fontSize="9" fill="#3f84c8" fontFamily="monospace">REPURPOSED</text>
+        <text x="150" y="135" textAnchor="middle" fontSize="10" fill="rgb(var(--color-ink))" fontFamily="monospace" letterSpacing="0.1em">SOURCE</text>
+        <text x="245" y="85" textAnchor="middle" fontSize="9" fill="rgb(var(--color-accent))" fontFamily="monospace">REPURPOSED</text>
       </svg>
 
       <div className="absolute top-4 left-0 bg-base shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
@@ -96,42 +96,42 @@ const OpsDiagram: React.FC = () => (
     </div>
     <div className="relative h-full w-full">
       <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 300 180" fill="none">
-        <circle cx="150" cy="90" r="25" fill="#222" />
-        <circle cx="150" cy="90" r="35" stroke="#222" strokeWidth="1" strokeDasharray="2 4" className="animate-spin-slow" style={{ transformOrigin: '150px 90px' }} />
+        <circle cx="150" cy="90" r="25" fill="rgb(var(--color-ink))" />
+        <circle cx="150" cy="90" r="35" stroke="rgb(var(--color-ink))" strokeWidth="1" strokeDasharray="2 4" className="animate-spin-slow" style={{ transformOrigin: '150px 90px' }} />
         <text x="150" y="94" textAnchor="middle" fontSize="8" fill="white" fontFamily="monospace" fontWeight="bold">AI CORE</text>
 
         <g transform="translate(20, 50)">
-          <rect x="0" y="0" width="40" height="20" rx="4" fill="white" stroke="#222222" strokeWidth="1" />
-          <text x="20" y="13" textAnchor="middle" fontSize="8" fill="#555">CALL</text>
-          <line x1="42" y1="10" x2="100" y2="35" stroke="#C4B59D" strokeWidth="1.5" strokeDasharray="3 3" />
+          <rect x="0" y="0" width="40" height="20" rx="4" fill="white" stroke="rgb(var(--color-ink))" strokeWidth="1" />
+          <text x="20" y="13" textAnchor="middle" fontSize="8" fill="rgb(var(--color-ink-muted))">CALL</text>
+          <line x1="42" y1="10" x2="100" y2="35" stroke="rgb(var(--color-paper-border))" strokeWidth="1.5" strokeDasharray="3 3" />
         </g>
         <g transform="translate(20, 110)">
-          <rect x="0" y="0" width="40" height="20" rx="4" fill="white" stroke="#222222" strokeWidth="1" />
-          <text x="20" y="13" textAnchor="middle" fontSize="8" fill="#555">EMAIL</text>
-          <line x1="42" y1="10" x2="100" y2="-15" stroke="#C4B59D" strokeWidth="1.5" strokeDasharray="3 3" />
+          <rect x="0" y="0" width="40" height="20" rx="4" fill="white" stroke="rgb(var(--color-ink))" strokeWidth="1" />
+          <text x="20" y="13" textAnchor="middle" fontSize="8" fill="rgb(var(--color-ink-muted))">EMAIL</text>
+          <line x1="42" y1="10" x2="100" y2="-15" stroke="rgb(var(--color-paper-border))" strokeWidth="1.5" strokeDasharray="3 3" />
         </g>
 
-        <path d="M 175 90 L 240 35" stroke="#3f84c8" strokeWidth="1.5" />
-        <path d="M 175 90 L 240 90" stroke="#3f84c8" strokeWidth="1.5" />
-        <path d="M 175 90 L 240 145" stroke="#3f84c8" strokeWidth="1.5" />
+        <path d="M 175 90 L 240 35" stroke="rgb(var(--color-accent))" strokeWidth="1.5" />
+        <path d="M 175 90 L 240 90" stroke="rgb(var(--color-accent))" strokeWidth="1.5" />
+        <path d="M 175 90 L 240 145" stroke="rgb(var(--color-accent))" strokeWidth="1.5" />
 
         <g transform="translate(245, 35)">
-          <circle cx="0" cy="0" r="15" fill="white" stroke="#3f84c8" strokeWidth="1.5" />
-          <path d="M -5 -5 L 5 5" stroke="#3f84c8" strokeWidth="1.5" />
-          <path d="M 5 -5 L -5 5" stroke="#3f84c8" strokeWidth="1.5" />
-          <text x="0" y="25" textAnchor="middle" fontSize="8" fill="#3f84c8">CALENDAR</text>
+          <circle cx="0" cy="0" r="15" fill="white" stroke="rgb(var(--color-accent))" strokeWidth="1.5" />
+          <path d="M -5 -5 L 5 5" stroke="rgb(var(--color-accent))" strokeWidth="1.5" />
+          <path d="M 5 -5 L -5 5" stroke="rgb(var(--color-accent))" strokeWidth="1.5" />
+          <text x="0" y="25" textAnchor="middle" fontSize="8" fill="rgb(var(--color-accent))">CALENDAR</text>
         </g>
 
         <g transform="translate(245, 90)">
-          <circle cx="0" cy="0" r="15" fill="white" stroke="#3f84c8" strokeWidth="1.5" />
-          <rect x="-8" y="-8" width="16" height="16" stroke="#3f84c8" strokeWidth="1" />
-          <text x="0" y="25" textAnchor="middle" fontSize="8" fill="#3f84c8">DISPATCH</text>
+          <circle cx="0" cy="0" r="15" fill="white" stroke="rgb(var(--color-accent))" strokeWidth="1.5" />
+          <rect x="-8" y="-8" width="16" height="16" stroke="rgb(var(--color-accent))" strokeWidth="1" />
+          <text x="0" y="25" textAnchor="middle" fontSize="8" fill="rgb(var(--color-accent))">DISPATCH</text>
         </g>
 
         <g transform="translate(245, 145)">
-          <circle cx="0" cy="0" r="15" fill="white" stroke="#3f84c8" strokeWidth="1.5" />
-          <path d="M -8 -5 h 16 v 10 h -16 z" stroke="#3f84c8" strokeWidth="1" fill="none" />
-          <text x="0" y="25" textAnchor="middle" fontSize="8" fill="#3f84c8">RECORD</text>
+          <circle cx="0" cy="0" r="15" fill="white" stroke="rgb(var(--color-accent))" strokeWidth="1.5" />
+          <path d="M -8 -5 h 16 v 10 h -16 z" stroke="rgb(var(--color-accent))" strokeWidth="1" fill="none" />
+          <text x="0" y="25" textAnchor="middle" fontSize="8" fill="rgb(var(--color-accent))">RECORD</text>
         </g>
       </svg>
 
