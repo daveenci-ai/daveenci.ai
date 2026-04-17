@@ -2,17 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Colors — stored as space-separated RGB triples so Tailwind's /<alpha-value>
+     opacity modifiers continue to work (rgb(var(--color-x) / 0.5)). */
+  --color-base: 245 240 230;          /* #F5F0E6 — light parchment */
+  --color-alt: 228 214 189;           /* #E4D6BD — deeper tan */
+  --color-ink: 34 34 34;              /* #222222 — deep charcoal */
+  --color-ink-muted: 90 74 58;        /* #5A4A3A — soft warm brown */
+  --color-accent: 63 132 200;         /* #3f84c8 — brand blue */
+  --color-accent-light: 100 161 224;  /* #64a1e0 */
+  --color-accent-hover: 47 108 168;   /* #2f6ca8 */
+  --color-paper-border: 196 181 157;  /* #C4B59D — tan line work in diagrams */
+
+  /* Spacing */
+  --space-section-y: 5rem;       /* py-20 */
+  --space-section-y-lg: 7rem;    /* md:py-28 */
+  --space-card-p: 1.5rem;        /* p-6 */
+  --container-max: 80rem;        /* max-w-7xl */
+
+  /* Radius */
+  --radius-sharp: 0;
+  --radius-card: 0.125rem;       /* rounded-sm */
+  --radius-pill: 9999px;
+
+  /* Shadow */
+  --shadow-card: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-card-hover: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-brand-glow: 0 40px 80px -20px rgb(63 132 200 / 0.15);
+
+  /* Z-index scale */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-dropdown: 20;
+  --z-overlay: 30;
+  --z-modal: 50;
+
+  /* Transitions */
+  --ease-base: 300ms;
+  --ease-out-slow: 700ms;
+}
+
 /* Custom styles if needed */
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: #F5F0E6;
-  color: #222222;
+  background-color: rgb(var(--color-base));
+  color: rgb(var(--color-ink));
 }
 
 ::selection {
-  background-color: #3f84c8;
+  background-color: rgb(var(--color-accent));
   color: #ffffff;
 }

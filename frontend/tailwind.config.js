@@ -10,17 +10,18 @@ export default {
     theme: {
         extend: {
             colors: {
-                base: '#F5F0E6', // Light parchment
-                alt: '#E4D6BD',  // Deeper tan
+                base: 'rgb(var(--color-base) / <alpha-value>)',
+                alt: 'rgb(var(--color-alt) / <alpha-value>)',
                 ink: {
-                    DEFAULT: '#222222', // Deep charcoal
-                    muted: '#5A4A3A',   // Soft warm brown
+                    DEFAULT: 'rgb(var(--color-ink) / <alpha-value>)',
+                    muted: 'rgb(var(--color-ink-muted) / <alpha-value>)',
                 },
                 accent: {
-                    DEFAULT: '#3f84c8', // Updated Blue
-                    light: '#64a1e0',
-                    hover: '#2f6ca8',
-                }
+                    DEFAULT: 'rgb(var(--color-accent) / <alpha-value>)',
+                    light: 'rgb(var(--color-accent-light) / <alpha-value>)',
+                    hover: 'rgb(var(--color-accent-hover) / <alpha-value>)',
+                },
+                'paper-border': 'rgb(var(--color-paper-border) / <alpha-value>)',
             },
             fontFamily: {
                 serif: ['"IM Fell English"', 'serif'],
