@@ -91,7 +91,7 @@ const DEMO_DATA: DemoItem[] = [
 ];
 
 interface AdminPageProps {
-    onNavigate: (page: any) => void;
+    onNavigate: (page: Page) => void;
 }
 
 const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {

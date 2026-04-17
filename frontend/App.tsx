@@ -8,6 +8,7 @@ import Calendar from './components/Calendar';
 import AdminPage from './components/AdminPage';
 import PulseLandingPage from './components/PulseLandingPage';
 import BrandAnalyzerPage from './components/BrandAnalyzerPage';
+import NotFoundPage from './components/NotFoundPage';
 import type { Page } from './components/types';
 
 const App: React.FC = () => {
@@ -43,8 +44,10 @@ const App: React.FC = () => {
         setPage('book-demo');
       } else if (path === '/brand-analyzer') {
         setPage('brand-analyzer');
+      } else {
+        setPage('not-found');
+        setSelectedBriefingId(null);
       }
-      // Note: We intentionally don't handle 'unknown' routes here to allow fallback to landing
     };
 
     // Hydrate state from URL on mount
@@ -168,6 +171,9 @@ const App: React.FC = () => {
       )}
       {page === 'brand-analyzer' && (
         <BrandAnalyzerPage onNavigate={handleNavigate} />
+      )}
+      {page === 'not-found' && (
+        <NotFoundPage onNavigate={handleNavigate} />
       )}
     </main>
   );

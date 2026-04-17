@@ -2,8 +2,9 @@
 import React from 'react';
 import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
 import { Logo } from './Shared';
+import type { Page } from './types';
 
-const Footer: React.FC<{ onNavigate?: (page: any) => void }> = ({ onNavigate }) => (
+const Footer: React.FC<{ onNavigate?: (page: Page) => void }> = ({ onNavigate }) => (
    <footer className="bg-ink text-base py-16 border-t border-white/10">
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-12">
          <div className="flex items-center gap-3 opacity-90 hover:opacity-100 transition-opacity">
