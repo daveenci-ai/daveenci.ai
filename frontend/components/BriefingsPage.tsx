@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import { Section, ScrollReveal, BriefingCard, VitruvianBackground } from './Shared';
+import { Section, ScrollReveal, BriefingCard, VitruvianBackground, PageHero } from './Shared';
 import type { Page } from './types';
 import { Filter } from 'lucide-react';
 import AgenticWorkflowImage from '../images/001 - What is an Agentic Workflow.jpg';
@@ -133,11 +133,13 @@ const BriefingsPage: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
         <VitruvianBackground className="opacity-[0.08]" />
         <div className="text-center max-w-4xl mx-auto mb-16">
           <ScrollReveal>
-            <span className="font-script text-2xl text-accent mb-2 block">The DaVeenci Codex</span>
-            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl text-ink mb-6">Intelligence Briefings</h1>
-            <p className="text-xl text-ink-muted max-w-2xl mx-auto leading-relaxed">
-              Weekly architectural blueprints, technical deep dives, and strategic plays for the AI-native enterprise.
-            </p>
+            <PageHero
+              eyebrow="The DaVeenci Codex"
+              title="Intelligence Briefings"
+              description="Weekly architectural blueprints, technical deep dives, and strategic plays for the AI-native enterprise."
+              centered
+              eyebrowRotation="none"
+            />
           </ScrollReveal>
         </div>
 
