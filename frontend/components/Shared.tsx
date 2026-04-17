@@ -388,3 +388,144 @@ export const Section: React.FC<SectionProps> = ({ id, className = '', children, 
     </div>
   </section>
 );
+
+// --- Primitives ---
+
+export const Eyebrow: React.FC<{
+  children: React.ReactNode;
+  rotation?: 'left' | 'right' | 'slight' | 'none';
+  tone?: 'accent' | 'muted';
+  className?: string;
+}> = ({ children, rotation = 'left', tone = 'accent', className = '' }) => {
+  const rotationClass = {
+    left: '-rotate-2 origin-bottom-left',
+    right: 'rotate-2 origin-bottom-right',
+    slight: '-rotate-1 origin-bottom-left',
+    none: '',
+  }[rotation];
+  const toneClass = tone === 'accent' ? 'text-accent' : 'text-ink-muted/80';
+  return (
+    <span className={`block font-script text-2xl ${toneClass} ${rotationClass} ${className}`}>
+      {children}
+    </span>
+  );
+};
+
+export const PageHero: React.FC<{
+  eyebrow: React.ReactNode;
+  title: React.ReactNode;
+  description: React.ReactNode;
+  actions?: React.ReactNode;
+  size?: 'md' | 'lg';
+  eyebrowRotation?: 'left' | 'right' | 'slight' | 'none';
+  className?: string;
+}> = ({ eyebrow, title, description, actions, size = 'lg', eyebrowRotation = 'left', className = '' }) => {
+  const titleSize = size === 'lg'
+    ? 'text-5xl md:text-6xl lg:text-7xl'
+    : 'text-4xl md:text-5xl lg:text-6xl';
+  const descriptionSize = size === 'lg'
+    ? 'text-xl md:text-2xl'
+    : 'text-lg md:text-xl';
+  return (
+    <div className={className}>
+      <Eyebrow rotation={eyebrowRotation}>{eyebrow}</Eyebrow>
+      <h1 className={`font-serif ${titleSize} text-ink leading-[1.1] mb-8 mt-4`}>
+        {title}
+      </h1>
+      <p className={`font-sans ${descriptionSize} text-ink-muted max-w-2xl leading-relaxed mb-10`}>
+        {description}
+      </p>
+      {actions && <div className="flex flex-col sm:flex-row gap-4">{actions}</div>}
+    </div>
+  );
+};
+
+type FormFieldProps = {
+  label: string;
+  name: string;
+  value: string;
+  onChange: (value: string) => void;
+  type?: 'text' | 'email' | 'tel' | 'textarea';
+  required?: boolean;
+  placeholder?: string;
+  error?: string;
+  rows?: number;
+  className?: string;
+};
+
+export const FormField: React.FC<FormFieldProps> = ({
+  label, name, value, onChange, type = 'text', required, placeholder, error, rows = 4, className = '',
+}) => {
+  const inputClasses = `w-full bg-base/30 border ${error ? 'border-red-500' : 'border-ink/20'} p-3 text-ink rounded-sm transition-colors focus:outline-none focus:border-accent placeholder:text-ink-muted/50`;
+
+  return (
+    <div className={className}>
+      <label htmlFor={name} className="block text-xs font-bold text-ink uppercase tracking-wider mb-2">
+        {label} {required && <span className="text-red-500">*</span>}
+      </label>
+      {type === 'textarea' ? (
+        <textarea
+          id={name}
+          name={name}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          required={required}
+          placeholder={placeholder}
+          rows={rows}
+          className={inputClasses}
+        />
+      ) : (
+        <input
+          id={name}
+          name={name}
+          type={type}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          required={required}
+          placeholder={placeholder}
+          className={inputClasses}
+        />
+      )}
+      {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
+    </div>
+  );
+};
+
+export const ErrorAlert: React.FC<{
+  message: string;
+  onRetry?: () => void;
+  className?: string;
+}> = ({ message, onRetry, className = '' }) => (
+  <div
+    role="alert"
+    className={`text-sm text-red-700 bg-red-50 border border-red-200 rounded-sm px-3 py-2 flex items-start gap-2 ${className}`}
+  >
+    <span className="flex-1">{message}</span>
+    {onRetry && (
+      <button
+        onClick={onRetry}
+        type="button"
+        className="text-red-700 underline font-medium hover:text-red-900 transition-colors shrink-0"
+      >
+        Retry
+      </button>
+    )}
+  </div>
+);
+
+export const Tag: React.FC<{
+  children: React.ReactNode;
+  variant?: 'default' | 'accent';
+  className?: string;
+}> = ({ children, variant = 'default', className = '' }) => {
+  const variantClass = variant === 'accent'
+    ? 'bg-accent/10 text-accent border-accent/20'
+    : 'bg-white/90 text-ink border-ink/10';
+  return (
+    <span
+      className={`inline-block text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm border ${variantClass} ${className}`}
+    >
+      {children}
+    </span>
+  );
+};
