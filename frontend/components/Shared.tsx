@@ -214,9 +214,10 @@ interface CustomSelectProps {
   options: string[];
   placeholder?: string;
   required?: boolean;
+  icon?: React.ReactNode;
 }
 
-export const CustomSelect: React.FC<CustomSelectProps> = ({ label, value, onChange, options, placeholder, required }) => {
+export const CustomSelect: React.FC<CustomSelectProps> = ({ label, value, onChange, options, placeholder, required, icon }) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -234,7 +235,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({ label, value, onChan
   return (
     <div className="relative" ref={containerRef}>
       <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
-        {label} {required && <span className="text-red-500">*</span>}
+        {icon} {label} {required && <span className="text-red-500">*</span>}
       </label>
 
       <div
@@ -457,18 +458,21 @@ type FormFieldProps = {
   placeholder?: string;
   error?: string;
   rows?: number;
+  icon?: React.ReactNode;
+  optionalLabel?: string;
   className?: string;
 };
 
 export const FormField: React.FC<FormFieldProps> = ({
-  label, name, value, onChange, type = 'text', required, placeholder, error, rows = 4, className = '',
+  label, name, value, onChange, type = 'text', required, placeholder, error, rows = 4, icon, optionalLabel, className = '',
 }) => {
   const inputClasses = `w-full bg-base/30 border ${error ? 'border-red-500' : 'border-ink/20'} p-3 text-ink rounded-sm transition-colors focus:outline-none focus:border-accent placeholder:text-ink-muted/50`;
 
   return (
     <div className={className}>
-      <label htmlFor={name} className="block text-xs font-bold text-ink uppercase tracking-wider mb-2">
-        {label} {required && <span className="text-red-500">*</span>}
+      <label htmlFor={name} className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
+        {icon} {label} {required && <span className="text-red-500">*</span>}
+        {optionalLabel && <span className="text-ink-muted/60 lowercase font-normal">{optionalLabel}</span>}
       </label>
       {type === 'textarea' ? (
         <textarea
