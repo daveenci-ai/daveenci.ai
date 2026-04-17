@@ -133,8 +133,8 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
 };
 
 const CodexEventCard: React.FC<EventCardProps & { index: number; onRegister: () => void }> = ({ image, date, title, description, index, onRegister }) => (
-   <div className="group relative flex flex-col h-full min-h-[500px] bg-[#FDFBF7] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)]">
-      <div className="absolute inset-0 border border-[#D6CFC0] shadow-[inset_0_0_20px_rgba(214,207,192,0.2)] pointer-events-none"></div>
+   <div className="group relative flex flex-col h-full min-h-[500px] bg-base transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)]">
+      <div className="absolute inset-0 border border-paper-border/70 shadow-[inset_0_0_20px_rgba(214,207,192,0.2)] pointer-events-none"></div>
 
       <div className="absolute top-3 left-3 w-3 h-3 border-t border-l border-ink/20"></div>
       <div className="absolute top-3 right-3 w-3 h-3 border-t border-r border-ink/20"></div>

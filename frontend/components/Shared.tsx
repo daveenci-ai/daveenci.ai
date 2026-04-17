@@ -82,6 +82,9 @@ export const NodeNetworkBackground: React.FC<{ className?: string }> = ({ classN
     let width = 0;
     let height = 0;
 
+    // Read ink color once from CSS custom property; use throughout the animation.
+    const inkColor = getComputedStyle(document.documentElement).getPropertyValue('--color-ink').trim();
+
     const initParticles = () => {
       particles = [];
       const particleCount = Math.floor((width * height) / 40000);
@@ -123,7 +126,7 @@ export const NodeNetworkBackground: React.FC<{ className?: string }> = ({ classN
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2);
-        ctx.fillStyle = '#222222';
+        ctx.fillStyle = `rgb(${inkColor})`;
         ctx.fill();
 
         for (let j = i + 1; j < particles.length; j++) {
@@ -134,7 +137,7 @@ export const NodeNetworkBackground: React.FC<{ className?: string }> = ({ classN
 
           if (distance < connectionDistance) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(34, 34, 34, ${(1 - distance / connectionDistance) * 0.5})`;
+            ctx.strokeStyle = `rgb(${inkColor} / ${(1 - distance / connectionDistance) * 0.5})`;
             ctx.lineWidth = 1.2;
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
@@ -167,7 +170,7 @@ export const NodeNetworkBackground: React.FC<{ className?: string }> = ({ classN
 export const GridPattern: React.FC<{ className?: string }> = ({ className }) => (
   <div className={`absolute inset-0 pointer-events-none opacity-[0.05] ${className}`}
     style={{
-      backgroundImage: 'radial-gradient(#222 1px, transparent 1px)',
+      backgroundImage: 'radial-gradient(rgb(var(--color-ink)) 1px, transparent 1px)',
       backgroundSize: '24px 24px'
     }}
   />
@@ -195,9 +198,9 @@ export const Logo: React.FC<{ className?: string }> = ({ className }) => (
 export const SchematicDecor: React.FC<{ className?: string }> = ({ className }) => (
   <div className={`absolute right-4 top-4 opacity-30 ${className}`}>
     <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-      <circle cx="30" cy="10" r="2" fill="#3f84c8" />
-      <circle cx="10" cy="30" r="2" fill="#222" />
-      <path d="M10 30 C 10 15, 15 10, 30 10" stroke="#222" strokeWidth="1" />
+      <circle cx="30" cy="10" r="2" fill="rgb(var(--color-accent))" />
+      <circle cx="10" cy="30" r="2" fill="rgb(var(--color-ink))" />
+      <path d="M10 30 C 10 15, 15 10, 30 10" stroke="rgb(var(--color-ink))" strokeWidth="1" />
     </svg>
   </div>
 );
@@ -355,7 +358,7 @@ export const BriefingCard: React.FC<BriefingCardProps> = ({ title, description, 
     </div>
 
     <div className="p-8 flex flex-col flex-grow relative">
-      <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#222_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+      <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(rgb(var(--color-ink))_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
 
       <h3 className="relative font-serif text-2xl text-ink mb-3 group-hover:text-accent transition-colors duration-300 leading-tight">
         {title}
