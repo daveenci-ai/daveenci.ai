@@ -577,3 +577,26 @@ export const Tag: React.FC<{
     </span>
   );
 };
+
+export const Callout: React.FC<{
+  variant?: 'default' | 'muted' | 'alt' | 'warning';
+  size?: 'sm' | 'md';
+  className?: string;
+  children: React.ReactNode;
+}> = ({ variant = 'default', size = 'md', className = '', children }) => {
+  const variantClass = {
+    default: 'bg-white/40 border-ink/10',
+    muted: 'bg-white/50 border-ink/5',
+    alt: 'bg-alt/10 border-ink/5',
+    warning: 'bg-orange-50/50 border-orange-200/50',
+  }[variant];
+  const sizeClass = size === 'sm' ? 'p-4' : 'p-6';
+  return (
+    <div
+      className={`border ${variantClass} ${sizeClass} ${className}`}
+      style={{ borderRadius: 'var(--radius-widget-document)' }}
+    >
+      {children}
+    </div>
+  );
+};
