@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import { Section, ScrollReveal, VitruvianBackground, Button } from './Shared';
+import { Section, ScrollReveal, VitruvianBackground, Button, Callout } from './Shared';
 import type { Page } from './types';
 import { Clock, Tag, ChevronRight, Check, X, AlertTriangle, Lightbulb, BookOpen, Layers } from 'lucide-react';
 import AgenticWorkflowImage from '../images/001 - What is an Agentic Workflow.jpg';
@@ -150,18 +150,18 @@ const briefings: Record<string, BriefingData> = {
                <>
                   <p>You do not need to invent an agent from scratch. There are established patterns:</p>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                     <div className="p-4 bg-white/40 border border-ink/10 rounded-sm">
+                     <Callout size="sm">
                         <h4 className="font-bold text-ink mb-2">The ReAct Pattern</h4>
                         <p className="text-sm">The standard baseline. The model outputs a thought, then an action, then observes the output.</p>
-                     </div>
-                     <div className="p-4 bg-white/40 border border-ink/10 rounded-sm">
+                     </Callout>
+                     <Callout size="sm">
                         <h4 className="font-bold text-ink mb-2">The Reflection Pattern</h4>
                         <p className="text-sm">A "Critic" agent reviews the draft for errors, improving it before sending it to the user. Great for coding.</p>
-                     </div>
-                     <div className="p-4 bg-white/40 border border-ink/10 rounded-sm">
+                     </Callout>
+                     <Callout size="sm">
                         <h4 className="font-bold text-ink mb-2">The Router Pattern</h4>
                         <p className="text-sm">The LLM acts as a traffic controller, analyzing input and routing it to a specialized sub-agent.</p>
-                     </div>
+                     </Callout>
                   </div>
                </>
             )
@@ -188,7 +188,7 @@ const briefings: Record<string, BriefingData> = {
             id: "real-world",
             title: "Real-World Architecture: The Autonomous Support Triager",
             content: (
-               <div className="bg-alt/10 p-6 rounded-sm border border-ink/5">
+               <Callout variant="alt">
                   <p className="mb-4"><strong>The Problem:</strong> A SaaS company receives 500 tickets/day. Tier 1 support is drowning in repetitive queries about API limits.</p>
                   <p className="mb-4"><strong>The Workflow:</strong></p>
                   <ol className="list-decimal list-inside space-y-3 font-medium text-ink bg-white/50 p-6 rounded-sm border border-ink/5">
@@ -200,7 +200,7 @@ const briefings: Record<string, BriefingData> = {
                      <li className="pl-2"><span className="font-bold">Action:</span> Draft saved to Zendesk or sent automatically.</li>
                   </ol>
                   <p className="mt-4 text-sm text-green-700 font-bold">Result: 60% of tickets resolved without human intervention.</p>
-               </div>
+               </Callout>
             )
          },
          {
@@ -330,19 +330,19 @@ const briefings: Record<string, BriefingData> = {
                <>
                   <p>Not all synthetic data is created equal. Depending on the modality (Text, Tabular, Images), different architectures are used.</p>
                   <div className="space-y-6 mt-6">
-                     <div className="p-4 bg-white/40 border border-ink/10 rounded-sm">
+                     <Callout size="sm">
                         <h4 className="font-bold text-ink mb-2">1. LLM-for-LLM (Self-Instruct)</h4>
                         <p className="text-sm mb-2">Currently the dominant method for text. You use a "Teacher" model (e.g., GPT-4o) to generate training data for a "Student" model (e.g., Llama-3-8B).</p>
                         <p className="text-xs text-ink-muted italic">Method: "Generate 50 complex customer complaints regarding shipping delays, varying the tone from polite to furious."</p>
-                     </div>
-                     <div className="p-4 bg-white/40 border border-ink/10 rounded-sm">
+                     </Callout>
+                     <Callout size="sm">
                         <h4 className="font-bold text-ink mb-2">2. Variational Autoencoders (VAEs) & GANs</h4>
                         <p className="text-sm">Used primarily for tabular data (Excel sheets) and images. The model learns the probability distribution of a dataset and samples new rows from that distribution.</p>
-                     </div>
-                     <div className="p-4 bg-white/40 border border-ink/10 rounded-sm">
+                     </Callout>
+                     <Callout size="sm">
                         <h4 className="font-bold text-ink mb-2">3. Rules-Based / Procedural</h4>
                         <p className="text-sm">Used for coding and math. You write a script that generates random logic puzzles or Python functions with known correct answers. Guarantees 100% accuracy.</p>
-                     </div>
+                     </Callout>
                   </div>
                </>
             )
@@ -382,7 +382,7 @@ const briefings: Record<string, BriefingData> = {
             id: "real-world",
             title: "Real-World Example: The HIPAA-Compliant Doctor",
             content: (
-               <div className="bg-alt/10 p-6 rounded-sm border border-ink/5">
+               <Callout variant="alt">
                   <p className="mb-4"><strong>The Problem:</strong> A HealthTech startup wants to build a chatbot that helps triage patients in the ER. They have zero data because sharing patient logs is illegal.</p>
                   <p className="mb-4"><strong>The Synthetic Pipeline Solution:</strong></p>
                   <ul className="list-disc list-inside space-y-2 font-medium text-ink bg-white/50 p-6 rounded-sm border border-ink/5">
@@ -392,14 +392,14 @@ const briefings: Record<string, BriefingData> = {
                      <li><span className="font-bold">Training:</span> A local Llama-3 model is fine-tuned on this synthetic data.</li>
                   </ul>
                   <p className="mt-4 text-sm text-green-700 font-bold">Result: 90% accuracy on triage benchmarks without ever seeing a real patient's private data.</p>
-               </div>
+               </Callout>
             )
          },
          {
             id: "dangers",
             title: "The Dangers: Model Collapse",
             content: (
-               <div className="bg-orange-50/50 border border-orange-200/50 p-6 rounded-sm">
+               <Callout variant="warning">
                   <h4 className="font-bold text-orange-900 mb-2 flex items-center gap-2"><AlertTriangle className="w-4 h-4" /> What is it?</h4>
                   <p className="text-sm text-ink-muted mb-4">If you train a model entirely on synthetic data generated by another AI, the model eventually loses touch with reality. It begins to amplify the biases and hallucinations of the creator model. The data becomes "inbred."</p>
                   <h4 className="font-bold text-orange-900 mb-2">How to avoid it?</h4>
@@ -407,7 +407,7 @@ const briefings: Record<string, BriefingData> = {
                      <li><strong>The Mixer Strategy:</strong> Always mix synthetic data with at least 10-20% high-quality human data.</li>
                      <li><strong>Perplexity Filtering:</strong> Discard generated text that has low statistical probability (gibberish) or excessively high probability (repetitive clichés).</li>
                   </ul>
-               </div>
+               </Callout>
             )
          },
          {
@@ -487,26 +487,26 @@ const briefings: Record<string, BriefingData> = {
                <>
                   <p className="mb-6">A self-healing database is not a single tool; it is a loop consisting of four distinct phases.</p>
                   <div className="space-y-6">
-                     <div className="p-4 bg-white/40 border border-ink/10 rounded-sm">
+                     <Callout size="sm">
                         <h4 className="font-bold text-ink mb-1">1. The Sensor Mesh (Ingest)</h4>
                         <p className="text-sm">The system needs "ears." It connects to unstructured data streams: Gmail/Outlook, Slack/Teams, Zoom/Meet, and public signals like LinkedIn APIs.</p>
-                     </div>
-                     <div className="p-4 bg-white/40 border border-ink/10 rounded-sm">
+                     </Callout>
+                     <Callout size="sm">
                         <h4 className="font-bold text-ink mb-1">2. The Extraction Engine (The Brain)</h4>
                         <p className="text-sm mb-2">Unstructured text is passed through an LLM for Named Entity Recognition (NER).</p>
                         <div className="bg-ink/5 p-2 rounded text-xs font-mono text-ink-muted">
                            Input: "Leonardo, VP of Eng @ TechFlow | +1-555-0199"<br />
                            Extraction: &#123; Name: "Leonardo", Role: "VP of Engineering", Company: "TechFlow" &#125;
                         </div>
-                     </div>
-                     <div className="p-4 bg-white/40 border border-ink/10 rounded-sm">
+                     </Callout>
+                     <Callout size="sm">
                         <h4 className="font-bold text-ink mb-1">3. Identity Resolution (The Match)</h4>
                         <p className="text-sm">The hardest engineering challenge. Using fuzzy matching and vector embeddings to decide if "Leonardo" in an email is the same as "Leo" in Salesforce.</p>
-                     </div>
-                     <div className="p-4 bg-white/40 border border-ink/10 rounded-sm">
+                     </Callout>
+                     <Callout size="sm">
                         <h4 className="font-bold text-ink mb-1">4. The Write-Back (The Heal)</h4>
                         <p className="text-sm">The agent executes an API call to the CRM to update the specific field.</p>
-                     </div>
+                     </Callout>
                   </div>
                </>
             )
@@ -515,7 +515,7 @@ const briefings: Record<string, BriefingData> = {
             id: "real-world",
             title: "Real-World Example: The \"Champion Movement\" Play",
             content: (
-               <div className="bg-alt/10 p-6 rounded-sm border border-ink/5">
+               <Callout variant="alt">
                   <p className="mb-4 font-medium"><strong>The Scenario:</strong> Alice is a "Head of Product" at Company A and is your main champion. She leaves to join Company B as a "VP of Product."</p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -534,7 +534,7 @@ const briefings: Record<string, BriefingData> = {
                      </div>
                   </div>
                   <p className="mt-4 text-sm text-green-700 font-bold text-center">Result: One lost lead becomes two active opportunities automatically.</p>
-               </div>
+               </Callout>
             )
          },
          {
@@ -799,7 +799,7 @@ const briefings: Record<string, BriefingData> = {
             content: (
                <>
                   <p>Sophisticated teams in 2025 rarely choose just one. They use <strong>RAG-to-Long-Context</strong>.</p>
-                  <div className="bg-white/50 border border-ink/10 p-6 rounded-sm mt-6">
+                  <Callout variant="muted" className="mt-6">
                      <h4 className="font-bold text-ink mb-4">The Workflow</h4>
                      <ol className="list-decimal list-inside space-y-3 text-sm text-ink-muted">
                         <li><strong>Broad Search (RAG):</strong> User asks a vague question about a 100GB database.</li>
@@ -808,7 +808,7 @@ const briefings: Record<string, BriefingData> = {
                         <li><strong>Reasoning:</strong> The LLM performs deep reasoning over this filtered subset.</li>
                      </ol>
                      <p className="mt-4 text-sm italic">This balances cost and accuracy. You don't pay to load the whole database, but you give the model enough context to perform multi-hop reasoning.</p>
-                  </div>
+                  </Callout>
                </>
             )
          }
@@ -839,14 +839,14 @@ const briefings: Record<string, BriefingData> = {
             content: (
                <>
                   <p>By late 2025, the \"SaaS Fatigue\" in the legal sector has hit a peak. While tools like Harvey and Casetext are powerful, they require sending client data to the cloud. For high-stakes M&A, patent litigation, and criminal defense, <strong>Data Sovereignty</strong> is not a feature; it is an ethical requirement.</p>
-                  <div className="bg-alt/10 p-6 rounded-sm border border-ink/5 mt-6">
+                  <Callout variant="alt" className="mt-6">
                      <h4 className="font-bold text-ink mb-2">The \"Air-Gapped\" Advantage:</h4>
                      <ul className="list-disc list-inside space-y-2 text-ink-muted">
                         <li><strong>Privilege Protection:</strong> If the data never leaves the building, it cannot be intercepted or subpoenaed from a third-party provider.</li>
                         <li><strong>GDPR/CCPA Compliance:</strong> Processing PII locally removes the complexity of cross-border data transfer agreements.</li>
                         <li><strong>Cost Control:</strong> Instead of paying $30/user/month + token fees, you pay for electricity.</li>
                      </ul>
-                  </div>
+                  </Callout>
                </>
             )
          },
@@ -904,22 +904,22 @@ const briefings: Record<string, BriefingData> = {
                <>
                   <p>To run local AI, the bottleneck is not the speed of the chip; it is the <strong>Memory Bandwidth and Capacity</strong>.</p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                     <div className="p-6 bg-white/50 border border-ink/10 rounded-sm">
+                     <Callout variant="muted">
                         <h4 className="font-bold text-ink mb-2">Option A: The Gold Standard (Apple Silicon)</h4>
                         <p className="text-sm text-ink-muted mb-4">Apple remains the king of local inference because of Unified Memory Architecture (UMA).</p>
                         <ul className="space-y-2 text-sm">
                            <li><strong>Recommended:</strong> Mac Studio M4 Ultra (128GB RAM).</li>
                            <li><strong>Why:</strong> Loads Llama-4-70B (42GB) with 80GB left for a massive 200k token context window.</li>
                         </ul>
-                     </div>
-                     <div className="p-6 bg-white/50 border border-ink/10 rounded-sm">
+                     </Callout>
+                     <Callout variant="muted">
                         <h4 className="font-bold text-ink mb-2">Option B: The PC Enthusiast (Nvidia)</h4>
                         <p className="text-sm text-ink-muted mb-4">If you are building a Linux server.</p>
                         <ul className="space-y-2 text-sm">
                            <li><strong>Recommended:</strong> Dual RTX 5090s (2x 32GB = 64GB).</li>
                            <li><strong>Note:</strong> Single cards cap at 32GB, insufficient for 70B. Requires "Tensor Parallelism".</li>
                         </ul>
-                     </div>
+                     </Callout>
                   </div>
                   <div className="mt-6 p-4 bg-alt/10 border-l-2 border-ink/20">
                      <h4 className="font-bold text-ink text-sm">Option C: The Distributed Fleet (Exo)</h4>
@@ -966,7 +966,7 @@ const briefings: Record<string, BriefingData> = {
             content: (
                <>
                   <p>Running the model is step one. Step two is giving it memory using a <strong>Local RAG (Retrieval Augmented Generation)</strong> setup.</p>
-                  <div className="bg-white/50 p-6 rounded-sm border border-ink/5 mt-6">
+                  <Callout variant="muted" className="mt-6">
                      <h4 className="font-bold text-ink mb-4">The Workflow:</h4>
                      <ol className="list-decimal list-inside space-y-3 font-medium text-ink">
                         <li><strong>Ingestion:</strong> Unstructured.io parses PDFs, strips headers, and OCRs images.</li>
@@ -974,7 +974,7 @@ const briefings: Record<string, BriefingData> = {
                         <li><strong>Retrieval:</strong> Lawyer asks a question &rarr; RAG fetches top 10 relevant pages.</li>
                         <li><strong>Generation:</strong> Llama 4 analyzes those 10 pages and drafts the memo.</li>
                      </ol>
-                  </div>
+                  </Callout>
                   <div className="mt-4 p-4 text-sm bg-orange-50 text-orange-900 border border-orange-100 rounded-sm flex gap-2">
                      <Lightbulb className="w-4 h-4 flex-shrink-0 mt-0.5" />
                      <span><strong>Tip:</strong> Ensure your RAG pipeline uses Hybrid Search (Keyword + Semantic). Legal documents often hinge on specific dates or names (Keyword) which semantic search sometimes misses.</span>
@@ -1049,7 +1049,7 @@ const briefings: Record<string, BriefingData> = {
                <>
                   <h4 className="font-bold text-ink mb-2">The Concept</h4>
                   <p className="mb-4">Humans don't just think linearly. When planning a move in chess, we explore multiple options using \"If/Then\" scenarios. ToT forces the LLM to do the same.</p>
-                  <div className="bg-alt/10 p-6 rounded-sm border border-ink/5">
+                  <Callout variant="alt">
                      <h4 className="font-bold text-ink mb-2">The \"System Prompt\" Template:</h4>
                      <p className="font-mono text-xs text-ink-muted whitespace-pre-wrap">
                         "Imagine three different experts are answering this question.<br />
@@ -1058,7 +1058,7 @@ const briefings: Record<string, BriefingData> = {
                         If a path is flawed, they must discard it and start a new branch.<br />
                         Continue this process until a consensus is reached."
                      </p>
-                  </div>
+                  </Callout>
                   <p className="mt-4 text-sm text-ink-muted"><strong>Why it works:</strong> It forces the model to generate diverse perspectives and perform a "majority vote" on its own logic before committing.</p>
                </>
             )
@@ -1104,10 +1104,10 @@ const briefings: Record<string, BriefingData> = {
             content: (
                <>
                   <p>Named after the Socratic method, this pattern helps the model handle Ambiguity. If a user asks a vague question, a standard LLM guesses. A Maieutic agent asks clarifying questions.</p>
-                  <div className="bg-alt/10 p-6 rounded-sm border border-ink/5 mt-4">
+                  <Callout variant="alt" className="mt-4">
                      <h5 className="font-bold text-xs uppercase tracking-widest mb-2">The Template:</h5>
                      <p className="text-sm italic">"I will ask a question. If the answer depends on conditions, do not answer directly.<br />Instead: Identify ambiguity. Propose a tree of logical explanations ('If A, then X'). Assess contradictions."</p>
-                  </div>
+                  </Callout>
                   <p className="mt-2 text-sm"><strong>Best For:</strong> Legal analysis, Logical dilemmas, and Medical diagnosis.</p>
                </>
             )
@@ -1157,10 +1157,10 @@ const briefings: Record<string, BriefingData> = {
             content: (
                <>
                   <p>By December 2025, the grace periods for the EU AI Act have largely expired. The European AI Office is active, and the first fines are being processed. Just as GDPR became the global standard for privacy, the EU AI Act has become the global standard for model safety.</p>
-                  <div className="bg-alt/10 p-6 rounded-sm border border-ink/5 mt-6">
+                  <Callout variant="alt" className="mt-6">
                      <h4 className="font-bold text-ink mb-2">The \"SaaS Trap\"</h4>
                      <p className="text-sm text-ink-muted">Many developers assume they are safe because they just "wrap" OpenAI. <strong>Reality Check:</strong> If you wrap GPT-4 to build a "Candidate Screening Tool," YOU are the "Provider" of a High-Risk system under the Act. You inherit the liability, not OpenAI.</p>
-                  </div>
+                  </Callout>
                </>
             )
          },
@@ -1263,7 +1263,7 @@ const briefings: Record<string, BriefingData> = {
                <>
                   <p>Don't rely on lawyers to update Word documents. Automate compliance.</p>
                   <div className="space-y-6 mt-6">
-                     <div className="p-4 bg-white/40 border border-ink/10 rounded-sm">
+                     <Callout size="sm">
                         <h4 className="font-bold text-ink mb-2">1. The Model Card Generator</h4>
                         <p className="text-sm mb-2">Use <code>model-card-toolkit</code> to auto-generate reports.</p>
                         <div className="bg-ink text-white p-3 rounded text-xs font-mono">
@@ -1271,18 +1271,18 @@ const briefings: Record<string, BriefingData> = {
                            &nbsp;&nbsp;mlflow.log_param("data_version", "v2.1-GDPR-cleaned")<br />
                            &nbsp;&nbsp;mlflow.log_metric("bias_disparity_index", 0.05)
                         </div>
-                     </div>
-                     <div className="p-4 bg-white/40 border border-ink/10 rounded-sm">
+                     </Callout>
+                     <Callout size="sm">
                         <h4 className="font-bold text-ink mb-2">2. Watermarking (for GenAI)</h4>
                         <ul className="list-disc list-inside text-sm text-ink-muted">
                            <li><strong>Images:</strong> Use C2PA standards to sign as "AI Generated."</li>
                            <li><strong>Text:</strong> Add disclaimer: "I am an AI assistant."</li>
                         </ul>
-                     </div>
-                     <div className="p-4 bg-white/40 border border-ink/10 rounded-sm">
+                     </Callout>
+                     <Callout size="sm">
                         <h4 className="font-bold text-ink mb-2">3. Explainability (XAI)</h4>
                         <p className="text-sm text-ink-muted">Use <strong>SHAP values</strong> to explain rejections. Legal Requirement: The user has a "Right to Explanation."</p>
-                     </div>
+                     </Callout>
                   </div>
                </>
             )
@@ -1356,16 +1356,16 @@ const briefings: Record<string, BriefingData> = {
                <>
                   <p>If \"Seats\" are dead, what replaces them? There is a hierarchy of AI monetization.</p>
                   <div className="space-y-6 mt-6">
-                     <div className="p-4 bg-white/40 border border-ink/10 rounded-sm">
+                     <Callout size="sm">
                         <h4 className="font-bold text-ink mb-1">Level 1: Usage-Based (Snowflake Model)</h4>
                         <p className="text-sm mb-2">Metric: Per 1M Tokens, Per GPU Hour.</p>
                         <p className="text-xs text-ink-muted"><strong>Cons:</strong> Customers hate this. It punishes them for using the product. It feels like leaving the lights on.</p>
-                     </div>
-                     <div className="p-4 bg-white/40 border border-ink/10 rounded-sm">
+                     </Callout>
+                     <Callout size="sm">
                         <h4 className="font-bold text-ink mb-1">Level 2: Credit-Based (Adobe Model)</h4>
                         <p className="text-sm mb-2">Metric: 500 \"Generations\" per month.</p>
                         <p className="text-xs text-ink-muted"><strong>Cons:</strong> Friction. Users hesitate to click \"Generate\" because of hoarding mentality.</p>
-                     </div>
+                     </Callout>
                      <div className="p-4 bg-accent/5 border border-accent/20 rounded-sm">
                         <h4 className="font-bold text-accent mb-1">Level 3: Outcome-Based (Agency Model)</h4>
                         <p className="text-sm mb-2">Metric: Per Successful Resolution.</p>
@@ -1484,14 +1484,14 @@ const briefings: Record<string, BriefingData> = {
             content: (
                <>
                   <p>In 2025, we have moved to a \"Narrowcast\" model. The goal is not to make one video that goes viral; it is to make 10,000 videos that each get 1 view, but that 1 view converts.</p>
-                  <div className="bg-alt/10 p-6 rounded-sm border border-ink/5 mt-6">
+                  <Callout variant="alt" className="mt-6">
                      <h4 className="font-bold text-ink mb-2">The \"Video Bottleneck\"</h4>
                      <p className="text-sm text-ink-muted">Sales teams know video works. But a sales rep can only record ~10 personalized Loom videos a day before burning out.</p>
                      <ul className="list-disc list-inside mt-2 text-sm text-ink-muted font-mono">
                         <li>Manual Limit: 10 videos/day.</li>
                         <li>Automated Limit: Infinite videos/day.</li>
                      </ul>
-                  </div>
+                  </Callout>
                </>
             )
          },
