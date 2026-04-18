@@ -5,6 +5,7 @@ import { fromZonedTime } from 'date-fns-tz';
 import { Section, ScrollReveal, Button, CustomSelect, Logo, FormField } from './Shared';
 import AstridSketch from '../images/Astrid_Sketch.jpg';
 import { API_ENDPOINTS } from '../config';
+import { BUSINESS_TIMEZONE, BUSINESS_HOURS } from './calendarAvailability';
 
 const Booking: React.FC = () => {
    const [currentDate, setCurrentDate] = useState(new Date());
@@ -22,10 +23,6 @@ const Booking: React.FC = () => {
       reason: "Multiple areas (we will prioritize together)",
       notes: ''
    });
-
-   // Business hours are defined in consultant's timezone (Chicago)
-   const BUSINESS_TIMEZONE = 'America/Chicago';
-   const BUSINESS_HOURS = [8, 9, 10, 11, 12, 13, 14, 15]; // 8 AM - 4 PM Central Time
 
    // But display times in user's local timezone
    const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
