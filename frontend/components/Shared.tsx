@@ -471,7 +471,9 @@ export const PageHero: React.FC<{
   const actionsCentering = centered ? 'justify-center' : '';
   return (
     <div className={`${alignmentClasses} ${className}`}>
-      <Eyebrow rotation={eyebrowRotation}>{eyebrow}</Eyebrow>
+      {typeof eyebrow === 'string'
+        ? <Eyebrow rotation={eyebrowRotation}>{eyebrow}</Eyebrow>
+        : eyebrow}
       <h1 className={`font-serif ${titleSize} text-ink leading-[1.1] mb-8 mt-4`}>
         {title}
       </h1>
