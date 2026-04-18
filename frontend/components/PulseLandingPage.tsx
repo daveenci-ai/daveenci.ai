@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, ChevronDown, User, Mail, HelpCircle, Clock, Check, Menu, X, Mic, BarChart3, Send, Sparkles, Image, Lightbulb, MessageCircle, Users, Headphones, Briefcase, RefreshCw, Phone, Video, CalendarDays } from 'lucide-react';
 import { format } from 'date-fns';
-import { ScrollReveal, Section, SectionHeader, Button, Logo, GridPattern, VitruvianBackground, CustomSelect, Surface } from './Shared';
+import { ScrollReveal, Section, SectionHeader, Button, Logo, GridPattern, VitruvianBackground, CustomSelect, Surface, PageHero } from './Shared';
 import { API_ENDPOINTS } from '../config';
 import type { Page } from './types';
 import AstridSketch from '../images/Astrid_Sketch.jpg';
@@ -269,20 +269,22 @@ const PulseHero: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         <div className="lg:col-span-6 relative z-20">
           <ScrollReveal delay={200}>
-            <span className="inline-block mb-4 font-mono text-xs font-bold text-accent uppercase tracking-widest bg-accent/5 px-3 py-1 border border-accent/10 rounded-sm">
-              Introducing Pulse Note
-            </span>
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-ink leading-[1.1] mb-6">
-              Your ideas and meeting insights<br />
-              <span className="italic text-ink-muted/80">turned into content.</span>
-            </h1>
-            <p className="font-sans text-lg md:text-xl text-ink-muted max-w-xl leading-relaxed mb-8">
-              Pulse Note analyzes your calls, surfaces the insights and themes that matter, and drafts publish-ready newsletters, social posts, and visuals on autopilot.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="primary" onClick={() => scrollTo('booking')} className="text-base px-8 py-4">Book a Demo</Button>
-              <Button variant="secondary" onClick={() => scrollTo('try-it')} className="text-base px-8 py-4">See How It Works</Button>
-            </div>
+            <PageHero
+              eyebrow={
+                <span className="inline-block mb-4 font-mono text-xs font-bold text-accent uppercase tracking-widest bg-accent/5 px-3 py-1 border border-accent/10 rounded-sm">
+                  Introducing Pulse Note
+                </span>
+              }
+              title={<>Your ideas and meeting insights<br /><span className="italic text-ink-muted/80">turned into content.</span></>}
+              description="Pulse Note analyzes your calls, surfaces the insights and themes that matter, and drafts publish-ready newsletters, social posts, and visuals on autopilot."
+              size="md"
+              actions={
+                <>
+                  <Button variant="primary" onClick={() => scrollTo('booking')} className="text-base px-8 py-4">Book a Demo</Button>
+                  <Button variant="secondary" onClick={() => scrollTo('try-it')} className="text-base px-8 py-4">See How It Works</Button>
+                </>
+              }
+            />
           </ScrollReveal>
         </div>
 
