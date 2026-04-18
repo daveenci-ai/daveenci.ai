@@ -43,7 +43,7 @@
     { "src": "/api/(.*)", "dest": "/api/index.ts" },
     { "src": "/briefings(/.*)?", "status": 301, "headers": { "Location": "/codex$1" } },
     { "handle": "filesystem" },
-    { "src": "/(codex|who-we-are|calendar|admin|book-demo|brand-analyzer|work|purecode|shootos)(/.*)?", "dest": "/index.html" },
+    { "src": "/(codex|who-we-are|calendar|admin|book-demo|brand-analyzer|work|purecode|shootos|events)(/.*)?", "dest": "/index.html" },
     { "src": "/", "dest": "/index.html" },
     { "src": "/.*", "dest": "/404.html", "status": 404 }
   ]

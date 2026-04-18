@@ -239,9 +239,9 @@ const Events: React.FC = () => {
       <Section id="events" pattern="grid" className="bg-alt/30">
          <div className="relative z-10">
             <SectionHeader
-               eyebrow="Folio IV — Engagement"
-               title="Upcoming Intelligence"
-               subtitle="Join the conversation with industry leaders, founders, and builders."
+               eyebrow="Upcoming"
+               title="Come sit in."
+               subtitle="Three sessions on the calendar. Register to reserve a seat."
             />
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">

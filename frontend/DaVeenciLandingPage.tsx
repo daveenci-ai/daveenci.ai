@@ -6,7 +6,6 @@ import WorkPreview from './components/WorkPreview';
 import Newsletter from './components/Newsletter';
 import FounderBlock from './components/FounderBlock';
 import CTAStack from './components/CTAStack';
-import Events from './components/Events';
 import Footer from './components/Footer';
 import type { Page } from './components/types';
 
@@ -26,7 +25,6 @@ const DaVeenciLandingPage: React.FC<DaVeenciLandingPageProps> = ({ onNavigate, a
       <FounderBlock onNavigate={onNavigate} />
       <Newsletter onNavigate={onNavigate} />
       <CTAStack onNavigate={onNavigate} />
-      <Events />
 
       <Footer onNavigate={onNavigate} />
     </div>
