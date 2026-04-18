@@ -178,10 +178,10 @@ const InputPanel: React.FC<{
         <button
           onClick={onSubmit}
           disabled={disabled}
-          className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 font-sans text-sm font-medium transition-all duration-300 rounded-sm
+          className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 font-sans text-sm font-medium transition-all duration-500 rounded-sm
             ${disabled
               ? 'bg-ink/20 text-ink-muted cursor-not-allowed'
-              : 'bg-accent hover:bg-accent-hover text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95'}
+              : 'bg-accent hover:bg-accent-hover text-white shadow-sm hover:shadow-md'}
           `}
         >
           {loading ? (

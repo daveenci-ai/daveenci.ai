@@ -257,7 +257,7 @@ const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
                                         {filteredDemos.map((demo) => (
                                             <div
                                                 key={demo.id}
-                                                className="bg-white/80 backdrop-blur-xl border border-ink/5 rounded-lg overflow-hidden flex flex-col hover:border-accent/20 transition-all duration-500 group shadow-md hover:shadow-2xl hover:shadow-ink/10 hover:-translate-y-1"
+                                                className="bg-white/80 backdrop-blur-xl border border-ink/5 rounded-lg overflow-hidden flex flex-col hover:border-accent/20 transition-all duration-700 group shadow-md hover:shadow-2xl hover:shadow-ink/10"
                                             >
                                                 {/* PDF Preview at Top */}
                                                 {demo.architecturePdf && (

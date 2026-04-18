@@ -24,16 +24,16 @@ export const ScrollReveal: React.FC<{ children: React.ReactNode; className?: str
   }, []);
 
   const getTransform = () => {
-    if (direction === 'up') return 'translate-y-12 scale-95';
-    if (direction === 'left') return '-translate-x-12 scale-95';
-    if (direction === 'right') return 'translate-x-12 scale-95';
-    return 'translate-y-12 scale-95';
+    if (direction === 'up') return 'translate-y-6';
+    if (direction === 'left') return '-translate-x-6';
+    if (direction === 'right') return 'translate-x-6';
+    return 'translate-y-6';
   };
 
   return (
     <div
       ref={ref}
-      className={`transition-all duration-1000 ease-out transform ${isVisible ? "opacity-100 translate-y-0 translate-x-0 scale-100" : `opacity-0 ${getTransform()}`
+      className={`transition-all duration-[1400ms] ease-out transform ${isVisible ? "opacity-100 translate-y-0 translate-x-0" : `opacity-0 ${getTransform()}`
         } ${className}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
@@ -277,10 +277,10 @@ export const Button: React.FC<{
   className?: string;
   onClick?: () => void;
 }> = ({ variant = 'primary', children, className = '', onClick }) => {
-  const baseStyles = "inline-flex items-center justify-center px-6 py-3 font-sans text-sm font-medium transition-all duration-300 ease-out transform active:scale-95 group relative overflow-hidden";
+  const baseStyles = "inline-flex items-center justify-center px-6 py-3 font-sans text-sm font-medium transition-all duration-500 ease-out group relative overflow-hidden";
 
   const variants = {
-    primary: "bg-accent hover:bg-accent-hover text-white shadow-sm hover:shadow-md hover:-translate-y-0.5",
+    primary: "bg-accent hover:bg-accent-hover text-white shadow-sm hover:shadow-md",
     secondary: "bg-transparent border border-ink/20 text-ink hover:border-ink/50 hover:bg-ink/5",
     ghost: "bg-transparent text-accent hover:text-accent-hover p-0",
   };
@@ -311,7 +311,7 @@ export const SectionHeader: React.FC<{ eyebrow: string; title: string; subtitle?
 export const Card: React.FC<CardProps> = ({ title, children, label, className = '', image }) => (
   <Surface
     kind="document"
-    className={`relative bg-white border border-ink/10 p-0 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-accent/30 group flex flex-col ${className}`}
+    className={`relative bg-white border border-ink/10 p-0 overflow-hidden transition-all duration-700 hover:shadow-2xl hover:border-accent/30 group flex flex-col ${className}`}
   >
     <SchematicDecor className="opacity-0 group-hover:opacity-40 transition-opacity duration-500" />
     <div className="absolute top-0 left-0 w-0 h-0 border-t-[12px] border-l-[12px] border-transparent group-hover:border-accent transition-all duration-300 z-20"></div>
@@ -340,7 +340,7 @@ export const BriefingCard: React.FC<BriefingCardProps> = ({ title, description, 
   <Surface
     kind="document"
     onClick={onClick}
-    className={`group relative flex flex-col h-full bg-white/40 backdrop-blur-md border border-ink/10 overflow-hidden transition-all duration-500 hover:shadow-[0_40px_80px_-20px_rgba(63,132,200,0.15)] hover:-translate-y-2 hover:border-accent/30 cursor-pointer ${className}`}
+    className={`group relative flex flex-col h-full bg-white/40 backdrop-blur-md border border-ink/10 overflow-hidden transition-all duration-700 hover:shadow-[0_40px_80px_-20px_rgba(63,132,200,0.15)] hover:border-accent/30 cursor-pointer ${className}`}
   >
     <div className="absolute top-0 inset-x-0 h-1 bg-accent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-30"></div>
 
