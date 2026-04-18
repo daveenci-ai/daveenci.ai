@@ -22,6 +22,7 @@ export default {
                     hover: 'rgb(var(--color-accent-hover) / <alpha-value>)',
                 },
                 'paper-border': 'rgb(var(--color-paper-border) / <alpha-value>)',
+                'pulse-surface': 'rgb(var(--color-pulse-surface) / <alpha-value>)',
             },
             fontFamily: {
                 serif: ['"IM Fell English"', 'serif'],

@@ -177,7 +177,7 @@ const PulseHeroDiagram: React.FC = () => {
   }, [cycle]);
 
   return (
-    <div className="relative w-full max-w-lg mx-auto bg-[#FAF8F4] shadow-2xl shadow-ink/20 rounded-lg border border-ink/10 overflow-hidden" style={{ height: 420 }}>
+    <div className="relative w-full max-w-lg mx-auto bg-pulse-surface shadow-2xl shadow-ink/20 rounded-lg border border-ink/10 overflow-hidden" style={{ height: 420 }}>
       <div className="p-5 md:p-6 flex flex-col h-full">
         {/* Zoom-style video header */}
         <div className="flex items-center gap-3 mb-3">
@@ -193,13 +193,13 @@ const PulseHeroDiagram: React.FC = () => {
                   cx="20" cy="18"
                   rx={mouthOpen ? 2.5 : 2}
                   ry={mouthOpen ? 1.8 : 0.5}
-                  fill="#FAF8F4"
+                  fill="rgb(var(--color-pulse-surface))"
                   className="transition-all duration-100"
                 />
               </svg>
             </div>
             {/* Live indicator */}
-            <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full animate-pulse border-2 border-[#FAF8F4]" />
+            <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full animate-pulse border-2 border-pulse-surface" />
           </div>
           <div>
             <div className="font-serif text-sm font-medium text-ink">Strategy Call</div>
@@ -389,7 +389,7 @@ const MeetingAnalyzerAnimation: React.FC = () => {
   const isPost = phase === 'post';
 
   return (
-    <div className="w-full bg-[#FAF8F4] rounded-lg border border-ink/10 shadow-xl overflow-hidden h-[416px]">
+    <div className="w-full bg-pulse-surface rounded-lg border border-ink/10 shadow-xl overflow-hidden h-[416px]">
       <div className="p-4 md:p-5 h-full flex flex-col">
         {/* Zoom call header — always visible */}
         <div className="flex items-center justify-between mb-3">
@@ -416,7 +416,7 @@ const MeetingAnalyzerAnimation: React.FC = () => {
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
                   {['bg-blue-400', 'bg-emerald-400', 'bg-amber-400'].map((bg, i) => (
-                    <div key={i} className={`w-8 h-8 rounded-full ${bg} border-2 border-[#FAF8F4] flex items-center justify-center`}>
+                    <div key={i} className={`w-8 h-8 rounded-full ${bg} border-2 border-pulse-surface flex items-center justify-center`}>
                       <User className="w-3.5 h-3.5 text-white" />
                     </div>
                   ))}
@@ -585,7 +585,7 @@ const IdeaToContentAnimation: React.FC = () => {
   }, [cycle]);
 
   return (
-    <div className="w-full bg-[#FAF8F4] rounded-lg border border-ink/10 shadow-xl overflow-hidden h-[480px]">
+    <div className="w-full bg-pulse-surface rounded-lg border border-ink/10 shadow-xl overflow-hidden h-[480px]">
       <div className="p-5 md:p-6 h-full flex flex-col">
         {/* Idea input — always visible */}
         <div className="border border-ink/15 rounded-lg bg-white p-4 mb-4 shadow-sm">
@@ -683,7 +683,7 @@ const ScheduleAnimation: React.FC = () => {
   const allPosts = scheduled ? [...EXISTING_POSTS, NEW_POST] : EXISTING_POSTS;
 
   return (
-    <div className="w-full bg-[#FAF8F4] rounded-lg border border-ink/10 shadow-xl overflow-hidden min-h-[440px]">
+    <div className="w-full bg-pulse-surface rounded-lg border border-ink/10 shadow-xl overflow-hidden min-h-[440px]">
       <div className="p-5 md:p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
@@ -864,7 +864,7 @@ const BrandingAnimation: React.FC = () => {
   const showImages = phase === 'images';
 
   return (
-    <div className="w-full bg-[#FAF8F4] rounded-lg border border-ink/10 shadow-xl overflow-hidden h-[520px]">
+    <div className="w-full bg-pulse-surface rounded-lg border border-ink/10 shadow-xl overflow-hidden h-[520px]">
       <div className="p-5 md:p-6 h-full flex flex-col">
         {/* Brand setup header */}
         <div className="flex items-center gap-2.5 mb-4">
@@ -1073,34 +1073,34 @@ const InsightsDashboardDiagram: React.FC = () => (
     <svg className="w-full h-full" viewBox="0 0 280 180" fill="none">
       {/* Transcript lines */}
       <text x="10" y="16" fontSize="7" fill="#5A4A3A" fontFamily="monospace" opacity="0.5">TRANSCRIPT</text>
-      <line x1="10" y1="28" x2="130" y2="28" stroke="#C4B59D" strokeWidth="1" opacity="0.3" />
-      <line x1="10" y1="38" x2="110" y2="38" stroke="#C4B59D" strokeWidth="1" opacity="0.3" />
-      <line x1="10" y1="48" x2="120" y2="48" stroke="#C4B59D" strokeWidth="1" opacity="0.3" />
+      <line x1="10" y1="28" x2="130" y2="28" stroke="rgb(var(--color-paper-border))" strokeWidth="1" opacity="0.3" />
+      <line x1="10" y1="38" x2="110" y2="38" stroke="rgb(var(--color-paper-border))" strokeWidth="1" opacity="0.3" />
+      <line x1="10" y1="48" x2="120" y2="48" stroke="rgb(var(--color-paper-border))" strokeWidth="1" opacity="0.3" />
 
       {/* Highlighted aha line */}
-      <rect x="7" y="55" width="130" height="14" rx="2" fill="#3f84c8" fillOpacity="0.1" />
-      <line x1="10" y1="62" x2="130" y2="62" stroke="#3f84c8" strokeWidth="1.5" />
-      <text x="140" y="65" fontSize="7" fill="#3f84c8" fontFamily="monospace">← AHA MOMENT</text>
+      <rect x="7" y="55" width="130" height="14" rx="2" fill="rgb(var(--color-accent))" fillOpacity="0.1" />
+      <line x1="10" y1="62" x2="130" y2="62" stroke="rgb(var(--color-accent))" strokeWidth="1.5" />
+      <text x="140" y="65" fontSize="7" fill="rgb(var(--color-accent))" fontFamily="monospace">← AHA MOMENT</text>
 
-      <line x1="10" y1="78" x2="100" y2="78" stroke="#C4B59D" strokeWidth="1" opacity="0.3" />
-      <line x1="10" y1="88" x2="115" y2="88" stroke="#C4B59D" strokeWidth="1" opacity="0.3" />
+      <line x1="10" y1="78" x2="100" y2="78" stroke="rgb(var(--color-paper-border))" strokeWidth="1" opacity="0.3" />
+      <line x1="10" y1="88" x2="115" y2="88" stroke="rgb(var(--color-paper-border))" strokeWidth="1" opacity="0.3" />
 
       {/* Insight cards */}
-      <rect x="150" y="95" width="120" height="35" rx="3" stroke="#222" strokeWidth="1" fill="white" />
-      <circle cx="163" cy="112" r="6" fill="#3f84c8" opacity="0.2" />
-      <line x1="174" y1="107" x2="258" y2="107" stroke="#222" strokeWidth="1" opacity="0.3" />
-      <line x1="174" y1="117" x2="235" y2="117" stroke="#222" strokeWidth="1" opacity="0.15" />
+      <rect x="150" y="95" width="120" height="35" rx="3" stroke="rgb(var(--color-ink))" strokeWidth="1" fill="white" />
+      <circle cx="163" cy="112" r="6" fill="rgb(var(--color-accent))" opacity="0.2" />
+      <line x1="174" y1="107" x2="258" y2="107" stroke="rgb(var(--color-ink))" strokeWidth="1" opacity="0.3" />
+      <line x1="174" y1="117" x2="235" y2="117" stroke="rgb(var(--color-ink))" strokeWidth="1" opacity="0.15" />
 
-      <rect x="150" y="136" width="120" height="35" rx="3" stroke="#222" strokeWidth="1" fill="white" />
-      <circle cx="163" cy="153" r="6" fill="#C4B59D" opacity="0.4" />
-      <line x1="174" y1="148" x2="258" y2="148" stroke="#222" strokeWidth="1" opacity="0.3" />
-      <line x1="174" y1="158" x2="225" y2="158" stroke="#222" strokeWidth="1" opacity="0.15" />
+      <rect x="150" y="136" width="120" height="35" rx="3" stroke="rgb(var(--color-ink))" strokeWidth="1" fill="white" />
+      <circle cx="163" cy="153" r="6" fill="rgb(var(--color-paper-border))" opacity="0.4" />
+      <line x1="174" y1="148" x2="258" y2="148" stroke="rgb(var(--color-ink))" strokeWidth="1" opacity="0.3" />
+      <line x1="174" y1="158" x2="225" y2="158" stroke="rgb(var(--color-ink))" strokeWidth="1" opacity="0.15" />
 
       {/* Arrow from transcript to insights */}
-      <path d="M 80 95 C 80 110, 120 112, 148 112" stroke="#3f84c8" strokeWidth="1" strokeDasharray="4 3" markerEnd="url(#arrowBlue)" />
+      <path d="M 80 95 C 80 110, 120 112, 148 112" stroke="rgb(var(--color-accent))" strokeWidth="1" strokeDasharray="4 3" markerEnd="url(#arrowBlue)" />
       <defs>
         <marker id="arrowBlue" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto">
-          <path d="M 0 0 L 6 3 L 0 6 Z" fill="#3f84c8" />
+          <path d="M 0 0 L 6 3 L 0 6 Z" fill="rgb(var(--color-accent))" />
         </marker>
       </defs>
     </svg>
@@ -1564,7 +1564,7 @@ const UseCases: React.FC = () => (
       {personas.map((p, i) => (
         <ScrollReveal key={p.title} delay={i * 120} className="h-full">
           <div className="bg-white border border-ink/10 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group text-center h-full flex flex-col items-center">
-            <div className="w-44 h-44 mx-auto mb-6 rounded-full bg-[#FAF8F4] border border-ink/10 p-2 group-hover:border-accent/30 transition-colors overflow-hidden">
+            <div className="w-44 h-44 mx-auto mb-6 rounded-full bg-pulse-surface border border-ink/10 p-2 group-hover:border-accent/30 transition-colors overflow-hidden">
               <img src={p.img} alt={p.title} className="w-full h-full object-cover object-top rounded-full scale-150" />
             </div>
             <h3 className="font-serif text-xl text-ink mb-2">{p.title}</h3>

@@ -13,6 +13,7 @@
   --color-accent-light: 100 161 224;  /* #64a1e0 */
   --color-accent-hover: 47 108 168;   /* #2f6ca8 */
   --color-paper-border: 196 181 157;  /* #C4B59D — tan line work in diagrams */
+  --color-pulse-surface: 250 248 244; /* #FAF8F4 — Pulse brand card/screen bg */
 
   /* Spacing */
   --space-section-y: 5rem;       /* py-20 */
