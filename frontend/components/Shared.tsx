@@ -176,23 +176,26 @@ export const GridPattern: React.FC<{ className?: string }> = ({ className }) => 
   />
 );
 
+// DV monogram with "AI" superscript. Rendered via CSS mask-image so the mark
+// inherits currentColor — `text-ink` on light bg, `text-base` on dark bg,
+// `text-accent` for the hover state in the Header all Just Work.
 export const Logo: React.FC<{ className?: string }> = ({ className }) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M12 2.5L20.5 7.2V16.8L12 21.5L3.5 16.8V7.2L12 2.5Z" strokeWidth="1.5" />
-    <path d="M12 12V2.5" strokeWidth="0.8" className="opacity-60" />
-    <path d="M12 12L20.5 16.8" strokeWidth="0.8" className="opacity-60" />
-    <path d="M12 12L3.5 16.8" strokeWidth="0.8" className="opacity-60" />
-    <circle cx="12" cy="12" r="2.5" fill="currentColor" stroke="none" />
-    <circle cx="12" cy="12" r="8" strokeWidth="0.5" strokeDasharray="3 3" className="opacity-40 animate-spin-slow origin-center" style={{ transformOrigin: '12px 12px' }} />
-  </svg>
+  <span
+    role="img"
+    aria-label="Daveenci"
+    className={`inline-block ${className ?? ''}`}
+    style={{
+      backgroundColor: 'currentColor',
+      WebkitMaskImage: 'url(/daveenci-logo.png)',
+      maskImage: 'url(/daveenci-logo.png)',
+      WebkitMaskRepeat: 'no-repeat',
+      maskRepeat: 'no-repeat',
+      WebkitMaskSize: 'contain',
+      maskSize: 'contain',
+      WebkitMaskPosition: 'center',
+      maskPosition: 'center',
+    }}
+  />
 );
 
 export const SchematicDecor: React.FC<{ className?: string }> = ({ className }) => (

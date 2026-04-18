@@ -99,11 +99,14 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
             </div>
           ) : (
             <>
-              <Logo className="w-10 h-10 md:w-12 md:h-12 text-ink group-hover:text-accent transition-colors duration-500" />
-              <div className="flex flex-col justify-center">
-                <span className="font-serif text-2xl md:text-3xl font-bold tracking-tight text-ink leading-none">DaVeenci</span>
-                <span className="text-[0.6rem] md:text-[0.65rem] tracking-[0.25em] text-accent font-semibold uppercase mt-1 md:mt-1.5 ml-0.5">A studio of specialist AI teams</span>
-              </div>
+              <Logo className="w-12 h-12 md:w-14 md:h-14 text-ink group-hover:text-accent transition-colors duration-500" />
+              <span className="hidden md:flex items-center gap-4">
+                <span aria-hidden="true" className="h-4 w-px bg-ink/15"></span>
+                <span className="relative text-xs tracking-[0.2em] text-ink-muted font-medium uppercase transition-colors duration-500 group-hover:text-ink">
+                  A studio of specialist AI teams
+                  <span aria-hidden="true" className="absolute -bottom-1 left-0 h-px bg-accent transition-all duration-300 w-0 group-hover:w-full"></span>
+                </span>
+              </span>
             </>
           )}
         </div>
@@ -117,16 +120,16 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link)}
-                className={`text-base transition-colors relative group whitespace-nowrap px-2 py-1 ${active ? 'font-bold text-accent' : 'text-ink-muted hover:text-accent font-medium'
+                className={`text-xs uppercase tracking-[0.18em] font-medium transition-colors relative group whitespace-nowrap px-2 py-1 ${active ? 'text-accent' : 'text-ink-muted hover:text-ink'
                   }`}
               >
                 <span className="relative z-10">{link.label}</span>
-                <span className={`absolute -bottom-1 left-0 h-0.5 bg-accent transition-all duration-300 ${active ? 'w-full' : 'w-0 group-hover:w-full'
+                <span className={`absolute -bottom-1 left-0 h-px bg-accent transition-all duration-300 ${active ? 'w-full' : 'w-0 group-hover:w-full'
                   }`}></span>
               </a>
             );
           })}
-          <Button variant="primary" className="py-2 px-5 text-base shadow-md hover:shadow-lg whitespace-nowrap ml-2" onClick={goToCalendar}>Talk to us</Button>
+          <Button variant="primary" className="py-2 px-5 text-xs uppercase tracking-[0.15em] shadow-md hover:shadow-lg whitespace-nowrap ml-2" onClick={goToCalendar}>Talk to us</Button>
         </nav>
 
         {/* Mobile Menu Button - Visible on screens smaller than LG */}

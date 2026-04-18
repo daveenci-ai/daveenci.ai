@@ -131,8 +131,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         {/* Legal row */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-3 opacity-90">
-            <Logo className="w-6 h-6" />
-            <span className="font-serif text-lg font-bold">DaVeenci</span>
+            <Logo className="w-8 h-8" />
           </div>
           <div className="flex gap-6 text-xs text-base/40">
             <span>© {new Date().getFullYear()} DaVeenci</span>
