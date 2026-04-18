@@ -6,10 +6,14 @@ import type { CardProps, SectionProps, BriefingCardProps } from './types';
 // --- Scroll Animation Hook & Component ---
 
 export const ScrollReveal: React.FC<{ children: React.ReactNode; className?: string; delay?: number; direction?: 'up' | 'left' | 'right' }> = ({ children, className = "", delay = 0, direction = 'up' }) => {
-  const [isVisible, setIsVisible] = useState(false);
+  // If the user prefers reduced motion, start visible — skip the entrance animation entirely.
+  const prefersReducedMotion = typeof window !== 'undefined'
+    && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const [isVisible, setIsVisible] = useState(prefersReducedMotion);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -21,7 +25,7 @@ export const ScrollReveal: React.FC<{ children: React.ReactNode; className?: str
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  }, []);
+  }, [prefersReducedMotion]);
 
   const getTransform = () => {
     if (direction === 'up') return 'translate-y-6';
@@ -82,6 +86,9 @@ export const NodeNetworkBackground: React.FC<{ className?: string }> = ({ classN
     let width = 0;
     let height = 0;
 
+    // Respect reduced-motion: render a single static frame, no animation loop.
+    const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
     // Read ink color once from CSS custom property; use throughout the animation.
     const inkColor = getComputedStyle(document.documentElement).getPropertyValue('--color-ink').trim();
 
@@ -118,11 +125,13 @@ export const NodeNetworkBackground: React.FC<{ className?: string }> = ({ classN
       ctx.clearRect(0, 0, width, height);
 
       particles.forEach((p, i) => {
-        p.x += p.vx;
-        p.y += p.vy;
+        if (!prefersReducedMotion) {
+          p.x += p.vx;
+          p.y += p.vy;
 
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+        }
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2);
@@ -145,7 +154,9 @@ export const NodeNetworkBackground: React.FC<{ className?: string }> = ({ classN
           }
         }
       });
-      animationFrameId = requestAnimationFrame(animate);
+      if (!prefersReducedMotion) {
+        animationFrameId = requestAnimationFrame(animate);
+      }
     };
 
     const resizeObserver = new ResizeObserver(() => resize());
