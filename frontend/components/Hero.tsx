@@ -93,8 +93,8 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
     <Section className="pt-44 pb-24 md:pt-52 md:pb-32 min-h-screen flex items-center">
       <VitruvianBackground className="opacity-[0.12] -right-1/4 scale-125" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-        <div className="lg:col-span-6 relative z-20">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12 items-center">
+        <div className="lg:col-span-7 relative z-20">
           <ScrollReveal delay={200}>
             <PageHero
               eyebrow="Folio I — The Thesis"
@@ -113,7 +113,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           </ScrollReveal>
         </div>
 
-        <div className="lg:col-span-6 relative h-[500px] flex items-center justify-center">
+        <div className="lg:col-span-5 relative h-[420px] flex items-center justify-center">
           <ScrollReveal delay={500} direction="left" className="w-full flex justify-center">
             <HeroDiagram />
           </ScrollReveal>
