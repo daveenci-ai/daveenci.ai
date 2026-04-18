@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { ChevronDown, ChevronUp, ArrowUpDown, Loader2, Sparkles, Rocket, TrendingUp, Building2, Search } from 'lucide-react';
-import { ScrollReveal, Section, GridPattern } from './Shared';
+import { ScrollReveal, Section, GridPattern, PageHero, ErrorAlert, Button } from './Shared';
 import Header from './Header';
 import Footer from './Footer';
 import type { Page } from './types';
@@ -476,19 +476,13 @@ const BrandAnalyzerPage: React.FC<{ onNavigate: (page: Page, hash?: string, id?:
       <Section className="pt-44 pb-12 md:pt-52 md:pb-16">
         <GridPattern />
         <ScrollReveal>
-          <div className="max-w-3xl">
-            <span className="block mb-4 font-script text-2xl text-accent -rotate-2 origin-bottom-left">
-              Free Tool
-            </span>
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-ink leading-[1.1] mb-6">
-              Brand Name<br />
-              <span className="italic text-ink-muted/80">Sentiment Analyzer</span>
-            </h1>
-            <p className="font-sans text-lg md:text-xl text-ink-muted max-w-2xl leading-relaxed">
-              Score your brand name across 10 weighted dimensions — clarity, trust, industry fit, and more.
-              AI-powered analysis tailored to your business stage.
-            </p>
-          </div>
+          <PageHero
+            eyebrow="Free Tool"
+            title={<>Brand Name<br /><span className="italic text-ink-muted/80">Sentiment Analyzer</span></>}
+            description="Score your brand name across 10 weighted dimensions — clarity, trust, industry fit, and more. AI-powered analysis tailored to your business stage."
+            size="md"
+            className="max-w-3xl"
+          />
         </ScrollReveal>
       </Section>
 
@@ -520,11 +514,7 @@ const BrandAnalyzerPage: React.FC<{ onNavigate: (page: Page, hash?: string, id?:
           </ScrollReveal>
 
           {/* Error */}
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-sm text-sm">
-              {error}
-            </div>
-          )}
+          {error && <ErrorAlert message={error} />}
 
           {/* Results */}
           {result && (
@@ -551,12 +541,9 @@ const BrandAnalyzerPage: React.FC<{ onNavigate: (page: Page, hash?: string, id?:
               Our team helps founders and operators make data-driven branding decisions.
               Book a free consultation to discuss your results.
             </p>
-            <button
-              onClick={() => onNavigate('landing', '#booking')}
-              className="inline-flex items-center justify-center px-8 py-4 bg-accent hover:bg-accent-hover text-white font-sans text-sm font-medium transition-all duration-300 rounded-sm shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95"
-            >
+            <Button variant="primary" className="px-8 py-4" onClick={() => onNavigate('landing', '#booking')}>
               Book a Free Call
-            </button>
+            </Button>
           </div>
         </ScrollReveal>
       </Section>
