@@ -1,78 +1,49 @@
 {
-    "redirects": [
-        {
-            "source": "/calendar",
-            "has": [
-                {
-                    "type": "header",
-                    "key": "user-agent",
-                    "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*"
-                }
-            ],
-            "destination": "/calendar-og.html",
-            "permanent": false
-        },
-        {
-            "source": "/brand-analyzer",
-            "has": [
-                {
-                    "type": "header",
-                    "key": "user-agent",
-                    "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*"
-                }
-            ],
-            "destination": "/brand-analyzer-og.html",
-            "permanent": false
-        },
-        {
-            "source": "/book-demo",
-            "has": [
-                {
-                    "type": "header",
-                    "key": "user-agent",
-                    "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*"
-                }
-            ],
-            "destination": "/book-demo-og.html",
-            "permanent": false
-        },
-        {
-            "source": "/briefings",
-            "has": [
-                {
-                    "type": "header",
-                    "key": "user-agent",
-                    "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*"
-                }
-            ],
-            "destination": "/briefings-og.html",
-            "permanent": false
-        },
-        {
-            "source": "/who-we-are",
-            "has": [
-                {
-                    "type": "header",
-                    "key": "user-agent",
-                    "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*"
-                }
-            ],
-            "destination": "/who-we-are-og.html",
-            "permanent": false
-        }
-    ],
-    "rewrites": [
-        {
-            "source": "/api/(.*)",
-            "destination": "/api/index.ts"
-        },
-        {
-            "source": "/(briefings|who-we-are|calendar|admin|book-demo|brand-analyzer)",
-            "destination": "/index.html"
-        },
-        {
-            "source": "/briefings/(.*)",
-            "destination": "/index.html"
-        }
-    ]
+  "routes": [
+    {
+      "src": "/calendar",
+      "has": [
+        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*" }
+      ],
+      "dest": "/calendar-og.html",
+      "status": 200
+    },
+    {
+      "src": "/brand-analyzer",
+      "has": [
+        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*" }
+      ],
+      "dest": "/brand-analyzer-og.html",
+      "status": 200
+    },
+    {
+      "src": "/book-demo",
+      "has": [
+        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*" }
+      ],
+      "dest": "/book-demo-og.html",
+      "status": 200
+    },
+    {
+      "src": "/briefings",
+      "has": [
+        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*" }
+      ],
+      "dest": "/briefings-og.html",
+      "status": 200
+    },
+    {
+      "src": "/who-we-are",
+      "has": [
+        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*" }
+      ],
+      "dest": "/who-we-are-og.html",
+      "status": 200
+    },
+    { "src": "/api/(.*)", "dest": "/api/index.ts" },
+    { "handle": "filesystem" },
+    { "src": "/(briefings|who-we-are|calendar|admin|book-demo|brand-analyzer)(/.*)?", "dest": "/index.html" },
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/.*", "dest": "/404.html", "status": 404 }
+  ]
 }
