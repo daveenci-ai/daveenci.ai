@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, ChevronDown, User, Mail, HelpCircle, Clock, Check, Menu, X, Mic, BarChart3, Send, Sparkles, Image, Lightbulb, MessageCircle, Users, Headphones, Briefcase, RefreshCw, Phone, Video, CalendarDays } from 'lucide-react';
 import { format } from 'date-fns';
-import { ScrollReveal, Section, SectionHeader, Button, Logo, GridPattern, VitruvianBackground, CustomSelect, Surface, PageHero } from './Shared';
+import { ScrollReveal, Section, SectionHeader, Button, Logo, GridPattern, VitruvianBackground, CustomSelect, Surface, PageHero, Eyebrow } from './Shared';
 import { API_ENDPOINTS } from '../config';
 import type { Page } from './types';
 import AstridSketch from '../images/Astrid_Sketch.jpg';
@@ -1113,7 +1113,7 @@ const InsightsDashboard: React.FC = () => (
   <Section id="how-it-works" className="bg-alt/30">
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       <ScrollReveal>
-        <span className="block font-script text-2xl text-ink-muted/80 mb-2 transform -rotate-1 origin-bottom-left">How It Works</span>
+        <Eyebrow className="mb-2">How It Works</Eyebrow>
         <h2 className="font-serif text-3xl md:text-4xl text-ink mb-6 leading-tight">
           From transcripts to&nbsp;<span className="italic">aha moments</span>
         </h2>
@@ -1189,7 +1189,7 @@ const WeeklyContentEngine: React.FC = () => (
         <ContentEngineCards />
       </ScrollReveal>
       <ScrollReveal>
-        <span className="block font-script text-2xl text-ink-muted/80 mb-2 transform -rotate-1 origin-bottom-left">Outputs</span>
+        <Eyebrow className="mb-2">Outputs</Eyebrow>
         <h2 className="font-serif text-3xl md:text-4xl text-ink mb-6 leading-tight">
           A content engine<br />that runs itself
         </h2>

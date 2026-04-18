@@ -296,9 +296,7 @@ export const Button: React.FC<{
 
 export const SectionHeader: React.FC<{ eyebrow: string; title: string; subtitle?: string; className?: string }> = ({ eyebrow, title, subtitle, className }) => (
   <ScrollReveal className={`mb-12 md:mb-16 ${className}`}>
-    <span className="block font-script text-2xl text-ink-muted/80 mb-2 transform -rotate-1 origin-bottom-left">
-      {eyebrow}
-    </span>
+    <Eyebrow className="mb-2">{eyebrow}</Eyebrow>
     <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-ink mb-6 leading-tight">
       {title}
     </h2>
@@ -432,23 +430,14 @@ export const Surface: React.FC<{
 
 export const Eyebrow: React.FC<{
   children: React.ReactNode;
-  rotation?: 'left' | 'right' | 'slight' | 'none';
-  tone?: 'accent' | 'muted';
   className?: string;
-}> = ({ children, rotation = 'left', tone = 'accent', className = '' }) => {
-  const rotationClass = {
-    left: '-rotate-2 origin-bottom-left',
-    right: 'rotate-2 origin-bottom-right',
-    slight: '-rotate-1 origin-bottom-left',
-    none: '',
-  }[rotation];
-  const toneClass = tone === 'accent' ? 'text-accent' : 'text-ink-muted/80';
-  return (
-    <span className={`block font-script text-2xl ${toneClass} ${rotationClass} ${className}`}>
-      {children}
-    </span>
-  );
-};
+}> = ({ children, className = '' }) => (
+  <span
+    className={`block font-serif italic text-base tracking-[0.15em] uppercase text-ink-muted ${className}`}
+  >
+    {children}
+  </span>
+);
 
 export const PageHero: React.FC<{
   eyebrow: React.ReactNode;
@@ -456,10 +445,9 @@ export const PageHero: React.FC<{
   description: React.ReactNode;
   actions?: React.ReactNode;
   size?: 'md' | 'lg';
-  eyebrowRotation?: 'left' | 'right' | 'slight' | 'none';
   centered?: boolean;
   className?: string;
-}> = ({ eyebrow, title, description, actions, size = 'lg', eyebrowRotation = 'left', centered = false, className = '' }) => {
+}> = ({ eyebrow, title, description, actions, size = 'lg', centered = false, className = '' }) => {
   const titleSize = size === 'lg'
     ? 'text-5xl md:text-6xl lg:text-7xl'
     : 'text-4xl md:text-5xl lg:text-6xl';
@@ -472,7 +460,7 @@ export const PageHero: React.FC<{
   return (
     <div className={`${alignmentClasses} ${className}`}>
       {typeof eyebrow === 'string'
-        ? <Eyebrow rotation={eyebrowRotation}>{eyebrow}</Eyebrow>
+        ? <Eyebrow>{eyebrow}</Eyebrow>
         : eyebrow}
       <h1 className={`font-serif ${titleSize} text-ink leading-[1.1] mb-8 mt-4`}>
         {title}

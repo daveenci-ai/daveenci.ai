@@ -25,9 +25,8 @@ export default {
                 'pulse-surface': 'rgb(var(--color-pulse-surface) / <alpha-value>)',
             },
             fontFamily: {
-                serif: ['"IM Fell English"', 'serif'],
-                sans: ['"Inter"', 'sans-serif'],
-                script: ['"La Belle Aurore"', 'cursive'],
+                serif: ['"IM Fell English"', 'Georgia', 'serif'],
+                sans: ['"Inter"', 'Arial', 'sans-serif'],
             },
             backgroundImage: {
                 'paper-texture': "url('https://www.transparenttextures.com/patterns/cream-paper.png')",

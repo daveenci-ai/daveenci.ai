@@ -21,7 +21,7 @@ const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate }) => {
       <Header onNavigate={onNavigate} currentPage="not-found" />
       <main className="flex-1 flex items-center justify-center px-6 py-32">
         <div className="max-w-xl text-center">
-          <Eyebrow rotation="none" className="mb-4">Lost in the archive</Eyebrow>
+          <Eyebrow className="mb-4">Lost in the archive</Eyebrow>
           <h1 className="font-serif text-6xl md:text-7xl text-ink leading-none mb-6">404</h1>
           <p className="font-sans text-lg text-ink-muted mb-8">
             We couldn't find the page you were looking for. It may have moved, or it may never have existed.

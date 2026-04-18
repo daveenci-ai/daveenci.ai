@@ -145,7 +145,7 @@ const CodexEventCard: React.FC<EventCardProps & { index: number; onRegister: () 
          <div className="flex justify-between items-end mb-6 border-b border-ink/10 pb-4 border-dashed">
             <div className="flex flex-col">
                <span className="font-serif text-[11px] italic text-ink/40 mb-1">Codex DaVeenci</span>
-               <span className="font-script text-xl text-ink/60 -rotate-1 transform origin-left">Folio {100 + index}.v2</span>
+               <span className="font-serif italic text-sm tracking-[0.12em] uppercase text-ink/60">Folio {100 + index}.v2</span>
             </div>
             <div className="font-mono text-xs font-bold text-white bg-accent px-3 py-1.5 rounded-sm shadow-md tracking-tight">
                {date}

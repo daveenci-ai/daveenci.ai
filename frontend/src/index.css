@@ -3,17 +3,18 @@
 @tailwind utilities;
 
 :root {
-  /* Colors — stored as space-separated RGB triples so Tailwind's /<alpha-value>
+  /* Brand identity system 2026 — Daveenci Renaissance workshop palette.
+     Colors stored as space-separated RGB triples so Tailwind's /<alpha-value>
      opacity modifiers continue to work (rgb(var(--color-x) / 0.5)). */
-  --color-base: 245 240 230;          /* #F5F0E6 — light parchment */
-  --color-alt: 228 214 189;           /* #E4D6BD — deeper tan */
-  --color-ink: 34 34 34;              /* #222222 — deep charcoal */
-  --color-ink-muted: 90 74 58;        /* #5A4A3A — soft warm brown */
-  --color-accent: 63 132 200;         /* #3f84c8 — brand blue */
+  --color-base: 241 232 217;          /* #f1e8d9 — Parchment (primary background) */
+  --color-alt: 154 136 110;           /* #9a886e — Umber (accent & borders) */
+  --color-ink: 63 63 63;              /* #3f3f3f — Iron (primary text / dark bg) */
+  --color-ink-muted: 101 89 72;       /* #655948 — dimmed Iron/Umber for muted body text */
+  --color-accent: 63 132 200;         /* #3f84c8 — Cornflower Blue (contrast accent) */
   --color-accent-light: 100 161 224;  /* #64a1e0 */
   --color-accent-hover: 47 108 168;   /* #2f6ca8 */
-  --color-paper-border: 196 181 157;  /* #C4B59D — tan line work in diagrams */
-  --color-pulse-surface: 250 248 244; /* #FAF8F4 — Pulse brand card/screen bg */
+  --color-paper-border: 154 136 110;  /* aligned to Umber — diagram line work */
+  --color-pulse-surface: 250 248 244; /* #FAF8F4 — Pulse product screen bg (unchanged) */
 
   /* Spacing */
   --space-section-y: 5rem;       /* py-20 */
