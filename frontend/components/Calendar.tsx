@@ -188,7 +188,7 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
             const month = currentDate.getMonth();
             const start = new Date(year, month, 1).toISOString();
             const end = new Date(year, month + 1, 0).toISOString();
-            const availResponse = await fetch(`http://localhost:3001/api/calendar/availability?start=${start}&end=${end}`);
+            const availResponse = await fetch(`${API_ENDPOINTS.availability}?start=${start}&end=${end}`);
             if (availResponse.ok) {
                const availData = await availResponse.json();
                setBusySlots(availData.busySlots);
