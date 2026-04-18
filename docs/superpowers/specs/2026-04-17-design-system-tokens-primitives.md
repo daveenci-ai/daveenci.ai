@@ -39,14 +39,21 @@ Tokens are defined as CSS custom properties in `frontend/src/index.css` and cons
 |---|---|
 | Color | `--color-base`, `--color-alt`, `--color-ink`, `--color-ink-muted`, `--color-accent`, `--color-accent-light`, `--color-accent-hover`, `--color-paper-border` (new, replaces orphan `#C4B59D`) |
 | Spacing | `--space-section-y`, `--space-section-y-lg`, `--space-card-p`, `--container-max` |
-| Radius | `--radius-sharp`, `--radius-card`, `--radius-pill` |
-| Shadow | `--shadow-card`, `--shadow-card-hover`, `--shadow-brand-glow` |
+| Radius | `--radius-sharp`, `--radius-card`, `--radius-pill`, `--radius-widget-document`, `--radius-widget-product` |
+| Shadow | `--shadow-card`, `--shadow-card-hover`, `--shadow-brand-glow`, `--shadow-widget`, `--shadow-widget-raised` |
 | Z-index | `--z-base`, `--z-raised`, `--z-dropdown`, `--z-overlay`, `--z-modal` |
 | Transition | `--ease-out-slow` (700ms), `--ease-base` (300ms) |
 
 **Rule for adding a new token:** a value must repeat 3+ times OR represent a brand concept. Magic numbers used once stay literal.
 
 **Initial values match current hex exactly** — Phase 1 is a no-visual-change refactor.
+
+**Widget tier system** (added post-Phase-1 based on a visual audit):
+Two intentional widget tiers encode the site's dual visual identity:
+- **Document widgets** (`--radius-widget-document: 0.125rem`) — parchment/sketch feeling. Used for content that depicts *thinking*: Hero diagram, Solutions diagrams, Problem/Brief/Event cards.
+- **Product widgets** (`--radius-widget-product: 0.5rem`) — modern UI feeling. Used for content that depicts *a product*: Pulse phone mockups, Pulse feature cards, Pulse dashboard screens.
+
+A `<Surface>` primitive encapsulates the tier choice via a `kind: 'document' | 'product'` prop, with optional `raised` for the deeper shadow used on hero-scale surfaces.
 
 ### Section 2 — Primitives & JSX conventions
 
@@ -60,6 +67,7 @@ Tokens are defined as CSS custom properties in `frontend/src/index.css` and cons
 | `<FormField>` | Input with label + error | `label`, `name`, `type`, `required?`, `error?`, standard input props |
 | `<ErrorAlert>` | Inline error banner with retry | `message`, `onRetry?` |
 | `<Tag>` | Small label pill | `children`, `variant?: 'default' \| 'accent'` |
+| `<Surface>` | Widget container with tier-based radius/shadow | `kind: 'document' \| 'product'`, `raised?: boolean`, `children`, `className?` |
 
 **Existing primitives** (`Button`, `Card`, `BriefingCard`, `Section`, `SectionHeader`, `CustomSelect`) keep their APIs and get re-pointed at tokens.
 
