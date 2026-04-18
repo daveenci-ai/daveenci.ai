@@ -62,6 +62,8 @@ const App: React.FC = () => {
         setPage('shootos');
       } else if (path === '/events') {
         setPage('events');
+      } else if (path === '/thesis') {
+        setPage('thesis');
       } else {
         setPage('not-found');
         setSelectedBriefingId(null);
@@ -154,6 +156,7 @@ const App: React.FC = () => {
     if (targetPage === 'purecode') path = '/purecode';
     if (targetPage === 'shootos') path = '/shootos';
     if (targetPage === 'events') path = '/events';
+    if (targetPage === 'thesis') path = '/thesis';
     window.history.pushState({ page: targetPage, briefingId: id }, '', path);
 
     // Immediate Scroll Logic (if not waiting for landing page mount)
@@ -205,6 +208,9 @@ const App: React.FC = () => {
       )}
       {page === 'events' && (
         <EventsPage onNavigate={handleNavigate} />
+      )}
+      {page === 'thesis' && (
+        <ThesisPage onNavigate={handleNavigate} />
       )}
       {page === 'not-found' && (
         <NotFoundPage onNavigate={handleNavigate} />

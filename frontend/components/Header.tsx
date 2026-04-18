@@ -22,6 +22,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
 
   const navLinks: NavLink[] = [
     { label: "About", href: "/who-we-are" },
+    { label: "Thesis", href: "/thesis" },
     { label: "Work", href: "/work" },
     { label: "Codex", href: "/codex" },
   ];
@@ -33,6 +34,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
     if (link.href === '/codex' && (currentPage === 'briefings' || currentPage === 'briefing-detail')) return true;
     if (link.href === '/who-we-are' && currentPage === 'who-we-are') return true;
     if (link.href === '/work' && (currentPage === 'work' || currentPage === 'purecode' || currentPage === 'shootos')) return true;
+    if (link.href === '/thesis' && currentPage === 'thesis') return true;
     if (link.href.startsWith('#') && currentPage === 'landing' && activeSection === link.href) return true;
     return false;
   };
@@ -55,6 +57,12 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
 
     if (link.href === '/work') {
       onNavigate?.('work');
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    if (link.href === '/thesis') {
+      onNavigate?.('thesis');
       window.scrollTo(0, 0);
       return;
     }

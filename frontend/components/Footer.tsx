@@ -85,6 +85,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <h4 className="font-mono text-[10px] uppercase tracking-[0.2em] text-base/50 mb-4">Company</h4>
             <ul className="space-y-2">
               <li><a href="/who-we-are" onClick={go('who-we-are')} className="text-sm text-base/80 hover:text-white transition-colors">About</a></li>
+              <li><a href="/thesis" onClick={go('thesis')} className="text-sm text-base/80 hover:text-white transition-colors">Thesis</a></li>
               <li><a href="/calendar" onClick={go('calendar')} className="text-sm text-base/80 hover:text-white transition-colors">Talk to us</a></li>
               <li><a href="/events" onClick={go('events')} className="text-sm text-base/80 hover:text-white transition-colors">Events</a></li>
               <li><a href="/brand-analyzer" onClick={go('brand-analyzer')} className="text-sm text-base/80 hover:text-white transition-colors">Brand Analyzer</a></li>
