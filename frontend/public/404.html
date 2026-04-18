@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Page Not Found | DaVeenci</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="robots" content="noindex" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://daveenci.ai/" />
+  <meta property="og:title" content="404 — Page Not Found | DaVeenci" />
+  <meta property="og:description" content="The page you were looking for doesn't exist. Return to daveenci.ai to continue exploring." />
+
+  <meta name="description" content="Page not found — return to daveenci.ai." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=La+Belle+Aurore&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --color-base: #F5F0E6;
+      --color-ink: #222222;
+      --color-ink-muted: #5A4A3A;
+      --color-accent: #3f84c8;
+      --color-accent-hover: #2f6ca8;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background-color: var(--color-base);
+      color: var(--color-ink);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+    .content {
+      max-width: 36rem;
+      text-align: center;
+    }
+    .eyebrow {
+      display: block;
+      font-family: 'La Belle Aurore', cursive;
+      font-size: 1.5rem;
+      color: var(--color-accent);
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-family: 'IM Fell English', serif;
+      font-size: 4.5rem;
+      line-height: 1;
+      margin: 0 0 1.5rem 0;
+    }
+    p {
+      font-size: 1.125rem;
+      color: var(--color-ink-muted);
+      line-height: 1.6;
+      margin: 0 0 2rem 0;
+    }
+    .actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: 0.125rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      border: 1px solid transparent;
+    }
+    .btn-primary {
+      background-color: var(--color-accent);
+      color: white;
+    }
+    .btn-primary:hover {
+      background-color: var(--color-accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(63, 132, 200, 0.3);
+    }
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--color-ink);
+      border-color: rgba(34, 34, 34, 0.2);
+    }
+    .btn-secondary:hover {
+      border-color: rgba(34, 34, 34, 0.5);
+      background-color: rgba(34, 34, 34, 0.05);
+    }
+    @media (min-width: 640px) {
+      h1 { font-size: 6rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="content">
+      <span class="eyebrow">Lost in the archive</span>
+      <h1>404</h1>
+      <p>We couldn't find the page you were looking for. It may have moved, or it may never have existed.</p>
+      <div class="actions">
+        <a href="/" class="btn btn-primary">Return home</a>
+        <a href="/briefings" class="btn btn-secondary">Read briefings</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

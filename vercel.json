@@ -67,7 +67,11 @@
             "destination": "/api/index.ts"
         },
         {
-            "source": "/((?!.*\\.html$).*)",
+            "source": "/(briefings|who-we-are|calendar|admin|book-demo|brand-analyzer)",
+            "destination": "/index.html"
+        },
+        {
+            "source": "/briefings/(.*)",
             "destination": "/index.html"
         }
     ]
