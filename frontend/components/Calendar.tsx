@@ -39,12 +39,12 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
    const [displaySlots, setDisplaySlots] = useState<{ display: string, value: string, localTime: string }[]>([]);
 
    useEffect(() => {
-      document.title = "Talk To Astrid";
+      document.title = "Talk to us — Daveenci";
 
       // Update meta description
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) {
-         metaDesc.setAttribute("content", "Schedule a casual introductory call with Astrid to explore how we can support your vision.");
+         metaDesc.setAttribute("content", "Book a 30-minute call with Daveenci. Bring the workflow you want a specialist team for.");
       }
 
       // Update Open Graph meta tags for link previews
@@ -54,7 +54,7 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
          ogTitle.setAttribute('property', 'og:title');
          document.head.appendChild(ogTitle);
       }
-      ogTitle.setAttribute('content', 'Talk To Astrid');
+      ogTitle.setAttribute('content', 'Talk to us — Daveenci');
 
       let ogDescription = document.querySelector('meta[property="og:description"]');
       if (!ogDescription) {
@@ -62,7 +62,7 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
          ogDescription.setAttribute('property', 'og:description');
          document.head.appendChild(ogDescription);
       }
-      ogDescription.setAttribute('content', 'Schedule a casual introductory call with Astrid to explore how we can support your vision.');
+      ogDescription.setAttribute('content', 'Book a 30-minute call with Daveenci. Bring the workflow you want a specialist team for.');
 
       // Twitter Card meta tags
       let twitterTitle = document.querySelector('meta[name="twitter:title"]');
@@ -71,7 +71,7 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
          twitterTitle.setAttribute('name', 'twitter:title');
          document.head.appendChild(twitterTitle);
       }
-      twitterTitle.setAttribute('content', 'Talk To Astrid');
+      twitterTitle.setAttribute('content', 'Talk to us — Daveenci');
 
       return () => {
          document.title = "DaVeenci | AI & Automation Consultancy";
@@ -219,8 +219,8 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                      <div className="w-full lg:w-5/12 bg-white/40 border-b lg:border-b-0 lg:border-r border-ink/10 p-8 lg:p-12 flex flex-col relative">
                         <div className="mb-8">
                            <Logo className="w-12 h-12 text-ink mb-6" />
-                           <span className="font-mono text-xs font-bold text-ink-muted/60 uppercase tracking-widest mb-2 block">Private Calendar</span>
-                           <h1 className="font-serif text-3xl lg:text-4xl text-ink mb-4">Meet Astrid</h1>
+                           <span className="font-mono text-xs font-bold text-ink-muted/60 uppercase tracking-widest mb-2 block">Founder Call</span>
+                           <h1 className="font-serif text-3xl lg:text-4xl text-ink mb-4">Talk to us.</h1>
 
                            <div className="flex items-center gap-6 text-sm font-medium text-ink-muted mb-8">
                               <div className="flex items-center gap-2">
@@ -232,7 +232,7 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                            </div>
 
                            <p className="text-ink-muted leading-relaxed mb-8">
-                              A casual introductory call to get to know each other and explore how we can support your vision.
+                              Thirty minutes with Astrid. No slide deck. Bring the workflow you want a specialist team for, or the strategic gap you want to close.
                            </p>
 
                            <div className="flex items-center gap-4 py-6 border-y border-ink/5 mb-6">
@@ -247,19 +247,19 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                         </div>
 
                         <div className="mt-auto">
-                           <h3 className="font-serif text-lg text-ink mb-4 border-b border-ink/10 pb-2">Proposed Agenda</h3>
+                           <h3 className="font-serif text-lg text-ink mb-4 border-b border-ink/10 pb-2">What we cover</h3>
                            <ul className="space-y-4">
                               <li className="flex gap-3 text-sm text-ink-muted">
                                  <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0"></div>
-                                 <span>Get to know each other and your business goals</span>
+                                 <span>The workflow or domain you want a team for</span>
                               </li>
                               <li className="flex gap-3 text-sm text-ink-muted">
                                  <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0"></div>
-                                 <span>Identify potential areas where we can provide value</span>
+                                 <span>Where specialist agents + human gates would fit</span>
                               </li>
                               <li className="flex gap-3 text-sm text-ink-muted">
                                  <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0"></div>
-                                 <span>Discuss next steps for working together</span>
+                                 <span>Whether we're the right team to build it — honestly</span>
                               </li>
                            </ul>
 
@@ -278,9 +278,9 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                               <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6 shadow-sm border border-green-100">
                                  <Check className="w-10 h-10 text-green-600" />
                               </div>
-                              <h2 className="font-serif text-3xl text-ink mb-2">Request Confirmed</h2>
+                              <h2 className="font-serif text-3xl text-ink mb-2">You're on the calendar.</h2>
                               <p className="text-ink-muted text-lg mb-8 max-w-md">
-                                 A calendar invitation has been sent to your inbox. I look forward to our conversation.
+                                 A calendar invitation is on its way to your inbox. Looking forward to the conversation.
                               </p>
                               <div className="bg-base/50 p-6 rounded-sm border border-ink/5 w-full max-w-sm mb-8">
                                  <div className="flex justify-between text-sm mb-2">
@@ -457,17 +457,16 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                                        </div>
 
                                        <CustomSelect
-                                          label="What's on your mind?"
+                                          label="What brings you here?"
                                           required
                                           value={formData.reason}
                                           onChange={(val) => setFormData({ ...formData, reason: val })}
                                           icon={<HelpCircle className="w-3 h-3" />}
                                           options={[
-                                             "Just want to say hi & learn more",
-                                             "Curious about what's possible with AI",
-                                             "Feeling some friction in my workflows",
-                                             "I have a specific question or project",
-                                             "Not sure – let's just chat"
+                                             "I have a specific workflow I want a team for",
+                                             "I'm exploring — want to see if specialist AI teams fit my work",
+                                             "I read the thesis and want to discuss it",
+                                             "Something else — I'll explain on the call"
                                           ]}
                                        />
 
@@ -485,7 +484,7 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
 
                                     <div className="mt-auto flex gap-4">
                                        <Button variant="secondary" onClick={() => setStep('datetime')} className="px-6">Back</Button>
-                                       <Button variant="primary" className="flex-1">Schedule Call</Button>
+                                       <Button variant="primary" className="flex-1">Book the call</Button>
                                     </div>
                                  </form>
                               )}
