@@ -566,6 +566,41 @@ export const Tag: React.FC<{
   );
 };
 
+export const Quote: React.FC<{
+  children: React.ReactNode;
+  attribution?: React.ReactNode;
+  tone?: 'light' | 'dark';
+  className?: string;
+}> = ({ children, attribution, tone = 'light', className = '' }) => {
+  const isDark = tone === 'dark';
+  const textColor = isDark ? 'text-base' : 'text-ink';
+  const mutedColor = isDark ? 'text-base/60' : 'text-ink-muted';
+  const ruleColor = isDark ? 'bg-base/30' : 'bg-accent';
+  return (
+    <figure className={`relative ${className}`}>
+      <span
+        aria-hidden="true"
+        className={`absolute -top-6 -left-2 md:-top-10 md:-left-6 font-serif text-7xl md:text-9xl leading-none select-none ${
+          isDark ? 'text-base/10' : 'text-accent/15'
+        }`}
+      >
+        &ldquo;
+      </span>
+      <blockquote
+        className={`relative font-serif italic text-2xl md:text-3xl lg:text-4xl leading-[1.3] ${textColor}`}
+      >
+        {children}
+      </blockquote>
+      {attribution && (
+        <figcaption className={`mt-6 flex items-center gap-3 ${mutedColor}`}>
+          <span className={`inline-block w-10 h-px ${ruleColor}`} aria-hidden="true" />
+          <span className="font-mono text-xs uppercase tracking-[0.2em]">{attribution}</span>
+        </figcaption>
+      )}
+    </figure>
+  );
+};
+
 export const Callout: React.FC<{
   variant?: 'default' | 'muted' | 'alt' | 'warning';
   size?: 'sm' | 'md';

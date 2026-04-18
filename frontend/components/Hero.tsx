@@ -11,40 +11,74 @@ const HeroDiagram: React.FC = () => (
         <div className="w-3 h-3 rounded-full bg-ink/10"></div>
         <div className="w-3 h-3 rounded-full bg-ink/10"></div>
       </div>
-      <div className="font-mono text-[10px] tracking-[0.2em] text-ink/40 uppercase">System Architecture v2.0</div>
+      <div className="font-serif italic text-[10px] tracking-[0.2em] text-ink/40 uppercase">Plate I · Team Structure</div>
     </div>
 
     <div className="relative h-full w-full">
       <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 300 250" fill="none">
-        <path d="M 30 125 C 60 125, 100 50, 150 50 C 200 50, 220 30, 240 30" stroke="rgb(var(--color-paper-border))" strokeWidth="1.5" fill="none" />
-        <path d="M 30 125 C 60 125, 100 200, 150 200 C 200 200, 240 230, 270 230" stroke="rgb(var(--color-paper-border))" strokeWidth="1.5" fill="none" />
-        <path d="M 30 125 L 270 125" stroke="rgb(var(--color-accent))" strokeWidth="1.5" className="animate-pulse" />
+        <defs>
+          {/* Cross-hatch pattern — sketchbook shading technique */}
+          <pattern id="xhatch" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="5" stroke="rgb(var(--color-ink))" strokeWidth="0.6" />
+          </pattern>
+        </defs>
 
-        <line x1="150" y1="50" x2="150" y2="200" stroke="rgb(var(--color-paper-border))" strokeWidth="1.5" strokeDasharray="4 4" />
+        {/* Construction circles — golden ratio scaffolding */}
+        <circle cx="150" cy="125" r="95" stroke="rgb(var(--color-paper-border))" strokeWidth="0.8" strokeDasharray="3 3" fill="none" />
+        <circle cx="150" cy="125" r="60" stroke="rgb(var(--color-paper-border))" strokeWidth="0.6" strokeDasharray="2 2" fill="none" />
 
-        <circle cx="30" cy="125" r="6" fill="rgb(var(--color-ink))" />
-        <text x="30" y="155" textAnchor="middle" fontSize="10" fill="rgb(var(--color-ink-muted))" fontFamily="monospace" letterSpacing="0.05em">INPUT</text>
+        {/* Vitruvian central axes */}
+        <line x1="150" y1="15" x2="150" y2="235" stroke="rgb(var(--color-paper-border))" strokeWidth="0.4" strokeDasharray="2 4" />
+        <line x1="40" y1="125" x2="260" y2="125" stroke="rgb(var(--color-paper-border))" strokeWidth="0.4" strokeDasharray="2 4" />
 
-        <circle cx="150" cy="125" r="30" fill="rgb(var(--color-accent))" fillOpacity="0.1" stroke="rgb(var(--color-accent))" strokeWidth="1" className="animate-spin-slow origin-[150px_125px]" strokeDasharray="4 2" />
-        <circle cx="150" cy="125" r="4" fill="rgb(var(--color-accent))" />
-        <text x="150" y="175" textAnchor="middle" fontSize="10" fontWeight="500" fill="rgb(var(--color-accent))" fontFamily="monospace" letterSpacing="0.05em">PROCESSING</text>
+        {/* Radial connections — dashed, not arrows */}
+        <line x1="150" y1="125" x2="70" y2="55" stroke="rgb(var(--color-paper-border))" strokeWidth="1" strokeDasharray="3 2" />
+        <line x1="150" y1="125" x2="230" y2="55" stroke="rgb(var(--color-paper-border))" strokeWidth="1" strokeDasharray="3 2" />
+        <line x1="150" y1="125" x2="70" y2="195" stroke="rgb(var(--color-paper-border))" strokeWidth="1" strokeDasharray="3 2" />
+        <line x1="150" y1="125" x2="230" y2="195" stroke="rgb(var(--color-paper-border))" strokeWidth="1" strokeDasharray="3 2" />
 
-        <circle cx="150" cy="50" r="5" fill="white" stroke="rgb(var(--color-ink))" strokeWidth="1.5" />
-        <circle cx="150" cy="200" r="5" fill="white" stroke="rgb(var(--color-ink))" strokeWidth="1.5" />
+        {/* Shipped line — animated ink-wet pulse up to output */}
+        <line x1="150" y1="98" x2="150" y2="35" stroke="rgb(var(--color-accent))" strokeWidth="1.5" className="animate-pulse" />
 
-        <rect x="260" y="115" width="20" height="20" rx="2" fill="rgb(var(--color-accent))" />
-        <text x="270" y="160" textAnchor="middle" fontSize="10" fill="rgb(var(--color-ink-muted))" fontFamily="monospace" letterSpacing="0.05em">OUTPUT</text>
-        <rect x="265" y="220" width="16" height="16" rx="2" fill="rgb(var(--color-ink))" />
+        {/* Central controller */}
+        <circle cx="150" cy="125" r="28" fill="rgb(var(--color-accent))" fillOpacity="0.12" stroke="rgb(var(--color-accent))" strokeWidth="1.5" className="animate-spin-slow origin-[150px_125px]" strokeDasharray="4 3" />
+        <circle cx="150" cy="125" r="7" fill="rgb(var(--color-accent))" />
+        <text x="150" y="170" textAnchor="middle" fontSize="9" fill="rgb(var(--color-accent))" fontFamily="serif" fontStyle="italic" letterSpacing="0.15em">CONTROLLER</text>
+
+        {/* Specialist node — Scope (top-left) */}
+        <circle cx="70" cy="55" r="8" fill="rgb(var(--color-ink))" />
+        <text x="70" y="42" textAnchor="middle" fontSize="7" fill="rgb(var(--color-ink-muted))" fontFamily="serif" fontStyle="italic" letterSpacing="0.15em">SCOPE</text>
+
+        {/* Specialist node — Design (top-right, cross-hatched to show sketchbook shading) */}
+        <circle cx="230" cy="55" r="8" fill="url(#xhatch)" stroke="rgb(var(--color-ink))" strokeWidth="1" />
+        <text x="230" y="42" textAnchor="middle" fontSize="7" fill="rgb(var(--color-ink-muted))" fontFamily="serif" fontStyle="italic" letterSpacing="0.15em">DESIGN</text>
+
+        {/* Specialist node — Build (bottom-left) */}
+        <circle cx="70" cy="195" r="8" fill="rgb(var(--color-ink))" />
+        <text x="70" y="217" textAnchor="middle" fontSize="7" fill="rgb(var(--color-ink-muted))" fontFamily="serif" fontStyle="italic" letterSpacing="0.15em">BUILD</text>
+
+        {/* Human gate (bottom-right) — distinct shape (square + check) */}
+        <rect x="222" y="187" width="16" height="16" rx="1" fill="white" stroke="rgb(var(--color-ink))" strokeWidth="1.5" />
+        <path d="M 226 195 L 230 199 L 236 191" stroke="rgb(var(--color-accent))" strokeWidth="1.5" fill="none" />
+        <text x="230" y="217" textAnchor="middle" fontSize="7" fill="rgb(var(--color-ink-muted))" fontFamily="serif" fontStyle="italic" letterSpacing="0.15em">HUMAN GATE</text>
+
+        {/* Output — shipped work at top */}
+        <rect x="140" y="22" width="20" height="18" rx="1" fill="rgb(var(--color-accent))" />
+        <text x="150" y="16" textAnchor="middle" fontSize="7" fill="rgb(var(--color-accent))" fontFamily="serif" fontStyle="italic" letterSpacing="0.15em">SHIPPED</text>
+
+        {/* Margin annotation — sketchbook fig. label */}
+        <text x="22" y="24" fontSize="8" fill="rgb(var(--color-paper-border))" fontFamily="serif" fontStyle="italic">fig. i</text>
       </svg>
 
+      {/* Sketchbook margin notes */}
       <div className="absolute top-4 right-0 bg-base shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
         <Activity className="w-4 h-4 text-ink-muted" />
-        <span className="text-xs font-medium text-ink">Efficiency +40%</span>
+        <span className="text-xs font-medium text-ink">Human-gated</span>
       </div>
 
       <div className="absolute bottom-12 left-8 bg-base shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
         <Cpu className="w-4 h-4 text-accent" />
-        <span className="text-xs font-medium text-ink">Automated</span>
+        <span className="text-xs font-medium text-ink">Specialist team</span>
       </div>
     </div>
   </Surface>

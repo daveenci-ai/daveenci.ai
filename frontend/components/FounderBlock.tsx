@@ -1,5 +1,5 @@
 import React from 'react';
-import { Section, ScrollReveal } from './Shared';
+import { Section, ScrollReveal, Quote, Button, VitruvianBackground } from './Shared';
 import type { Page } from './types';
 import AntonSketch from '../images/Anton_Sketch.jpg';
 
@@ -8,32 +8,37 @@ interface FounderBlockProps {
 }
 
 const FounderBlock: React.FC<FounderBlockProps> = ({ onNavigate }) => (
-  <Section id="founder" className="bg-alt/20">
-    <div className="max-w-4xl mx-auto">
+  <Section id="founder" className="bg-ink text-base relative">
+    <VitruvianBackground className="opacity-[0.04] text-base" />
+    <div className="max-w-5xl mx-auto relative z-10">
       <ScrollReveal>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
           <div className="md:col-span-4">
-            <img
-              src={AntonSketch}
-              alt="Anton Osipov"
-              className="w-full max-w-xs mx-auto rounded-sm shadow-sm border border-ink/10"
-            />
+            <div className="relative w-full max-w-xs mx-auto">
+              {/* Construction circles around portrait — Leonardo scaffolding */}
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 rounded-full border border-base/10 scale-[1.08] pointer-events-none"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 rounded-full border border-base/5 scale-[1.18] pointer-events-none"
+              />
+              <img
+                src={AntonSketch}
+                alt="Anton Osipov"
+                className="relative w-full rounded-sm shadow-2xl shadow-black/30 border border-base/10 filter sepia-[0.15] contrast-105"
+              />
+            </div>
           </div>
           <div className="md:col-span-8">
-            <blockquote className="font-serif text-xl md:text-2xl text-ink leading-relaxed mb-6 italic">
-              "I spent a decade shipping software with mediocre AI help. Then I stopped trying to hire a generalist tool, and started building a team of specialists. DaVeenci is that bet — one workshop, many teams, each one good at one thing. PureCode is team one. I'd like to show you how it works."
-            </blockquote>
-            <div className="flex items-center justify-between flex-wrap gap-4">
-              <div>
-                <div className="font-sans text-ink font-medium">Anton Osipov</div>
-                <div className="font-mono text-xs uppercase tracking-widest text-ink-muted">Founder</div>
-              </div>
-              <button
-                onClick={() => onNavigate('who-we-are')}
-                className="font-sans text-sm font-medium text-accent hover:text-accent-hover transition-colors"
-              >
-                Read the full story →
-              </button>
+            <Quote tone="dark" attribution="Anton Osipov · Founder">
+              I spent a decade shipping software with mediocre AI help. Then I stopped trying to hire a generalist tool, and started building a team of specialists. Daveenci is that bet — one workshop, many teams, each one good at one thing.
+            </Quote>
+            <div className="mt-10">
+              <Button variant="ghost" onClick={() => onNavigate('who-we-are')} className="text-base/80 hover:text-base">
+                Read the full story
+              </Button>
             </div>
           </div>
         </div>
