@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, ChevronDown, User, Mail, HelpCircle, Clock, Check, Menu, X, Mic, BarChart3, Send, Sparkles, Image, Lightbulb, MessageCircle, Users, Headphones, Briefcase, RefreshCw, Phone, Video, CalendarDays } from 'lucide-react';
 import { format } from 'date-fns';
-import { ScrollReveal, Section, SectionHeader, Button, Logo, GridPattern, VitruvianBackground, CustomSelect } from './Shared';
+import { ScrollReveal, Section, SectionHeader, Button, Logo, GridPattern, VitruvianBackground, CustomSelect, Surface } from './Shared';
 import { API_ENDPOINTS } from '../config';
 import type { Page } from './types';
 import AstridSketch from '../images/Astrid_Sketch.jpg';
@@ -177,7 +177,7 @@ const PulseHeroDiagram: React.FC = () => {
   }, [cycle]);
 
   return (
-    <div className="relative w-full max-w-lg mx-auto bg-pulse-surface shadow-2xl shadow-ink/20 rounded-lg border border-ink/10 overflow-hidden" style={{ height: 420 }}>
+    <Surface kind="product" raised className="relative w-full max-w-lg mx-auto bg-pulse-surface border border-ink/10 overflow-hidden" style={{ height: 420 }}>
       <div className="p-5 md:p-6 flex flex-col h-full">
         {/* Zoom-style video header */}
         <div className="flex items-center gap-3 mb-3">
@@ -248,7 +248,7 @@ const PulseHeroDiagram: React.FC = () => {
           ))}
         </div>
       </div>
-    </div>
+    </Surface>
   );
 };
 
@@ -389,7 +389,7 @@ const MeetingAnalyzerAnimation: React.FC = () => {
   const isPost = phase === 'post';
 
   return (
-    <div className="w-full bg-pulse-surface rounded-lg border border-ink/10 shadow-xl overflow-hidden h-[416px]">
+    <Surface kind="product" className="w-full bg-pulse-surface border border-ink/10 overflow-hidden h-[416px]">
       <div className="p-4 md:p-5 h-full flex flex-col">
         {/* Zoom call header — always visible */}
         <div className="flex items-center justify-between mb-3">
@@ -532,7 +532,7 @@ const MeetingAnalyzerAnimation: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Surface>
   );
 };
 
@@ -585,7 +585,7 @@ const IdeaToContentAnimation: React.FC = () => {
   }, [cycle]);
 
   return (
-    <div className="w-full bg-pulse-surface rounded-lg border border-ink/10 shadow-xl overflow-hidden h-[480px]">
+    <Surface kind="product" className="w-full bg-pulse-surface border border-ink/10 overflow-hidden h-[480px]">
       <div className="p-5 md:p-6 h-full flex flex-col">
         {/* Idea input — always visible */}
         <div className="border border-ink/15 rounded-lg bg-white p-4 mb-4 shadow-sm">
@@ -637,7 +637,7 @@ const IdeaToContentAnimation: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Surface>
   );
 };
 
@@ -683,7 +683,7 @@ const ScheduleAnimation: React.FC = () => {
   const allPosts = scheduled ? [...EXISTING_POSTS, NEW_POST] : EXISTING_POSTS;
 
   return (
-    <div className="w-full bg-pulse-surface rounded-lg border border-ink/10 shadow-xl overflow-hidden min-h-[440px]">
+    <Surface kind="product" className="w-full bg-pulse-surface border border-ink/10 overflow-hidden min-h-[440px]">
       <div className="p-5 md:p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
@@ -794,7 +794,7 @@ const ScheduleAnimation: React.FC = () => {
           </div>
         )}
       </div>
-    </div>
+    </Surface>
   );
 };
 
@@ -864,7 +864,7 @@ const BrandingAnimation: React.FC = () => {
   const showImages = phase === 'images';
 
   return (
-    <div className="w-full bg-pulse-surface rounded-lg border border-ink/10 shadow-xl overflow-hidden h-[520px]">
+    <Surface kind="product" className="w-full bg-pulse-surface border border-ink/10 overflow-hidden h-[520px]">
       <div className="p-5 md:p-6 h-full flex flex-col">
         {/* Brand setup header */}
         <div className="flex items-center gap-2.5 mb-4">
@@ -991,7 +991,7 @@ const BrandingAnimation: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Surface>
   );
 };
 

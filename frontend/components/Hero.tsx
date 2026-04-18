@@ -1,10 +1,10 @@
 
 import React from 'react';
 import { Cpu, Activity } from 'lucide-react';
-import { Section, ScrollReveal, Button, VitruvianBackground, PageHero } from './Shared';
+import { Section, ScrollReveal, Button, VitruvianBackground, PageHero, Surface } from './Shared';
 
 const HeroDiagram: React.FC = () => (
-  <div className="relative w-full max-w-lg lg:max-w-xl mx-auto aspect-square bg-white shadow-2xl shadow-ink/20 rounded-sm border border-ink/10 p-6 md:p-10 rotate-[-2deg] hover:rotate-0 transition-transform duration-700 ease-out group">
+  <Surface kind="document" raised className="relative w-full max-w-lg lg:max-w-xl mx-auto aspect-square bg-white border border-ink/10 p-6 md:p-10 rotate-[-2deg] hover:rotate-0 transition-transform duration-700 ease-out group">
     <div className="flex justify-between items-center mb-8 border-b border-ink/10 pb-4">
       <div className="flex gap-2">
         <div className="w-3 h-3 rounded-full bg-ink/10"></div>
@@ -46,7 +46,7 @@ const HeroDiagram: React.FC = () => (
         <span className="text-xs font-medium text-ink">Automated</span>
       </div>
     </div>
-  </div>
+  </Surface>
 );
 
 const Hero: React.FC = () => {

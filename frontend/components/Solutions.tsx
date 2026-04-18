@@ -1,10 +1,10 @@
 
 import React from 'react';
 import { GitGraph, Settings, Cpu, Zap, MessageSquare, Check, TrendingUp, Activity } from 'lucide-react';
-import { Section, SectionHeader, ScrollReveal } from './Shared';
+import { Section, SectionHeader, ScrollReveal, Surface } from './Shared';
 
 const CRMFlowDiagram: React.FC = () => (
-  <div className="relative w-full max-w-md lg:max-w-lg mx-auto aspect-[4/3] bg-white shadow-2xl shadow-ink/20 rounded-sm border border-ink/10 p-6 md:p-10 rotate-[1deg] hover:rotate-0 transition-transform duration-700 ease-out group">
+  <Surface kind="document" raised className="relative w-full max-w-md lg:max-w-lg mx-auto aspect-[4/3] bg-white border border-ink/10 p-6 md:p-10 rotate-[1deg] hover:rotate-0 transition-transform duration-700 ease-out group">
     <div className="flex justify-between items-center mb-8 border-b border-ink/10 pb-4">
       <div className="flex gap-2">
         <div className="w-3 h-3 rounded-full bg-ink/10"></div>
@@ -40,11 +40,11 @@ const CRMFlowDiagram: React.FC = () => (
         <span className="text-xs font-medium text-ink">Qualified Lead</span>
       </div>
     </div>
-  </div>
+  </Surface>
 );
 
 const MarketingEngineDiagram: React.FC = () => (
-  <div className="relative w-full max-w-md lg:max-w-lg mx-auto aspect-[4/3] bg-white shadow-2xl shadow-ink/20 rounded-sm border border-ink/10 p-6 md:p-10 rotate-[-1deg] hover:rotate-0 transition-transform duration-700 ease-out group">
+  <Surface kind="document" raised className="relative w-full max-w-md lg:max-w-lg mx-auto aspect-[4/3] bg-white border border-ink/10 p-6 md:p-10 rotate-[-1deg] hover:rotate-0 transition-transform duration-700 ease-out group">
     <div className="flex justify-between items-center mb-8 border-b border-ink/10 pb-4">
       <div className="flex gap-2">
         <div className="w-3 h-3 rounded-full bg-ink/10"></div>
@@ -82,11 +82,11 @@ const MarketingEngineDiagram: React.FC = () => (
         <span className="text-xs font-medium text-ink">4x Reach</span>
       </div>
     </div>
-  </div>
+  </Surface>
 );
 
 const OpsDiagram: React.FC = () => (
-  <div className="relative w-full max-w-md lg:max-w-lg mx-auto aspect-[4/3] bg-white shadow-2xl shadow-ink/20 rounded-sm border border-ink/10 p-6 md:p-10 rotate-[1deg] hover:rotate-0 transition-transform duration-700 ease-out group">
+  <Surface kind="document" raised className="relative w-full max-w-md lg:max-w-lg mx-auto aspect-[4/3] bg-white border border-ink/10 p-6 md:p-10 rotate-[1deg] hover:rotate-0 transition-transform duration-700 ease-out group">
     <div className="flex justify-between items-center mb-8 border-b border-ink/10 pb-4">
       <div className="flex gap-2">
         <div className="w-3 h-3 rounded-full bg-ink/10"></div>
@@ -140,7 +140,7 @@ const OpsDiagram: React.FC = () => (
         <span className="text-xs font-medium text-ink">Routing Active</span>
       </div>
     </div>
-  </div>
+  </Surface>
 );
 
 const Solutions: React.FC = () => (
