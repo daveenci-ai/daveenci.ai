@@ -535,14 +535,13 @@ const BrandAnalyzerPage: React.FC<{ onNavigate: (page: Page, hash?: string, id?:
         <ScrollReveal>
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="font-serif text-3xl md:text-4xl text-ink mb-6">
-              Need help choosing the right name?
+              Found something worth talking about?
             </h2>
             <p className="text-ink-muted text-lg mb-8 leading-relaxed">
-              Our team helps founders and operators make data-driven branding decisions.
-              Book a free consultation to discuss your results.
+              Brand naming is one knowledge-work domain among many. If this surfaced a gap — in your name, your positioning, or how your workflow actually runs — we can talk about whether a specialist team is the right answer.
             </p>
-            <Button variant="primary" className="px-8 py-4" onClick={() => onNavigate('landing', '#booking')}>
-              Book a Free Call
+            <Button variant="primary" className="px-8 py-4" onClick={() => onNavigate('calendar')}>
+              Talk to us
             </Button>
           </div>
         </ScrollReveal>
