@@ -25,11 +25,16 @@
   --radius-sharp: 0;
   --radius-card: 0.125rem;       /* rounded-sm */
   --radius-pill: 9999px;
+  --radius-widget-document: 0.125rem; /* parchment/sketch widgets */
+  --radius-widget-product: 0.5rem;    /* modern UI widgets (Pulse screens) */
 
   /* Shadow */
   --shadow-card: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-card-hover: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --shadow-brand-glow: 0 40px 80px -20px rgb(63 132 200 / 0.15);
+  --shadow-widget-document: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-widget-product: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-widget-raised: 0 25px 50px -12px rgb(var(--color-ink) / 0.2);
 
   /* Z-index scale */
   --z-base: 0;

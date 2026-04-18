@@ -311,7 +311,10 @@ export const SectionHeader: React.FC<{ eyebrow: string; title: string; subtitle?
 );
 
 export const Card: React.FC<CardProps> = ({ title, children, label, className = '', image }) => (
-  <div className={`relative bg-white border border-ink/10 shadow-lg p-0 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-accent/30 group flex flex-col ${className}`}>
+  <Surface
+    kind="document"
+    className={`relative bg-white border border-ink/10 p-0 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-accent/30 group flex flex-col ${className}`}
+  >
     <SchematicDecor className="opacity-0 group-hover:opacity-40 transition-opacity duration-500" />
     <div className="absolute top-0 left-0 w-0 h-0 border-t-[12px] border-l-[12px] border-transparent group-hover:border-accent transition-all duration-300 z-20"></div>
 
@@ -332,11 +335,15 @@ export const Card: React.FC<CardProps> = ({ title, children, label, className = 
         {children}
       </div>
     </div>
-  </div>
+  </Surface>
 );
 
 export const BriefingCard: React.FC<BriefingCardProps> = ({ title, description, image, issueNo, category, className, onClick }) => (
-  <div onClick={onClick} className={`group relative flex flex-col h-full bg-white/40 backdrop-blur-md border border-ink/10 rounded-sm overflow-hidden transition-all duration-500 hover:shadow-[0_40px_80px_-20px_rgba(63,132,200,0.15)] hover:-translate-y-2 hover:border-accent/30 cursor-pointer ${className}`}>
+  <Surface
+    kind="document"
+    onClick={onClick}
+    className={`group relative flex flex-col h-full bg-white/40 backdrop-blur-md border border-ink/10 overflow-hidden transition-all duration-500 hover:shadow-[0_40px_80px_-20px_rgba(63,132,200,0.15)] hover:-translate-y-2 hover:border-accent/30 cursor-pointer ${className}`}
+  >
     <div className="absolute top-0 inset-x-0 h-1 bg-accent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-30"></div>
 
     <div className="relative h-56 overflow-hidden">
@@ -379,7 +386,7 @@ export const BriefingCard: React.FC<BriefingCardProps> = ({ title, description, 
         </button>
       </div>
     </div>
-  </div>
+  </Surface>
 );
 
 export const Section: React.FC<SectionProps> = ({ id, className = '', children, pattern = 'none', overflow = false }) => (
@@ -394,6 +401,34 @@ export const Section: React.FC<SectionProps> = ({ id, className = '', children, 
 );
 
 // --- Primitives ---
+
+export const Surface: React.FC<{
+  kind: 'document' | 'product';
+  raised?: boolean;
+  as?: 'div' | 'section' | 'article';
+  className?: string;
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+  onClick?: () => void;
+}> = ({ kind, raised = false, as: Tag = 'div', className = '', children, style, onClick }) => {
+  const radius = kind === 'document'
+    ? 'var(--radius-widget-document)'
+    : 'var(--radius-widget-product)';
+  const shadowClass = raised
+    ? 'shadow-[var(--shadow-widget-raised)]'
+    : kind === 'product'
+      ? 'shadow-[var(--shadow-widget-product)]'
+      : 'shadow-[var(--shadow-widget-document)]';
+  return (
+    <Tag
+      onClick={onClick}
+      className={`${shadowClass} ${className}`}
+      style={{ borderRadius: radius, ...style }}
+    >
+      {children}
+    </Tag>
+  );
+};
 
 export const Eyebrow: React.FC<{
   children: React.ReactNode;
