@@ -9,7 +9,7 @@ import Events from './components/Events';
 import Booking from './components/Booking';
 import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
-import { Section, ScrollReveal, Logo } from './components/Shared';
+import { Section, ScrollReveal, Logo, Eyebrow } from './components/Shared';
 import type { Page } from './components/types';
 
 interface DaVeenciLandingPageProps {
@@ -33,9 +33,7 @@ const DaVeenciLandingPage: React.FC<DaVeenciLandingPageProps> = ({ onNavigate, a
         <ScrollReveal>
           <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
             <div className="flex-1">
-              <span className="block font-script text-2xl text-accent mb-2 -rotate-1 origin-bottom-left">
-                Free Tool
-              </span>
+              <Eyebrow className="mb-2 text-accent-light">Free Tool</Eyebrow>
               <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-base mb-4 leading-tight">
                 Is Your Brand Name<br />
                 <span className="italic text-base/70">Working For You?</span>
