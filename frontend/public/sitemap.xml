@@ -6,28 +6,43 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://daveenci.ai/who-we-are</loc>
+    <loc>https://daveenci.ai/work</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://daveenci.ai/briefings</loc>
+    <loc>https://daveenci.ai/purecode</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://daveenci.ai/shootos</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://daveenci.ai/codex</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://daveenci.ai/calendar</loc>
+    <loc>https://daveenci.ai/who-we-are</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://daveenci.ai/book-demo</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://daveenci.ai/brand-analyzer</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://daveenci.ai/calendar</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>

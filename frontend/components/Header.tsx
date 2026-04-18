@@ -21,18 +21,18 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
   }, []);
 
   const navLinks: NavLink[] = [
-    { label: "Who We Are", href: "/who-we-are" },
-    { label: "Where Teams Get Stuck", href: "#problems" },
-    { label: "What We Automate", href: "#automation" },
-    { label: "Briefings & How-Tos", href: "/briefings" },
+    { label: "About", href: "/who-we-are" },
+    { label: "Work", href: "/work" },
+    { label: "Codex", href: "/codex" },
   ];
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
 
   const isActive = (link: NavLink) => {
-    if (link.href === '/briefings' && (currentPage === 'briefings' || currentPage === 'briefing-detail')) return true;
+    if (link.href === '/codex' && (currentPage === 'briefings' || currentPage === 'briefing-detail')) return true;
     if (link.href === '/who-we-are' && currentPage === 'who-we-are') return true;
+    if (link.href === '/work' && (currentPage === 'work' || currentPage === 'purecode' || currentPage === 'shootos')) return true;
     if (link.href.startsWith('#') && currentPage === 'landing' && activeSection === link.href) return true;
     return false;
   };
@@ -47,16 +47,19 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
       return;
     }
 
-    if (link.href === '/briefings') {
+    if (link.href === '/codex') {
       onNavigate?.('briefings');
       window.scrollTo(0, 0);
       return;
     }
 
-    // Anchor links
+    if (link.href === '/work') {
+      onNavigate?.('work');
+      window.scrollTo(0, 0);
+      return;
+    }
+
     if (link.href.startsWith('#')) {
-      // Always route through onNavigate to ensure App state (activeSection) updates correctly
-      // and scrolling is handled centrally, even if we are already on the landing page.
       onNavigate?.('landing', link.href);
     }
   };
@@ -70,9 +73,9 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
     }
   };
 
-  const scrollToBooking = () => {
+  const goToCalendar = () => {
     closeMenu();
-    onNavigate?.('landing', '#booking');
+    onNavigate?.('calendar');
   };
 
   return (
@@ -84,14 +87,14 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
           {currentPage === 'briefing-detail' ? (
             <div onClick={(e) => { e.stopPropagation(); onNavigate?.('briefings'); }} className="flex items-center gap-2 text-ink-muted hover:text-accent transition-colors">
               <ArrowLeft className="w-5 h-5" />
-              <span className="font-sans font-medium text-base hidden md:block">Back to Briefings & How-Tos</span>
+              <span className="font-sans font-medium text-base hidden md:block">Back to the Codex</span>
             </div>
           ) : (
             <>
               <Logo className="w-10 h-10 md:w-12 md:h-12 text-ink group-hover:text-accent transition-colors duration-500" />
               <div className="flex flex-col justify-center">
                 <span className="font-serif text-2xl md:text-3xl font-bold tracking-tight text-ink leading-none">DaVeenci</span>
-                <span className="text-[0.6rem] md:text-[0.65rem] tracking-[0.25em] text-accent font-semibold uppercase mt-1 md:mt-1.5 ml-0.5">The Art of Automation</span>
+                <span className="text-[0.6rem] md:text-[0.65rem] tracking-[0.25em] text-accent font-semibold uppercase mt-1 md:mt-1.5 ml-0.5">A studio of specialist AI teams</span>
               </div>
             </>
           )}
@@ -115,7 +118,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
               </a>
             );
           })}
-          <Button variant="primary" className="py-2 px-5 text-base shadow-md hover:shadow-lg whitespace-nowrap ml-2" onClick={scrollToBooking}>Book a Call</Button>
+          <Button variant="primary" className="py-2 px-5 text-base shadow-md hover:shadow-lg whitespace-nowrap ml-2" onClick={goToCalendar}>Talk to us</Button>
         </nav>
 
         {/* Mobile Menu Button - Visible on screens smaller than LG */}
@@ -141,7 +144,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
               </a>
             );
           })}
-          <Button variant="primary" className="w-full mt-4 py-4 text-base" onClick={scrollToBooking}>Book a Call</Button>
+          <Button variant="primary" className="w-full mt-4 py-4 text-base" onClick={goToCalendar}>Talk to us</Button>
         </div>
       )}
     </header>

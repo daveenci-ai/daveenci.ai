@@ -8,6 +8,9 @@ import Calendar from './components/Calendar';
 import AdminPage from './components/AdminPage';
 import PulseLandingPage from './components/PulseLandingPage';
 import BrandAnalyzerPage from './components/BrandAnalyzerPage';
+import WorkPage from './components/WorkPage';
+import PureCodePage from './components/PureCodePage';
+import ShootOSPage from './components/ShootOSPage';
 import NotFoundPage from './components/NotFoundPage';
 import type { Page } from './components/types';
 
@@ -22,13 +25,20 @@ const App: React.FC = () => {
     const handleLocationChange = () => {
       // Normalize path: Remove trailing slash if it's not the root
       const path = window.location.pathname === '/' ? '/' : window.location.pathname.replace(/\/$/, '');
+      // Legacy /briefings URL redirects to canonical /codex
+      if (path === '/briefings') {
+        window.history.replaceState({}, '', '/codex');
+        setPage('briefings');
+        setSelectedBriefingId(null);
+        return;
+      }
       if (path === '/' || path === '') {
         setPage('landing');
         setSelectedBriefingId(null);
-      } else if (path === '/briefings') {
+      } else if (path === '/codex') {
         setPage('briefings');
         setSelectedBriefingId(null);
-      } else if (path.startsWith('/briefings/')) {
+      } else if (path.startsWith('/briefings/') || path.startsWith('/codex/')) {
         const id = path.split('/')[2];
         if (id) {
           setPage('briefing-detail');
@@ -44,6 +54,12 @@ const App: React.FC = () => {
         setPage('book-demo');
       } else if (path === '/brand-analyzer') {
         setPage('brand-analyzer');
+      } else if (path === '/work') {
+        setPage('work');
+      } else if (path === '/purecode') {
+        setPage('purecode');
+      } else if (path === '/shootos') {
+        setPage('shootos');
       } else {
         setPage('not-found');
         setSelectedBriefingId(null);
@@ -125,13 +141,16 @@ const App: React.FC = () => {
 
     // Push History State (Maintain consistency)
     let path = '/';
-    if (targetPage === 'briefings') path = '/briefings';
-    if (targetPage === 'briefing-detail') path = `/briefings/${id}`;
+    if (targetPage === 'briefings') path = '/codex';
+    if (targetPage === 'briefing-detail') path = `/codex/${id}`;
     if (targetPage === 'who-we-are') path = '/who-we-are';
     if (targetPage === 'calendar') path = '/calendar';
     if (targetPage === 'admin') path = '/admin';
     if (targetPage === 'book-demo') path = '/book-demo';
     if (targetPage === 'brand-analyzer') path = '/brand-analyzer';
+    if (targetPage === 'work') path = '/work';
+    if (targetPage === 'purecode') path = '/purecode';
+    if (targetPage === 'shootos') path = '/shootos';
     window.history.pushState({ page: targetPage, briefingId: id }, '', path);
 
     // Immediate Scroll Logic (if not waiting for landing page mount)
@@ -171,6 +190,15 @@ const App: React.FC = () => {
       )}
       {page === 'brand-analyzer' && (
         <BrandAnalyzerPage onNavigate={handleNavigate} />
+      )}
+      {page === 'work' && (
+        <WorkPage onNavigate={handleNavigate} />
+      )}
+      {page === 'purecode' && (
+        <PureCodePage onNavigate={handleNavigate} />
+      )}
+      {page === 'shootos' && (
+        <ShootOSPage onNavigate={handleNavigate} />
       )}
       {page === 'not-found' && (
         <NotFoundPage onNavigate={handleNavigate} />

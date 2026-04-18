@@ -2,6 +2,7 @@
 import React from 'react';
 import { Cpu, Activity } from 'lucide-react';
 import { Section, ScrollReveal, Button, VitruvianBackground, PageHero, Surface } from './Shared';
+import type { Page } from './types';
 
 const HeroDiagram: React.FC = () => (
   <Surface kind="document" raised className="relative w-full max-w-lg lg:max-w-xl mx-auto aspect-square bg-white border border-ink/10 p-6 md:p-10 rotate-[-2deg] hover:rotate-0 transition-transform duration-700 ease-out group">
@@ -49,11 +50,11 @@ const HeroDiagram: React.FC = () => (
   </Surface>
 );
 
-const Hero: React.FC = () => {
-  const scrollToBooking = () => {
-    document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
-  };
+interface HeroProps {
+  onNavigate?: (page: Page, hash?: string) => void;
+}
 
+const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   return (
     <Section className="pt-44 pb-24 md:pt-52 md:pb-32 min-h-screen flex items-center">
       <VitruvianBackground className="opacity-[0.12] -right-1/4 scale-125" />
@@ -63,17 +64,17 @@ const Hero: React.FC = () => {
           <ScrollReveal delay={200}>
             <PageHero
               eyebrow="Folio I — The Thesis"
-              title={<>Clarity on AI.<br /><span className="italic text-ink-muted/80">Automation that Ships.</span></>}
-              description="DaVeenci helps founders, investors, and operators turn AI from slideware into shipped workflows—so teams can scale revenue and margin without scaling headcount."
+              title={<>AI teams.<br /><span className="italic text-ink-muted/80">Not AI tools.</span></>}
+              description="Daveenci builds specialist AI teams that ship finished work — code, media, research — each one orchestrated, human-gated, and accountable to its output."
               actions={
                 <>
-                  <Button variant="primary" onClick={scrollToBooking} className="text-base px-8 py-4">Schedule A Demo</Button>
-                  <Button variant="secondary" className="text-base px-8 py-4">See How We Work</Button>
+                  <Button variant="primary" onClick={() => onNavigate?.('calendar')} className="text-base px-8 py-4">Talk to us</Button>
+                  <Button variant="secondary" onClick={() => onNavigate?.('work')} className="text-base px-8 py-4">See the work</Button>
                 </>
               }
             />
             <p className="mt-8 text-xs md:text-sm text-ink-muted/60 font-medium tracking-wide">
-              Built for early-stage to growth companies in B2B SaaS, services, and tech-enabled businesses.
+              One workshop. Many specialist teams. Each one shipping finished work.
             </p>
           </ScrollReveal>
         </div>
