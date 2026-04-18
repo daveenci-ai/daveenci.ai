@@ -106,9 +106,8 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link)}
-                className={`text-base transition-colors relative group whitespace-nowrap px-2 py-1 ${active ? 'font-bold' : 'text-ink-muted hover:text-accent font-medium'
+                className={`text-base transition-colors relative group whitespace-nowrap px-2 py-1 ${active ? 'font-bold text-accent' : 'text-ink-muted hover:text-accent font-medium'
                   }`}
-                style={active ? { color: '#3f84c8' } : {}}
               >
                 <span className="relative z-10">{link.label}</span>
                 <span className={`absolute -bottom-1 left-0 h-0.5 bg-accent transition-all duration-300 ${active ? 'w-full' : 'w-0 group-hover:w-full'
@@ -135,9 +134,8 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link)}
-                className={`text-xl font-serif border-b border-ink/5 pb-3 transition-colors ${active ? 'font-bold' : 'text-ink hover:text-accent'
+                className={`text-xl font-serif border-b border-ink/5 pb-3 transition-colors ${active ? 'font-bold text-accent' : 'text-ink hover:text-accent'
                   }`}
-                style={active ? { color: '#3f84c8' } : {}}
               >
                 {link.label}
               </a>
