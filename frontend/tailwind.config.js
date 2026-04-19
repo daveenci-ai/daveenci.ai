@@ -25,7 +25,7 @@ export default {
                 'pulse-surface': 'rgb(var(--color-pulse-surface) / <alpha-value>)',
             },
             fontFamily: {
-                serif: ['"IM Fell English"', 'Georgia', 'serif'],
+                serif: ['"Playfair Display"', 'Georgia', 'serif'],
                 sans: ['"Inter"', 'Arial', 'sans-serif'],
             },
             backgroundImage: {

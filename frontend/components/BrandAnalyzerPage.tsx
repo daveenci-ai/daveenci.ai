@@ -178,10 +178,10 @@ const InputPanel: React.FC<{
         <button
           onClick={onSubmit}
           disabled={disabled}
-          className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 font-sans text-sm font-medium transition-all duration-300 rounded-sm
+          className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 font-sans text-sm font-medium transition-all duration-500 rounded-sm
             ${disabled
               ? 'bg-ink/20 text-ink-muted cursor-not-allowed'
-              : 'bg-accent hover:bg-accent-hover text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95'}
+              : 'bg-accent hover:bg-accent-hover text-white shadow-sm hover:shadow-md'}
           `}
         >
           {loading ? (
@@ -535,14 +535,13 @@ const BrandAnalyzerPage: React.FC<{ onNavigate: (page: Page, hash?: string, id?:
         <ScrollReveal>
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="font-serif text-3xl md:text-4xl text-ink mb-6">
-              Need help choosing the right name?
+              Found something worth talking about?
             </h2>
             <p className="text-ink-muted text-lg mb-8 leading-relaxed">
-              Our team helps founders and operators make data-driven branding decisions.
-              Book a free consultation to discuss your results.
+              Brand naming is one knowledge-work domain among many. If this surfaced a gap — in your name, your positioning, or how your workflow actually runs — we can talk about whether a specialist team is the right answer.
             </p>
-            <Button variant="primary" className="px-8 py-4" onClick={() => onNavigate('landing', '#booking')}>
-              Book a Free Call
+            <Button variant="primary" className="px-8 py-4" onClick={() => onNavigate('calendar')}>
+              Talk to us
             </Button>
           </div>
         </ScrollReveal>

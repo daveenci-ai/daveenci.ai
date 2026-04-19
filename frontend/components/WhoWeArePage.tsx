@@ -1,10 +1,9 @@
-
 import React, { useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import { Section, SectionHeader, ScrollReveal, VitruvianBackground, Button, PageHero } from './Shared';
+import { Section, ScrollReveal, VitruvianBackground, Button, PageHero, Quote, Surface } from './Shared';
 import type { Page } from './types';
-import { Target, Users, Zap, Award, BarChart3, Clock } from 'lucide-react';
+import { Target, Zap } from 'lucide-react';
 import AntonSketch from '../images/Anton_Sketch.jpg';
 import AstridSketch from '../images/Astrid_Sketch.jpg';
 
@@ -17,189 +16,202 @@ const WhoWeArePage: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
       window.scrollTo(0, 0);
    }, []);
 
-   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-      e.currentTarget.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800";
-   };
-
    return (
       <div className="flex flex-col w-full min-h-screen bg-base">
          <Header onNavigate={onNavigate} currentPage="who-we-are" />
 
-         {/* Intro Section with Team integrated in Hero */}
-         <Section className="pt-40 pb-20 md:pt-48 md:pb-28" pattern="grid">
+         {/* Intro */}
+         <Section className="pt-40 pb-12 md:pt-48 md:pb-16" pattern="grid">
             <VitruvianBackground className="opacity-[0.1]" />
-            <div className="max-w-7xl mx-auto relative z-10 flex flex-col items-center">
-               {/* Hero Text */}
-               <ScrollReveal className="max-w-4xl mx-auto mb-20">
-                  <PageHero
-                    eyebrow="Folio 0 — The Origin"
-                    title={<>Engineers of <br /><span className="italic text-ink-muted">Elegant Efficiency.</span></>}
-                    description={<>DaVeenci is an AI & Automation consultancy built for the builders. Founded by ex-unicorn operators to bridge the gap between "cool AI demos" and "shipped revenue systems."</>}
-                    centered
-                  />
-                  <div className="w-32 h-1 bg-accent/20 mx-auto"></div>
-               </ScrollReveal>
-
-               {/* Team Images - Frameless & Integrated */}
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-32 w-full max-w-5xl px-4">
-                  {/* Anton Osipov */}
-                  <ScrollReveal delay={200} className="flex flex-col items-center group">
-                     <div className="w-full max-w-sm aspect-square relative mb-6 overflow-hidden rounded-sm shadow-sm">
-                        <img
-                           src={AntonSketch}
-                           onError={handleImageError}
-                           alt="Anton Osipov"
-                           className="w-full h-full object-cover object-top"
-                        />
-                     </div>
-                     <div className="text-center">
-                        <h3 className="font-serif text-3xl text-ink mb-2">Anton Osipov</h3>
-                        <p className="font-mono text-xs font-bold text-accent uppercase tracking-widest">AI Implementation Engineer</p>
-                     </div>
-                  </ScrollReveal>
-
-                  {/* Astrid Abrahamyan */}
-                  <ScrollReveal delay={400} className="flex flex-col items-center group">
-                     <div className="w-full max-w-sm aspect-square relative mb-6 overflow-hidden rounded-sm shadow-sm">
-                        <img
-                           src={AstridSketch}
-                           alt="Astrid Abrahamyan"
-                           className="w-full h-full object-cover object-top"
-                        />
-                     </div>
-                     <div className="text-center">
-                        <h3 className="font-serif text-3xl text-ink mb-2">Astrid Abrahamyan</h3>
-                        <button
-                           onClick={() => onNavigate('calendar')}
-                           className="font-mono text-xs font-bold text-accent uppercase tracking-widest cursor-default"
-                        >
-                           Partner & Solution Architect
-                        </button>
-                     </div>
-                  </ScrollReveal>
-               </div>
-            </div>
-         </Section>
-
-         {/* Mission Section */}
-         <Section className="bg-white/40 backdrop-blur-sm border-y border-ink/5">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
-               <ScrollReveal>
-                  <div className="bg-ink text-base p-10 md:p-12 rounded-sm shadow-2xl relative overflow-hidden group">
-                     <div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
-                     <Target className="w-12 h-12 text-accent mb-6" />
-                     <h2 className="font-serif text-3xl md:text-4xl text-white mb-6">Our Mission</h2>
-                     <p className="font-sans text-lg md:text-xl text-white/80 leading-relaxed font-medium mb-8">
-                        We exist to unlock human potential by automating the robotic work that consumes 40% of the modern workday.
-                     </p>
-                     <ul className="space-y-4 text-white/60">
-                        <li className="flex items-center gap-3"><Zap className="w-4 h-4 text-accent" /> Reduce operational drag</li>
-                        <li className="flex items-center gap-3"><Zap className="w-4 h-4 text-accent" /> Unlock proprietary data</li>
-                        <li className="flex items-center gap-3"><Zap className="w-4 h-4 text-accent" /> Move metrics, not just tickets</li>
-                     </ul>
-                  </div>
-               </ScrollReveal>
-
-               <ScrollReveal delay={200}>
-                  <h3 className="font-serif text-4xl text-ink mb-8">Who We Serve</h3>
-                  <p className="text-lg text-ink-muted mb-8 leading-relaxed">
-                     We are not a generalist agency. We specialize in high-velocity environments where speed and precision matter.
-                  </p>
-
-                  <div className="space-y-6">
-                     <div className="flex gap-4">
-                        <div className="w-10 h-10 bg-accent/10 flex items-center justify-center rounded-sm flex-shrink-0">
-                           <Users className="w-5 h-5 text-accent" />
-                        </div>
-                        <div>
-                           <h4 className="font-bold text-ink text-lg">Growth-Stage B2B SaaS</h4>
-                           <p className="text-ink-muted">Series A to C companies needing to scale GTM without scaling headcount linearly.</p>
-                        </div>
-                     </div>
-                     <div className="flex gap-4">
-                        <div className="w-10 h-10 bg-accent/10 flex items-center justify-center rounded-sm flex-shrink-0">
-                           <Award className="w-5 h-5 text-accent" />
-                        </div>
-                        <div>
-                           <h4 className="font-bold text-ink text-lg">Tech-Enabled Services</h4>
-                           <p className="text-ink-muted">Agencies and firms looking to productize their service delivery via AI agents.</p>
-                        </div>
-                     </div>
-                  </div>
-               </ScrollReveal>
-            </div>
-         </Section>
-
-         {/* How We're Different */}
-         <Section pattern="nodes">
-            <div className="max-w-7xl mx-auto">
-               <SectionHeader
-                  eyebrow="The Distinction"
-                  title="Why DaVeenci?"
-                  subtitle="We don't sell hours. We sell shipped systems."
-                  className="text-center mx-auto"
+            <ScrollReveal className="max-w-4xl mx-auto relative z-10">
+               <PageHero
+                  eyebrow="Folio 0 — The Origin"
+                  title={<>A workshop of <br /><span className="italic text-ink-muted">specialist teams.</span></>}
+                  description={<>DaVeenci builds specialist AI teams — one team per knowledge-work domain. Code, media, and the ones we're designing next. The workshop is two people: a founder and a partner. The teams we ship are many.</>}
+                  size="md"
+                  centered
                />
+               <div className="w-24 h-px bg-accent/40 mx-auto mt-2"></div>
+            </ScrollReveal>
+         </Section>
 
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-                  <ScrollReveal delay={100}>
-                     <div className="bg-white/60 p-8 border border-ink/10 h-full hover:border-accent/50 transition-colors duration-300">
-                        <span className="text-6xl font-serif text-ink/5 absolute top-4 right-6 font-bold">01</span>
-                        <h3 className="text-xl font-bold text-ink mb-4 relative z-10">Bottlenecks, Not Features</h3>
-                        <p className="text-ink-muted leading-relaxed relative z-10">
-                           We don't start with "What AI tool should we use?" We start with "Where is the P&L bleeding?" We reverse-engineer automation from business pain.
-                        </p>
+         {/* Anton — founder story (cinematic dark) */}
+         <Section className="bg-ink text-base relative">
+            <VitruvianBackground className="opacity-[0.04] text-base" />
+            <div className="max-w-5xl mx-auto relative z-10">
+               <ScrollReveal>
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+                     <div className="md:col-span-4">
+                        <div className="relative w-full max-w-xs mx-auto">
+                           <div
+                              aria-hidden="true"
+                              className="absolute inset-0 rounded-full border border-base/10 scale-[1.08] pointer-events-none"
+                           />
+                           <div
+                              aria-hidden="true"
+                              className="absolute inset-0 rounded-full border border-base/5 scale-[1.18] pointer-events-none"
+                           />
+                           <img
+                              src={AntonSketch}
+                              alt="Anton Osipov"
+                              className="relative w-full rounded-sm shadow-2xl shadow-black/30 border border-base/10 filter sepia-[0.15] contrast-105"
+                           />
+                           <div className="mt-6 text-center">
+                              <div className="font-serif text-2xl text-base">Anton Osipov</div>
+                              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-base/50 mt-1">Founder</div>
+                           </div>
+                        </div>
                      </div>
-                  </ScrollReveal>
-                  <ScrollReveal delay={200}>
-                     <div className="bg-white/60 p-8 border border-ink/10 h-full hover:border-accent/50 transition-colors duration-300">
-                        <span className="text-6xl font-serif text-ink/5 absolute top-4 right-6 font-bold">02</span>
-                        <h3 className="text-xl font-bold text-ink mb-4 relative z-10">Builders, Not Advisors</h3>
-                        <p className="text-ink-muted leading-relaxed relative z-10">
-                           Consultants give you a slide deck and walk away. We give you a GitHub repo, a deployed agent swarm, and a dashboard that works.
-                        </p>
+                     <div className="md:col-span-8 space-y-8">
+                        <Quote tone="dark">
+                           I spent a decade shipping software with mediocre AI help — watching every new model promise to replace my tools and deliver another wrapper around chat.
+                        </Quote>
+                        <div className="space-y-5 font-sans text-base/80 text-lg leading-relaxed">
+                           <p>
+                              For years I thought the answer was a better model. A bigger context window. A cleverer prompt. Every wave of "this one changes everything" left me with the same workflow and the same bottlenecks. Generalist tools flatten the work. They don't finish it.
+                           </p>
+                           <p>
+                              Then I stopped trying to hire a generalist tool, and started building a team of specialists. DaVeenci is that bet — one workshop, many teams, each one good at one thing. Code. Media. Research. Whatever domain the work actually lives in.
+                           </p>
+                           <p>
+                              A good team beats a good tool. Not because specialists are smarter — they're not. Because coordination, governance, and accountability are what ship finished work. We build the team. You own the output. That's the whole pitch.
+                           </p>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                           <Button variant="ghost" onClick={() => onNavigate('calendar')} className="text-base/90 hover:text-base">
+                              Book a founder call
+                           </Button>
+                        </div>
                      </div>
-                  </ScrollReveal>
-                  <ScrollReveal delay={300}>
-                     <div className="bg-white/60 p-8 border border-ink/10 h-full hover:border-accent/50 transition-colors duration-300">
-                        <span className="text-6xl font-serif text-ink/5 absolute top-4 right-6 font-bold">03</span>
-                        <h3 className="text-xl font-bold text-ink mb-4 relative z-10">Weeks, Not Quarters</h3>
-                        <p className="text-ink-muted leading-relaxed relative z-10">
-                           The AI landscape changes weekly. Long implementation cycles are dead. We sprint in 2-week cycles to ship value immediately.
-                        </p>
+                  </div>
+               </ScrollReveal>
+            </div>
+         </Section>
+
+         {/* Astrid — the partner */}
+         <Section className="bg-base">
+            <div className="max-w-5xl mx-auto">
+               <ScrollReveal>
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start md:flex-row-reverse">
+                     <div className="md:col-span-4 md:order-2">
+                        <div className="relative w-full max-w-xs mx-auto">
+                           <div
+                              aria-hidden="true"
+                              className="absolute inset-0 rounded-full border border-ink/10 scale-[1.08] pointer-events-none"
+                           />
+                           <div
+                              aria-hidden="true"
+                              className="absolute inset-0 rounded-full border border-ink/5 scale-[1.18] pointer-events-none"
+                           />
+                           <img
+                              src={AstridSketch}
+                              alt="Astrid Abrahamyan"
+                              className="relative w-full rounded-sm shadow-lg border border-ink/10 filter sepia-[0.15] contrast-105"
+                           />
+                           <div className="mt-6 text-center">
+                              <div className="font-serif text-2xl text-ink">Astrid Abrahamyan</div>
+                              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted mt-1">Partner &amp; Solution Architect</div>
+                           </div>
+                        </div>
                      </div>
-                  </ScrollReveal>
+                     <div className="md:col-span-8 md:order-1 space-y-5 font-sans text-ink-muted text-lg leading-relaxed">
+                        <p>
+                           I own the conversations. Every team DaVeenci builds starts with a founder telling me how their work is stuck — the bottlenecks, the handoffs, the places their current AI tools fall short. My job is to translate that into a team design we can actually ship.
+                        </p>
+                        <p>
+                           If you want to build a specialist team for your domain, the first step is a 30-minute call with me. No slide decks. Bring the workflow you'd like us to fix, or the strategic gap you want to close. I'll tell you honestly whether we're the right team to build it.
+                        </p>
+                        <div className="pt-2">
+                           <Button variant="secondary" onClick={() => onNavigate('calendar')}>
+                              Schedule a call with Astrid
+                           </Button>
+                        </div>
+                     </div>
+                  </div>
+               </ScrollReveal>
+            </div>
+         </Section>
+
+         {/* How we're different — kept, retuned copy */}
+         <Section pattern="nodes" className="bg-white/40 border-y border-ink/5">
+            <div className="max-w-7xl mx-auto">
+               <ScrollReveal className="mb-12 text-center max-w-2xl mx-auto">
+                  <p className="font-serif italic text-sm tracking-[0.15em] uppercase text-ink-muted mb-3">The Distinction</p>
+                  <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-ink leading-tight">
+                     Why DaVeenci.
+                  </h2>
+               </ScrollReveal>
+
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {[
+                     {
+                        n: '01',
+                        title: 'Teams, not tools',
+                        body: 'The industry ships one more generalist chatbox every quarter. We ship specialist teams — multiple agents, one controller, human gates, finished work.',
+                     },
+                     {
+                        n: '02',
+                        title: 'Builders, not advisors',
+                        body: "Consultants give you a slide deck and walk away. We give you a team that's already shipping — a repo, a pipeline, a dashboard, an output.",
+                     },
+                     {
+                        n: '03',
+                        title: 'Governance, not autonomy',
+                        body: 'Every team we build has human gates at the critical points. You own the output, not the liability. We never remove the human — we move them to the right place.',
+                     },
+                  ].map((card, i) => (
+                     <ScrollReveal key={card.n} delay={100 + i * 150}>
+                        <Surface kind="document" className="relative p-8 md:p-10 bg-white/60 border border-ink/10 h-full overflow-hidden">
+                           <span aria-hidden="true" className="text-7xl font-serif text-ink/5 absolute top-4 right-6 font-bold leading-none select-none">
+                              {card.n}
+                           </span>
+                           <h3 className="relative font-serif text-xl md:text-2xl text-ink mb-4 z-10">{card.title}</h3>
+                           <p className="relative font-sans text-ink-muted leading-relaxed z-10">{card.body}</p>
+                        </Surface>
+                     </ScrollReveal>
+                  ))}
                </div>
             </div>
          </Section>
 
-         {/* Proof / Outcomes */}
-         <Section className="bg-ink text-white py-24">
-            <div className="max-w-6xl mx-auto text-center">
-               <h2 className="font-serif text-3xl md:text-4xl mb-16">The Output</h2>
+         {/* Mission — moved to end, tightened */}
+         <Section>
+            <ScrollReveal className="max-w-3xl mx-auto">
+               <Surface kind="document" className="p-10 md:p-14 bg-ink text-base relative overflow-hidden">
+                  <div aria-hidden="true" className="absolute top-0 right-0 w-64 h-64 bg-accent/15 rounded-full blur-3xl -mr-20 -mt-20"></div>
+                  <Target className="relative w-10 h-10 text-accent mb-6" />
+                  <h2 className="relative font-serif text-3xl md:text-4xl text-base mb-4">The mission.</h2>
+                  <p className="relative font-sans text-lg md:text-xl text-base/80 leading-relaxed mb-6 font-medium">
+                     One team per knowledge-work domain. Each one shipping finished work that humans own, governed at the right points by humans who care.
+                  </p>
+                  <ul className="relative space-y-3 text-base/60 font-sans">
+                     <li className="flex items-center gap-3"><Zap className="w-4 h-4 text-accent shrink-0" /> Coordination over generation</li>
+                     <li className="flex items-center gap-3"><Zap className="w-4 h-4 text-accent shrink-0" /> Governance over autonomy</li>
+                     <li className="flex items-center gap-3"><Zap className="w-4 h-4 text-accent shrink-0" /> Finished work over fast work</li>
+                  </ul>
+               </Surface>
+            </ScrollReveal>
+         </Section>
 
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-12 divide-y md:divide-y-0 md:divide-x divide-white/10">
-                  <div className="px-4 py-6">
-                     <BarChart3 className="w-8 h-8 text-accent mx-auto mb-4" />
-                     <div className="text-4xl md:text-5xl font-bold text-white mb-2">43%</div>
-                     <div className="text-white/60 font-medium uppercase tracking-wider text-sm">Reduction in Manual Handoffs</div>
+         {/* CTA */}
+         <Section className="py-16 md:py-20" pattern="circles">
+            <div className="max-w-3xl mx-auto text-center">
+               <ScrollReveal>
+                  <h2 className="font-serif text-3xl md:text-4xl text-ink mb-6">
+                     Want a team for your domain?
+                  </h2>
+                  <p className="font-sans text-lg text-ink-muted leading-relaxed mb-8">
+                     Thirty minutes with us, no slide deck. Bring the workflow you want a team for.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                     <Button variant="primary" onClick={() => onNavigate('calendar')} className="text-base px-8 py-4">
+                        Talk to us
+                     </Button>
+                     <Button variant="secondary" onClick={() => onNavigate('work')} className="text-base px-8 py-4">
+                        See the work
+                     </Button>
                   </div>
-                  <div className="px-4 py-6">
-                     <Clock className="w-8 h-8 text-accent mx-auto mb-4" />
-                     <div className="text-4xl md:text-5xl font-bold text-white mb-2">120+</div>
-                     <div className="text-white/60 font-medium uppercase tracking-wider text-sm">Hours Saved Per Month</div>
-                  </div>
-                  <div className="px-4 py-6">
-                     <Zap className="w-8 h-8 text-accent mx-auto mb-4" />
-                     <div className="text-4xl md:text-5xl font-bold text-white mb-2">14 Days</div>
-                     <div className="text-white/60 font-medium uppercase tracking-wider text-sm">Avg. Time to First Ship</div>
-                  </div>
-               </div>
-
-               <div className="mt-20 pt-12 border-t border-white/10">
-                  <Button variant="primary" onClick={() => onNavigate('landing', '#booking')} className="text-lg px-8 py-4">
-                     Start Your Transformation
-                  </Button>
-               </div>
+               </ScrollReveal>
             </div>
          </Section>
 

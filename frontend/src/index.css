@@ -3,17 +3,17 @@
 @tailwind utilities;
 
 :root {
-  /* Brand identity system 2026 — Daveenci Renaissance workshop palette.
+  /* Brand identity system 2026 — DaVeenci Renaissance workshop palette.
      Colors stored as space-separated RGB triples so Tailwind's /<alpha-value>
      opacity modifiers continue to work (rgb(var(--color-x) / 0.5)). */
-  --color-base: 241 232 217;          /* #f1e8d9 — Parchment (primary background) */
-  --color-alt: 154 136 110;           /* #9a886e — Umber (accent & borders) */
-  --color-ink: 63 63 63;              /* #3f3f3f — Iron (primary text / dark bg) */
-  --color-ink-muted: 101 89 72;       /* #655948 — dimmed Iron/Umber for muted body text */
+  --color-base: 238 227 200;          /* #eee3c8 — Parchment mid-tone (gradient F4EAD3 → E8DBBE) */
+  --color-alt: 139 111 71;            /* #8B6F47 — Amber umber (eyebrows, fine accents) */
+  --color-ink: 26 26 26;              /* #1A1A1A — Near-black ink, neutral */
+  --color-ink-muted: 90 74 58;        /* #5A4A3A — Warm brown for italics & body */
   --color-accent: 63 132 200;         /* #3f84c8 — Cornflower Blue (contrast accent) */
   --color-accent-light: 100 161 224;  /* #64a1e0 */
   --color-accent-hover: 47 108 168;   /* #2f6ca8 */
-  --color-paper-border: 154 136 110;  /* aligned to Umber — diagram line work */
+  --color-paper-border: 139 111 71;   /* aligned to Umber amber — diagram line work */
   --color-pulse-surface: 250 248 244; /* #FAF8F4 — Pulse product screen bg (unchanged) */
 
   /* Spacing */
@@ -35,7 +35,7 @@
   --shadow-brand-glow: 0 40px 80px -20px rgb(63 132 200 / 0.15);
   --shadow-widget-document: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-widget-product: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-widget-raised: 0 25px 50px -12px rgb(var(--color-ink) / 0.2);
+  --shadow-widget-raised: 0 30px 60px rgba(50, 30, 10, 0.28), 0 12px 24px rgba(50, 30, 10, 0.18), 0 4px 8px rgba(50, 30, 10, 0.12);
 
   /* Z-index scale */
   --z-base: 0;
@@ -57,6 +57,16 @@ html {
 body {
   background-color: rgb(var(--color-base));
   color: rgb(var(--color-ink));
+  /* Three stacked layers (top → bottom):
+       1. Vignette — very subtle warm darkening from 60% outward.
+       2. Paper texture — warm grain PNG, multiplied for subtle pulp.
+       3. Parchment gradient — diagonal F4EAD3 → E8DBBE (lighter top-left). */
+  background-image:
+    radial-gradient(ellipse 90% 100% at 50% 45%, transparent 55%, rgba(90, 70, 45, 0.12) 100%),
+    radial-gradient(ellipse 100% 110% at 50% 45%, #FCF6E5 0%, #F6ECD2 50%, #EADFBD 100%);
+  background-blend-mode: multiply, normal;
+  background-repeat: no-repeat, no-repeat;
+  background-attachment: fixed, fixed;
 }
 
 ::selection {

@@ -34,7 +34,7 @@ const Newsletter: React.FC<NewsletterProps> = ({ onNavigate }) => {
 
          if (response.ok) {
             setStatus('success');
-            setMessage('Welcome to the Guild. Check your inbox on Tuesday.');
+            setMessage('Welcome to the Codex. Check your inbox on Tuesday.');
             setEmail('');
          } else {
             setStatus('error');
@@ -47,13 +47,11 @@ const Newsletter: React.FC<NewsletterProps> = ({ onNavigate }) => {
    };
 
    return (
-      <Section id="newsletter" pattern="nodes" className="bg-gradient-to-b from-base to-white relative overflow-visible" overflow={true}>
-         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-alt/10 to-transparent pointer-events-none"></div>
-
+      <Section id="newsletter" pattern="nodes" className="relative overflow-visible" overflow={true}>
          <SectionHeader
-            eyebrow="Folio V — The Codex"
-            title="Featured Briefings"
-            subtitle="Architectural blueprints for the AI age. Sent weekly."
+            eyebrow="Folio VI — The Codex"
+            title="Build in public."
+            subtitle="Essays and briefings on specialist AI teams — how we're building them, what we're learning, what we got wrong this week."
          />
 
          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -109,7 +107,7 @@ const Newsletter: React.FC<NewsletterProps> = ({ onNavigate }) => {
                         <Mail className="w-5 h-5 text-accent" />
                         <span className="font-mono text-xs font-bold text-accent uppercase tracking-widest">Weekly Intelligence</span>
                      </div>
-                     <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4 leading-tight">Join the Guild</h3>
+                     <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4 leading-tight">Subscribe to the Codex</h3>
                      <p className="text-ink-muted text-lg mb-8 leading-relaxed font-serif italic">
                         "Receive one high-leverage automation play every Tuesday. No fluff, just blueprints."
                      </p>
