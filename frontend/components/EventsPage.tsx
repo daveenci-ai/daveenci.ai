@@ -11,7 +11,7 @@ interface EventsPageProps {
 
 const EventsPage: React.FC<EventsPageProps> = ({ onNavigate }) => {
   useEffect(() => {
-    document.title = 'Events — Daveenci';
+    document.title = 'Events — DaVeenci';
     window.scrollTo(0, 0);
     return () => {
       document.title = 'DaVeenci | AI & Automation Consultancy';

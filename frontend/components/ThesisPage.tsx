@@ -10,7 +10,7 @@ interface ThesisPageProps {
 
 const ThesisPage: React.FC<ThesisPageProps> = ({ onNavigate }) => {
   useEffect(() => {
-    document.title = 'The Thesis — Daveenci';
+    document.title = 'The Thesis — DaVeenci';
     window.scrollTo(0, 0);
     return () => {
       document.title = 'DaVeenci | AI & Automation Consultancy';
@@ -130,7 +130,7 @@ const ThesisPage: React.FC<ThesisPageProps> = ({ onNavigate }) => {
                   What teams actually need isn't more autonomy. It's more coordination and more accountability. That means humans — at the right points, with the right authority, reviewing the right things. We call these <strong className="text-base">human gates.</strong>
                 </p>
                 <p>
-                  PureCode has three gates: <em>scope</em> (before anything is built), <em>design</em> (before implementation), <em>ship</em> (before merge). ShootOS has different gates for a different workflow. Every Daveenci team has gates. Not because automation can't go further without them — it can — but because the output needs to be accountable to someone, and that someone needs to be a human making a real decision.
+                  PureCode has three gates: <em>scope</em> (before anything is built), <em>design</em> (before implementation), <em>ship</em> (before merge). ShootOS has different gates for a different workflow. Every DaVeenci team has gates. Not because automation can't go further without them — it can — but because the output needs to be accountable to someone, and that someone needs to be a human making a real decision.
                 </p>
                 <p>
                   Governance isn't a feature bolted on top of an autonomous system. It IS the product. Remove the gates and you've removed the thing clients are paying for: a team that ships work they can stand behind.
@@ -156,7 +156,7 @@ const ThesisPage: React.FC<ThesisPageProps> = ({ onNavigate }) => {
                   The work that doesn't commoditize is orchestration — the controller layer that decides which specialist takes which input, where the gates are, what the memory looks like, how failures cascade and where rescue loops kick in. That layer is where compounding knowledge lives. It's where "we built this team before and learned how it breaks" turns into institutional skill.
                 </p>
                 <p>
-                  We're building toward a world where models are plentiful and orchestration is scarce. Daveenci's moat is not any one model we use — we'll swap them as they improve. It's the playbook for building teams that ship.
+                  We're building toward a world where models are plentiful and orchestration is scarce. DaVeenci's moat is not any one model we use — we'll swap them as they improve. It's the playbook for building teams that ship.
                 </p>
               </div>
             </ScrollReveal>
@@ -178,7 +178,7 @@ const ThesisPage: React.FC<ThesisPageProps> = ({ onNavigate }) => {
         <Section className="py-10 md:py-14">
           <div className="max-w-3xl mx-auto">
             <ScrollReveal>
-              <div className="font-mono text-xs uppercase tracking-[0.2em] text-accent mb-4">V · The Daveenci Playbook</div>
+              <div className="font-mono text-xs uppercase tracking-[0.2em] text-accent mb-4">V · The DaVeenci Playbook</div>
               <h2 className="font-serif text-3xl md:text-4xl text-ink mb-6 leading-tight">
                 Every team we build follows the same shape.
               </h2>
@@ -240,7 +240,7 @@ const ThesisPage: React.FC<ThesisPageProps> = ({ onNavigate }) => {
                   That's the destination. Not one product. Not one model. A team for code. A team for media. A team for research. A team for creative. A team for strategy. Each one orchestrated, human-gated, accountable to its output.
                 </p>
                 <p>
-                  This isn't a product roadmap. It's a pattern we apply to whatever domain comes next. If you have a specialized workflow that produces finished work — and you care about the finished work being right — there's a Daveenci team design for it.
+                  This isn't a product roadmap. It's a pattern we apply to whatever domain comes next. If you have a specialized workflow that produces finished work — and you care about the finished work being right — there's a DaVeenci team design for it.
                 </p>
                 <p>
                   We build the team. You own the output. That's the whole pitch.

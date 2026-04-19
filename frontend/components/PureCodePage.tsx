@@ -10,7 +10,7 @@ interface PureCodePageProps {
 
 const PureCodePage: React.FC<PureCodePageProps> = ({ onNavigate }) => {
   useEffect(() => {
-    document.title = 'PureCode — Daveenci';
+    document.title = 'PureCode — DaVeenci';
     window.scrollTo(0, 0);
     return () => {
       document.title = 'DaVeenci | AI & Automation Consultancy';
@@ -25,7 +25,7 @@ const PureCodePage: React.FC<PureCodePageProps> = ({ onNavigate }) => {
         <GridPattern />
         <ScrollReveal>
           <PageHero
-            eyebrow="A Daveenci team · Code"
+            eyebrow="A DaVeenci team · Code"
             title={<>PureCode.<br /><span className="italic text-ink-muted/80">The code team.</span></>}
             description="A feature request walks in. A shipped pull request walks out. 13 specialist agents coordinated by a controller, gated by humans at three critical points."
             size="md"
@@ -99,7 +99,7 @@ const PureCodePage: React.FC<PureCodePageProps> = ({ onNavigate }) => {
               Want a team like this for your stack?
             </h2>
             <p className="font-sans text-lg text-ink-muted leading-relaxed mb-8">
-              PureCode is one example of what a Daveenci team looks like. We design and build specialist teams for the workflows that matter most to your business — code is just one of them.
+              PureCode is one example of what a DaVeenci team looks like. We design and build specialist teams for the workflows that matter most to your business — code is just one of them.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="primary" onClick={() => onNavigate('calendar')} className="px-8 py-4">

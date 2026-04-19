@@ -27,7 +27,7 @@ const workItems = [
 
 const WorkPage: React.FC<WorkPageProps> = ({ onNavigate }) => {
   useEffect(() => {
-    document.title = 'Our Work — Daveenci';
+    document.title = 'Our Work — DaVeenci';
     window.scrollTo(0, 0);
     return () => {
       document.title = 'DaVeenci | AI & Automation Consultancy';

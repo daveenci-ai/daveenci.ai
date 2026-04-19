@@ -33,7 +33,7 @@ const FounderBlock: React.FC<FounderBlockProps> = ({ onNavigate }) => (
           </div>
           <div className="md:col-span-8">
             <Quote tone="dark" attribution="Anton Osipov · Founder">
-              I spent a decade shipping software with mediocre AI help. Then I stopped trying to hire a generalist tool, and started building a team of specialists. Daveenci is that bet — one workshop, many teams, each one good at one thing.
+              I spent a decade shipping software with mediocre AI help. Then I stopped trying to hire a generalist tool, and started building a team of specialists. DaVeenci is that bet — one workshop, many teams, each one good at one thing.
             </Quote>
             <div className="mt-10">
               <Button variant="ghost" onClick={() => onNavigate('who-we-are')} className="text-base/80 hover:text-base">

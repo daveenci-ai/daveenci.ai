@@ -46,7 +46,15 @@ export const ScrollReveal: React.FC<{ children: React.ReactNode; className?: str
 
 export const VitruvianBackground: React.FC<{ className?: string }> = ({ className }) => {
   return (
-    <div className={`absolute inset-0 pointer-events-none overflow-hidden opacity-[0.12] ${className}`}>
+    <div
+      className={`absolute inset-x-0 -top-64 -bottom-64 pointer-events-none overflow-visible ${className}`}
+      style={{
+        maskImage:
+          'linear-gradient(to top, transparent 13.5rem, black 19.5rem, black calc(100% - 9rem), transparent calc(100% - 8rem))',
+        WebkitMaskImage:
+          'linear-gradient(to top, transparent 13.5rem, black 19.5rem, black calc(100% - 9rem), transparent calc(100% - 8rem))',
+      }}
+    >
       <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px]" viewBox="0 0 800 800">
         <g className="animate-[spin_40s_linear_infinite]" style={{ transformOrigin: '400px 400px' }}>
           <circle cx="400" cy="400" r="380" fill="none" stroke="currentColor" strokeWidth="1" />
@@ -182,7 +190,7 @@ export const GridPattern: React.FC<{ className?: string }> = ({ className }) => 
 export const Logo: React.FC<{ className?: string }> = ({ className }) => (
   <span
     role="img"
-    aria-label="Daveenci"
+    aria-label="DaVeenci"
     className={`inline-block ${className ?? ''}`}
     style={{
       backgroundColor: 'currentColor',
@@ -297,14 +305,20 @@ export const Button: React.FC<{
   );
 };
 
+// Thin ink-muted hairline rule — reusable decorative divider. Editorial pattern.
+export const SectionDivider: React.FC<{ className?: string; width?: string }> = ({ className = '', width = 'w-16' }) => (
+  <div aria-hidden="true" className={`${width} h-px bg-ink-muted/40 ${className}`} />
+);
+
 export const SectionHeader: React.FC<{ eyebrow: string; title: string; subtitle?: string; className?: string }> = ({ eyebrow, title, subtitle, className }) => (
   <ScrollReveal className={`mb-12 md:mb-16 ${className}`}>
-    <Eyebrow className="mb-2">{eyebrow}</Eyebrow>
-    <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-ink mb-6 leading-tight">
+    <SectionDivider className="mb-6" width="w-full max-w-[60%]" />
+    <Eyebrow className="mb-4">{eyebrow}</Eyebrow>
+    <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-ink mb-6 leading-[1.05] tracking-tight">
       {title}
     </h2>
     {subtitle && (
-      <p className="font-sans text-lg text-ink-muted max-w-2xl leading-relaxed">
+      <p className="font-serif text-lg md:text-xl text-ink-muted max-w-2xl leading-relaxed">
         {subtitle}
       </p>
     )}
@@ -415,16 +429,16 @@ export const Surface: React.FC<{
   const radius = kind === 'document'
     ? 'var(--radius-widget-document)'
     : 'var(--radius-widget-product)';
-  const shadowClass = raised
-    ? 'shadow-[var(--shadow-widget-raised)]'
+  const boxShadow = raised
+    ? 'var(--shadow-widget-raised)'
     : kind === 'product'
-      ? 'shadow-[var(--shadow-widget-product)]'
-      : 'shadow-[var(--shadow-widget-document)]';
+      ? 'var(--shadow-widget-product)'
+      : 'var(--shadow-widget-document)';
   return (
     <Tag
       onClick={onClick}
-      className={`${shadowClass} ${className}`}
-      style={{ borderRadius: radius, ...style }}
+      className={className}
+      style={{ borderRadius: radius, boxShadow, ...style }}
     >
       {children}
     </Tag>
@@ -465,10 +479,10 @@ export const PageHero: React.FC<{
       {typeof eyebrow === 'string'
         ? <Eyebrow>{eyebrow}</Eyebrow>
         : eyebrow}
-      <h1 className={`font-serif ${titleSize} text-ink leading-[1.1] mb-8 mt-4`}>
+      <h1 className={`font-serif font-bold ${titleSize} text-ink leading-[1.02] tracking-tight mb-8 mt-4`}>
         {title}
       </h1>
-      <p className={`font-sans ${descriptionSize} text-ink-muted max-w-2xl leading-relaxed mb-10 ${descriptionCentering}`}>
+      <p className={`font-serif ${descriptionSize} text-ink-muted max-w-2xl leading-relaxed mb-10 ${descriptionCentering}`}>
         {description}
       </p>
       {actions && <div className={`flex flex-col sm:flex-row gap-4 ${actionsCentering}`}>{actions}</div>}

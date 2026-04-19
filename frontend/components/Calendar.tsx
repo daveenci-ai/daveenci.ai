@@ -39,12 +39,12 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
    const [displaySlots, setDisplaySlots] = useState<{ display: string, value: string, localTime: string }[]>([]);
 
    useEffect(() => {
-      document.title = "Talk to us — Daveenci";
+      document.title = "Talk to us — DaVeenci";
 
       // Update meta description
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) {
-         metaDesc.setAttribute("content", "Book a 30-minute call with Daveenci. Bring the workflow you want a specialist team for.");
+         metaDesc.setAttribute("content", "Book a 30-minute call with DaVeenci. Bring the workflow you want a specialist team for.");
       }
 
       // Update Open Graph meta tags for link previews
@@ -54,7 +54,7 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
          ogTitle.setAttribute('property', 'og:title');
          document.head.appendChild(ogTitle);
       }
-      ogTitle.setAttribute('content', 'Talk to us — Daveenci');
+      ogTitle.setAttribute('content', 'Talk to us — DaVeenci');
 
       let ogDescription = document.querySelector('meta[property="og:description"]');
       if (!ogDescription) {
@@ -62,7 +62,7 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
          ogDescription.setAttribute('property', 'og:description');
          document.head.appendChild(ogDescription);
       }
-      ogDescription.setAttribute('content', 'Book a 30-minute call with Daveenci. Bring the workflow you want a specialist team for.');
+      ogDescription.setAttribute('content', 'Book a 30-minute call with DaVeenci. Bring the workflow you want a specialist team for.');
 
       // Twitter Card meta tags
       let twitterTitle = document.querySelector('meta[name="twitter:title"]');
@@ -71,7 +71,7 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
          twitterTitle.setAttribute('name', 'twitter:title');
          document.head.appendChild(twitterTitle);
       }
-      twitterTitle.setAttribute('content', 'Talk to us — Daveenci');
+      twitterTitle.setAttribute('content', 'Talk to us — DaVeenci');
 
       return () => {
          document.title = "DaVeenci | AI & Automation Consultancy";

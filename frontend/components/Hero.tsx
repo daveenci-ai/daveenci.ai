@@ -5,7 +5,7 @@ import { Section, ScrollReveal, Button, VitruvianBackground, PageHero, Surface }
 import type { Page } from './types';
 
 const HeroDiagram: React.FC = () => (
-  <Surface kind="document" raised className="relative w-full max-w-lg lg:max-w-xl mx-auto aspect-square bg-white border border-ink/10 p-6 md:p-10 rotate-[-2deg] hover:rotate-0 transition-transform duration-700 ease-out group">
+  <Surface kind="document" raised className="relative w-full max-w-lg lg:max-w-xl mx-auto aspect-square bg-white/60 backdrop-blur-[2px] border border-ink/10 p-6 md:p-10 rotate-[-2deg] hover:rotate-0 transition-transform duration-700 ease-out group">
     <div className="flex justify-between items-center mb-8 border-b border-ink/10 pb-4">
       <div className="flex gap-2">
         <div className="w-3 h-3 rounded-full bg-ink/10"></div>
@@ -90,8 +90,8 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   return (
-    <Section className="pt-44 pb-24 md:pt-52 md:pb-32 min-h-screen flex items-center">
-      <VitruvianBackground className="opacity-[0.12] -right-1/4 scale-125" />
+    <Section className="pt-44 pb-24 md:pt-52 md:pb-32 min-h-screen flex items-center" overflow={true}>
+      <VitruvianBackground className="opacity-[0.12] -right-1/4 scale-[1.15]" />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12 items-center">
         <div className="lg:col-span-7 relative z-20">
@@ -99,7 +99,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             <PageHero
               eyebrow="Folio I — The Thesis"
               title={<>AI teams.<br /><span className="italic text-ink-muted/80">Not AI tools.</span></>}
-              description="Daveenci builds specialist AI teams that ship finished work — code, media, research — each one orchestrated, human-gated, and accountable to its output."
+              description="DaVeenci builds specialist AI teams that ship finished work — code, media, research — each one orchestrated, human-gated, and accountable to its output."
               actions={
                 <>
                   <Button variant="primary" onClick={() => onNavigate?.('calendar')} className="text-base px-8 py-4">Talk to us</Button>

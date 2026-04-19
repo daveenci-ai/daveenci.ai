@@ -27,7 +27,7 @@ const WhoWeArePage: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                <PageHero
                   eyebrow="Folio 0 — The Origin"
                   title={<>A workshop of <br /><span className="italic text-ink-muted">specialist teams.</span></>}
-                  description={<>Daveenci builds specialist AI teams — one team per knowledge-work domain. Code, media, and the ones we're designing next. The workshop is two people: a founder and a partner. The teams we ship are many.</>}
+                  description={<>DaVeenci builds specialist AI teams — one team per knowledge-work domain. Code, media, and the ones we're designing next. The workshop is two people: a founder and a partner. The teams we ship are many.</>}
                   size="md"
                   centered
                />
@@ -71,7 +71,7 @@ const WhoWeArePage: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                               For years I thought the answer was a better model. A bigger context window. A cleverer prompt. Every wave of "this one changes everything" left me with the same workflow and the same bottlenecks. Generalist tools flatten the work. They don't finish it.
                            </p>
                            <p>
-                              Then I stopped trying to hire a generalist tool, and started building a team of specialists. Daveenci is that bet — one workshop, many teams, each one good at one thing. Code. Media. Research. Whatever domain the work actually lives in.
+                              Then I stopped trying to hire a generalist tool, and started building a team of specialists. DaVeenci is that bet — one workshop, many teams, each one good at one thing. Code. Media. Research. Whatever domain the work actually lives in.
                            </p>
                            <p>
                               A good team beats a good tool. Not because specialists are smarter — they're not. Because coordination, governance, and accountability are what ship finished work. We build the team. You own the output. That's the whole pitch.
@@ -116,7 +116,7 @@ const WhoWeArePage: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                      </div>
                      <div className="md:col-span-8 md:order-1 space-y-5 font-sans text-ink-muted text-lg leading-relaxed">
                         <p>
-                           I own the conversations. Every team Daveenci builds starts with a founder telling me how their work is stuck — the bottlenecks, the handoffs, the places their current AI tools fall short. My job is to translate that into a team design we can actually ship.
+                           I own the conversations. Every team DaVeenci builds starts with a founder telling me how their work is stuck — the bottlenecks, the handoffs, the places their current AI tools fall short. My job is to translate that into a team design we can actually ship.
                         </p>
                         <p>
                            If you want to build a specialist team for your domain, the first step is a 30-minute call with me. No slide decks. Bring the workflow you'd like us to fix, or the strategic gap you want to close. I'll tell you honestly whether we're the right team to build it.
@@ -138,7 +138,7 @@ const WhoWeArePage: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                <ScrollReveal className="mb-12 text-center max-w-2xl mx-auto">
                   <p className="font-serif italic text-sm tracking-[0.15em] uppercase text-ink-muted mb-3">The Distinction</p>
                   <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-ink leading-tight">
-                     Why Daveenci.
+                     Why DaVeenci.
                   </h2>
                </ScrollReveal>
 

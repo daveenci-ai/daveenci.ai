@@ -11,7 +11,7 @@ interface ShootOSPageProps {
 
 const ShootOSPage: React.FC<ShootOSPageProps> = ({ onNavigate }) => {
   useEffect(() => {
-    document.title = 'ShootOS — Daveenci';
+    document.title = 'ShootOS — DaVeenci';
     window.scrollTo(0, 0);
     return () => {
       document.title = 'DaVeenci | AI & Automation Consultancy';
@@ -26,7 +26,7 @@ const ShootOSPage: React.FC<ShootOSPageProps> = ({ onNavigate }) => {
         <GridPattern />
         <ScrollReveal>
           <PageHero
-            eyebrow="A Daveenci team · Real estate media"
+            eyebrow="A DaVeenci team · Real estate media"
             title={<>ShootOS.<br /><span className="italic text-ink-muted/80">The real estate media team.</span></>}
             description="Stills, video, 3D tours, AI virtual staging. One property in. One listing-ready media package out. Built for volume real estate teams, not one-off shoots."
             size="md"
@@ -95,7 +95,7 @@ const ShootOSPage: React.FC<ShootOSPageProps> = ({ onNavigate }) => {
               Want a team like this for your domain?
             </h2>
             <p className="font-sans text-lg text-ink-muted leading-relaxed mb-8">
-              ShootOS is one example of a Daveenci team. We design specialist teams for industries where the workflow is complex, multi-stage, and the output needs to be production-ready.
+              ShootOS is one example of a DaVeenci team. We design specialist teams for industries where the workflow is complex, multi-stage, and the output needs to be production-ready.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="primary" onClick={() => onNavigate('calendar')} className="px-8 py-4">

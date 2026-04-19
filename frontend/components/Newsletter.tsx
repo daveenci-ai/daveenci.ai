@@ -47,9 +47,7 @@ const Newsletter: React.FC<NewsletterProps> = ({ onNavigate }) => {
    };
 
    return (
-      <Section id="newsletter" pattern="nodes" className="bg-gradient-to-b from-base to-white relative overflow-visible" overflow={true}>
-         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-alt/10 to-transparent pointer-events-none"></div>
-
+      <Section id="newsletter" pattern="nodes" className="relative overflow-visible" overflow={true}>
          <SectionHeader
             eyebrow="Folio VI — The Codex"
             title="Build in public."
