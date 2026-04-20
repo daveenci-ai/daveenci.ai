@@ -152,7 +152,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
   const canProceedFromDatetime = Boolean(selectedDate && selectedTime);
 
   return (
-    <div className="min-h-[100dvh] flex flex-col bg-base text-ink">
+    <div className="min-h-[100dvh] flex flex-col bg-base text-ink" data-mobile>
       {/* Top bar: back + step indicator */}
       <header className="sticky top-0 z-40 bg-base/90 backdrop-blur-md border-b border-ink/10 px-4 py-3 flex items-center gap-4">
         <button

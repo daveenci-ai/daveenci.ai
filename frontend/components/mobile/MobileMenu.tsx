@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import type { Page } from '../types';
 
@@ -17,6 +17,8 @@ const MENU_ITEMS: { label: string; page: Page }[] = [
 ];
 
 export const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, onNavigate }) => {
+  const dialogRef = useRef<HTMLDivElement>(null);
+
   // Lock body scroll while menu is open
   useEffect(() => {
     if (!open) return;
@@ -27,6 +29,40 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, onNavigat
     };
   }, [open]);
 
+  // Focus trap + Escape close + initial focus
+  useEffect(() => {
+    if (!open) return;
+    const el = dialogRef.current;
+    if (!el) return;
+
+    const focusables = el.querySelectorAll<HTMLElement>(
+      'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
+    );
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+
+    // Initial focus on close button (least-jarring entry)
+    first?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+        return;
+      }
+      if (e.key !== 'Tab' || focusables.length === 0) return;
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last?.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first?.focus();
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open, onClose]);
+
   if (!open) return null;
 
   const go = (page: Page) => {
@@ -35,7 +71,17 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, onNavigat
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-base flex flex-col animate-in fade-in duration-200">
+    <div
+      ref={dialogRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="mobile-menu-title"
+      data-mobile
+      className="fixed inset-0 z-50 bg-base flex flex-col animate-in fade-in duration-200"
+    >
+      <h2 id="mobile-menu-title" className="sr-only">
+        Navigation menu
+      </h2>
       <div className="flex justify-end px-4 pt-4">
         <button
           onClick={onClose}
@@ -46,7 +92,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, onNavigat
         </button>
       </div>
 
-      <nav className="flex-1 flex flex-col justify-center px-8 gap-6">
+      <nav aria-label="Primary" className="flex-1 flex flex-col justify-center px-8 gap-6">
         {MENU_ITEMS.map((item) => (
           <button
             key={item.label}

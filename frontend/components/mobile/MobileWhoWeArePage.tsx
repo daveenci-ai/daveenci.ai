@@ -82,7 +82,7 @@ export const MobileWhoWeArePage: React.FC<MobileWhoWeArePageProps> = ({ onNaviga
           <br />
           <span className="italic text-ink-muted/70">You own the output.</span>
         </h1>
-        <p className="font-serif text-[17px] text-ink-muted leading-[1.65]">
+        <p className="font-serif text-[17px] text-ink-muted leading-[1.6]">
           DaVeenci is two people and a workshop. We design specialist AI teams for founders whose work is stuck between a chat window and a team they can't afford to hire.
         </p>
       </MobileFolioScene>
@@ -108,7 +108,7 @@ export const MobileWhoWeArePage: React.FC<MobileWhoWeArePageProps> = ({ onNaviga
             <article
               key={d.fig}
               data-card-index={i}
-              className="snap-center flex-shrink-0 w-[82vw] max-w-[360px] bg-white/80 border border-ink/10 rounded-sm p-5 shadow-sm shadow-ink/5"
+              className="snap-center flex-shrink-0 w-[82vw] max-w-[360px] bg-white/70 border border-ink/10 rounded-sm p-5 shadow-sm shadow-ink/5"
             >
               <div className="flex justify-between items-center mb-3 pb-2 border-b border-ink/10">
                 <div className="flex gap-1.5">

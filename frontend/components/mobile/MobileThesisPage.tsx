@@ -36,7 +36,7 @@ export const MobileThesisPage: React.FC<MobileThesisPageProps> = ({ onNavigate }
   }, []);
 
   return (
-    <div className="min-h-[100dvh] flex flex-col text-ink">
+    <div className="min-h-[100dvh] flex flex-col text-ink" data-mobile>
       {/* Minimal top bar with progress */}
       <header className="sticky top-0 z-40 bg-base/90 backdrop-blur-md border-b border-ink/10">
         <div className="px-4 py-3 flex items-center gap-4">

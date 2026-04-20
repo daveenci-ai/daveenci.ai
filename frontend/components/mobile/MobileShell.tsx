@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Menu } from 'lucide-react';
 import { Logo } from '../Shared';
 import { MobileMenu } from './MobileMenu';
@@ -21,9 +21,19 @@ export const MobileShell: React.FC<MobileShellProps> = ({
   children,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuTriggerRef = useRef<HTMLButtonElement>(null);
+  const prevMenuOpen = useRef(false);
+
+  // Restore focus to the menu trigger when the dialog closes
+  useEffect(() => {
+    if (prevMenuOpen.current && !menuOpen) {
+      menuTriggerRef.current?.focus();
+    }
+    prevMenuOpen.current = menuOpen;
+  }, [menuOpen]);
 
   return (
-    <div className="relative">
+    <div className="relative" data-mobile>
       {/* Sticky header */}
       <header className="fixed top-0 inset-x-0 z-40 h-14 bg-base/85 backdrop-blur-md border-b border-ink/5 px-4 flex items-center justify-between">
         <button
@@ -34,8 +44,11 @@ export const MobileShell: React.FC<MobileShellProps> = ({
           <Logo className="w-8 h-8 text-ink" />
         </button>
         <button
+          ref={menuTriggerRef}
           onClick={() => setMenuOpen(true)}
           aria-label="Open menu"
+          aria-haspopup="dialog"
+          aria-expanded={menuOpen}
           className="w-11 h-11 flex items-center justify-center text-ink"
         >
           <Menu className="w-6 h-6" />
