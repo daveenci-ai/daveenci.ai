@@ -37,7 +37,6 @@ const PDFSlideshow: React.FC<PDFSlideshowProps> = ({
 
     // Handle PDF load success
     const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-        console.log('[PDFSlideshow] Loaded PDF with', numPages, 'pages');
         setNumPages(numPages);
         setCurrentPage(1);
         setStatus('ready');

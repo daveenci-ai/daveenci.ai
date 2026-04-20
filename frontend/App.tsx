@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useCallback, Suspense, lazy } from 'react';
 import type { Page } from './components/types';
+import { MobileErrorBoundary } from './components/mobile/MobileErrorBoundary';
 
 // Route-level code splitting — each page becomes its own lazy chunk.
 // Only the landing chunk downloads on initial load; other pages are
@@ -185,6 +186,7 @@ const App: React.FC = () => {
 
   return (
     <main className="antialiased font-sans text-ink min-h-screen selection:bg-accent/20">
+      <MobileErrorBoundary>
       <Suspense fallback={<RouteLoading />}>
         {page === 'landing' && (
           <DaVeenciLandingPage onNavigate={handleNavigate} activeSection={activeSection} />
@@ -205,6 +207,7 @@ const App: React.FC = () => {
         {page === 'thesis' && <ThesisPage onNavigate={handleNavigate} />}
         {page === 'not-found' && <NotFoundPage onNavigate={handleNavigate} />}
       </Suspense>
+      </MobileErrorBoundary>
     </main>
   );
 };

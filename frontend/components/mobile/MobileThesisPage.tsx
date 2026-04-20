@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MobileButton } from './MobileButton';
 import { MobileTopBar } from './MobileTopBar';
+import { MobileErrorBoundary } from './MobileErrorBoundary';
 import type { Page } from '../types';
 
 interface MobileThesisPageProps {
@@ -42,6 +43,7 @@ export const MobileThesisPage: React.FC<MobileThesisPageProps> = ({ onNavigate }
       <MobileTopBar onNavigate={onNavigate} progress={progress} />
 
       <main className="flex-1 pt-14">
+      <MobileErrorBoundary>
         {/* Hero */}
         <section className="px-6 pt-12 pb-12">
           <div className="flex items-center justify-center gap-3 mb-8">
@@ -158,6 +160,7 @@ export const MobileThesisPage: React.FC<MobileThesisPageProps> = ({ onNavigate }
         </section>
 
         <div className="h-16" />
+      </MobileErrorBoundary>
       </main>
     </div>
   );

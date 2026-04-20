@@ -3,6 +3,7 @@ import { ArrowLeft, ChevronLeft, ChevronRight, Check, Clock, Mail, Phone, User, 
 import { format } from 'date-fns';
 import { CustomSelect, FormField } from '../Shared';
 import { MobileButton } from './MobileButton';
+import { MobileErrorBoundary } from './MobileErrorBoundary';
 import AstridSketch from '../../images/Astrid_Sketch.webp';
 import { API_ENDPOINTS } from '../../config';
 import type { CalendarProps } from '../types';
@@ -180,6 +181,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
 
       {/* Body */}
       <main className="flex-1 overflow-y-auto pb-28">
+      <MobileErrorBoundary>
         {step === 'datetime' && (
           <div className="px-5 pt-6">
             {/* Intro strip */}
@@ -409,6 +411,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
             </div>
           </div>
         )}
+      </MobileErrorBoundary>
       </main>
 
       {/* Sticky bottom CTA */}

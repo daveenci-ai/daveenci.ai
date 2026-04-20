@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Clock, Tag, Lightbulb } from 'lucide-react';
 import { MobileButton } from './MobileButton';
 import { MobileTopBar } from './MobileTopBar';
+import { MobileErrorBoundary } from './MobileErrorBoundary';
 import type { Page } from '../types';
 
 export interface MobileBriefingData {
@@ -51,6 +52,7 @@ export const MobileBriefingDetailPage: React.FC<MobileBriefingDetailPageProps> =
       <MobileTopBar onNavigate={onNavigate} backTo="briefings" progress={progress} />
 
       <main className="flex-1 pt-14">
+      <MobileErrorBoundary>
         {/* Article title block */}
         <section className="px-6 pt-8 pb-6">
           <div className="flex items-center gap-3 mb-4">
@@ -135,6 +137,7 @@ export const MobileBriefingDetailPage: React.FC<MobileBriefingDetailPageProps> =
         </section>
 
         <div className="h-10" />
+      </MobileErrorBoundary>
       </main>
     </div>
   );
