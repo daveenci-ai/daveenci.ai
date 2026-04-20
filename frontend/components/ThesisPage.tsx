@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import { Section, ScrollReveal, GridPattern, VitruvianBackground, PageHero, Quote, Button, Surface } from './Shared';
+import { Section, ScrollReveal, GridPattern, VitruvianBackground, Quote, Button, Surface } from './Shared';
 import type { Page } from './types';
 
 interface ThesisPageProps {
@@ -21,18 +21,31 @@ const ThesisPage: React.FC<ThesisPageProps> = ({ onNavigate }) => {
     <div className="flex flex-col w-full overflow-x-hidden min-h-screen">
       <Header onNavigate={onNavigate} currentPage="thesis" />
 
-      {/* Hero */}
-      <Section className="pt-44 pb-12 md:pt-52 md:pb-20">
+      {/* Hero — essay-style, distinct from the marketing Folio I on the home page */}
+      <Section className="pt-44 pb-16 md:pt-52 md:pb-24">
         <GridPattern />
-        <ScrollReveal>
-          <PageHero
-            eyebrow="The Thesis"
-            title={<>AI teams.<br /><span className="italic text-ink-muted/80">Not AI tools.</span></>}
-            description="Why the next wave of knowledge work won't be won by bigger models, but by better teams."
-            size="lg"
-            className="max-w-4xl"
-          />
-        </ScrollReveal>
+        <div className="max-w-4xl mx-auto text-center">
+          <ScrollReveal>
+            <div className="flex items-center justify-center gap-3 mb-8">
+              <span className="h-px w-10 bg-ink-muted/40" />
+              <span className="font-serif italic text-xs tracking-[0.3em] uppercase text-ink-muted">An Essay · Manifesto</span>
+              <span className="h-px w-10 bg-ink-muted/40" />
+            </div>
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-ink leading-[1.05] mb-8">
+              The case against <br /><span className="italic text-accent">generalist AI.</span>
+            </h1>
+            <p className="font-serif text-lg md:text-xl text-ink-muted leading-relaxed max-w-2xl mx-auto mb-8">
+              The next era of knowledge work won't be won by bigger models. It'll be won by better teams. Here's the case — in six parts.
+            </p>
+            <div className="flex items-center justify-center gap-4 font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted/70">
+              <span>Anton Osipov</span>
+              <span className="text-ink-muted/30">·</span>
+              <span>April 2026</span>
+              <span className="text-ink-muted/30">·</span>
+              <span>8 min read</span>
+            </div>
+          </ScrollReveal>
+        </div>
       </Section>
 
       {/* The essay */}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Section, SectionHeader, ScrollReveal, Surface, Button } from './Shared';
+import { Section, ScrollReveal, Surface, Button, FolioHeader } from './Shared';
 import type { Page } from './types';
 
 interface WorkPreviewProps {
@@ -23,11 +23,13 @@ const examples = [
 
 const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => (
   <Section id="work" pattern="nodes">
-    <SectionHeader
-      eyebrow="Folio III — The Work"
-      title="Examples of what we build."
-      subtitle="Every team follows the same playbook: specialist agents, orchestrated, human-gated, shipping finished work."
-    />
+    <ScrollReveal className="mb-12 md:mb-16">
+      <FolioHeader
+        eyebrow="Folio V — The Work"
+        title="Examples of what we build."
+        subtitle="Every team follows the same playbook: specialist agents, orchestrated, human-gated, shipping finished work."
+      />
+    </ScrollReveal>
 
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
       {examples.map((example, i) => (

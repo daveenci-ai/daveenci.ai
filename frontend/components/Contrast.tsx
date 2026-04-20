@@ -1,120 +1,191 @@
 import React, { useEffect, useState } from 'react';
-import { Section, SectionHeader, ScrollReveal, Surface } from './Shared';
-
-// --- Animated widgets, one per symptom ----------------------------------------
+import { Cpu, AlertTriangle } from 'lucide-react';
+import { Section, ScrollReveal, Plate, FolioHeader } from './Shared';
 
 const JOBS = ['CODE', 'RESEARCH', 'STRATEGY', 'DESIGN'];
 
-const GeneralistTaxWidget: React.FC = () => {
+const GeneralistDiagram: React.FC = () => {
   const [active, setActive] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setActive((v) => (v + 1) % JOBS.length), 1400);
     return () => clearInterval(id);
   }, []);
+
   return (
-    <div className="relative w-full h-[96px] mb-6">
-      <svg viewBox="0 0 240 96" className="w-full h-full overflow-visible">
-        <rect x="60" y="18" width="120" height="60" rx="2" fill="white" stroke="rgb(var(--color-paper-border))" strokeWidth="1" />
-        <circle cx="70" cy="28" r="1.6" fill="rgb(var(--color-paper-border))" />
-        <circle cx="76" cy="28" r="1.6" fill="rgb(var(--color-paper-border))" />
-        <line x1="78" y1="55" x2="78" y2="65" stroke="rgb(var(--color-accent))" strokeWidth="1.2" className="animate-pulse" />
-        <text x="120" y="62" textAnchor="middle" fontFamily="serif" fontSize="11" fontStyle="italic" letterSpacing="0.15em" fill="rgb(var(--color-accent))">
-          {JOBS[active]}?
+    <Plate fig="ii" title="The Generalist">
+      <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 300 250" fill="none">
+        {/* Faint construction circle — sketchbook scaffolding echo */}
+        <circle cx="150" cy="125" r="95" stroke="rgb(var(--color-paper-border))" strokeWidth="0.8" strokeDasharray="3 3" fill="none" opacity="0.35" />
+
+        {/* WRECK — ongoing system error popups, piling up and cycling */}
+        <text x="150" y="16" textAnchor="middle" fontSize="7" fill="#b91c1c" fontFamily="serif" fontStyle="italic" letterSpacing="0.15em">
+          WRECK
+          <animate attributeName="opacity" values="0.5;1;0.55;1;0.5" dur="1.4s" repeatCount="indefinite" />
         </text>
+
+        {/* Shockwave ring — expands outward each time the main error detonates */}
+        <circle cx="151" cy="32" r="5" fill="none" stroke="#b91c1c" strokeWidth="0.8">
+          <animate attributeName="r" values="5;5;18" keyTimes="0;0.6;1" dur="3.6s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0;0;0.55;0;0" keyTimes="0;0.6;0.7;0.95;1" dur="3.6s" repeatCount="indefinite" />
+        </circle>
+
+        {/* Error stack — pops in, shakes when the red alert arrives, then resets */}
+        <g>
+          <animateTransform attributeName="transform" type="translate"
+            values="0,0; 0,0; 0.8,-0.5; -0.8,0.5; 0.5,0.3; -0.5,-0.3; 0,0; 0,0"
+            keyTimes="0;0.6;0.64;0.68;0.72;0.76;0.8;1"
+            dur="3.6s"
+            repeatCount="indefinite" />
+
+          <rect x="129" y="33" width="20" height="20" fill="white" stroke="#b91c1c" strokeWidth="0.9" opacity="0">
+            <animate attributeName="opacity" values="0;0.5;0.5;0.5;0" keyTimes="0;0.12;0.9;0.95;1" dur="3.6s" repeatCount="indefinite" />
+          </rect>
+          <rect x="137" y="27" width="20" height="20" fill="white" stroke="#b91c1c" strokeWidth="0.9" opacity="0">
+            <animate attributeName="opacity" values="0;0;0.8;0.8;0" keyTimes="0;0.32;0.4;0.95;1" dur="3.6s" repeatCount="indefinite" />
+          </rect>
+          <rect x="141" y="22" width="20" height="20" fill="#b91c1c" fillOpacity="0.18" stroke="#b91c1c" strokeWidth="1.1" opacity="0">
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.58;0.68;0.95;1" dur="3.6s" repeatCount="indefinite" />
+            <animate attributeName="stroke-width" values="1.1;1.8;1.1;1.8;1.1" keyTimes="0;0.7;0.78;0.86;0.95" dur="3.6s" repeatCount="indefinite" />
+          </rect>
+
+          {/* X crack — flickers rapidly while the red alert is visible */}
+          <g opacity="0">
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.62;0.7;0.95;1" dur="3.6s" repeatCount="indefinite" />
+            <line x1="145" y1="26" x2="157" y2="38" stroke="#b91c1c" strokeWidth="1.6">
+              <animate attributeName="opacity" values="1;0.2;1;0.3;1" dur="0.45s" repeatCount="indefinite" />
+            </line>
+            <line x1="157" y1="26" x2="145" y2="38" stroke="#b91c1c" strokeWidth="1.6">
+              <animate attributeName="opacity" values="1;0.3;1;0.2;1" dur="0.45s" repeatCount="indefinite" />
+            </line>
+          </g>
+        </g>
+
+        {/* Broken pipeline — red dashed with marching-ants animation */}
+        <line x1="150" y1="53" x2="150" y2="68" stroke="#b91c1c" strokeWidth="1.2" strokeDasharray="3 2" opacity="0.7">
+          <animate attributeName="stroke-dashoffset" from="0" to="-10" dur="1s" repeatCount="indefinite" />
+        </line>
+
+        {/* NO GATE — prominent empty dashed box, dashes march around to show it's "open/broken" */}
+        <rect x="115" y="68" width="70" height="20" rx="1" fill="white" stroke="rgb(var(--color-paper-border))" strokeWidth="1.2" strokeDasharray="3 2">
+          <animate attributeName="stroke-dashoffset" from="0" to="10" dur="1.8s" repeatCount="indefinite" />
+        </rect>
+        <text x="150" y="81" textAnchor="middle" fontSize="7" fill="rgb(var(--color-ink-muted))" fontFamily="serif" fontStyle="italic" letterSpacing="0.2em">NO GATE</text>
+
+        <line x1="150" y1="88" x2="150" y2="104" stroke="#b91c1c" strokeWidth="1.2" strokeDasharray="3 2" opacity="0.7">
+          <animate attributeName="stroke-dashoffset" from="0" to="-10" dur="1s" repeatCount="indefinite" />
+        </line>
+
+        {/* Red flow motes — "outputs" escaping the chat, sailing through the empty gate, piling into WRECK */}
+        {[0, 0.8, 1.6].map((delay, i) => (
+          <circle key={i} cx="150" r="1.8" fill="#b91c1c" opacity="0">
+            <animate attributeName="cy" from="104" to="44" dur="2.4s" begin={`${delay}s`} repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.15;0.85;1" dur="2.4s" begin={`${delay}s`} repeatCount="indefinite" />
+          </circle>
+        ))}
+
+        {/* Overloaded chat — all 4 jobs visible at once, one cycles bright */}
+        <rect x="78" y="104" width="144" height="118" rx="2" fill="white" stroke="rgb(var(--color-ink))" strokeWidth="1.2" />
+        <line x1="78" y1="120" x2="222" y2="120" stroke="rgb(var(--color-ink))" strokeWidth="0.5" opacity="0.3" />
+        <circle cx="86" cy="112" r="1.6" fill="rgb(var(--color-ink-muted))" opacity="0.5" />
+        <circle cx="92" cy="112" r="1.6" fill="rgb(var(--color-ink-muted))" opacity="0.5" />
+        <circle cx="98" cy="112" r="1.6" fill="rgb(var(--color-ink-muted))" opacity="0.5" />
+
         {JOBS.map((job, i) => {
-          const positions = [{ x: 30, y: 24 }, { x: 210, y: 24 }, { x: 30, y: 76 }, { x: 210, y: 76 }];
-          const p = positions[i];
+          const y = 138 + i * 18;
+          const isActive = i === active;
           return (
-            <text key={job} x={p.x} y={p.y} textAnchor="middle" fontFamily="serif" fontSize="8" fontStyle="italic" letterSpacing="0.15em" fill="rgb(var(--color-ink-muted))" opacity={i === active ? 1 : 0.22} style={{ transition: 'opacity 600ms ease' }}>
-              {job}
+            <text
+              key={job}
+              x="94"
+              y={y}
+              fontSize="10"
+              fontFamily="serif"
+              fontStyle="italic"
+              letterSpacing="0.15em"
+              fill={isActive ? 'rgb(var(--color-accent))' : 'rgb(var(--color-ink-muted))'}
+              opacity={isActive ? 1 : 0.35}
+              style={{ transition: 'opacity 600ms, fill 600ms' }}
+            >
+              {job}?
+              {isActive && <tspan dx="2" className="animate-pulse">|</tspan>}
             </text>
           );
         })}
+
+        {/* Typing indicator at bottom of chat — generalist "still thinking", never finishes */}
+        {[0, 1, 2].map((i) => (
+          <circle key={`dot-${i}`} cx={140 + i * 5} cy="212" r="1.4" fill="rgb(var(--color-ink-muted))">
+            <animate attributeName="opacity" values="0.15;0.9;0.15" dur="1.4s" begin={`${i * 0.25}s`} repeatCount="indefinite" />
+          </circle>
+        ))}
       </svg>
-    </div>
+
+      {/* Annotation pills */}
+      <div className="absolute top-2 -left-4 md:-left-6 bg-base shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
+        <Cpu className="w-4 h-4 text-ink-muted" />
+        <span className="text-xs font-medium text-ink">One chat, every job</span>
+      </div>
+
+      <div className="absolute bottom-2 -right-4 md:-right-6 bg-base shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
+        <AlertTriangle className="w-4 h-4 text-[#b91c1c]" />
+        <span className="text-xs font-medium text-ink">No gate</span>
+      </div>
+    </Plate>
   );
 };
 
-const GovernanceGapWidget: React.FC = () => (
-  <div className="relative w-full h-[96px] mb-6 overflow-hidden">
-    <svg viewBox="0 0 240 96" className="w-full h-full overflow-visible">
-      <circle cx="24" cy="48" r="6" fill="rgb(var(--color-ink))" />
-      <text x="24" y="74" textAnchor="middle" fontFamily="serif" fontSize="7" fontStyle="italic" letterSpacing="0.15em" fill="rgb(var(--color-ink-muted))">INPUT</text>
-      <line x1="34" y1="48" x2="206" y2="48" stroke="rgb(var(--color-paper-border))" strokeWidth="1" strokeDasharray="3 3" />
-      <rect x="100" y="34" width="40" height="28" rx="1" fill="none" stroke="rgb(var(--color-accent))" strokeWidth="1" strokeDasharray="2 3" opacity="0.4" />
-      <text x="120" y="78" textAnchor="middle" fontFamily="serif" fontSize="7" fontStyle="italic" letterSpacing="0.15em" fill="rgb(var(--color-accent))" opacity="0.7">NO GATE</text>
-      <rect x="200" y="40" width="16" height="16" fill="#b91c1c" opacity="0.85" />
-      <text x="208" y="74" textAnchor="middle" fontFamily="serif" fontSize="7" fontStyle="italic" letterSpacing="0.15em" fill="#b91c1c">WRECK</text>
-      {[0, 1.2, 2.4].map((delay, i) => (
-        <circle key={i} cx="30" cy="48" r="3" fill="rgb(var(--color-accent))">
-          <animate attributeName="cx" from="30" to="200" dur="3.6s" begin={`${delay}s`} repeatCount="indefinite" />
-          <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3.6s" begin={`${delay}s`} repeatCount="indefinite" />
-        </circle>
-      ))}
-    </svg>
-  </div>
-);
-
-const OrchestrationGapWidget: React.FC = () => (
-  <div className="relative w-full h-[96px] mb-6">
-    <svg viewBox="0 0 240 96" className="w-full h-full overflow-visible">
-      {[0, 1, 2, 3, 4].map((i) => (
-        <g key={i}>
-          <circle cx={40 + i * 40} cy="40" r="11" fill="rgb(var(--color-ink))" className="animate-pulse" style={{ animationDuration: '1.6s' }} />
-          <circle cx={40 + i * 40} cy="40" r="14" fill="none" stroke="rgb(var(--color-ink))" strokeWidth="0.6" strokeDasharray="2 2" opacity="0.3" />
-        </g>
-      ))}
-      <text x="120" y="80" textAnchor="middle" fontFamily="serif" fontSize="8" fontStyle="italic" letterSpacing="0.2em" fill="rgb(var(--color-ink-muted))">5× THE SAME PERSON</text>
-    </svg>
-  </div>
-);
-
-// --- Main component -----------------------------------------------------------
-
-const cards = [
+const symptoms = [
   {
-    label: 'Symptom A',
+    n: 'i',
     title: 'The Generalist Tax',
-    body: 'One chat window, every job. Coding, research, strategy, design. Average at each, excellent at none.',
-    Widget: GeneralistTaxWidget,
+    lead: 'Average at each, excellent at none.',
+    detail: 'One chat window, every job — coding, research, strategy, design.',
   },
   {
-    label: 'Symptom B',
+    n: 'ii',
     title: 'The Governance Gap',
-    body: 'No review. No gate. No accountability. When it breaks in production, you own the wreck.',
-    Widget: GovernanceGapWidget,
+    lead: 'When it breaks in production, you own the wreck.',
+    detail: 'No review. No gate. No accountability.',
   },
   {
-    label: 'Symptom C',
+    n: 'iii',
     title: 'The Orchestration Gap',
-    body: "A team isn't five instances of the same person. It's specialists, coordinated. AI tools are five instances of the same person.",
-    Widget: OrchestrationGapWidget,
+    lead: "Five of the same isn't a team.",
+    detail: 'A team is specialists, coordinated. AI tools are one generalist, cloned.',
   },
 ];
 
 const Contrast: React.FC = () => (
-  <Section id="contrast" pattern="grid" className="bg-white/40">
-    <SectionHeader
-      eyebrow="Folio II — The Industry Is Wrong"
-      title="One model cannot be everyone."
-      subtitle="Every major AI product is one generalist pretending to do the work of a specialist team. It's mediocre at all of it."
-    />
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {cards.map((card, i) => (
-        <ScrollReveal key={card.title} delay={100 + i * 150} className="h-full">
-          <Surface
-            kind="document"
-            className="relative bg-white border border-ink/10 p-8 md:p-10 overflow-hidden transition-all duration-700 hover:shadow-2xl hover:border-accent/30 group flex flex-col h-full"
-          >
-            <card.Widget />
-            <span className="block text-xs font-bold text-accent uppercase tracking-wider mb-3">
-              {card.label}
-            </span>
-            <h3 className="font-serif text-xl md:text-2xl text-ink mb-4">{card.title}</h3>
-            <p className="font-sans text-ink-muted leading-relaxed flex-grow">{card.body}</p>
-          </Surface>
+  <Section id="contrast" pattern="nodes" overflow={true} className="bg-white/50">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 xl:gap-32 items-center">
+      <div className="lg:col-span-5 lg:order-1 order-2 relative h-[420px] flex items-center justify-center">
+        <ScrollReveal delay={300} direction="right" className="w-full flex justify-center">
+          <GeneralistDiagram />
         </ScrollReveal>
-      ))}
+      </div>
+
+      <div className="lg:col-span-7 lg:order-2 order-1 relative z-20">
+        <ScrollReveal delay={100}>
+          <FolioHeader
+            eyebrow="Folio II — The Industry Is Wrong"
+            title={<>One model cannot<br />be everyone.</>}
+            subtitle="Every major AI product is one generalist pretending to do the work of a specialist team. It's mediocre at all of it."
+          />
+
+          <ol className="space-y-8 max-w-xl border-l border-ink/10 pl-6">
+            {symptoms.map((s) => (
+              <li key={s.n} className="flex gap-5 items-baseline">
+                <span className="font-serif italic text-accent text-lg tracking-[0.1em] flex-shrink-0 w-6 text-right">{s.n}.</span>
+                <div>
+                  <h3 className="font-serif text-xl text-ink mb-2">{s.title}</h3>
+                  <p className="font-serif italic text-lg text-ink leading-snug mb-1">{s.lead}</p>
+                  <p className="text-ink-muted leading-relaxed">{s.detail}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </ScrollReveal>
+      </div>
     </div>
   </Section>
 );

@@ -50,9 +50,9 @@ export const VitruvianBackground: React.FC<{ className?: string }> = ({ classNam
       className={`absolute inset-x-0 -top-64 -bottom-64 pointer-events-none overflow-visible ${className}`}
       style={{
         maskImage:
-          'linear-gradient(to top, transparent 13.5rem, black 19.5rem, black calc(100% - 9rem), transparent calc(100% - 8rem))',
+          'linear-gradient(to top, transparent 13.5rem, black 19.5rem, black calc(100% - 15rem), transparent calc(100% - 10rem))',
         WebkitMaskImage:
-          'linear-gradient(to top, transparent 13.5rem, black 19.5rem, black calc(100% - 9rem), transparent calc(100% - 8rem))',
+          'linear-gradient(to top, transparent 13.5rem, black 19.5rem, black calc(100% - 15rem), transparent calc(100% - 10rem))',
       }}
     >
       <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px]" viewBox="0 0 800 800">
@@ -72,7 +72,7 @@ export const VitruvianBackground: React.FC<{ className?: string }> = ({ classNam
   );
 };
 
-export const NodeNetworkBackground: React.FC<{ className?: string }> = ({ className }) => {
+export const NodeNetworkBackground: React.FC<{ className?: string; colorVar?: string }> = ({ className, colorVar = '--color-ink' }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -90,8 +90,8 @@ export const NodeNetworkBackground: React.FC<{ className?: string }> = ({ classN
     let width = 0;
     let height = 0;
 
-    // Read ink color once from CSS custom property; use throughout the animation.
-    const inkColor = getComputedStyle(document.documentElement).getPropertyValue('--color-ink').trim();
+    // Read particle color once from CSS custom property; use throughout the animation.
+    const inkColor = getComputedStyle(document.documentElement).getPropertyValue(colorVar).trim();
 
     const initParticles = () => {
       particles = [];
@@ -325,6 +325,28 @@ export const SectionHeader: React.FC<{ eyebrow: string; title: string; subtitle?
   </ScrollReveal>
 );
 
+// Unified folio header — divider + serif italic eyebrow + oversized serif title + optional subtitle.
+// Used on landing-page folio sections (Folio II, III, IV). Folio I uses PageHero for its <h1> + actions layout.
+export const FolioHeader: React.FC<{
+  eyebrow: React.ReactNode;
+  title: React.ReactNode;
+  subtitle?: React.ReactNode;
+  className?: string;
+}> = ({ eyebrow, title, subtitle, className = '' }) => (
+  <div className={className}>
+    <SectionDivider className="mb-6" width="w-full max-w-[60%]" />
+    <Eyebrow className="mb-4">{eyebrow}</Eyebrow>
+    <h2 className="font-serif font-bold text-5xl md:text-6xl lg:text-7xl text-ink leading-[1.02] tracking-tight mb-8 mt-4">
+      {title}
+    </h2>
+    {subtitle && (
+      <p className="font-serif text-xl md:text-2xl text-ink-muted leading-relaxed mb-12 max-w-2xl">
+        {subtitle}
+      </p>
+    )}
+  </div>
+);
+
 export const Card: React.FC<CardProps> = ({ title, children, label, className = '', image }) => (
   <Surface
     kind="document"
@@ -407,7 +429,7 @@ export const BriefingCard: React.FC<BriefingCardProps> = ({ title, description, 
 export const Section: React.FC<SectionProps> = ({ id, className = '', children, pattern = 'none', overflow = false }) => (
   <section id={id} className={`relative py-20 md:py-28 px-6 ${overflow ? 'overflow-visible' : 'overflow-hidden'} ${className}`}>
     {pattern === 'grid' && <GridPattern />}
-    {pattern === 'circles' && <VitruvianBackground />}
+    {pattern === 'circles' && <VitruvianBackground className="opacity-[0.06]" />}
     {pattern === 'nodes' && <NodeNetworkBackground />}
     <div className="relative z-10 max-w-7xl mx-auto">
       {children}
@@ -442,6 +464,42 @@ export const Surface: React.FC<{
     >
       {children}
     </Tag>
+  );
+};
+
+/**
+ * Plate — the editorial plate widget used to frame diagrams on the landing pages.
+ * Renders: Surface (raised, translucent, blurred) + chrome header (3 dots + "Fig. <n> · <title>") + diagram area.
+ *
+ * Usage:
+ *   <Plate fig="i" title="Team Structure"><YourDiagramSVG /></Plate>
+ */
+export const Plate: React.FC<{
+  fig: string;
+  title: string;
+  children: React.ReactNode;
+  className?: string;
+  tilt?: boolean;
+}> = ({ fig, title, children, className = '', tilt = true }) => {
+  const tiltClasses = tilt ? 'rotate-[-2deg] hover:rotate-0' : '';
+  return (
+    <Surface
+      kind="document"
+      raised
+      className={`relative w-full max-w-lg lg:max-w-xl mx-auto aspect-square bg-white/60 backdrop-blur-[2px] border border-ink/10 hover:border-accent/30 p-6 md:p-10 transition-all duration-700 ease-out group ${tiltClasses} ${className}`}
+    >
+      <div className="flex justify-between items-center mb-8 border-b border-ink/10 pb-4">
+        <div className="flex gap-1.5">
+          <div className="w-3 h-3 rounded-full bg-ink/15" />
+          <div className="w-3 h-3 rounded-full bg-ink/15" />
+          <div className="w-3 h-3 rounded-full bg-ink/15" />
+        </div>
+        <div className="font-serif italic text-xs tracking-[0.2em] text-ink-muted uppercase">
+          Fig. {fig} · {title}
+        </div>
+      </div>
+      <div className="relative h-full w-full">{children}</div>
+    </Surface>
   );
 };
 

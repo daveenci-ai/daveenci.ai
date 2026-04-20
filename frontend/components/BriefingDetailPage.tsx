@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import { Section, ScrollReveal, VitruvianBackground, Button, Callout } from './Shared';
+import { Section, ScrollReveal, Button, Callout } from './Shared';
 import type { Page } from './types';
 import { Clock, Tag, ChevronRight, Check, X, AlertTriangle, Lightbulb, BookOpen, Layers } from 'lucide-react';
 import AgenticWorkflowImage from '../images/001 - What is an Agentic Workflow.jpg';
@@ -1654,13 +1654,12 @@ const BriefingDetailPage: React.FC<BriefingDetailPageProps> = ({ onNavigate, id 
    }, [data]);
 
    return (
-      <div className="flex flex-col w-full min-h-screen bg-base">
+      <div className="flex flex-col w-full min-h-screen">
          <Header onNavigate={onNavigate} currentPage="briefing-detail" />
 
          {/* Article Header */}
-         <div className="relative pt-32 pb-16 md:pt-40 md:pb-24 px-6 overflow-hidden">
-            <VitruvianBackground className="opacity-[0.1]" />
-            <div className="max-w-4xl mx-auto relative z-10 text-center">
+         <Section className="pt-32 pb-16 md:pt-40 md:pb-24 bg-white/50" pattern="nodes" overflow={true}>
+            <div className="max-w-4xl mx-auto text-center">
                <div className="flex items-center justify-center gap-3 mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
                   <span className="px-3 py-1 bg-white/50 backdrop-blur border border-ink/10 rounded-sm text-[10px] font-bold tracking-widest uppercase text-accent">
                      {data.category}
@@ -1687,9 +1686,10 @@ const BriefingDetailPage: React.FC<BriefingDetailPageProps> = ({ onNavigate, id 
                   </div>
                </div>
             </div>
-         </div>
+         </Section>
 
-         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 pb-24">
+         <Section pattern="nodes" overflow={true} className="bg-white/50">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
             {/* Sidebar - TOC (Great for AEO Site Links) */}
             <aside className="hidden lg:block lg:col-span-3 relative">
@@ -1772,7 +1772,8 @@ const BriefingDetailPage: React.FC<BriefingDetailPageProps> = ({ onNavigate, id 
                )}
 
             </article>
-         </div>
+            </div>
+         </Section>
 
          <Footer onNavigate={onNavigate} />
       </div>

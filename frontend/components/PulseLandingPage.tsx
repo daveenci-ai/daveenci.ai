@@ -1772,7 +1772,7 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
                 </div>
                 <div>
                   <div className="font-serif text-ink text-lg leading-none mb-1">Astrid Abrahamyan</div>
-                  <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest">Partner & Solution Architect</div>
+                  <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest">Partner</div>
                 </div>
               </div>
             </div>

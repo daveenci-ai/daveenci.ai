@@ -1,21 +1,20 @@
 import React from 'react';
 import { Section, ScrollReveal, Quote, VitruvianBackground } from './Shared';
-import type { Page } from './types';
-import AntonSketch from '../images/Anton_Sketch.jpg';
+import AstridSketch from '../images/Astrid_Sketch.jpg';
 
-interface FounderBlockProps {
-  onNavigate: (page: Page) => void;
-}
-
-const FounderBlock: React.FC<FounderBlockProps> = (_props) => (
-  <Section id="founder" className="bg-ink text-base relative">
+const PartnerBlock: React.FC = () => (
+  <Section id="partner" className="bg-ink text-base relative">
     <VitruvianBackground className="opacity-[0.04] text-base" />
     <div className="max-w-5xl mx-auto relative z-10">
       <ScrollReveal>
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
-          <div className="md:col-span-4">
+          <div className="md:col-span-8 md:order-1 order-2">
+            <Quote tone="dark" attribution="Astrid Abrahamyan · Partner">
+              I spend my days inside founder conversations. Each one is a workflow that's stuck — a bottleneck, a handoff, a tool that almost gets there. My job is to turn that into a team design the workshop can build, and you can actually run.
+            </Quote>
+          </div>
+          <div className="md:col-span-4 md:order-2 order-1">
             <div className="relative w-full max-w-xs mx-auto">
-              {/* Construction circles around portrait — Leonardo scaffolding */}
               <div
                 aria-hidden="true"
                 className="absolute inset-0 rounded-full border border-base/10 scale-[1.08] pointer-events-none"
@@ -25,16 +24,11 @@ const FounderBlock: React.FC<FounderBlockProps> = (_props) => (
                 className="absolute inset-0 rounded-full border border-base/5 scale-[1.18] pointer-events-none"
               />
               <img
-                src={AntonSketch}
-                alt="Anton Osipov"
+                src={AstridSketch}
+                alt="Astrid Abrahamyan"
                 className="relative w-full rounded-sm shadow-2xl shadow-black/30 border border-base/10 filter sepia-[0.15] contrast-105"
               />
             </div>
-          </div>
-          <div className="md:col-span-8">
-            <Quote tone="dark" attribution="Anton Osipov · Founder">
-              I spent a decade shipping software with mediocre AI help. Then I stopped trying to hire a generalist tool, and started building a team of specialists. DaVeenci is that bet — one workshop, many teams, each one good at one thing.
-            </Quote>
           </div>
         </div>
       </ScrollReveal>
@@ -42,4 +36,4 @@ const FounderBlock: React.FC<FounderBlockProps> = (_props) => (
   </Section>
 );
 
-export default FounderBlock;
+export default PartnerBlock;

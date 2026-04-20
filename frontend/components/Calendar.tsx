@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight, Check, User, Briefcase, HelpCircle, ArrowLeft, Mail, Phone } from 'lucide-react';
 import { format } from 'date-fns';
-import { Logo, Button, VitruvianBackground, ScrollReveal, CustomSelect, FormField, ErrorAlert } from './Shared';
+import { Logo, Button, VitruvianBackground, ScrollReveal, CustomSelect, FormField } from './Shared';
 import type { CalendarProps } from './types';
 import AstridSketch from '../images/Astrid_Sketch.jpg';
 import { API_ENDPOINTS } from '../config';
@@ -37,6 +37,24 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
    const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
    const [displaySlots, setDisplaySlots] = useState<{ display: string, value: string, localTime: string }[]>([]);
+
+   // Apply pre-selection handed off from the landing page booking preview
+   useEffect(() => {
+      try {
+         const raw = sessionStorage.getItem('booking-preselect');
+         if (!raw) return;
+         sessionStorage.removeItem('booking-preselect');
+         const { time, ts } = JSON.parse(raw);
+         if (typeof time !== 'string' || Date.now() - ts > 5 * 60 * 1000) return;
+         const d = new Date(time);
+         if (isNaN(d.getTime())) return;
+         setCurrentDate(d);
+         setSelectedDate(d);
+         setSelectedTime(time);
+      } catch {
+         /* ignore malformed preselect */
+      }
+   }, []);
 
    useEffect(() => {
       document.title = "Talk to us — DaVeenci";
@@ -218,20 +236,30 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                      {/* Left Panel: Context & Agenda - Increased Width */}
                      <div className="w-full lg:w-5/12 bg-white/40 border-b lg:border-b-0 lg:border-r border-ink/10 p-8 lg:p-12 flex flex-col relative">
                         <div className="mb-8">
-                           <Logo className="w-12 h-12 text-ink mb-6" />
-                           <span className="font-mono text-xs font-bold text-ink-muted/60 uppercase tracking-widest mb-2 block">Founder Call</span>
-                           <h1 className="font-serif text-3xl lg:text-4xl text-ink mb-4">Talk to us.</h1>
+                           <button
+                              type="button"
+                              onClick={() => onNavigate('landing')}
+                              aria-label="Return to homepage"
+                              className="group mb-8 inline-block"
+                           >
+                              <Logo className="w-12 h-12 text-ink group-hover:text-accent transition-colors duration-300" />
+                           </button>
+                           <div className="flex items-center gap-3 mb-5">
+                              <span className="h-px w-8 bg-ink-muted/30" />
+                              <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">Discovery Call</span>
+                           </div>
+                           <h1 className="font-serif text-4xl lg:text-5xl text-ink leading-[1.05] mb-6">Talk <em className="italic text-accent">to us.</em></h1>
 
-                           <div className="flex items-center gap-6 text-sm font-medium text-ink-muted mb-8">
-                              <div className="flex items-center gap-2">
-                                 <Clock className="w-4 h-4" /> 30 Min
-                              </div>
-                              <div className="flex items-center gap-2">
-                                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div> Available
-                              </div>
+                           <div className="flex items-center gap-6 font-serif italic text-sm text-ink-muted mb-8">
+                              <span className="flex items-center gap-2">
+                                 <Clock className="w-4 h-4" /> 30 min
+                              </span>
+                              <span className="flex items-center gap-2">
+                                 <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" /> Available
+                              </span>
                            </div>
 
-                           <p className="text-ink-muted leading-relaxed mb-8">
+                           <p className="text-ink-muted leading-relaxed mb-8 font-serif">
                               Thirty minutes with Astrid. No slide deck. Bring the workflow you want a specialist team for, or the strategic gap you want to close.
                            </p>
 
@@ -241,30 +269,31 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                               </div>
                               <div>
                                  <div className="font-serif text-ink text-lg leading-none mb-1">Astrid Abrahamyan</div>
-                                 <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest">Partner & Solution Architect</div>
+                                 <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest">Partner</div>
                               </div>
                            </div>
                         </div>
 
                         <div className="mt-auto">
-                           <h3 className="font-serif text-lg text-ink mb-4 border-b border-ink/10 pb-2">What we cover</h3>
-                           <ul className="space-y-4">
-                              <li className="flex gap-3 text-sm text-ink-muted">
-                                 <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0"></div>
+                           <h3 className="font-serif italic text-xs text-ink uppercase tracking-[0.25em] mb-4">What we cover</h3>
+                           <ol className="space-y-4 border-l border-ink/10 pl-5">
+                              <li className="flex gap-4 items-baseline text-sm text-ink-muted leading-relaxed">
+                                 <span className="font-serif italic text-accent tracking-[0.1em] flex-shrink-0 w-4 text-right">i.</span>
                                  <span>The workflow or domain you want a team for</span>
                               </li>
-                              <li className="flex gap-3 text-sm text-ink-muted">
-                                 <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0"></div>
+                              <li className="flex gap-4 items-baseline text-sm text-ink-muted leading-relaxed">
+                                 <span className="font-serif italic text-accent tracking-[0.1em] flex-shrink-0 w-4 text-right">ii.</span>
                                  <span>Where specialist agents + human gates would fit</span>
                               </li>
-                              <li className="flex gap-3 text-sm text-ink-muted">
-                                 <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0"></div>
+                              <li className="flex gap-4 items-baseline text-sm text-ink-muted leading-relaxed">
+                                 <span className="font-serif italic text-accent tracking-[0.1em] flex-shrink-0 w-4 text-right">iii.</span>
                                  <span>Whether we're the right team to build it — honestly</span>
                               </li>
-                           </ul>
+                           </ol>
 
-                           <div className="mt-8 pt-6 border-t border-ink/5">
-                              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('landing'); }} className="text-xs font-mono font-bold text-accent uppercase tracking-widest hover:text-ink transition-colors block">
+                           <div className="mt-8 pt-6 border-t border-ink/10">
+                              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('landing'); }} className="font-serif italic text-xs text-accent tracking-[0.2em] uppercase hover:text-ink transition-colors inline-flex items-center gap-2">
+                                 <span className="h-px w-6 bg-accent/40" />
                                  www.daveenci.ai
                               </a>
                            </div>
@@ -307,9 +336,14 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                            <div className="p-8 lg:p-12 h-full flex flex-col justify-center items-center">
 
                               {/* Progress Bar */}
-                              <div className="w-full max-w-md flex items-center gap-4 mb-8 text-xs font-bold uppercase tracking-widest">
-                                 <span className={`pb-1 border-b-2 transition-colors ${step === 'datetime' ? 'text-accent border-accent' : 'text-green-600 border-green-600'}`}>01 Time</span>
-                                 <span className={`pb-1 border-b-2 transition-colors ${step === 'details' ? 'text-accent border-accent' : 'text-ink-muted/20 border-transparent'}`}>02 Details</span>
+                              <div className="w-full max-w-md flex items-center gap-5 mb-8 font-serif italic text-sm tracking-[0.1em]">
+                                 <span className={`inline-flex items-baseline gap-1.5 pb-1 border-b transition-colors ${step === 'datetime' ? 'text-accent border-accent' : 'text-green-700 border-green-700'}`}>
+                                    <span className="text-[11px] tracking-[0.2em]">i.</span> Time
+                                 </span>
+                                 <span className="text-ink-muted/30">·</span>
+                                 <span className={`inline-flex items-baseline gap-1.5 pb-1 border-b transition-colors ${step === 'details' ? 'text-accent border-accent' : 'text-ink-muted/40 border-transparent'}`}>
+                                    <span className="text-[11px] tracking-[0.2em]">ii.</span> Details
+                                 </span>
                               </div>
 
                               {step === 'datetime' && (
@@ -317,15 +351,15 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                                     {/* Calendar */}
                                     <div className="mb-8">
                                        <div className="flex items-center justify-between mb-6">
-                                          <h3 className="font-serif text-xl text-ink">
-                                             {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+                                          <h3 className="font-serif italic text-2xl text-ink">
+                                             {monthNames[currentDate.getMonth()]} <span className="text-ink-muted">{currentDate.getFullYear()}</span>
                                           </h3>
-                                          <div className="flex gap-2">
-                                             <button onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="p-1 hover:bg-base rounded-full text-ink-muted"><ChevronLeft className="w-5 h-5" /></button>
-                                             <button onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="p-1 hover:bg-base rounded-full text-ink-muted"><ChevronRight className="w-5 h-5" /></button>
+                                          <div className="flex gap-1.5">
+                                             <button onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="w-8 h-8 flex items-center justify-center border border-ink/10 rounded-sm text-ink-muted hover:border-accent hover:text-accent transition-colors"><ChevronLeft className="w-4 h-4" /></button>
+                                             <button onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="w-8 h-8 flex items-center justify-center border border-ink/10 rounded-sm text-ink-muted hover:border-accent hover:text-accent transition-colors"><ChevronRight className="w-4 h-4" /></button>
                                           </div>
                                        </div>
-                                       <div className="grid grid-cols-7 gap-2 text-center text-xs font-bold text-ink-muted/40 mb-2">
+                                       <div className="grid grid-cols-7 gap-2 text-center font-serif italic text-[10px] tracking-[0.2em] text-ink-muted/60 uppercase mb-3">
                                           {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={i}>{d}</div>)}
                                        </div>
                                        <div className="grid grid-cols-7 gap-2">
@@ -339,11 +373,11 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                                                    key={day}
                                                    disabled={disabled}
                                                    onClick={() => !disabled && handleDateClick(day)}
-                                                   className={`w-10 h-10 rounded-sm text-sm font-medium transition-all ${isSelected
-                                                      ? 'bg-ink text-white shadow-lg scale-110'
+                                                   className={`w-10 h-10 rounded-sm font-serif text-base transition-all ${isSelected
+                                                      ? 'bg-accent/10 text-ink font-semibold ring-1 ring-accent shadow-sm'
                                                       : disabled
-                                                         ? 'text-ink-muted/30 cursor-not-allowed'
-                                                         : 'text-ink hover:bg-accent/10 hover:text-accent'
+                                                         ? 'text-ink-muted/25 cursor-not-allowed'
+                                                         : 'text-ink hover:bg-accent/5 hover:text-accent'
                                                       }`}
                                                 >
                                                    {day}
@@ -355,34 +389,33 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
 
                                     {/* Time Slots - Stacked Below */}
                                     <div className="pt-6 border-t border-ink/10 min-h-[200px]">
-                                       <h3 className="font-serif text-lg text-ink mb-4 text-center">
-                                          {selectedDate ? selectedDate.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' }) : 'Select Date Above'}
+                                       <h3 className="font-serif italic text-lg text-ink mb-5 text-center">
+                                          {selectedDate ? selectedDate.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' }) : 'Choose a date to see open times.'}
                                        </h3>
 
                                        {availabilityError && (
-                                          <ErrorAlert
-                                             message={availabilityError}
-                                             onRetry={fetchAvailability}
-                                             className="mb-4"
-                                          />
+                                          <div role="alert" className="mb-4 text-xs font-serif italic text-amber-900 bg-amber-50/70 border border-amber-200/80 rounded-sm px-4 py-2.5 flex items-start gap-3">
+                                             <span className="flex-1 leading-relaxed">{availabilityError}</span>
+                                             <button onClick={fetchAvailability} type="button" className="not-italic font-sans text-amber-900 underline font-medium hover:text-ink transition-colors shrink-0">Retry</button>
+                                          </div>
                                        )}
 
                                        {selectedDate ? (
                                           isLoading ? (
-                                             <div className="flex flex-col items-center justify-center py-12 text-ink-muted/50">
+                                             <div className="flex flex-col items-center justify-center py-12 text-ink-muted/60">
                                                 <div className="w-6 h-6 border-2 border-accent/30 border-t-accent rounded-full animate-spin mb-3"></div>
-                                                <span className="text-sm font-medium">Checking availability...</span>
+                                                <span className="font-serif italic text-sm">Checking availability…</span>
                                              </div>
                                           ) : (
                                              <>
-                                                <div className="grid grid-cols-3 gap-3 mb-6">
+                                                <div className="grid grid-cols-4 gap-2 mb-6">
                                                    {displaySlots.filter(slot => !isTimeDisabled(slot.value)).map(slot => (
                                                          <button
                                                             key={slot.value}
                                                             onClick={() => setSelectedTime(slot.value)}
-                                                            className={`py-3 px-2 text-sm border rounded-sm transition-all text-center ${selectedTime === slot.value
-                                                               ? 'bg-accent text-white border-accent shadow-md scale-105'
-                                                               : 'bg-white border-ink/10 text-ink hover:border-accent hover:text-accent hover:shadow-sm'
+                                                            className={`py-2.5 px-2 font-serif italic text-sm border rounded-sm transition-all text-center ${selectedTime === slot.value
+                                                               ? 'bg-accent/10 text-accent border-accent ring-1 ring-accent shadow-sm'
+                                                               : 'bg-white border-ink/10 text-ink hover:border-accent hover:text-accent hover:bg-accent/5 hover:shadow-sm'
                                                                }`}
                                                          >
                                                             {slot.display}
@@ -398,8 +431,8 @@ const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
                                                 </Button>
                                              </>
                                           )) : (
-                                          <div className="text-center text-ink-muted/50 text-sm italic py-4">
-                                             Available times will appear here
+                                          <div className="text-center text-ink-muted/60 font-serif italic text-sm py-6">
+                                             Available times will appear once you pick a date.
                                           </div>
                                        )}
                                     </div>

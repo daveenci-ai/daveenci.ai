@@ -2,10 +2,13 @@ import React from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Contrast from './components/Contrast';
-import WorkPreview from './components/WorkPreview';
+import Method from './components/Method';
+import Advantage from './components/Advantage';
+import Controls from './components/Controls';
+import PartnerBlock from './components/PartnerBlock';
+import BookingPreview from './components/BookingPreview';
 import Newsletter from './components/Newsletter';
 import FounderBlock from './components/FounderBlock';
-import CTAStack from './components/CTAStack';
 import Footer from './components/Footer';
 import type { Page } from './components/types';
 
@@ -21,10 +24,13 @@ const DaVeenciLandingPage: React.FC<DaVeenciLandingPageProps> = ({ onNavigate, a
 
       <Hero onNavigate={onNavigate} />
       <Contrast />
-      <WorkPreview onNavigate={onNavigate} />
+      <Method />
       <FounderBlock onNavigate={onNavigate} />
+      <Advantage />
+      <Controls />
+      <PartnerBlock />
+      <BookingPreview onNavigate={onNavigate} />
       <Newsletter onNavigate={onNavigate} />
-      <CTAStack onNavigate={onNavigate} />
 
       <Footer onNavigate={onNavigate} />
     </div>

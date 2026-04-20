@@ -11,6 +11,8 @@ import BrandAnalyzerPage from './components/BrandAnalyzerPage';
 import WorkPage from './components/WorkPage';
 import PureCodePage from './components/PureCodePage';
 import ShootOSPage from './components/ShootOSPage';
+import EventsPage from './components/EventsPage';
+import ThesisPage from './components/ThesisPage';
 import NotFoundPage from './components/NotFoundPage';
 import type { Page } from './components/types';
 

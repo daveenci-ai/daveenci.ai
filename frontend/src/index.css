@@ -73,3 +73,47 @@ body {
   background-color: rgb(var(--color-accent));
   color: #ffffff;
 }
+
+/* Specialist traversal — ball steps through 6 stations left→right (~1.5s pause each, ~1s transitions),
+   then glides directly back from station 6 to station 1 over the final 3s. No intermediate stops on return.
+   Cycle: 18.5s. */
+@keyframes specialist-run {
+  0%, 8.11%      { left: 10%; }
+  13.51%, 21.62% { left: 22%; }
+  27.03%, 35.14% { left: 44%; }
+  40.54%, 48.65% { left: 56%; }
+  54.05%, 62.16% { left: 78%; }
+  67.57%, 83.78% { left: 90%; }
+  100%           { left: 10%; }
+}
+
+.animate-specialist-run {
+  animation: specialist-run 18.5s ease-in-out infinite;
+}
+
+/* Card activation — synced to the ball's 18.5s cycle.
+   Cards light up only during the forward pass, not during the flyback.
+   Card 1 (stations 1–2): 0–4s   (0–21.62% of cycle)
+   Card 2 (stations 3–4): 5–9s   (27.03–48.65%)
+   Card 3 (stations 5–6): 10–15.5s (54.05–83.78%)
+   Flyback (15.5–18.5s): all cards inactive while ball glides back */
+@keyframes card-1-active {
+  0%, 21.62%     { box-shadow: 0 0 0 2px rgba(63, 132, 200, 0.55), 0 0 28px rgba(63, 132, 200, 0.28); }
+  24%, 100%      { box-shadow: 0 0 0 0 rgba(63, 132, 200, 0), 0 0 0 rgba(63, 132, 200, 0); }
+}
+
+@keyframes card-2-active {
+  0%, 25%        { box-shadow: 0 0 0 0 rgba(63, 132, 200, 0); }
+  27.03%, 48.65% { box-shadow: 0 0 0 2px rgba(63, 132, 200, 0.55), 0 0 28px rgba(63, 132, 200, 0.28); }
+  51%, 100%      { box-shadow: 0 0 0 0 rgba(63, 132, 200, 0); }
+}
+
+@keyframes card-3-active {
+  0%, 52%        { box-shadow: 0 0 0 0 rgba(63, 132, 200, 0); }
+  54.05%, 83.78% { box-shadow: 0 0 0 2px rgba(63, 132, 200, 0.55), 0 0 28px rgba(63, 132, 200, 0.28); }
+  86%, 100%      { box-shadow: 0 0 0 0 rgba(63, 132, 200, 0); }
+}
+
+.animate-card-active-1 { animation: card-1-active 18.5s ease-in-out infinite; border-radius: 0.125rem; }
+.animate-card-active-2 { animation: card-2-active 18.5s ease-in-out infinite; border-radius: 0.125rem; }
+.animate-card-active-3 { animation: card-3-active 18.5s ease-in-out infinite; border-radius: 0.125rem; }

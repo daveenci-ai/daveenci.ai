@@ -125,12 +125,12 @@ const BriefingsPage: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
   const featuredBriefings = allBriefings.filter((b) => b.featured);
 
   return (
-    <div className="flex flex-col w-full min-h-screen bg-base">
+    <div className="flex flex-col w-full min-h-screen">
       <Header onNavigate={onNavigate} currentPage="briefings" />
 
       {/* Hero Section */}
-      <Section className="pt-40 pb-12 md:pt-48 md:pb-20" pattern="nodes">
-        <VitruvianBackground className="opacity-[0.08]" />
+      <Section className="pt-40 pb-12 md:pt-48 md:pb-20">
+        <VitruvianBackground className="opacity-[0.12] -right-1/4 scale-[1.15]" />
         <div className="text-center max-w-4xl mx-auto mb-16">
           <ScrollReveal>
             <PageHero
@@ -158,7 +158,7 @@ const BriefingsPage: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
       </Section>
 
       {/* Archive Section with Filters */}
-      <Section className="py-12 bg-white/30 backdrop-blur-sm border-t border-ink/5" id="archive">
+      <Section className="py-12 bg-white/50 border-t border-ink/5" id="archive" pattern="nodes" overflow={true}>
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
           <h2 className="font-serif text-3xl text-ink">Latest Intelligence</h2>
 

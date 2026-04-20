@@ -7,7 +7,7 @@ export const BUSINESS_HOURS = [8, 9, 10, 11, 12, 13, 14, 15];
 export const BUSINESS_DAYS = [1, 2, 3, 4]; // Monday=1 through Thursday=4
 export const MEETING_DURATION_MINUTES = 30;
 export const BUFFER_MINUTES = 10;
-export const MIN_LEAD_HOURS = 3;
+export const MIN_LEAD_HOURS = 24;
 
 export const MONTH_NAMES = [
   'January', 'February', 'March', 'April', 'May', 'June',
