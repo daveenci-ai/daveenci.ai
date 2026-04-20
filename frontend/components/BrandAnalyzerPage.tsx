@@ -6,6 +6,8 @@ import Header from './Header';
 import Footer from './Footer';
 import type { Page } from './types';
 import { API_ENDPOINTS } from '../config';
+import { useIsMobile } from './mobile/useIsMobile';
+import { MobileBrandAnalyzerPage } from './mobile/MobileBrandAnalyzerPage';
 
 // --- Types ---
 
@@ -411,7 +413,17 @@ const ResultsTable: React.FC<{ result: AnalysisResult }> = ({ result }) => {
 
 // --- Main Page ---
 
-const BrandAnalyzerPage: React.FC<{ onNavigate: (page: Page, hash?: string, id?: string) => void }> = ({ onNavigate }) => {
+interface BrandAnalyzerPageProps {
+  onNavigate: (page: Page, hash?: string, id?: string) => void;
+}
+
+const BrandAnalyzerPage: React.FC<BrandAnalyzerPageProps> = (props) => {
+  const isMobile = useIsMobile();
+  if (isMobile) return <MobileBrandAnalyzerPage {...props} />;
+  return <BrandAnalyzerPageDesktop {...props} />;
+};
+
+const BrandAnalyzerPageDesktop: React.FC<BrandAnalyzerPageProps> = ({ onNavigate }) => {
   const [stage, setStage] = useState<Stage>('bootstrap');
   const [names, setNames] = useState('');
   const [context, setContext] = useState('');
