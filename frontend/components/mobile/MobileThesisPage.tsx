@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft } from 'lucide-react';
 import { MobileButton } from './MobileButton';
+import { MobileTopBar } from './MobileTopBar';
 import type { Page } from '../types';
 
 interface MobileThesisPageProps {
@@ -38,26 +38,9 @@ export const MobileThesisPage: React.FC<MobileThesisPageProps> = ({ onNavigate }
 
   return (
     <div className="min-h-[100dvh] flex flex-col text-ink" data-mobile>
-      {/* Minimal top bar with progress */}
-      <header className="sticky top-0 z-40 bg-base/90 backdrop-blur-md border-b border-ink/10">
-        <div className="px-4 py-3 flex items-center gap-4">
-          <button
-            onClick={() => onNavigate('landing')}
-            aria-label="Back"
-            className="w-10 h-10 flex items-center justify-center -ml-2"
-          >
-            <ArrowLeft className="w-5 h-5 text-ink" />
-          </button>
-          <div className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">
-            The Thesis
-          </div>
-        </div>
-        <div className="h-0.5 bg-ink/5">
-          <div className="h-full bg-accent transition-all duration-100" style={{ width: `${progress}%` }} />
-        </div>
-      </header>
+      <MobileTopBar onNavigate={onNavigate} progress={progress} />
 
-      <main className="flex-1">
+      <main className="flex-1 pt-14">
         {/* Hero */}
         <section className="px-6 pt-12 pb-12">
           <div className="flex items-center justify-center gap-3 mb-8">

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, Clock, Tag, Lightbulb } from 'lucide-react';
+import { Clock, Tag, Lightbulb } from 'lucide-react';
 import { MobileButton } from './MobileButton';
+import { MobileTopBar } from './MobileTopBar';
 import type { Page } from '../types';
 
 export interface MobileBriefingData {
@@ -46,26 +47,9 @@ export const MobileBriefingDetailPage: React.FC<MobileBriefingDetailPageProps> =
 
   return (
     <div className="min-h-[100dvh] flex flex-col text-ink" data-mobile>
-      {/* Sticky top with back + progress */}
-      <header className="sticky top-0 z-40 bg-base/90 backdrop-blur-md border-b border-ink/10">
-        <div className="px-4 py-3 flex items-center gap-3">
-          <button
-            onClick={() => onNavigate('briefings')}
-            aria-label="Back to Codex"
-            className="w-10 h-10 flex items-center justify-center -ml-2"
-          >
-            <ArrowLeft className="w-5 h-5 text-ink" />
-          </button>
-          <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted truncate">
-            {data.category} · #{data.issueNo}
-          </div>
-        </div>
-        <div className="h-0.5 bg-ink/5">
-          <div className="h-full bg-accent transition-all duration-100" style={{ width: `${progress}%` }} />
-        </div>
-      </header>
+      <MobileTopBar onNavigate={onNavigate} backTo="briefings" progress={progress} />
 
-      <main className="flex-1">
+      <main className="flex-1 pt-14">
         {/* Article title block */}
         <section className="px-6 pt-8 pb-6">
           <div className="flex items-center gap-3 mb-4">
