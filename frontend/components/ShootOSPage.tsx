@@ -3,13 +3,21 @@ import { ArrowUpRight } from 'lucide-react';
 import Header from './Header';
 import Footer from './Footer';
 import { Section, ScrollReveal, GridPattern, PageHero, Button, Surface, Callout } from './Shared';
+import { useIsMobile } from './mobile/useIsMobile';
+import { MobileShootOSPage } from './mobile/MobileShootOSPage';
 import type { Page } from './types';
 
 interface ShootOSPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
-const ShootOSPage: React.FC<ShootOSPageProps> = ({ onNavigate }) => {
+const ShootOSPage: React.FC<ShootOSPageProps> = (props) => {
+  const isMobile = useIsMobile();
+  if (isMobile) return <MobileShootOSPage {...props} />;
+  return <ShootOSPageDesktop {...props} />;
+};
+
+const ShootOSPageDesktop: React.FC<ShootOSPageProps> = ({ onNavigate }) => {
   useEffect(() => {
     document.title = 'ShootOS — DaVeenci';
     window.scrollTo(0, 0);

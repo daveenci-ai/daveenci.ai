@@ -2,13 +2,21 @@ import React, { useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import { Section, ScrollReveal, GridPattern, PageHero, Button, Surface, Callout } from './Shared';
+import { useIsMobile } from './mobile/useIsMobile';
+import { MobilePureCodePage } from './mobile/MobilePureCodePage';
 import type { Page } from './types';
 
 interface PureCodePageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
-const PureCodePage: React.FC<PureCodePageProps> = ({ onNavigate }) => {
+const PureCodePage: React.FC<PureCodePageProps> = (props) => {
+  const isMobile = useIsMobile();
+  if (isMobile) return <MobilePureCodePage {...props} />;
+  return <PureCodePageDesktop {...props} />;
+};
+
+const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
   useEffect(() => {
     document.title = 'PureCode — DaVeenci';
     window.scrollTo(0, 0);

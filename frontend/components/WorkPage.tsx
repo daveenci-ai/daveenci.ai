@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import { Section, ScrollReveal, GridPattern, PageHero, Button, Surface } from './Shared';
+import { useIsMobile } from './mobile/useIsMobile';
+import { MobileWorkPage } from './mobile/MobileWorkPage';
 import type { Page } from './types';
 
 interface WorkPageProps {
@@ -25,7 +27,13 @@ const workItems = [
   },
 ];
 
-const WorkPage: React.FC<WorkPageProps> = ({ onNavigate }) => {
+const WorkPage: React.FC<WorkPageProps> = (props) => {
+  const isMobile = useIsMobile();
+  if (isMobile) return <MobileWorkPage {...props} />;
+  return <WorkPageDesktop {...props} />;
+};
+
+const WorkPageDesktop: React.FC<WorkPageProps> = ({ onNavigate }) => {
   useEffect(() => {
     document.title = 'Our Work — DaVeenci';
     window.scrollTo(0, 0);
