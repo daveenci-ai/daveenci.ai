@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowLeft } from 'lucide-react';
 import { Logo, Button } from './Shared';
+import { useIsMobile } from './mobile/useIsMobile';
+import { MobileTopBar } from './mobile/MobileTopBar';
 import type { Page, NavLink } from './types';
 
 interface HeaderProps {
@@ -11,8 +13,16 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', activeSection }) => {
+  const isMobile = useIsMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  // Below md: render the shared mobile chrome so every page that uses
+  // Header gets a consistent header / menu on phones. Desktop tree
+  // continues to use the rich editorial header below.
+  if (isMobile && onNavigate) {
+    return <MobileTopBar onNavigate={onNavigate} />;
+  }
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
