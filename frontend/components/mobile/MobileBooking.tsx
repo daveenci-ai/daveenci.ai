@@ -138,12 +138,12 @@ export const MobileBooking: React.FC<MobileBookingProps> = ({ onNavigate }) => {
         <span className="italic text-ink-muted/70">No slide deck.</span>
       </MobileSceneTitle>
 
-      <MobileSceneSubtitle className="mb-6">
+      <MobileSceneSubtitle>
         Bring the workflow you want a specialist team for. Astrid will tell you honestly whether we're the right workshop to build it.
       </MobileSceneSubtitle>
 
       {/* Astrid mini row */}
-      <div className="flex items-center gap-3 mb-8">
+      <div className="flex items-center gap-3 mb-6">
         <div className="w-12 h-12 rounded-sm overflow-hidden border border-ink/10 flex-shrink-0">
           <img src={AstridSketch} alt="Astrid Abrahamyan" className="w-full h-full object-cover object-top scale-125 sepia-[0.15] contrast-105" />
         </div>

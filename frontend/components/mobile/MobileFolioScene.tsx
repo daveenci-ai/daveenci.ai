@@ -23,10 +23,10 @@ export const MobileFolioScene: React.FC<MobileFolioSceneProps> = ({
 }) => (
   <section
     id={id}
-    className={`relative min-h-screen flex flex-col px-6 pt-6 pb-24 ${className}`}
+    className={`relative flex flex-col px-6 pt-10 pb-8 ${className}`}
   >
     {eyebrow && (
-      <div className="mb-6 flex items-center gap-3">
+      <div className="mb-5 flex items-center gap-3">
         <span className="h-px w-8 bg-ink-muted/30" />
         <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">
           {eyebrow}
@@ -62,7 +62,7 @@ export const MobileSceneSubtitle: React.FC<{ children: React.ReactNode; classNam
   children,
   className = '',
 }) => (
-  <p className={`font-serif text-[17px] text-ink-muted leading-[1.6] mb-8 ${className}`}>
+  <p className={`font-serif text-[17px] text-ink-muted leading-[1.6] mb-6 ${className}`}>
     {children}
   </p>
 );

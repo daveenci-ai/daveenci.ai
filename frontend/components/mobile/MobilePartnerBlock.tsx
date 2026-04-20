@@ -18,7 +18,7 @@ export const MobilePartnerBlock: React.FC = () => (
       <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted mt-2">Partner</div>
     </div>
 
-    <blockquote className="mt-10 relative">
+    <blockquote className="mt-8 relative">
       <span
         aria-hidden="true"
         className="absolute -top-2 -left-1 font-serif text-6xl text-accent/30 leading-none select-none"

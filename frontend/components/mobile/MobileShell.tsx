@@ -57,7 +57,13 @@ export const MobileShell: React.FC<MobileShellProps> = ({
       </header>
 
       {/* Content */}
-      <main className="pt-14">{children}</main>
+      <main
+        className={`pt-14 ${
+          showBottomCTA ? 'pb-[calc(env(safe-area-inset-bottom)+5rem)]' : ''
+        }`}
+      >
+        {children}
+      </main>
 
       {/* Persistent bottom CTA */}
       {showBottomCTA && (

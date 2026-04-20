@@ -25,7 +25,7 @@ export const MobileMethod: React.FC = () => (
       <span className="italic text-ink-muted/70">One specialist.</span>
     </MobileSceneTitle>
 
-    <MobileSceneSubtitle className="mb-10">
+    <MobileSceneSubtitle>
       Every specialist follows the same path — domain to output, with a human gate before anything ships.
     </MobileSceneSubtitle>
 

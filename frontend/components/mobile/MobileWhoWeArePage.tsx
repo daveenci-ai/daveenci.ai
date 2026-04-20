@@ -97,7 +97,7 @@ export const MobileWhoWeArePage: React.FC<MobileWhoWeArePageProps> = ({ onNaviga
 
       {/* The Distinction — swipeable 3 cards */}
       <MobileFolioScene id="distinction" eyebrow="The Distinction" className="bg-white/40">
-        <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-8 mt-2 tracking-tight">
+        <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-6 mt-2 tracking-tight">
           Why <span className="italic text-ink-muted/70">DaVeenci.</span>
         </h2>
 
@@ -143,7 +143,7 @@ export const MobileWhoWeArePage: React.FC<MobileWhoWeArePageProps> = ({ onNaviga
             Want a team for <br />
             <span className="italic text-accent">your domain?</span>
           </h2>
-          <p className="font-sans text-[16px] text-ink-muted leading-relaxed mb-8">
+          <p className="font-sans text-[16px] text-ink-muted leading-relaxed mb-6">
             Thirty minutes with us. No slide deck. Bring the workflow you want a team for and we'll tell you honestly whether we're the right shop to build it.
           </p>
           <div className="flex flex-col gap-3">

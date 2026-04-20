@@ -1,5 +1,5 @@
 import React from 'react';
-import { MobileFolioScene } from './MobileFolioScene';
+import { MobileFolioScene, MobileSceneSubtitle } from './MobileFolioScene';
 import { MobileScenePlate } from './MobileScenePlate';
 import type { Page } from '../types';
 
@@ -20,9 +20,9 @@ export const MobileHero: React.FC<MobileHeroProps> = ({ onNavigate }) => (
       <span className="italic text-ink-muted/70">Not AI tools.</span>
     </h1>
 
-    <p className="font-serif text-[17px] text-ink-muted leading-[1.6] mb-8">
+    <MobileSceneSubtitle>
       DaVeenci builds specialist AI teams that ship finished work — each one orchestrated, human-gated, and accountable to its output.
-    </p>
+    </MobileSceneSubtitle>
 
     {/* Fig. i — mini plate with simplified team motif */}
     <MobileScenePlate figLabel="Fig. i · The Team">
@@ -49,7 +49,7 @@ export const MobileHero: React.FC<MobileHeroProps> = ({ onNavigate }) => (
     </MobileScenePlate>
 
     {/* Thumb-zone secondary action */}
-    <div className="mt-auto pt-10">
+    <div className="mt-auto pt-8">
       <button
         onClick={() => onNavigate('work')}
         className="inline-flex items-center gap-2 -ml-3 px-3 py-3 font-serif italic text-base text-accent tracking-[0.03em] active:text-ink transition-colors"
