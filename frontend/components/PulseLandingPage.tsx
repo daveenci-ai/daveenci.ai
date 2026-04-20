@@ -24,6 +24,8 @@ import {
   checkSlotAvailability as checkSharedSlotAvailability,
   isDayDisabled,
 } from './calendarAvailability';
+import { useIsMobile } from './mobile/useIsMobile';
+import { MobilePulseLandingPage } from './mobile/MobilePulseLandingPage';
 
 interface PulseLandingPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -1997,7 +1999,13 @@ const FinalCTA: React.FC = () => {
 
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
-const PulseLandingPage: React.FC<PulseLandingPageProps> = ({ onNavigate }) => {
+const PulseLandingPage: React.FC<PulseLandingPageProps> = (props) => {
+  const isMobile = useIsMobile();
+  if (isMobile) return <MobilePulseLandingPage {...props} />;
+  return <PulseLandingPageDesktop {...props} />;
+};
+
+const PulseLandingPageDesktop: React.FC<PulseLandingPageProps> = ({ onNavigate }) => {
   return (
     <div className="min-h-screen bg-base text-ink [&_h1]:[text-wrap:balance] [&_h2]:[text-wrap:balance] [&_h3]:[text-wrap:balance] [&_p]:[text-wrap:pretty]">
       <PulseNav />
