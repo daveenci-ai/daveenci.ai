@@ -1441,8 +1441,6 @@ const CreatorMode: React.FC = () => {
     generateTimerRef.current = setTimeout(() => {
       setIsGenerating(false);
       setShowDemoPreview(true);
-      setArticleExpanded(true);
-      setPostsExpanded(true);
     }, 900);
   };
 
