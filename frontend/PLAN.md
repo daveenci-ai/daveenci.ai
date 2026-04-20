@@ -185,11 +185,28 @@ Per-scene treatments:
 
 ## Status log
 
+### Initial build
 - [✓] Phase 1 — Shell (useIsMobile hook, MobileShell, MobileMenu, MobileFolioScene, MobileLanding with placeholders, DaVeenciLandingPage routing)
 - [✓] Phase 2 — Hero / Folio I (MobileHero with headline, Fig. i mini-plate illustration, "See the work" thumb-zone link)
 - [✓] Phase 3 — Content folios + Founder/Partner (MobileContrast accordion, MobileMethod vertical station rail, MobileFounderBlock dark portrait, MobileAdvantage swipeable carousel, MobileControls tap-chip demos, MobilePartnerBlock light portrait)
 - [✓] Phase 4 — Booking scene + mobile Calendar page (MobileBooking folio VI with day-tab pattern + time chips, MobileCalendarPage full-screen step flow — datetime → details → success — with sticky top step indicator and bottom CTA, Calendar.tsx routes by viewport)
 - [✓] Phase 5 — About / Thesis / Codex mobile pages (MobileWhoWeArePage with Folio 0 hero, Anton/Astrid blocks, distinction carousel, Fig. d CTA widget; MobileThesisPage reader mode with scroll progress bar, numbered chapters, pull quotes, cinematic dark Section III; MobileBriefingsPage with sticky category filter + story cards; MobileBriefingDetailPage with scroll progress, Quick Answer callout, sections, FAQ, end CTA. WhoWeArePage / ThesisPage / BriefingsPage / BriefingDetailPage all branch by viewport.)
+
+### Audit remediation
+- [✓] Round 1 polish — Astrid bg-white→/50, Advantage cards /80→/70, MobileFolioScene pb-28→pb-24, Hero subtitle leading normalized, tracking-tight across all scene headlines, Anton/Astrid portraits w-52→w-56
+- [✓] Phase A (a11y) — [data-mobile] focus-visible outline, prefers-reduced-motion collapse, MobileMenu role=dialog + aria-modal + focus trap + Escape close + focus return to trigger
+- [✓] Phase B (rhythm) — WhoWeAre subtitle leading 1.65→1.6, WhoWeAre distinction cards /80→/70
+- [✓] Phase C (design primitives) — MobileButton (primary/secondary/dark variants), MobileScenePlate (3-dot chrome + Fig label), MobileSceneTitle/MobileSceneSubtitle; migrated across all mobile pages/scenes
+- [✓] Phase D (cleanup) — Method rail-mote keyframe extracted from inline <style> into .method-rail-mote utility in index.css
+
+### Deferred / future polish (not blocking)
+- [ ] Split MobileCalendarPage (451 lines) into step sub-components
+- [ ] Add error boundary wrapping mobile routes
+- [ ] Skeleton states for booking availability fetch + briefings image loading
+- [ ] Progress-bar scroll detection: window.scrollY fallback for older WebViews
+- [ ] Restore body scroll position after menu close
+- [ ] WebP re-encoding of Anton/Astrid portraits (~1.8 MB → ~300 KB combined)
+- [ ] MobileBookingSheet: originally planned but not built — booking scene navigates directly to /calendar instead. Either build the sheet or remove from this plan.
 
 ## Open questions (decide later)
 
