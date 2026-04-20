@@ -1,20 +1,30 @@
 
-import React, { useState, useEffect, useCallback } from 'react';
-import DaVeenciLandingPage from './DaVeenciLandingPage';
-import BriefingsPage from './components/BriefingsPage';
-import BriefingDetailPage from './components/BriefingDetailPage';
-import WhoWeArePage from './components/WhoWeArePage';
-import Calendar from './components/Calendar';
-import AdminPage from './components/AdminPage';
-import PulseLandingPage from './components/PulseLandingPage';
-import BrandAnalyzerPage from './components/BrandAnalyzerPage';
-import WorkPage from './components/WorkPage';
-import PureCodePage from './components/PureCodePage';
-import ShootOSPage from './components/ShootOSPage';
-import EventsPage from './components/EventsPage';
-import ThesisPage from './components/ThesisPage';
-import NotFoundPage from './components/NotFoundPage';
+import React, { useState, useEffect, useCallback, Suspense, lazy } from 'react';
 import type { Page } from './components/types';
+
+// Route-level code splitting — each page becomes its own lazy chunk.
+// Only the landing chunk downloads on initial load; other pages are
+// fetched on first navigation.
+const DaVeenciLandingPage = lazy(() => import('./DaVeenciLandingPage'));
+const BriefingsPage = lazy(() => import('./components/BriefingsPage'));
+const BriefingDetailPage = lazy(() => import('./components/BriefingDetailPage'));
+const WhoWeArePage = lazy(() => import('./components/WhoWeArePage'));
+const Calendar = lazy(() => import('./components/Calendar'));
+const AdminPage = lazy(() => import('./components/AdminPage'));
+const PulseLandingPage = lazy(() => import('./components/PulseLandingPage'));
+const BrandAnalyzerPage = lazy(() => import('./components/BrandAnalyzerPage'));
+const WorkPage = lazy(() => import('./components/WorkPage'));
+const PureCodePage = lazy(() => import('./components/PureCodePage'));
+const ShootOSPage = lazy(() => import('./components/ShootOSPage'));
+const EventsPage = lazy(() => import('./components/EventsPage'));
+const ThesisPage = lazy(() => import('./components/ThesisPage'));
+const NotFoundPage = lazy(() => import('./components/NotFoundPage'));
+
+const RouteLoading: React.FC = () => (
+  <div className="min-h-[100dvh] flex items-center justify-center">
+    <div className="w-6 h-6 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
+  </div>
+);
 
 const App: React.FC = () => {
   const [page, setPage] = useState<Page>('landing');
@@ -175,48 +185,26 @@ const App: React.FC = () => {
 
   return (
     <main className="antialiased font-sans text-ink min-h-screen selection:bg-accent/20">
-      {page === 'landing' && (
-        <DaVeenciLandingPage onNavigate={handleNavigate} activeSection={activeSection} />
-      )}
-      {page === 'briefings' && (
-        <BriefingsPage onNavigate={handleNavigate} />
-      )}
-      {page === 'briefing-detail' && (
-        <BriefingDetailPage onNavigate={handleNavigate} id={selectedBriefingId} />
-      )}
-      {page === 'who-we-are' && (
-        <WhoWeArePage onNavigate={handleNavigate} />
-      )}
-      {page === 'calendar' && (
-        <Calendar onNavigate={handleNavigate} />
-      )}
-      {page === 'admin' && (
-        <AdminPage onNavigate={handleNavigate} />
-      )}
-      {page === 'book-demo' && (
-        <PulseLandingPage onNavigate={handleNavigate} />
-      )}
-      {page === 'brand-analyzer' && (
-        <BrandAnalyzerPage onNavigate={handleNavigate} />
-      )}
-      {page === 'work' && (
-        <WorkPage onNavigate={handleNavigate} />
-      )}
-      {page === 'purecode' && (
-        <PureCodePage onNavigate={handleNavigate} />
-      )}
-      {page === 'shootos' && (
-        <ShootOSPage onNavigate={handleNavigate} />
-      )}
-      {page === 'events' && (
-        <EventsPage onNavigate={handleNavigate} />
-      )}
-      {page === 'thesis' && (
-        <ThesisPage onNavigate={handleNavigate} />
-      )}
-      {page === 'not-found' && (
-        <NotFoundPage onNavigate={handleNavigate} />
-      )}
+      <Suspense fallback={<RouteLoading />}>
+        {page === 'landing' && (
+          <DaVeenciLandingPage onNavigate={handleNavigate} activeSection={activeSection} />
+        )}
+        {page === 'briefings' && <BriefingsPage onNavigate={handleNavigate} />}
+        {page === 'briefing-detail' && (
+          <BriefingDetailPage onNavigate={handleNavigate} id={selectedBriefingId} />
+        )}
+        {page === 'who-we-are' && <WhoWeArePage onNavigate={handleNavigate} />}
+        {page === 'calendar' && <Calendar onNavigate={handleNavigate} />}
+        {page === 'admin' && <AdminPage onNavigate={handleNavigate} />}
+        {page === 'book-demo' && <PulseLandingPage onNavigate={handleNavigate} />}
+        {page === 'brand-analyzer' && <BrandAnalyzerPage onNavigate={handleNavigate} />}
+        {page === 'work' && <WorkPage onNavigate={handleNavigate} />}
+        {page === 'purecode' && <PureCodePage onNavigate={handleNavigate} />}
+        {page === 'shootos' && <ShootOSPage onNavigate={handleNavigate} />}
+        {page === 'events' && <EventsPage onNavigate={handleNavigate} />}
+        {page === 'thesis' && <ThesisPage onNavigate={handleNavigate} />}
+        {page === 'not-found' && <NotFoundPage onNavigate={handleNavigate} />}
+      </Suspense>
     </main>
   );
 };

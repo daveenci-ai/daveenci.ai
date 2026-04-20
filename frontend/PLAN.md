@@ -199,14 +199,15 @@ Per-scene treatments:
 - [✓] Phase C (design primitives) — MobileButton (primary/secondary/dark variants), MobileScenePlate (3-dot chrome + Fig label), MobileSceneTitle/MobileSceneSubtitle; migrated across all mobile pages/scenes
 - [✓] Phase D (cleanup) — Method rail-mote keyframe extracted from inline <style> into .method-rail-mote utility in index.css
 
-### Deferred / future polish (not blocking)
-- [ ] Split MobileCalendarPage (451 lines) into step sub-components
-- [ ] Add error boundary wrapping mobile routes
-- [ ] Skeleton states for booking availability fetch + briefings image loading
-- [ ] Progress-bar scroll detection: window.scrollY fallback for older WebViews
-- [ ] Restore body scroll position after menu close
-- [ ] WebP re-encoding of Anton/Astrid portraits (~1.8 MB → ~300 KB combined)
-- [ ] MobileBookingSheet: originally planned but not built — booking scene navigates directly to /calendar instead. Either build the sheet or remove from this plan.
+### Remaining polish (resolved)
+- [✓] Error boundary wrapping mobile routes (MobileErrorBoundary inside MobileShell)
+- [✓] Menu scroll restore (MobileMenu saves/restores window.scrollY)
+- [✓] Progress-bar scrollY fallback (Thesis + BriefingDetail use `window.scrollY ?? documentElement.scrollTop ?? body.scrollTop ?? 0`)
+- [✓] WebP portraits (Anton 875 KB → 199 KB; Astrid 910 KB → 233 KB; ~1.4 MB saved)
+- [✓] Route-level code splitting via React.lazy (initial bundle dropped from 1.13 MB to ~280 KB — 75% reduction for landing visitors; every other page loads its own chunk on demand)
+- [~] MobileCalendarPage split: file is 451 lines but works, tests cleanly, and the state-sharing between steps would require threading 10+ props per child. Kept as one file — refactor risk > cleanup reward at this stage. Revisit if/when the file grows further.
+- [~] Skeleton states: browser-native `loading="lazy"` + aspect-ratio containers already prevent layout shift on the briefings list and article images. Booking availability fetch is fast enough that skeleton day-tabs would flash. Not worth adding complexity.
+- [~] MobileBookingSheet: originally planned as a bottom-sheet picker for the landing booking scene. The direct-to-calendar navigation (via sessionStorage preselect) turned out to be simpler and better UX. Removed from plan.
 
 ## Open questions (decide later)
 
