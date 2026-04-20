@@ -95,7 +95,7 @@ export const MobileWhoWeArePage: React.FC<MobileWhoWeArePageProps> = ({ onNaviga
 
       {/* The Distinction — swipeable 3 cards */}
       <MobileFolioScene id="distinction" eyebrow="The Distinction" className="bg-white/40">
-        <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-8 mt-2">
+        <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-8 mt-2 tracking-tight">
           Why <span className="italic text-ink-muted/70">DaVeenci.</span>
         </h2>
 
@@ -145,7 +145,7 @@ export const MobileWhoWeArePage: React.FC<MobileWhoWeArePageProps> = ({ onNaviga
       {/* Start here CTA widget */}
       <MobileFolioScene id="start-here" eyebrow="Fig. d · Start Here">
         <div className="flex-1 flex flex-col justify-center">
-          <h2 className="font-serif text-[2.25rem] leading-[1.1] text-ink mb-4">
+          <h2 className="font-serif text-[2.25rem] leading-[1.1] text-ink mb-4 tracking-tight">
             Want a team for <br />
             <span className="italic text-accent">your domain?</span>
           </h2>

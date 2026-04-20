@@ -55,7 +55,7 @@ export const MobileAdvantage: React.FC = () => {
 
   return (
     <MobileFolioScene id="advantage" eyebrow="Folio IV — The Advantage" className="bg-white/40">
-      <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-5 mt-2">
+      <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-5 mt-2 tracking-tight">
         A tool is free.
         <br />
         <span className="italic text-ink-muted/70">A team remembers.</span>
@@ -75,7 +75,7 @@ export const MobileAdvantage: React.FC = () => {
           <article
             key={card.fig}
             data-card-index={i}
-            className="snap-center flex-shrink-0 w-[82vw] max-w-[360px] bg-white/80 border border-ink/10 rounded-sm p-5 shadow-sm shadow-ink/5"
+            className="snap-center flex-shrink-0 w-[82vw] max-w-[360px] bg-white/70 border border-ink/10 rounded-sm p-5 shadow-sm shadow-ink/5"
           >
             <div className="flex justify-between items-center mb-3 pb-2 border-b border-ink/10">
               <div className="flex gap-1.5">

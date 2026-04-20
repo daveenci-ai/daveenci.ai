@@ -35,7 +35,7 @@ export const MobileContrast: React.FC = () => {
 
   return (
     <MobileFolioScene id="contrast" eyebrow="Folio II — The Industry Is Wrong" className="bg-white/40">
-      <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-5 mt-2">
+      <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-5 mt-2 tracking-tight">
         One model cannot
         <br />
         <span className="italic text-ink-muted/70">be everyone.</span>

@@ -23,7 +23,7 @@ export const MobileFolioScene: React.FC<MobileFolioSceneProps> = ({
 }) => (
   <section
     id={id}
-    className={`relative min-h-screen flex flex-col px-6 pt-6 pb-28 ${className}`}
+    className={`relative min-h-screen flex flex-col px-6 pt-6 pb-24 ${className}`}
   >
     {eyebrow && (
       <div className="mb-6 flex items-center gap-3">

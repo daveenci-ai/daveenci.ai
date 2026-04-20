@@ -5,7 +5,7 @@ import AntonSketch from '../../images/Anton_Sketch.jpg';
 export const MobileFounderBlock: React.FC = () => (
   <MobileFolioScene id="founder" className="bg-ink text-base">
     <div className="flex flex-col items-center text-center mt-2">
-      <div className="relative w-52 mb-6">
+      <div className="relative w-56 mb-6">
         <div aria-hidden="true" className="absolute inset-0 rounded-full border border-base/10 scale-[1.08] pointer-events-none" />
         <div aria-hidden="true" className="absolute inset-0 rounded-full border border-base/5 scale-[1.18] pointer-events-none" />
         <img

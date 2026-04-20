@@ -3,9 +3,9 @@ import { MobileFolioScene } from './MobileFolioScene';
 import AstridSketch from '../../images/Astrid_Sketch.jpg';
 
 export const MobilePartnerBlock: React.FC = () => (
-  <MobileFolioScene id="partner" className="bg-white">
+  <MobileFolioScene id="partner" className="bg-white/50">
     <div className="flex flex-col items-center text-center mt-2">
-      <div className="relative w-52 mb-6">
+      <div className="relative w-56 mb-6">
         <div aria-hidden="true" className="absolute inset-0 rounded-full border border-ink/10 scale-[1.08] pointer-events-none" />
         <div aria-hidden="true" className="absolute inset-0 rounded-full border border-ink/5 scale-[1.18] pointer-events-none" />
         <img

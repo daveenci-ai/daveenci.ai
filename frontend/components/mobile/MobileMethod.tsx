@@ -19,7 +19,7 @@ const STATIONS: Station[] = [
 
 export const MobileMethod: React.FC = () => (
   <MobileFolioScene id="method" eyebrow="Folio III — The Method">
-    <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-5 mt-2">
+    <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-5 mt-2 tracking-tight">
       Six stations.
       <br />
       <span className="italic text-ink-muted/70">One specialist.</span>

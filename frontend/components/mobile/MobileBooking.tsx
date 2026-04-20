@@ -132,7 +132,7 @@ export const MobileBooking: React.FC<MobileBookingProps> = ({ onNavigate }) => {
 
   return (
     <MobileFolioScene id="book" eyebrow="Folio VI — The Call" className="bg-white/40">
-      <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-5 mt-2">
+      <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-5 mt-2 tracking-tight">
         Thirty minutes.
         <br />
         <span className="italic text-ink-muted/70">No slide deck.</span>

@@ -41,7 +41,7 @@ export const MobileControls: React.FC = () => {
 
   return (
     <MobileFolioScene id="controls" eyebrow="Folio V — The Controls">
-      <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-5 mt-2">
+      <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-5 mt-2 tracking-tight">
         Where you
         <br />
         <span className="italic text-ink-muted/70">already work.</span>

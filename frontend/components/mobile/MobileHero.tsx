@@ -19,7 +19,7 @@ export const MobileHero: React.FC<MobileHeroProps> = ({ onNavigate }) => (
       <span className="italic text-ink-muted/70">Not AI tools.</span>
     </h1>
 
-    <p className="font-serif text-[17px] text-ink-muted leading-[1.65] mb-8">
+    <p className="font-serif text-[17px] text-ink-muted leading-[1.6] mb-8">
       DaVeenci builds specialist AI teams that ship finished work — each one orchestrated, human-gated, and accountable to its output.
     </p>
 
