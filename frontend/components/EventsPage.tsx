@@ -4,12 +4,20 @@ import Footer from './Footer';
 import Events from './Events';
 import { Section, ScrollReveal, GridPattern, PageHero } from './Shared';
 import type { Page } from './types';
+import { useIsMobile } from './mobile/useIsMobile';
+import { MobileEventsPage } from './mobile/MobileEventsPage';
 
 interface EventsPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
-const EventsPage: React.FC<EventsPageProps> = ({ onNavigate }) => {
+const EventsPage: React.FC<EventsPageProps> = (props) => {
+  const isMobile = useIsMobile();
+  if (isMobile) return <MobileEventsPage {...props} />;
+  return <EventsPageDesktop {...props} />;
+};
+
+const EventsPageDesktop: React.FC<EventsPageProps> = ({ onNavigate }) => {
   useEffect(() => {
     document.title = 'Events — DaVeenci';
     window.scrollTo(0, 0);

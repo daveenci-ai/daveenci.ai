@@ -1,7 +1,7 @@
 import React from 'react';
 import { Section, ScrollReveal, Quote, VitruvianBackground } from './Shared';
 import type { Page } from './types';
-import AntonSketch from '../images/Anton_Sketch.jpg';
+import AntonSketch from '../images/Anton_Sketch.webp';
 
 interface FounderBlockProps {
   onNavigate: (page: Page) => void;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { MobileFolioScene } from './MobileFolioScene';
-import AstridSketch from '../../images/Astrid_Sketch.jpg';
+import AstridSketch from '../../images/Astrid_Sketch.webp';
 
 export const MobilePartnerBlock: React.FC = () => (
   <MobileFolioScene id="partner" className="bg-white/50">

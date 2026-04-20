@@ -20,13 +20,16 @@ const MENU_ITEMS: { label: string; page: Page }[] = [
 export const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, onNavigate }) => {
   const dialogRef = useRef<HTMLDivElement>(null);
 
-  // Lock body scroll while menu is open
+  // Lock body scroll while menu is open, and restore the prior scroll
+  // position on close (otherwise iOS Safari may jump on reopen).
   useEffect(() => {
     if (!open) return;
-    const prev = document.body.style.overflow;
+    const prevOverflow = document.body.style.overflow;
+    const prevScroll = window.scrollY;
     document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = prev;
+      document.body.style.overflow = prevOverflow;
+      window.scrollTo(0, prevScroll);
     };
   }, [open]);
 

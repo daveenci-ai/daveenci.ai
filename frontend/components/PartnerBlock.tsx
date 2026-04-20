@@ -1,6 +1,6 @@
 import React from 'react';
 import { Section, ScrollReveal, Quote, VitruvianBackground } from './Shared';
-import AstridSketch from '../images/Astrid_Sketch.jpg';
+import AstridSketch from '../images/Astrid_Sketch.webp';
 
 const PartnerBlock: React.FC = () => (
   <Section id="partner" className="bg-ink text-base relative">

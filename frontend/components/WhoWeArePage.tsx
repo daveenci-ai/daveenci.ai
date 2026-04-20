@@ -3,8 +3,8 @@ import Header from './Header';
 import Footer from './Footer';
 import { Section, ScrollReveal, VitruvianBackground, NodeNetworkBackground, Button, PageHero, Quote, Surface, Plate } from './Shared';
 import type { Page } from './types';
-import AntonSketch from '../images/Anton_Sketch.jpg';
-import AstridSketch from '../images/Astrid_Sketch.jpg';
+import AntonSketch from '../images/Anton_Sketch.webp';
+import AstridSketch from '../images/Astrid_Sketch.webp';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileWhoWeArePage } from './mobile/MobileWhoWeArePage';
 

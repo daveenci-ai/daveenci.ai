@@ -4,7 +4,7 @@ import { Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight, Check, User
 import { format } from 'date-fns';
 import { Logo, Button, VitruvianBackground, ScrollReveal, CustomSelect, FormField } from './Shared';
 import type { CalendarProps } from './types';
-import AstridSketch from '../images/Astrid_Sketch.jpg';
+import AstridSketch from '../images/Astrid_Sketch.webp';
 import { API_ENDPOINTS } from '../config';
 import {
    BUSINESS_TIMEZONE,

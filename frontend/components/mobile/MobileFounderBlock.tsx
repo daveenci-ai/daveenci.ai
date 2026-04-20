@@ -1,6 +1,6 @@
 import React from 'react';
 import { MobileFolioScene } from './MobileFolioScene';
-import AntonSketch from '../../images/Anton_Sketch.jpg';
+import AntonSketch from '../../images/Anton_Sketch.webp';
 
 export const MobileFounderBlock: React.FC = () => (
   <MobileFolioScene id="founder" className="bg-ink text-base">

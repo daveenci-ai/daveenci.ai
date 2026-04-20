@@ -39,7 +39,8 @@ export const MobileBriefingDetailPage: React.FC<MobileBriefingDetailPageProps> =
     const onScroll = () => {
       const h = document.documentElement;
       const total = h.scrollHeight - h.clientHeight;
-      setProgress(total > 0 ? Math.min(100, (h.scrollTop / total) * 100) : 0);
+      const y = window.scrollY ?? h.scrollTop ?? document.body.scrollTop ?? 0;
+      setProgress(total > 0 ? Math.min(100, (y / total) * 100) : 0);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);

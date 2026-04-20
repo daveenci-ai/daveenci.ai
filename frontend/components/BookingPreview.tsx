@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Clock, CalendarDays } from 'lucide-react';
 import { fromZonedTime } from 'date-fns-tz';
 import { Section, ScrollReveal, FolioHeader, Plate } from './Shared';
-import AstridSketch from '../images/Astrid_Sketch.jpg';
+import AstridSketch from '../images/Astrid_Sketch.webp';
 import { API_ENDPOINTS } from '../config';
 import type { Page } from './types';
 import {

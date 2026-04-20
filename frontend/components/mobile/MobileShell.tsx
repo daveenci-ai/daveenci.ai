@@ -1,6 +1,7 @@
 import React from 'react';
 import { MobileTopBar } from './MobileTopBar';
 import { MobileButton } from './MobileButton';
+import { MobileErrorBoundary } from './MobileErrorBoundary';
 import type { Page } from '../types';
 
 interface MobileShellProps {
@@ -27,7 +28,7 @@ export const MobileShell: React.FC<MobileShellProps> = ({
         showBottomCTA ? 'pb-[calc(env(safe-area-inset-bottom)+5rem)]' : ''
       }`}
     >
-      {children}
+      <MobileErrorBoundary>{children}</MobileErrorBoundary>
     </main>
 
     {showBottomCTA && (

@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { ScrollReveal, Section, SectionHeader, Button, Logo, GridPattern, VitruvianBackground, CustomSelect, Surface, PageHero, Eyebrow } from './Shared';
 import { API_ENDPOINTS } from '../config';
 import type { Page } from './types';
-import AstridSketch from '../images/Astrid_Sketch.jpg';
+import AstridSketch from '../images/Astrid_Sketch.webp';
 import NewsletterVisual from '../images/pulse-visual-newsletter.svg';
 import SocialVisual from '../images/pulse-visual-social.svg';
 import BlogVisual from '../images/pulse-visual-blog.svg';

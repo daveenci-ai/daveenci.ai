@@ -3,7 +3,7 @@ import { ArrowLeft, ChevronLeft, ChevronRight, Check, Clock, Mail, Phone, User, 
 import { format } from 'date-fns';
 import { CustomSelect, FormField } from '../Shared';
 import { MobileButton } from './MobileButton';
-import AstridSketch from '../../images/Astrid_Sketch.jpg';
+import AstridSketch from '../../images/Astrid_Sketch.webp';
 import { API_ENDPOINTS } from '../../config';
 import type { CalendarProps } from '../types';
 import {

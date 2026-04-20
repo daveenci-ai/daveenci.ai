@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Clock } from 'lucide-react';
 import { fromZonedTime } from 'date-fns-tz';
 import { MobileFolioScene, MobileSceneTitle, MobileSceneSubtitle } from './MobileFolioScene';
-import AstridSketch from '../../images/Astrid_Sketch.jpg';
+import AstridSketch from '../../images/Astrid_Sketch.webp';
 import { API_ENDPOINTS } from '../../config';
 import type { Page } from '../types';
 import {
