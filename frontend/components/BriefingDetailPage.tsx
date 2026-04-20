@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import { Section, ScrollReveal, Button, Callout } from './Shared';
+import { useIsMobile } from './mobile/useIsMobile';
+import { MobileBriefingDetailPage } from './mobile/MobileBriefingDetailPage';
 import type { Page } from './types';
 import { Clock, Tag, ChevronRight, Check, X, AlertTriangle, Lightbulb, BookOpen, Layers } from 'lucide-react';
 import AgenticWorkflowImage from '../images/001 - What is an Agentic Workflow.jpg';
@@ -1610,7 +1612,18 @@ const briefings: Record<string, BriefingData> = {
    }
 };
 
-const BriefingDetailPage: React.FC<BriefingDetailPageProps> = ({ onNavigate, id }) => {
+const BriefingDetailPage: React.FC<BriefingDetailPageProps> = (props) => {
+   const isMobile = useIsMobile();
+   if (isMobile) return <BriefingDetailMobile {...props} />;
+   return <BriefingDetailDesktop {...props} />;
+};
+
+const BriefingDetailMobile: React.FC<BriefingDetailPageProps> = ({ onNavigate, id }) => {
+   const data = (id && briefings[id]) ? briefings[id] : briefings["agentic-workflow"];
+   return <MobileBriefingDetailPage data={data} onNavigate={onNavigate} />;
+};
+
+const BriefingDetailDesktop: React.FC<BriefingDetailPageProps> = ({ onNavigate, id }) => {
    const data = (id && briefings[id]) ? briefings[id] : briefings["agentic-workflow"];
 
    useEffect(() => {

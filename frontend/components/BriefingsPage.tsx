@@ -19,6 +19,8 @@ import ComplianceImage from '../images/007 - AI Legal Compliance.jpg';
 import SaaSPricingImage from '../images/008 - The Death of SaaS Pricing.jpg';
 
 import AutomatedVideoImage from '../images/009 - Automated Video Prod.jpg';
+import { useIsMobile } from './mobile/useIsMobile';
+import { MobileBriefingsPage } from './mobile/MobileBriefingsPage';
 
 interface BriefingsPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -111,7 +113,13 @@ export const allBriefings = [
 
 const categories = ["All", "Architecture", "Engineering", "Operations", "Strategy"];
 
-const BriefingsPage: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
+const BriefingsPage: React.FC<BriefingsPageProps> = (props) => {
+  const isMobile = useIsMobile();
+  if (isMobile) return <MobileBriefingsPage {...props} />;
+  return <BriefingsPageDesktop {...props} />;
+};
+
+const BriefingsPageDesktop: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {

@@ -3,12 +3,20 @@ import Header from './Header';
 import Footer from './Footer';
 import { Section, ScrollReveal, GridPattern, VitruvianBackground, Quote, Button, Surface } from './Shared';
 import type { Page } from './types';
+import { useIsMobile } from './mobile/useIsMobile';
+import { MobileThesisPage } from './mobile/MobileThesisPage';
 
 interface ThesisPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
-const ThesisPage: React.FC<ThesisPageProps> = ({ onNavigate }) => {
+const ThesisPage: React.FC<ThesisPageProps> = (props) => {
+  const isMobile = useIsMobile();
+  if (isMobile) return <MobileThesisPage {...props} />;
+  return <ThesisPageDesktop {...props} />;
+};
+
+const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
   useEffect(() => {
     document.title = 'The Thesis — DaVeenci';
     window.scrollTo(0, 0);

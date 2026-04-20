@@ -10,6 +10,8 @@ import BookingPreview from './components/BookingPreview';
 import Newsletter from './components/Newsletter';
 import FounderBlock from './components/FounderBlock';
 import Footer from './components/Footer';
+import MobileLanding from './components/mobile/MobileLanding';
+import { useIsMobile } from './components/mobile/useIsMobile';
 import type { Page } from './components/types';
 
 interface DaVeenciLandingPageProps {
@@ -18,6 +20,12 @@ interface DaVeenciLandingPageProps {
 }
 
 const DaVeenciLandingPage: React.FC<DaVeenciLandingPageProps> = ({ onNavigate, activeSection }) => {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return <MobileLanding onNavigate={onNavigate} />;
+  }
+
   return (
     <div className="flex flex-col w-full overflow-x-hidden">
       <Header onNavigate={onNavigate} currentPage="landing" activeSection={activeSection} />

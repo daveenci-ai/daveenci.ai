@@ -17,8 +17,16 @@ import {
    checkSlotAvailability as checkSharedSlotAvailability,
    isDayDisabled,
 } from './calendarAvailability';
+import { useIsMobile } from './mobile/useIsMobile';
+import { MobileCalendarPage } from './mobile/MobileCalendarPage';
 
-const Calendar: React.FC<CalendarProps> = ({ onNavigate }) => {
+const Calendar: React.FC<CalendarProps> = (props) => {
+   const isMobile = useIsMobile();
+   if (isMobile) return <MobileCalendarPage {...props} />;
+   return <CalendarDesktop {...props} />;
+};
+
+const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
    const [step, setStep] = useState<'datetime' | 'details' | 'success'>('datetime');
    const [currentDate, setCurrentDate] = useState(new Date());
    const [selectedDate, setSelectedDate] = useState<Date | null>(null);

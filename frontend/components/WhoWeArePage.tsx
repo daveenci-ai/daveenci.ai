@@ -5,12 +5,20 @@ import { Section, ScrollReveal, VitruvianBackground, NodeNetworkBackground, Butt
 import type { Page } from './types';
 import AntonSketch from '../images/Anton_Sketch.jpg';
 import AstridSketch from '../images/Astrid_Sketch.jpg';
+import { useIsMobile } from './mobile/useIsMobile';
+import { MobileWhoWeArePage } from './mobile/MobileWhoWeArePage';
 
 interface WhoWeArePageProps {
    onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
-const WhoWeArePage: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
+const WhoWeArePage: React.FC<WhoWeArePageProps> = (props) => {
+   const isMobile = useIsMobile();
+   if (isMobile) return <MobileWhoWeArePage {...props} />;
+   return <WhoWeArePageDesktop {...props} />;
+};
+
+const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
    useEffect(() => {
       window.scrollTo(0, 0);
    }, []);
