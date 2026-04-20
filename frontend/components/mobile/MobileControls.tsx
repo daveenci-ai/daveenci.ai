@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Hash, Send, Monitor } from 'lucide-react';
-import { MobileFolioScene } from './MobileFolioScene';
+import { MobileFolioScene, MobileSceneTitle, MobileSceneSubtitle } from './MobileFolioScene';
 
 interface Channel {
   id: 'slack' | 'telegram' | 'web';
@@ -41,15 +41,15 @@ export const MobileControls: React.FC = () => {
 
   return (
     <MobileFolioScene id="controls" eyebrow="Folio V — The Controls">
-      <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-5 mt-2 tracking-tight">
+      <MobileSceneTitle>
         Where you
         <br />
         <span className="italic text-ink-muted/70">already work.</span>
-      </h2>
+      </MobileSceneTitle>
 
-      <p className="font-serif text-[17px] text-ink-muted leading-[1.6] mb-8">
+      <MobileSceneSubtitle>
         Each team listens on Slack, Telegram, and the web panel. Approve, pause, reroute from wherever you are.
-      </p>
+      </MobileSceneSubtitle>
 
       {/* Channel chips */}
       <div className="flex gap-2 mb-6">

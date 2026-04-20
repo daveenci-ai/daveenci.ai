@@ -87,6 +87,17 @@ body {
   border-radius: 2px;
 }
 
+/* Mobile Method scene — accent mote travels down the vertical station rail. */
+@keyframes method-rail-mote {
+  0%   { top: 0; opacity: 0; }
+  3%   { opacity: 1; }
+  97%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+.method-rail-mote {
+  animation: method-rail-mote 14s linear infinite;
+}
+
 /* Respect prefers-reduced-motion — collapse animations/transitions to instant.
    Note: SVG SMIL (<animate>) is unaffected by CSS; those decorations continue. */
 @media (prefers-reduced-motion: reduce) {

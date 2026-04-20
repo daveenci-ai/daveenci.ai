@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Check, Clock, Mail, Phone, User, Briefcase, HelpCircle } from 'lucide-react';
 import { format } from 'date-fns';
 import { CustomSelect, FormField } from '../Shared';
+import { MobileButton } from './MobileButton';
 import AstridSketch from '../../images/Astrid_Sketch.jpg';
 import { API_ENDPOINTS } from '../../config';
 import type { CalendarProps } from '../types';
@@ -414,36 +415,26 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
       {step !== 'success' && (
         <div className="fixed inset-x-0 bottom-0 z-30 bg-base/95 backdrop-blur-md border-t border-ink/10 px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
           {step === 'datetime' && (
-            <button
+            <MobileButton
               onClick={() => canProceedFromDatetime && setStep('details')}
               disabled={!canProceedFromDatetime}
-              className={`w-full py-3.5 font-medium tracking-[0.15em] uppercase text-sm rounded-sm transition-all ${
-                canProceedFromDatetime ? 'bg-accent text-white shadow-lg' : 'bg-ink/10 text-ink-muted/50 cursor-not-allowed'
-              }`}
             >
               Continue
-            </button>
+            </MobileButton>
           )}
           {step === 'details' && (
-            <button
-              type="submit"
-              form="booking-form"
-              className="w-full py-3.5 bg-accent text-white font-medium tracking-[0.15em] uppercase text-sm rounded-sm shadow-lg"
-            >
+            <MobileButton type="submit" form="booking-form">
               Book the call
-            </button>
+            </MobileButton>
           )}
         </div>
       )}
 
       {step === 'success' && (
         <div className="fixed inset-x-0 bottom-0 z-30 bg-base/95 backdrop-blur-md border-t border-ink/10 px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
-          <button
-            onClick={() => onNavigate('landing')}
-            className="w-full py-3.5 bg-ink text-white font-medium tracking-[0.15em] uppercase text-sm rounded-sm"
-          >
+          <MobileButton variant="dark" onClick={() => onNavigate('landing')}>
             Return home
-          </button>
+          </MobileButton>
         </div>
       )}
     </div>

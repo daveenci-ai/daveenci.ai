@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
+import { MobileButton } from './MobileButton';
 import type { Page } from '../types';
 
 interface MobileMenuProps {
@@ -105,12 +106,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, onNavigat
       </nav>
 
       <div className="px-6 pt-4 pb-[calc(env(safe-area-inset-bottom)+1.5rem)]">
-        <button
-          onClick={() => go('calendar')}
-          className="w-full py-4 bg-accent text-white font-medium tracking-[0.15em] uppercase text-sm rounded-sm"
-        >
-          Talk to us
-        </button>
+        <MobileButton onClick={() => go('calendar')}>Talk to us</MobileButton>
       </div>
     </div>
   );

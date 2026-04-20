@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
-import { MobileFolioScene } from './MobileFolioScene';
+import { MobileFolioScene, MobileSceneTitle, MobileSceneSubtitle } from './MobileFolioScene';
 
 interface Symptom {
   n: string;
@@ -35,15 +35,15 @@ export const MobileContrast: React.FC = () => {
 
   return (
     <MobileFolioScene id="contrast" eyebrow="Folio II — The Industry Is Wrong" className="bg-white/40">
-      <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-5 mt-2 tracking-tight">
+      <MobileSceneTitle>
         One model cannot
         <br />
         <span className="italic text-ink-muted/70">be everyone.</span>
-      </h2>
+      </MobileSceneTitle>
 
-      <p className="font-serif text-[17px] text-ink-muted leading-[1.6] mb-8">
+      <MobileSceneSubtitle>
         Every major AI product is one generalist pretending to do the work of a specialist team. It's mediocre at all of it.
-      </p>
+      </MobileSceneSubtitle>
 
       <ol className="border-t border-ink/10">
         {SYMPTOMS.map((s, i) => {

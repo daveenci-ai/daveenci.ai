@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
+import { MobileButton } from './MobileButton';
 import type { Page } from '../types';
 
 interface MobileThesisPageProps {
@@ -165,18 +166,10 @@ export const MobileThesisPage: React.FC<MobileThesisPageProps> = ({ onNavigate }
             Thirty minutes. No slide deck. Bring the workflow you want a team for and we'll tell you honestly whether we're the right shop to build it.
           </p>
           <div className="flex flex-col gap-3">
-            <button
-              onClick={() => onNavigate('calendar')}
-              className="w-full py-3.5 bg-accent text-white font-medium tracking-[0.15em] uppercase text-sm rounded-sm shadow-md"
-            >
-              Talk to us
-            </button>
-            <button
-              onClick={() => onNavigate('work')}
-              className="w-full py-3.5 bg-white/60 border border-ink/20 text-ink font-medium tracking-[0.15em] uppercase text-sm rounded-sm"
-            >
+            <MobileButton onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
+            <MobileButton variant="secondary" onClick={() => onNavigate('work')}>
               See the work
-            </button>
+            </MobileButton>
           </div>
         </section>
 

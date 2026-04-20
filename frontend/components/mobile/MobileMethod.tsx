@@ -1,5 +1,5 @@
 import React from 'react';
-import { MobileFolioScene } from './MobileFolioScene';
+import { MobileFolioScene, MobileSceneTitle, MobileSceneSubtitle } from './MobileFolioScene';
 
 interface Station {
   n: string;
@@ -19,28 +19,25 @@ const STATIONS: Station[] = [
 
 export const MobileMethod: React.FC = () => (
   <MobileFolioScene id="method" eyebrow="Folio III — The Method">
-    <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-5 mt-2 tracking-tight">
+    <MobileSceneTitle>
       Six stations.
       <br />
       <span className="italic text-ink-muted/70">One specialist.</span>
-    </h2>
+    </MobileSceneTitle>
 
-    <p className="font-serif text-[17px] text-ink-muted leading-[1.6] mb-10">
+    <MobileSceneSubtitle className="mb-10">
       Every specialist follows the same path — domain to output, with a human gate before anything ships.
-    </p>
+    </MobileSceneSubtitle>
 
     {/* Vertical station rail */}
     <ol className="relative border-l border-ink/10 ml-3">
       {/* Traveling accent mote on the rail */}
       <div
         aria-hidden="true"
-        className="absolute left-[-3px] w-[5px] h-[5px] rounded-full bg-accent"
-        style={{
-          animation: 'method-rail-mote 14s linear infinite',
-        }}
+        className="method-rail-mote absolute left-[-3px] w-[5px] h-[5px] rounded-full bg-accent"
       />
 
-      {STATIONS.map((s, i) => {
+      {STATIONS.map((s) => {
         const isGate = s.label === 'HUMAN GATE';
         return (
           <li key={s.n} className="relative pl-7 pb-9 last:pb-0">
@@ -63,18 +60,6 @@ export const MobileMethod: React.FC = () => (
             </div>
             <h3 className="font-serif text-xl text-ink leading-snug mb-1.5">{s.title}</h3>
             <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{s.body}</p>
-
-            {/* Style the rail animation once, scoped via a global keyframe */}
-            {i === 0 && (
-              <style>{`
-                @keyframes method-rail-mote {
-                  0%   { top: 0; opacity: 0; }
-                  3%   { opacity: 1; }
-                  97%  { opacity: 1; }
-                  100% { top: 100%; opacity: 0; }
-                }
-              `}</style>
-            )}
           </li>
         );
       })}

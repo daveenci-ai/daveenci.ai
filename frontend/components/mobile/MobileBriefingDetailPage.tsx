@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowLeft, Clock, Tag, Lightbulb } from 'lucide-react';
+import { MobileButton } from './MobileButton';
 import type { Page } from '../types';
 
 export interface MobileBriefingData {
@@ -145,12 +146,7 @@ export const MobileBriefingDetailPage: React.FC<MobileBriefingDetailPageProps> =
           <p className="font-sans text-[14px] text-ink-muted leading-relaxed mb-6 text-center">
             Thirty minutes. No slide deck. Bring the workflow you want a team for.
           </p>
-          <button
-            onClick={() => onNavigate('calendar')}
-            className="w-full py-3.5 bg-accent text-white font-medium tracking-[0.15em] uppercase text-sm rounded-sm shadow-md"
-          >
-            Talk to us
-          </button>
+          <MobileButton onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
         </section>
 
         <div className="h-10" />

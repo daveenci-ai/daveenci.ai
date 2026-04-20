@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { MobileFolioScene } from './MobileFolioScene';
+import { MobileFolioScene, MobileSceneTitle, MobileSceneSubtitle } from './MobileFolioScene';
+import { MobileScenePlate } from './MobileScenePlate';
 
 interface Card {
   fig: string;
@@ -55,15 +56,15 @@ export const MobileAdvantage: React.FC = () => {
 
   return (
     <MobileFolioScene id="advantage" eyebrow="Folio IV — The Advantage" className="bg-white/40">
-      <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-5 mt-2 tracking-tight">
+      <MobileSceneTitle>
         A tool is free.
         <br />
         <span className="italic text-ink-muted/70">A team remembers.</span>
-      </h2>
+      </MobileSceneTitle>
 
-      <p className="font-serif text-[17px] text-ink-muted leading-[1.6] mb-8">
+      <MobileSceneSubtitle>
         Open-source AI is a fast, free place to start. What separates a tool from a team is what it remembers, distills, and trusts over time.
-      </p>
+      </MobileSceneSubtitle>
 
       {/* Swipeable card rail */}
       <div
@@ -75,23 +76,15 @@ export const MobileAdvantage: React.FC = () => {
           <article
             key={card.fig}
             data-card-index={i}
-            className="snap-center flex-shrink-0 w-[82vw] max-w-[360px] bg-white/70 border border-ink/10 rounded-sm p-5 shadow-sm shadow-ink/5"
+            className="snap-center flex-shrink-0 w-[82vw] max-w-[360px]"
           >
-            <div className="flex justify-between items-center mb-3 pb-2 border-b border-ink/10">
-              <div className="flex gap-1.5">
-                <div className="w-2 h-2 rounded-full bg-ink/15" />
-                <div className="w-2 h-2 rounded-full bg-ink/15" />
-                <div className="w-2 h-2 rounded-full bg-ink/15" />
+            <MobileScenePlate figLabel={`Fig. ${card.fig}`} className="!bg-white/70">
+              <div className="font-serif italic tracking-[0.2em] text-[10px] font-semibold uppercase text-accent mb-2">
+                {card.eyebrow}
               </div>
-              <div className="font-serif italic text-[9px] tracking-[0.25em] text-ink-muted uppercase">
-                Fig. {card.fig}
-              </div>
-            </div>
-            <div className="font-serif italic tracking-[0.2em] text-[10px] font-semibold uppercase text-accent mb-2">
-              {card.eyebrow}
-            </div>
-            <h3 className="font-serif text-2xl text-ink mb-3 leading-tight">{card.title}</h3>
-            <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{card.body}</p>
+              <h3 className="font-serif text-2xl text-ink mb-3 leading-tight">{card.title}</h3>
+              <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{card.body}</p>
+            </MobileScenePlate>
           </article>
         ))}
         <div className="w-2 flex-shrink-0" />

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Menu } from 'lucide-react';
 import { Logo } from '../Shared';
 import { MobileMenu } from './MobileMenu';
+import { MobileButton } from './MobileButton';
 import type { Page } from '../types';
 
 interface MobileShellProps {
@@ -61,12 +62,7 @@ export const MobileShell: React.FC<MobileShellProps> = ({
       {/* Persistent bottom CTA */}
       {showBottomCTA && (
         <div className="fixed inset-x-0 bottom-0 z-30 bg-base/95 backdrop-blur-md border-t border-ink/10 px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
-          <button
-            onClick={() => onNavigate('calendar')}
-            className="w-full py-3.5 bg-accent text-white font-medium tracking-[0.15em] uppercase text-sm rounded-sm shadow-md"
-          >
-            Talk to us
-          </button>
+          <MobileButton onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
         </div>
       )}
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { MobileFolioScene } from './MobileFolioScene';
+import { MobileScenePlate } from './MobileScenePlate';
 import type { Page } from '../types';
 
 interface MobileHeroProps {
@@ -24,18 +25,7 @@ export const MobileHero: React.FC<MobileHeroProps> = ({ onNavigate }) => (
     </p>
 
     {/* Fig. i — mini plate with simplified team motif */}
-    <div className="relative border border-ink/10 bg-white/60 backdrop-blur-[2px] rounded-sm p-5 shadow-sm shadow-ink/5">
-      <div className="flex justify-between items-center mb-3 pb-2 border-b border-ink/10">
-        <div className="flex gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-ink/15" />
-          <div className="w-2 h-2 rounded-full bg-ink/15" />
-          <div className="w-2 h-2 rounded-full bg-ink/15" />
-        </div>
-        <div className="font-serif italic text-[9px] tracking-[0.25em] text-ink-muted uppercase">
-          Fig. i · The Team
-        </div>
-      </div>
-
+    <MobileScenePlate figLabel="Fig. i · The Team">
       <svg viewBox="0 0 200 140" className="w-full h-auto max-w-[260px] mx-auto block">
         {/* Orbital ring */}
         <circle cx="100" cy="70" r="48" fill="none" stroke="rgb(var(--color-ink-muted))" strokeWidth="0.6" strokeDasharray="3 3" opacity="0.3" />
@@ -56,7 +46,7 @@ export const MobileHero: React.FC<MobileHeroProps> = ({ onNavigate }) => (
           <animate attributeName="r" values="3;5;3" dur="2.4s" repeatCount="indefinite" />
         </circle>
       </svg>
-    </div>
+    </MobileScenePlate>
 
     {/* Thumb-zone secondary action */}
     <div className="mt-auto pt-10">

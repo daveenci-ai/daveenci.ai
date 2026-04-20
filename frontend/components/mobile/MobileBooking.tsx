@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Clock } from 'lucide-react';
 import { fromZonedTime } from 'date-fns-tz';
-import { MobileFolioScene } from './MobileFolioScene';
+import { MobileFolioScene, MobileSceneTitle, MobileSceneSubtitle } from './MobileFolioScene';
 import AstridSketch from '../../images/Astrid_Sketch.jpg';
 import { API_ENDPOINTS } from '../../config';
 import type { Page } from '../types';
@@ -132,15 +132,15 @@ export const MobileBooking: React.FC<MobileBookingProps> = ({ onNavigate }) => {
 
   return (
     <MobileFolioScene id="book" eyebrow="Folio VI — The Call" className="bg-white/40">
-      <h2 className="font-serif text-[2.5rem] leading-[1.08] text-ink mb-5 mt-2 tracking-tight">
+      <MobileSceneTitle>
         Thirty minutes.
         <br />
         <span className="italic text-ink-muted/70">No slide deck.</span>
-      </h2>
+      </MobileSceneTitle>
 
-      <p className="font-serif text-[17px] text-ink-muted leading-[1.6] mb-6">
+      <MobileSceneSubtitle className="mb-6">
         Bring the workflow you want a specialist team for. Astrid will tell you honestly whether we're the right workshop to build it.
-      </p>
+      </MobileSceneSubtitle>
 
       {/* Astrid mini row */}
       <div className="flex items-center gap-3 mb-8">

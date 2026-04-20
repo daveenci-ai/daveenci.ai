@@ -36,3 +36,33 @@ export const MobileFolioScene: React.FC<MobileFolioSceneProps> = ({
     <div className="flex-1 flex flex-col">{children}</div>
   </section>
 );
+
+/**
+ * Scene display headline — normalized to the standard mobile folio scale.
+ * Pass as-is for two-line hero/contrast-style headlines; use raw h1/h2
+ * with custom classes only for exceptional one-offs (like the Mission page
+ * where the Folio 0 needs 3rem).
+ */
+export const MobileSceneTitle: React.FC<{ children: React.ReactNode; className?: string }> = ({
+  children,
+  className = '',
+}) => (
+  <h2
+    className={`font-serif text-[2.5rem] leading-[1.08] text-ink mb-5 mt-2 tracking-tight ${className}`}
+  >
+    {children}
+  </h2>
+);
+
+/**
+ * Scene subtitle — the serif italic-adjacent paragraph beneath a MobileSceneTitle.
+ * Normalized to the 17px / 1.6 leading body rhythm.
+ */
+export const MobileSceneSubtitle: React.FC<{ children: React.ReactNode; className?: string }> = ({
+  children,
+  className = '',
+}) => (
+  <p className={`font-serif text-[17px] text-ink-muted leading-[1.6] mb-8 ${className}`}>
+    {children}
+  </p>
+);

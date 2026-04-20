@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { MobileShell } from './MobileShell';
-import { MobileFolioScene } from './MobileFolioScene';
+import { MobileFolioScene, MobileSceneTitle } from './MobileFolioScene';
 import { MobileFounderBlock } from './MobileFounderBlock';
 import { MobilePartnerBlock } from './MobilePartnerBlock';
+import { MobileScenePlate } from './MobileScenePlate';
+import { MobileButton } from './MobileButton';
 import type { Page } from '../types';
 
 interface MobileWhoWeArePageProps {
@@ -108,23 +110,15 @@ export const MobileWhoWeArePage: React.FC<MobileWhoWeArePageProps> = ({ onNaviga
             <article
               key={d.fig}
               data-card-index={i}
-              className="snap-center flex-shrink-0 w-[82vw] max-w-[360px] bg-white/70 border border-ink/10 rounded-sm p-5 shadow-sm shadow-ink/5"
+              className="snap-center flex-shrink-0 w-[82vw] max-w-[360px]"
             >
-              <div className="flex justify-between items-center mb-3 pb-2 border-b border-ink/10">
-                <div className="flex gap-1.5">
-                  <div className="w-2 h-2 rounded-full bg-ink/15" />
-                  <div className="w-2 h-2 rounded-full bg-ink/15" />
-                  <div className="w-2 h-2 rounded-full bg-ink/15" />
+              <MobileScenePlate figLabel={`Fig. ${d.fig}`} className="!bg-white/70">
+                <div className="font-serif italic tracking-[0.2em] text-[10px] font-semibold uppercase text-accent mb-2">
+                  {d.eyebrow}
                 </div>
-                <div className="font-serif italic text-[9px] tracking-[0.25em] text-ink-muted uppercase">
-                  Fig. {d.fig}
-                </div>
-              </div>
-              <div className="font-serif italic tracking-[0.2em] text-[10px] font-semibold uppercase text-accent mb-2">
-                {d.eyebrow}
-              </div>
-              <h3 className="font-serif text-2xl text-ink mb-3 leading-tight">{d.title}</h3>
-              <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{d.body}</p>
+                <h3 className="font-serif text-2xl text-ink mb-3 leading-tight">{d.title}</h3>
+                <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{d.body}</p>
+              </MobileScenePlate>
             </article>
           ))}
           <div className="w-2 flex-shrink-0" />
@@ -153,18 +147,10 @@ export const MobileWhoWeArePage: React.FC<MobileWhoWeArePageProps> = ({ onNaviga
             Thirty minutes with us. No slide deck. Bring the workflow you want a team for and we'll tell you honestly whether we're the right shop to build it.
           </p>
           <div className="flex flex-col gap-3">
-            <button
-              onClick={() => onNavigate('calendar')}
-              className="w-full py-3.5 bg-accent text-white font-medium tracking-[0.15em] uppercase text-sm rounded-sm shadow-md"
-            >
-              Talk to us
-            </button>
-            <button
-              onClick={() => onNavigate('work')}
-              className="w-full py-3.5 bg-white/60 border border-ink/20 text-ink font-medium tracking-[0.15em] uppercase text-sm rounded-sm"
-            >
+            <MobileButton onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
+            <MobileButton variant="secondary" onClick={() => onNavigate('work')}>
               See the work
-            </button>
+            </MobileButton>
           </div>
         </div>
       </MobileFolioScene>
