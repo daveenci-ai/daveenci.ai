@@ -11,7 +11,6 @@ const BriefingsPage = lazy(() => import('./components/BriefingsPage'));
 const BriefingDetailPage = lazy(() => import('./components/BriefingDetailPage'));
 const WhoWeArePage = lazy(() => import('./components/WhoWeArePage'));
 const Calendar = lazy(() => import('./components/Calendar'));
-const AdminPage = lazy(() => import('./components/AdminPage'));
 const PulseLandingPage = lazy(() => import('./components/PulseLandingPage'));
 const BrandAnalyzerPage = lazy(() => import('./components/BrandAnalyzerPage'));
 const WorkPage = lazy(() => import('./components/WorkPage'));
@@ -61,8 +60,6 @@ const App: React.FC = () => {
         setPage('who-we-are');
       } else if (path === '/calendar') {
         setPage('calendar');
-      } else if (path === '/admin') {
-        setPage('admin');
       } else if (path === '/book-demo') {
         setPage('book-demo');
       } else if (path === '/brand-analyzer') {
@@ -162,7 +159,6 @@ const App: React.FC = () => {
     if (targetPage === 'briefing-detail') path = `/codex/${id}`;
     if (targetPage === 'who-we-are') path = '/who-we-are';
     if (targetPage === 'calendar') path = '/calendar';
-    if (targetPage === 'admin') path = '/admin';
     if (targetPage === 'book-demo') path = '/book-demo';
     if (targetPage === 'brand-analyzer') path = '/brand-analyzer';
     if (targetPage === 'work') path = '/work';
@@ -197,7 +193,6 @@ const App: React.FC = () => {
         )}
         {page === 'who-we-are' && <WhoWeArePage onNavigate={handleNavigate} />}
         {page === 'calendar' && <Calendar onNavigate={handleNavigate} />}
-        {page === 'admin' && <AdminPage onNavigate={handleNavigate} />}
         {page === 'book-demo' && <PulseLandingPage onNavigate={handleNavigate} />}
         {page === 'brand-analyzer' && <BrandAnalyzerPage onNavigate={handleNavigate} />}
         {page === 'work' && <WorkPage onNavigate={handleNavigate} />}

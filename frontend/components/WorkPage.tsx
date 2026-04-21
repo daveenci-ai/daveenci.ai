@@ -25,6 +25,20 @@ const workItems = [
     subtitle: 'The real estate media team.',
     blurb: 'Stills, video, 3D tours, AI virtual staging — one property in, one listing-ready package out. Built for volume teams.',
   },
+  {
+    page: 'book-demo' as Page,
+    label: 'Content',
+    title: 'PulseNote',
+    subtitle: 'The content team.',
+    blurb: 'Meeting transcripts in. Publish-ready newsletters, social posts, and visuals out. One workflow across every platform you publish to.',
+  },
+  {
+    page: 'brand-analyzer' as Page,
+    label: 'Brand',
+    title: 'BrandOS',
+    subtitle: 'The brand team.',
+    blurb: 'A name, positioning, or launch idea goes in. Weighted scoring across 10 dimensions, calibrated to your business stage. Specialist-grade naming diligence.',
+  },
 ];
 
 const WorkPage: React.FC<WorkPageProps> = (props) => {

@@ -10,8 +10,6 @@ export const API_ENDPOINTS = {
   book: `${API_BASE_URL}/api/calendar/book`,
   register: `${API_BASE_URL}/api/events/register`,
   newsletter: `${API_BASE_URL}/api/newsletter/subscribe`,
-  authUrl: `${API_BASE_URL}/api/auth/google/url`,
-  authCallback: `${API_BASE_URL}/api/auth/google/callback`,
   analyzeBrand: `${API_BASE_URL}/api/analyze-brand`,
 };
 
