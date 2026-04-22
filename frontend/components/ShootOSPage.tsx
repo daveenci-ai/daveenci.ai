@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowUpRight, ChevronDown, Camera, Video, Box, Sparkles, Users, Building2, Home, TrendingUp } from 'lucide-react';
 import Header from './Header';
 import Footer from './Footer';
-import { Section, SectionHeader, ScrollReveal, PageHero, Button, Surface, Plate, Callout, VitruvianBackground } from './Shared';
+import { Section, SectionHeader, ScrollReveal, PageHero, Button, Plate, VitruvianBackground, Widget, IconBadge, ProblemCallout } from './Shared';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileShootOSPage } from './mobile/MobileShootOSPage';
 import type { Page } from './types';
@@ -144,12 +144,12 @@ const ShootOSPageDesktop: React.FC<ShootOSPageProps> = ({ onNavigate }) => {
       {/* Problem */}
       <Section className="py-12 md:py-16">
         <ScrollReveal>
-          <Callout variant="alt" className="max-w-4xl mx-auto">
+          <ProblemCallout className="max-w-4xl mx-auto">
             <h3 className="font-serif text-xl text-ink mb-2">The problem</h3>
             <p className="font-sans text-ink-muted leading-relaxed">
               Real estate teams need listing-ready media — stills, video, 3D tours, staging — fast and at volume. Traditional production is a human-intensive multi-vendor coordination problem. The outcome: slow turnaround, inconsistent quality, and costs that don't scale with listing velocity.
             </p>
-          </Callout>
+          </ProblemCallout>
         </ScrollReveal>
       </Section>
 
@@ -161,11 +161,11 @@ const ShootOSPageDesktop: React.FC<ShootOSPageProps> = ({ onNavigate }) => {
             const Icon = asset.icon;
             return (
               <ScrollReveal key={asset.label} delay={i * 100}>
-                <Surface kind="product" className="relative h-full p-6 border border-ink/10 bg-pulse-surface flex flex-col">
-                  <Icon className="w-8 h-8 text-accent mb-4" />
+                <Widget interactive className="h-full p-6 flex flex-col">
+                  <IconBadge className="mb-4"><Icon className="w-5 h-5 text-accent" /></IconBadge>
                   <h3 className="font-serif text-xl text-ink mb-2">{asset.label}</h3>
                   <p className="font-sans text-sm text-ink-muted leading-relaxed">{asset.body}</p>
-                </Surface>
+                </Widget>
               </ScrollReveal>
             );
           })}
@@ -194,11 +194,11 @@ const ShootOSPageDesktop: React.FC<ShootOSPageProps> = ({ onNavigate }) => {
             const Icon = uc.icon;
             return (
               <ScrollReveal key={uc.title} delay={i * 100}>
-                <div className="h-full bg-white border border-ink/10 p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                  <Icon className="w-8 h-8 text-accent mb-4" />
+                <Widget interactive className="h-full p-6">
+                  <IconBadge className="mb-4"><Icon className="w-5 h-5 text-accent" /></IconBadge>
                   <h3 className="font-serif text-xl text-ink mb-2">{uc.title}</h3>
                   <p className="font-sans text-sm text-ink-muted leading-relaxed">{uc.body}</p>
-                </div>
+                </Widget>
               </ScrollReveal>
             );
           })}
@@ -209,7 +209,7 @@ const ShootOSPageDesktop: React.FC<ShootOSPageProps> = ({ onNavigate }) => {
       <Section id="faq" className="py-20">
         <SectionHeader eyebrow="FAQ" title="Common questions." />
         <ScrollReveal>
-          <div className="max-w-3xl mx-auto bg-white shadow-xl border border-ink/10 rounded-sm px-8">
+          <div className="max-w-3xl mx-auto bg-white shadow-xl border border-ink/10 rounded-lg px-8">
             {FAQ_ITEMS.map((item, i) => (
               <FAQItem key={i} q={item.q} a={item.a} />
             ))}

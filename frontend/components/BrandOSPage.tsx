@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { ChevronDown, ChevronUp, ArrowUpDown, Loader2, Sparkles, Rocket, TrendingUp, Building2, Search } from 'lucide-react';
-import { ScrollReveal, Section, SectionHeader, PageHero, ErrorAlert, Button, Plate, Callout, VitruvianBackground, Surface } from './Shared';
+import { ScrollReveal, Section, SectionHeader, PageHero, ErrorAlert, Button, Plate, VitruvianBackground, Widget, IconBadge, ProblemCallout } from './Shared';
 import Header from './Header';
 import Footer from './Footer';
 import type { Page } from './types';
@@ -108,14 +108,14 @@ const StageSelector: React.FC<{
           key={key}
           onClick={() => !disabled && onSelect(key)}
           disabled={disabled}
-          className={`relative p-4 md:p-6 border rounded-sm text-left transition-all duration-300 group
+          className={`relative p-4 md:p-6 border rounded-lg text-left transition-all duration-300 group
             ${isActive
               ? 'border-accent bg-accent/5 shadow-lg shadow-accent/10'
-              : 'border-ink/10 bg-white hover:border-accent/30 hover:shadow-md'}
+              : 'border-ink/10 bg-white shadow-sm hover:border-accent/30 hover:shadow-xl hover:-translate-y-1'}
             ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
           `}
         >
-          <div className={`absolute top-0 left-0 w-full h-1 rounded-t-sm transition-all duration-300 ${isActive ? 'bg-accent' : 'bg-transparent group-hover:bg-accent/30'}`} />
+          <div className={`absolute top-0 left-0 w-full h-1 rounded-t-lg transition-all duration-300 ${isActive ? 'bg-accent' : 'bg-transparent group-hover:bg-accent/30'}`} />
           <Icon className={`w-5 h-5 mb-3 transition-colors ${isActive ? 'text-accent' : 'text-ink-muted group-hover:text-accent/70'}`} />
           <div className={`font-serif text-lg md:text-xl font-bold transition-colors ${isActive ? 'text-accent' : 'text-ink'}`}>
             {label}
@@ -146,7 +146,7 @@ const InputPanel: React.FC<{
   };
 
   return (
-    <div className="bg-white border border-ink/10 rounded-sm p-6 md:p-8 shadow-lg">
+    <Widget className="p-6 md:p-8">
       <div className="space-y-5">
         <div>
           <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2">
@@ -159,7 +159,7 @@ const InputPanel: React.FC<{
             onKeyDown={handleKeyDown}
             placeholder="Enter up to 5 names, separated by commas (e.g. Apex, Meridian, Versa)"
             disabled={loading}
-            className="w-full bg-base/30 border border-ink/20 p-3 text-ink rounded-sm placeholder:text-ink-muted/50 focus:border-accent focus:outline-none transition-colors disabled:opacity-50"
+            className="w-full bg-base/30 border border-ink/20 p-3 text-ink rounded-lg placeholder:text-ink-muted/50 focus:border-accent focus:outline-none transition-colors disabled:opacity-50"
           />
           <p className="text-xs text-ink-muted mt-1.5">Separate multiple names with commas. Max 5.</p>
         </div>
@@ -174,14 +174,14 @@ const InputPanel: React.FC<{
             placeholder="Describe your product or business in a sentence (e.g. 'AI-powered booking platform for B2B service companies')"
             disabled={loading}
             rows={2}
-            className="w-full bg-base/30 border border-ink/20 p-3 text-ink rounded-sm placeholder:text-ink-muted/50 focus:border-accent focus:outline-none transition-colors resize-none disabled:opacity-50"
+            className="w-full bg-base/30 border border-ink/20 p-3 text-ink rounded-lg placeholder:text-ink-muted/50 focus:border-accent focus:outline-none transition-colors resize-none disabled:opacity-50"
           />
         </div>
 
         <button
           onClick={onSubmit}
           disabled={disabled}
-          className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 font-sans text-sm font-medium transition-all duration-500 rounded-sm
+          className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 font-sans text-sm font-medium transition-all duration-500 rounded-lg
             ${disabled
               ? 'bg-ink/20 text-ink-muted cursor-not-allowed'
               : 'bg-accent hover:bg-accent-hover text-white shadow-sm hover:shadow-md'}
@@ -200,7 +200,7 @@ const InputPanel: React.FC<{
           )}
         </button>
       </div>
-    </div>
+    </Widget>
   );
 };
 
@@ -295,7 +295,7 @@ const ResultsTable: React.FC<{ result: AnalysisResult }> = ({ result }) => {
   );
 
   return (
-    <div className="bg-white border border-ink/10 rounded-sm shadow-lg overflow-hidden">
+    <Widget className="overflow-hidden">
       {/* Toggle for detail columns */}
       <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-ink/5 bg-base/30">
         <h3 className="font-serif text-lg text-ink font-bold">Results</h3>
@@ -408,7 +408,7 @@ const ResultsTable: React.FC<{ result: AnalysisResult }> = ({ result }) => {
           <span className="italic">Negative Risk: inverse scored (high = safe)</span>
         </div>
       </div>
-    </div>
+    </Widget>
   );
 };
 
@@ -558,12 +558,12 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
       {/* Problem */}
       <Section className="py-12 md:py-16">
         <ScrollReveal>
-          <Callout variant="alt" className="max-w-4xl mx-auto">
+          <ProblemCallout className="max-w-4xl mx-auto">
             <h3 className="font-serif text-xl text-ink mb-2">Why it matters</h3>
             <p className="font-sans text-ink-muted leading-relaxed">
               Most naming feedback is vibes. "I like it." "Feels off." "My wife said no." That's not a signal — that's noise. BrandOS scores candidate names the way a specialist would: across dimensions that actually predict whether a name will hold up once you start shipping.
             </p>
-          </Callout>
+          </ProblemCallout>
         </ScrollReveal>
       </Section>
 
@@ -625,11 +625,11 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
             const Icon = uc.icon;
             return (
               <ScrollReveal key={uc.title} delay={i * 100}>
-                <div className="h-full bg-white border border-ink/10 p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                  <Icon className="w-8 h-8 text-accent mb-4" />
+                <Widget interactive className="h-full p-6">
+                  <IconBadge className="mb-4"><Icon className="w-5 h-5 text-accent" /></IconBadge>
                   <h3 className="font-serif text-xl text-ink mb-2">{uc.title}</h3>
                   <p className="font-sans text-sm text-ink-muted leading-relaxed">{uc.body}</p>
-                </div>
+                </Widget>
               </ScrollReveal>
             );
           })}
@@ -640,7 +640,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
       <Section id="faq" className="bg-alt/30 py-20">
         <SectionHeader eyebrow="FAQ" title="Common questions." />
         <ScrollReveal>
-          <div className="max-w-3xl mx-auto bg-white shadow-xl border border-ink/10 rounded-sm px-8">
+          <div className="max-w-3xl mx-auto bg-white shadow-xl border border-ink/10 rounded-lg px-8">
             {[
               { q: 'What are the 10 dimensions?', a: 'Clarity, Relevance, Trust, Industry Fit, Memorability, Uniqueness, Scalability, Pronounceability, Visual Identity, and Negative Risk. Each is weighted differently (Clarity ×1.8 is the heaviest; Negative Risk ×0.6 is the lightest but inverse-scored so a high score means low risk).' },
               { q: "Why does 'business stage' matter?", a: "Weights shift by stage. A Bootstrap name optimizes for clarity and pronounceability (you're explaining it a hundred times a day). A Scale-stage name optimizes for uniqueness and visual identity (you're defending trademark and building brand recognition). BrandOS recalibrates the scoring accordingly." },

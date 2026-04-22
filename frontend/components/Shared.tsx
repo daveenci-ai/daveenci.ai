@@ -440,7 +440,7 @@ export const Section: React.FC<SectionProps> = ({ id, className = '', children, 
 // --- Primitives ---
 
 export const Surface: React.FC<{
-  kind: 'document' | 'product';
+  kind: 'document' | 'product' | 'modern';
   raised?: boolean;
   as?: 'div' | 'section' | 'article';
   className?: string;
@@ -450,12 +450,16 @@ export const Surface: React.FC<{
 }> = ({ kind, raised = false, as: Tag = 'div', className = '', children, style, onClick }) => {
   const radius = kind === 'document'
     ? 'var(--radius-widget-document)'
-    : 'var(--radius-widget-product)';
+    : kind === 'modern'
+      ? 'var(--radius-widget-modern)'
+      : 'var(--radius-widget-product)';
   const boxShadow = raised
     ? 'var(--shadow-widget-raised)'
-    : kind === 'product'
-      ? 'var(--shadow-widget-product)'
-      : 'var(--shadow-widget-document)';
+    : kind === 'modern'
+      ? 'var(--shadow-widget-modern)'
+      : kind === 'product'
+        ? 'var(--shadow-widget-product)'
+        : 'var(--shadow-widget-document)';
   return (
     <Tag
       onClick={onClick}
@@ -466,6 +470,73 @@ export const Surface: React.FC<{
     </Tag>
   );
 };
+
+/**
+ * Widget — product-page card primitive matching the PulseNote benchmark.
+ * Solid white surface, modern radius, subtle shadow. `interactive` adds the
+ * hover-lift used on use-case / stage / asset cards.
+ */
+export const Widget: React.FC<{
+  interactive?: boolean;
+  as?: 'div' | 'section' | 'article' | 'li';
+  className?: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+}> = ({ interactive = false, as: Tag = 'div', className = '', children, onClick }) => {
+  const hover = interactive
+    ? 'transition-all duration-300 hover:-translate-y-1 hover:[box-shadow:var(--shadow-widget-modern-hover)]'
+    : '';
+  return (
+    <Tag
+      onClick={onClick}
+      className={`bg-white border border-ink/10 ${hover} ${className}`}
+      style={{
+        borderRadius: 'var(--radius-widget-modern)',
+        boxShadow: 'var(--shadow-widget-modern)',
+      }}
+    >
+      {children}
+    </Tag>
+  );
+};
+
+/**
+ * IconBadge — circular accent badge that wraps a lucide icon on product pages.
+ * Matches the PulseNote use-case / feature card treatment.
+ */
+export const IconBadge: React.FC<{
+  children: React.ReactNode;
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+}> = ({ children, size = 'md', className = '' }) => {
+  const dimension = size === 'sm' ? 'w-8 h-8' : size === 'lg' ? 'w-12 h-12' : 'w-10 h-10';
+  return (
+    <div
+      className={`${dimension} rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center flex-shrink-0 ${className}`}
+    >
+      {children}
+    </div>
+  );
+};
+
+/**
+ * ProblemCallout — amber "here's the pain" callout that sits above solutions.
+ * Replaces the old <Callout variant="alt"> grey block on product pages.
+ */
+export const ProblemCallout: React.FC<{
+  className?: string;
+  children: React.ReactNode;
+}> = ({ className = '', children }) => (
+  <div
+    className={`bg-amber-50/40 border border-amber-200/40 p-6 md:p-8 ${className}`}
+    style={{
+      borderRadius: 'var(--radius-widget-modern)',
+      boxShadow: 'var(--shadow-widget-modern)',
+    }}
+  >
+    {children}
+  </div>
+);
 
 /**
  * Plate — the editorial plate widget used to frame diagrams on the landing pages.

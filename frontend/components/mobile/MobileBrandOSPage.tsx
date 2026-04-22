@@ -3,6 +3,7 @@ import { Loader2, Sparkles, Rocket, TrendingUp, Building2, Search, ChevronDown, 
 import { MobileShell } from './MobileShell';
 import { MobileButton } from './MobileButton';
 import { MobileScenePlate } from './MobileScenePlate';
+import { Widget, IconBadge, ProblemCallout } from '../Shared';
 import { API_ENDPOINTS } from '../../config';
 import type { Page } from '../types';
 
@@ -193,12 +194,12 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
 
       {/* Problem */}
       <section className="px-6 pb-8">
-        <div className="bg-alt/10 border-l-2 border-alt p-5 rounded-sm">
+        <ProblemCallout className="p-5">
           <h3 className="font-serif text-xl text-ink mb-2">Why it matters</h3>
           <p className="font-sans text-[15px] text-ink-muted leading-relaxed">
             Most naming feedback is vibes. "I like it." "Feels off." That's not a signal — that's noise. BrandOS scores candidate names the way a specialist would: across dimensions that actually predict whether a name will hold up.
           </p>
-        </div>
+        </ProblemCallout>
       </section>
 
       {/* Try it — live tool */}
@@ -226,7 +227,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
                 key={key}
                 onClick={() => !loading && setStage(key)}
                 disabled={loading}
-                className={`relative p-4 border rounded-sm text-left transition-all ${
+                className={`relative p-4 border rounded-lg shadow-sm text-left transition-all ${
                   isActive
                     ? 'border-accent bg-accent/5 ring-1 ring-accent'
                     : 'border-ink/10 bg-white'
@@ -248,7 +249,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
         <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted mb-3 mt-8">
           2. Enter names &amp; context
         </div>
-        <div className="bg-white border border-ink/10 rounded-sm p-5 shadow-sm shadow-ink/5">
+        <Widget className="p-5">
           <div className="space-y-4">
             <div>
               <label className="block font-mono text-[10px] font-bold text-ink uppercase tracking-wider mb-2">
@@ -260,7 +261,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
                 onChange={(e) => setNames(e.target.value)}
                 placeholder="Up to 5, comma-separated"
                 disabled={loading}
-                className="w-full bg-base/30 border border-ink/20 rounded-sm p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none disabled:opacity-50"
+                className="w-full bg-base/30 border border-ink/20 rounded-lg p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none disabled:opacity-50"
               />
               <p className="text-[11px] text-ink-muted mt-1.5">Max 5 names.</p>
             </div>
@@ -275,7 +276,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
                 placeholder="AI-powered booking platform for B2B service companies"
                 disabled={loading}
                 rows={3}
-                className="w-full bg-base/30 border border-ink/20 rounded-sm p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none resize-none disabled:opacity-50"
+                className="w-full bg-base/30 border border-ink/20 rounded-lg p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none resize-none disabled:opacity-50"
               />
             </div>
 
@@ -293,12 +294,12 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
               </span>
             </MobileButton>
           </div>
-        </div>
+        </Widget>
 
         {error && (
           <div
             role="alert"
-            className="mt-4 text-xs font-serif italic text-amber-900 bg-amber-50/70 border border-amber-200/80 rounded-sm px-4 py-2.5"
+            className="mt-4 text-xs font-serif italic text-amber-900 bg-amber-50/70 border border-amber-200/80 rounded-lg px-4 py-2.5"
           >
             {error}
           </div>
@@ -317,17 +318,14 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
               const scores = result.scores[brand] ?? {};
               const isOpen = expandedBrand === brand;
               return (
-                <div
-                  key={brand}
-                  className="bg-white border border-ink/10 rounded-sm overflow-hidden"
-                >
+                <Widget key={brand} className="overflow-hidden">
                   <button
                     onClick={() => setExpandedBrand(isOpen ? null : brand)}
                     className="w-full p-5 text-left"
                     aria-expanded={isOpen}
                   >
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-sm border border-ink/10 bg-base/30 flex items-center justify-center">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-lg border border-ink/10 bg-base/30 flex items-center justify-center">
                         <span className="font-serif text-sm text-ink-muted">{rank + 1}</span>
                       </div>
                       <div className="flex-1 min-w-0">
@@ -392,7 +390,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
                       </div>
                     </div>
                   )}
-                </div>
+                </Widget>
               );
             })}
             </div>
@@ -418,13 +416,13 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
           ].map((uc) => {
             const Icon = uc.icon;
             return (
-              <div key={uc.title} className="bg-white border border-ink/10 rounded-sm p-5">
+              <Widget key={uc.title} className="p-5">
                 <div className="flex items-center gap-3 mb-2">
-                  <Icon className="w-5 h-5 text-accent flex-shrink-0" />
+                  <IconBadge size="sm"><Icon className="w-4 h-4 text-accent" /></IconBadge>
                   <h3 className="font-serif text-lg text-ink">{uc.title}</h3>
                 </div>
                 <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{uc.body}</p>
-              </div>
+              </Widget>
             );
           })}
         </div>
@@ -439,7 +437,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
         <h2 className="font-serif text-[2rem] leading-[1.1] text-ink mb-6 tracking-tight">
           Common <span className="italic text-ink-muted/70">questions.</span>
         </h2>
-        <ol className="border-t border-ink/10">
+        <Widget as="ol" className="px-5">
           {[
             { q: 'What are the 10 dimensions?', a: 'Clarity, Relevance, Trust, Industry Fit, Memorability, Uniqueness, Scalability, Pronounceability, Visual Identity, and Negative Risk. Each is weighted differently (Clarity ×1.8 is heaviest; Negative Risk ×0.6 is inverse-scored so high = safe).' },
             { q: "Why does 'business stage' matter?", a: "Weights shift by stage. Bootstrap optimizes for clarity and pronounceability. Scale optimizes for uniqueness and visual identity. BrandOS recalibrates accordingly." },
@@ -450,7 +448,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
           ].map((item, i) => {
             const isOpen = openFaq === i;
             return (
-              <li key={i} className="border-b border-ink/10">
+              <li key={i} className="border-b border-ink/10 last:border-0">
                 <button
                   onClick={() => setOpenFaq(isOpen ? null : i)}
                   className="w-full flex items-baseline gap-3 py-4 text-left active:opacity-60 transition-opacity"
@@ -469,7 +467,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
               </li>
             );
           })}
-        </ol>
+        </Widget>
       </section>
 
       {/* Final CTA */}

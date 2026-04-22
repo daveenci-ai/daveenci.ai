@@ -3,6 +3,7 @@ import { ArrowUpRight, Camera, Video, Box, Sparkles, Home, TrendingUp, Users, Bu
 import { MobileShell } from './MobileShell';
 import { MobileButton } from './MobileButton';
 import { MobileScenePlate } from './MobileScenePlate';
+import { Widget, IconBadge, ProblemCallout } from '../Shared';
 import type { Page } from '../types';
 
 interface MobileShootOSPageProps {
@@ -108,12 +109,12 @@ export const MobileShootOSPage: React.FC<MobileShootOSPageProps> = ({ onNavigate
 
       {/* Problem */}
       <section className="px-6 pb-8">
-        <div className="bg-alt/10 border-l-2 border-alt p-5 rounded-sm">
+        <ProblemCallout className="p-5">
           <h3 className="font-serif text-xl text-ink mb-2">The problem</h3>
           <p className="font-sans text-[15px] text-ink-muted leading-relaxed">
             Real estate teams need listing-ready media — stills, video, 3D tours, staging — fast and at volume. Traditional production is a human-intensive multi-vendor coordination problem. Slow turnaround, inconsistent quality, costs that don't scale.
           </p>
-        </div>
+        </ProblemCallout>
       </section>
 
       {/* Specialists */}
@@ -130,15 +131,13 @@ export const MobileShootOSPage: React.FC<MobileShootOSPageProps> = ({ onNavigate
           {ASSETS.map((asset) => {
             const Icon = asset.icon;
             return (
-              <div key={asset.label} className="bg-pulse-surface border border-ink/10 rounded-sm p-5">
+              <Widget key={asset.label} className="p-5">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-9 h-9 rounded-sm border border-accent/20 bg-accent/5 flex items-center justify-center">
-                    <Icon className="w-4 h-4 text-accent" />
-                  </div>
+                  <IconBadge size="sm"><Icon className="w-4 h-4 text-accent" /></IconBadge>
                   <h3 className="font-serif text-lg text-ink">{asset.label}</h3>
                 </div>
                 <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{asset.body}</p>
-              </div>
+              </Widget>
             );
           })}
         </div>
@@ -157,13 +156,13 @@ export const MobileShootOSPage: React.FC<MobileShootOSPageProps> = ({ onNavigate
           {USE_CASES.map((uc) => {
             const Icon = uc.icon;
             return (
-              <div key={uc.title} className="bg-white border border-ink/10 rounded-sm p-5">
+              <Widget key={uc.title} className="p-5">
                 <div className="flex items-center gap-3 mb-2">
-                  <Icon className="w-5 h-5 text-accent flex-shrink-0" />
+                  <IconBadge size="sm"><Icon className="w-4 h-4 text-accent" /></IconBadge>
                   <h3 className="font-serif text-lg text-ink">{uc.title}</h3>
                 </div>
                 <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{uc.body}</p>
-              </div>
+              </Widget>
             );
           })}
         </div>
@@ -178,11 +177,11 @@ export const MobileShootOSPage: React.FC<MobileShootOSPageProps> = ({ onNavigate
         <h2 className="font-serif text-[2rem] leading-[1.1] text-ink mb-6 tracking-tight">
           Common <span className="italic text-ink-muted/70">questions.</span>
         </h2>
-        <ol className="border-t border-ink/10">
+        <Widget as="ol" className="px-5">
           {FAQS.map((item, i) => {
             const isOpen = openFaq === i;
             return (
-              <li key={i} className="border-b border-ink/10">
+              <li key={i} className="border-b border-ink/10 last:border-0">
                 <button
                   onClick={() => setOpenFaq(isOpen ? null : i)}
                   className="w-full flex items-baseline gap-3 py-4 text-left active:opacity-60 transition-opacity"
@@ -201,7 +200,7 @@ export const MobileShootOSPage: React.FC<MobileShootOSPageProps> = ({ onNavigate
               </li>
             );
           })}
-        </ol>
+        </Widget>
       </section>
 
       {/* Final CTA */}
