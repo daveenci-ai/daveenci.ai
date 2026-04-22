@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, ChevronDown, Camera, Video, Box, Sparkles, Users, Building2, Home, TrendingUp, Check, Image as ImageIcon, Film, Layers } from 'lucide-react';
 import Header from './Header';
 import Footer from './Footer';
-import { Section, SectionHeader, ScrollReveal, PageHero, Button, VitruvianBackground, Widget, IconBadge, ProblemCallout, ProductFrame } from './Shared';
+import { Section, SectionHeader, ScrollReveal, PageHero, Button, VitruvianBackground, Widget, IconBadge, ProductFrame } from './Shared';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileShootOSPage } from './mobile/MobileShootOSPage';
 import type { Page } from './types';
@@ -16,13 +16,6 @@ const ShootOSPage: React.FC<ShootOSPageProps> = (props) => {
   if (isMobile) return <MobileShootOSPage {...props} />;
   return <ShootOSPageDesktop {...props} />;
 };
-
-const ASSETS = [
-  { icon: Camera, label: 'Stills', body: 'HDR merge, color correction, crop, branded watermarks — consistent across every listing.' },
-  { icon: Video, label: 'Video', body: 'Walk-through cut, color grade, music, end-card — agent-ready in hours.' },
-  { icon: Box, label: '3D tours', body: 'Stitch 360° capture into an interactive tour. Click-to-explore, embed-ready.' },
-  { icon: Sparkles, label: 'Staging', body: 'AI virtual staging — empty room in, fully-staged scene out. No movers, no rental furniture.' },
-];
 
 const USE_CASES = [
   { icon: Home, title: 'Brokerages', body: 'Unify media production across your entire listing inventory. Consistent quality, one vendor.' },
@@ -280,6 +273,194 @@ const AssetSpecialistPanel: React.FC = () => {
   );
 };
 
+// ─── Brand Profile Panel (Row 2 widget) ────────────────────────────────────
+
+const BRAND_SWATCHES = ['#1A3D54', '#C8A87D', '#F5EDE0', '#1A1A1A'];
+const LISTINGS = ['12 Maple Ln', '4815 Hayward Pl', '902 Crestview Dr'];
+
+const BrandProfilePanel: React.FC = () => {
+  const [swatchCount, setSwatchCount] = useState(0);
+  const [logoIn, setLogoIn] = useState(false);
+  const [stamped, setStamped] = useState<number[]>([]);
+  const [cycle, setCycle] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => {
+    const clear = () => { timerRef.current.forEach(clearTimeout); timerRef.current = []; };
+    const add = (fn: () => void, ms: number) => { timerRef.current.push(setTimeout(fn, ms)); };
+
+    clear();
+    setSwatchCount(0);
+    setLogoIn(false);
+    setStamped([]);
+
+    BRAND_SWATCHES.forEach((_, i) => add(() => setSwatchCount(i + 1), 400 + i * 250));
+    add(() => setLogoIn(true), 400 + BRAND_SWATCHES.length * 250 + 200);
+    LISTINGS.forEach((_, i) => add(() => setStamped(prev => [...prev, i]), 400 + BRAND_SWATCHES.length * 250 + 800 + i * 450));
+
+    add(() => setCycle(c => c + 1), 400 + BRAND_SWATCHES.length * 250 + 800 + LISTINGS.length * 450 + 2400);
+
+    return clear;
+  }, [cycle]);
+
+  return (
+    <ProductFrame height={480}>
+      <div className="flex items-center justify-between mb-3">
+        <div>
+          <div className="font-serif text-sm text-ink">Meridian Realty · brand profile</div>
+          <div className="font-mono text-[10px] text-ink/40">set once · applied to every deliverable</div>
+        </div>
+        <span className="font-mono text-[10px] uppercase tracking-widest text-accent/80">v3</span>
+      </div>
+
+      {/* Palette */}
+      <div className="bg-white border border-ink/10 rounded-lg p-3 mb-3">
+        <div className="font-mono text-[9px] uppercase tracking-widest text-ink/40 mb-2">Palette</div>
+        <div className="flex gap-2">
+          {BRAND_SWATCHES.map((hex, i) => (
+            <div key={hex} className={`flex-1 transition-all duration-300 ${i < swatchCount ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+              <div className="w-full h-10 rounded-md border border-ink/10" style={{ backgroundColor: hex }} />
+              <div className="font-mono text-[9px] text-ink-muted/60 mt-1 text-center">{hex}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Logo / watermark */}
+      <div className={`bg-white border border-ink/10 rounded-lg p-3 mb-3 transition-all duration-500 ${logoIn ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
+        <div className="font-mono text-[9px] uppercase tracking-widest text-ink/40 mb-2">Watermark</div>
+        <div className="flex items-center justify-between h-12 rounded-md bg-[#1A3D54] px-3">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-full border border-[#C8A87D]" style={{ borderWidth: 1.5 }} />
+            <span className="font-serif text-white text-sm tracking-wider">MERIDIAN</span>
+          </div>
+          <span className="font-mono text-[9px] text-white/60 uppercase tracking-widest">realty</span>
+        </div>
+      </div>
+
+      {/* Applied to listings */}
+      <div className="bg-white border border-ink/10 rounded-lg p-3 flex-1">
+        <div className="flex items-center justify-between mb-2">
+          <div className="font-mono text-[9px] uppercase tracking-widest text-ink/40">Applied to listings</div>
+          <span className="font-mono text-[9px] text-accent/80">{stamped.length}/{LISTINGS.length} stamped</span>
+        </div>
+        <div className="space-y-1.5">
+          {LISTINGS.map((addr, i) => {
+            const done = stamped.includes(i);
+            return (
+              <div
+                key={addr}
+                className={`flex items-center gap-2 rounded-lg border px-2.5 py-1.5 transition-all duration-300 ${done ? 'bg-accent/5 border-accent/30' : 'bg-white border-ink/10'}`}
+              >
+                <Home className="w-3 h-3 text-ink/40 flex-shrink-0" />
+                <span className="font-mono text-[11px] text-ink/70 truncate flex-1">{addr}</span>
+                {done && (
+                  <span className="font-mono text-[9px] text-accent bg-accent/10 border border-accent/20 rounded px-1.5 py-0.5">
+                    ✓ Branded
+                  </span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </ProductFrame>
+  );
+};
+
+// ─── Turnaround Comparison (Row 3 widget) ──────────────────────────────────
+
+const TurnaroundComparison: React.FC = () => {
+  const [traditionalProgress, setTraditionalProgress] = useState(0);
+  const [shootosProgress, setShootosProgress] = useState(0);
+  const [showMetric, setShowMetric] = useState(false);
+  const [cycle, setCycle] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => {
+    const clear = () => { timerRef.current.forEach(clearTimeout); timerRef.current = []; };
+    const add = (fn: () => void, ms: number) => { timerRef.current.push(setTimeout(fn, ms)); };
+
+    clear();
+    setTraditionalProgress(0);
+    setShootosProgress(0);
+    setShowMetric(false);
+
+    // Traditional fills slowly, ShootOS fills fast in parallel
+    add(() => setShootosProgress(100), 400);
+    add(() => setTraditionalProgress(25), 800);
+    add(() => setTraditionalProgress(50), 1400);
+    add(() => setTraditionalProgress(75), 2000);
+    add(() => setTraditionalProgress(100), 2600);
+    add(() => setShowMetric(true), 3000);
+    add(() => setCycle(c => c + 1), 6000);
+
+    return clear;
+  }, [cycle]);
+
+  return (
+    <ProductFrame height={480}>
+      <div className="flex items-center justify-between mb-3">
+        <div>
+          <div className="font-serif text-sm text-ink">Turnaround · 1247 Maple St</div>
+          <div className="font-mono text-[10px] text-ink/40">same capture · two pipelines</div>
+        </div>
+        <span className="font-mono text-[10px] uppercase tracking-widest text-ink-muted/50">benchmark</span>
+      </div>
+
+      {/* Traditional timeline */}
+      <div className="bg-white border border-ink/10 rounded-lg p-3 mb-3">
+        <div className="flex items-center justify-between mb-2">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-ink-muted/60">Traditional · multi-vendor</span>
+          <span className="font-mono text-[10px] text-ink-muted/50">2–5 days</span>
+        </div>
+        <div className="grid grid-cols-5 gap-1 mb-2">
+          {['Shoot', 'Retouch', 'Video edit', 'Stitch 3D', 'QA + deliver'].map((stage, i) => {
+            const reached = traditionalProgress >= (i + 1) * 20;
+            return (
+              <div key={stage} className={`h-2 rounded-sm transition-all duration-500 ${reached ? 'bg-ink/30' : 'bg-ink/5'}`} />
+            );
+          })}
+        </div>
+        <div className="grid grid-cols-5 gap-1 font-mono text-[9px] text-ink-muted/60">
+          {['Shoot', 'Retouch', 'Video', '3D', 'QA'].map(s => (
+            <span key={s} className="truncate">{s}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* ShootOS timeline */}
+      <div className="bg-white border border-accent/20 rounded-lg p-3 mb-3">
+        <div className="flex items-center justify-between mb-2">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-accent">ShootOS · parallel team</span>
+          <span className="font-mono text-[10px] text-accent/70">4–8 hours</span>
+        </div>
+        <div className="relative h-2 rounded-full bg-ink/5 overflow-hidden mb-2">
+          <div className="absolute inset-y-0 left-0 bg-accent transition-all duration-1000 ease-out rounded-full" style={{ width: `${shootosProgress}%` }} />
+        </div>
+        <div className="grid grid-cols-4 gap-1 font-mono text-[9px] text-accent/70">
+          <span className="truncate">Shoot</span>
+          <span className="truncate">Specialists</span>
+          <span className="truncate">QA</span>
+          <span className="truncate">Deliver</span>
+        </div>
+      </div>
+
+      {/* Metric */}
+      <div className={`mt-auto bg-accent/5 border border-accent/20 rounded-lg p-4 text-center transition-all duration-500 ${showMetric ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
+        <div className="flex items-baseline justify-center gap-3">
+          <span className="font-serif text-3xl text-ink-muted/40 line-through decoration-red-500/50 decoration-2">72h</span>
+          <ArrowUpRight className="w-5 h-5 text-accent rotate-45" />
+          <span className="font-serif text-4xl text-accent">6h</span>
+        </div>
+        <div className="font-mono text-[10px] uppercase tracking-widest text-ink-muted/60 mt-2">
+          ~12× faster from capture to agent-ready
+        </div>
+      </div>
+    </ProductFrame>
+  );
+};
+
 const ShootOSPageDesktop: React.FC<ShootOSPageProps> = ({ onNavigate }) => {
   useEffect(() => {
     document.title = 'ShootOS — DaVeenci';
@@ -354,48 +535,49 @@ const ShootOSPageDesktop: React.FC<ShootOSPageProps> = ({ onNavigate }) => {
             </div>
           </ScrollReveal>
         </div>
-      </Section>
 
-      {/* Problem */}
-      <Section className="py-12 md:py-16">
-        <ScrollReveal>
-          <ProblemCallout className="max-w-4xl mx-auto">
-            <h3 className="font-serif text-xl text-ink mb-2">The problem</h3>
-            <p className="font-sans text-ink-muted leading-relaxed">
-              Real estate teams need listing-ready media — stills, video, 3D tours, staging — fast and at volume. Traditional production is a human-intensive multi-vendor coordination problem. The outcome: slow turnaround, inconsistent quality, and costs that don't scale with listing velocity.
-            </p>
-          </ProblemCallout>
-        </ScrollReveal>
-      </Section>
-
-      {/* Asset specialists */}
-      <Section id="assets" className="bg-alt/30 py-20">
-        <SectionHeader eyebrow="Specialists" title="Four asset types. Four specialists. One pipeline." subtitle="Each capture routes to the specialist that handles it best. Every output lands in the same branded package." />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-          {ASSETS.map((asset, i) => {
-            const Icon = asset.icon;
-            return (
-              <ScrollReveal key={asset.label} delay={i * 100}>
-                <Widget interactive className="h-full p-6 flex flex-col">
-                  <IconBadge className="mb-4"><Icon className="w-5 h-5 text-accent" /></IconBadge>
-                  <h3 className="font-serif text-xl text-ink mb-2">{asset.label}</h3>
-                  <p className="font-sans text-sm text-ink-muted leading-relaxed">{asset.body}</p>
-                </Widget>
-              </ScrollReveal>
-            );
-          })}
+        {/* Row 2 — Brand Profile (copy L, demo R) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-20">
+          <ScrollReveal delay={200}>
+            <div>
+              <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">Every listing on-brand, every time</h3>
+              <p className="font-sans text-lg text-ink-muted leading-relaxed mb-6">
+                Set your palette, watermark, video end-card, and staging style once. ShootOS applies them consistently across every listing your team ships — no matter which specialist worked on which asset. Inventory-wide brand consistency without hand-enforcement.
+              </p>
+              <ul className="space-y-3">
+                {['Brand profile: colors, fonts, watermark, voice', 'Every deliverable stamped automatically', 'Consistency across stills, video, 3D, staging', 'Change the profile once — rebranding is an afternoon'].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-ink-muted">
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <span className="font-sans">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={400} direction="left">
+            <BrandProfilePanel />
+          </ScrollReveal>
         </div>
-      </Section>
 
-      {/* What it ships */}
-      <Section className="py-20">
-        <div className="max-w-4xl mx-auto">
-          <ScrollReveal>
-            <SectionHeader eyebrow="Deliverable" title="What it ships." subtitle="A complete listing media package — agent-ready, branded, and consistent across your entire inventory." />
-            <div className="text-center">
-              <Button variant="primary" onClick={() => window.open('https://shootos.ai', '_blank')} className="px-8 py-4">
-                <span className="flex items-center gap-2">See sample outputs at shootos.ai<ArrowUpRight className="w-4 h-4" /></span>
-              </Button>
+        {/* Row 3 — Turnaround (demo L, copy R) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-20">
+          <ScrollReveal delay={200}>
+            <TurnaroundComparison />
+          </ScrollReveal>
+          <ScrollReveal delay={400} direction="left">
+            <div>
+              <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">Hours, not days</h3>
+              <p className="font-sans text-lg text-ink-muted leading-relaxed mb-6">
+                Traditional multi-vendor production is serial — one specialist waits for another to finish. ShootOS runs specialists in parallel on the same capture, so stills, video, 3D, and staging all land at the same QA queue, typically ~12× faster. Your listings go live while competing inventory is still in editing.
+              </p>
+              <ul className="space-y-3">
+                {['Stills + video + 3D + staging in parallel', 'Single QA pass across all asset types', 'Typical listing kit: 4–8 hours from capture', 'Speed at volume is the competitive edge'].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-ink-muted">
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <span className="font-sans">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </ScrollReveal>
         </div>
