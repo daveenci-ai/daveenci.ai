@@ -105,7 +105,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
 
           <div className="lg:col-span-6 relative h-[400px] md:h-[480px] flex items-center justify-center">
             <ScrollReveal delay={500} direction="left" className="w-full flex justify-center">
-              <Plate fig="i" title="Team Structure">
+              <Plate fig="i" title="Team Structure" variant="modern">
                 <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 300 300" fill="none">
                   {/* Orbit ring */}
                   <circle cx="150" cy="150" r="110" fill="none" stroke="rgb(var(--color-ink-muted))" strokeWidth="0.6" strokeDasharray="3 4" opacity="0.3" />

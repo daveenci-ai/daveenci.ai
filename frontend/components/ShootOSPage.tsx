@@ -100,7 +100,7 @@ const ShootOSPageDesktop: React.FC<ShootOSPageProps> = ({ onNavigate }) => {
 
           <div className="lg:col-span-6 relative h-[400px] md:h-[480px] flex items-center justify-center">
             <ScrollReveal delay={500} direction="left" className="w-full flex justify-center">
-              <Plate fig="i" title="Pipeline">
+              <Plate fig="i" title="Pipeline" variant="modern">
                 <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 300 300" fill="none">
                   {/* Input: raw capture at top */}
                   <g transform="translate(150, 55)">
