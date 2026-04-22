@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { ArrowUpRight, ChevronDown, Camera, Video, Box, Sparkles, Users, Building2, Home, TrendingUp } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { ArrowUpRight, ChevronDown, Camera, Video, Box, Sparkles, Users, Building2, Home, TrendingUp, Check, Image as ImageIcon, Film, Layers } from 'lucide-react';
 import Header from './Header';
 import Footer from './Footer';
 import { Section, SectionHeader, ScrollReveal, PageHero, Button, VitruvianBackground, Widget, IconBadge, ProblemCallout, ProductFrame } from './Shared';
@@ -58,6 +58,228 @@ const FAQ_ITEMS = [
   },
 ];
 
+// ─── Animated Hero Diagram (capture → specialists → package) ──────────────
+
+const RAW_CAPTURES = [
+  { kind: 'stills', label: 'IMG_8432.cr3', Icon: Camera },
+  { kind: 'video', label: 'walkthrough.mp4', Icon: Video },
+  { kind: '3d', label: 'tour.insv', Icon: Box },
+  { kind: 'empty', label: 'empty-liv.jpg', Icon: ImageIcon },
+];
+
+const SHOOT_SPECIALISTS = [
+  { key: 'stills', label: 'Stills', Icon: Camera, output: '24 branded stills' },
+  { key: 'video', label: 'Video', Icon: Film, output: '90s walkthrough' },
+  { key: '3d', label: '3D', Icon: Box, output: 'embeddable tour' },
+  { key: 'staging', label: 'Staging', Icon: Sparkles, output: '6 staged heros' },
+];
+
+type ShootHeroPhase = 'capture' | 'process' | 'deliver';
+
+const ShootOSHeroDiagram: React.FC = () => {
+  const [phase, setPhase] = useState<ShootHeroPhase>('capture');
+  const [capturesIn, setCapturesIn] = useState(0);
+  const [activeSpec, setActiveSpec] = useState(-1);
+  const [gateStamped, setGateStamped] = useState(false);
+  const [cycle, setCycle] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => {
+    const clear = () => { timerRef.current.forEach(clearTimeout); timerRef.current = []; };
+    const add = (fn: () => void, ms: number) => { timerRef.current.push(setTimeout(fn, ms)); };
+
+    clear();
+    setPhase('capture');
+    setCapturesIn(0);
+    setActiveSpec(-1);
+    setGateStamped(false);
+
+    // Phase 1 — Capture lands (2.4s)
+    RAW_CAPTURES.forEach((_, i) => add(() => setCapturesIn(i + 1), 400 + i * 400));
+
+    // Phase 2 — Specialists work (4s)
+    add(() => setPhase('process'), 2400);
+    SHOOT_SPECIALISTS.forEach((_, i) => add(() => setActiveSpec(i), 2600 + i * 700));
+
+    // Phase 3 — Deliver (3s)
+    add(() => setPhase('deliver'), 2400 + 4200);
+    add(() => setGateStamped(true), 2400 + 4200 + 900);
+
+    add(() => setCycle(c => c + 1), 2400 + 4200 + 3200);
+
+    return clear;
+  }, [cycle]);
+
+  return (
+    <ProductFrame>
+      {/* Chrome header */}
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center">
+            <Camera className="w-4 h-4 text-accent" />
+          </div>
+          <div>
+            <div className="font-serif text-sm font-medium text-ink">Listing Pipeline</div>
+            <div className="font-mono text-[10px] text-ink/40">shootos · 1247 Maple St</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className={`w-2 h-2 rounded-full ${phase === 'deliver' ? 'bg-green-500' : 'bg-red-500 animate-pulse'}`} />
+          <span className="font-mono text-[10px] font-medium uppercase tracking-wider text-ink/50">{phase === 'deliver' ? 'ready' : 'processing'}</span>
+        </div>
+      </div>
+
+      {/* Phase body */}
+      <div className="relative flex-1 min-h-[300px]">
+        {/* Capture */}
+        <div className={`absolute inset-0 transition-opacity duration-300 ${phase === 'capture' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          <div className="font-mono text-[9px] uppercase tracking-widest text-ink/40 mb-2">Raw capture uploading</div>
+          <div className="space-y-1.5">
+            {RAW_CAPTURES.map((cap, i) => (
+              <div
+                key={cap.label}
+                className={`flex items-center gap-2 bg-white border border-ink/10 rounded-lg px-3 py-2 transition-all duration-300 ${i < capturesIn ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
+              >
+                <cap.Icon className="w-3.5 h-3.5 text-ink/50 flex-shrink-0" />
+                <span className="font-mono text-[11px] text-ink/70 truncate flex-1">{cap.label}</span>
+                <Check className="w-3 h-3 text-green-600" strokeWidth={3} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Process */}
+        <div className={`absolute inset-0 transition-opacity duration-300 ${phase === 'process' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          <div className="font-mono text-[9px] uppercase tracking-widest text-ink/40 mb-2">Specialists working</div>
+          <div className="grid grid-cols-2 gap-2">
+            {SHOOT_SPECIALISTS.map((s, i) => {
+              const isActive = activeSpec >= i;
+              const isCurrent = activeSpec === i;
+              return (
+                <div
+                  key={s.key}
+                  className={`rounded-lg border p-2.5 transition-all duration-300 ${isActive ? 'bg-accent/5 border-accent/30' : 'bg-white border-ink/10 opacity-40'}`}
+                >
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <s.Icon className={`w-3.5 h-3.5 ${isActive ? 'text-accent' : 'text-ink/30'}`} />
+                    <span className="font-mono text-[10px] text-ink/70 uppercase tracking-wider">{s.label}</span>
+                    {isCurrent && <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse ml-auto" />}
+                  </div>
+                  <div className="font-sans text-[10px] text-ink-muted/70">{s.output}</div>
+                  {isActive && (
+                    <div className="mt-1.5 h-0.5 rounded-full bg-ink/5 overflow-hidden">
+                      <div className="h-full bg-accent/70" style={{ width: isCurrent ? '70%' : '100%', transition: 'width 0.4s ease' }} />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Deliver */}
+        <div className={`absolute inset-0 transition-opacity duration-300 ${phase === 'deliver' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          <div className="font-mono text-[9px] uppercase tracking-widest text-ink/40 mb-2">Listing kit delivered</div>
+          <div className="bg-white border border-ink/10 rounded-lg p-3 shadow-sm mb-3">
+            <div className="flex items-center gap-2 mb-2">
+              <Layers className="w-3.5 h-3.5 text-accent" />
+              <span className="font-mono text-[10px] text-ink/50">KIT-1247</span>
+              <span className="font-serif text-sm text-ink flex-1 truncate">1247 Maple St · Single family</span>
+            </div>
+            <div className="grid grid-cols-2 gap-1 text-[10px] font-mono text-ink/60">
+              <div className="flex items-center gap-1.5"><Camera className="w-2.5 h-2.5 text-accent/70" /> 24 stills</div>
+              <div className="flex items-center gap-1.5"><Film className="w-2.5 h-2.5 text-accent/70" /> 90s video</div>
+              <div className="flex items-center gap-1.5"><Box className="w-2.5 h-2.5 text-accent/70" /> 3D tour</div>
+              <div className="flex items-center gap-1.5"><Sparkles className="w-2.5 h-2.5 text-accent/70" /> 6 staged</div>
+            </div>
+          </div>
+
+          <div className={`flex items-center gap-2 bg-white border rounded-lg px-3 py-2 transition-all duration-500 ${gateStamped ? 'opacity-100 translate-y-0 border-green-400/50 bg-green-50/60' : 'opacity-0 translate-y-2 border-ink/10'}`}>
+            <div className="w-5 h-5 rounded-full bg-green-500/15 border border-green-500/40 flex items-center justify-center flex-shrink-0">
+              <Check className="w-3 h-3 text-green-600" strokeWidth={3} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="font-mono text-[9px] uppercase tracking-wider text-green-700">Gate · QA approved</div>
+              <div className="font-serif text-xs text-ink/70">Brand consistent · ready for agents</div>
+            </div>
+            <span className="font-mono text-[9px] text-ink/40">4h 12m</span>
+          </div>
+        </div>
+      </div>
+    </ProductFrame>
+  );
+};
+
+// ─── Asset Specialists Roster (Row 1 widget) ───────────────────────────────
+
+const SPECIALIST_TASKS: Record<string, string[]> = {
+  stills: ['HDR merge', 'Color correct', 'Crop + straighten', 'Watermark'],
+  video: ['Cut walkthrough', 'Color grade', 'Music bed', 'Branded end-card'],
+  '3d': ['Stitch 360°', 'Navigation points', 'Floor-plan overlay', 'Embed snippet'],
+  staging: ['Detect empty room', 'Generate style', 'Place furniture', 'Render hero'],
+};
+
+const AssetSpecialistPanel: React.FC = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setActiveIndex(i => (i + 1) % SHOOT_SPECIALISTS.length), 1800);
+    return () => clearInterval(id);
+  }, []);
+
+  const active = SHOOT_SPECIALISTS[activeIndex];
+  const tasks = SPECIALIST_TASKS[active.key];
+
+  return (
+    <ProductFrame height={480}>
+      <div className="flex items-center justify-between mb-3">
+        <div className="font-mono text-[10px] uppercase tracking-widest text-ink-muted/60">Asset Specialists · 4</div>
+        <div className="flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+          <span className="font-mono text-[10px] text-accent/80">{active.label}</span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2 mb-3">
+        {SHOOT_SPECIALISTS.map((s, i) => {
+          const isActive = i === activeIndex;
+          return (
+            <div
+              key={s.key}
+              className={`rounded-lg border p-3 transition-all duration-500 ${isActive ? 'bg-accent/5 border-accent/40 shadow-sm' : 'bg-white border-ink/10'}`}
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <div className={`w-7 h-7 rounded-full flex items-center justify-center transition-colors ${isActive ? 'bg-accent/15 border border-accent/40' : 'bg-ink/5 border border-ink/10'}`}>
+                  <s.Icon className={`w-3.5 h-3.5 ${isActive ? 'text-accent' : 'text-ink-muted/60'}`} />
+                </div>
+                <span className={`font-serif text-sm transition-colors ${isActive ? 'text-ink font-semibold' : 'text-ink-muted/70'}`}>{s.label}</span>
+              </div>
+              <div className="font-sans text-[11px] text-ink-muted/70">{s.output}</div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="bg-white border border-ink/10 rounded-lg p-3 flex-1">
+        <div className="flex items-center gap-2 mb-2">
+          <active.Icon className="w-3.5 h-3.5 text-accent" />
+          <span className="font-mono text-[9px] uppercase tracking-widest text-accent/80">{active.label} · current task</span>
+        </div>
+        <div className="space-y-1.5">
+          {tasks.map((task, i) => (
+            <div key={task} className="flex items-center gap-2">
+              <div className={`w-3 h-3 rounded-full border flex items-center justify-center flex-shrink-0 ${i <= activeIndex ? 'bg-green-500/15 border-green-500/40' : 'border-ink/15'}`}>
+                {i <= activeIndex && <Check className="w-2 h-2 text-green-600" strokeWidth={3} />}
+              </div>
+              <span className="font-mono text-[10px] text-ink/60">{task}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </ProductFrame>
+  );
+};
+
 const ShootOSPageDesktop: React.FC<ShootOSPageProps> = ({ onNavigate }) => {
   useEffect(() => {
     document.title = 'ShootOS — DaVeenci';
@@ -98,46 +320,39 @@ const ShootOSPageDesktop: React.FC<ShootOSPageProps> = ({ onNavigate }) => {
             </ScrollReveal>
           </div>
 
-          <div className="lg:col-span-6 relative h-[400px] md:h-[480px] flex items-center justify-center">
+          <div className="lg:col-span-6 relative flex items-center justify-center">
             <ScrollReveal delay={500} direction="left" className="w-full flex justify-center">
-              <ProductFrame>
-                <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 300 300" fill="none">
-                  {/* Input: raw capture at top */}
-                  <g transform="translate(150, 55)">
-                    <rect x="-44" y="-18" width="88" height="36" rx="2" fill="white" stroke="rgb(var(--color-ink))" strokeWidth="1.3" strokeDasharray="3 3" />
-                    <text x="0" y="-2" textAnchor="middle" fontSize="9" fontFamily="serif" fontStyle="italic" fill="rgb(var(--color-ink-muted))" letterSpacing="0.1em">RAW CAPTURE</text>
-                    <text x="0" y="10" textAnchor="middle" fontSize="7" fontFamily="monospace" fill="rgb(var(--color-ink-muted))">stills · video · 360°</text>
-                  </g>
-
-                  {/* 4 specialist splits */}
-                  {ASSETS.map((asset, i) => {
-                    const x = 45 + i * 70;
-                    const y = 160;
-                    return (
-                      <g key={asset.label}>
-                        <line x1="150" y1="75" x2={x} y2={y - 22} stroke="rgb(var(--color-accent))" strokeWidth="0.8" strokeDasharray="2 2" opacity="0.5" />
-                        <rect x={x - 22} y={y - 22} width="44" height="44" rx="2" fill="white" stroke="rgb(var(--color-ink))" strokeWidth="1.2" />
-                        <text x={x} y={y - 2} textAnchor="middle" fontSize="8" fontFamily="serif" fontStyle="italic" fill="rgb(var(--color-ink))">{asset.label}</text>
-                        <text x={x} y={y + 10} textAnchor="middle" fontSize="6" fontFamily="monospace" fill="rgb(var(--color-ink-muted))">spec.{i + 1}</text>
-                      </g>
-                    );
-                  })}
-
-                  {/* Convergence: output package */}
-                  {ASSETS.map((_, i) => {
-                    const fromX = 45 + i * 70;
-                    return <line key={i} x1={fromX} y1="185" x2="150" y2="230" stroke="rgb(var(--color-accent))" strokeWidth="0.8" strokeDasharray="2 2" opacity="0.5" />;
-                  })}
-
-                  <g transform="translate(150, 253)">
-                    <rect x="-50" y="-16" width="100" height="32" rx="2" fill="rgb(var(--color-accent))" fillOpacity="0.12" stroke="rgb(var(--color-accent))" strokeWidth="1.5" />
-                    <text x="0" y="-1" textAnchor="middle" fontSize="9" fontFamily="serif" fontStyle="italic" fill="rgb(var(--color-accent))" letterSpacing="0.12em">LISTING KIT</text>
-                    <text x="0" y="10" textAnchor="middle" fontSize="6" fontFamily="monospace" fill="rgb(var(--color-ink-muted))">agent-ready, branded</text>
-                  </g>
-                </svg>
-              </ProductFrame>
+              <ShootOSHeroDiagram />
             </ScrollReveal>
           </div>
+        </div>
+      </Section>
+
+      {/* The Product — feature rows (PulseNote-style show-then-tell) */}
+      <Section id="product" pattern="grid">
+        <SectionHeader eyebrow="The Product" title="Four asset types, four specialists" subtitle="Each capture routes to the specialist that handles it best. All four work in parallel. Every output lands in the same branded package." />
+
+        {/* Row 1 — Specialist Panel (demo L, copy R) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <ScrollReveal delay={200}>
+            <AssetSpecialistPanel />
+          </ScrollReveal>
+          <ScrollReveal delay={400} direction="left">
+            <div>
+              <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">Specialists, not a generalist editor</h3>
+              <p className="font-sans text-lg text-ink-muted leading-relaxed mb-6">
+                Traditional media production is one person juggling Lightroom, Premiere, Matterport, and Photoshop — or four freelancers you have to coordinate yourself. ShootOS gives each asset type its own specialist, running in parallel on the same capture, converging into one on-brand kit.
+              </p>
+              <ul className="space-y-3">
+                {['Stills · HDR merge, color correct, crop, watermark', 'Video · cut, color grade, music bed, branded end-card', '3D tours · stitch 360° capture + floor-plan overlay', 'Staging · AI virtual staging of empty rooms'].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-ink-muted">
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <span className="font-sans">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </ScrollReveal>
         </div>
       </Section>
 
