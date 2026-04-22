@@ -582,7 +582,7 @@ export const ProductFrame: React.FC<{
     className={`relative w-full max-w-lg mx-auto bg-pulse-surface border border-ink/10 overflow-hidden ${className}`}
     style={{ height, ...style }}
   >
-    <div className="relative p-5 md:p-6 h-full">{children}</div>
+    <div className="relative p-5 md:p-6 h-full flex flex-col">{children}</div>
   </Surface>
 );
 

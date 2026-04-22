@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown, GitPullRequest, FileCode2, ShieldCheck, Rocket, Layers, Code2, Users, Building2, Briefcase, Compass, Scale, Blocks, Database, Palette, FlaskConical, BookOpen, ShieldAlert, FileCheck, Check } from 'lucide-react';
 import Header from './Header';
 import Footer from './Footer';
-import { Section, SectionHeader, ScrollReveal, PageHero, Eyebrow, Button, VitruvianBackground, Widget, IconBadge, ProblemCallout, ProductFrame } from './Shared';
+import { Section, SectionHeader, ScrollReveal, PageHero, Button, VitruvianBackground, Widget, IconBadge, ProductFrame } from './Shared';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobilePureCodePage } from './mobile/MobilePureCodePage';
 import type { Page } from './types';
@@ -16,20 +16,6 @@ const PureCodePage: React.FC<PureCodePageProps> = (props) => {
   if (isMobile) return <MobilePureCodePage {...props} />;
   return <PureCodePageDesktop {...props} />;
 };
-
-const STAGES = [
-  { icon: Layers, label: 'Control', body: 'Navigator routes the request. Arbiter checks scope.' },
-  { icon: FileCode2, label: 'Blueprint', body: 'Design specialist drafts the architecture before a line is written.' },
-  { icon: Code2, label: 'Delivery', body: 'Implementation agents write the code — one specialist per concern.' },
-  { icon: ShieldCheck, label: 'Validation', body: 'Sentinel runs tests, lints, security checks. Nothing advances with a red.' },
-  { icon: Rocket, label: 'Release', body: 'Finished PR lands in your repo with diff, tests, and rationale ready for sign-off.' },
-];
-
-const GATES = [
-  { n: 'Gate 1', title: 'Scope', body: 'A human approves what the team is about to build before any code gets written.' },
-  { n: 'Gate 2', title: 'Design', body: 'A human reviews the proposed architecture before implementation begins.' },
-  { n: 'Gate 3', title: 'Ship', body: 'A human signs off on the finished PR before it merges to main.' },
-];
 
 const USE_CASES = [
   { icon: Users, title: 'Engineering teams', body: 'Ship features without burning senior reviewer attention on boilerplate.' },
@@ -332,6 +318,177 @@ const SpecialistRoster: React.FC = () => {
   );
 };
 
+// ─── Blueprint Builder (Row 2 widget) ──────────────────────────────────────
+
+const BLUEPRINT_FILES: { path: string; status: 'new' | 'modified' }[] = [
+  { path: 'components/ThemeProvider.tsx', status: 'new' },
+  { path: 'components/DarkModeToggle.tsx', status: 'new' },
+  { path: 'hooks/usePrefersDark.ts', status: 'new' },
+  { path: 'tests/dark-mode.test.tsx', status: 'new' },
+  { path: 'README.md', status: 'modified' },
+];
+
+const BlueprintBuilder: React.FC = () => {
+  const [visible, setVisible] = useState(0);
+  const [approved, setApproved] = useState(false);
+  const [cycle, setCycle] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => {
+    const clear = () => { timerRef.current.forEach(clearTimeout); timerRef.current = []; };
+    const add = (fn: () => void, ms: number) => { timerRef.current.push(setTimeout(fn, ms)); };
+
+    clear();
+    setVisible(0);
+    setApproved(false);
+
+    BLUEPRINT_FILES.forEach((_, i) => add(() => setVisible(i + 1), 500 + i * 450));
+    add(() => setApproved(true), 500 + BLUEPRINT_FILES.length * 450 + 400);
+    add(() => setCycle(c => c + 1), 500 + BLUEPRINT_FILES.length * 450 + 3000);
+
+    return clear;
+  }, [cycle]);
+
+  return (
+    <ProductFrame height={460}>
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center">
+            <Blocks className="w-4 h-4 text-accent" />
+          </div>
+          <div>
+            <div className="font-serif text-sm text-ink">Architect · proposing design</div>
+            <div className="font-mono text-[10px] text-ink/40">feat/dark-mode · before a line of code</div>
+          </div>
+        </div>
+        <span className="font-mono text-[10px] uppercase tracking-widest text-ink-muted/50">Gate 2</span>
+      </div>
+
+      <div className="bg-white border border-ink/10 rounded-lg p-3 flex-1 overflow-hidden">
+        <div className="flex items-center gap-1.5 mb-2">
+          <FileCheck className="w-3 h-3 text-ink/40" />
+          <span className="font-mono text-[9px] uppercase tracking-widest text-ink/40">design.md</span>
+        </div>
+        <div className="space-y-1.5">
+          {BLUEPRINT_FILES.map((f, i) => (
+            <div
+              key={f.path}
+              className={`flex items-center gap-2 transition-all duration-300 ${i < visible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}`}
+            >
+              <FileCode2 className="w-3 h-3 text-ink/40 flex-shrink-0" />
+              <span className="font-mono text-[11px] text-ink/70 truncate">{f.path}</span>
+              <span className={`ml-auto font-mono text-[9px] px-1.5 py-0.5 rounded ${f.status === 'new' ? 'text-green-700 bg-green-50 border border-green-200/60' : 'text-amber-700 bg-amber-50 border border-amber-200/60'}`}>
+                {f.status === 'new' ? '+ NEW' : '~ MOD'}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className={`mt-3 flex items-center gap-2 bg-white border rounded-lg px-3 py-2 transition-all duration-500 ${approved ? 'opacity-100 translate-y-0 border-green-400/50 bg-green-50/60' : 'opacity-0 translate-y-2 border-ink/10'}`}>
+        <div className="w-5 h-5 rounded-full bg-green-500/15 border border-green-500/40 flex items-center justify-center flex-shrink-0">
+          <Check className="w-3 h-3 text-green-600" strokeWidth={3} />
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="font-mono text-[9px] uppercase tracking-wider text-green-700">Gate 2 · Design approved</div>
+          <div className="font-serif text-xs text-ink/70">Architecture sound · no code written yet</div>
+        </div>
+        <span className="font-mono text-[9px] text-ink/40">0:41</span>
+      </div>
+    </ProductFrame>
+  );
+};
+
+// ─── Validation Runner (Row 3 widget) ──────────────────────────────────────
+
+const VALIDATION_STEPS = [
+  { cmd: 'pnpm test', result: '12 tests passing', ms: 900 },
+  { cmd: 'pnpm typecheck', result: '0 errors', ms: 550 },
+  { cmd: 'pnpm lint', result: 'clean', ms: 400 },
+  { cmd: 'pnpm audit', result: '0 high/critical', ms: 600 },
+];
+
+const ValidationRunner: React.FC = () => {
+  const [current, setCurrent] = useState(-1);
+  const [completed, setCompleted] = useState<number[]>([]);
+  const [done, setDone] = useState(false);
+  const [cycle, setCycle] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => {
+    const clear = () => { timerRef.current.forEach(clearTimeout); timerRef.current = []; };
+    const add = (fn: () => void, ms: number) => { timerRef.current.push(setTimeout(fn, ms)); };
+
+    clear();
+    setCurrent(-1);
+    setCompleted([]);
+    setDone(false);
+
+    let t = 400;
+    VALIDATION_STEPS.forEach((step, i) => {
+      add(() => setCurrent(i), t);
+      t += step.ms;
+      add(() => setCompleted(prev => [...prev, i]), t);
+    });
+    add(() => setDone(true), t + 300);
+    add(() => setCycle(c => c + 1), t + 3000);
+
+    return clear;
+  }, [cycle]);
+
+  return (
+    <ProductFrame height={460}>
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center">
+            <ShieldCheck className="w-4 h-4 text-accent" />
+          </div>
+          <div>
+            <div className="font-serif text-sm text-ink">Sentinel · pre-ship validation</div>
+            <div className="font-mono text-[10px] text-ink/40">nothing advances with a red</div>
+          </div>
+        </div>
+        <span className={`font-mono text-[10px] uppercase tracking-widest ${done ? 'text-green-600' : 'text-ink-muted/50'}`}>
+          {done ? 'green' : 'running'}
+        </span>
+      </div>
+
+      <div className="bg-ink rounded-lg flex-1 p-3.5 font-mono text-[11px] leading-relaxed overflow-hidden">
+        {VALIDATION_STEPS.map((step, i) => {
+          const isCompleted = completed.includes(i);
+          const isCurrent = current === i && !isCompleted;
+          const isPending = !isCompleted && !isCurrent;
+          return (
+            <div key={step.cmd} className={`flex items-baseline gap-2 py-0.5 transition-opacity duration-200 ${isPending ? 'opacity-20' : 'opacity-100'}`}>
+              <span className="text-green-400/80">$</span>
+              <span className="text-white/85 flex-1 truncate">{step.cmd}</span>
+              {isCompleted ? (
+                <span className="text-green-400">▸ {step.result}</span>
+              ) : isCurrent ? (
+                <span className="text-white/60 italic">running…</span>
+              ) : (
+                <span className="text-white/25">—</span>
+              )}
+            </div>
+          );
+        })}
+        <div className={`mt-3 pt-2 border-t border-white/10 transition-opacity duration-300 ${done ? 'opacity-100' : 'opacity-0'}`}>
+          <span className="text-green-400">✓ all checks green · safe to ship</span>
+        </div>
+      </div>
+
+      <div className="mt-3 grid grid-cols-3 gap-2">
+        {[{ label: 'Audit log', detail: 'every step' }, { label: 'Replay', detail: '1-click' }, { label: 'Gate 3', detail: 'you approve' }].map(chip => (
+          <div key={chip.label} className="bg-white border border-ink/10 rounded-lg px-2.5 py-1.5 text-center">
+            <div className="font-mono text-[8px] uppercase tracking-widest text-ink-muted/50">{chip.label}</div>
+            <div className="font-serif text-[11px] text-ink/80 truncate">{chip.detail}</div>
+          </div>
+        ))}
+      </div>
+    </ProductFrame>
+  );
+};
+
 const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
   useEffect(() => {
     document.title = 'PureCode — DaVeenci';
@@ -381,6 +538,8 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
       {/* The Product — feature rows (PulseNote-style show-then-tell) */}
       <Section id="product" pattern="grid">
         <SectionHeader eyebrow="The Product" title="What a coordinated team looks like" subtitle="Not a generalist in a chat window — a roster of specialists, each with one job, coordinated by a controller and gated by humans." />
+
+        {/* Row 1 — Specialists (demo L, copy R) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <ScrollReveal delay={200}>
             <SpecialistRoster />
@@ -402,53 +561,51 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
             </div>
           </ScrollReveal>
         </div>
-      </Section>
 
-      {/* Problem */}
-      <Section className="py-12 md:py-16">
-        <ScrollReveal>
-          <ProblemCallout className="max-w-4xl mx-auto">
-            <h3 className="font-serif text-xl text-ink mb-2">The problem</h3>
-            <p className="font-sans text-ink-muted leading-relaxed">
-              General-purpose AI coding assistants are great at snippets and bad at systems. They lose context across files, skip review, and leave the human to reconcile when something breaks in production. Teams need a coding partner that behaves like an actual team — with specialists, a controller, and review checkpoints.
-            </p>
-          </ProblemCallout>
-        </ScrollReveal>
-      </Section>
-
-      {/* Stages */}
-      <Section id="how-it-works" className="bg-alt/30 py-20">
-        <SectionHeader eyebrow="How It Works" title="Five stages. Thirteen specialists. Three gates." subtitle="Every feature request walks the same path — from Control to Release — with a human at the points that matter." />
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 max-w-6xl mx-auto">
-          {STAGES.map((stage, i) => {
-            const Icon = stage.icon;
-            return (
-              <ScrollReveal key={stage.label} delay={i * 100}>
-                <Widget interactive className="h-full p-6 flex flex-col">
-                  <div className="font-mono text-[10px] uppercase tracking-widest text-accent mb-3">Stage {i + 1}</div>
-                  <IconBadge className="mb-4"><Icon className="w-5 h-5 text-accent" /></IconBadge>
-                  <h3 className="font-serif text-xl text-ink mb-2">{stage.label}</h3>
-                  <p className="font-sans text-sm text-ink-muted leading-relaxed">{stage.body}</p>
-                </Widget>
-              </ScrollReveal>
-            );
-          })}
+        {/* Row 2 — Blueprint (copy L, demo R) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-20">
+          <ScrollReveal delay={200}>
+            <div>
+              <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">Blueprint before a line of code</h3>
+              <p className="font-sans text-lg text-ink-muted leading-relaxed mb-6">
+                The Architect proposes the design first: which files are new, which get modified, what the tests look like. Gate 2 lives here — you review the plan before anyone writes a single line. The Design Reviewer double-checks the architecture against the brief. Nothing gets implemented until the blueprint is signed off.
+              </p>
+              <ul className="space-y-3">
+                {['Design proposal shown as a file-by-file plan', 'You approve the architecture, not a finished diff', 'Impossible to drift from scope — scope is the gate', 'Changes after Gate 2 re-trigger the review'].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-ink-muted">
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <span className="font-sans">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={400} direction="left">
+            <BlueprintBuilder />
+          </ScrollReveal>
         </div>
-      </Section>
 
-      {/* Three gates */}
-      <Section className="py-20">
-        <SectionHeader eyebrow="Governance" title="Three gates. Three signatures." subtitle="Autonomy is an antifeature for code that ships to production. PureCode pauses at the decisions that can't be un-approved." />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {GATES.map((gate, i) => (
-            <ScrollReveal key={gate.title} delay={i * 120}>
-              <Widget interactive className="h-full p-6">
-                <div className="font-mono text-[10px] uppercase tracking-widest text-accent mb-2">{gate.n}</div>
-                <h4 className="font-serif text-xl text-ink mb-3">{gate.title}</h4>
-                <p className="font-sans text-sm text-ink-muted leading-relaxed">{gate.body}</p>
-              </Widget>
-            </ScrollReveal>
-          ))}
+        {/* Row 3 — Validation (demo L, copy R) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-20">
+          <ScrollReveal delay={200}>
+            <ValidationRunner />
+          </ScrollReveal>
+          <ScrollReveal delay={400} direction="left">
+            <div>
+              <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">Validation that actually validates</h3>
+              <p className="font-sans text-lg text-ink-muted leading-relaxed mb-6">
+                Sentinel runs the real checks — tests, typecheck, lint, security audit — against the specialist output before anything touches a human review queue. A red check blocks the PR. No exceptions, no overrides, no "we'll fix it in the next sprint." When you see the PR, every check is already green.
+              </p>
+              <ul className="space-y-3">
+                {['Runs your repo\'s actual test / typecheck / lint / audit commands', 'Red blocks the PR — specialists iterate until green', 'Gate 3 arrives with passing checks + a full audit log', 'One-click replay of every agent action, every gate decision'].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-ink-muted">
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <span className="font-sans">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </ScrollReveal>
         </div>
       </Section>
 
