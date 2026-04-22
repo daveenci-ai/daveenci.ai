@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown, GitPullRequest, FileCode2, ShieldCheck, Rocket, Layers, Code2, Users, Building2, Briefcase, Compass, Scale, Blocks, Database, Palette, FlaskConical, BookOpen, ShieldAlert, FileCheck, Check } from 'lucide-react';
 import Header from './Header';
 import Footer from './Footer';
-import { Section, SectionHeader, ScrollReveal, PageHero, Button, VitruvianBackground, Widget, IconBadge, ProductFrame } from './Shared';
+import { Section, SectionHeader, ScrollReveal, PageHero, Button, VitruvianBackground, ProductFrame } from './Shared';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobilePureCodePage } from './mobile/MobilePureCodePage';
 import type { Page } from './types';
@@ -955,18 +955,25 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
       </Section>
 
       {/* Use cases */}
-      <Section id="use-cases" className="py-20">
-        <SectionHeader eyebrow="Use Cases" title="Who PureCode is for." subtitle="Anyone who needs code that ships — reviewed, tested, accountable." />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+      <Section id="use-cases" pattern="grid">
+        <SectionHeader eyebrow="Use Cases" title="Who PureCode is for" subtitle="Anyone who needs code that ships — reviewed, tested, accountable." />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {USE_CASES.map((uc, i) => {
             const Icon = uc.icon;
             return (
-              <ScrollReveal key={uc.title} delay={i * 100}>
-                <Widget interactive className="h-full p-6">
-                  <IconBadge size="lg" className="mb-4"><Icon className="w-6 h-6 text-accent" /></IconBadge>
+              <ScrollReveal key={uc.title} delay={i * 120} className="h-full">
+                <div className="bg-white border border-ink/10 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group text-center h-full flex flex-col items-center rounded-lg">
+                  <div className="relative w-44 h-44 mx-auto mb-6 rounded-full bg-pulse-surface border border-ink/10 group-hover:border-accent/30 transition-colors overflow-hidden flex items-center justify-center">
+                    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 176 176" fill="none">
+                      <circle cx="88" cy="88" r="78" stroke="rgb(var(--color-ink))" strokeWidth="0.6" opacity="0.08" />
+                      <circle cx="88" cy="88" r="60" stroke="rgb(var(--color-ink))" strokeWidth="0.6" strokeDasharray="3 3" opacity="0.12" />
+                      <circle cx="88" cy="88" r="42" stroke="rgb(var(--color-accent))" strokeWidth="0.8" opacity="0.15" />
+                    </svg>
+                    <Icon className="relative w-14 h-14 text-accent/70 group-hover:text-accent transition-colors duration-300" strokeWidth={1.3} />
+                  </div>
                   <h3 className="font-serif text-xl text-ink mb-2">{uc.title}</h3>
-                  <p className="font-sans text-sm text-ink-muted leading-relaxed">{uc.body}</p>
-                </Widget>
+                  <p className="font-sans text-sm text-ink-muted leading-relaxed flex-1">{uc.body}</p>
+                </div>
               </ScrollReveal>
             );
           })}
