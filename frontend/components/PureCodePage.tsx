@@ -489,6 +489,343 @@ const ValidationRunner: React.FC = () => {
   );
 };
 
+// ─── Try-It Simulator (PulseNote CreatorMode equivalent) ──────────────────
+
+interface Ticket {
+  id: string;
+  tag: string;
+  tagColor: string;
+  label: string;
+  brief: string;
+  files: { path: string; status: 'new' | 'modified' }[];
+  agents: string[];
+  checks: { label: string; detail: string }[];
+  pr: { number: number; additions: number; deletions: number; files: number; durationMin: number };
+}
+
+const TICKETS: Ticket[] = [
+  {
+    id: 'dark-mode',
+    tag: 'feat',
+    tagColor: 'text-accent bg-accent/10 border-accent/20',
+    label: 'Add dark mode toggle',
+    brief: 'Add dark mode toggle with system preference detection + localStorage persistence.',
+    files: [
+      { path: 'components/ThemeProvider.tsx', status: 'new' },
+      { path: 'components/DarkModeToggle.tsx', status: 'new' },
+      { path: 'hooks/usePrefersDark.ts', status: 'new' },
+      { path: 'tests/dark-mode.test.tsx', status: 'new' },
+    ],
+    agents: ['Impl-TS', 'Styler', 'Test Author', 'Docs'],
+    checks: [
+      { label: 'tests', detail: '14 passing' },
+      { label: 'typecheck', detail: 'ok' },
+      { label: 'lint', detail: 'ok' },
+      { label: 'a11y', detail: 'contrast 4.8:1' },
+    ],
+    pr: { number: 247, additions: 128, deletions: 4, files: 4, durationMin: 138 },
+  },
+  {
+    id: 'n-plus-one',
+    tag: 'perf',
+    tagColor: 'text-amber-700 bg-amber-50 border-amber-200/60',
+    label: 'Fix N+1 query on /orders',
+    brief: 'Replace per-order supplier lookup with a single join; add pagination protection + index.',
+    files: [
+      { path: 'services/orders.ts', status: 'modified' },
+      { path: 'db/migrations/2026_04_22_orders_idx.sql', status: 'new' },
+      { path: 'tests/orders.perf.test.ts', status: 'modified' },
+    ],
+    agents: ['Impl-SQL', 'Migrator', 'Impl-TS', 'Test Author'],
+    checks: [
+      { label: 'tests', detail: '28 passing' },
+      { label: 'typecheck', detail: 'ok' },
+      { label: 'perf', detail: '−92% queries' },
+      { label: 'migration', detail: 'reversible' },
+    ],
+    pr: { number: 248, additions: 42, deletions: 37, files: 3, durationMin: 94 },
+  },
+  {
+    id: 'rate-limit',
+    tag: 'security',
+    tagColor: 'text-red-700 bg-red-50 border-red-200/60',
+    label: 'Add rate limit to /api/login',
+    brief: '5-per-minute per-IP rate limit with Redis token bucket + exponential backoff after lockout.',
+    files: [
+      { path: 'middleware/rate-limit.ts', status: 'new' },
+      { path: 'api/login.ts', status: 'modified' },
+      { path: 'tests/rate-limit.test.ts', status: 'new' },
+    ],
+    agents: ['Impl-TS', 'Security', 'Test Author', 'Docs'],
+    checks: [
+      { label: 'tests', detail: '19 passing' },
+      { label: 'typecheck', detail: 'ok' },
+      { label: 'security', detail: 'brute-force mitigated' },
+      { label: 'lint', detail: 'ok' },
+    ],
+    pr: { number: 249, additions: 87, deletions: 3, files: 3, durationMin: 72 },
+  },
+];
+
+type SimPhase = 'idle' | 'scope' | 'blueprint' | 'delivery' | 'validation' | 'release';
+
+const PHASE_ORDER: SimPhase[] = ['scope', 'blueprint', 'delivery', 'validation', 'release'];
+const PHASE_LABEL: Record<Exclude<SimPhase, 'idle'>, string> = {
+  scope: 'Scope',
+  blueprint: 'Blueprint',
+  delivery: 'Delivery',
+  validation: 'Validation',
+  release: 'Release',
+};
+
+const TryItSimulator: React.FC = () => {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [phase, setPhase] = useState<SimPhase>('idle');
+  const [visibleFiles, setVisibleFiles] = useState(0);
+  const [activeAgent, setActiveAgent] = useState(-1);
+  const [completedChecks, setCompletedChecks] = useState(0);
+  const [runId, setRunId] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const ticket = TICKETS.find(t => t.id === selectedId) ?? null;
+
+  useEffect(() => {
+    const clear = () => { timerRef.current.forEach(clearTimeout); timerRef.current = []; };
+    const add = (fn: () => void, ms: number) => { timerRef.current.push(setTimeout(fn, ms)); };
+
+    if (!ticket || runId === 0) return;
+
+    clear();
+    setPhase('scope');
+    setVisibleFiles(0);
+    setActiveAgent(-1);
+    setCompletedChecks(0);
+
+    const SCOPE_MS = 1500;
+    const BLUEPRINT_MS = 3000;
+    const DELIVERY_MS = 4000;
+    const VALIDATION_MS = 3000;
+    const RELEASE_DELAY = 800;
+
+    add(() => setPhase('blueprint'), SCOPE_MS);
+    ticket.files.forEach((_, i) => add(() => setVisibleFiles(i + 1), SCOPE_MS + 200 + i * 400));
+
+    add(() => setPhase('delivery'), SCOPE_MS + BLUEPRINT_MS);
+    ticket.agents.forEach((_, i) => add(() => setActiveAgent(i), SCOPE_MS + BLUEPRINT_MS + 200 + i * 700));
+
+    add(() => setPhase('validation'), SCOPE_MS + BLUEPRINT_MS + DELIVERY_MS);
+    ticket.checks.forEach((_, i) => add(() => setCompletedChecks(i + 1), SCOPE_MS + BLUEPRINT_MS + DELIVERY_MS + 200 + i * 500));
+
+    add(() => setPhase('release'), SCOPE_MS + BLUEPRINT_MS + DELIVERY_MS + VALIDATION_MS + RELEASE_DELAY);
+
+    return clear;
+  }, [runId, ticket]);
+
+  const handlePick = (id: string) => {
+    setSelectedId(id);
+    setRunId(r => r + 1);
+  };
+
+  const currentPhaseIdx = phase === 'idle' ? -1 : PHASE_ORDER.indexOf(phase);
+  const isRunning = phase !== 'idle' && phase !== 'release';
+  const isDone = phase === 'release';
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      {/* Ticket picker */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-5">
+        {TICKETS.map(t => {
+          const isActive = selectedId === t.id;
+          return (
+            <button
+              key={t.id}
+              onClick={() => handlePick(t.id)}
+              className={`text-left bg-white border rounded-lg p-4 transition-all duration-300 shadow-sm ${
+                isActive ? 'border-accent/40 bg-accent/[0.03] shadow-md' : 'border-ink/10 hover:border-accent/30 hover:shadow-md hover:-translate-y-0.5'
+              }`}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <span className={`font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 rounded border ${t.tagColor}`}>
+                  {t.tag}
+                </span>
+                <span className="font-mono text-[9px] text-ink-muted/50 ml-auto">#{t.pr.number}</span>
+              </div>
+              <div className="font-serif text-sm text-ink leading-snug">{t.label}</div>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Phase progress */}
+      <div className="flex items-center gap-2 mb-4 px-1">
+        {PHASE_ORDER.map((p, i) => {
+          const passed = currentPhaseIdx > i || isDone;
+          const active = currentPhaseIdx === i && !isDone;
+          return (
+            <React.Fragment key={p}>
+              <div className="flex items-center gap-1.5">
+                <div className={`w-1.5 h-1.5 rounded-full transition-all ${passed ? 'bg-green-500' : active ? 'bg-accent animate-pulse' : 'bg-ink/15'}`} />
+                <span className={`font-mono text-[10px] uppercase tracking-widest transition-colors ${passed ? 'text-green-600' : active ? 'text-accent' : 'text-ink-muted/40'}`}>
+                  {PHASE_LABEL[p]}
+                </span>
+              </div>
+              {i < PHASE_ORDER.length - 1 && <div className={`flex-1 h-px transition-colors ${passed ? 'bg-green-400/40' : 'bg-ink/10'}`} />}
+            </React.Fragment>
+          );
+        })}
+      </div>
+
+      {/* Live output panel */}
+      <ProductFrame height={460}>
+        {phase === 'idle' && (
+          <div className="flex flex-col items-center justify-center h-full text-center">
+            <div className="w-14 h-14 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center mb-4">
+              <GitPullRequest className="w-6 h-6 text-accent" />
+            </div>
+            <div className="font-serif text-xl text-ink mb-2">Pick a ticket above</div>
+            <p className="font-sans text-sm text-ink-muted max-w-xs leading-relaxed">
+              Watch the specialist team walk it through scope, blueprint, delivery, validation, and release — with every gate stamped.
+            </p>
+          </div>
+        )}
+
+        {ticket && phase !== 'idle' && (
+          <>
+            {/* Brief always visible at top once a ticket is picked */}
+            <div className="mb-3">
+              <div className="font-mono text-[9px] uppercase tracking-widest text-ink/40 mb-1">Brief</div>
+              <div className="bg-white border border-dashed border-ink/30 rounded-lg p-2.5">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className={`font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 rounded border ${ticket.tagColor}`}>{ticket.tag}</span>
+                  <span className="font-serif text-sm text-ink">{ticket.label}</span>
+                </div>
+                <p className="font-sans text-[11px] text-ink-muted leading-relaxed">{ticket.brief}</p>
+              </div>
+            </div>
+
+            {/* Phase-specific body */}
+            <div className="relative flex-1 min-h-[240px]">
+              {/* Scope */}
+              <div className={`absolute inset-0 transition-opacity duration-300 ${phase === 'scope' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                <div className="font-mono text-[9px] uppercase tracking-widest text-ink/40 mb-2">Gate 1 · Scope</div>
+                <div className="bg-white border border-ink/10 rounded-lg p-3 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center flex-shrink-0">
+                    <Compass className="w-4 h-4 text-accent animate-pulse" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-serif text-sm text-ink">Navigator routing</div>
+                    <div className="font-mono text-[10px] text-ink-muted/60">Arbiter verifying scope against the brief…</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Blueprint */}
+              <div className={`absolute inset-0 transition-opacity duration-300 ${phase === 'blueprint' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                <div className="font-mono text-[9px] uppercase tracking-widest text-ink/40 mb-2">Gate 2 · Blueprint</div>
+                <div className="bg-white border border-ink/10 rounded-lg p-3">
+                  <div className="space-y-1.5">
+                    {ticket.files.map((f, i) => (
+                      <div key={f.path} className={`flex items-center gap-2 transition-all duration-300 ${i < visibleFiles ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}`}>
+                        <FileCode2 className="w-3 h-3 text-ink/40 flex-shrink-0" />
+                        <span className="font-mono text-[11px] text-ink/70 truncate">{f.path}</span>
+                        <span className={`ml-auto font-mono text-[9px] px-1.5 py-0.5 rounded ${f.status === 'new' ? 'text-green-700 bg-green-50 border border-green-200/60' : 'text-amber-700 bg-amber-50 border border-amber-200/60'}`}>
+                          {f.status === 'new' ? '+ NEW' : '~ MOD'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Delivery */}
+              <div className={`absolute inset-0 transition-opacity duration-300 ${phase === 'delivery' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                <div className="font-mono text-[9px] uppercase tracking-widest text-ink/40 mb-2">Delivery · specialists working</div>
+                <div className="grid grid-cols-2 gap-2">
+                  {ticket.agents.map((a, i) => {
+                    const isActive = activeAgent >= i;
+                    const isCurrent = activeAgent === i;
+                    return (
+                      <div key={a} className={`flex items-center gap-2 rounded-lg border px-3 py-2 transition-all duration-300 ${isActive ? 'bg-accent/5 border-accent/30' : 'bg-white border-ink/10 opacity-40'}`}>
+                        <div className={`w-1.5 h-1.5 rounded-full ${isCurrent ? 'bg-accent animate-pulse' : isActive ? 'bg-accent' : 'bg-ink/20'}`} />
+                        <span className="font-mono text-[11px] text-ink/70 truncate">{a}</span>
+                        {isActive && <Check className="w-3 h-3 text-green-600 ml-auto" strokeWidth={3} />}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Validation */}
+              <div className={`absolute inset-0 transition-opacity duration-300 ${phase === 'validation' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                <div className="font-mono text-[9px] uppercase tracking-widest text-ink/40 mb-2">Sentinel · validation</div>
+                <div className="bg-ink rounded-lg p-3 font-mono text-[11px] leading-relaxed">
+                  {ticket.checks.map((c, i) => {
+                    const passed = i < completedChecks;
+                    return (
+                      <div key={c.label} className={`flex items-baseline gap-2 py-0.5 transition-opacity duration-200 ${passed ? 'opacity-100' : 'opacity-30'}`}>
+                        <span className="text-green-400/80">$</span>
+                        <span className="text-white/85 flex-1 truncate">{c.label}</span>
+                        {passed ? <span className="text-green-400">▸ {c.detail}</span> : <span className="text-white/25">—</span>}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Release */}
+              <div className={`absolute inset-0 transition-opacity duration-300 ${phase === 'release' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                <div className="font-mono text-[9px] uppercase tracking-widest text-green-600 mb-2">Gate 3 · Ship · ready for your sign-off</div>
+                <div className="bg-white border border-green-400/40 rounded-lg p-3 shadow-sm">
+                  <div className="flex items-center gap-2 mb-2">
+                    <GitPullRequest className="w-4 h-4 text-accent" />
+                    <span className="font-mono text-[10px] text-ink/50">#{ticket.pr.number}</span>
+                    <span className={`font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 rounded border ${ticket.tagColor}`}>{ticket.tag}</span>
+                    <span className="font-serif text-sm text-ink flex-1 truncate">{ticket.label}</span>
+                  </div>
+                  <div className="flex items-center gap-3 font-mono text-[9px] text-ink/50 mb-2">
+                    <span className="text-green-600">+{ticket.pr.additions}</span>
+                    <span className="text-red-500">−{ticket.pr.deletions}</span>
+                    <span>{ticket.pr.files} files</span>
+                    <span className="ml-auto">
+                      {Math.floor(ticket.pr.durationMin / 60)}h {ticket.pr.durationMin % 60}m
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-1.5 text-[10px] font-mono">
+                    {['Scope', 'Design', 'Checks'].map(g => (
+                      <div key={g} className="flex items-center gap-1.5 bg-green-50/80 border border-green-200/60 rounded px-2 py-1">
+                        <Check className="w-2.5 h-2.5 text-green-600 flex-shrink-0" strokeWidth={3} />
+                        <span className="text-green-700/90 truncate">{g} ✓</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </ProductFrame>
+
+      {/* Rerun affordance */}
+      {ticket && isDone && (
+        <div className="flex justify-center mt-5">
+          <button
+            onClick={() => setRunId(r => r + 1)}
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-accent hover:bg-accent-hover text-white font-sans text-sm shadow-sm hover:shadow-md transition-all active:scale-95"
+          >
+            <GitPullRequest className="w-4 h-4" />
+            Run again
+          </button>
+        </div>
+      )}
+      {isRunning && (
+        <div className="text-center font-mono text-[10px] uppercase tracking-widest text-ink-muted/50 mt-5">
+          Pipeline running…
+        </div>
+      )}
+    </div>
+  );
+};
+
 const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
   useEffect(() => {
     document.title = 'PureCode — DaVeenci';
@@ -609,8 +946,16 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
         </div>
       </Section>
 
+      {/* Try It — live pipeline simulator */}
+      <Section id="try-it" className="bg-alt/30 py-20">
+        <SectionHeader eyebrow="Try It" title="Pick a ticket. Watch the team work." subtitle="Every ticket walks the same path — scope, blueprint, delivery, validation, release — with every gate stamped. Here's that pipeline running in miniature." />
+        <ScrollReveal>
+          <TryItSimulator />
+        </ScrollReveal>
+      </Section>
+
       {/* Use cases */}
-      <Section id="use-cases" className="bg-alt/30 py-20">
+      <Section id="use-cases" className="py-20">
         <SectionHeader eyebrow="Use Cases" title="Who PureCode is for." subtitle="Anyone who needs code that ships — reviewed, tested, accountable." />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {USE_CASES.map((uc, i) => {
