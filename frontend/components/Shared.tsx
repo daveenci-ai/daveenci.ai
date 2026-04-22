@@ -531,18 +531,9 @@ export const ProblemCallout: React.FC<{
 );
 
 /**
- * Plate — plate widget used to frame diagrams.
- *
- * `variant="editorial"` (default): parchment-sketch lane. Translucent,
- *    blurred, heavy raised shadow, -2deg tilt. Used on the landing page.
- * `variant="modern"`: product-page lane. Solid white, rounded-lg,
- *    softer shadow, no tilt. Keeps the fig-caption chrome. Used on
- *    PureCode, ShootOS, BrandOS heros so they track the PulseNote
- *    visual system.
- *
- * Usage:
- *   <Plate fig="i" title="Team Structure"><YourSVG /></Plate>
- *   <Plate fig="i" title="Pipeline" variant="modern"><YourSVG /></Plate>
+ * Plate — editorial plate widget for landing-page figures. Translucent
+ * parchment, -2deg tilt, heavy raised shadow, fig-caption chrome.
+ * Product-page heros use ProductFrame instead.
  */
 export const Plate: React.FC<{
   fig: string;
@@ -550,29 +541,8 @@ export const Plate: React.FC<{
   children: React.ReactNode;
   className?: string;
   tilt?: boolean;
-  variant?: 'editorial' | 'modern';
-}> = ({ fig, title, children, className = '', tilt, variant = 'editorial' }) => {
-  const shouldTilt = tilt ?? variant === 'editorial';
-  const tiltClasses = shouldTilt ? 'rotate-[-2deg] hover:rotate-0' : '';
-  if (variant === 'modern') {
-    return (
-      <div
-        className={`relative w-full max-w-lg lg:max-w-xl mx-auto aspect-square bg-white border border-ink/10 rounded-lg shadow-sm hover:shadow-xl hover:border-accent/30 p-6 md:p-10 transition-all duration-500 ease-out group ${tiltClasses} ${className}`}
-      >
-        <div className="flex justify-between items-center mb-8 border-b border-ink/10 pb-4">
-          <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-ink/15" />
-            <div className="w-3 h-3 rounded-full bg-ink/15" />
-            <div className="w-3 h-3 rounded-full bg-ink/15" />
-          </div>
-          <div className="font-serif italic text-xs tracking-[0.2em] text-ink-muted uppercase">
-            Fig. {fig} · {title}
-          </div>
-        </div>
-        <div className="relative h-full w-full">{children}</div>
-      </div>
-    );
-  }
+}> = ({ fig, title, children, className = '', tilt = true }) => {
+  const tiltClasses = tilt ? 'rotate-[-2deg] hover:rotate-0' : '';
   return (
     <Surface
       kind="document"
@@ -593,6 +563,28 @@ export const Plate: React.FC<{
     </Surface>
   );
 };
+
+/**
+ * ProductFrame — product-page hero frame matching PulseNote's hero.
+ * Warm pulse-surface background, fixed height (420px default), raised
+ * shadow, no fig caption, no tilt. Wraps interactive demos or SVG
+ * diagrams on PureCode / ShootOS / BrandOS heros.
+ */
+export const ProductFrame: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+  height?: number | string;
+  style?: React.CSSProperties;
+}> = ({ children, className = '', height = 420, style }) => (
+  <Surface
+    kind="product"
+    raised
+    className={`relative w-full max-w-lg mx-auto bg-pulse-surface border border-ink/10 overflow-hidden ${className}`}
+    style={{ height, ...style }}
+  >
+    <div className="relative p-5 md:p-6 h-full">{children}</div>
+  </Surface>
+);
 
 export const Eyebrow: React.FC<{
   children: React.ReactNode;

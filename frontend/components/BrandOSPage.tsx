@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { ChevronDown, ChevronUp, ArrowUpDown, Loader2, Sparkles, Rocket, TrendingUp, Building2, Search } from 'lucide-react';
-import { ScrollReveal, Section, SectionHeader, PageHero, ErrorAlert, Button, Plate, VitruvianBackground, Widget, IconBadge, ProblemCallout } from './Shared';
+import { ScrollReveal, Section, SectionHeader, PageHero, ErrorAlert, Button, VitruvianBackground, Widget, IconBadge, ProblemCallout, ProductFrame } from './Shared';
 import Header from './Header';
 import Footer from './Footer';
 import type { Page } from './types';
@@ -518,7 +518,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
 
           <div className="lg:col-span-6 relative h-[400px] md:h-[480px] flex items-center justify-center">
             <ScrollReveal delay={500} direction="left" className="w-full flex justify-center">
-              <Plate fig="i" title="Weighted Scorecard" variant="modern">
+              <ProductFrame>
                 <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 300 300" fill="none">
                   {/* Dimension bars */}
                   {[
@@ -549,7 +549,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
                     );
                   })}
                 </svg>
-              </Plate>
+              </ProductFrame>
             </ScrollReveal>
           </div>
         </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowUpRight, ChevronDown, Camera, Video, Box, Sparkles, Users, Building2, Home, TrendingUp } from 'lucide-react';
 import Header from './Header';
 import Footer from './Footer';
-import { Section, SectionHeader, ScrollReveal, PageHero, Button, Plate, VitruvianBackground, Widget, IconBadge, ProblemCallout } from './Shared';
+import { Section, SectionHeader, ScrollReveal, PageHero, Button, VitruvianBackground, Widget, IconBadge, ProblemCallout, ProductFrame } from './Shared';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileShootOSPage } from './mobile/MobileShootOSPage';
 import type { Page } from './types';
@@ -100,7 +100,7 @@ const ShootOSPageDesktop: React.FC<ShootOSPageProps> = ({ onNavigate }) => {
 
           <div className="lg:col-span-6 relative h-[400px] md:h-[480px] flex items-center justify-center">
             <ScrollReveal delay={500} direction="left" className="w-full flex justify-center">
-              <Plate fig="i" title="Pipeline" variant="modern">
+              <ProductFrame>
                 <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 300 300" fill="none">
                   {/* Input: raw capture at top */}
                   <g transform="translate(150, 55)">
@@ -135,7 +135,7 @@ const ShootOSPageDesktop: React.FC<ShootOSPageProps> = ({ onNavigate }) => {
                     <text x="0" y="10" textAnchor="middle" fontSize="6" fontFamily="monospace" fill="rgb(var(--color-ink-muted))">agent-ready, branded</text>
                   </g>
                 </svg>
-              </Plate>
+              </ProductFrame>
             </ScrollReveal>
           </div>
         </div>

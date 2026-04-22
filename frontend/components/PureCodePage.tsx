@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ChevronDown, GitPullRequest, FileCode2, ShieldCheck, Rocket, Layers, Code2, Users, Building2, Briefcase } from 'lucide-react';
 import Header from './Header';
 import Footer from './Footer';
-import { Section, SectionHeader, ScrollReveal, PageHero, Button, Plate, VitruvianBackground, Widget, IconBadge, ProblemCallout } from './Shared';
+import { Section, SectionHeader, ScrollReveal, PageHero, Button, VitruvianBackground, Widget, IconBadge, ProblemCallout, ProductFrame } from './Shared';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobilePureCodePage } from './mobile/MobilePureCodePage';
 import type { Page } from './types';
@@ -105,7 +105,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
 
           <div className="lg:col-span-6 relative h-[400px] md:h-[480px] flex items-center justify-center">
             <ScrollReveal delay={500} direction="left" className="w-full flex justify-center">
-              <Plate fig="i" title="Team Structure" variant="modern">
+              <ProductFrame>
                 <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 300 300" fill="none">
                   {/* Orbit ring */}
                   <circle cx="150" cy="150" r="110" fill="none" stroke="rgb(var(--color-ink-muted))" strokeWidth="0.6" strokeDasharray="3 4" opacity="0.3" />
@@ -139,7 +139,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
                     <text x="0" y="3" textAnchor="middle" fontSize="8" fontFamily="serif" fontStyle="italic" fill="#16a34a" letterSpacing="0.15em">HUMAN GATE</text>
                   </g>
                 </svg>
-              </Plate>
+              </ProductFrame>
             </ScrollReveal>
           </div>
         </div>
