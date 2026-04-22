@@ -7,7 +7,7 @@ import Footer from './Footer';
 import type { Page } from './types';
 import { API_ENDPOINTS } from '../config';
 import { useIsMobile } from './mobile/useIsMobile';
-import { MobileBrandAnalyzerPage } from './mobile/MobileBrandAnalyzerPage';
+import { MobileBrandOSPage } from './mobile/MobileBrandOSPage';
 import { Search as SearchIcon, ChevronDown as ChevronDownIcon, Target, Users, Rocket as RocketIcon, Building2 as BuildingIcon } from 'lucide-react';
 
 // --- Types ---
@@ -414,17 +414,17 @@ const ResultsTable: React.FC<{ result: AnalysisResult }> = ({ result }) => {
 
 // --- Main Page ---
 
-interface BrandAnalyzerPageProps {
+interface BrandOSPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
-const BrandAnalyzerPage: React.FC<BrandAnalyzerPageProps> = (props) => {
+const BrandOSPage: React.FC<BrandOSPageProps> = (props) => {
   const isMobile = useIsMobile();
-  if (isMobile) return <MobileBrandAnalyzerPage {...props} />;
-  return <BrandAnalyzerPageDesktop {...props} />;
+  if (isMobile) return <MobileBrandOSPage {...props} />;
+  return <BrandOSPageDesktop {...props} />;
 };
 
-const BrandAnalyzerPageDesktop: React.FC<BrandAnalyzerPageProps> = ({ onNavigate }) => {
+const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
   const [stage, setStage] = useState<Stage>('bootstrap');
   const [names, setNames] = useState('');
   const [context, setContext] = useState('');
@@ -694,4 +694,4 @@ const FAQItem: React.FC<{ q: string; a: string }> = ({ q, a }) => {
   );
 };
 
-export default BrandAnalyzerPage;
+export default BrandOSPage;

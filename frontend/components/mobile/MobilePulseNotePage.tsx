@@ -5,7 +5,7 @@ import { MobileButton } from './MobileButton';
 import { MobileScenePlate } from './MobileScenePlate';
 import type { Page } from '../types';
 
-interface MobilePulseLandingPageProps {
+interface MobilePulseNotePageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
@@ -93,7 +93,7 @@ const FAQS = [
   },
 ];
 
-export const MobilePulseLandingPage: React.FC<MobilePulseLandingPageProps> = ({ onNavigate }) => {
+export const MobilePulseNotePage: React.FC<MobilePulseNotePageProps> = ({ onNavigate }) => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {

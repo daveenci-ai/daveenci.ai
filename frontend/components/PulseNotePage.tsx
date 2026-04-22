@@ -25,9 +25,9 @@ import {
   isDayDisabled,
 } from './calendarAvailability';
 import { useIsMobile } from './mobile/useIsMobile';
-import { MobilePulseLandingPage } from './mobile/MobilePulseLandingPage';
+import { MobilePulseNotePage } from './mobile/MobilePulseNotePage';
 
-interface PulseLandingPageProps {
+interface PulseNotePageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
@@ -1999,13 +1999,13 @@ const FinalCTA: React.FC = () => {
 
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
-const PulseLandingPage: React.FC<PulseLandingPageProps> = (props) => {
+const PulseNotePage: React.FC<PulseNotePageProps> = (props) => {
   const isMobile = useIsMobile();
-  if (isMobile) return <MobilePulseLandingPage {...props} />;
-  return <PulseLandingPageDesktop {...props} />;
+  if (isMobile) return <MobilePulseNotePage {...props} />;
+  return <PulseNotePageDesktop {...props} />;
 };
 
-const PulseLandingPageDesktop: React.FC<PulseLandingPageProps> = ({ onNavigate }) => {
+const PulseNotePageDesktop: React.FC<PulseNotePageProps> = ({ onNavigate }) => {
   return (
     <div className="min-h-screen bg-base text-ink [&_h1]:[text-wrap:balance] [&_h2]:[text-wrap:balance] [&_h3]:[text-wrap:balance] [&_p]:[text-wrap:pretty]">
       <PulseNav />
@@ -2019,4 +2019,4 @@ const PulseLandingPageDesktop: React.FC<PulseLandingPageProps> = ({ onNavigate }
   );
 };
 
-export default PulseLandingPage;
+export default PulseNotePage;

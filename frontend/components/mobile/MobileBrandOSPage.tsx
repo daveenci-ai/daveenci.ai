@@ -60,11 +60,11 @@ const scoreTextClass = (score: number) =>
 const scoreBgClass = (score: number) =>
   score >= 75 ? 'bg-emerald-500' : score >= 50 ? 'bg-amber-500' : 'bg-red-500';
 
-interface MobileBrandAnalyzerPageProps {
+interface MobileBrandOSPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
-export const MobileBrandAnalyzerPage: React.FC<MobileBrandAnalyzerPageProps> = ({ onNavigate }) => {
+export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate }) => {
   const [stage, setStage] = useState<Stage>('bootstrap');
   const [names, setNames] = useState('');
   const [context, setContext] = useState('');

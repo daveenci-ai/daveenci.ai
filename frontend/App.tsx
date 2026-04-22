@@ -11,8 +11,8 @@ const BriefingsPage = lazy(() => import('./components/BriefingsPage'));
 const BriefingDetailPage = lazy(() => import('./components/BriefingDetailPage'));
 const WhoWeArePage = lazy(() => import('./components/WhoWeArePage'));
 const Calendar = lazy(() => import('./components/Calendar'));
-const PulseLandingPage = lazy(() => import('./components/PulseLandingPage'));
-const BrandAnalyzerPage = lazy(() => import('./components/BrandAnalyzerPage'));
+const PulseNotePage = lazy(() => import('./components/PulseNotePage'));
+const BrandOSPage = lazy(() => import('./components/BrandOSPage'));
 const WorkPage = lazy(() => import('./components/WorkPage'));
 const PureCodePage = lazy(() => import('./components/PureCodePage'));
 const ShootOSPage = lazy(() => import('./components/ShootOSPage'));
@@ -193,8 +193,8 @@ const App: React.FC = () => {
         )}
         {page === 'who-we-are' && <WhoWeArePage onNavigate={handleNavigate} />}
         {page === 'calendar' && <Calendar onNavigate={handleNavigate} />}
-        {page === 'pulsenote' && <PulseLandingPage onNavigate={handleNavigate} />}
-        {page === 'brandos' && <BrandAnalyzerPage onNavigate={handleNavigate} />}
+        {page === 'pulsenote' && <PulseNotePage onNavigate={handleNavigate} />}
+        {page === 'brandos' && <BrandOSPage onNavigate={handleNavigate} />}
         {page === 'work' && <WorkPage onNavigate={handleNavigate} />}
         {page === 'purecode' && <PureCodePage onNavigate={handleNavigate} />}
         {page === 'shootos' && <ShootOSPage onNavigate={handleNavigate} />}
