@@ -1,13 +1,14 @@
 
 import React, { useState, useMemo } from 'react';
 import { ChevronDown, ChevronUp, ArrowUpDown, Loader2, Sparkles, Rocket, TrendingUp, Building2, Search } from 'lucide-react';
-import { ScrollReveal, Section, GridPattern, PageHero, ErrorAlert, Button } from './Shared';
+import { ScrollReveal, Section, SectionHeader, PageHero, ErrorAlert, Button, Plate, Callout, VitruvianBackground, Surface } from './Shared';
 import Header from './Header';
 import Footer from './Footer';
 import type { Page } from './types';
 import { API_ENDPOINTS } from '../config';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileBrandAnalyzerPage } from './mobile/MobileBrandAnalyzerPage';
+import { Search as SearchIcon, ChevronDown as ChevronDownIcon, Target, Users, Rocket as RocketIcon, Building2 as BuildingIcon } from 'lucide-react';
 
 // --- Types ---
 
@@ -485,22 +486,91 @@ const BrandAnalyzerPageDesktop: React.FC<BrandAnalyzerPageProps> = ({ onNavigate
       <Header onNavigate={onNavigate} currentPage="brandos" />
 
       {/* Hero */}
-      <Section className="pt-44 pb-12 md:pt-52 md:pb-16">
-        <GridPattern />
+      <Section className="pt-32 pb-20 md:pt-40 md:pb-28 min-h-[90vh] flex items-center">
+        <VitruvianBackground className="opacity-[0.08]" />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          <div className="lg:col-span-6 relative z-20">
+            <ScrollReveal delay={200}>
+              <PageHero
+                eyebrow={
+                  <span className="inline-block mb-4 font-mono text-xs font-bold text-accent uppercase tracking-widest bg-accent/5 px-3 py-1 border border-accent/10 rounded-sm">
+                    A DaVeenci team · Brand
+                  </span>
+                }
+                title={<>A name, scored the way a specialist would score it.<br /><span className="italic text-ink-muted/80">Free, live, below.</span></>}
+                description="BrandOS scores your brand name across 10 weighted dimensions — clarity, trust, industry fit, memorability, and more — calibrated to your business stage. Type a name. Get a specialist-grade scorecard in seconds."
+                size="md"
+                actions={
+                  <>
+                    <Button
+                      variant="primary"
+                      onClick={() => document.getElementById('try-it')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                      className="text-base px-8 py-4"
+                    >
+                      <span className="flex items-center gap-2"><SearchIcon className="w-4 h-4" /> Try it now</span>
+                    </Button>
+                    <Button variant="secondary" onClick={() => onNavigate('calendar')} className="text-base px-8 py-4">Talk to us</Button>
+                  </>
+                }
+              />
+            </ScrollReveal>
+          </div>
+
+          <div className="lg:col-span-6 relative h-[400px] md:h-[480px] flex items-center justify-center">
+            <ScrollReveal delay={500} direction="left" className="w-full flex justify-center">
+              <Plate fig="i" title="Weighted Scorecard">
+                <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 300 300" fill="none">
+                  {/* Dimension bars */}
+                  {[
+                    { name: 'Clarity', score: 88, weight: 1.8 },
+                    { name: 'Relevance', score: 76, weight: 1.6 },
+                    { name: 'Trust', score: 82, weight: 1.3 },
+                    { name: 'Industry Fit', score: 71, weight: 1.2 },
+                    { name: 'Memorability', score: 65, weight: 1.1 },
+                    { name: 'Uniqueness', score: 58, weight: 1.0 },
+                    { name: 'Scalability', score: 79, weight: 0.9 },
+                    { name: 'Pronounce.', score: 91, weight: 0.8 },
+                    { name: 'Visual', score: 54, weight: 0.7 },
+                    { name: 'Neg. Risk', score: 85, weight: 0.6 },
+                  ].map((dim, i) => {
+                    const y = 30 + i * 24;
+                    const barWidth = (dim.score / 100) * 160;
+                    const color = dim.score >= 75 ? '#059669' : dim.score >= 50 ? '#d97706' : '#dc2626';
+                    return (
+                      <g key={dim.name}>
+                        <text x="10" y={y + 4} fontSize="8" fontFamily="serif" fill="rgb(var(--color-ink))">{dim.name}</text>
+                        <rect x="80" y={y - 3} width="160" height="6" rx="1" fill="rgb(var(--color-ink))" fillOpacity="0.06" />
+                        <rect x="80" y={y - 3} width={barWidth} height="6" rx="1" fill={color} fillOpacity="0.7">
+                          <animate attributeName="width" from="0" to={barWidth} dur="1.4s" begin={`${i * 0.1}s`} fill="freeze" />
+                        </rect>
+                        <text x={245} y={y + 3} fontSize="8" fontFamily="monospace" fontWeight="600" fill={color}>{dim.score}</text>
+                        <text x={270} y={y + 3} fontSize="6" fontFamily="monospace" fill="rgb(var(--color-ink-muted))">×{dim.weight}</text>
+                      </g>
+                    );
+                  })}
+                </svg>
+              </Plate>
+            </ScrollReveal>
+          </div>
+        </div>
+      </Section>
+
+      {/* Problem */}
+      <Section className="py-12 md:py-16">
         <ScrollReveal>
-          <PageHero
-            eyebrow="Free Tool"
-            title={<>Brand Name<br /><span className="italic text-ink-muted/80">Sentiment Analyzer</span></>}
-            description="Score your brand name across 10 weighted dimensions — clarity, trust, industry fit, and more. AI-powered analysis tailored to your business stage."
-            size="md"
-            className="max-w-3xl"
-          />
+          <Callout variant="alt" className="max-w-4xl mx-auto">
+            <h3 className="font-serif text-xl text-ink mb-2">Why it matters</h3>
+            <p className="font-sans text-ink-muted leading-relaxed">
+              Most naming feedback is vibes. "I like it." "Feels off." "My wife said no." That's not a signal — that's noise. BrandOS scores candidate names the way a specialist would: across dimensions that actually predict whether a name will hold up once you start shipping.
+            </p>
+          </Callout>
         </ScrollReveal>
       </Section>
 
-      {/* Analyzer Tool */}
-      <Section className="py-8 md:py-12">
-        <div className="space-y-8">
+      {/* Live tool */}
+      <Section id="try-it" className="bg-alt/30 py-20">
+        <SectionHeader eyebrow="Try It" title="Score your names. Live, below." subtitle="Pick your stage, enter up to five candidates, and get a weighted scorecard in about ten seconds." />
+        <div className="space-y-8 max-w-5xl mx-auto">
           {/* Stage Selector */}
           <ScrollReveal delay={100}>
             <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-4">
@@ -542,6 +612,51 @@ const BrandAnalyzerPageDesktop: React.FC<BrandAnalyzerPageProps> = ({ onNavigate
         </div>
       </Section>
 
+      {/* Use cases */}
+      <Section id="use-cases" className="py-20">
+        <SectionHeader eyebrow="Use Cases" title="Who BrandOS is for." subtitle="Anyone making a naming decision that's costly to reverse." />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          {[
+            { icon: RocketIcon, title: 'Early-stage founders', body: "You're picking the name your first hundred customers will learn. Make it the right one." },
+            { icon: Target, title: 'Product launches', body: 'Evaluating candidates for a new product line? Score them side-by-side before committing the budget.' },
+            { icon: Users, title: 'Branding agencies', body: 'Back your recommendation with dimensional scoring. Defend the choice your client is about to sign off on.' },
+            { icon: BuildingIcon, title: 'Rebrands', body: "Changing an established name is expensive. BrandOS tells you whether the new candidate is actually stronger — or just different." },
+          ].map((uc, i) => {
+            const Icon = uc.icon;
+            return (
+              <ScrollReveal key={uc.title} delay={i * 100}>
+                <div className="h-full bg-white border border-ink/10 p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                  <Icon className="w-8 h-8 text-accent mb-4" />
+                  <h3 className="font-serif text-xl text-ink mb-2">{uc.title}</h3>
+                  <p className="font-sans text-sm text-ink-muted leading-relaxed">{uc.body}</p>
+                </div>
+              </ScrollReveal>
+            );
+          })}
+        </div>
+      </Section>
+
+      {/* FAQ */}
+      <Section id="faq" className="bg-alt/30 py-20">
+        <SectionHeader eyebrow="FAQ" title="Common questions." />
+        <ScrollReveal>
+          <div className="max-w-3xl mx-auto bg-white shadow-xl border border-ink/10 rounded-sm px-8">
+            {[
+              { q: 'What are the 10 dimensions?', a: 'Clarity, Relevance, Trust, Industry Fit, Memorability, Uniqueness, Scalability, Pronounceability, Visual Identity, and Negative Risk. Each is weighted differently (Clarity ×1.8 is the heaviest; Negative Risk ×0.6 is the lightest but inverse-scored so a high score means low risk).' },
+              { q: "Why does 'business stage' matter?", a: "Weights shift by stage. A Bootstrap name optimizes for clarity and pronounceability (you're explaining it a hundred times a day). A Scale-stage name optimizes for uniqueness and visual identity (you're defending trademark and building brand recognition). BrandOS recalibrates the scoring accordingly." },
+              { q: 'How is this different from a naming agency?', a: "A naming agency generates candidates. BrandOS scores the candidates you (or an agency) already have. Think of it as a due-diligence layer — a specialist-grade second opinion before you sign off." },
+              { q: 'Does it handle multi-language names?', a: "Yes, with caveats. The tool is currently strongest in English. For multi-language brand evaluation (e.g., \"does this name mean something embarrassing in Portuguese?\"), the Negative Risk dimension catches the obvious issues but we recommend a native-speaker review for flagship launches." },
+              { q: "Is this the full tool or a teaser?", a: "It's the full tool. The free version scores up to 5 names at once, unlimited times. The specialist-team engagement behind it (for rebrands, international rollouts, trademark diligence, etc.) is what we'd scope on a Talk-to-us call." },
+              { q: 'Do you store my names?', a: "Anonymized logs for quality/abuse monitoring, keyed to a random hash, retained 30 days. Not tied to you, not sold, not used to train models. Your name, your verdict — we just count queries to keep the lights on." },
+            ].map((item, i) => (
+              <FAQItem key={i} q={item.q} a={item.a} />
+            ))}
+          </div>
+        </ScrollReveal>
+      </Section>
+
+      {/* Final CTA kept below, now wrapped */}
+
       {/* CTA */}
       <Section className="py-16 md:py-24" pattern="circles">
         <ScrollReveal>
@@ -560,6 +675,21 @@ const BrandAnalyzerPageDesktop: React.FC<BrandAnalyzerPageProps> = ({ onNavigate
       </Section>
 
       <Footer onNavigate={onNavigate} />
+    </div>
+  );
+};
+
+const FAQItem: React.FC<{ q: string; a: string }> = ({ q, a }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border-b border-ink/10 last:border-0">
+      <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between py-5 text-left group">
+        <span className="font-serif text-lg text-ink group-hover:text-accent transition-colors pr-4">{q}</span>
+        <ChevronDownIcon className={`w-5 h-5 text-ink-muted flex-shrink-0 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+      </button>
+      {open && (
+        <p className="text-ink-muted leading-relaxed pb-5 animate-in fade-in slide-in-from-top-1 duration-200">{a}</p>
+      )}
     </div>
   );
 };
