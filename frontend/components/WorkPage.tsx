@@ -26,14 +26,14 @@ const workItems = [
     blurb: 'Stills, video, 3D tours, AI virtual staging — one property in, one listing-ready package out. Built for volume teams.',
   },
   {
-    page: 'book-demo' as Page,
+    page: 'pulsenote' as Page,
     label: 'Content',
     title: 'PulseNote',
     subtitle: 'The content team.',
     blurb: 'Meeting transcripts in. Publish-ready newsletters, social posts, and visuals out. One workflow across every platform you publish to.',
   },
   {
-    page: 'brand-analyzer' as Page,
+    page: 'brandos' as Page,
     label: 'Brand',
     title: 'BrandOS',
     subtitle: 'The brand team.',

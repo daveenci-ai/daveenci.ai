@@ -36,12 +36,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://daveenci.ai/book-demo</loc>
+    <loc>https://daveenci.ai/pulsenote</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://daveenci.ai/brand-analyzer</loc>
+    <loc>https://daveenci.ai/brandos</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

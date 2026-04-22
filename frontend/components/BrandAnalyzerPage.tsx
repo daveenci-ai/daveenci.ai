@@ -482,7 +482,7 @@ const BrandAnalyzerPageDesktop: React.FC<BrandAnalyzerPageProps> = ({ onNavigate
 
   return (
     <div className="flex flex-col w-full overflow-x-hidden min-h-screen">
-      <Header onNavigate={onNavigate} currentPage="brand-analyzer" />
+      <Header onNavigate={onNavigate} currentPage="brandos" />
 
       {/* Hero */}
       <Section className="pt-44 pb-12 md:pt-52 md:pb-16">

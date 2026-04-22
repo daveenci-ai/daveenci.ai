@@ -60,10 +60,10 @@ const App: React.FC = () => {
         setPage('who-we-are');
       } else if (path === '/calendar') {
         setPage('calendar');
-      } else if (path === '/book-demo') {
-        setPage('book-demo');
-      } else if (path === '/brand-analyzer') {
-        setPage('brand-analyzer');
+      } else if (path === '/pulsenote' || path === '/book-demo') {
+        setPage('pulsenote');
+      } else if (path === '/brandos' || path === '/brand-analyzer') {
+        setPage('brandos');
       } else if (path === '/work') {
         setPage('work');
       } else if (path === '/purecode') {
@@ -159,8 +159,8 @@ const App: React.FC = () => {
     if (targetPage === 'briefing-detail') path = `/codex/${id}`;
     if (targetPage === 'who-we-are') path = '/who-we-are';
     if (targetPage === 'calendar') path = '/calendar';
-    if (targetPage === 'book-demo') path = '/book-demo';
-    if (targetPage === 'brand-analyzer') path = '/brand-analyzer';
+    if (targetPage === 'pulsenote') path = '/pulsenote';
+    if (targetPage === 'brandos') path = '/brandos';
     if (targetPage === 'work') path = '/work';
     if (targetPage === 'purecode') path = '/purecode';
     if (targetPage === 'shootos') path = '/shootos';
@@ -193,8 +193,8 @@ const App: React.FC = () => {
         )}
         {page === 'who-we-are' && <WhoWeArePage onNavigate={handleNavigate} />}
         {page === 'calendar' && <Calendar onNavigate={handleNavigate} />}
-        {page === 'book-demo' && <PulseLandingPage onNavigate={handleNavigate} />}
-        {page === 'brand-analyzer' && <BrandAnalyzerPage onNavigate={handleNavigate} />}
+        {page === 'pulsenote' && <PulseLandingPage onNavigate={handleNavigate} />}
+        {page === 'brandos' && <BrandAnalyzerPage onNavigate={handleNavigate} />}
         {page === 'work' && <WorkPage onNavigate={handleNavigate} />}
         {page === 'purecode' && <PureCodePage onNavigate={handleNavigate} />}
         {page === 'shootos' && <ShootOSPage onNavigate={handleNavigate} />}

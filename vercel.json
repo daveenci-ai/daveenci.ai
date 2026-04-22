@@ -9,21 +9,23 @@
       "status": 200
     },
     {
-      "src": "/brand-analyzer",
+      "src": "/brandos",
       "has": [
         { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*" }
       ],
-      "dest": "/brand-analyzer-og.html",
+      "dest": "/brandos-og.html",
       "status": 200
     },
     {
-      "src": "/book-demo",
+      "src": "/pulsenote",
       "has": [
         { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*" }
       ],
-      "dest": "/book-demo-og.html",
+      "dest": "/pulsenote-og.html",
       "status": 200
     },
+    { "src": "/book-demo", "status": 301, "headers": { "Location": "/pulsenote" } },
+    { "src": "/brand-analyzer", "status": 301, "headers": { "Location": "/brandos" } },
     {
       "src": "/briefings",
       "has": [
@@ -43,7 +45,7 @@
     { "src": "/api/(.*)", "dest": "/api/index.ts" },
     { "src": "/briefings(/.*)?", "status": 301, "headers": { "Location": "/codex$1" } },
     { "handle": "filesystem" },
-    { "src": "/(codex|who-we-are|calendar|book-demo|brand-analyzer|work|purecode|shootos|events|thesis)(/.*)?", "dest": "/index.html" },
+    { "src": "/(codex|who-we-are|calendar|pulsenote|brandos|work|purecode|shootos|events|thesis)(/.*)?", "dest": "/index.html" },
     { "src": "/", "dest": "/index.html" },
     { "src": "/.*", "dest": "/404.html", "status": 404 }
   ]

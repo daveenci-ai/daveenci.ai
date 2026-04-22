@@ -88,8 +88,8 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <li><a href="/thesis" onClick={go('thesis')} className="text-sm text-base/80 hover:text-white transition-colors">Thesis</a></li>
               <li><a href="/calendar" onClick={go('calendar')} className="text-sm text-base/80 hover:text-white transition-colors">Talk to us</a></li>
               <li><a href="/events" onClick={go('events')} className="text-sm text-base/80 hover:text-white transition-colors">Events</a></li>
-              <li><a href="/brand-analyzer" onClick={go('brand-analyzer')} className="text-sm text-base/80 hover:text-white transition-colors">Brand Analyzer</a></li>
-              <li><a href="/book-demo" onClick={go('book-demo')} className="text-sm text-base/80 hover:text-white transition-colors">Pulse Note</a></li>
+              <li><a href="/brandos" onClick={go('brandos')} className="text-sm text-base/80 hover:text-white transition-colors">BrandOS</a></li>
+              <li><a href="/pulsenote" onClick={go('pulsenote')} className="text-sm text-base/80 hover:text-white transition-colors">PulseNote</a></li>
             </ul>
           </div>
 
