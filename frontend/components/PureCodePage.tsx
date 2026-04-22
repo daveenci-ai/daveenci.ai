@@ -3,6 +3,8 @@ import { ChevronDown, GitPullRequest, FileCode2, ShieldCheck, Rocket, Layers, Co
 import Header from './Header';
 import Footer from './Footer';
 import { Section, SectionHeader, ScrollReveal, PageHero, Button, VitruvianBackground, ProductFrame } from './Shared';
+import { BookingWidget } from './BookingWidget';
+import AntonSketch from '../images/Anton_Sketch.webp';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobilePureCodePage } from './mobile/MobilePureCodePage';
 import type { Page } from './types';
@@ -991,6 +993,19 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
           </div>
         </ScrollReveal>
       </Section>
+
+      {/* Book an intro — inline calendar */}
+      <BookingWidget
+        onNavigate={onNavigate}
+        eyebrow="PureCode Intro"
+        title="Book a PureCode intro"
+        subtitle="Walk us through the kind of work your team ships today. We'll map what a PureCode team would look like for your stack."
+        leftBody="We'll look at your codebase, your existing review flow, and the tickets that eat your senior engineers' time — then scope what a specialist team + human gates would mean for you."
+        bookingType="demo-purecode"
+        hostName="Anton Osipov"
+        hostRole="Founder"
+        hostImage={AntonSketch}
+      />
 
       {/* Final CTA */}
       <Section className="py-16 md:py-24" pattern="circles">
