@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, ChevronDown, User, Mail, HelpCircle, Clock, Check, Menu, X, Mic, BarChart3, Send, Sparkles, Image, Lightbulb, MessageCircle, Users, Headphones, Briefcase, RefreshCw, Phone, Video, CalendarDays } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown, User, Mail, HelpCircle, Clock, Check, Mic, BarChart3, Send, Sparkles, Image, Lightbulb, MessageCircle, Users, Headphones, Briefcase, RefreshCw, Phone, Video, CalendarDays } from 'lucide-react';
 import { format } from 'date-fns';
 import { ScrollReveal, Section, SectionHeader, Button, Logo, GridPattern, VitruvianBackground, CustomSelect, Surface, PageHero, Eyebrow } from './Shared';
 import Header from './Header';
@@ -32,78 +32,6 @@ import { MobilePulseNotePage } from './mobile/MobilePulseNotePage';
 interface PulseNotePageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
-
-// ─── Pulse Nav ─────────────────────────────────────────────────────────────────
-
-const PulseNav: React.FC = () => {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  const links = [
-    { label: 'What You Can Do', href: '#product' },
-    { label: 'Try It', href: '#try-it' },
-    { label: 'Use Cases', href: '#use-cases' },
-    { label: 'Book a Demo', href: '#booking' },
-  ];
-
-  const scrollTo = (href: string) => {
-    setMobileOpen(false);
-    const el = document.getElementById(href.replace('#', ''));
-    if (el) {
-      const offset = 80;
-      const top = el.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: 'smooth' });
-    }
-  };
-
-  return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 backdrop-blur-xl shadow-sm border-b border-ink/5' : 'bg-transparent'}`}>
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <span className="font-serif text-xl text-ink tracking-wide">DaVeenci</span>
-
-        {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-8">
-          {links.map(l => (
-            <button key={l.href} onClick={() => scrollTo(l.href)} className="text-sm font-medium text-ink-muted hover:text-ink transition-colors">
-              {l.label}
-            </button>
-          ))}
-        </div>
-
-        <div className="hidden md:block">
-          <button onClick={() => scrollTo('#booking')} className="inline-flex items-center px-5 py-2 text-sm font-medium bg-accent hover:bg-accent-hover text-white transition-all shadow-sm hover:shadow-md active:scale-95">
-            Book a Demo
-          </button>
-        </div>
-
-        {/* Mobile hamburger */}
-        <button className="md:hidden text-ink" onClick={() => setMobileOpen(!mobileOpen)}>
-          {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-xl border-b border-ink/10 px-6 py-6 space-y-4 animate-in slide-in-from-top duration-200">
-          {links.map(l => (
-            <button key={l.href} onClick={() => scrollTo(l.href)} className="block text-sm font-medium text-ink-muted hover:text-ink transition-colors">
-              {l.label}
-            </button>
-          ))}
-          <button onClick={() => scrollTo('#booking')} className="block w-full text-center px-5 py-2.5 text-sm font-medium bg-accent text-white mt-4">
-            Book a Demo
-          </button>
-        </div>
-      )}
-    </nav>
-  );
-};
 
 // ─── Hero Diagram (Animated Demo) ───────────────────────────────────────────
 
