@@ -473,7 +473,7 @@ export const Surface: React.FC<{
 
 /**
  * Widget — product-page card primitive matching the PulseNote benchmark.
- * Solid white surface, modern radius, subtle shadow. `interactive` adds the
+ * Solid white surface, rounded-lg, subtle shadow. `interactive` adds the
  * hover-lift used on use-case / stage / asset cards.
  */
 export const Widget: React.FC<{
@@ -484,16 +484,12 @@ export const Widget: React.FC<{
   onClick?: () => void;
 }> = ({ interactive = false, as: Tag = 'div', className = '', children, onClick }) => {
   const hover = interactive
-    ? 'transition-all duration-300 hover:-translate-y-1 hover:[box-shadow:var(--shadow-widget-modern-hover)]'
+    ? 'transition-all duration-300 hover:shadow-xl hover:-translate-y-1'
     : '';
   return (
     <Tag
       onClick={onClick}
-      className={`bg-white border border-ink/10 ${hover} ${className}`}
-      style={{
-        borderRadius: 'var(--radius-widget-modern)',
-        boxShadow: 'var(--shadow-widget-modern)',
-      }}
+      className={`bg-white border border-ink/10 rounded-lg shadow-sm ${hover} ${className}`}
     >
       {children}
     </Tag>
@@ -528,11 +524,7 @@ export const ProblemCallout: React.FC<{
   children: React.ReactNode;
 }> = ({ className = '', children }) => (
   <div
-    className={`bg-amber-50/40 border border-amber-200/40 p-6 md:p-8 ${className}`}
-    style={{
-      borderRadius: 'var(--radius-widget-modern)',
-      boxShadow: 'var(--shadow-widget-modern)',
-    }}
+    className={`bg-amber-50/40 border border-amber-200/40 rounded-lg shadow-sm p-6 md:p-8 ${className}`}
   >
     {children}
   </div>
