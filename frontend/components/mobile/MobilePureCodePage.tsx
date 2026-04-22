@@ -98,7 +98,7 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
 
       {/* Problem */}
       <section className="px-6 pb-8">
-        <div className="bg-alt/10 border-l-2 border-alt p-5 rounded-sm">
+        <div className="bg-amber-50/40 border border-amber-200/40 rounded-lg p-5 shadow-sm">
           <h3 className="font-serif text-xl text-ink mb-2">The problem</h3>
           <p className="font-sans text-[15px] text-ink-muted leading-relaxed">
             General-purpose AI coding assistants are great at snippets and bad at systems. Teams need a coding partner that behaves like an actual team — with specialists, a controller, and review checkpoints.
@@ -120,8 +120,8 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
           {STAGES.map((stage, i) => {
             const Icon = stage.icon;
             return (
-              <li key={stage.label} className="flex gap-4 bg-white/60 border border-ink/10 rounded-sm p-4">
-                <div className="w-10 h-10 rounded-sm border border-accent/20 bg-accent/5 flex items-center justify-center flex-shrink-0">
+              <li key={stage.label} className="flex gap-4 bg-white border border-ink/10 rounded-lg p-4 shadow-sm">
+                <div className="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center flex-shrink-0">
                   <Icon className="w-5 h-5 text-accent" />
                 </div>
                 <div className="flex-1">
@@ -148,7 +148,7 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
         </h2>
         <div className="space-y-3">
           {GATES.map((gate) => (
-            <div key={gate.title} className="bg-accent/5 border border-accent/20 p-4 rounded-sm">
+            <div key={gate.title} className="bg-white border border-ink/10 rounded-lg p-5 shadow-sm">
               <div className="font-mono text-[10px] uppercase tracking-widest text-accent mb-1.5">{gate.n}</div>
               <h4 className="font-serif text-lg text-ink mb-1.5">{gate.title}</h4>
               <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{gate.body}</p>
@@ -170,9 +170,11 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
           {USE_CASES.map((uc) => {
             const Icon = uc.icon;
             return (
-              <div key={uc.title} className="bg-white/60 border border-ink/10 rounded-sm p-5">
+              <div key={uc.title} className="bg-white border border-ink/10 rounded-lg p-5 shadow-sm">
                 <div className="flex items-center gap-3 mb-2">
-                  <Icon className="w-5 h-5 text-accent flex-shrink-0" />
+                  <div className="w-9 h-9 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-4 h-4 text-accent" />
+                  </div>
                   <h3 className="font-serif text-lg text-ink">{uc.title}</h3>
                 </div>
                 <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{uc.body}</p>
@@ -191,11 +193,11 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
         <h2 className="font-serif text-[2rem] leading-[1.1] text-ink mb-6 tracking-tight">
           Common <span className="italic text-ink-muted/70">questions.</span>
         </h2>
-        <ol className="border-t border-ink/10">
+        <ol className="bg-white border border-ink/10 rounded-lg shadow-sm px-5">
           {FAQS.map((item, i) => {
             const isOpen = openFaq === i;
             return (
-              <li key={i} className="border-b border-ink/10">
+              <li key={i} className="border-b border-ink/10 last:border-b-0">
                 <button
                   onClick={() => setOpenFaq(isOpen ? null : i)}
                   className="w-full flex items-baseline gap-3 py-4 text-left active:opacity-60 transition-opacity"

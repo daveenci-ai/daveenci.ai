@@ -148,12 +148,12 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
       {/* Problem */}
       <Section className="py-12 md:py-16">
         <ScrollReveal>
-          <Callout variant="alt" className="max-w-4xl mx-auto">
+          <div className="max-w-4xl mx-auto bg-amber-50/40 border border-amber-200/40 rounded-lg p-8 shadow-sm">
             <h3 className="font-serif text-xl text-ink mb-2">The problem</h3>
             <p className="font-sans text-ink-muted leading-relaxed">
               General-purpose AI coding assistants are great at snippets and bad at systems. They lose context across files, skip review, and leave the human to reconcile when something breaks in production. Teams need a coding partner that behaves like an actual team — with specialists, a controller, and review checkpoints.
             </p>
-          </Callout>
+          </div>
         </ScrollReveal>
       </Section>
 
@@ -165,12 +165,14 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
             const Icon = stage.icon;
             return (
               <ScrollReveal key={stage.label} delay={i * 100}>
-                <Surface kind="document" className="relative h-full p-6 border border-ink/10 bg-white/70 flex flex-col">
+                <div className="h-full bg-white border border-ink/10 rounded-lg p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
                   <div className="font-mono text-[10px] uppercase tracking-widest text-accent mb-3">Stage {i + 1}</div>
-                  <Icon className="w-6 h-6 text-ink mb-4" />
+                  <div className="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mb-4">
+                    <Icon className="w-5 h-5 text-accent" />
+                  </div>
                   <h3 className="font-serif text-xl text-ink mb-2">{stage.label}</h3>
                   <p className="font-sans text-sm text-ink-muted leading-relaxed">{stage.body}</p>
-                </Surface>
+                </div>
               </ScrollReveal>
             );
           })}
@@ -183,11 +185,11 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {GATES.map((gate, i) => (
             <ScrollReveal key={gate.title} delay={i * 120}>
-              <Callout>
+              <div className="h-full bg-white border border-ink/10 rounded-lg p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <div className="font-mono text-[10px] uppercase tracking-widest text-accent mb-2">{gate.n}</div>
                 <h4 className="font-serif text-xl text-ink mb-3">{gate.title}</h4>
                 <p className="font-sans text-sm text-ink-muted leading-relaxed">{gate.body}</p>
-              </Callout>
+              </div>
             </ScrollReveal>
           ))}
         </div>
@@ -201,8 +203,10 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
             const Icon = uc.icon;
             return (
               <ScrollReveal key={uc.title} delay={i * 100}>
-                <div className="h-full bg-white border border-ink/10 p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                  <Icon className="w-8 h-8 text-accent mb-4" />
+                <div className="h-full bg-white border border-ink/10 rounded-lg p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                  <div className="w-12 h-12 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mb-4">
+                    <Icon className="w-6 h-6 text-accent" />
+                  </div>
                   <h3 className="font-serif text-xl text-ink mb-2">{uc.title}</h3>
                   <p className="font-sans text-sm text-ink-muted leading-relaxed">{uc.body}</p>
                 </div>
@@ -216,7 +220,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
       <Section id="faq" className="py-20">
         <SectionHeader eyebrow="FAQ" title="Common questions." />
         <ScrollReveal>
-          <div className="max-w-3xl mx-auto bg-white shadow-xl border border-ink/10 rounded-sm px-8">
+          <div className="max-w-3xl mx-auto bg-white shadow-xl border border-ink/10 rounded-lg px-8">
             {FAQ_ITEMS.map((item, i) => (
               <FAQItem key={i} q={item.q} a={item.a} />
             ))}
