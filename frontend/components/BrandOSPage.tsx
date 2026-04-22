@@ -1,7 +1,9 @@
 
-import React, { useState, useMemo } from 'react';
-import { ChevronDown, ChevronUp, ArrowUpDown, Loader2, Sparkles, Rocket, TrendingUp, Building2, Search } from 'lucide-react';
-import { ScrollReveal, Section, SectionHeader, PageHero, ErrorAlert, Button, VitruvianBackground, Widget, IconBadge, ProblemCallout, ProductFrame } from './Shared';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { ChevronDown, ChevronUp, ArrowUpDown, Loader2, Sparkles, Rocket, TrendingUp, Building2, Search, Check } from 'lucide-react';
+import { ScrollReveal, Section, SectionHeader, PageHero, ErrorAlert, Button, VitruvianBackground, Widget, IconBadge, ProductFrame } from './Shared';
+import { BookingWidget } from './BookingWidget';
+import AstridSketch from '../images/Astrid_Sketch.webp';
 import Header from './Header';
 import Footer from './Footer';
 import type { Page } from './types';
@@ -412,6 +414,302 @@ const ResultsTable: React.FC<{ result: AnalysisResult }> = ({ result }) => {
   );
 };
 
+// ─── Animated Hero Diagram ────────────────────────────────────────────────
+
+const HERO_DIMENSIONS = [
+  { name: 'Clarity', score: 88, weight: 1.8 },
+  { name: 'Relevance', score: 76, weight: 1.6 },
+  { name: 'Trust', score: 82, weight: 1.3 },
+  { name: 'Industry Fit', score: 71, weight: 1.2 },
+  { name: 'Memorability', score: 65, weight: 1.1 },
+  { name: 'Uniqueness', score: 58, weight: 1.0 },
+  { name: 'Scalability', score: 79, weight: 0.9 },
+  { name: 'Pronounce.', score: 91, weight: 0.8 },
+  { name: 'Visual', score: 54, weight: 0.7 },
+  { name: 'Neg. Risk', score: 85, weight: 0.6 },
+];
+
+const BRAND_NAME_SAMPLE = 'MERIDIAN';
+
+const BrandOSHeroDiagram: React.FC = () => {
+  const [typedChars, setTypedChars] = useState(0);
+  const [visibleBars, setVisibleBars] = useState(0);
+  const [showVerdict, setShowVerdict] = useState(false);
+  const [cycle, setCycle] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => {
+    const clear = () => { timerRef.current.forEach(clearTimeout); timerRef.current = []; };
+    const add = (fn: () => void, ms: number) => { timerRef.current.push(setTimeout(fn, ms)); };
+
+    clear();
+    setTypedChars(0);
+    setVisibleBars(0);
+    setShowVerdict(false);
+
+    for (let i = 1; i <= BRAND_NAME_SAMPLE.length; i++) {
+      add(() => setTypedChars(i), 400 + i * 110);
+    }
+    const typingEnd = 400 + BRAND_NAME_SAMPLE.length * 110 + 300;
+
+    HERO_DIMENSIONS.forEach((_, i) => add(() => setVisibleBars(b => Math.max(b, i + 1)), typingEnd + i * 180));
+    const barsEnd = typingEnd + HERO_DIMENSIONS.length * 180;
+
+    add(() => setShowVerdict(true), barsEnd + 300);
+    add(() => setCycle(c => c + 1), barsEnd + 3200);
+
+    return clear;
+  }, [cycle]);
+
+  const weightedScore = 76;
+
+  return (
+    <ProductFrame>
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center">
+            <Search className="w-4 h-4 text-accent" />
+          </div>
+          <div>
+            <div className="font-serif text-sm font-medium text-ink">BrandOS · scorecard</div>
+            <div className="font-mono text-[10px] text-ink/40">stage: bootstrap</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className={`w-2 h-2 rounded-full ${showVerdict ? 'bg-green-500' : 'bg-accent animate-pulse'}`} />
+          <span className="font-mono text-[10px] uppercase tracking-wider text-ink/50">{showVerdict ? 'scored' : 'analyzing'}</span>
+        </div>
+      </div>
+
+      {/* Brand input preview */}
+      <div className="bg-white border border-ink/10 rounded-lg px-3 py-2 mb-2.5">
+        <div className="font-mono text-[9px] uppercase tracking-widest text-ink/40 mb-1">Candidate</div>
+        <div className="font-serif text-lg text-ink tracking-wider">
+          {BRAND_NAME_SAMPLE.slice(0, typedChars)}
+          {typedChars < BRAND_NAME_SAMPLE.length && (
+            <span className="inline-block w-[2px] h-5 bg-ink/60 ml-0.5 animate-pulse align-middle" />
+          )}
+        </div>
+        <div className="font-mono text-[9px] text-ink-muted/50 mt-0.5 truncate">AI scheduling for B2B service cos.</div>
+      </div>
+
+      {/* Dimension bars */}
+      <div className="bg-white border border-ink/10 rounded-lg p-2.5 flex-1 overflow-hidden">
+        <div className="space-y-1">
+          {HERO_DIMENSIONS.map((dim, i) => {
+            const visible = i < visibleBars;
+            const color = dim.score >= 75 ? 'bg-emerald-500/70' : dim.score >= 50 ? 'bg-amber-500/70' : 'bg-red-500/70';
+            const scoreColor = dim.score >= 75 ? 'text-emerald-600' : dim.score >= 50 ? 'text-amber-600' : 'text-red-600';
+            return (
+              <div key={dim.name} className={`flex items-center gap-2 transition-opacity duration-200 ${visible ? 'opacity-100' : 'opacity-20'}`}>
+                <span className="font-mono text-[9px] text-ink/70 w-16 flex-shrink-0 truncate">{dim.name}</span>
+                <div className="flex-1 h-1.5 bg-ink/5 rounded-full overflow-hidden">
+                  <div className={`h-full rounded-full ${color}`} style={{ width: visible ? `${dim.score}%` : '0%', transition: 'width 0.8s ease-out' }} />
+                </div>
+                <span className={`font-mono text-[10px] font-semibold w-6 text-right ${visible ? scoreColor : 'text-ink-muted/30'}`}>{visible ? dim.score : '—'}</span>
+                <span className="font-mono text-[9px] text-ink-muted/40 w-8 text-right">×{dim.weight}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Verdict */}
+      <div className={`mt-3 flex items-center gap-2 bg-white border rounded-lg px-3 py-2 transition-all duration-500 ${showVerdict ? 'opacity-100 translate-y-0 border-green-400/50 bg-green-50/60' : 'opacity-0 translate-y-2 border-ink/10'}`}>
+        <div className="w-10 h-10 rounded-full bg-green-500/15 border border-green-500/40 flex items-center justify-center flex-shrink-0">
+          <span className="font-serif text-lg font-bold text-green-700">{weightedScore}</span>
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="font-mono text-[9px] uppercase tracking-wider text-green-700">Weighted score · strong</div>
+          <div className="font-serif text-xs text-ink/70">Clarity ✓ · pronounceable ✓ · uniqueness mid</div>
+        </div>
+      </div>
+    </ProductFrame>
+  );
+};
+
+// ─── Dimension Showcase (Row 1 widget) ─────────────────────────────────────
+
+const DIMENSION_EXAMPLES: { name: string; weight: number; question: string; good: { name: string; score: number }; bad: { name: string; score: number } }[] = [
+  { name: 'Clarity', weight: 1.8, question: 'Does the name explain what it is in one read?', good: { name: 'LOOM', score: 92 }, bad: { name: 'HypoSync', score: 34 } },
+  { name: 'Relevance', weight: 1.6, question: 'Does it signal the category or the value?', good: { name: 'FreshBooks', score: 86 }, bad: { name: 'Quibi', score: 28 } },
+  { name: 'Trust', weight: 1.3, question: 'Does it feel legitimate, not vaporware?', good: { name: 'Stripe', score: 91 }, bad: { name: 'Zyngopuf', score: 22 } },
+  { name: 'Industry Fit', weight: 1.2, question: 'Does the register fit your category?', good: { name: 'Linear', score: 88 }, bad: { name: 'Pookie Cloud', score: 19 } },
+  { name: 'Memorability', weight: 1.1, question: 'Will they remember after one conversation?', good: { name: 'Tesla', score: 94 }, bad: { name: 'EmblemixHQ', score: 31 } },
+  { name: 'Uniqueness', weight: 1.0, question: 'Can you actually own it in search + trademark?', good: { name: 'Figma', score: 89 }, bad: { name: 'SmartAI', score: 12 } },
+  { name: 'Scalability', weight: 0.9, question: "Won't outgrow you when you add more products?", good: { name: 'Notion', score: 92 }, bad: { name: 'PdfMerge', score: 24 } },
+  { name: 'Pronounceability', weight: 0.8, question: 'Can customers say it without being told?', good: { name: 'Zoom', score: 98 }, bad: { name: 'Weebly', score: 44 } },
+  { name: 'Visual Identity', weight: 0.7, question: 'Does the wordmark have something to work with?', good: { name: 'Airbnb', score: 85 }, bad: { name: 'XOXTech', score: 29 } },
+  { name: 'Negative Risk', weight: 0.6, question: "Any unintended meaning in other languages?", good: { name: 'Asana', score: 87 }, bad: { name: 'Kinki Ride', score: 18 } },
+];
+
+const DimensionShowcase: React.FC = () => {
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setIdx(i => (i + 1) % DIMENSION_EXAMPLES.length), 2400);
+    return () => clearInterval(id);
+  }, []);
+
+  const dim = DIMENSION_EXAMPLES[idx];
+  const goodColor = dim.good.score >= 75 ? 'bg-emerald-500/70' : 'bg-amber-500/70';
+  const badColor = dim.bad.score < 50 ? 'bg-red-500/70' : 'bg-amber-500/70';
+
+  return (
+    <ProductFrame height={480}>
+      <div className="flex items-center justify-between mb-3">
+        <div className="font-mono text-[10px] uppercase tracking-widest text-ink-muted/60">Dimension {idx + 1}/10</div>
+        <span className="font-mono text-[10px] text-accent/80">weight ×{dim.weight}</span>
+      </div>
+
+      <div className="bg-white border border-ink/10 rounded-lg p-4 mb-3">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+          <h4 className="font-serif text-xl text-ink">{dim.name}</h4>
+        </div>
+        <p className="font-serif italic text-sm text-ink-muted/80 leading-relaxed">"{dim.question}"</p>
+      </div>
+
+      <div className="bg-white border border-ink/10 rounded-lg p-3 flex-1">
+        <div className="font-mono text-[9px] uppercase tracking-widest text-ink/40 mb-2">Examples at this dimension</div>
+        <div className="space-y-3">
+          <div className="animate-in fade-in slide-in-from-bottom-2 duration-500" key={`good-${idx}`}>
+            <div className="flex items-baseline justify-between gap-3 mb-1">
+              <span className="font-serif text-base text-ink">{dim.good.name}</span>
+              <span className="font-mono text-xs font-semibold text-emerald-600">{dim.good.score}</span>
+            </div>
+            <div className="h-1.5 bg-ink/5 rounded-full overflow-hidden">
+              <div className={`h-full rounded-full ${goodColor}`} style={{ width: `${dim.good.score}%`, transition: 'width 0.8s ease-out' }} />
+            </div>
+          </div>
+          <div className="animate-in fade-in slide-in-from-bottom-2 duration-500" style={{ animationDelay: '150ms' }} key={`bad-${idx}`}>
+            <div className="flex items-baseline justify-between gap-3 mb-1">
+              <span className="font-serif text-base text-ink">{dim.bad.name}</span>
+              <span className="font-mono text-xs font-semibold text-red-600">{dim.bad.score}</span>
+            </div>
+            <div className="h-1.5 bg-ink/5 rounded-full overflow-hidden">
+              <div className={`h-full rounded-full ${badColor}`} style={{ width: `${dim.bad.score}%`, transition: 'width 0.8s ease-out' }} />
+            </div>
+          </div>
+        </div>
+        <div className="mt-3 pt-3 border-t border-ink/5 flex gap-1">
+          {DIMENSION_EXAMPLES.map((_, i) => (
+            <div key={i} className={`h-0.5 flex-1 rounded-full transition-colors ${i === idx ? 'bg-accent' : 'bg-ink/10'}`} />
+          ))}
+        </div>
+      </div>
+    </ProductFrame>
+  );
+};
+
+// ─── Stage Weight Shifter (Row 2 widget) ───────────────────────────────────
+
+const STAGE_WEIGHTS: { key: string; label: string; subtitle: string; icon: React.FC<{ className?: string }>; top3: { dim: string; weight: number }[] }[] = [
+  {
+    key: 'bootstrap', label: 'Bootstrap', subtitle: '$0–50K · pre-revenue', icon: Rocket,
+    top3: [
+      { dim: 'Clarity', weight: 2.0 },
+      { dim: 'Pronounceability', weight: 1.4 },
+      { dim: 'Trust', weight: 1.3 },
+    ],
+  },
+  {
+    key: 'seed', label: 'Seed', subtitle: 'Early traction', icon: Sparkles,
+    top3: [
+      { dim: 'Clarity', weight: 1.8 },
+      { dim: 'Relevance', weight: 1.6 },
+      { dim: 'Memorability', weight: 1.3 },
+    ],
+  },
+  {
+    key: 'growth', label: 'Growth', subtitle: 'Scaling revenue', icon: TrendingUp,
+    top3: [
+      { dim: 'Memorability', weight: 1.6 },
+      { dim: 'Uniqueness', weight: 1.4 },
+      { dim: 'Visual Identity', weight: 1.2 },
+    ],
+  },
+  {
+    key: 'scale', label: 'Scale', subtitle: '$5M+ enterprise', icon: Building2,
+    top3: [
+      { dim: 'Uniqueness', weight: 1.6 },
+      { dim: 'Visual Identity', weight: 1.5 },
+      { dim: 'Negative Risk', weight: 1.3 },
+    ],
+  },
+];
+
+const StageWeightShifter: React.FC = () => {
+  const [stageIdx, setStageIdx] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setStageIdx(i => (i + 1) % STAGE_WEIGHTS.length), 2800);
+    return () => clearInterval(id);
+  }, []);
+
+  const s = STAGE_WEIGHTS[stageIdx];
+
+  return (
+    <ProductFrame height={480}>
+      <div className="flex items-center justify-between mb-3">
+        <div className="font-mono text-[10px] uppercase tracking-widest text-ink-muted/60">Business stage · weights</div>
+        <span className="font-mono text-[10px] text-accent/80">{stageIdx + 1}/4</span>
+      </div>
+
+      {/* Stage picker strip */}
+      <div className="grid grid-cols-4 gap-2 mb-3">
+        {STAGE_WEIGHTS.map((stg, i) => {
+          const active = i === stageIdx;
+          const Icon = stg.icon;
+          return (
+            <div key={stg.key} className={`rounded-lg border p-2 text-center transition-all duration-500 ${active ? 'bg-accent/5 border-accent/40 shadow-sm' : 'bg-white border-ink/10'}`}>
+              <Icon className={`w-4 h-4 mx-auto mb-1 transition-colors ${active ? 'text-accent' : 'text-ink-muted/50'}`} />
+              <div className={`font-mono text-[10px] uppercase tracking-widest transition-colors ${active ? 'text-accent' : 'text-ink-muted/50'}`}>{stg.label}</div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Active stage body */}
+      <div className="bg-white border border-ink/10 rounded-lg p-4 flex-1 overflow-hidden">
+        <div className="flex items-center gap-2.5 mb-3">
+          <div className="w-9 h-9 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center">
+            <s.icon className="w-4 h-4 text-accent" />
+          </div>
+          <div>
+            <div className="font-serif text-base text-ink">{s.label}</div>
+            <div className="font-mono text-[10px] text-ink-muted/60">{s.subtitle}</div>
+          </div>
+        </div>
+
+        <div className="font-mono text-[9px] uppercase tracking-widest text-ink/40 mb-2">Top-weighted dimensions</div>
+        <div className="space-y-2.5" key={`weights-${stageIdx}`}>
+          {s.top3.map((t, i) => (
+            <div key={t.dim} className="animate-in fade-in slide-in-from-left-2 duration-500" style={{ animationDelay: `${i * 120}ms` }}>
+              <div className="flex items-baseline justify-between gap-3 mb-1">
+                <span className="font-serif text-sm text-ink">{t.dim}</span>
+                <span className="font-mono text-xs font-semibold text-accent">×{t.weight.toFixed(1)}</span>
+              </div>
+              <div className="h-1.5 bg-ink/5 rounded-full overflow-hidden">
+                <div className="h-full bg-accent/70 rounded-full" style={{ width: `${(t.weight / 2) * 100}%`, transition: 'width 0.8s ease-out' }} />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-3 pt-3 border-t border-ink/5">
+          <p className="font-serif italic text-[11px] text-ink-muted/70 leading-relaxed">
+            {stageIdx === 0 && 'At Bootstrap, clarity and pronounceability dominate — you\'re explaining the name a hundred times a day.'}
+            {stageIdx === 1 && 'At Seed, relevance matters — the name has to signal the category to cold prospects.'}
+            {stageIdx === 2 && 'At Growth, memorability and uniqueness kick in — you\'re defending brand recall at scale.'}
+            {stageIdx === 3 && 'At Scale, trademark defensibility and visual identity dominate — every pixel of equity is the moat.'}
+          </p>
+        </div>
+      </div>
+    </ProductFrame>
+  );
+};
+
 // --- Main Page ---
 
 interface BrandOSPageProps {
@@ -516,55 +814,63 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
             </ScrollReveal>
           </div>
 
-          <div className="lg:col-span-6 relative h-[400px] md:h-[480px] flex items-center justify-center">
+          <div className="lg:col-span-6 relative flex items-center justify-center">
             <ScrollReveal delay={500} direction="left" className="w-full flex justify-center">
-              <ProductFrame>
-                <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 300 300" fill="none">
-                  {/* Dimension bars */}
-                  {[
-                    { name: 'Clarity', score: 88, weight: 1.8 },
-                    { name: 'Relevance', score: 76, weight: 1.6 },
-                    { name: 'Trust', score: 82, weight: 1.3 },
-                    { name: 'Industry Fit', score: 71, weight: 1.2 },
-                    { name: 'Memorability', score: 65, weight: 1.1 },
-                    { name: 'Uniqueness', score: 58, weight: 1.0 },
-                    { name: 'Scalability', score: 79, weight: 0.9 },
-                    { name: 'Pronounce.', score: 91, weight: 0.8 },
-                    { name: 'Visual', score: 54, weight: 0.7 },
-                    { name: 'Neg. Risk', score: 85, weight: 0.6 },
-                  ].map((dim, i) => {
-                    const y = 30 + i * 24;
-                    const barWidth = (dim.score / 100) * 160;
-                    const color = dim.score >= 75 ? '#059669' : dim.score >= 50 ? '#d97706' : '#dc2626';
-                    return (
-                      <g key={dim.name}>
-                        <text x="10" y={y + 4} fontSize="8" fontFamily="serif" fill="rgb(var(--color-ink))">{dim.name}</text>
-                        <rect x="80" y={y - 3} width="160" height="6" rx="1" fill="rgb(var(--color-ink))" fillOpacity="0.06" />
-                        <rect x="80" y={y - 3} width={barWidth} height="6" rx="1" fill={color} fillOpacity="0.7">
-                          <animate attributeName="width" from="0" to={barWidth} dur="1.4s" begin={`${i * 0.1}s`} fill="freeze" />
-                        </rect>
-                        <text x={245} y={y + 3} fontSize="8" fontFamily="monospace" fontWeight="600" fill={color}>{dim.score}</text>
-                        <text x={270} y={y + 3} fontSize="6" fontFamily="monospace" fill="rgb(var(--color-ink-muted))">×{dim.weight}</text>
-                      </g>
-                    );
-                  })}
-                </svg>
-              </ProductFrame>
+              <BrandOSHeroDiagram />
             </ScrollReveal>
           </div>
         </div>
       </Section>
 
-      {/* Problem */}
-      <Section className="py-12 md:py-16">
-        <ScrollReveal>
-          <ProblemCallout className="max-w-4xl mx-auto">
-            <h3 className="font-serif text-xl text-ink mb-2">Why it matters</h3>
-            <p className="font-sans text-ink-muted leading-relaxed">
-              Most naming feedback is vibes. "I like it." "Feels off." "My wife said no." That's not a signal — that's noise. BrandOS scores candidate names the way a specialist would: across dimensions that actually predict whether a name will hold up once you start shipping.
-            </p>
-          </ProblemCallout>
-        </ScrollReveal>
+      {/* The Product — feature rows */}
+      <Section id="product" pattern="grid">
+        <SectionHeader eyebrow="The Product" title="10 dimensions. Weighted by stage." subtitle="Scoring a name is not a vibes problem. It's a dimensions problem — and the weights shift depending on where you are in your business." />
+
+        {/* Row 1 — Dimensions (demo L, copy R) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <ScrollReveal delay={200}>
+            <DimensionShowcase />
+          </ScrollReveal>
+          <ScrollReveal delay={400} direction="left">
+            <div>
+              <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">Scored across 10 dimensions, independently</h3>
+              <p className="font-sans text-lg text-ink-muted leading-relaxed mb-6">
+                Every candidate gets decomposed into Clarity, Relevance, Trust, Industry Fit, Memorability, Uniqueness, Scalability, Pronounceability, Visual Identity, and Negative Risk — each scored 0-100 with a concrete reason. That's the scorecard behind the verdict.
+              </p>
+              <ul className="space-y-3">
+                {['Each dimension has a specific diagnostic question', 'Scores come with evidence, not a thumbs-up', 'Negative Risk is inverse-scored — high = safe', 'No hand-waving — every number justifies itself'].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-ink-muted">
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <span className="font-sans">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </ScrollReveal>
+        </div>
+
+        {/* Row 2 — Stage weights (copy L, demo R) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-20">
+          <ScrollReveal delay={200}>
+            <div>
+              <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">Weighted by your business stage</h3>
+              <p className="font-sans text-lg text-ink-muted leading-relaxed mb-6">
+                A name that's right for a Bootstrap founder is often wrong for a Scale-stage enterprise. Weights shift: Clarity dominates early when you're explaining it daily; Uniqueness and Visual Identity dominate later when you're defending trademark. BrandOS recalibrates the weights behind the score based on the stage you pick.
+              </p>
+              <ul className="space-y-3">
+                {['Bootstrap · Clarity + Pronounceability lead', 'Seed · Relevance signals the category', 'Growth · Memorability + Uniqueness kick in', 'Scale · Visual Identity + Negative Risk dominate'].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-ink-muted">
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <span className="font-sans">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={400} direction="left">
+            <StageWeightShifter />
+          </ScrollReveal>
+        </div>
       </Section>
 
       {/* Live tool */}
@@ -613,9 +919,9 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
       </Section>
 
       {/* Use cases */}
-      <Section id="use-cases" className="py-20">
-        <SectionHeader eyebrow="Use Cases" title="Who BrandOS is for." subtitle="Anyone making a naming decision that's costly to reverse." />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+      <Section id="use-cases" pattern="grid">
+        <SectionHeader eyebrow="Use Cases" title="Who BrandOS is for" subtitle="Anyone making a naming decision that's costly to reverse." />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {[
             { icon: RocketIcon, title: 'Early-stage founders', body: "You're picking the name your first hundred customers will learn. Make it the right one." },
             { icon: Target, title: 'Product launches', body: 'Evaluating candidates for a new product line? Score them side-by-side before committing the budget.' },
@@ -624,12 +930,19 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
           ].map((uc, i) => {
             const Icon = uc.icon;
             return (
-              <ScrollReveal key={uc.title} delay={i * 100}>
-                <Widget interactive className="h-full p-6">
-                  <IconBadge className="mb-4"><Icon className="w-5 h-5 text-accent" /></IconBadge>
+              <ScrollReveal key={uc.title} delay={i * 120} className="h-full">
+                <div className="bg-white border border-ink/10 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group text-center h-full flex flex-col items-center rounded-lg">
+                  <div className="relative w-44 h-44 mx-auto mb-6 rounded-full bg-pulse-surface border border-ink/10 group-hover:border-accent/30 transition-colors overflow-hidden flex items-center justify-center">
+                    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 176 176" fill="none">
+                      <circle cx="88" cy="88" r="78" stroke="rgb(var(--color-ink))" strokeWidth="0.6" opacity="0.08" />
+                      <circle cx="88" cy="88" r="60" stroke="rgb(var(--color-ink))" strokeWidth="0.6" strokeDasharray="3 3" opacity="0.12" />
+                      <circle cx="88" cy="88" r="42" stroke="rgb(var(--color-accent))" strokeWidth="0.8" opacity="0.15" />
+                    </svg>
+                    <Icon className="relative w-14 h-14 text-accent/70 group-hover:text-accent transition-colors duration-300" strokeWidth={1.3} />
+                  </div>
                   <h3 className="font-serif text-xl text-ink mb-2">{uc.title}</h3>
-                  <p className="font-sans text-sm text-ink-muted leading-relaxed">{uc.body}</p>
-                </Widget>
+                  <p className="font-sans text-sm text-ink-muted leading-relaxed flex-1">{uc.body}</p>
+                </div>
               </ScrollReveal>
             );
           })}
@@ -637,7 +950,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
       </Section>
 
       {/* FAQ */}
-      <Section id="faq" className="bg-alt/30 py-20">
+      <Section id="faq" className="py-20">
         <SectionHeader eyebrow="FAQ" title="Common questions." />
         <ScrollReveal>
           <div className="max-w-3xl mx-auto bg-white shadow-xl border border-ink/10 rounded-lg px-8">
@@ -655,24 +968,18 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
         </ScrollReveal>
       </Section>
 
-      {/* Final CTA kept below, now wrapped */}
-
-      {/* CTA */}
-      <Section className="py-16 md:py-24" pattern="circles">
-        <ScrollReveal>
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="font-serif text-3xl md:text-4xl text-ink mb-6">
-              Found something worth talking about?
-            </h2>
-            <p className="text-ink-muted text-lg mb-8 leading-relaxed">
-              Brand naming is one knowledge-work domain among many. If this surfaced a gap — in your name, your positioning, or how your workflow actually runs — we can talk about whether a specialist team is the right answer.
-            </p>
-            <Button variant="primary" className="px-8 py-4" onClick={() => onNavigate('calendar')}>
-              Talk to us
-            </Button>
-          </div>
-        </ScrollReveal>
-      </Section>
+      {/* Book an intro — inline calendar */}
+      <BookingWidget
+        onNavigate={onNavigate}
+        eyebrow="BrandOS Intro"
+        title="Book a BrandOS intro"
+        subtitle="Walk us through the naming decision you're facing. We'll score the candidates live and talk about where a specialist brand engagement fits."
+        leftBody="We'll run your shortlist through BrandOS together, look at where the weights actually land for your stage, and map out what a rebrand or launch diligence engagement looks like if that's where this is heading."
+        bookingType="demo-brandos"
+        hostName="Astrid Abrahamyan"
+        hostRole="Partner"
+        hostImage={AstridSketch}
+      />
 
       <Footer onNavigate={onNavigate} />
     </div>
