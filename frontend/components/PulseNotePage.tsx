@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, ChevronDown, User, Mail, HelpCircle, Clock, Check, Menu, X, Mic, BarChart3, Send, Sparkles, Image, Lightbulb, MessageCircle, Users, Headphones, Briefcase, RefreshCw, Phone, Video, CalendarDays } from 'lucide-react';
 import { format } from 'date-fns';
 import { ScrollReveal, Section, SectionHeader, Button, Logo, GridPattern, VitruvianBackground, CustomSelect, Surface, PageHero, Eyebrow } from './Shared';
+import Header from './Header';
+import Footer from './Footer';
 import { API_ENDPOINTS } from '../config';
 import type { Page } from './types';
 import AstridSketch from '../images/Astrid_Sketch.webp';
@@ -2007,14 +2009,15 @@ const PulseNotePage: React.FC<PulseNotePageProps> = (props) => {
 
 const PulseNotePageDesktop: React.FC<PulseNotePageProps> = ({ onNavigate }) => {
   return (
-    <div className="min-h-screen bg-base text-ink [&_h1]:[text-wrap:balance] [&_h2]:[text-wrap:balance] [&_h3]:[text-wrap:balance] [&_p]:[text-wrap:pretty]">
-      <PulseNav />
+    <div className="min-h-screen text-ink [&_h1]:[text-wrap:balance] [&_h2]:[text-wrap:balance] [&_h3]:[text-wrap:balance] [&_p]:[text-wrap:pretty]">
+      <Header onNavigate={onNavigate} currentPage="pulsenote" />
       <PulseHero />
       <WhatPulseDoes />
       <CreatorMode />
       <UseCases />
       <PulseBooking onNavigate={onNavigate} />
       <FinalCTA />
+      <Footer onNavigate={onNavigate} />
     </div>
   );
 };
