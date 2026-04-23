@@ -1,63 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Mic, BarChart3, Sparkles, Send, Plus, Minus, FileText, Lightbulb, Calendar, Palette } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 import { MobileShell } from './MobileShell';
 import { MobileButton } from './MobileButton';
-import { MobileScenePlate } from './MobileScenePlate';
+import { Widget } from '../Shared';
+import {
+  PulseHeroDiagram,
+  MeetingAnalyzerAnimation,
+  IdeaToContentAnimation,
+  ScheduleAnimation,
+  BrandingAnimation,
+  CreatorMode,
+} from '../PulseNotePage';
+import { BookingWidget } from '../BookingWidget';
+import AstridSketch from '../../images/Astrid_Sketch.webp';
 import type { Page } from '../types';
 
 interface MobilePulseNotePageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
-
-const STEPS = [
-  {
-    icon: <Mic className="w-5 h-5 text-accent" />,
-    n: '01',
-    title: 'Collect',
-    body: 'PulseNote automatically pulls transcripts from Fathom, Fireflies, or Otter.',
-  },
-  {
-    icon: <BarChart3 className="w-5 h-5 text-accent" />,
-    n: '02',
-    title: 'Analyze',
-    body: 'AI surfaces key themes, aha moments, and actionable insights from every call.',
-  },
-  {
-    icon: <Sparkles className="w-5 h-5 text-accent" />,
-    n: '03',
-    title: 'Generate',
-    body: 'Pick the moments that matter. Pulse drafts newsletters, social posts, and visuals.',
-  },
-  {
-    icon: <Send className="w-5 h-5 text-accent" />,
-    n: '04',
-    title: 'Publish',
-    body: 'Approve drafts and schedule them to LinkedIn, Facebook, Instagram — one click, every platform.',
-  },
-];
-
-const FEATURES = [
-  {
-    icon: <FileText className="w-5 h-5 text-accent" />,
-    title: 'Meetings → content',
-    body: 'Automatically surface the insights and aha moments that matter. Track the patterns your prospects care about most.',
-  },
-  {
-    icon: <Lightbulb className="w-5 h-5 text-accent" />,
-    title: 'Idea → post, in seconds',
-    body: 'Type a rough idea, hit generate, get a polished LinkedIn post instantly. AI drafts, you refine.',
-  },
-  {
-    icon: <Calendar className="w-5 h-5 text-accent" />,
-    title: 'Stay on schedule',
-    body: 'Schedule posts across LinkedIn, Facebook, and Instagram. Review the queue, adjust timing, approve.',
-  },
-  {
-    icon: <Palette className="w-5 h-5 text-accent" />,
-    title: 'Consistent branding',
-    body: 'Add your colors, fonts, voice, and target audience. AI creates on-brand content every time.',
-  },
-];
 
 const PERSONAS = [
   { title: 'The Founder', desc: 'Turn the brilliant business ideas that haunt you during the day into content.', img: '/personas/founder.jpg' },
@@ -67,31 +27,43 @@ const PERSONAS = [
 ];
 
 const FAQS = [
-  {
-    q: 'How does Pulse handle my data and privacy?',
-    a: 'Your recordings and transcripts are encrypted at rest and in transit. We never share your data with third parties or use it to train models. You retain full ownership of all content generated.',
-  },
-  {
-    q: 'What types of meetings work best with Pulse?',
-    a: 'Pulse works with any recorded conversation — team standups, customer interviews, sales calls, podcasts, board meetings, and conference talks. If it has audio, Pulse can process it.',
-  },
-  {
-    q: 'Can I edit the content before publishing?',
-    a: "Absolutely. Every draft is fully editable. Pulse generates a starting point, then you refine, approve, or request a re-draft. You're always in control of what goes out.",
-  },
-  {
-    q: 'What outputs does Pulse generate?',
-    a: 'Newsletters, LinkedIn posts, Meta threads, blog summaries, AI-generated images, and insight reports. Each format is optimized for its platform and audience.',
-  },
-  {
-    q: 'How does scheduling work?',
-    a: 'Pulse proposes a weekly content calendar based on your meetings. You review the queue, adjust timing, and approve. Content goes out on schedule — or when you hit publish.',
-  },
-  {
-    q: 'Who owns the content Pulse creates?',
-    a: 'You do. 100%. Every word, image, and insight belongs to you. Cancel anytime and export everything.',
-  },
+  { q: 'How does Pulse handle my data and privacy?', a: 'Your recordings and transcripts are encrypted at rest and in transit. We never share your data with third parties or use it to train models. You retain full ownership of all content generated.' },
+  { q: 'What types of meetings work best with Pulse?', a: 'Pulse works with any recorded conversation — team standups, customer interviews, sales calls, podcasts, board meetings, and conference talks. If it has audio, Pulse can process it.' },
+  { q: 'Can I edit the content before publishing?', a: "Absolutely. Every draft is fully editable. Pulse generates a starting point, then you refine, approve, or request a re-draft. You're always in control of what goes out." },
+  { q: 'What outputs does Pulse generate?', a: 'Newsletters, LinkedIn posts, Meta threads, blog summaries, AI-generated images, and insight reports. Each format is optimized for its platform and audience.' },
+  { q: 'How does scheduling work?', a: 'Pulse proposes a weekly content calendar based on your meetings. You review the queue, adjust timing, and approve. Content goes out on schedule — or when you hit publish.' },
+  { q: 'Who owns the content Pulse creates?', a: 'You do. 100%. Every word, image, and insight belongs to you. Cancel anytime and export everything.' },
 ];
+
+const FeatureRow: React.FC<{
+  heading: string;
+  body: string;
+  bullets: string[];
+  children: React.ReactNode;
+}> = ({ heading, body, bullets, children }) => (
+  <div className="space-y-5">
+    <div>
+      <h3 className="font-serif text-[1.75rem] leading-[1.15] text-ink mb-3 tracking-tight">{heading}</h3>
+      <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-4">{body}</p>
+      <ul className="space-y-2.5">
+        {bullets.map((b, i) => (
+          <li key={i} className="flex items-start gap-2.5 text-ink-muted">
+            <div className="w-1 h-1 rounded-full bg-accent mt-2 flex-shrink-0" />
+            <span className="font-sans text-[14px] leading-relaxed">{b}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div className="flex justify-center">{children}</div>
+  </div>
+);
+
+const SectionEyebrow: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="flex items-center gap-3 mb-4">
+    <span className="h-px w-8 bg-ink-muted/30" />
+    <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">{children}</span>
+  </div>
+);
 
 export const MobilePulseNotePage: React.FC<MobilePulseNotePageProps> = ({ onNavigate }) => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -104,7 +76,13 @@ export const MobilePulseNotePage: React.FC<MobilePulseNotePageProps> = ({ onNavi
     };
   }, []);
 
-  const handleBook = () => onNavigate('calendar');
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  };
 
   return (
     <MobileShell onNavigate={onNavigate}>
@@ -113,96 +91,109 @@ export const MobilePulseNotePage: React.FC<MobilePulseNotePageProps> = ({ onNavi
         <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.25em] uppercase text-accent bg-accent/5 border border-accent/10 rounded-sm px-2.5 py-1">
           Introducing Pulse Note
         </div>
-        <h1 className="font-serif text-[2.75rem] leading-[1.05] text-ink mb-5 tracking-tight">
+        <h1 className="font-serif text-[2.5rem] leading-[1.05] text-ink mb-5 tracking-tight">
           Your ideas and meeting insights
           <br />
           <span className="italic text-ink-muted/70">turned into content.</span>
         </h1>
-        <p className="font-serif text-[17px] text-ink-muted leading-[1.6] mb-6">
+        <p className="font-serif text-[16px] text-ink-muted leading-[1.6] mb-6">
           Pulse Note analyzes your calls, surfaces the insights and themes that matter, and drafts publish-ready newsletters, social posts, and visuals on autopilot.
         </p>
-        <div className="flex flex-col gap-3">
-          <MobileButton onClick={handleBook}>Book a demo</MobileButton>
+        <div className="flex flex-col gap-3 mb-8">
+          <MobileButton onClick={() => scrollTo('booking')}>Book a demo</MobileButton>
+          <MobileButton variant="secondary" onClick={() => scrollTo('try-it')}>See how it works</MobileButton>
+        </div>
+
+        <div className="flex justify-center">
+          <PulseHeroDiagram />
         </div>
       </section>
 
-      {/* How it works — 4 steps */}
+      {/* The Product */}
       <section className="px-6 py-10 bg-white/40">
-        <div className="flex items-center gap-3 mb-5">
-          <span className="h-px w-8 bg-ink-muted/30" />
-          <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">
-            How it works
-          </span>
-        </div>
-        <h2 className="font-serif text-[2rem] leading-[1.1] text-ink mb-6 tracking-tight">
-          Four steps, <span className="italic text-ink-muted/70">on autopilot.</span>
+        <SectionEyebrow>The Product</SectionEyebrow>
+        <h2 className="font-serif text-[1.9rem] leading-[1.1] text-ink mb-8 tracking-tight">
+          From raw ideas <br />
+          <span className="italic text-ink-muted/70">to polished content.</span>
         </h2>
-        <ol className="space-y-5">
-          {STEPS.map((s) => (
-            <li key={s.n} className="flex gap-4">
-              <div className="w-10 h-10 rounded-sm border border-accent/20 bg-accent/5 flex items-center justify-center flex-shrink-0">
-                {s.icon}
-              </div>
-              <div className="flex-1">
-                <div className="flex items-baseline gap-2 mb-1">
-                  <span className="font-mono text-[10px] tracking-[0.2em] text-ink-muted">{s.n}</span>
-                  <h3 className="font-serif text-lg text-ink">{s.title}</h3>
-                </div>
-                <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{s.body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+
+        <div className="space-y-14">
+          <FeatureRow
+            heading="Turn meeting insights into content"
+            body="Automatically identify trends and surface the insights that matter from every meeting. Track the actions and aha moments that matter most for your prospects."
+            bullets={[
+              'Full transcripts with speaker attribution',
+              'Key insight extraction & aha-moment highlighting',
+              'Theme clustering across multiple meetings',
+            ]}
+          >
+            <MeetingAnalyzerAnimation />
+          </FeatureRow>
+
+          <FeatureRow
+            heading="From idea to content in seconds"
+            body="Type a rough idea, hit generate, and get polished LinkedIn posts instantly. AI drafts, you refine — publish when ready."
+            bullets={[
+              'Platform-optimized drafts in one click',
+              'Maintains your authentic voice and tone',
+              'Review and edit before anything ships',
+            ]}
+          >
+            <IdeaToContentAnimation />
+          </FeatureRow>
+
+          <FeatureRow
+            heading="Stay on schedule"
+            body="Schedule posts across LinkedIn, Facebook, and Instagram from one queue. Review the week, adjust timing, approve."
+            bullets={[
+              'Weekly calendar proposed from your meetings',
+              'Cross-platform: LinkedIn, Meta, Instagram',
+              'Approve once — publishes on schedule',
+            ]}
+          >
+            <ScheduleAnimation />
+          </FeatureRow>
+
+          <FeatureRow
+            heading="Consistent branding, every time"
+            body="Set your colors, fonts, voice, and target audience once. Pulse creates on-brand content across every deliverable."
+            bullets={[
+              'Palette, fonts, voice: set once, applied always',
+              'Branded visuals for every post and newsletter',
+              'Rebrand in an afternoon, not a sprint',
+            ]}
+          >
+            <BrandingAnimation />
+          </FeatureRow>
+        </div>
       </section>
 
-      {/* What you can do — 4 features */}
-      <section className="px-6 py-10">
-        <div className="flex items-center gap-3 mb-5">
-          <span className="h-px w-8 bg-ink-muted/30" />
-          <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">
-            The Product
-          </span>
-        </div>
-        <h2 className="font-serif text-[2rem] leading-[1.1] text-ink mb-6 tracking-tight">
-          What you can do <br />
-          <span className="italic text-ink-muted/70">with Pulse.</span>
+      {/* Try It — CreatorMode */}
+      <section id="try-it" className="px-6 py-10">
+        <SectionEyebrow>Try It</SectionEyebrow>
+        <h2 className="font-serif text-[1.9rem] leading-[1.1] text-ink mb-3 tracking-tight">
+          Create a post. <span className="italic text-ink-muted/70">Right now.</span>
         </h2>
-        <div className="space-y-4">
-          {FEATURES.map((f) => (
-            <div key={f.title} className="bg-white/60 border border-ink/10 rounded-sm p-5">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-9 h-9 rounded-sm border border-accent/20 bg-accent/5 flex items-center justify-center">
-                  {f.icon}
-                </div>
-                <h3 className="font-serif text-lg text-ink">{f.title}</h3>
-              </div>
-              <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{f.body}</p>
-            </div>
-          ))}
-        </div>
+        <p className="font-serif text-[15px] text-ink-muted leading-relaxed mb-6">
+          Give Pulse a topic and watch it draft a post, generate visuals, and queue it up — no setup required.
+        </p>
+        <CreatorMode />
       </section>
 
-      {/* Use cases */}
+      {/* Use Cases */}
       <section className="px-6 py-10 bg-white/40">
-        <div className="flex items-center gap-3 mb-5">
-          <span className="h-px w-8 bg-ink-muted/30" />
-          <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">
-            Use Cases
-          </span>
-        </div>
-        <h2 className="font-serif text-[2rem] leading-[1.1] text-ink mb-6 tracking-tight">
+        <SectionEyebrow>Use Cases</SectionEyebrow>
+        <h2 className="font-serif text-[1.9rem] leading-[1.1] text-ink mb-6 tracking-tight">
           Who Pulse is <span className="italic text-ink-muted/70">for.</span>
         </h2>
         <div className="space-y-4">
           {PERSONAS.map((p) => (
-            <div key={p.title} className="bg-white border border-ink/10 rounded-sm p-4 flex gap-4 items-center">
-              <div className="w-20 h-20 rounded-full bg-pulse-surface border border-ink/10 flex-shrink-0 overflow-hidden">
+            <div key={p.title} className="bg-white border border-ink/10 p-5 shadow-sm hover:shadow-lg transition-all rounded-lg text-center flex flex-col items-center">
+              <div className="relative w-32 h-32 mx-auto mb-4 rounded-full bg-pulse-surface border border-ink/10 overflow-hidden flex items-center justify-center">
                 <img src={p.img} alt={p.title} className="w-full h-full object-cover object-top scale-150" />
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-serif text-lg text-ink mb-1">{p.title}</h3>
-                <p className="font-sans text-[13px] text-ink-muted leading-relaxed">{p.desc}</p>
-              </div>
+              <h3 className="font-serif text-lg text-ink mb-2">{p.title}</h3>
+              <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{p.desc}</p>
             </div>
           ))}
         </div>
@@ -210,20 +201,15 @@ export const MobilePulseNotePage: React.FC<MobilePulseNotePageProps> = ({ onNavi
 
       {/* FAQ */}
       <section className="px-6 py-10">
-        <div className="flex items-center gap-3 mb-5">
-          <span className="h-px w-8 bg-ink-muted/30" />
-          <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">
-            FAQ
-          </span>
-        </div>
-        <h2 className="font-serif text-[2rem] leading-[1.1] text-ink mb-6 tracking-tight">
+        <SectionEyebrow>FAQ</SectionEyebrow>
+        <h2 className="font-serif text-[1.9rem] leading-[1.1] text-ink mb-6 tracking-tight">
           Common <span className="italic text-ink-muted/70">questions.</span>
         </h2>
-        <ol className="border-t border-ink/10">
+        <Widget as="ol" className="px-5">
           {FAQS.map((item, i) => {
             const isOpen = openFaq === i;
             return (
-              <li key={i} className="border-b border-ink/10">
+              <li key={i} className="border-b border-ink/10 last:border-b-0">
                 <button
                   onClick={() => setOpenFaq(isOpen ? null : i)}
                   className="w-full flex items-baseline gap-3 py-4 text-left active:opacity-60 transition-opacity"
@@ -242,22 +228,23 @@ export const MobilePulseNotePage: React.FC<MobilePulseNotePageProps> = ({ onNavi
               </li>
             );
           })}
-        </ol>
+        </Widget>
       </section>
 
-      {/* Final CTA */}
-      <section className="px-6 py-12 bg-white/40 border-t border-ink/5">
-        <MobileScenePlate figLabel="Book a demo">
-          <h2 className="font-serif text-[1.75rem] leading-[1.15] text-ink mb-3 tracking-tight">
-            Ready to turn meetings <br />
-            <span className="italic text-accent">into content?</span>
-          </h2>
-          <p className="font-sans text-[14px] text-ink-muted leading-relaxed mb-5">
-            Thirty minutes, no slide deck. We'll show you PulseNote on your own meeting data and answer anything.
-          </p>
-          <MobileButton onClick={handleBook}>Book a demo</MobileButton>
-        </MobileScenePlate>
-      </section>
+      {/* Book a Pulse demo */}
+      <div id="booking">
+        <BookingWidget
+          onNavigate={onNavigate}
+          eyebrow="Pulse Demo"
+          title="Book a Pulse Demo"
+          subtitle="See how Pulse turns your meetings into a content engine. Pick a time that works for you."
+          leftBody="I will walk you through how Pulse Note captures meetings, extracts insights, and generates publish-ready content, tailored to your brand and workflow."
+          bookingType="demo-ai"
+          hostName="Astrid Abrahamyan"
+          hostRole="Partner"
+          hostImage={AstridSketch}
+        />
+      </div>
     </MobileShell>
   );
 };
