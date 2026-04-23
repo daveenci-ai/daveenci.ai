@@ -71,7 +71,7 @@ const SHOOT_SPECIALISTS = [
 
 type ShootHeroPhase = 'capture' | 'process' | 'deliver';
 
-const ShootOSHeroDiagram: React.FC = () => {
+export const ShootOSHeroDiagram: React.FC = () => {
   const [phase, setPhase] = useState<ShootHeroPhase>('capture');
   const [capturesIn, setCapturesIn] = useState(0);
   const [activeSpec, setActiveSpec] = useState(-1);
@@ -214,7 +214,7 @@ const SPECIALIST_TASKS: Record<string, string[]> = {
   staging: ['Detect empty room', 'Generate style', 'Place furniture', 'Render hero'],
 };
 
-const AssetSpecialistPanel: React.FC = () => {
+export const AssetSpecialistPanel: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
@@ -280,7 +280,7 @@ const AssetSpecialistPanel: React.FC = () => {
 const BRAND_SWATCHES = ['#1A3D54', '#C8A87D', '#F5EDE0', '#1A1A1A'];
 const LISTINGS = ['12 Maple Ln', '4815 Hayward Pl', '902 Crestview Dr'];
 
-const BrandProfilePanel: React.FC = () => {
+export const BrandProfilePanel: React.FC = () => {
   const [swatchCount, setSwatchCount] = useState(0);
   const [logoIn, setLogoIn] = useState(false);
   const [stamped, setStamped] = useState<number[]>([]);
@@ -372,7 +372,7 @@ const BrandProfilePanel: React.FC = () => {
 
 // ─── Turnaround Comparison (Row 3 widget) ──────────────────────────────────
 
-const TurnaroundComparison: React.FC = () => {
+export const TurnaroundComparison: React.FC = () => {
   const [traditionalProgress, setTraditionalProgress] = useState(0);
   const [shootosProgress, setShootosProgress] = useState(0);
   const [showMetric, setShowMetric] = useState(false);
@@ -552,7 +552,7 @@ const SHOOT_PHASE_LABEL: Record<Exclude<ShootSimPhase, 'idle'>, string> = {
   delivered: 'Delivered',
 };
 
-const ShootOSSimulator: React.FC = () => {
+export const ShootOSSimulator: React.FC = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [phase, setPhase] = useState<ShootSimPhase>('idle');
   const [activeAgent, setActiveAgent] = useState(-1);

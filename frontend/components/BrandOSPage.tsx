@@ -431,7 +431,7 @@ const HERO_DIMENSIONS = [
 
 const BRAND_NAME_SAMPLE = 'MERIDIAN';
 
-const BrandOSHeroDiagram: React.FC = () => {
+export const BrandOSHeroDiagram: React.FC = () => {
   const [typedChars, setTypedChars] = useState(0);
   const [visibleBars, setVisibleBars] = useState(0);
   const [showVerdict, setShowVerdict] = useState(false);
@@ -543,7 +543,7 @@ const DIMENSION_EXAMPLES: { name: string; weight: number; question: string; good
   { name: 'Negative Risk', weight: 0.6, question: "Any unintended meaning in other languages?", good: { name: 'Asana', score: 87 }, bad: { name: 'Kinki Ride', score: 18 } },
 ];
 
-const DimensionShowcase: React.FC = () => {
+export const DimensionShowcase: React.FC = () => {
   const [idx, setIdx] = useState(0);
 
   useEffect(() => {
@@ -639,7 +639,7 @@ const STAGE_WEIGHTS: { key: string; label: string; subtitle: string; icon: React
   },
 ];
 
-const StageWeightShifter: React.FC = () => {
+export const StageWeightShifter: React.FC = () => {
   const [stageIdx, setStageIdx] = useState(0);
 
   useEffect(() => {

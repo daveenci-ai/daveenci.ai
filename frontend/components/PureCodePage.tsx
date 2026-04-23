@@ -70,7 +70,7 @@ const VALIDATION_CHECKS = [
 
 type HeroPhase = 'scope' | 'delivery' | 'release';
 
-const PureCodeHeroDiagram: React.FC = () => {
+export const PureCodeHeroDiagram: React.FC = () => {
   const [phase, setPhase] = useState<HeroPhase>('scope');
   const [scopeStamp, setScopeStamp] = useState(false);
   const [designStamp, setDesignStamp] = useState(false);
@@ -270,7 +270,7 @@ const SPECIALIST_GROUPS: { stage: string; color: string; members: { label: strin
 
 const FLAT_SPECIALISTS = SPECIALIST_GROUPS.flatMap(g => g.members.map(m => ({ ...m, stage: g.stage })));
 
-const SpecialistRoster: React.FC = () => {
+export const SpecialistRoster: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
@@ -330,7 +330,7 @@ const BLUEPRINT_FILES: { path: string; status: 'new' | 'modified' }[] = [
   { path: 'README.md', status: 'modified' },
 ];
 
-const BlueprintBuilder: React.FC = () => {
+export const BlueprintBuilder: React.FC = () => {
   const [visible, setVisible] = useState(0);
   const [approved, setApproved] = useState(false);
   const [cycle, setCycle] = useState(0);
@@ -410,7 +410,7 @@ const VALIDATION_STEPS = [
   { cmd: 'pnpm audit', result: '0 high/critical', ms: 600 },
 ];
 
-const ValidationRunner: React.FC = () => {
+export const ValidationRunner: React.FC = () => {
   const [current, setCurrent] = useState(-1);
   const [completed, setCompleted] = useState<number[]>([]);
   const [done, setDone] = useState(false);
@@ -580,7 +580,7 @@ const PHASE_LABEL: Record<Exclude<SimPhase, 'idle'>, string> = {
   release: 'Release',
 };
 
-const TryItSimulator: React.FC = () => {
+export const TryItSimulator: React.FC = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [phase, setPhase] = useState<SimPhase>('idle');
   const [visibleFiles, setVisibleFiles] = useState(0);

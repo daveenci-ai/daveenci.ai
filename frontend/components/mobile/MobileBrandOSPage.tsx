@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Loader2, Sparkles, Rocket, TrendingUp, Building2, Search, ChevronDown, Plus, Minus, Target, Users } from 'lucide-react';
 import { MobileShell } from './MobileShell';
 import { MobileButton } from './MobileButton';
-import { MobileScenePlate } from './MobileScenePlate';
-import { Widget, IconBadge, ProblemCallout } from '../Shared';
+import { Widget } from '../Shared';
+import { BrandOSHeroDiagram, DimensionShowcase, StageWeightShifter } from '../BrandOSPage';
+import { BookingWidget } from '../BookingWidget';
+import AstridSketch from '../../images/Astrid_Sketch.webp';
 import { API_ENDPOINTS } from '../../config';
 import type { Page } from '../types';
 
@@ -156,54 +158,62 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
           <MobileButton variant="secondary" onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
         </div>
 
-        {/* Fig — scorecard preview */}
-        <div className="mt-8">
-          <MobileScenePlate figLabel="Fig. i · Weighted Scorecard">
-            <svg viewBox="0 0 200 220" className="w-full h-auto max-w-[280px] mx-auto block">
-              {[
-                { name: 'Clarity', score: 88, weight: 1.8 },
-                { name: 'Relevance', score: 76, weight: 1.6 },
-                { name: 'Trust', score: 82, weight: 1.3 },
-                { name: 'Industry Fit', score: 71, weight: 1.2 },
-                { name: 'Memorability', score: 65, weight: 1.1 },
-                { name: 'Uniqueness', score: 58, weight: 1.0 },
-                { name: 'Scalability', score: 79, weight: 0.9 },
-                { name: 'Pronounce.', score: 91, weight: 0.8 },
-                { name: 'Visual', score: 54, weight: 0.7 },
-                { name: 'Neg. Risk', score: 85, weight: 0.6 },
-              ].map((dim, i) => {
-                const y = 15 + i * 20;
-                const barWidth = (dim.score / 100) * 90;
-                const color = dim.score >= 75 ? '#059669' : dim.score >= 50 ? '#d97706' : '#dc2626';
-                return (
-                  <g key={dim.name}>
-                    <text x="5" y={y + 4} fontSize="7" fontFamily="serif" fill="rgb(var(--color-ink))">{dim.name}</text>
-                    <rect x="70" y={y - 3} width="90" height="6" rx="1" fill="rgb(var(--color-ink))" fillOpacity="0.06" />
-                    <rect x="70" y={y - 3} width={barWidth} height="6" rx="1" fill={color} fillOpacity="0.7">
-                      <animate attributeName="width" from="0" to={barWidth} dur="1.4s" begin={`${i * 0.08}s`} fill="freeze" />
-                    </rect>
-                    <text x={165} y={y + 3} fontSize="7" fontFamily="monospace" fontWeight="600" fill={color}>{dim.score}</text>
-                    <text x={185} y={y + 3} fontSize="5" fontFamily="monospace" fill="rgb(var(--color-ink-muted))">×{dim.weight}</text>
-                  </g>
-                );
-              })}
-            </svg>
-          </MobileScenePlate>
+        <div className="mt-8 flex justify-center">
+          <BrandOSHeroDiagram />
         </div>
       </section>
 
-      {/* Problem */}
-      <section className="px-6 pb-8">
-        <ProblemCallout className="p-5">
-          <h3 className="font-serif text-xl text-ink mb-2">Why it matters</h3>
-          <p className="font-sans text-[15px] text-ink-muted leading-relaxed">
-            Most naming feedback is vibes. "I like it." "Feels off." That's not a signal — that's noise. BrandOS scores candidate names the way a specialist would: across dimensions that actually predict whether a name will hold up.
-          </p>
-        </ProblemCallout>
+      {/* The Product */}
+      <section className="px-6 py-10 bg-white/40">
+        <div className="flex items-center gap-3 mb-4">
+          <span className="h-px w-8 bg-ink-muted/30" />
+          <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">The Product</span>
+        </div>
+        <h2 className="font-serif text-[1.9rem] leading-[1.1] text-ink mb-8 tracking-tight">
+          10 dimensions. <span className="italic text-ink-muted/70">Weighted by stage.</span>
+        </h2>
+
+        <div className="space-y-14">
+          <div className="space-y-5">
+            <div>
+              <h3 className="font-serif text-[1.75rem] leading-[1.15] text-ink mb-3 tracking-tight">Scored across 10 dimensions, independently</h3>
+              <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-4">
+                Every candidate gets decomposed into Clarity, Relevance, Trust, Industry Fit, and six more — each scored 0-100 with a concrete reason.
+              </p>
+              <ul className="space-y-2.5">
+                {['Each dimension has a diagnostic question', 'Scores come with evidence, not a thumbs-up', 'Negative Risk is inverse-scored — high = safe'].map((b, i) => (
+                  <li key={i} className="flex items-start gap-2.5 text-ink-muted">
+                    <div className="w-1 h-1 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <span className="font-sans text-[14px] leading-relaxed">{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex justify-center"><DimensionShowcase /></div>
+          </div>
+
+          <div className="space-y-5">
+            <div>
+              <h3 className="font-serif text-[1.75rem] leading-[1.15] text-ink mb-3 tracking-tight">Weighted by your business stage</h3>
+              <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-4">
+                Clarity dominates at Bootstrap. Uniqueness and Visual Identity dominate at Scale. BrandOS recalibrates the weights behind the score based on the stage you pick.
+              </p>
+              <ul className="space-y-2.5">
+                {['Bootstrap · Clarity + Pronounceability lead', 'Seed · Relevance signals the category', 'Scale · Visual Identity + Negative Risk dominate'].map((b, i) => (
+                  <li key={i} className="flex items-start gap-2.5 text-ink-muted">
+                    <div className="w-1 h-1 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <span className="font-sans text-[14px] leading-relaxed">{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex justify-center"><StageWeightShifter /></div>
+          </div>
+        </div>
       </section>
 
       {/* Try it — live tool */}
-      <section id="try-it" className="px-6 py-10 bg-white/40">
+      <section id="try-it" className="px-6 py-10">
         <div className="flex items-center gap-3 mb-5">
           <span className="h-px w-8 bg-ink-muted/30" />
           <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">Try It</span>
@@ -399,15 +409,15 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
       </section>
 
       {/* Use Cases */}
-      <section className="px-6 py-10">
+      <section className="px-6 py-10 bg-white/40">
         <div className="flex items-center gap-3 mb-5">
           <span className="h-px w-8 bg-ink-muted/30" />
           <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">Use Cases</span>
         </div>
-        <h2 className="font-serif text-[2rem] leading-[1.1] text-ink mb-6 tracking-tight">
+        <h2 className="font-serif text-[1.9rem] leading-[1.1] text-ink mb-6 tracking-tight">
           Who BrandOS is <span className="italic text-ink-muted/70">for.</span>
         </h2>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {[
             { icon: Rocket, title: 'Early-stage founders', body: "You're picking the name your first hundred customers will learn. Make it the right one." },
             { icon: Target, title: 'Product launches', body: 'Evaluating candidates for a new product line? Score them side-by-side before committing the budget.' },
@@ -416,25 +426,30 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
           ].map((uc) => {
             const Icon = uc.icon;
             return (
-              <Widget key={uc.title} className="p-5">
-                <div className="flex items-center gap-3 mb-2">
-                  <IconBadge size="sm"><Icon className="w-4 h-4 text-accent" /></IconBadge>
-                  <h3 className="font-serif text-lg text-ink">{uc.title}</h3>
+              <div key={uc.title} className="bg-white border border-ink/10 p-5 shadow-sm hover:shadow-lg transition-all rounded-lg text-center flex flex-col items-center">
+                <div className="relative w-32 h-32 mx-auto mb-4 rounded-full bg-pulse-surface border border-ink/10 overflow-hidden flex items-center justify-center">
+                  <svg className="absolute inset-0 w-full h-full" viewBox="0 0 176 176" fill="none">
+                    <circle cx="88" cy="88" r="78" stroke="rgb(var(--color-ink))" strokeWidth="0.6" opacity="0.08" />
+                    <circle cx="88" cy="88" r="60" stroke="rgb(var(--color-ink))" strokeWidth="0.6" strokeDasharray="3 3" opacity="0.12" />
+                    <circle cx="88" cy="88" r="42" stroke="rgb(var(--color-accent))" strokeWidth="0.8" opacity="0.15" />
+                  </svg>
+                  <Icon className="relative w-10 h-10 text-accent/80" strokeWidth={1.3} />
                 </div>
+                <h3 className="font-serif text-lg text-ink mb-2">{uc.title}</h3>
                 <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{uc.body}</p>
-              </Widget>
+              </div>
             );
           })}
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="px-6 py-10 bg-white/40">
+      <section className="px-6 py-10">
         <div className="flex items-center gap-3 mb-5">
           <span className="h-px w-8 bg-ink-muted/30" />
           <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">FAQ</span>
         </div>
-        <h2 className="font-serif text-[2rem] leading-[1.1] text-ink mb-6 tracking-tight">
+        <h2 className="font-serif text-[1.9rem] leading-[1.1] text-ink mb-6 tracking-tight">
           Common <span className="italic text-ink-muted/70">questions.</span>
         </h2>
         <Widget as="ol" className="px-5">
@@ -470,17 +485,18 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
         </Widget>
       </section>
 
-      {/* Final CTA */}
-      <section className="px-6 py-10 border-t border-ink/5">
-        <h2 className="font-serif text-[2rem] leading-[1.1] text-ink mb-4 tracking-tight text-center">
-          Found something worth <br />
-          <span className="italic text-accent">talking about?</span>
-        </h2>
-        <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-6 text-center">
-          Brand naming is one knowledge-work domain among many. If this surfaced a gap — in your name, positioning, or workflow — we can talk about whether a specialist team is the right answer.
-        </p>
-        <MobileButton onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
-      </section>
+      {/* Book a BrandOS intro */}
+      <BookingWidget
+        onNavigate={onNavigate}
+        eyebrow="BrandOS Intro"
+        title="Book a BrandOS intro"
+        subtitle="Walk us through the naming decision you're facing. We'll score the candidates live."
+        leftBody="We'll run your shortlist through BrandOS together, look at where the weights actually land for your stage, and map out what a rebrand or launch diligence engagement looks like if that's where this is heading."
+        bookingType="demo-brandos"
+        hostName="Astrid Abrahamyan"
+        hostRole="Partner"
+        hostImage={AstridSketch}
+      />
     </MobileShell>
   );
 };

@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowUpRight, Camera, Video, Box, Sparkles, Home, TrendingUp, Users, Building2, Plus, Minus } from 'lucide-react';
+import { ArrowUpRight, Home, TrendingUp, Users, Building2, Plus, Minus } from 'lucide-react';
 import { MobileShell } from './MobileShell';
 import { MobileButton } from './MobileButton';
-import { MobileScenePlate } from './MobileScenePlate';
-import { Widget, IconBadge, ProblemCallout } from '../Shared';
+import { Widget } from '../Shared';
+import {
+  ShootOSHeroDiagram,
+  AssetSpecialistPanel,
+  BrandProfilePanel,
+  TurnaroundComparison,
+  ShootOSSimulator,
+} from '../ShootOSPage';
+import { BookingWidget } from '../BookingWidget';
+import AntonSketch from '../../images/Anton_Sketch.webp';
 import type { Page } from '../types';
 
 interface MobileShootOSPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
-
-const ASSETS = [
-  { icon: Camera, label: 'Stills', body: 'HDR merge, color correction, crop, branded watermarks — consistent across every listing.' },
-  { icon: Video, label: 'Video', body: 'Walk-through cut, color grade, music, end-card — agent-ready in hours.' },
-  { icon: Box, label: '3D tours', body: 'Stitch 360° capture into an interactive tour. Click-to-explore, embed-ready.' },
-  { icon: Sparkles, label: 'Staging', body: 'AI virtual staging — empty room in, fully-staged scene out. No movers, no rental furniture.' },
-];
 
 const USE_CASES = [
   { icon: Home, title: 'Brokerages', body: 'Unify media production across your entire listing inventory. Consistent quality, one vendor.' },
@@ -32,6 +33,36 @@ const FAQS = [
   { q: 'What about review?', a: "The team drafts the package, then a human gate-reviews before it lands in your delivery system. You approve what agents see — nothing auto-publishes." },
   { q: 'Where does the product live?', a: "ShootOS has its own domain at shootos.ai with the full pitch, sample outputs, and onboarding. This page is a case study of the team behind it." },
 ];
+
+const FeatureRow: React.FC<{
+  heading: string;
+  body: string;
+  bullets: string[];
+  children: React.ReactNode;
+}> = ({ heading, body, bullets, children }) => (
+  <div className="space-y-5">
+    <div>
+      <h3 className="font-serif text-[1.75rem] leading-[1.15] text-ink mb-3 tracking-tight">{heading}</h3>
+      <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-4">{body}</p>
+      <ul className="space-y-2.5">
+        {bullets.map((b, i) => (
+          <li key={i} className="flex items-start gap-2.5 text-ink-muted">
+            <div className="w-1 h-1 rounded-full bg-accent mt-2 flex-shrink-0" />
+            <span className="font-sans text-[14px] leading-relaxed">{b}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div className="flex justify-center">{children}</div>
+  </div>
+);
+
+const SectionEyebrow: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="flex items-center gap-3 mb-4">
+    <span className="h-px w-8 bg-ink-muted/30" />
+    <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">{children}</span>
+  </div>
+);
 
 export const MobileShootOSPage: React.FC<MobileShootOSPageProps> = ({ onNavigate }) => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -51,15 +82,15 @@ export const MobileShootOSPage: React.FC<MobileShootOSPageProps> = ({ onNavigate
         <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.25em] uppercase text-accent bg-accent/5 border border-accent/10 rounded-sm px-2.5 py-1">
           A DaVeenci team · Real estate media
         </div>
-        <h1 className="font-serif text-[2.75rem] leading-[1.05] text-ink mb-5 tracking-tight">
+        <h1 className="font-serif text-[2.5rem] leading-[1.05] text-ink mb-5 tracking-tight">
           One property in.
           <br />
           <span className="italic text-ink-muted/70">One listing-ready package out.</span>
         </h1>
-        <p className="font-serif text-[17px] text-ink-muted leading-[1.6] mb-6">
+        <p className="font-serif text-[16px] text-ink-muted leading-[1.6] mb-6">
           Stills, video, 3D tours, AI virtual staging. ShootOS is the specialist media team for volume real estate — every listing produced on a consistent pipeline, turnaround measured in hours.
         </p>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 mb-8">
           <MobileButton onClick={() => window.open('https://shootos.ai', '_blank')}>
             <span className="inline-flex items-center justify-center gap-2">
               Visit shootos.ai
@@ -69,112 +100,102 @@ export const MobileShootOSPage: React.FC<MobileShootOSPageProps> = ({ onNavigate
           <MobileButton variant="secondary" onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
         </div>
 
-        {/* Fig — Pipeline mini-plate */}
-        <div className="mt-8">
-          <MobileScenePlate figLabel="Fig. i · Pipeline">
-            <svg viewBox="0 0 200 200" className="w-full h-auto max-w-[280px] mx-auto block">
-              {/* Raw capture at top */}
-              <g transform="translate(100, 30)">
-                <rect x="-38" y="-14" width="76" height="28" rx="2" fill="white" stroke="rgb(var(--color-ink))" strokeWidth="1.1" strokeDasharray="3 3" />
-                <text x="0" y="-2" textAnchor="middle" fontSize="7" fontFamily="serif" fontStyle="italic" fill="rgb(var(--color-ink-muted))" letterSpacing="0.1em">RAW CAPTURE</text>
-                <text x="0" y="8" textAnchor="middle" fontSize="5" fontFamily="monospace" fill="rgb(var(--color-ink-muted))">stills · video · 360°</text>
-              </g>
-              {/* 4 specialists */}
-              {ASSETS.map((asset, i) => {
-                const x = 30 + i * 47;
-                const y = 110;
-                return (
-                  <g key={asset.label}>
-                    <line x1="100" y1="44" x2={x} y2={y - 14} stroke="rgb(var(--color-accent))" strokeWidth="0.7" strokeDasharray="2 2" opacity="0.5" />
-                    <rect x={x - 14} y={y - 14} width="28" height="28" rx="1.5" fill="white" stroke="rgb(var(--color-ink))" strokeWidth="1.1" />
-                    <text x={x} y={y - 1} textAnchor="middle" fontSize="6" fontFamily="serif" fontStyle="italic" fill="rgb(var(--color-ink))">{asset.label}</text>
-                    <text x={x} y={y + 8} textAnchor="middle" fontSize="4" fontFamily="monospace" fill="rgb(var(--color-ink-muted))">0{i + 1}</text>
-                  </g>
-                );
-              })}
-              {/* Converge to output */}
-              {ASSETS.map((_, i) => {
-                const fromX = 30 + i * 47;
-                return <line key={i} x1={fromX} y1="128" x2="100" y2="160" stroke="rgb(var(--color-accent))" strokeWidth="0.7" strokeDasharray="2 2" opacity="0.5" />;
-              })}
-              <g transform="translate(100, 175)">
-                <rect x="-42" y="-12" width="84" height="24" rx="2" fill="rgb(var(--color-accent))" fillOpacity="0.12" stroke="rgb(var(--color-accent))" strokeWidth="1.3" />
-                <text x="0" y="-1" textAnchor="middle" fontSize="7" fontFamily="serif" fontStyle="italic" fill="rgb(var(--color-accent))" letterSpacing="0.1em">LISTING KIT</text>
-                <text x="0" y="8" textAnchor="middle" fontSize="5" fontFamily="monospace" fill="rgb(var(--color-ink-muted))">agent-ready, branded</text>
-              </g>
-            </svg>
-          </MobileScenePlate>
+        <div className="flex justify-center">
+          <ShootOSHeroDiagram />
         </div>
       </section>
 
-      {/* Problem */}
-      <section className="px-6 pb-8">
-        <ProblemCallout className="p-5">
-          <h3 className="font-serif text-xl text-ink mb-2">The problem</h3>
-          <p className="font-sans text-[15px] text-ink-muted leading-relaxed">
-            Real estate teams need listing-ready media — stills, video, 3D tours, staging — fast and at volume. Traditional production is a human-intensive multi-vendor coordination problem. Slow turnaround, inconsistent quality, costs that don't scale.
-          </p>
-        </ProblemCallout>
-      </section>
-
-      {/* Specialists */}
+      {/* The Product */}
       <section className="px-6 py-10 bg-white/40">
-        <div className="flex items-center gap-3 mb-5">
-          <span className="h-px w-8 bg-ink-muted/30" />
-          <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">Specialists</span>
-        </div>
-        <h2 className="font-serif text-[2rem] leading-[1.1] text-ink mb-6 tracking-tight">
+        <SectionEyebrow>The Product</SectionEyebrow>
+        <h2 className="font-serif text-[1.9rem] leading-[1.1] text-ink mb-8 tracking-tight">
           Four asset types. <br />
           <span className="italic text-ink-muted/70">Four specialists.</span>
         </h2>
-        <div className="space-y-3">
-          {ASSETS.map((asset) => {
-            const Icon = asset.icon;
-            return (
-              <Widget key={asset.label} className="p-5">
-                <div className="flex items-center gap-3 mb-2">
-                  <IconBadge size="sm"><Icon className="w-4 h-4 text-accent" /></IconBadge>
-                  <h3 className="font-serif text-lg text-ink">{asset.label}</h3>
-                </div>
-                <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{asset.body}</p>
-              </Widget>
-            );
-          })}
+
+        <div className="space-y-14">
+          <FeatureRow
+            heading="Specialists, not a generalist editor"
+            body="Each asset type gets its own specialist, running in parallel on the same capture, converging into one on-brand kit."
+            bullets={[
+              'Stills · HDR merge, color correct, watermark',
+              'Video · cut, color grade, music, end-card',
+              '3D · stitch 360° capture + floor-plan overlay',
+              'Staging · AI virtual staging of empty rooms',
+            ]}
+          >
+            <AssetSpecialistPanel />
+          </FeatureRow>
+
+          <FeatureRow
+            heading="Every listing on-brand, every time"
+            body="Set your palette, watermark, video end-card, and staging style once. ShootOS applies them consistently across every listing."
+            bullets={[
+              'Brand profile: colors, fonts, watermark',
+              'Every deliverable stamped automatically',
+              'Consistency across stills, video, 3D, staging',
+            ]}
+          >
+            <BrandProfilePanel />
+          </FeatureRow>
+
+          <FeatureRow
+            heading="Hours, not days"
+            body="Traditional production is serial — one specialist waits for another. ShootOS runs specialists in parallel, typically ~12× faster."
+            bullets={[
+              'Stills + video + 3D + staging in parallel',
+              'Typical listing kit: 4–8 hours from capture',
+              'Single QA pass across all asset types',
+            ]}
+          >
+            <TurnaroundComparison />
+          </FeatureRow>
         </div>
       </section>
 
+      {/* Try It */}
+      <section id="try-it" className="px-6 py-10">
+        <SectionEyebrow>Try It</SectionEyebrow>
+        <h2 className="font-serif text-[1.9rem] leading-[1.1] text-ink mb-3 tracking-tight">
+          Pick a property. <span className="italic text-ink-muted/70">Watch the kit assemble.</span>
+        </h2>
+        <p className="font-serif text-[15px] text-ink-muted leading-relaxed mb-6">
+          Every property walks the same pipeline — capture, parallel specialists, QA gate, delivery.
+        </p>
+        <ShootOSSimulator />
+      </section>
+
       {/* Use Cases */}
-      <section className="px-6 py-10">
-        <div className="flex items-center gap-3 mb-5">
-          <span className="h-px w-8 bg-ink-muted/30" />
-          <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">Use Cases</span>
-        </div>
-        <h2 className="font-serif text-[2rem] leading-[1.1] text-ink mb-6 tracking-tight">
+      <section className="px-6 py-10 bg-white/40">
+        <SectionEyebrow>Use Cases</SectionEyebrow>
+        <h2 className="font-serif text-[1.9rem] leading-[1.1] text-ink mb-6 tracking-tight">
           Who ShootOS is <span className="italic text-ink-muted/70">for.</span>
         </h2>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {USE_CASES.map((uc) => {
             const Icon = uc.icon;
             return (
-              <Widget key={uc.title} className="p-5">
-                <div className="flex items-center gap-3 mb-2">
-                  <IconBadge size="sm"><Icon className="w-4 h-4 text-accent" /></IconBadge>
-                  <h3 className="font-serif text-lg text-ink">{uc.title}</h3>
+              <div key={uc.title} className="bg-white border border-ink/10 p-5 shadow-sm hover:shadow-lg transition-all rounded-lg text-center flex flex-col items-center">
+                <div className="relative w-32 h-32 mx-auto mb-4 rounded-full bg-pulse-surface border border-ink/10 overflow-hidden flex items-center justify-center">
+                  <svg className="absolute inset-0 w-full h-full" viewBox="0 0 176 176" fill="none">
+                    <circle cx="88" cy="88" r="78" stroke="rgb(var(--color-ink))" strokeWidth="0.6" opacity="0.08" />
+                    <circle cx="88" cy="88" r="60" stroke="rgb(var(--color-ink))" strokeWidth="0.6" strokeDasharray="3 3" opacity="0.12" />
+                    <circle cx="88" cy="88" r="42" stroke="rgb(var(--color-accent))" strokeWidth="0.8" opacity="0.15" />
+                  </svg>
+                  <Icon className="relative w-10 h-10 text-accent/80" strokeWidth={1.3} />
                 </div>
+                <h3 className="font-serif text-lg text-ink mb-2">{uc.title}</h3>
                 <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{uc.body}</p>
-              </Widget>
+              </div>
             );
           })}
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="px-6 py-10 bg-white/40">
-        <div className="flex items-center gap-3 mb-5">
-          <span className="h-px w-8 bg-ink-muted/30" />
-          <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">FAQ</span>
-        </div>
-        <h2 className="font-serif text-[2rem] leading-[1.1] text-ink mb-6 tracking-tight">
+      <section className="px-6 py-10">
+        <SectionEyebrow>FAQ</SectionEyebrow>
+        <h2 className="font-serif text-[1.9rem] leading-[1.1] text-ink mb-6 tracking-tight">
           Common <span className="italic text-ink-muted/70">questions.</span>
         </h2>
         <Widget as="ol" className="px-5">
@@ -203,20 +224,18 @@ export const MobileShootOSPage: React.FC<MobileShootOSPageProps> = ({ onNavigate
         </Widget>
       </section>
 
-      {/* Final CTA */}
-      <section className="px-6 py-10 border-t border-ink/5">
-        <h2 className="font-serif text-[2rem] leading-[1.1] text-ink mb-4 tracking-tight text-center">
-          Want a team like this <br />
-          <span className="italic text-accent">for your domain?</span>
-        </h2>
-        <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-6 text-center">
-          ShootOS is one example of a DaVeenci team. We design specialist teams for industries where the workflow is complex, multi-stage, and the output needs to be production-ready.
-        </p>
-        <div className="flex flex-col gap-3">
-          <MobileButton onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
-          <MobileButton variant="secondary" onClick={() => onNavigate('work')}>See all work</MobileButton>
-        </div>
-      </section>
+      {/* Book a ShootOS intro */}
+      <BookingWidget
+        onNavigate={onNavigate}
+        eyebrow="ShootOS Intro"
+        title="Book a ShootOS intro"
+        subtitle="Walk us through your listing volume, brand standards, and current turnaround."
+        leftBody="We'll look at your current capture-to-listing flow, where vendor coordination costs you time, and what your brand consistency actually looks like across agents today — then scope a ShootOS engagement."
+        bookingType="demo-shootos"
+        hostName="Anton Osipov"
+        hostRole="Founder"
+        hostImage={AntonSketch}
+      />
     </MobileShell>
   );
 };
