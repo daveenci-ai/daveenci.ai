@@ -3,7 +3,7 @@
     {
       "src": "/calendar",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
       ],
       "dest": "/calendar-og.html",
       "status": 200
@@ -11,7 +11,7 @@
     {
       "src": "/brandos",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
       ],
       "dest": "/brandos-og.html",
       "status": 200
@@ -19,7 +19,7 @@
     {
       "src": "/pulsenote",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
       ],
       "dest": "/pulsenote-og.html",
       "status": 200
@@ -29,7 +29,7 @@
     {
       "src": "/briefings",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
       ],
       "dest": "/briefings-og.html",
       "status": 200
@@ -37,7 +37,7 @@
     {
       "src": "/who-we-are",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebook|twitter|linkedin|whatsapp|telegram|slack|facebot|twitterbot|slackbot|telegrambot|LinkedInBot).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
       ],
       "dest": "/who-we-are-og.html",
       "status": 200
