@@ -16,6 +16,7 @@ import {
 import { MobileButton } from './MobileButton';
 import { MobileNextCase } from './MobileNextCase';
 import { MobileSubscribe } from './MobileSubscribe';
+import { MobileGateSimulator } from './MobileGateSimulator';
 import { MobileScenePlate } from './MobileScenePlate';
 import { MobileShell } from './MobileShell';
 import type { Page } from '../types';
@@ -173,6 +174,8 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
           ))}
         </div>
       </section>
+
+      <MobileGateSimulator />
 
       <section className="px-6 py-12 bg-alt/25">
         <div className="flex items-center gap-3 mb-5">

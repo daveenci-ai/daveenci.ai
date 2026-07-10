@@ -136,3 +136,22 @@ GOAL's example framing ("Follow the weekly CompoundIQ build log") would invent a
 ### N-3: Backend is additive AND migration-safe
 
 `routes.ts` accepts an optional `source` (trimmed, capped at 100 chars, non-strings ignored). `newsletter.ts` inserts `(email, source)` but catches Postgres error `42703` (undefined column) and retries email-only, so the API keeps working even if the owner deploys code before running `backend/migrations/2026-07-10-newsletter-source.sql` (`ALTER TABLE ... ADD COLUMN IF NOT EXISTS source TEXT` — additive, nullable, safe live). The owner-notification email now includes the source (the "forward" path). I could not verify whether the column already exists: the Supabase MCP connection is unauthorized in this session; the fallback makes that unknown harmless. Migration listed in the REPORT.md merge checklist.
+
+---
+
+## Phase 4 — CompoundIQ gate simulator
+
+### G-1: Design chosen by tournament — "Console Ledger" with borrowed elements
+
+Three design proposals (mechanical Signal Bench / Console Ledger / manuscript Gate Plate) were judged on voice fit, first-timer clarity, funnel advancement, and implementability inside ~300 lines per tree. The Console Ledger won (17/20 vs 13 and 11): toggle rows + one send button + outcome banner is the only control model a first-time visitor decodes instantly, and it fits the line budget. Borrowed per the judge: the "Fig. ii · The action gate" plate label (Gate Plate) — the site already ships "Fig. i" plates, so Fig. ii is native continuation; plain-English outcome lines ("Stopped at Enabled? — venue not enabled."); and the Signal Bench's traveling accent pulse that visibly stops at the blocking gate.
+
+### G-2: Implementation judgment calls
+
+- **Placement**: directly after the "operating system" section on both trees (`CompoundIQPage.tsx` before the Guardrails Section; `MobileCompoundIQPage.tsx` before the Guardrails section) — the reader has just read the policy-gate spec (item 02: approved / enabled / unexpired), then immediately handles it.
+- **Vocabulary is the page's own**: gate labels "Approved? / Enabled? / Unexpired?", "paper fill", "fees and slippage", "live disabled", "Rejected" all come from `CompoundIQPage.tsx:58-67` and the buildStatus data. No invented claims; the plate carries "Illustrative only — labels describe engineering behavior, not investment performance," echoing the page's own honesty line.
+- **Judge's accessibility musts implemented**: toggles are real `role="switch"` buttons with `aria-checked` + focus rings; the outcome banner is an `aria-live="polite"` region; `prefers-reduced-motion` skips the travel animation and renders the outcome immediately; pass/block is never color-alone (icon + text token + plain-English line); ledger capped (5 desktop / 4 mobile lines) with fixed short tokens; amber-800 for text on parchment.
+- **Judge's trap avoided**: no full dark terminal — the audit ledger is an ink-bordered inset on the parchment surface and the plain-English banner leads; the log corroborates.
+- **demo events**: `demo_start` on first interaction (toggle OR send), `demo_complete` on first resolved outcome; both ref-guarded once per visit, `demo_id: 'compoundiq_gate_sim'` (typed in `AnalyticsEventMap` since Phase 1).
+- **Line budget kept**: `GateSimulator.tsx` 274 lines, `MobileGateSimulator.tsx` 246 lines — under ~300 per tree.
+- **Two implementations, not one shared**: the trees' layouts genuinely differ (two-column vs stacked); sharing would mean a props/branching layer that costs more than the ~120 duplicated logic lines. Precedent exists in both directions; the teaser stays self-contained.
+- **AutoPilot cheap interaction**: proposed in REPORT.md as next-run work (GOAL: propose, don't build).

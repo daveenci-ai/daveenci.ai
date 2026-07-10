@@ -27,6 +27,7 @@ import {
 } from './Shared';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileCompoundIQPage } from './mobile/MobileCompoundIQPage';
+import { GateSimulator } from './GateSimulator';
 import { useCaseEngaged } from '../lib/useCaseEngaged';
 import type { Page } from './types';
 
@@ -278,6 +279,8 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
           ))}
         </div>
       </Section>
+
+      <GateSimulator />
 
       <Section className="py-20 md:py-28 bg-alt/25">
         <SectionHeader
