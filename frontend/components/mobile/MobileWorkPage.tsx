@@ -20,11 +20,18 @@ const WORK_ITEMS: WorkItem[] = [
     blurb: 'A feature request walks in. A shipped pull request walks out. 13 specialist agents, 3 human gates, orchestrated end-to-end.',
   },
   {
-    page: 'shootos',
-    label: 'Real estate media',
-    title: 'ShootOS',
-    subtitle: 'The real estate media team.',
-    blurb: 'Stills, video, 3D tours, AI virtual staging — one property in, one listing-ready package out. Built for volume teams.',
+    page: 'autopilot',
+    label: 'Real estate operations',
+    title: 'AutoPilot',
+    subtitle: 'The production operations team.',
+    blurb: 'Order email in. Scheduled job, continuous QC, safe remediation, and verified delivery out — three coordinated services across the production loop.',
+  },
+  {
+    page: 'compoundiq',
+    label: 'Trading research & execution',
+    title: 'CompoundIQ',
+    subtitle: 'The governed trading team.',
+    blurb: 'Hypothesis in. Versioned research, explicit action gates, paper execution, and structured feedback out — an in-progress system designed to earn autonomy safely.',
   },
   {
     page: 'pulsenote',
@@ -68,10 +75,10 @@ export const MobileWorkPage: React.FC<MobileWorkPageProps> = ({ onNavigate }) =>
         <h1 className="font-serif text-[2.75rem] leading-[1.05] text-ink mb-5 tracking-tight">
           Specialist AI teams.
           <br />
-          <span className="italic text-ink-muted/70">Built, shipped, operating.</span>
+          <span className="italic text-ink-muted/70">Built in the real world.</span>
         </h1>
         <p className="font-serif text-[17px] text-ink-muted leading-[1.6]">
-          Each example below is a complete team we've designed and built — specialist agents coordinated by a controller, gated by humans at the right points, accountable to the finished work.
+          Each example below is a specialist team we've designed and built. Some are operating today; others are being proven in public. Every one coordinates narrow roles, human gates, and accountable finished work.
         </p>
       </section>
 

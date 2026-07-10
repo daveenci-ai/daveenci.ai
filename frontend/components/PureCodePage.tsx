@@ -659,19 +659,19 @@ export const TryItSimulator: React.FC = () => {
       </div>
 
       {/* Phase progress */}
-      <div className="flex items-center gap-2 mb-4 px-1">
+      <div className="grid grid-cols-5 gap-1 mb-4 px-1 md:flex md:items-center md:gap-2">
         {PHASE_ORDER.map((p, i) => {
           const passed = currentPhaseIdx > i || isDone;
           const active = currentPhaseIdx === i && !isDone;
           return (
             <React.Fragment key={p}>
-              <div className="flex items-center gap-1.5">
+              <div className="min-w-0 flex flex-col items-center gap-1 md:flex-row md:gap-1.5">
                 <div className={`w-1.5 h-1.5 rounded-full transition-all ${passed ? 'bg-green-500' : active ? 'bg-accent animate-pulse' : 'bg-ink/15'}`} />
-                <span className={`font-mono text-[10px] uppercase tracking-widest transition-colors ${passed ? 'text-green-600' : active ? 'text-accent' : 'text-ink-muted/40'}`}>
+                <span className={`max-w-full truncate font-mono text-[8px] uppercase tracking-[0.06em] transition-colors md:text-[10px] md:tracking-widest ${passed ? 'text-green-600' : active ? 'text-accent' : 'text-ink-muted/40'}`}>
                   {PHASE_LABEL[p]}
                 </span>
               </div>
-              {i < PHASE_ORDER.length - 1 && <div className={`flex-1 h-px transition-colors ${passed ? 'bg-green-400/40' : 'bg-ink/10'}`} />}
+              {i < PHASE_ORDER.length - 1 && <div className={`hidden md:block flex-1 h-px transition-colors ${passed ? 'bg-green-400/40' : 'bg-ink/10'}`} />}
             </React.Fragment>
           );
         })}

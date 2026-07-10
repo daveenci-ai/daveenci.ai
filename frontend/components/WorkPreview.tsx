@@ -10,28 +10,37 @@ const examples = [
   {
     page: 'purecode' as Page,
     label: 'Code',
+    status: 'Operating',
     title: 'PureCode',
     blurb: 'A specialist AI team that turns a feature request into a shipped pull request. 13 agents, 3 human gates.',
   },
   {
-    page: 'shootos' as Page,
-    label: 'Real estate media',
-    title: 'ShootOS',
-    blurb: 'A media team for volume real estate. Stills, video, 3D tours, virtual staging — one property in, listing-ready package out.',
+    page: 'autopilot' as Page,
+    label: 'Real estate operations',
+    status: 'Operating',
+    title: 'AutoPilot',
+    blurb: 'Three coordinated services that create and schedule orders, continuously review operations, safely repair known exceptions, and verify delivery.',
+  },
+  {
+    page: 'compoundiq' as Page,
+    label: 'Trading research & execution',
+    status: 'In development · Paper only',
+    title: 'CompoundIQ',
+    blurb: 'Versioned market research, explicit action gates, paper execution, and structured feedback — designed to earn autonomy safely.',
   },
 ];
 
 const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => (
-  <Section id="work" pattern="nodes">
+  <Section id="selected-work" pattern="nodes">
     <ScrollReveal className="mb-12 md:mb-16">
       <FolioHeader
-        eyebrow="Folio V — The Work"
-        title="Examples of what we build."
-        subtitle="Every team follows the same playbook: specialist agents, orchestrated, human-gated, shipping finished work."
+        eyebrow="Selected work"
+        title="What specialist teams look like in practice."
+        subtitle="Some are operating today. Others are being proven in public. Every one separates roles, makes its gates explicit, and stays accountable to the finished work."
       />
     </ScrollReveal>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
       {examples.map((example, i) => (
         <ScrollReveal key={example.title} delay={100 + i * 150}>
           <Surface
@@ -39,9 +48,14 @@ const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => (
             onClick={() => onNavigate(example.page)}
             className="cursor-pointer h-full p-8 md:p-10 bg-white/60 border border-ink/10 hover:shadow-2xl hover:border-accent/30 transition-all duration-300 group flex flex-col"
           >
-            <span className="block font-mono text-[10px] uppercase tracking-[0.2em] text-accent mb-3">
-              {example.label}
-            </span>
+            <div className="flex items-start justify-between gap-4 mb-4">
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
+                {example.label}
+              </span>
+              <span className={`font-mono text-[8px] uppercase tracking-[0.14em] text-right ${example.page === 'compoundiq' ? 'text-amber-800' : 'text-green-700'}`}>
+                {example.status}
+              </span>
+            </div>
             <h3 className="font-serif text-2xl md:text-3xl text-ink mb-4 group-hover:text-accent transition-colors">
               {example.title}
             </h3>

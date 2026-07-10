@@ -300,7 +300,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
                            </ol>
 
                            <div className="mt-8 pt-6 border-t border-ink/10">
-                              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('landing'); }} className="font-serif italic text-xs text-accent tracking-[0.2em] uppercase hover:text-ink transition-colors inline-flex items-center gap-2">
+                              <a href="/" onClick={(e) => { e.preventDefault(); onNavigate('landing'); }} className="font-serif italic text-xs text-accent tracking-[0.2em] uppercase hover:text-ink transition-colors inline-flex items-center gap-2">
                                  <span className="h-px w-6 bg-accent/40" />
                                  www.daveenci.ai
                               </a>

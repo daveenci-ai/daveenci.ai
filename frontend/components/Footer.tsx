@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
 import { Logo, Button } from './Shared';
 import type { Page } from './types';
 import { API_ENDPOINTS } from '../config';
@@ -70,14 +69,15 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           )}
         </div>
 
-        {/* 4-column hub */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+        {/* Navigation hub */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 mb-12">
           <div>
             <h4 className="font-mono text-[10px] uppercase tracking-[0.2em] text-base/50 mb-4">Work</h4>
             <ul className="space-y-2">
               <li><a href="/work" onClick={go('work')} className="text-sm text-base/80 hover:text-white transition-colors">All work</a></li>
               <li><a href="/purecode" onClick={go('purecode')} className="text-sm text-base/80 hover:text-white transition-colors">PureCode</a></li>
-              <li><a href="/shootos" onClick={go('shootos')} className="text-sm text-base/80 hover:text-white transition-colors">ShootOS</a></li>
+              <li><a href="/autopilot" onClick={go('autopilot')} className="text-sm text-base/80 hover:text-white transition-colors">AutoPilot</a></li>
+              <li><a href="/compoundiq" onClick={go('compoundiq')} className="text-sm text-base/80 hover:text-white transition-colors">CompoundIQ</a></li>
             </ul>
           </div>
 
@@ -101,31 +101,6 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </ul>
           </div>
 
-          <div>
-            <h4 className="font-mono text-[10px] uppercase tracking-[0.2em] text-base/50 mb-4">Connect</h4>
-            <ul className="space-y-2">
-              <li>
-                <a href="#" aria-label="LinkedIn" className="inline-flex items-center gap-2 text-sm text-base/80 hover:text-white transition-colors">
-                  <Linkedin className="w-4 h-4" /> LinkedIn
-                </a>
-              </li>
-              <li>
-                <a href="#" aria-label="X" className="inline-flex items-center gap-2 text-sm text-base/80 hover:text-white transition-colors">
-                  <Twitter className="w-4 h-4" /> X
-                </a>
-              </li>
-              <li>
-                <a href="#" aria-label="Instagram" className="inline-flex items-center gap-2 text-sm text-base/80 hover:text-white transition-colors">
-                  <Instagram className="w-4 h-4" /> Instagram
-                </a>
-              </li>
-              <li>
-                <a href="#" aria-label="Facebook" className="inline-flex items-center gap-2 text-sm text-base/80 hover:text-white transition-colors">
-                  <Facebook className="w-4 h-4" /> Facebook
-                </a>
-              </li>
-            </ul>
-          </div>
         </div>
 
         {/* Legal row */}
@@ -133,10 +108,8 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div className="flex items-center gap-3 opacity-90">
             <Logo className="w-8 h-8" />
           </div>
-          <div className="flex gap-6 text-xs text-base/40">
+          <div className="text-xs text-base/40">
             <span>© {new Date().getFullYear()} DaVeenci</span>
-            <a href="#" className="hover:text-white transition-colors">Terms</a>
-            <a href="#" className="hover:text-white transition-colors">Privacy</a>
           </div>
         </div>
       </div>

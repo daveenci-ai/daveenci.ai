@@ -15,7 +15,8 @@ const PulseNotePage = lazy(() => import('./components/PulseNotePage'));
 const BrandOSPage = lazy(() => import('./components/BrandOSPage'));
 const WorkPage = lazy(() => import('./components/WorkPage'));
 const PureCodePage = lazy(() => import('./components/PureCodePage'));
-const ShootOSPage = lazy(() => import('./components/ShootOSPage'));
+const AutoPilotPage = lazy(() => import('./components/AutoPilotPage'));
+const CompoundIQPage = lazy(() => import('./components/CompoundIQPage'));
 const EventsPage = lazy(() => import('./components/EventsPage'));
 const ThesisPage = lazy(() => import('./components/ThesisPage'));
 const NotFoundPage = lazy(() => import('./components/NotFoundPage'));
@@ -60,16 +61,27 @@ const App: React.FC = () => {
         setPage('who-we-are');
       } else if (path === '/calendar') {
         setPage('calendar');
-      } else if (path === '/pulsenote' || path === '/book-demo') {
+      } else if (path === '/book-demo') {
+        window.history.replaceState({}, '', '/pulsenote');
         setPage('pulsenote');
-      } else if (path === '/brandos' || path === '/brand-analyzer') {
+      } else if (path === '/pulsenote') {
+        setPage('pulsenote');
+      } else if (path === '/brand-analyzer') {
+        window.history.replaceState({}, '', '/brandos');
+        setPage('brandos');
+      } else if (path === '/brandos') {
         setPage('brandos');
       } else if (path === '/work') {
         setPage('work');
       } else if (path === '/purecode') {
         setPage('purecode');
       } else if (path === '/shootos') {
-        setPage('shootos');
+        window.history.replaceState({}, '', '/autopilot');
+        setPage('autopilot');
+      } else if (path === '/autopilot') {
+        setPage('autopilot');
+      } else if (path === '/compoundiq') {
+        setPage('compoundiq');
       } else if (path === '/events') {
         setPage('events');
       } else if (path === '/thesis') {
@@ -163,7 +175,8 @@ const App: React.FC = () => {
     if (targetPage === 'brandos') path = '/brandos';
     if (targetPage === 'work') path = '/work';
     if (targetPage === 'purecode') path = '/purecode';
-    if (targetPage === 'shootos') path = '/shootos';
+    if (targetPage === 'autopilot') path = '/autopilot';
+    if (targetPage === 'compoundiq') path = '/compoundiq';
     if (targetPage === 'events') path = '/events';
     if (targetPage === 'thesis') path = '/thesis';
     window.history.pushState({ page: targetPage, briefingId: id }, '', path);
@@ -197,7 +210,8 @@ const App: React.FC = () => {
         {page === 'brandos' && <BrandOSPage onNavigate={handleNavigate} />}
         {page === 'work' && <WorkPage onNavigate={handleNavigate} />}
         {page === 'purecode' && <PureCodePage onNavigate={handleNavigate} />}
-        {page === 'shootos' && <ShootOSPage onNavigate={handleNavigate} />}
+        {page === 'autopilot' && <AutoPilotPage onNavigate={handleNavigate} />}
+        {page === 'compoundiq' && <CompoundIQPage onNavigate={handleNavigate} />}
         {page === 'events' && <EventsPage onNavigate={handleNavigate} />}
         {page === 'thesis' && <ThesisPage onNavigate={handleNavigate} />}
         {page === 'not-found' && <NotFoundPage onNavigate={handleNavigate} />}

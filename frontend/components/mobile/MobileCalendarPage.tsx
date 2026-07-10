@@ -191,7 +191,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
               </div>
               <div>
                 <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">Discovery Call</div>
-                <div className="font-serif text-xl text-ink leading-tight">Talk to us.</div>
+                <h1 className="font-serif text-xl text-ink leading-tight">Talk to us.</h1>
                 <div className="flex items-center gap-2 mt-1 text-xs text-ink-muted font-serif italic">
                   <Clock className="w-3 h-3" /> 30 min
                   <span className="text-ink-muted/40">·</span>

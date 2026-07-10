@@ -5,6 +5,7 @@ import Contrast from './components/Contrast';
 import Method from './components/Method';
 import Advantage from './components/Advantage';
 import Controls from './components/Controls';
+import WorkPreview from './components/WorkPreview';
 import PartnerBlock from './components/PartnerBlock';
 import BookingPreview from './components/BookingPreview';
 import Newsletter from './components/Newsletter';
@@ -36,6 +37,7 @@ const DaVeenciLandingPage: React.FC<DaVeenciLandingPageProps> = ({ onNavigate, a
       <FounderBlock onNavigate={onNavigate} />
       <Advantage />
       <Controls />
+      <WorkPreview onNavigate={onNavigate} />
       <PartnerBlock />
       <BookingPreview onNavigate={onNavigate} />
       <Newsletter onNavigate={onNavigate} />

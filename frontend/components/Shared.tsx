@@ -568,7 +568,7 @@ export const Plate: React.FC<{
  * ProductFrame — product-page hero frame matching PulseNote's hero.
  * Warm pulse-surface background, fixed height (420px default), raised
  * shadow, no fig caption, no tilt. Wraps interactive demos or SVG
- * diagrams on PureCode / ShootOS / BrandOS heros.
+ * diagrams on PureCode / AutoPilot / BrandOS heroes.
  */
 export const ProductFrame: React.FC<{
   children: React.ReactNode;

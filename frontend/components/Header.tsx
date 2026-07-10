@@ -17,18 +17,18 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   // Below md: render the shared mobile chrome so every page that uses
   // Header gets a consistent header / menu on phones. Desktop tree
   // continues to use the rich editorial header below.
   if (isMobile && onNavigate) {
     return <MobileTopBar onNavigate={onNavigate} />;
   }
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const navLinks: NavLink[] = [
     { label: "About", href: "/who-we-are" },
@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
   const isActive = (link: NavLink) => {
     if (link.href === '/codex' && (currentPage === 'briefings' || currentPage === 'briefing-detail')) return true;
     if (link.href === '/who-we-are' && currentPage === 'who-we-are') return true;
-    if (link.href === '/work' && (currentPage === 'work' || currentPage === 'purecode' || currentPage === 'shootos')) return true;
+    if (link.href === '/work' && (currentPage === 'work' || currentPage === 'purecode' || currentPage === 'autopilot' || currentPage === 'compoundiq')) return true;
     if (link.href === '/thesis' && currentPage === 'thesis') return true;
     if (link.href === '/events' && currentPage === 'events') return true;
     if (link.href.startsWith('#') && currentPage === 'landing' && activeSection === link.href) return true;

@@ -22,7 +22,7 @@ Mobile is NOT a responsive scale of desktop. It's a parallel, mobile-native layo
 
 **Out of scope (v1):**
 
-- Admin, Pulse, Brand analyzer, Events, Work subpages (PureCode/ShootOS). These can follow once landing is shipped.
+- Admin, Pulse, Brand analyzer, Events, Work subpages (PureCode/AutoPilot). These can follow once landing is shipped.
 
 ## Architecture
 

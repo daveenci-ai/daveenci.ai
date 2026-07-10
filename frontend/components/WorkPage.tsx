@@ -19,11 +19,18 @@ const workItems = [
     blurb: 'A feature request walks in. A shipped pull request walks out. 13 specialist agents, 3 human gates, orchestrated end-to-end.',
   },
   {
-    page: 'shootos' as Page,
-    label: 'Real estate media',
-    title: 'ShootOS',
-    subtitle: 'The real estate media team.',
-    blurb: 'Stills, video, 3D tours, AI virtual staging — one property in, one listing-ready package out. Built for volume teams.',
+    page: 'autopilot' as Page,
+    label: 'Real estate operations',
+    title: 'AutoPilot',
+    subtitle: 'The production operations team.',
+    blurb: 'Order email in. Scheduled job, continuous QC, safe remediation, and verified delivery out — three coordinated services operating across the full production loop.',
+  },
+  {
+    page: 'compoundiq' as Page,
+    label: 'Trading research & execution',
+    title: 'CompoundIQ',
+    subtitle: 'The governed trading team.',
+    blurb: 'Hypothesis in. Versioned research, explicit action gates, paper execution, and structured feedback out — an in-progress system designed to earn autonomy safely.',
   },
   {
     page: 'pulsenote' as Page,
@@ -65,8 +72,8 @@ const WorkPageDesktop: React.FC<WorkPageProps> = ({ onNavigate }) => {
         <ScrollReveal>
           <PageHero
             eyebrow="Our Work"
-            title={<>Specialist AI teams.<br /><span className="italic text-ink-muted/80">Built, shipped, operating.</span></>}
-            description="Each example below is a complete team we've designed and built — specialist agents coordinated by a controller, gated by humans at the right points, accountable to the finished work."
+            title={<>Specialist AI teams.<br /><span className="italic text-ink-muted/80">Built in the real world.</span></>}
+            description="Each example below is a specialist team we've designed and built. Some are operating today; others are being proven in public. Every one coordinates narrow roles, human gates, and accountable finished work."
             size="md"
             className="max-w-3xl"
           />
