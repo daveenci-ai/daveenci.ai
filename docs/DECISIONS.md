@@ -127,7 +127,7 @@ Skeptic PASS (confirmed: anchors/folio numbering unbroken by the reorder, chain 
 
 ### N-1: Contextual framing reuses the ONE form per surface
 
-GOAL demands "one email field everywhere." Desktop case pages already end in `Footer.tsx`, whose newsletter bar IS the form — so contextual framing is delivered as new optional Footer props (`newsletterHeading`, `newsletterBody`, `newsletterSource`) rather than a second form above it. Mobile has no form at all (GT-1 drift 1), so `MobileSubscribe.tsx` was created and appended to the four mobile case pages after the NextCase strip (mirroring the desktop order: content → next case → subscribe/footer). Exactly one email field per page on every surface.
+GOAL demands "one email field everywhere." Desktop case pages already end in `Footer.tsx`, whose newsletter bar IS the form — so contextual framing is delivered as new optional Footer props (`newsletterHeading`, `newsletterBody`, `newsletterSource`) rather than a second form above it. Mobile has no form at all (GT-1 drift 1), so `MobileSubscribe.tsx` was created and appended to the four mobile case pages after the NextCase strip (mirroring the desktop order: content → next case → subscribe/footer). Exactly one **newsletter** field per page on every surface (scoped per the Phase 3 skeptic: BrandOS/PureCode also carry a `BookingWidget`, whose booking form includes its own email input — a different intent, pre-existing on desktop, and mirrored on mobile).
 
 ### N-2: Copy stays honest — the newsletter is the Codex, not a per-case log
 
@@ -136,6 +136,10 @@ GOAL's example framing ("Follow the weekly CompoundIQ build log") would invent a
 ### N-3: Backend is additive AND migration-safe
 
 `routes.ts` accepts an optional `source` (trimmed, capped at 100 chars, non-strings ignored). `newsletter.ts` inserts `(email, source)` but catches Postgres error `42703` (undefined column) and retries email-only, so the API keeps working even if the owner deploys code before running `backend/migrations/2026-07-10-newsletter-source.sql` (`ALTER TABLE ... ADD COLUMN IF NOT EXISTS source TEXT` — additive, nullable, safe live). The owner-notification email now includes the source (the "forward" path). I could not verify whether the column already exists: the Supabase MCP connection is unauthorized in this session; the fallback makes that unknown harmless. Migration listed in the REPORT.md merge checklist.
+
+### N-4: Phase 3 skeptic outcome — PASS with fixes applied
+
+Confirmed defect fixed: client-supplied `source` (and pre-existing `email`) were interpolated unescaped into the text/html owner-notification email — both now pass through `escapeHtml()` (`backend/src/services/newsletter.ts`). Low-severity items also fixed: the 100-char `slice` could split a surrogate pair (now stripped, `routes.ts`); the subscribe handlers now ignore clicks while loading (`Footer.tsx`, `MobileSubscribe.tsx` — the Footer gap was pre-existing, fixed for parity). Overclaim corrected in N-1 ("one newsletter field", not "one email field"). Completeness critic: PASS.
 
 ---
 

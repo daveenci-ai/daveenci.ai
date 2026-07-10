@@ -15,10 +15,13 @@ router.post('/newsletter/subscribe', async (req: Request, res: Response) => {
             return res.status(400).json({ success: false, error: 'Email is required' });
         }
 
-        const result = await subscribeToNewsletter(
-            email,
-            typeof source === 'string' && source.trim() ? source.trim().slice(0, 100) : undefined
-        );
+        // slice() can split a surrogate pair at the cap; strip any lone
+        // surrogate so the value stays valid UTF-8 for Postgres.
+        const cleanSource =
+            typeof source === 'string' && source.trim()
+                ? source.trim().slice(0, 100).replace(/[\uD800-\uDFFF]$/, '')
+                : undefined;
+        const result = await subscribeToNewsletter(email, cleanSource || undefined);
         res.status(200).json({ success: true, result });
     } catch (error: any) {
         console.error('Newsletter subscription error:', error);

@@ -4,6 +4,11 @@ import { createAuthClient } from './calendar';
 
 const GMAIL_SCOPES = ['https://www.googleapis.com/auth/gmail.send'];
 
+// The owner notification is sent as text/html, so client-supplied fields
+// must be escaped before interpolation.
+const escapeHtml = (value: string) =>
+    value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
 const sendNewsletterOwnerEmail = async (email: string, source?: string) => {
     const auth = createAuthClient(GMAIL_SCOPES);
     const gmail = google.gmail({ version: 'v1', auth });
@@ -12,7 +17,7 @@ const sendNewsletterOwnerEmail = async (email: string, source?: string) => {
     const body = `
 A new user has subscribed to the newsletter:
 
-Email: ${email}${source ? `\nSource: ${source}` : ''}
+Email: ${escapeHtml(email)}${source ? `\nSource: ${escapeHtml(source)}` : ''}
 Subscription Date: ${new Date().toLocaleString('en-US', { timeZone: 'UTC' })} UTC
 `;
 

@@ -23,7 +23,7 @@ const Footer: React.FC<FooterProps> = ({
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   const handleSubscribe = async () => {
-    if (!email) return;
+    if (!email || status === 'loading') return;
     setStatus('loading');
     try {
       const res = await fetch(API_ENDPOINTS.newsletter, {
