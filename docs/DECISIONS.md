@@ -159,3 +159,25 @@ Three design proposals (mechanical Signal Bench / Console Ledger / manuscript Ga
 - **Line budget kept**: `GateSimulator.tsx` 274 lines, `MobileGateSimulator.tsx` 246 lines — under ~300 per tree.
 - **Two implementations, not one shared**: the trees' layouts genuinely differ (two-column vs stacked); sharing would mean a props/branching layer that costs more than the ~120 duplicated logic lines. Precedent exists in both directions; the teaser stays self-contained.
 - **AutoPilot cheap interaction**: proposed in REPORT.md as next-run work (GOAL: propose, don't build).
+
+### G-3: Phase 4 critic outcomes
+
+Skeptic PASS — zero confirmed defects; the directed traps (timer lifecycle, multiple-gates-off rendering, ledger tokens, event guards, double-render) all refuted with traces; lint at baseline; no hex literals. Its one parity suggestion (S1: mobile toggle lacked the desktop's pass/block text token) was applied in the Phase 5 commit. Completeness PASS (all 8 items). Both critics were killed mid-run by a session limit and resumed via their transcripts rather than respawned — context preserved, verdicts complete.
+
+---
+
+## Phase 5 — Verification & packaging
+
+### V-1: Live route walk performed via dev server + browser
+
+`npm run dev` + Chrome automation, desktop viewport (mobile tree captured once at 500px before the window manager snapped back; mobile logic is otherwise covered by the line-level skeptic trace + shared-logic parity with the live-verified desktop). Observed with `VITE_GA_MEASUREMENT_ID` unset (dev console mode):
+
+- Initial load of `/` → exactly ONE `page_view` (StrictMode guard verified live in dev — the pre-fix code would have logged two).
+- WorkPreview card click → `select_content` + one `page_view` for `/compoundiq`.
+- `case_engaged` fired once per page visit — observed via BOTH triggers (scroll_depth after a real scroll; active_time at ~30s on a separate visit). No fire on load without scrolling.
+- Gate simulator: rejected path (Approved off → signal stops at amber `Approved?` chip, banner "Stopped at Approved? — unapproved strategy.", ledger `SIG-01 [BLOCK — —] rejected @ Approved?`) and paper-fill path (`[ok ok ok] paper fill`, green banner) both verified visually; `demo_start` → `demo_complete` fired once each.
+- NextCase click on `/compoundiq` → `next_case_click` + one `page_view` for `/autopilot`; strip + contextual footers ("Follow the operations work" / "Follow the CompoundIQ build") render with a single email field.
+- Browser Back → exactly one `page_view`.
+- `/calendar` date click → exactly one `calendar_start`.
+- `generate_lead` / `newsletter_subscribe` success paths not reachable without the backend (no live booking made — guardrail 3); their code paths are gated on `response.ok` and were verified by the Phase 1/3 skeptics.
+- Console-reading artifact noted for the record: the Chrome extension replayed the buffered event history with a collapsed timestamp during one read; identical-sequence/identical-second entries were disregarded. Every controlled interaction produced exactly the expected events.

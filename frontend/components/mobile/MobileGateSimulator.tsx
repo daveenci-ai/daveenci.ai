@@ -155,6 +155,13 @@ export const MobileGateSimulator: React.FC = () => {
                     gates[gate.key] ? 'left-9 bg-accent' : 'left-1 bg-amber-800'
                   }`}
                 />
+                <span
+                  className={`absolute inset-0 flex items-center font-mono text-[8px] uppercase tracking-widest ${
+                    gates[gate.key] ? 'justify-start pl-2 text-accent' : 'justify-end pr-2 text-amber-800'
+                  }`}
+                >
+                  {gates[gate.key] ? 'pass' : 'block'}
+                </span>
               </button>
             </div>
           ))}
