@@ -3,6 +3,7 @@ import { Loader2, Sparkles, Rocket, TrendingUp, Building2, Search, ChevronDown, 
 import { MobileShell } from './MobileShell';
 import { MobileButton } from './MobileButton';
 import { MobileNextCase } from './MobileNextCase';
+import { MobileSubscribe } from './MobileSubscribe';
 import { Widget } from '../Shared';
 import { BrandOSHeroDiagram, DimensionShowcase, StageWeightShifter } from '../BrandOSPage';
 import { BookingWidget } from '../BookingWidget';
@@ -518,6 +519,12 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
         title="CompoundIQ"
         hook="From naming to capital — a governed research team that proposes freely, yet can't act until every gate agrees."
         onNavigate={onNavigate}
+      />
+
+      <MobileSubscribe
+        heading="Follow the workshop"
+        body="Naming, scoring, and the rest of the studio's builds — one Codex letter every Tuesday. Build-in-public, no fluff."
+        source="brandos"
       />
     </MobileShell>
   );

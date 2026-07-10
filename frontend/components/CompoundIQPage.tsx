@@ -335,7 +335,12 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
 
       <NextCase from="compoundiq" to="autopilot" title="AutoPilot" hook="Governance works in trading. See it hold a real-estate delivery line together — from order email to the final gate." onNavigate={onNavigate} />
 
-      <Footer onNavigate={onNavigate} />
+      <Footer
+        onNavigate={onNavigate}
+        newsletterHeading="Follow the CompoundIQ build"
+        newsletterBody="Working in paper, expanding in public — the Codex letter tracks how specialist teams like this one get designed, gated, and shipped. Every Tuesday."
+        newsletterSource="compoundiq"
+      />
     </div>
   );
 };

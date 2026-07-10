@@ -3,6 +3,7 @@ import { Users, Building2, Briefcase, GitPullRequest, Plus, Minus } from 'lucide
 import { MobileShell } from './MobileShell';
 import { MobileButton } from './MobileButton';
 import { MobileNextCase } from './MobileNextCase';
+import { MobileSubscribe } from './MobileSubscribe';
 import { Widget } from '../Shared';
 import {
   PureCodeHeroDiagram,
@@ -237,6 +238,12 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
         title="BrandOS"
         hook="Before you name the thing you shipped — a specialist that scores a brand name across ten weighted dimensions."
         onNavigate={onNavigate}
+      />
+
+      <MobileSubscribe
+        heading="Follow the shipping log"
+        body="How a 13-specialist code team evolves — new gates, tighter checks, finished pull requests. One Codex letter every Tuesday."
+        source="purecode"
       />
     </MobileShell>
   );

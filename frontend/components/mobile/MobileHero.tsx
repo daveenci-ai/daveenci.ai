@@ -10,8 +10,8 @@ interface MobileHeroProps {
 
 /**
  * Folio I — mobile hero. Typography-first: eyebrow → display headline →
- * subtitle → Fig. i mini-plate → "See the work" link in thumb zone.
- * The persistent "Talk to us" CTA lives in MobileShell.
+ * subtitle → Fig. i mini-plate → thumb-zone actions (primary calendar CTA +
+ * "See the work" link). MobileShell adds the persistent "Talk to us" bar.
  */
 export const MobileHero: React.FC<MobileHeroProps> = ({ onNavigate }) => (
   <MobileFolioScene id="hero" eyebrow="Folio I — The Thesis">

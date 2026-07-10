@@ -1045,7 +1045,12 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
 
       <NextCase from="purecode" to="brandos" title="BrandOS" hook="Before you name the thing you shipped — a specialist that scores a brand name across ten weighted dimensions." onNavigate={onNavigate} />
 
-      <Footer onNavigate={onNavigate} />
+      <Footer
+        onNavigate={onNavigate}
+        newsletterHeading="Follow the shipping log"
+        newsletterBody="How a 13-specialist code team evolves — new gates, tighter checks, finished pull requests. One Codex letter every Tuesday."
+        newsletterSource="purecode"
+      />
     </div>
   );
 };

@@ -288,7 +288,12 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
 
       <NextCase from="autopilot" to="purecode" title="PureCode" hook="Gates caught the bad order. Watch them catch bad code — a feature request in, a shipped pull request out." onNavigate={onNavigate} />
 
-      <Footer onNavigate={onNavigate} />
+      <Footer
+        onNavigate={onNavigate}
+        newsletterHeading="Follow the operations work"
+        newsletterBody="How specialist teams take over real workflows — the handoffs, the gates, the morning reports. One Codex letter every Tuesday."
+        newsletterSource="autopilot"
+      />
     </div>
   );
 };

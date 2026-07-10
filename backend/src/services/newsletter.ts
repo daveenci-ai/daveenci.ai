@@ -4,7 +4,7 @@ import { createAuthClient } from './calendar';
 
 const GMAIL_SCOPES = ['https://www.googleapis.com/auth/gmail.send'];
 
-const sendNewsletterOwnerEmail = async (email: string) => {
+const sendNewsletterOwnerEmail = async (email: string, source?: string) => {
     const auth = createAuthClient(GMAIL_SCOPES);
     const gmail = google.gmail({ version: 'v1', auth });
 
@@ -12,7 +12,7 @@ const sendNewsletterOwnerEmail = async (email: string) => {
     const body = `
 A new user has subscribed to the newsletter:
 
-Email: ${email}
+Email: ${email}${source ? `\nSource: ${source}` : ''}
 Subscription Date: ${new Date().toLocaleString('en-US', { timeZone: 'UTC' })} UTC
 `;
 
@@ -45,7 +45,7 @@ Subscription Date: ${new Date().toLocaleString('en-US', { timeZone: 'UTC' })} UT
     }
 };
 
-export const subscribeToNewsletter = async (email: string) => {
+export const subscribeToNewsletter = async (email: string, source?: string) => {
     // Check if email already exists
     const checkText = 'SELECT id FROM newsletter_request WHERE email = $1';
     const checkResult = await query(checkText, [email]);
@@ -56,15 +56,32 @@ export const subscribeToNewsletter = async (email: string) => {
         throw error;
     }
 
-    const text = `
-        INSERT INTO newsletter_request (email)
-        VALUES ($1)
-        RETURNING *
-    `;
-    const { rows } = await query(text, [email]);
+    let rows;
+    if (source) {
+        try {
+            ({ rows } = await query(
+                'INSERT INTO newsletter_request (email, source) VALUES ($1, $2) RETURNING *',
+                [email, source]
+            ));
+        } catch (error: any) {
+            // 42703 = undefined column: the source column migration hasn't run
+            // yet. Never fail a subscription over attribution metadata.
+            if (error?.code !== '42703') throw error;
+            console.warn('newsletter_request.source column missing — run migrations/2026-07-10-newsletter-source.sql');
+            ({ rows } = await query(
+                'INSERT INTO newsletter_request (email) VALUES ($1) RETURNING *',
+                [email]
+            ));
+        }
+    } else {
+        ({ rows } = await query(
+            'INSERT INTO newsletter_request (email) VALUES ($1) RETURNING *',
+            [email]
+        ));
+    }
 
     // Send notification email to owner in background
-    sendNewsletterOwnerEmail(email).catch(err => console.error('Background newsletter email error:', err));
+    sendNewsletterOwnerEmail(email, source).catch(err => console.error('Background newsletter email error:', err));
 
     return rows[0];
 };

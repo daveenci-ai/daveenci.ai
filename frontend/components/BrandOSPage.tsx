@@ -1000,7 +1000,12 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
 
       <NextCase from="brandos" to="compoundiq" title="CompoundIQ" hook="From naming to capital — a governed research team that proposes freely, yet can't act until every gate agrees." onNavigate={onNavigate} />
 
-      <Footer onNavigate={onNavigate} />
+      <Footer
+        onNavigate={onNavigate}
+        newsletterHeading="Follow the workshop"
+        newsletterBody="Naming, scoring, and the rest of the studio's builds — one Codex letter every Tuesday. Build-in-public, no fluff."
+        newsletterSource="brandos"
+      />
     </div>
   );
 };

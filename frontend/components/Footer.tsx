@@ -6,9 +6,19 @@ import { track } from '../lib/analytics';
 
 interface FooterProps {
   onNavigate?: (page: Page, hash?: string, id?: string) => void;
+  /** Contextual framing for the newsletter bar; falls back to the Codex default. */
+  newsletterHeading?: string;
+  newsletterBody?: string;
+  /** Attribution recorded with the subscription and the analytics event. */
+  newsletterSource?: string;
 }
 
-const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+const Footer: React.FC<FooterProps> = ({
+  onNavigate,
+  newsletterHeading = 'Subscribe to the Codex',
+  newsletterBody = 'One high-leverage automation play every Tuesday. Build-in-public. No fluff.',
+  newsletterSource = 'footer',
+}) => {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
@@ -19,10 +29,10 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       const res = await fetch(API_ENDPOINTS.newsletter, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, source: newsletterSource }),
       });
       if (res.ok) {
-        track('newsletter_subscribe', { source: 'footer' });
+        track('newsletter_subscribe', { source: newsletterSource });
         setStatus('success');
         setEmail('');
       } else {
@@ -44,10 +54,8 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         {/* Newsletter bar */}
         <div className="mb-16 pb-12 border-b border-white/10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div>
-            <h3 className="font-serif text-2xl md:text-3xl mb-2">Subscribe to the Codex</h3>
-            <p className="font-sans text-base/70 leading-relaxed">
-              One high-leverage automation play every Tuesday. Build-in-public. No fluff.
-            </p>
+            <h3 className="font-serif text-2xl md:text-3xl mb-2">{newsletterHeading}</h3>
+            <p className="font-sans text-base/70 leading-relaxed">{newsletterBody}</p>
           </div>
           {status === 'success' ? (
             <p className="font-serif italic text-lg text-base/90">

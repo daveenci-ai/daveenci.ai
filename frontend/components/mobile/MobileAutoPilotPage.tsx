@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { MobileButton } from './MobileButton';
 import { MobileNextCase } from './MobileNextCase';
+import { MobileSubscribe } from './MobileSubscribe';
 import { MobileScenePlate } from './MobileScenePlate';
 import { MobileShell } from './MobileShell';
 import type { Page } from '../types';
@@ -192,6 +193,12 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
         title="PureCode"
         hook="Gates caught the bad order. Watch them catch bad code — a feature request in, a shipped pull request out."
         onNavigate={onNavigate}
+      />
+
+      <MobileSubscribe
+        heading="Follow the operations work"
+        body="How specialist teams take over real workflows — the handoffs, the gates, the morning reports. One Codex letter every Tuesday."
+        source="autopilot"
       />
     </MobileShell>
   );

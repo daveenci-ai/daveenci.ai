@@ -116,3 +116,23 @@ Notable judge fact-flags on losing lines (why they lost): "from order email to d
 - **PureCode hero keeps its secondary "See all work"** — the dead-end GOAL targets is the page *ending*; an early-page route to /work is navigation, not a dead-end. The closing section's duplicate secondary is removed and replaced by the NextCase strip.
 - **BrandOS CTAs untouched** — GOAL's contextual-CTA list names homepage/CompoundIQ/AutoPilot/PureCode; BrandOS already ends in a contextual `BookingWidget` ("Book a BrandOS intro"). It gets the NextCase strip (loop back to CompoundIQ) only.
 - **NextCase / MobileNextCase extracted as components** (4 uses per tree — meets the style guide's 3+ rule, `docs/STYLE_GUIDE.md:97-99`); the component owns the `next_case_click` event so no call site can forget it.
+
+### S-4: Phase 2 critic outcomes
+
+Skeptic PASS (confirmed: anchors/folio numbering unbroken by the reorder, chain complete on 8 pages, "Talk to us" intact in Header/Footer/MobileShell, hooks fact-clean, tsc+build+lint clean). Completeness PASS. One cosmetic note fixed (stale `MobileHero.tsx` doc comment). Two flagged non-regressions accepted: mobile landing intentionally shows two calendar entry points (hero CTA + persistent bar); PulseNote sits outside the 4-case ring — GOAL's chain names the ring cases, PulseNote stays reachable from /work; folded into the next-run list in REPORT.md.
+
+---
+
+## Phase 3 — Newsletter capture with source
+
+### N-1: Contextual framing reuses the ONE form per surface
+
+GOAL demands "one email field everywhere." Desktop case pages already end in `Footer.tsx`, whose newsletter bar IS the form — so contextual framing is delivered as new optional Footer props (`newsletterHeading`, `newsletterBody`, `newsletterSource`) rather than a second form above it. Mobile has no form at all (GT-1 drift 1), so `MobileSubscribe.tsx` was created and appended to the four mobile case pages after the NextCase strip (mirroring the desktop order: content → next case → subscribe/footer). Exactly one email field per page on every surface.
+
+### N-2: Copy stays honest — the newsletter is the Codex, not a per-case log
+
+GOAL's example framing ("Follow the weekly CompoundIQ build log") would invent a product: no per-case log exists. The only letter is the Tuesday Codex (`Footer.tsx` default copy; Codex description in `MobileLanding.tsx:41-44`). The shipped headings ("Follow the CompoundIQ build", "Follow the operations work", "Follow the shipping log", "Follow the workshop") frame the SAME letter through each case's lens and every body line names the Codex + Tuesday cadence. Guardrail 4 over GOAL's illustrative example. Sources: `compoundiq`, `autopilot`, `purecode`, `brandos`, default `footer` — identical on both trees so device splits live in GA, not in the source taxonomy.
+
+### N-3: Backend is additive AND migration-safe
+
+`routes.ts` accepts an optional `source` (trimmed, capped at 100 chars, non-strings ignored). `newsletter.ts` inserts `(email, source)` but catches Postgres error `42703` (undefined column) and retries email-only, so the API keeps working even if the owner deploys code before running `backend/migrations/2026-07-10-newsletter-source.sql` (`ALTER TABLE ... ADD COLUMN IF NOT EXISTS source TEXT` — additive, nullable, safe live). The owner-notification email now includes the source (the "forward" path). I could not verify whether the column already exists: the Supabase MCP connection is unauthorized in this session; the fallback makes that unknown harmless. Migration listed in the REPORT.md merge checklist.

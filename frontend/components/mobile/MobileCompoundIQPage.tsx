@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { MobileButton } from './MobileButton';
 import { MobileNextCase } from './MobileNextCase';
+import { MobileSubscribe } from './MobileSubscribe';
 import { MobileScenePlate } from './MobileScenePlate';
 import { MobileShell } from './MobileShell';
 import type { Page } from '../types';
@@ -237,6 +238,12 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
         title="AutoPilot"
         hook="Governance works in trading. See it hold a real-estate delivery line together — from order email to the final gate."
         onNavigate={onNavigate}
+      />
+
+      <MobileSubscribe
+        heading="Follow the CompoundIQ build"
+        body="Working in paper, expanding in public — the Codex letter tracks how specialist teams like this one get designed, gated, and shipped. Every Tuesday."
+        source="compoundiq"
       />
     </MobileShell>
   );
