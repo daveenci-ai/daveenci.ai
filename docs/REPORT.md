@@ -34,7 +34,7 @@ The first Phase 1 commit was **failed** by the skeptic critic (7 defects: UTM st
 
 ### CompoundIQ gate simulator (commit `13772a8`)
 
-`GateSimulator.tsx` (274 lines) + `MobileGateSimulator.tsx` (246 lines), placed right after the "operating system" section that specifies the policy gate. Design chosen by tournament (Console Ledger, 17/20, with judge-directed borrowings — DECISIONS G-1): toggle Approved?/Enabled?/Unexpired?, send a signal, watch it stop at the first blocking gate or land a paper fill; every run appends an audit line. Real `role="switch"` toggles, `aria-live` outcome, `prefers-reduced-motion` honored, never color-alone. Fires `demo_start`/`demo_complete` (`compoundiq_gate_sim`) once per visit. Every phrase traces to existing page copy; the plate carries the page's own "illustrative only" honesty line.
+`GateSimulator.tsx` (274 lines) + `MobileGateSimulator.tsx` (253 lines), placed right after the "operating system" section that specifies the policy gate. Design chosen by tournament (Console Ledger, 17/20, with judge-directed borrowings — DECISIONS G-1): toggle Approved?/Enabled?/Unexpired?, send a signal, watch it stop at the first blocking gate or land a paper fill; every run appends an audit line. Real `role="switch"` toggles, `aria-live` outcome, `prefers-reduced-motion` honored, never color-alone. Fires `demo_start`/`demo_complete` (`compoundiq_gate_sim`) once per visit. Every phrase traces to existing page copy; the plate carries the page's own "illustrative only" honesty line.
 
 ## 2. Expected effect per funnel step, and how to measure it
 

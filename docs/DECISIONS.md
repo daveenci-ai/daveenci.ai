@@ -156,7 +156,7 @@ Three design proposals (mechanical Signal Bench / Console Ledger / manuscript Ga
 - **Judge's accessibility musts implemented**: toggles are real `role="switch"` buttons with `aria-checked` + focus rings; the outcome banner is an `aria-live="polite"` region; `prefers-reduced-motion` skips the travel animation and renders the outcome immediately; pass/block is never color-alone (icon + text token + plain-English line); ledger capped (5 desktop / 4 mobile lines) with fixed short tokens; amber-800 for text on parchment.
 - **Judge's trap avoided**: no full dark terminal — the audit ledger is an ink-bordered inset on the parchment surface and the plain-English banner leads; the log corroborates.
 - **demo events**: `demo_start` on first interaction (toggle OR send), `demo_complete` on first resolved outcome; both ref-guarded once per visit, `demo_id: 'compoundiq_gate_sim'` (typed in `AnalyticsEventMap` since Phase 1).
-- **Line budget kept**: `GateSimulator.tsx` 274 lines, `MobileGateSimulator.tsx` 246 lines — under ~300 per tree.
+- **Line budget kept**: `GateSimulator.tsx` 274 lines, `MobileGateSimulator.tsx` 246 lines (253 after the Phase 5 toggle-token parity fix) — under ~300 per tree.
 - **Two implementations, not one shared**: the trees' layouts genuinely differ (two-column vs stacked); sharing would mean a props/branching layer that costs more than the ~120 duplicated logic lines. Precedent exists in both directions; the teaser stays self-contained.
 - **AutoPilot cheap interaction**: proposed in REPORT.md as next-run work (GOAL: propose, don't build).
 
