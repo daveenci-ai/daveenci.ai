@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import Header from './Header';
 import Footer from './Footer';
+import { NextCase } from './NextCase';
 import {
   Button,
   PageHero,
@@ -278,13 +279,14 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
             <Workflow className="w-8 h-8 text-accent mx-auto mb-6" strokeWidth={1.3} />
             <h2 className="font-serif text-4xl md:text-5xl text-ink mb-6">Where is your workflow still held together by attention?</h2>
             <p className="font-sans text-lg text-ink-muted leading-relaxed mb-8">Bring us the handoffs, spot checks, and exception queues your team carries in its head. We will map where specialists, safe actions, and human gates belong.</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="primary" onClick={() => onNavigate('calendar')} className="text-[16px] px-8 py-4">Talk to us</Button>
-              <Button variant="secondary" onClick={() => onNavigate('work')} className="text-[16px] px-8 py-4">See all work</Button>
+            <div className="flex justify-center">
+              <Button variant="primary" onClick={() => onNavigate('calendar')} className="text-[16px] px-8 py-4">Name the handoff that breaks</Button>
             </div>
           </ScrollReveal>
         </div>
       </Section>
+
+      <NextCase from="autopilot" to="purecode" title="PureCode" hook="Gates caught the bad order. Watch them catch bad code — a feature request in, a shipped pull request out." onNavigate={onNavigate} />
 
       <Footer onNavigate={onNavigate} />
     </div>

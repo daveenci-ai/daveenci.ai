@@ -14,6 +14,7 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 import { MobileButton } from './MobileButton';
+import { MobileNextCase } from './MobileNextCase';
 import { MobileScenePlate } from './MobileScenePlate';
 import { MobileShell } from './MobileShell';
 import type { Page } from '../types';
@@ -226,9 +227,17 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
       <section className="px-6 py-12 text-center">
         <ShieldCheck className="w-7 h-7 text-accent mx-auto mb-5" strokeWidth={1.4} />
         <h2 className="font-serif text-[2.1rem] leading-[1.08] text-ink mb-5">Where does your system need judgment without giving up control?</h2>
-        <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-7">We design specialist teams that investigate, decide, act within explicit limits, and show their work.</p>
-        <MobileButton onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
+        <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-7">Bring the decision you don't dare fully automate. We'll design the gate around it, together.</p>
+        <MobileButton onClick={() => onNavigate('calendar')}>Map where autonomy stops</MobileButton>
       </section>
+
+      <MobileNextCase
+        from="compoundiq"
+        to="autopilot"
+        title="AutoPilot"
+        hook="Governance works in trading. See it hold a real-estate delivery line together — from order email to the final gate."
+        onNavigate={onNavigate}
+      />
     </MobileShell>
   );
 };

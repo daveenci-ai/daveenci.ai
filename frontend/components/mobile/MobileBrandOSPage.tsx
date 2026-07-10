@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Loader2, Sparkles, Rocket, TrendingUp, Building2, Search, ChevronDown, Plus, Minus, Target, Users } from 'lucide-react';
 import { MobileShell } from './MobileShell';
 import { MobileButton } from './MobileButton';
+import { MobileNextCase } from './MobileNextCase';
 import { Widget } from '../Shared';
 import { BrandOSHeroDiagram, DimensionShowcase, StageWeightShifter } from '../BrandOSPage';
 import { BookingWidget } from '../BookingWidget';
@@ -509,6 +510,14 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
         hostName="Astrid Abrahamyan"
         hostRole="Partner"
         hostImage={AstridSketch}
+      />
+
+      <MobileNextCase
+        from="brandos"
+        to="compoundiq"
+        title="CompoundIQ"
+        hook="From naming to capital — a governed research team that proposes freely, yet can't act until every gate agrees."
+        onNavigate={onNavigate}
       />
     </MobileShell>
   );

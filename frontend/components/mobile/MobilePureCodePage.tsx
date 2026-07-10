@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Users, Building2, Briefcase, GitPullRequest, Plus, Minus } from 'lucide-react';
 import { MobileShell } from './MobileShell';
 import { MobileButton } from './MobileButton';
+import { MobileNextCase } from './MobileNextCase';
 import { Widget } from '../Shared';
 import {
   PureCodeHeroDiagram,
@@ -91,7 +92,7 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
           PureCode is 13 specialist agents coordinated by a controller, gated by humans at three critical points. A feature request walks in. A shipped pull request walks out.
         </p>
         <div className="flex flex-col gap-3 mb-8">
-          <MobileButton onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
+          <MobileButton onClick={() => onNavigate('calendar')}>Bring us a real ticket</MobileButton>
           <MobileButton variant="secondary" onClick={() => onNavigate('work')}>See all work</MobileButton>
         </div>
 
@@ -228,6 +229,14 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
         hostName="Anton Osipov"
         hostRole="Founder"
         hostImage={AntonSketch}
+      />
+
+      <MobileNextCase
+        from="purecode"
+        to="brandos"
+        title="BrandOS"
+        hook="Before you name the thing you shipped — a specialist that scores a brand name across ten weighted dimensions."
+        onNavigate={onNavigate}
       />
     </MobileShell>
   );

@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import Header from './Header';
 import Footer from './Footer';
+import { NextCase } from './NextCase';
 import {
   Button,
   PageHero,
@@ -324,14 +325,15 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
           <ScrollReveal>
             <ShieldCheck className="w-8 h-8 text-accent mx-auto mb-6" strokeWidth={1.3} />
             <h2 className="font-serif text-4xl md:text-5xl text-ink mb-6">Where does your system need judgment without giving up control?</h2>
-            <p className="font-sans text-lg text-ink-muted leading-relaxed mb-8">We design specialist teams that can investigate, decide, act within explicit limits, and show their work.</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="primary" onClick={() => onNavigate('calendar')} className="text-[16px] px-8 py-4">Talk to us</Button>
-              <Button variant="secondary" onClick={() => onNavigate('work')} className="text-[16px] px-8 py-4">See all work</Button>
+            <p className="font-sans text-lg text-ink-muted leading-relaxed mb-8">Bring the decision you don't dare fully automate. We'll design the gate around it, together.</p>
+            <div className="flex justify-center">
+              <Button variant="primary" onClick={() => onNavigate('calendar')} className="text-[16px] px-8 py-4">Map where autonomy stops</Button>
             </div>
           </ScrollReveal>
         </div>
       </Section>
+
+      <NextCase from="compoundiq" to="autopilot" title="AutoPilot" hook="Governance works in trading. See it hold a real-estate delivery line together — from order email to the final gate." onNavigate={onNavigate} />
 
       <Footer onNavigate={onNavigate} />
     </div>

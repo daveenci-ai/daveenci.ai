@@ -6,6 +6,7 @@ import { BookingWidget } from './BookingWidget';
 import AstridSketch from '../images/Astrid_Sketch.webp';
 import Header from './Header';
 import Footer from './Footer';
+import { NextCase } from './NextCase';
 import type { Page } from './types';
 import { API_ENDPOINTS } from '../config';
 import { useIsMobile } from './mobile/useIsMobile';
@@ -996,6 +997,8 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
         hostRole="Partner"
         hostImage={AstridSketch}
       />
+
+      <NextCase from="brandos" to="compoundiq" title="CompoundIQ" hook="From naming to capital — a governed research team that proposes freely, yet can't act until every gate agrees." onNavigate={onNavigate} />
 
       <Footer onNavigate={onNavigate} />
     </div>

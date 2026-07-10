@@ -114,7 +114,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               description="DaVeenci builds specialist AI teams that ship finished work — code, media, research — each one orchestrated, human-gated, and accountable to its output."
               actions={
                 <>
-                  <Button variant="primary" onClick={() => onNavigate?.('calendar')} className="text-base px-8 py-4">Talk to us</Button>
+                  <Button variant="primary" onClick={() => onNavigate?.('calendar')} className="text-base px-8 py-4">Walk us through your workflow</Button>
                   <Button variant="secondary" onClick={() => onNavigate?.('work')} className="text-base px-8 py-4">See the work</Button>
                 </>
               }

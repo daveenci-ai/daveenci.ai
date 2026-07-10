@@ -26,10 +26,10 @@ const MobileLanding: React.FC<MobileLandingProps> = ({ onNavigate }) => (
     <MobileHero onNavigate={onNavigate} />
     <MobileContrast />
     <MobileMethod />
+    <MobileWorkPreview onNavigate={onNavigate} />
     <MobileFounderBlock />
     <MobileAdvantage />
     <MobileControls />
-    <MobileWorkPreview onNavigate={onNavigate} />
     <MobilePartnerBlock />
     <MobileBooking onNavigate={onNavigate} />
 

@@ -34,10 +34,10 @@ const DaVeenciLandingPage: React.FC<DaVeenciLandingPageProps> = ({ onNavigate, a
       <Hero onNavigate={onNavigate} />
       <Contrast />
       <Method />
+      <WorkPreview onNavigate={onNavigate} />
       <FounderBlock onNavigate={onNavigate} />
       <Advantage />
       <Controls />
-      <WorkPreview onNavigate={onNavigate} />
       <PartnerBlock />
       <BookingPreview onNavigate={onNavigate} />
       <Newsletter onNavigate={onNavigate} />

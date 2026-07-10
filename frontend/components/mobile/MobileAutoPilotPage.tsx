@@ -11,6 +11,7 @@ import {
   UserCheck,
 } from 'lucide-react';
 import { MobileButton } from './MobileButton';
+import { MobileNextCase } from './MobileNextCase';
 import { MobileScenePlate } from './MobileScenePlate';
 import { MobileShell } from './MobileShell';
 import type { Page } from '../types';
@@ -182,8 +183,16 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
         <Clock3 className="w-7 h-7 text-accent mx-auto mb-5" strokeWidth={1.4} />
         <h2 className="font-serif text-[2.1rem] leading-[1.08] text-ink mb-5">Where is your workflow still held together by attention?</h2>
         <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-7">Bring us the handoffs, spot checks, and exception queues your team carries in its head.</p>
-        <MobileButton onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
+        <MobileButton onClick={() => onNavigate('calendar')}>Name the handoff that breaks</MobileButton>
       </section>
+
+      <MobileNextCase
+        from="autopilot"
+        to="purecode"
+        title="PureCode"
+        hook="Gates caught the bad order. Watch them catch bad code — a feature request in, a shipped pull request out."
+        onNavigate={onNavigate}
+      />
     </MobileShell>
   );
 };

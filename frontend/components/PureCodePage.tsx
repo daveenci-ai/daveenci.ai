@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown, GitPullRequest, FileCode2, ShieldCheck, Rocket, Layers, Code2, Users, Building2, Briefcase, Compass, Scale, Blocks, Database, Palette, FlaskConical, BookOpen, ShieldAlert, FileCheck, Check } from 'lucide-react';
 import Header from './Header';
 import Footer from './Footer';
+import { NextCase } from './NextCase';
 import { Section, SectionHeader, ScrollReveal, PageHero, Button, VitruvianBackground, ProductFrame } from './Shared';
 import { BookingWidget } from './BookingWidget';
 import AntonSketch from '../images/Anton_Sketch.webp';
@@ -874,7 +875,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
                 size="md"
                 actions={
                   <>
-                    <Button variant="primary" onClick={() => onNavigate('calendar')} className="text-base px-8 py-4">Talk to us</Button>
+                    <Button variant="primary" onClick={() => onNavigate('calendar')} className="text-base px-8 py-4">Bring us a real ticket</Button>
                     <Button variant="secondary" onClick={() => onNavigate('work')} className="text-base px-8 py-4">See all work</Button>
                   </>
                 }
@@ -1033,17 +1034,16 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
             <p className="font-sans text-lg text-ink-muted leading-relaxed mb-8">
               PureCode is one example of what a DaVeenci team looks like. We design and build specialist teams for the workflows that matter most to your business — code is just one of them.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex justify-center">
               <Button variant="primary" onClick={() => onNavigate('calendar')} className="text-base px-8 py-4">
-                Talk to us
-              </Button>
-              <Button variant="secondary" onClick={() => onNavigate('work')} className="text-base px-8 py-4">
-                See all work
+                Bring us a real ticket
               </Button>
             </div>
           </ScrollReveal>
         </div>
       </Section>
+
+      <NextCase from="purecode" to="brandos" title="BrandOS" hook="Before you name the thing you shipped — a specialist that scores a brand name across ten weighted dimensions." onNavigate={onNavigate} />
 
       <Footer onNavigate={onNavigate} />
     </div>
