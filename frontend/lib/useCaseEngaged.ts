@@ -44,11 +44,24 @@ export const useCaseEngaged = (caseId: CaseId): void => {
     document.body.appendChild(sentinel);
     cleanups.push(() => sentinel.remove());
 
+    // scroll_depth requires BOTH the 50% sentinel being in view AND a real
+    // scroll (scrollY > 8). Without the scroll requirement, a page whose
+    // lazy content hasn't loaded yet has scrollHeight ≈ viewport height, the
+    // sentinel starts inside the viewport, and the observer's initial
+    // callback would fire a false engagement on load.
+    let sentinelInView = false;
+    const evaluateScrollDepth = () => {
+      if (sentinelInView && window.scrollY > 8) fire('scroll_depth');
+    };
     const io = new IntersectionObserver((entries) => {
-      if (entries.some((e) => e.isIntersecting)) fire('scroll_depth');
+      sentinelInView = entries[entries.length - 1].isIntersecting;
+      evaluateScrollDepth();
     });
     io.observe(sentinel);
     cleanups.push(() => io.disconnect());
+
+    window.addEventListener('scroll', evaluateScrollDepth, { passive: true });
+    cleanups.push(() => window.removeEventListener('scroll', evaluateScrollDepth));
 
     const ro = new ResizeObserver(reposition);
     ro.observe(document.body);

@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useCallback, Suspense, lazy } from 'react';
+import React, { useState, useEffect, useCallback, useRef, Suspense, lazy } from 'react';
 import type { Page } from './components/types';
 import { MobileErrorBoundary } from './components/mobile/MobileErrorBoundary';
 import { initAnalytics, trackPageView } from './lib/analytics';
@@ -33,6 +33,9 @@ const App: React.FC = () => {
   const [selectedBriefingId, setSelectedBriefingId] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [targetSection, setTargetSection] = useState<string | null>(null);
+  // Guards the initial pageview against React StrictMode's double effect
+  // invocation in dev (the ref survives the setup/cleanup/setup cycle).
+  const initialPageviewFired = useRef(false);
 
   // Handle Initial Load and Back/Forward buttons
   useEffect(() => {
@@ -99,7 +102,10 @@ const App: React.FC = () => {
     // the legacy-path replaceState redirects above resolve to the canonical
     // URL first (manual pageviews only — see lib/analytics.ts).
     handleLocationChange();
-    trackPageView(window.location.pathname);
+    if (!initialPageviewFired.current) {
+      initialPageviewFired.current = true;
+      trackPageView();
+    }
 
     // Listen for popstate events
     window.onpopstate = (e) => {
@@ -111,7 +117,11 @@ const App: React.FC = () => {
         // Fallback if state is missing (e.g. external navigation to subpage then back)
         handleLocationChange();
       }
-      trackPageView(window.location.pathname);
+      trackPageView();
+    };
+
+    return () => {
+      window.onpopstate = null;
     };
   }, []);
 
@@ -186,8 +196,16 @@ const App: React.FC = () => {
     if (targetPage === 'compoundiq') path = '/compoundiq';
     if (targetPage === 'events') path = '/events';
     if (targetPage === 'thesis') path = '/thesis';
-    window.history.pushState({ page: targetPage, briefingId: id }, '', path);
-    trackPageView(path);
+    // Skip the history push + pageview when the path isn't changing (e.g.
+    // footer link to the current page, or landing-section anchors while on
+    // landing) — otherwise every such click inflates page_view counts and
+    // stacks redundant history entries.
+    const currentPath =
+      window.location.pathname === '/' ? '/' : window.location.pathname.replace(/\/$/, '');
+    if (path !== currentPath) {
+      window.history.pushState({ page: targetPage, briefingId: id }, '', path);
+      trackPageView();
+    }
 
     // Immediate Scroll Logic (if not waiting for landing page mount)
     if (targetPage !== 'landing') {

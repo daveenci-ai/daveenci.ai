@@ -23,7 +23,7 @@ Every GOAL.md bullet was checked against the working tree. Confirmed:
 **Drifts from GOAL.md ground truth (plan updated accordingly):**
 
 1. **Mobile has no newsletter form anywhere.** `MobileShell.tsx` renders no footer; the only mobile "newsletter" matches are copy mentions (`MobileWorkPage.tsx:41`, `MobilePulseNotePage.tsx:100`). Phase 3 must therefore *add* a mobile capture component, not just thread `source` through an existing one.
-2. **Mobile PureCode has no demo.** `MobilePureCodePage.tsx` has a single `useState` (FAQ accordion). The PureCode interactive demos (ticket simulator etc.) are desktop-only. Phase 1 demo instrumentation on mobile applies to BrandOS only (full analyzer exists at `MobileBrandOSPage.tsx:71-108`); the Phase 4 gate simulator restores demo parity for CompoundIQ.
+2. **Mobile PureCode reuses the desktop simulator.** ~~Original claim: mobile PureCode has no demo.~~ Corrected by the Phase 1 completeness critic: `MobilePureCodePage.tsx:11` imports `TryItSimulator` from `../PureCodePage` and renders it at `:158`, so the ticket-simulator demo exists on mobile via the shared component. Instrumenting `TryItSimulator` at the component level (Phase 1) therefore covers both trees with one call site. Mobile BrandOS has its own full analyzer (`MobileBrandOSPage.tsx:71-108`), instrumented separately.
 3. **Mobile case pages don't share the desktop dead-end.** `MobileCompoundIQPage.tsx` / `MobileAutoPilotPage.tsx` end in a "Talk to us" section with no "See all work" — still a dead-end (no next case), so Phase 2(b) applies to both trees, but the mobile edit is an *addition*, not a replacement.
 
 Also noted: `BrandOSPage.tsx:972-982` embeds a `BookingWidget` (inline calendar, `bookingType="demo-brandos"`) — an extra `calendar_start`/`generate_lead` surface beyond `/calendar`.
@@ -64,11 +64,25 @@ Each case page's default export is a wrapper that branches on `useIsMobile` and 
 
 ### A-5: Existing demos instrumented before anything new is built
 
-Per GOAL Phase 1: BrandOS analyzer (desktop + mobile — the only mobile demo that exists, see GT-1 drift 2) and the PureCode user-driven ticket simulator (desktop only; the auto-playing hero loops are deliberately NOT instrumented — they measure nothing about visitor intent).
+Per GOAL Phase 1: BrandOS analyzer (desktop + mobile) and the PureCode user-driven ticket simulator (`TryItSimulator` — a shared component, so instrumenting it once covers desktop AND mobile; see corrected GT-1 drift 2). The auto-playing hero loops are deliberately NOT instrumented — they measure nothing about visitor intent.
 
 ### A-6: `select_content` on both card surfaces
 
 GOAL names "case card click"; cards exist on the homepage WorkPreview and on /work. Both fire `select_content` with a `surface` param (`work_preview` / `work_page`) so the two entry points are separable in reports.
+
+### A-7: Phase 1 skeptic found 7 defects; all fixed before the phase closed
+
+The skeptic critic FAILED the first Phase 1 commit (`8162cae`). Confirmed defects and fixes (fix commit follows it):
+
+1. **UTM stripping** — `trackPageView` rebuilt `page_location` from origin+pathname, discarding query/hash → campaign attribution loss. Fixed: `page_location` is now full `window.location.href`; `trackPageView` takes no argument and reads location at fire time (`lib/analytics.ts`).
+2. **Same-page nav inflated pageviews** — `handleNavigate` pushed history + fired `page_view` even when the path didn't change (footer link to current page). Fixed: push+pageview skipped when normalized path is unchanged (`App.tsx`). This also stops redundant history entries — a deliberate routing behavior change, judged an improvement (Back no longer walks through duplicate entries).
+3. **Landing anchor clicks inflated `/` pageviews** — same root cause as (2); covered by the same guard (hash never changes the path).
+4. **StrictMode double initial pageview in dev** — mount effect has no cleanup and runs twice under StrictMode. Fixed: ref guard on the initial pageview + `onpopstate` cleanup returned from the effect.
+5. **`case_engaged` false positive on load** — the 50% sentinel could sit inside the viewport before lazy content loads, firing `scroll_depth` with zero scrolling. Fixed: trigger now requires sentinel-in-view AND `scrollY > 8`, re-evaluated on scroll (`lib/useCaseEngaged.ts`).
+6. **PulseNote had no `case_engaged`** — `pulsenote` is a `CaseId` reachable from /work cards but its page wasn't hooked. Fixed: `useCaseEngaged('pulsenote')` in the `PulseNotePage` wrapper (`PulseNotePage.tsx:1595`).
+7. **`page_path` inconsistency** — mount/popstate sent raw pathname (possible trailing slash), navigate sent canonical path → one page could split into two GA rows. Fixed: normalization moved inside `trackPageView`, all call sites identical.
+
+`docs/ANALYTICS_SETUP.md` updated to match (StrictMode note, UTM QA step, same-path no-fire QA step).
 
 ---
 
@@ -80,4 +94,25 @@ GOAL names "case card click"; cards exist on the homepage WorkPreview and on /wo
 
 ### S-2: CTA copy + next-case hooks decided by tournament
 
-Three independent proposer agents (operator voice / diagnostic voice / manuscript voice) each produced a full slate; a judge agent scores voice fit, clarity, funnel advancement per GOAL's orchestration mandate. Winning slate recorded below once judged.
+Three independent proposer agents (A operator voice / B diagnostic voice / C manuscript voice) each produced a full slate; a judge agent scored voice fit, clarity, and funnel advancement (1-5 each) and picked per-slot winners, fact-checking every hook against the case pages. Winning slate (all fact-clean per the judge):
+
+| Slot | Winner | Copy |
+|---|---|---|
+| Homepage hero primary | A | "Walk us through your workflow" |
+| CompoundIQ closing CTA | A | "Map where autonomy stops" + sub "Bring the decision you don't dare fully automate. We'll design the gate around it, together." |
+| AutoPilot closing CTA | B | "Name the handoff that breaks" (existing paragraph kept — it already carries B's diagnostic line almost verbatim) |
+| PureCode CTA (hero + closing) | A | "Bring us a real ticket" |
+| Hook CompoundIQ→AutoPilot | B | "Governance works in trading. See it hold a real-estate delivery line together — from order email to the final gate." |
+| Hook AutoPilot→PureCode | B | "Gates caught the bad order. Watch them catch bad code — a feature request in, a shipped pull request out." |
+| Hook PureCode→BrandOS | C | "Before you name the thing you shipped — a specialist that scores a brand name across ten weighted dimensions." |
+| Hook BrandOS→CompoundIQ | C | "From naming to capital — a governed research team that proposes freely, yet can't act until every gate agrees." |
+
+Notable judge fact-flags on losing lines (why they lost): "from order email to delivery" overclaims (Delivery reschedule is Shadow-gated, not live); "in seconds" is a speed claim no page makes; "handle money" contradicts paper-first. Guardrail 4 upheld.
+
+### S-3: Placement judgment calls
+
+- **Homepage sub-line dropped.** The hero's existing description already covers the winning sub-line's content; stacking both would clutter the folio. Label-only swap in `Hero.tsx`.
+- **Mobile homepage CTA**: `MobileShell`'s fixed bottom bar keeps "Talk to us" (it's persistent chrome ≈ header/footer, which GOAL says must retain it). The contextual primary lives in `MobileHero`'s thumb zone as a full-width button above "See the work".
+- **PureCode hero keeps its secondary "See all work"** — the dead-end GOAL targets is the page *ending*; an early-page route to /work is navigation, not a dead-end. The closing section's duplicate secondary is removed and replaced by the NextCase strip.
+- **BrandOS CTAs untouched** — GOAL's contextual-CTA list names homepage/CompoundIQ/AutoPilot/PureCode; BrandOS already ends in a contextual `BookingWidget` ("Book a BrandOS intro"). It gets the NextCase strip (loop back to CompoundIQ) only.
+- **NextCase / MobileNextCase extracted as components** (4 uses per tree — meets the style guide's 3+ rule, `docs/STYLE_GUIDE.md:97-99`); the component owns the `next_case_click` event so no call site can forget it.

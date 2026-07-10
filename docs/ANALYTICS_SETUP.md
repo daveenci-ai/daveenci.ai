@@ -6,10 +6,11 @@ How to connect daveenci.ai's analytics layer to a GA4 property, verify it, and a
 
 - **One typed module:** `frontend/lib/analytics.ts`. Everything flows through `track()` (typed against `AnalyticsEventMap`) and `trackPageView()`. gtag.js is injected at runtime by `initAnalytics()` only when the measurement ID env var is present; without it the module logs to the dev console and sends nothing.
 - **Manual pageviews only.** The site uses a custom `pushState` router (`frontend/App.tsx`), not react-router. `initAnalytics()` configures GA4 with `send_page_view: false`, and `page_view` is fired manually from the router choke points:
-  - initial load — `App.tsx` (after `handleLocationChange()`, so legacy-URL `replaceState` redirects resolve first)
-  - in-app navigation — `handleNavigate` right after `pushState`
+  - initial load — `App.tsx` (after `handleLocationChange()`, so legacy-URL `replaceState` redirects resolve first; ref-guarded against React StrictMode's double effect invocation in dev)
+  - in-app navigation — `handleNavigate` right after `pushState`, **skipped when the path isn't changing** (footer link to the current page, landing-section anchors) so repeat clicks can't inflate counts
   - back/forward — the `popstate` handler
-- **Engagement hook:** `frontend/lib/useCaseEngaged.ts` fires `case_engaged` once per case-page visit at 30 visible-tab seconds OR 50% scroll depth (visibility-aware interval + IntersectionObserver sentinel).
+- **Attribution-safe pageviews.** `page_view` sends `page_location` as the full `window.location.href` (query string included — UTM/gclid survive) and `page_path` as the canonical trailing-slash-free pathname so one page never splits into two report rows.
+- **Engagement hook:** `frontend/lib/useCaseEngaged.ts` fires `case_engaged` once per case-page visit at 30 visible-tab seconds OR 50% scroll depth (visibility-aware interval + IntersectionObserver sentinel). The scroll trigger additionally requires an actual scroll (`scrollY > 8`), so a page whose lazy content hasn't loaded yet can't false-fire on mount.
 
 ## 2. GA4 property setup
 
@@ -51,7 +52,9 @@ Unset ⇒ analytics is a no-op (dev builds log `[analytics]` lines to the consol
 
 Enable debug: run locally with `VITE_GA_MEASUREMENT_ID` set, and append `?gtm_debug=x` to the URL or install the GA Debugger extension (or temporarily add `debug_mode: true` to the `config` call in `lib/analytics.ts`). Open GA4 **Admin → DebugView**, then:
 
-- [ ] Load `/` → exactly one `page_view` (`page_path: /`).
+- [ ] Load `/` → exactly one `page_view` (`page_path: /`). This holds in dev too — the initial pageview is guarded against StrictMode's double effect run.
+- [ ] Load `/?utm_source=test` → the `page_view`'s `page_location` still contains `utm_source=test`.
+- [ ] While on `/`, click a header link that scrolls to a landing section → NO new `page_view`. Click a footer link to the page you're already on → NO new `page_view`.
 - [ ] Click a case card in "Selected work" → one `select_content` (check `content_id`, `surface: work_preview`) followed by one `page_view` for the case page.
 - [ ] Stay on the case page 30s with the tab focused → one `case_engaged` (`trigger: active_time`). Reload, immediately scroll past halfway instead → one `case_engaged` (`trigger: scroll_depth`). Confirm it never fires twice on one visit.
 - [ ] On /brandos run the analyzer → `demo_start` on submit, `demo_complete` when results render. Run it again → no duplicate events (once per visit).
@@ -68,4 +71,4 @@ The known duplicate risk is GA4 Enhanced Measurement history tracking (step 2.3)
 1. In DebugView, navigate Home → /work → a case page → browser Back.
 2. Count `page_view` events: must be exactly 4 (one per transition, including Back).
 3. Visit a legacy URL directly (`/brand-analyzer`): must produce exactly one `page_view`, with `page_path: /brandos` (the redirect resolves before the pageview fires).
-4. If you see pairs of near-simultaneous `page_view`s, EM history tracking is still ON — turn it off; do not "fix" this in code.
+4. If you see pairs of near-simultaneous `page_view`s on navigation, EM history tracking is still ON — turn it off; do not "fix" this in code. (The initial-load pageview is already StrictMode-guarded, so a pair on *navigation* can only come from EM.)

@@ -61,10 +61,18 @@ const send = (eventName: string, params: Record<string, unknown>): void => {
   }
 };
 
-/** Manual pageview — call only from the router choke point in App.tsx. */
-export const trackPageView = (path: string): void => {
+/**
+ * Manual pageview — call only from the router choke points in App.tsx, after
+ * the URL has been updated. page_location keeps the full href (query string
+ * included) so GA4 campaign/UTM attribution survives; page_path is the
+ * canonical trailing-slash-free pathname so one page never splits into two
+ * rows.
+ */
+export const trackPageView = (): void => {
+  const { pathname } = window.location;
+  const path = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
   send('page_view', {
-    page_location: window.location.origin + path,
+    page_location: window.location.href,
     page_path: path,
     page_title: document.title,
   });

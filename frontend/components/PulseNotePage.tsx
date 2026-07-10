@@ -16,6 +16,7 @@ import CrmVisual from '../images/003 - Zero-Touch CRM.jpg';
 import RagVisual from '../images/004 - RAG vs. Long Context.jpg';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobilePulseNotePage } from './mobile/MobilePulseNotePage';
+import { useCaseEngaged } from '../lib/useCaseEngaged';
 
 interface PulseNotePageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -1592,6 +1593,7 @@ const FinalCTA: React.FC = () => {
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
 const PulseNotePage: React.FC<PulseNotePageProps> = (props) => {
+  useCaseEngaged('pulsenote');
   const isMobile = useIsMobile();
   if (isMobile) return <MobilePulseNotePage {...props} />;
   return <PulseNotePageDesktop {...props} />;
