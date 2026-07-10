@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { MobileShell } from './MobileShell';
 import { MobileScenePlate } from './MobileScenePlate';
+import { track, type CaseId } from '../../lib/analytics';
 import type { Page } from '../types';
 
 interface WorkItem {
-  page: Page;
+  page: CaseId;
   label: string;
   title: string;
   subtitle: string;
@@ -87,7 +88,10 @@ export const MobileWorkPage: React.FC<MobileWorkPageProps> = ({ onNavigate }) =>
         {WORK_ITEMS.map((item) => (
           <button
             key={item.title}
-            onClick={() => onNavigate(item.page)}
+            onClick={() => {
+              track('select_content', { content_type: 'case_study', content_id: item.page, surface: 'work_page' });
+              onNavigate(item.page);
+            }}
             className="block w-full text-left"
           >
             <MobileScenePlate figLabel={item.label}>

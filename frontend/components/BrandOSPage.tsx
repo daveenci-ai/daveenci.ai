@@ -10,6 +10,8 @@ import type { Page } from './types';
 import { API_ENDPOINTS } from '../config';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileBrandOSPage } from './mobile/MobileBrandOSPage';
+import { track } from '../lib/analytics';
+import { useCaseEngaged } from '../lib/useCaseEngaged';
 import { Search as SearchIcon, ChevronDown as ChevronDownIcon, Target, Users, Rocket as RocketIcon, Building2 as BuildingIcon } from 'lucide-react';
 
 // --- Types ---
@@ -717,6 +719,7 @@ interface BrandOSPageProps {
 }
 
 const BrandOSPage: React.FC<BrandOSPageProps> = (props) => {
+  useCaseEngaged('brandos');
   const isMobile = useIsMobile();
   if (isMobile) return <MobileBrandOSPage {...props} />;
   return <BrandOSPageDesktop {...props} />;
@@ -729,6 +732,9 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const demoStartFired = useRef(false);
+  const demoCompleteFired = useRef(false);
 
   const canSubmit = names.trim().length > 0 && context.trim().length > 0 && !loading;
 
@@ -743,6 +749,11 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
     if (nameList.length > 5) {
       setError('Maximum 5 brand names allowed.');
       return;
+    }
+
+    if (!demoStartFired.current) {
+      demoStartFired.current = true;
+      track('demo_start', { demo_id: 'brandos_analyzer' });
     }
 
     setLoading(true);
@@ -767,6 +778,11 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
         weightedScores: data.weightedScores,
         verdict: data.verdict,
       });
+
+      if (!demoCompleteFired.current) {
+        demoCompleteFired.current = true;
+        track('demo_complete', { demo_id: 'brandos_analyzer' });
+      }
 
       // Scroll to results
       setTimeout(() => {

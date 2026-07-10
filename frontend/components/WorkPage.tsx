@@ -4,6 +4,7 @@ import Footer from './Footer';
 import { Section, ScrollReveal, GridPattern, PageHero, Button, Surface } from './Shared';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileWorkPage } from './mobile/MobileWorkPage';
+import { track } from '../lib/analytics';
 import type { Page } from './types';
 
 interface WorkPageProps {
@@ -12,35 +13,35 @@ interface WorkPageProps {
 
 const workItems = [
   {
-    page: 'purecode' as Page,
+    page: 'purecode' as const,
     label: 'Code',
     title: 'PureCode',
     subtitle: 'The code team.',
     blurb: 'A feature request walks in. A shipped pull request walks out. 13 specialist agents, 3 human gates, orchestrated end-to-end.',
   },
   {
-    page: 'autopilot' as Page,
+    page: 'autopilot' as const,
     label: 'Real estate operations',
     title: 'AutoPilot',
     subtitle: 'The production operations team.',
     blurb: 'Order email in. Scheduled job, continuous QC, safe remediation, and verified delivery out — three coordinated services operating across the full production loop.',
   },
   {
-    page: 'compoundiq' as Page,
+    page: 'compoundiq' as const,
     label: 'Trading research & execution',
     title: 'CompoundIQ',
     subtitle: 'The governed trading team.',
     blurb: 'Hypothesis in. Versioned research, explicit action gates, paper execution, and structured feedback out — an in-progress system designed to earn autonomy safely.',
   },
   {
-    page: 'pulsenote' as Page,
+    page: 'pulsenote' as const,
     label: 'Content',
     title: 'PulseNote',
     subtitle: 'The content team.',
     blurb: 'Meeting transcripts in. Publish-ready newsletters, social posts, and visuals out. One workflow across every platform you publish to.',
   },
   {
-    page: 'brandos' as Page,
+    page: 'brandos' as const,
     label: 'Brand',
     title: 'BrandOS',
     subtitle: 'The brand team.',
@@ -86,7 +87,10 @@ const WorkPageDesktop: React.FC<WorkPageProps> = ({ onNavigate }) => {
             <ScrollReveal key={item.title} delay={100 + i * 150}>
               <Surface
                 kind="document"
-                onClick={() => onNavigate(item.page)}
+                onClick={() => {
+                  track('select_content', { content_type: 'case_study', content_id: item.page, surface: 'work_page' });
+                  onNavigate(item.page);
+                }}
                 className="cursor-pointer h-full p-10 md:p-12 bg-white/60 border border-ink/10 hover:shadow-2xl hover:border-accent/30 transition-all duration-300 group flex flex-col"
               >
                 <span className="block font-mono text-[10px] uppercase tracking-[0.2em] text-accent mb-4">

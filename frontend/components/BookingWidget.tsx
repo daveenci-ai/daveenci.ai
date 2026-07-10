@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, User, Mail, HelpCircle, Clock, Check, Briefcase, Phone } from 'lucide-react';
 import { format } from 'date-fns';
 import { ScrollReveal, Section, Button, Logo, CustomSelect } from './Shared';
 import { API_ENDPOINTS } from '../config';
+import { track } from '../lib/analytics';
 import type { Page } from './types';
 import {
   BUSINESS_TIMEZONE,
@@ -75,6 +76,13 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
     notes: '',
   });
 
+  const calendarStartFired = useRef(false);
+  const trackCalendarStart = () => {
+    if (calendarStartFired.current) return;
+    calendarStartFired.current = true;
+    track('calendar_start', { booking_type: bookingType });
+  };
+
   useEffect(() => {
     if (!selectedDate) { setDisplaySlots([]); return; }
     setDisplaySlots(buildDisplaySlots(selectedDate, USER_TIMEZONE, BUSINESS_HOURS, BUSINESS_TIMEZONE));
@@ -119,6 +127,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
   const blanksArray = Array.from({ length: firstDay }, (_, i) => i);
 
   const handleDateClick = (day: number) => {
+    trackCalendarStart();
     setSelectedDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), day));
     setSelectedTime(null);
     fetchAvailability();
@@ -134,6 +143,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
       });
       const data = await response.json();
       if (response.ok) {
+        track('generate_lead', { booking_type: bookingType });
         setStep('success');
       } else if (response.status === 409 && data.isDuplicate) {
         alert(data.error || 'You already have a demo scheduled at this time.');
@@ -274,7 +284,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
                               {displaySlots.filter(slot => !isTimeDisabled(slot.value)).map(slot => (
                                 <button
                                   key={slot.value}
-                                  onClick={() => setSelectedTime(slot.value)}
+                                  onClick={() => { trackCalendarStart(); setSelectedTime(slot.value); }}
                                   className={`py-3 px-2 text-sm border rounded-lg transition-all text-center ${selectedTime === slot.value
                                     ? 'bg-accent text-white border-accent shadow-md scale-105'
                                     : 'bg-white border-ink/10 text-ink hover:border-accent hover:text-accent hover:shadow-sm'

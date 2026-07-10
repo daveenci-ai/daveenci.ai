@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Loader2, Sparkles, Rocket, TrendingUp, Building2, Search, ChevronDown, Plus, Minus, Target, Users } from 'lucide-react';
 import { MobileShell } from './MobileShell';
 import { MobileButton } from './MobileButton';
@@ -7,6 +7,7 @@ import { BrandOSHeroDiagram, DimensionShowcase, StageWeightShifter } from '../Br
 import { BookingWidget } from '../BookingWidget';
 import AstridSketch from '../../images/Astrid_Sketch.webp';
 import { API_ENDPOINTS } from '../../config';
+import { track } from '../../lib/analytics';
 import type { Page } from '../types';
 
 interface DimensionScore {
@@ -78,6 +79,9 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
 
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
+  const demoStartTracked = useRef(false);
+  const demoCompleteTracked = useRef(false);
+
   useEffect(() => {
     document.title = 'BrandOS — DaVeenci';
     window.scrollTo(0, 0);
@@ -100,6 +104,11 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
       return;
     }
 
+    if (!demoStartTracked.current) {
+      demoStartTracked.current = true;
+      track('demo_start', { demo_id: 'brandos_analyzer' });
+    }
+
     setLoading(true);
     setError(null);
     setResult(null);
@@ -117,6 +126,10 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
         weightedScores: data.weightedScores,
         verdict: data.verdict,
       });
+      if (!demoCompleteTracked.current) {
+        demoCompleteTracked.current = true;
+        track('demo_complete', { demo_id: 'brandos_analyzer' });
+      }
       setTimeout(() => {
         document.getElementById('results')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);

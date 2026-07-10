@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight, Check, User, Briefcase, HelpCircle, ArrowLeft, Mail, Phone } from 'lucide-react';
 import { format } from 'date-fns';
 import { Logo, Button, VitruvianBackground, ScrollReveal, CustomSelect, FormField } from './Shared';
@@ -19,6 +19,7 @@ import {
 } from './calendarAvailability';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileCalendarPage } from './mobile/MobileCalendarPage';
+import { track } from '../lib/analytics';
 
 const Calendar: React.FC<CalendarProps> = (props) => {
    const isMobile = useIsMobile();
@@ -45,6 +46,13 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
    const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
    const [displaySlots, setDisplaySlots] = useState<{ display: string, value: string, localTime: string }[]>([]);
+
+   const calendarStartFired = useRef(false);
+   const trackCalendarStart = () => {
+      if (calendarStartFired.current) return;
+      calendarStartFired.current = true;
+      track('calendar_start', { booking_type: 'meet-astrid' });
+   };
 
    // Apply pre-selection handed off from the landing page booking preview
    useEffect(() => {
@@ -128,6 +136,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
    const blanksArray = Array.from({ length: firstDay }, (_, i) => i);
 
    const handleDateClick = (day: number) => {
+      trackCalendarStart();
       const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
       setSelectedDate(newDate);
       // Reset time when date changes
@@ -205,6 +214,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
          const data = await response.json();
 
          if (response.ok) {
+            track('generate_lead', { booking_type: 'meet-astrid' });
             setStep('success');
          } else if (response.status === 409 && data.isDuplicate) {
             // Already booked - show friendly message and refresh availability
@@ -420,7 +430,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
                                                    {displaySlots.filter(slot => !isTimeDisabled(slot.value)).map(slot => (
                                                          <button
                                                             key={slot.value}
-                                                            onClick={() => setSelectedTime(slot.value)}
+                                                            onClick={() => { trackCalendarStart(); setSelectedTime(slot.value); }}
                                                             className={`py-2.5 px-2 font-serif italic text-sm border rounded-sm transition-all text-center ${selectedTime === slot.value
                                                                ? 'bg-accent/10 text-accent border-accent ring-1 ring-accent shadow-sm'
                                                                : 'bg-white border-ink/10 text-ink hover:border-accent hover:text-accent hover:bg-accent/5 hover:shadow-sm'

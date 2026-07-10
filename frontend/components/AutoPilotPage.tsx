@@ -25,6 +25,7 @@ import {
 } from './Shared';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileAutoPilotPage } from './mobile/MobileAutoPilotPage';
+import { useCaseEngaged } from '../lib/useCaseEngaged';
 import type { Page } from './types';
 
 interface AutoPilotPageProps {
@@ -291,6 +292,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
 };
 
 const AutoPilotPage: React.FC<AutoPilotPageProps> = (props) => {
+  useCaseEngaged('autopilot');
   const isMobile = useIsMobile();
   if (isMobile) return <MobileAutoPilotPage {...props} />;
   return <AutoPilotPageDesktop {...props} />;

@@ -26,6 +26,7 @@ import {
 } from './Shared';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileCompoundIQPage } from './mobile/MobileCompoundIQPage';
+import { useCaseEngaged } from '../lib/useCaseEngaged';
 import type { Page } from './types';
 
 interface CompoundIQPageProps {
@@ -338,6 +339,7 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
 };
 
 const CompoundIQPage: React.FC<CompoundIQPageProps> = (props) => {
+  useCaseEngaged('compoundiq');
   const isMobile = useIsMobile();
   if (isMobile) return <MobileCompoundIQPage {...props} />;
   return <CompoundIQPageDesktop {...props} />;

@@ -2,6 +2,7 @@ import React from 'react';
 import { MobileButton } from './MobileButton';
 import { MobileFolioScene } from './MobileFolioScene';
 import { MobileScenePlate } from './MobileScenePlate';
+import { track, type CaseId } from '../../lib/analytics';
 import type { Page } from '../types';
 
 interface MobileWorkPreviewProps {
@@ -9,7 +10,7 @@ interface MobileWorkPreviewProps {
 }
 
 const CASES: Array<{
-  page: Page;
+  page: CaseId;
   label: string;
   status: string;
   title: string;
@@ -51,7 +52,14 @@ export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate
 
     <div className="space-y-4 mb-7">
       {CASES.map((item) => (
-        <button key={item.title} onClick={() => onNavigate(item.page)} className="block w-full text-left">
+        <button
+          key={item.title}
+          onClick={() => {
+            track('select_content', { content_type: 'case_study', content_id: item.page, surface: 'work_preview' });
+            onNavigate(item.page);
+          }}
+          className="block w-full text-left"
+        >
           <MobileScenePlate figLabel={item.label} className="p-4">
             <div className={`font-mono text-[8px] uppercase tracking-[0.14em] mb-3 ${item.page === 'compoundiq' ? 'text-amber-800' : 'text-green-700'}`}>
               {item.status}

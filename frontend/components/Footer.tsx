@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Logo, Button } from './Shared';
 import type { Page } from './types';
 import { API_ENDPOINTS } from '../config';
+import { track } from '../lib/analytics';
 
 interface FooterProps {
   onNavigate?: (page: Page, hash?: string, id?: string) => void;
@@ -21,6 +22,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         body: JSON.stringify({ email }),
       });
       if (res.ok) {
+        track('newsletter_subscribe', { source: 'footer' });
         setStatus('success');
         setEmail('');
       } else {

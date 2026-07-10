@@ -7,6 +7,8 @@ import { BookingWidget } from './BookingWidget';
 import AntonSketch from '../images/Anton_Sketch.webp';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobilePureCodePage } from './mobile/MobilePureCodePage';
+import { track } from '../lib/analytics';
+import { useCaseEngaged } from '../lib/useCaseEngaged';
 import type { Page } from './types';
 
 interface PureCodePageProps {
@@ -14,6 +16,7 @@ interface PureCodePageProps {
 }
 
 const PureCodePage: React.FC<PureCodePageProps> = (props) => {
+  useCaseEngaged('purecode');
   const isMobile = useIsMobile();
   if (isMobile) return <MobilePureCodePage {...props} />;
   return <PureCodePageDesktop {...props} />;
@@ -588,6 +591,8 @@ export const TryItSimulator: React.FC = () => {
   const [completedChecks, setCompletedChecks] = useState(0);
   const [runId, setRunId] = useState(0);
   const timerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const demoStartFired = useRef(false);
+  const demoCompleteFired = useRef(false);
 
   const ticket = TICKETS.find(t => t.id === selectedId) ?? null;
 
@@ -623,7 +628,18 @@ export const TryItSimulator: React.FC = () => {
     return clear;
   }, [runId, ticket]);
 
+  useEffect(() => {
+    if (phase === 'release' && !demoCompleteFired.current) {
+      demoCompleteFired.current = true;
+      track('demo_complete', { demo_id: 'purecode_ticket_sim' });
+    }
+  }, [phase]);
+
   const handlePick = (id: string) => {
+    if (!demoStartFired.current) {
+      demoStartFired.current = true;
+      track('demo_start', { demo_id: 'purecode_ticket_sim' });
+    }
     setSelectedId(id);
     setRunId(r => r + 1);
   };

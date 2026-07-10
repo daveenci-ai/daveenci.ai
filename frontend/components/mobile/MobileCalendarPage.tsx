@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Check, Clock, Mail, Phone, User, Briefcase, HelpCircle } from 'lucide-react';
 import { format } from 'date-fns';
 import { CustomSelect, FormField } from '../Shared';
@@ -6,6 +6,7 @@ import { MobileButton } from './MobileButton';
 import { MobileErrorBoundary } from './MobileErrorBoundary';
 import AstridSketch from '../../images/Astrid_Sketch.webp';
 import { API_ENDPOINTS } from '../../config';
+import { track } from '../../lib/analytics';
 import type { CalendarProps } from '../types';
 import {
   BUSINESS_TIMEZONE,
@@ -40,6 +41,13 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
   const [busySlots, setBusySlots] = useState<{ start: string; end: string }[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [availabilityError, setAvailabilityError] = useState<string | null>(null);
+  const calendarStartTracked = useRef(false);
+
+  const trackCalendarStart = () => {
+    if (calendarStartTracked.current) return;
+    calendarStartTracked.current = true;
+    track('calendar_start', { booking_type: 'meet-astrid' });
+  };
 
   // Apply sessionStorage preselect from landing
   useEffect(() => {
@@ -108,6 +116,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
   const blanksArray = Array.from({ length: firstDay }, (_, i) => i);
 
   const handleDateClick = (day: number) => {
+    trackCalendarStart();
     const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
     setSelectedDate(newDate);
     setSelectedTime(null);
@@ -130,6 +139,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
       });
       const data = await response.json();
       if (response.ok) {
+        track('generate_lead', { booking_type: 'meet-astrid' });
         setStep('success');
       } else if (response.status === 409 && data.isDuplicate) {
         alert(data.error || 'You already have a meeting scheduled at this time.');
@@ -293,7 +303,10 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
                     {displaySlots.filter((slot) => !isTimeDisabled(slot.value)).map((slot) => (
                       <button
                         key={slot.value}
-                        onClick={() => setSelectedTime(slot.value)}
+                        onClick={() => {
+                          trackCalendarStart();
+                          setSelectedTime(slot.value);
+                        }}
                         className={`py-2.5 font-serif italic text-sm border rounded-sm transition-all ${
                           selectedTime === slot.value
                             ? 'bg-accent/10 text-accent border-accent ring-1 ring-accent'

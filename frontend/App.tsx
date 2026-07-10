@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback, Suspense, lazy } from 'react';
 import type { Page } from './components/types';
 import { MobileErrorBoundary } from './components/mobile/MobileErrorBoundary';
+import { initAnalytics, trackPageView } from './lib/analytics';
 
 // Route-level code splitting — each page becomes its own lazy chunk.
 // Only the landing chunk downloads on initial load; other pages are
@@ -35,6 +36,8 @@ const App: React.FC = () => {
 
   // Handle Initial Load and Back/Forward buttons
   useEffect(() => {
+    initAnalytics();
+
     const handleLocationChange = () => {
       // Normalize path: Remove trailing slash if it's not the root
       const path = window.location.pathname === '/' ? '/' : window.location.pathname.replace(/\/$/, '');
@@ -92,8 +95,11 @@ const App: React.FC = () => {
       }
     };
 
-    // Hydrate state from URL on mount
+    // Hydrate state from URL on mount. Pageview fires AFTER the handler so
+    // the legacy-path replaceState redirects above resolve to the canonical
+    // URL first (manual pageviews only — see lib/analytics.ts).
     handleLocationChange();
+    trackPageView(window.location.pathname);
 
     // Listen for popstate events
     window.onpopstate = (e) => {
@@ -105,6 +111,7 @@ const App: React.FC = () => {
         // Fallback if state is missing (e.g. external navigation to subpage then back)
         handleLocationChange();
       }
+      trackPageView(window.location.pathname);
     };
   }, []);
 
@@ -180,6 +187,7 @@ const App: React.FC = () => {
     if (targetPage === 'events') path = '/events';
     if (targetPage === 'thesis') path = '/thesis';
     window.history.pushState({ page: targetPage, briefingId: id }, '', path);
+    trackPageView(path);
 
     // Immediate Scroll Logic (if not waiting for landing page mount)
     if (targetPage !== 'landing') {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Section, ScrollReveal, Surface, Button, FolioHeader } from './Shared';
+import { track } from '../lib/analytics';
 import type { Page } from './types';
 
 interface WorkPreviewProps {
@@ -8,21 +9,21 @@ interface WorkPreviewProps {
 
 const examples = [
   {
-    page: 'purecode' as Page,
+    page: 'purecode' as const,
     label: 'Code',
     status: 'Operating',
     title: 'PureCode',
     blurb: 'A specialist AI team that turns a feature request into a shipped pull request. 13 agents, 3 human gates.',
   },
   {
-    page: 'autopilot' as Page,
+    page: 'autopilot' as const,
     label: 'Real estate operations',
     status: 'Operating',
     title: 'AutoPilot',
     blurb: 'Three coordinated services that create and schedule orders, continuously review operations, safely repair known exceptions, and verify delivery.',
   },
   {
-    page: 'compoundiq' as Page,
+    page: 'compoundiq' as const,
     label: 'Trading research & execution',
     status: 'In development · Paper only',
     title: 'CompoundIQ',
@@ -45,7 +46,10 @@ const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => (
         <ScrollReveal key={example.title} delay={100 + i * 150}>
           <Surface
             kind="document"
-            onClick={() => onNavigate(example.page)}
+            onClick={() => {
+              track('select_content', { content_type: 'case_study', content_id: example.page, surface: 'work_preview' });
+              onNavigate(example.page);
+            }}
             className="cursor-pointer h-full p-8 md:p-10 bg-white/60 border border-ink/10 hover:shadow-2xl hover:border-accent/30 transition-all duration-300 group flex flex-col"
           >
             <div className="flex items-start justify-between gap-4 mb-4">
