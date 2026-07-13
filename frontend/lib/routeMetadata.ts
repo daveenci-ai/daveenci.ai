@@ -1,7 +1,10 @@
 import type { Page } from '../components/types';
+import { getBriefingSummary } from '../content/briefings';
 
 const SITE_URL = 'https://daveenci.ai';
 const DEFAULT_IMAGE = `${SITE_URL}/daveenci-og.png`;
+
+const toAbsoluteUrl = (value: string): string => new URL(value, SITE_URL).href;
 
 export interface RouteMetadata {
   title: string;
@@ -10,56 +13,9 @@ export interface RouteMetadata {
   image?: string;
   type?: 'website' | 'article';
   publishedAt?: string;
+  author?: string;
   noIndex?: boolean;
 }
-
-const BRIEFING_METADATA: Record<string, Omit<RouteMetadata, 'path' | 'type'>> = {
-  'agentic-workflow': {
-    title: 'The Agentic Workflow: Architecting Swarms — DaVeenci',
-    description: 'A technical guide to autonomous agent swarms, four-stage reasoning pipelines, and self-correcting AI workers.',
-    publishedAt: '2025-10-14',
-  },
-  'synthetic-data': {
-    title: 'Synthetic Data Pipelines: The Infinite Dataset — DaVeenci',
-    description: 'A playbook for generating high-fidelity synthetic datasets to fine-tune models without exposing private human data.',
-    publishedAt: '2025-10-21',
-  },
-  'zero-touch-crm': {
-    title: 'The Zero-Touch CRM: Self-Healing Databases — DaVeenci',
-    description: 'A technical deep dive into customer databases that enrich and maintain themselves without sales-rep intervention.',
-    publishedAt: '2025-10-28',
-  },
-  'rag-vs-long-context': {
-    title: 'RAG vs. Long Context: The Architecture of Memory — DaVeenci',
-    description: 'A practical comparison of the cost, latency, and reasoning trade-offs between retrieval and long-context models.',
-    publishedAt: '2025-11-04',
-  },
-  'local-llm-stack': {
-    title: 'Local LLM Stack 2025: Running Llama 4 for Legal Ops — DaVeenci',
-    description: 'Hardware and inference-engine guidance for running local language models in privacy-focused legal operations.',
-    publishedAt: '2025-12-07',
-  },
-  'prompt-patterns': {
-    title: 'Prompt Engineering Patterns: Beyond Chain of Thought — DaVeenci',
-    description: 'Implementing tree-of-thought and recursive-criticism patterns for complex reasoning tasks.',
-    publishedAt: '2025-12-07',
-  },
-  'ai-compliance': {
-    title: 'AI Legal Compliance: Navigating the EU AI Act — DaVeenci',
-    description: 'Practical compliance checklists for teams shipping automated decision-making systems under the EU AI Act.',
-    publishedAt: '2025-12-07',
-  },
-  'saas-pricing': {
-    title: 'The Death of SaaS Pricing: From Seats to Outcomes — DaVeenci',
-    description: 'Why per-seat pricing is weakening and how AI products can transition toward outcome-based billing.',
-    publishedAt: '2025-12-07',
-  },
-  'automated-video': {
-    title: 'Automated Video Production: Hyper-Personalization — DaVeenci',
-    description: 'Using generative video and programmable production to create personalized sales outreach at scale.',
-    publishedAt: '2025-12-07',
-  },
-};
 
 const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'not-found'>, RouteMetadata> = {
   landing: {
@@ -131,12 +87,15 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'not-found'>, Rou
 
 export const getRouteMetadata = (page: Page, briefingId?: string | null): RouteMetadata => {
   if (page === 'briefing-detail') {
-    const article = briefingId ? BRIEFING_METADATA[briefingId] : undefined;
+    const article = getBriefingSummary(briefingId);
     if (article && briefingId) {
       return {
-        ...article,
+        title: article.seoTitle,
+        description: article.description,
         path: `/codex/${briefingId}`,
         type: 'article',
+        publishedAt: article.publishedAt,
+        author: 'DaVeenci',
       };
     }
 
@@ -180,7 +139,7 @@ const upsertCanonical = (href: string): void => {
   element.href = href;
 };
 
-const updateStructuredData = (metadata: RouteMetadata, url: string): void => {
+const updateStructuredData = (metadata: RouteMetadata, url: string, image: string): void => {
   const existing = document.getElementById('route-structured-data');
   existing?.remove();
 
@@ -192,7 +151,14 @@ const updateStructuredData = (metadata: RouteMetadata, url: string): void => {
         description: metadata.description,
         datePublished: metadata.publishedAt,
         mainEntityOfPage: url,
-        publisher: { '@type': 'Organization', name: 'DaVeenci', url: SITE_URL },
+        image,
+        author: { '@type': 'Organization', name: metadata.author || 'DaVeenci', url: `${SITE_URL}/who-we-are` },
+        publisher: {
+          '@type': 'Organization',
+          name: 'DaVeenci',
+          url: SITE_URL,
+          logo: { '@type': 'ImageObject', url: `${SITE_URL}/daveenci-logo.png` },
+        },
       }
     : {
         '@context': 'https://schema.org',
@@ -213,7 +179,7 @@ const updateStructuredData = (metadata: RouteMetadata, url: string): void => {
 export const applyRouteMetadata = (page: Page, briefingId?: string | null): RouteMetadata => {
   const metadata = getRouteMetadata(page, briefingId);
   const url = `${SITE_URL}${metadata.path === '/' ? '' : metadata.path}`;
-  const image = metadata.image || DEFAULT_IMAGE;
+  const image = metadata.image ? toAbsoluteUrl(metadata.image) : DEFAULT_IMAGE;
 
   document.title = metadata.title;
   upsertMeta('name', 'description', metadata.description);
@@ -229,7 +195,7 @@ export const applyRouteMetadata = (page: Page, briefingId?: string | null): Rout
   upsertMeta('name', 'twitter:description', metadata.description);
   upsertMeta('name', 'twitter:image', image);
   upsertCanonical(url);
-  updateStructuredData(metadata, url);
+  updateStructuredData(metadata, url, image);
 
   return metadata;
 };

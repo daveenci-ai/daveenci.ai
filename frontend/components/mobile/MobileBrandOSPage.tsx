@@ -284,7 +284,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
                 onChange={(e) => setNames(e.target.value)}
                 placeholder="Up to 5, comma-separated"
                 disabled={loading}
-                className="w-full bg-base/30 border border-ink/20 rounded-lg p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none disabled:opacity-50"
+                className="w-full bg-canvas/30 border border-ink/20 rounded-lg p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none disabled:opacity-50"
               />
               <p className="text-[11px] text-ink-muted mt-1.5">Max 5 names.</p>
             </div>
@@ -301,7 +301,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
                 placeholder="AI-powered booking platform for B2B service companies"
                 disabled={loading}
                 rows={3}
-                className="w-full bg-base/30 border border-ink/20 rounded-lg p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none resize-none disabled:opacity-50"
+                className="w-full bg-canvas/30 border border-ink/20 rounded-lg p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none resize-none disabled:opacity-50"
               />
             </div>
 
@@ -350,7 +350,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
                     aria-expanded={isOpen}
                   >
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-lg border border-ink/10 bg-base/30 flex items-center justify-center">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-lg border border-ink/10 bg-canvas/30 flex items-center justify-center">
                         <span className="font-serif text-sm text-ink-muted">{rank + 1}</span>
                       </div>
                       <div className="flex-1 min-w-0">
@@ -376,7 +376,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
                     </div>
                   </button>
                   {isOpen && (
-                    <div className="px-5 pb-5 border-t border-ink/5 bg-base/30 animate-in fade-in slide-in-from-top-1 duration-200">
+                    <div className="px-5 pb-5 border-t border-ink/5 bg-canvas/30 animate-in fade-in slide-in-from-top-1 duration-200">
                       <div className="pt-4 space-y-3">
                         {DIMENSIONS.map((dim) => {
                           const data = scores[dim];
@@ -523,7 +523,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
 
       <MobileSubscribe
         heading="Follow the workshop"
-        body="Naming, scoring, and the rest of the studio's builds — one Codex letter every Tuesday. Build-in-public, no fluff."
+        body="Naming, scoring, and the rest of the studio's builds — field notes sent when the work earns it. Build-in-public, no fluff."
         source="brandos"
       />
     </MobileShell>

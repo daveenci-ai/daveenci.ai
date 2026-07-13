@@ -8,8 +8,8 @@ interface FounderBlockProps {
 }
 
 const FounderBlock: React.FC<FounderBlockProps> = (_props) => (
-  <Section id="founder" className="bg-ink text-base relative">
-    <VitruvianBackground className="opacity-[0.04] text-base" />
+  <Section id="founder" className="bg-ink text-canvas relative">
+    <VitruvianBackground className="opacity-[0.04] text-canvas" />
     <div className="max-w-5xl mx-auto relative z-10">
       <ScrollReveal>
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
@@ -18,18 +18,18 @@ const FounderBlock: React.FC<FounderBlockProps> = (_props) => (
               {/* Construction circles around portrait — Leonardo scaffolding */}
               <div
                 aria-hidden="true"
-                className="absolute inset-0 rounded-full border border-base/10 scale-[1.08] pointer-events-none"
+                className="absolute inset-0 rounded-full border border-canvas/10 scale-[1.08] pointer-events-none"
               />
               <div
                 aria-hidden="true"
-                className="absolute inset-0 rounded-full border border-base/5 scale-[1.18] pointer-events-none"
+                className="absolute inset-0 rounded-full border border-canvas/5 scale-[1.18] pointer-events-none"
               />
               <img
                 src={AntonSketch}
                 alt="Anton Osipov"
                 loading="lazy"
                 decoding="async"
-                className="relative w-full rounded-sm shadow-2xl shadow-black/30 border border-base/10 filter sepia-[0.15] contrast-105"
+                className="relative w-full rounded-sm shadow-2xl shadow-black/30 border border-canvas/10 filter sepia-[0.15] contrast-105"
               />
             </div>
           </div>

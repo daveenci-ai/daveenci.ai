@@ -88,15 +88,15 @@ export const MobileThesisPage: React.FC<MobileThesisPageProps> = ({ onNavigate }
         </Chapter>
 
         {/* Section III — cinematic dark */}
-        <section className="bg-ink text-base px-6 py-14">
+        <section className="bg-ink text-canvas px-6 py-14">
           <div className="max-w-prose mx-auto">
             <div className="font-mono text-xs uppercase tracking-[0.2em] text-accent mb-3">III · Governance Is the Product</div>
-            <h2 className="font-serif text-3xl text-base mb-6 leading-tight">
+            <h2 className="font-serif text-3xl text-canvas mb-6 leading-tight">
               The industry worships autonomy. For most work, that's an antifeature.
             </h2>
-            <div className="space-y-4 font-sans text-[15px] text-base/85 leading-relaxed">
-              <p>The AI industry has a religion problem. It worships autonomy. <em className="text-base/70">"Fully agentic." "No human in the loop." "Autonomous."</em> These are marketed as virtues. For the work most teams care about, they're antifeatures.</p>
-              <p>What teams need isn't more autonomy. It's more coordination and accountability. Humans at the right points, with the right authority, reviewing the right things. We call these <strong className="text-base">human gates.</strong></p>
+            <div className="space-y-4 font-sans text-[15px] text-canvas/85 leading-relaxed">
+              <p>The AI industry has a religion problem. It worships autonomy. <em className="text-canvas/70">"Fully agentic." "No human in the loop." "Autonomous."</em> These are marketed as virtues. For the work most teams care about, they're antifeatures.</p>
+              <p>What teams need isn't more autonomy. It's more coordination and accountability. Humans at the right points, with the right authority, reviewing the right things. We call these <strong className="text-canvas">human gates.</strong></p>
               <p>Governance isn't a feature bolted on top of an autonomous system. It IS the product. Remove the gates and you've removed the thing clients are paying for: a team that ships work they can stand behind.</p>
             </div>
           </div>

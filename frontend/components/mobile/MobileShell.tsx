@@ -51,7 +51,7 @@ export const MobileShell: React.FC<MobileShellProps> = ({
     {showBottomCTA && (
       <div
         aria-hidden={!bottomCtaVisible}
-        className={`fixed inset-x-0 bottom-0 z-30 bg-base/95 backdrop-blur-md border-t border-ink/10 px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] transition-transform duration-300 ${bottomCtaVisible ? 'translate-y-0' : 'translate-y-full pointer-events-none'}`}
+        className={`fixed inset-x-0 bottom-0 z-30 bg-canvas/95 backdrop-blur-md border-t border-ink/10 px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] transition-transform duration-300 ${bottomCtaVisible ? 'translate-y-0' : 'translate-y-full pointer-events-none'}`}
       >
         <MobileButton
           tabIndex={bottomCtaVisible ? 0 : -1}

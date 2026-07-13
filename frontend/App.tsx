@@ -46,6 +46,7 @@ const App: React.FC = () => {
     const handleLocationChange = () => {
       // Normalize path: Remove trailing slash if it's not the root
       const path = window.location.pathname === '/' ? '/' : window.location.pathname.replace(/\/$/, '');
+      setTargetSection(window.location.hash || null);
       // Legacy /briefings URL redirects to canonical /codex
       if (path === '/briefings') {
         window.history.replaceState({}, '', '/codex');
@@ -113,6 +114,7 @@ const App: React.FC = () => {
         setPage(e.state.page);
         setSelectedBriefingId(e.state.briefingId || null);
         setActiveSection(null);
+        setTargetSection(window.location.hash || null);
       } else {
         // Fallback if state is missing (e.g. external navigation to subpage then back)
         handleLocationChange();
@@ -171,9 +173,9 @@ const App: React.FC = () => {
     setTimeout(checkAndScroll, 10);
   }, []);
 
-  // Watch for page transitions to landing that have a target section pending
+  // Watch for route transitions that have an in-page target pending.
   useEffect(() => {
-    if (page === 'landing' && targetSection) {
+    if (targetSection) {
       scrollToHash(targetSection);
     }
   }, [page, targetSection, scrollToHash]);
@@ -191,7 +193,7 @@ const App: React.FC = () => {
     }
 
     // Set Target Section for Scrolling (Functional)
-    if (targetPage === 'landing' && hash) {
+    if (hash) {
       setTargetSection(hash);
     }
 
@@ -217,11 +219,11 @@ const App: React.FC = () => {
     const currentPath =
       window.location.pathname === '/' ? '/' : window.location.pathname.replace(/\/$/, '');
     if (path !== currentPath) {
-      window.history.pushState({ page: targetPage, briefingId: id }, '', path);
+      window.history.pushState({ page: targetPage, briefingId: id }, '', `${path}${hash || ''}`);
     }
 
     // Immediate Scroll Logic (if not waiting for landing page mount)
-    if (targetPage !== 'landing') {
+    if (targetPage !== 'landing' && !hash) {
       window.scrollTo({ top: 0, behavior: 'auto' });
     } else if (targetPage === 'landing' && !hash) {
       // Navigate to landing top

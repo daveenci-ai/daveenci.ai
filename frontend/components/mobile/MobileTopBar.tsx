@@ -45,7 +45,7 @@ export const MobileTopBar: React.FC<MobileTopBarProps> = ({
     <>
       <header
         data-mobile
-        className="fixed top-0 inset-x-0 z-40 bg-base/85 backdrop-blur-md border-b border-ink/5"
+        className="fixed top-0 inset-x-0 z-40 bg-canvas/85 backdrop-blur-md border-b border-ink/5"
       >
         <div className="h-14 px-4 flex items-center justify-between">
           {backTo ? (

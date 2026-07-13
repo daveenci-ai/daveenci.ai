@@ -131,20 +131,20 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
         </Section>
 
         {/* Section 3: Governance Is the Product (cinematic dark) */}
-        <Section className="py-14 md:py-20 bg-ink text-base relative overflow-hidden">
+        <Section className="py-14 md:py-20 bg-ink text-canvas relative overflow-hidden">
           <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-accent/10 rounded-full blur-3xl -mr-40 -mt-40 pointer-events-none"></div>
           <div className="max-w-3xl mx-auto relative z-10">
             <ScrollReveal>
               <div className="font-mono text-xs uppercase tracking-[0.2em] text-accent mb-4">III · Governance Is the Product</div>
-              <h2 className="font-serif text-3xl md:text-4xl text-base mb-6 leading-tight">
+              <h2 className="font-serif text-3xl md:text-4xl text-canvas mb-6 leading-tight">
                 The industry worships autonomy. For most work, that's an antifeature.
               </h2>
-              <div className="space-y-5 font-sans text-base/85 text-lg leading-relaxed">
+              <div className="space-y-5 font-sans text-canvas/85 text-lg leading-relaxed">
                 <p>
-                  The AI industry has a religion problem. It worships autonomy. <em className="text-base/70">"Fully agentic." "No human in the loop." "Autonomous."</em> These phrases are marketed as virtues. For the work most teams care about, they're antifeatures.
+                  The AI industry has a religion problem. It worships autonomy. <em className="text-canvas/70">"Fully agentic." "No human in the loop." "Autonomous."</em> These phrases are marketed as virtues. For the work most teams care about, they're antifeatures.
                 </p>
                 <p>
-                  What teams actually need isn't more autonomy. It's more coordination and more accountability. That means humans — at the right points, with the right authority, reviewing the right things. We call these <strong className="text-base">human gates.</strong>
+                  What teams actually need isn't more autonomy. It's more coordination and more accountability. That means humans — at the right points, with the right authority, reviewing the right things. We call these <strong className="text-canvas">human gates.</strong>
                 </p>
                 <p>
                   PureCode has three gates: <em>scope</em> (before anything is built), <em>design</em> (before implementation), <em>ship</em> (before merge). AutoPilot routes unreadable, ambiguous, and high-consequence decisions to operators instead of silently passing them. Every DaVeenci team has gates. Not because automation can't go further without them — it can — but because the output needs to be accountable to someone, and that someone needs to be a human making a real decision.

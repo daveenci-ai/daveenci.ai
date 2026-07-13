@@ -43,8 +43,8 @@ export const MobileMethod: React.FC = () => (
           <li key={s.n} className="relative pl-7 pb-9 last:pb-0">
             {/* Station dot */}
             <span
-              className={`absolute left-[-7px] top-1 w-3 h-3 rounded-full ring-4 ring-base ${
-                isGate ? 'bg-[#16a34a]' : 'bg-ink'
+              className={`absolute left-[-7px] top-1 w-3 h-3 rounded-full ring-4 ring-canvas ${
+                isGate ? 'bg-status-success' : 'bg-ink'
               }`}
             />
 
@@ -52,7 +52,7 @@ export const MobileMethod: React.FC = () => (
               <span className="font-mono text-[11px] tracking-[0.2em] text-ink-muted/70">{s.n}</span>
               <span
                 className={`font-serif italic text-[11px] tracking-[0.25em] uppercase ${
-                  isGate ? 'text-[#16a34a]' : 'text-accent'
+                  isGate ? 'text-status-success' : 'text-accent'
                 }`}
               >
                 {s.label}

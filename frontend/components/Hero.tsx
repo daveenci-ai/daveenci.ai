@@ -83,12 +83,12 @@ const HeroDiagram: React.FC = () => (
     </svg>
 
     {/* Annotation pills — repositioned to avoid overlapping nodes */}
-    <div className="absolute top-2 -left-4 md:-left-6 bg-base shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
+    <div className="absolute top-2 -left-4 md:-left-6 bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
       <Cpu className="w-4 h-4 text-accent" />
       <span className="text-xs font-medium text-ink">Specialist team</span>
     </div>
 
-    <div className="absolute bottom-2 -right-4 md:-right-6 bg-base shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
+    <div className="absolute bottom-2 -right-4 md:-right-6 bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
       <Activity className="w-4 h-4 text-ink-muted" />
       <span className="text-xs font-medium text-ink">Human-gated</span>
     </div>

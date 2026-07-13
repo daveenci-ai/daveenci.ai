@@ -38,23 +38,18 @@ const DomainCard: React.FC = () => (
             <rect x="-18" y="-22" width="36" height="44" fill="white" stroke="rgb(var(--color-ink))" strokeWidth="1.5" />
             <line x1="-12" y1="-13" x2="12" y2="-13" stroke="rgb(var(--color-ink))" strokeWidth="1.2" strokeDasharray="30" strokeDashoffset="0">
               <animate attributeName="stroke-dashoffset" values="0;0;30;0;0" keyTimes="0;0.136;0.137;0.155;1" dur="18.5s" repeatCount="indefinite" />
-              <animate attributeName="stroke" values="#1a1a1a;#1a1a1a;#3f84c8;#3f84c8;#1a1a1a;#1a1a1a" keyTimes="0;0.137;0.14;0.155;0.172;1" dur="18.5s" repeatCount="indefinite" />
             </line>
             <line x1="-12" y1="-7" x2="7" y2="-7" stroke="rgb(var(--color-ink))" strokeWidth="1.2" strokeDasharray="30" strokeDashoffset="0">
               <animate attributeName="stroke-dashoffset" values="0;0;30;0;0" keyTimes="0;0.149;0.15;0.168;1" dur="18.5s" repeatCount="indefinite" />
-              <animate attributeName="stroke" values="#1a1a1a;#1a1a1a;#3f84c8;#3f84c8;#1a1a1a;#1a1a1a" keyTimes="0;0.15;0.153;0.168;0.185;1" dur="18.5s" repeatCount="indefinite" />
             </line>
             <line x1="-12" y1="-1" x2="12" y2="-1" stroke="rgb(var(--color-ink))" strokeWidth="1.2" strokeDasharray="30" strokeDashoffset="0">
               <animate attributeName="stroke-dashoffset" values="0;0;30;0;0" keyTimes="0;0.162;0.163;0.181;1" dur="18.5s" repeatCount="indefinite" />
-              <animate attributeName="stroke" values="#1a1a1a;#1a1a1a;#3f84c8;#3f84c8;#1a1a1a;#1a1a1a" keyTimes="0;0.163;0.166;0.181;0.198;1" dur="18.5s" repeatCount="indefinite" />
             </line>
             <line x1="-12" y1="5" x2="9" y2="5" stroke="rgb(var(--color-ink))" strokeWidth="1.2" strokeDasharray="30" strokeDashoffset="0">
               <animate attributeName="stroke-dashoffset" values="0;0;30;0;0" keyTimes="0;0.175;0.176;0.194;1" dur="18.5s" repeatCount="indefinite" />
-              <animate attributeName="stroke" values="#1a1a1a;#1a1a1a;#3f84c8;#3f84c8;#1a1a1a;#1a1a1a" keyTimes="0;0.176;0.179;0.194;0.211;1" dur="18.5s" repeatCount="indefinite" />
             </line>
             <line x1="-12" y1="11" x2="12" y2="11" stroke="rgb(var(--color-ink))" strokeWidth="1.2" strokeDasharray="30" strokeDashoffset="0">
               <animate attributeName="stroke-dashoffset" values="0;0;30;0;0" keyTimes="0;0.188;0.189;0.207;1" dur="18.5s" repeatCount="indefinite" />
-              <animate attributeName="stroke" values="#1a1a1a;#1a1a1a;#3f84c8;#3f84c8;#1a1a1a;#1a1a1a" keyTimes="0;0.189;0.192;0.207;0.224;1" dur="18.5s" repeatCount="indefinite" />
             </line>
           </g>
           <text x="186" y="140" textAnchor="middle" fontSize="10" fill="rgb(var(--color-ink-muted))" fontFamily="serif" fontStyle="italic" letterSpacing="0.2em">BRIEF</text>
@@ -173,18 +168,18 @@ const DeliveryCard: React.FC = () => (
           {/* Connection — approved work flows from the gate to the output */}
           <line x1="78" y1="90" x2="158" y2="90" stroke="rgb(var(--color-accent))" strokeWidth="0.8" strokeDasharray="2 2" opacity="0.55" />
           {/* Green mote (already approved at the gate) traveling to the output */}
-          <circle cy="90" r="2.4" opacity="0" fill="#16a34a">
+          <circle cy="90" r="2.4" opacity="0" fill="rgb(var(--color-status-success))">
             <animate attributeName="cx" values="78;158" dur="1.8s" repeatCount="indefinite" />
             <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="1.8s" repeatCount="indefinite" />
           </circle>
 
           {/* HUMAN GATE — left (station 5: checkmark stamps in with scale bounce + rect flashes green) */}
           <g transform="translate(54, 90)">
-            <rect x="-20" y="-20" width="40" height="40" rx="1" fill="white" stroke="#16a34a" strokeWidth="1.6">
+            <rect x="-20" y="-20" width="40" height="40" rx="1" fill="white" stroke="rgb(var(--color-status-success))" strokeWidth="1.6">
               <animate attributeName="stroke-width" values="1.6;1.6;2.4;1.6;1.6" keyTimes="0;0.54;0.578;0.62;1" dur="18.5s" repeatCount="indefinite" />
             </rect>
             {/* Checkmark — snaps down with overshoot bounce */}
-            <path d="M -12 0 L -3 9 L 12 -8" stroke="#16a34a" strokeWidth="2.8" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M -12 0 L -3 9 L 12 -8" stroke="rgb(var(--color-status-success))" strokeWidth="2.8" fill="none" strokeLinecap="round" strokeLinejoin="round">
               <animateTransform attributeName="transform" type="scale" values="1;1;0.3;1.25;0.95;1;1" keyTimes="0;0.54;0.554;0.572;0.59;0.62;1" dur="18.5s" repeatCount="indefinite" additive="replace" />
             </path>
           </g>
@@ -216,8 +211,8 @@ const DeliveryCard: React.FC = () => (
               <g transform="translate(15, -10)">
                 <g>
                   <animateTransform attributeName="transform" type="scale" values="1;1;1;1.5;0.85;1.15;1;1" keyTimes="0;0.675;0.745;0.769;0.793;0.811;0.829;1" dur="18.5s" repeatCount="indefinite" />
-                  <circle cx="0" cy="0" r="4" fill="white" stroke="#16a34a" strokeWidth="1.6" />
-                  <path d="M -2.3 0 L -0.6 1.7 L 2.3 -2.3" stroke="#16a34a" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="0" cy="0" r="4" fill="white" stroke="rgb(var(--color-status-success))" strokeWidth="1.6" />
+                  <path d="M -2.3 0 L -0.6 1.7 L 2.3 -2.3" stroke="rgb(var(--color-status-success))" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
                 </g>
               </g>
             </g>
@@ -246,7 +241,7 @@ const SpecialistTrack: React.FC = () => (
     {[10, 22, 44, 56, 78, 90].map((pos) => (
       <div
         key={pos}
-        className="absolute top-1/2 w-3 h-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-base border border-ink-muted/50"
+        className="absolute top-1/2 w-3 h-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-canvas border border-ink-muted/50"
         style={{ left: `${pos}%` }}
       />
     ))}

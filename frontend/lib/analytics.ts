@@ -23,6 +23,7 @@ export interface AnalyticsEventMap {
   demo_complete: { demo_id: DemoId };
   next_case_click: { from_case: CaseId; to_case: CaseId };
   calendar_start: { booking_type: string };
+  booking_step_viewed: { booking_type: string; step: 'details' };
   generate_lead: { booking_type: string };
   newsletter_subscribe: { source: string };
 }

@@ -72,7 +72,7 @@ const RegistrationSheet: React.FC<{
       aria-modal="true"
       aria-labelledby="events-sheet-title"
       data-mobile
-      className="fixed inset-0 z-50 bg-base flex flex-col animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 bg-canvas flex flex-col animate-in fade-in duration-200"
     >
       <div className="flex justify-end px-4 pt-4">
         <button
@@ -257,7 +257,7 @@ export const MobileEventsPage: React.FC<MobileEventsPageProps> = ({ onNavigate }
 
       <MobileSubscribe
         heading="Get the next workshop invitation"
-        body="Confirmed dates, practical field notes, and new builds from the workshop. One Codex letter every Tuesday."
+        body="Confirmed dates, practical field notes, and new builds from the workshop. Sent when the work earns an update."
         source="events"
       />
 

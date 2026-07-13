@@ -14,6 +14,7 @@ import Footer from './components/Footer';
 import MobileLanding from './components/mobile/MobileLanding';
 import { useIsMobile } from './components/mobile/useIsMobile';
 import type { Page } from './components/types';
+import { ProofRail } from './components/ProofRail';
 
 interface DaVeenciLandingPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -32,6 +33,7 @@ const DaVeenciLandingPage: React.FC<DaVeenciLandingPageProps> = ({ onNavigate, a
       <Header onNavigate={onNavigate} currentPage="landing" activeSection={activeSection} />
 
       <Hero onNavigate={onNavigate} />
+      <ProofRail onNavigate={onNavigate} />
       <Contrast />
       <WorkPreview onNavigate={onNavigate} />
       <Method />

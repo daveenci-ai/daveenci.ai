@@ -1044,7 +1044,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
       <Footer
         onNavigate={onNavigate}
         newsletterHeading="Follow the shipping log"
-        newsletterBody="How a 13-specialist code team evolves — new gates, tighter checks, finished pull requests. One Codex letter every Tuesday."
+        newsletterBody="How a 13-specialist code team evolves — new gates, tighter checks, finished pull requests. Sent when the work earns an update."
         newsletterSource="purecode"
       />
     </div>

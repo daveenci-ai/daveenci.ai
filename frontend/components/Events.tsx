@@ -105,7 +105,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
                            required
                            value={formData.fullName}
                            onChange={e => setFormData({ ...formData, fullName: e.target.value })}
-                           className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm"
+                           className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm"
                            placeholder="Leonardo da Vinci"
                         />
                      </div>
@@ -119,7 +119,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
                            required
                            value={formData.email}
                            onChange={e => setFormData({ ...formData, email: e.target.value })}
-                           className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm"
+                           className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm"
                            placeholder="leo@florence.it"
                         />
                      </div>
@@ -147,7 +147,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
 };
 
 const CodexEventCard: React.FC<{ event: ScheduledEvent; index: number; onRegister: () => void }> = ({ event, index, onRegister }) => (
-   <Surface kind="document" className="group relative flex flex-col h-full min-h-[500px] bg-base transition-all duration-700 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)]">
+   <Surface kind="document" className="group relative flex flex-col h-full min-h-[500px] bg-canvas transition-all duration-700 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)]">
       <div className="absolute inset-0 border border-paper-border/70 shadow-[inset_0_0_20px_rgba(214,207,192,0.2)] pointer-events-none"></div>
 
       <div className="absolute top-3 left-3 w-3 h-3 border-t border-l border-ink/20"></div>

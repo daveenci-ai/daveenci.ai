@@ -39,12 +39,12 @@ export const MobileSubscribe: React.FC<MobileSubscribeProps> = ({ heading, body,
   };
 
   return (
-    <section className="px-6 py-12 bg-ink text-base">
+    <section className="px-6 py-12 bg-ink text-canvas">
       <h2 className="font-serif text-2xl mb-2">{heading}</h2>
-      <p className="font-sans text-[14px] text-base/70 leading-relaxed mb-6">{body}</p>
+      <p className="font-sans text-[14px] text-canvas/70 leading-relaxed mb-6">{body}</p>
       {status === 'success' ? (
-        <p className="font-serif italic text-lg text-base/90">
-          Welcome to the Codex. Check your inbox on Tuesday.
+        <p className="font-serif italic text-lg text-canvas/90">
+          You’re in. The next field note will arrive when it’s ready.
         </p>
       ) : (
         <div className="flex flex-col gap-3">
@@ -60,13 +60,13 @@ export const MobileSubscribe: React.FC<MobileSubscribeProps> = ({ heading, body,
             onKeyDown={(e) => e.key === 'Enter' && handleSubscribe()}
             placeholder="you@company.com"
             disabled={status === 'loading'}
-            className="bg-white/10 border border-white/20 px-4 py-3 text-base placeholder:text-base/40 focus:outline-none focus:border-accent rounded-sm"
+            className="bg-white/10 border border-white/20 px-4 py-3 text-base text-canvas placeholder:text-canvas/40 focus:outline-none focus:border-accent rounded-sm"
           />
           <MobileButton onClick={handleSubscribe}>
             {status === 'loading' ? 'Subscribing…' : 'Subscribe'}
           </MobileButton>
           {status === 'error' && (
-            <p className="font-sans text-[13px] text-red-300">
+            <p role="alert" className="font-sans text-[13px] text-red-300">
               Something went wrong — try again in a moment.
             </p>
           )}

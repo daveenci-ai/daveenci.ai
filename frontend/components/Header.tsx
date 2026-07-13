@@ -90,7 +90,8 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
     }
   };
 
-  const handleLogoClick = () => {
+  const handleLogoClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
     if (currentPage !== 'landing') {
       onNavigate?.('landing');
       window.scrollTo(0, 0);
@@ -109,14 +110,23 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
 
         {/* Logo or Back Button */}
-        <div className="flex items-center gap-4 group cursor-pointer" onClick={handleLogoClick}>
+        <div className="flex items-center gap-4">
           {currentPage === 'briefing-detail' ? (
-            <div onClick={(e) => { e.stopPropagation(); onNavigate?.('briefings'); }} className="flex items-center gap-2 text-ink-muted hover:text-accent transition-colors">
+            <a
+              href="/codex"
+              onClick={(event) => { event.preventDefault(); onNavigate?.('briefings'); }}
+              className="flex items-center gap-2 text-ink-muted hover:text-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4"
+            >
               <ArrowLeft className="w-5 h-5" />
               <span className="font-sans font-medium text-base hidden md:block">Back to the Codex</span>
-            </div>
+            </a>
           ) : (
-            <>
+            <a
+              href="/"
+              onClick={handleLogoClick}
+              aria-label="DaVeenci home"
+              className="group flex items-center gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4"
+            >
               <Logo className="w-12 h-12 md:w-14 md:h-14 text-ink group-hover:text-accent transition-colors duration-500" />
               <span className="hidden md:flex items-center gap-4">
                 <span aria-hidden="true" className="h-4 w-px bg-ink/15"></span>
@@ -125,7 +135,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
                   <span aria-hidden="true" className="absolute -bottom-1 left-0 h-px bg-accent transition-all duration-300 w-0 group-hover:w-full"></span>
                 </span>
               </span>
-            </>
+            </a>
           )}
         </div>
 
@@ -151,14 +161,21 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
         </nav>
 
         {/* Mobile Menu Button - Visible on screens smaller than LG */}
-        <button onClick={toggleMenu} className="lg:hidden p-2 text-ink hover:text-accent transform transition-transform active:scale-95">
+        <button
+          type="button"
+          onClick={toggleMenu}
+          aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={isMenuOpen}
+          aria-controls="site-navigation-menu"
+          className="lg:hidden p-2 text-ink hover:text-accent transform transition-transform active:scale-95"
+        >
           {isMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
         </button>
       </div>
 
       {/* Mobile Dropdown */}
       {isMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 w-full bg-base border-b border-ink/10 shadow-xl p-8 flex flex-col space-y-6 animate-in slide-in-from-top-4 duration-300 h-screen overflow-y-auto pb-32">
+        <div id="site-navigation-menu" className="lg:hidden absolute top-full left-0 w-full bg-canvas border-b border-ink/10 shadow-xl p-8 flex flex-col space-y-6 animate-in slide-in-from-top-4 duration-300 h-screen overflow-y-auto pb-32">
           {navLinks.map((link) => {
             const active = isActive(link);
             return (

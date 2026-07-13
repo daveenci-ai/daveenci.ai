@@ -34,11 +34,13 @@ export interface EventCardProps {
 export interface BriefingCardProps {
   title: string;
   description: string;
-  image: string;
+  coverId: string;
   issueNo: string;
   category: string;
+  readTime: string;
+  href: string;
   className?: string;
-  onClick?: () => void;
+  onNavigate?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
 export interface CalendarProps {

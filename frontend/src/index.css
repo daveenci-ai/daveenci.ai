@@ -15,6 +15,20 @@
   --color-accent-hover: 47 108 168;   /* #2f6ca8 */
   --color-paper-border: 139 111 71;   /* aligned to Umber amber — diagram line work */
   --color-pulse-surface: 250 248 244; /* #FAF8F4 — Pulse product screen bg (unchanged) */
+  --color-status-success: 22 163 74;  /* #16A34A — approved / live */
+  --color-status-danger: 185 28 28;  /* #B91C1C — blocked / gate alert */
+  --color-status-critical: 239 68 68; /* #EF4444 — destructive comparison */
+
+  /* Exact third-party and product-demo colors. Keeping them tokenized makes
+     their exceptional status visible and prevents one-off literals in JSX. */
+  --color-linkedin: 10 102 194;
+  --color-facebook: 24 119 242;
+  --color-instagram: 225 48 108;
+  --color-product-navy: 45 90 123;
+  --color-product-navy-dark: 26 61 84;
+  --color-product-gold: 232 168 73;
+  --color-product-charcoal: 59 59 59;
+  --color-product-cream: 245 240 235;
 
   /* Spacing */
   --space-section-y: 5rem;       /* py-20 */

@@ -29,7 +29,7 @@ const ControlPanelDiagram: React.FC = () => (
       <text x="58" y="25" fontSize="5" fill="rgb(var(--color-ink-muted))" fontFamily="monospace" letterSpacing="0.05em">daveenci.ai/control/purecode</text>
 
       {/* Status bar */}
-      <circle cx="26" cy="50" r="2.8" fill="#16a34a">
+      <circle cx="26" cy="50" r="2.8" fill="rgb(var(--color-status-success))">
         <animate attributeName="opacity" values="1;0.35;1" dur="1.4s" repeatCount="indefinite" />
       </circle>
       <text x="34" y="53" fontSize="8" fill="rgb(var(--color-ink))" fontFamily="serif" letterSpacing="0.1em" fontWeight="600">PureCode · 3 AGENTS ACTIVE</text>
@@ -48,14 +48,14 @@ const ControlPanelDiagram: React.FC = () => (
         return (
           <g key={row.label}>
             {isGate ? (
-              <circle cx="26" cy={y - 2.5} r="1.6" fill="#b91c1c">
+              <circle cx="26" cy={y - 2.5} r="1.6" fill="rgb(var(--color-status-danger))">
                 <animate attributeName="opacity" values="1;0.3;1" dur="0.9s" repeatCount="indefinite" />
               </circle>
             ) : (
               <circle cx="26" cy={y - 2.5} r="1.4" fill="rgb(var(--color-ink-muted))" opacity="0.5" />
             )}
             <text x="34" y={y} fontSize="7.5" fill="rgb(var(--color-ink))" fontFamily="serif" fontStyle="italic" letterSpacing="0.05em">{row.label}</text>
-            <text x="86" y={y} fontSize="7.5" fill={isGate ? '#b91c1c' : 'rgb(var(--color-ink-muted))'} fontFamily="serif">{row.action}</text>
+            <text x="86" y={y} fontSize="7.5" fill={isGate ? 'rgb(var(--color-status-danger))' : 'rgb(var(--color-ink-muted))'} fontFamily="serif">{row.action}</text>
             <text x="278" y={y} fontSize="6" fill="rgb(var(--color-ink-muted))" fontFamily="monospace" textAnchor="end">{row.age}</text>
           </g>
         );
@@ -77,13 +77,13 @@ const ControlPanelDiagram: React.FC = () => (
       <text x="240" y="213" fontSize="7.5" textAnchor="middle" fill="rgb(var(--color-ink))" fontFamily="serif" fontStyle="italic" letterSpacing="0.2em">REROUTE</text>
     </svg>
 
-    <div className="absolute top-2 -left-4 md:-left-6 bg-base shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
+    <div className="absolute top-2 -left-4 md:-left-6 bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
       <Eye className="w-4 h-4 text-accent" />
       <span className="text-xs font-medium text-ink">Live oversight</span>
     </div>
 
-    <div className="absolute bottom-2 -right-4 md:-right-6 bg-base shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
-      <Check className="w-4 h-4 text-[#16a34a]" />
+    <div className="absolute bottom-2 -right-4 md:-right-6 bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
+      <Check className="w-4 h-4 text-status-success" />
       <span className="text-xs font-medium text-ink">One-click control</span>
     </div>
   </Plate>

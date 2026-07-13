@@ -5,20 +5,7 @@ import Footer from './Footer';
 import { Section, ScrollReveal, BriefingCard, VitruvianBackground, PageHero } from './Shared';
 import type { Page } from './types';
 import { Filter } from 'lucide-react';
-import AgenticWorkflowImage from '../images/001 - What is an Agentic Workflow.jpg';
-import SyntheticDataImage from '../images/002 - Synthetic Data Pipelines.jpg';
-import ZeroTouchCRMImage from '../images/003 - Zero-Touch CRM.jpg';
-import RagVsContextImage from '../images/004 - RAG vs. Long Context.jpg';
-
-import LocalLLMImage from '../images/005 - Local LLM Stack 2025.jpg';
-
-import PromptPatternsImage from '../images/006 - Prompt Engineering Patterns.jpg';
-
-import ComplianceImage from '../images/007 - AI Legal Compliance.jpg';
-
-import SaaSPricingImage from '../images/008 - The Death of SaaS Pricing.jpg';
-
-import AutomatedVideoImage from '../images/009 - Automated Video Prod.jpg';
+import { briefings } from '../content/briefings';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileBriefingsPage } from './mobile/MobileBriefingsPage';
 
@@ -26,90 +13,7 @@ interface BriefingsPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
-export const allBriefings = [
-  {
-    id: "agentic-workflow",
-    title: "The Agentic Workflow",
-    description: "Why chat interfaces are a dead end, and how to architect autonomous agent swarms that do the work for you. We explore the 4-stage reasoning pipeline used by top firms.",
-    image: AgenticWorkflowImage,
-    issueNo: "042",
-    category: "Architecture",
-    featured: true,
-  },
-  {
-    id: "synthetic-data",
-    title: "Synthetic Data Pipelines",
-    description: "Running out of human data? Here is the playbook for generating high-fidelity synthetic datasets to fine-tune your models without privacy risks.",
-    image: SyntheticDataImage,
-    issueNo: "043",
-    category: "Engineering",
-    featured: true,
-  },
-  {
-    id: "zero-touch-crm",
-    title: "The Zero-Touch CRM",
-    description: "A technical deep dive into self-healing customer databases that enrich themselves without sales rep intervention.",
-    image: ZeroTouchCRMImage,
-    issueNo: "044",
-    category: "Operations",
-    featured: false,
-  },
-  {
-    id: "rag-vs-long-context",
-    title: "RAG vs. Long Context: The Architecture of Memory",
-    description: "Is RAG dead? We analyze the cost, latency, and reasoning trade-offs between Retrieval Augmented Generation and Gemini 1.5 Pro's 2M token context window.",
-    image: RagVsContextImage,
-    issueNo: "045",
-    category: "Engineering",
-    featured: false,
-  },
-  {
-    id: "local-llm-stack",
-    title: "Local LLM Stack 2025",
-    description: "Running Llama 4 locally for privacy-focused legal analysis. Hardware specs and inference engines reviewed.",
-    image: LocalLLMImage,
-    issueNo: "040",
-    category: "Architecture",
-    featured: false,
-  },
-  {
-    id: "prompt-patterns",
-    title: "Prompt Engineering Patterns",
-    description: "Moving beyond 'Chain of Thought'. Implementing 'Tree of Thoughts' and recursive criticism for complex reasoning tasks.",
-    image: PromptPatternsImage,
-    issueNo: "039",
-    category: "Strategy",
-    featured: false,
-  },
-  {
-    id: "ai-compliance",
-    title: "AI Legal Compliance",
-    description: "Navigating the EU AI Act while shipping fast. Practical checklists for automated decision-making systems.",
-    image: ComplianceImage,
-    issueNo: "038",
-    category: "Strategy",
-    featured: false,
-  },
-  {
-    id: "saas-pricing",
-    title: "The Death of SaaS Pricing",
-    description: "Why 'per seat' pricing is dying and how to transition your AI product to 'outcome-based' billing models.",
-    image: SaaSPricingImage,
-    issueNo: "037",
-    category: "Strategy",
-    featured: false,
-  },
-  {
-    id: "automated-video",
-    title: "Automated Video Prod",
-    description: "The age of hyper-personalization. Using Veo and Remotion to create 'segments of one' for sales outreach.",
-    image: AutomatedVideoImage,
-    issueNo: "036",
-    category: "Strategy",
-    featured: false,
-  },
-
-];
+export const allBriefings = briefings;
 
 const categories = ["All", "Architecture", "Engineering", "Operations", "Strategy"];
 
@@ -144,9 +48,8 @@ const BriefingsPageDesktop: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
             <PageHero
               eyebrow="The DaVeenci Codex"
               title="Intelligence Briefings"
-              description="Weekly architectural blueprints, technical deep dives, and strategic plays for the AI-native enterprise."
+              description="Architectural blueprints, technical deep dives, and field-tested plays from active AI systems."
               centered
-              eyebrowRotation="none"
             />
           </ScrollReveal>
         </div>
@@ -157,8 +60,13 @@ const BriefingsPageDesktop: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
             <ScrollReveal key={briefing.issueNo} delay={idx * 150} className="h-full">
               <BriefingCard
                 {...briefing}
+                coverId={briefing.id}
+                href={`/codex/${briefing.id}`}
                 className="h-full md:aspect-[16/9] shadow-lg border-accent/20"
-                onClick={() => onNavigate('briefing-detail', undefined, briefing.id)}
+                onNavigate={(event) => {
+                  event.preventDefault();
+                  onNavigate('briefing-detail', undefined, briefing.id);
+                }}
               />
             </ScrollReveal>
           ))}
@@ -170,11 +78,12 @@ const BriefingsPageDesktop: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
           <h2 className="font-serif text-3xl text-ink">Latest Intelligence</h2>
 
-          <div className="flex flex-wrap justify-center gap-2 bg-white/50 p-1.5 rounded-full border border-ink/10">
+          <div role="group" aria-label="Filter briefings by category" className="flex flex-wrap justify-center gap-2 bg-white/50 p-1.5 rounded-full border border-ink/10">
             {categories.map(cat => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
+                aria-pressed={selectedCategory === cat}
                 className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${selectedCategory === cat
                   ? 'bg-accent text-white shadow-md'
                   : 'text-ink-muted hover:text-ink hover:bg-white/80'
@@ -191,7 +100,12 @@ const BriefingsPageDesktop: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
             <ScrollReveal key={briefing.issueNo} delay={idx * 50}>
               <BriefingCard
                 {...briefing}
-                onClick={() => onNavigate('briefing-detail', undefined, briefing.id)}
+                coverId={briefing.id}
+                href={`/codex/${briefing.id}`}
+                onNavigate={(event) => {
+                  event.preventDefault();
+                  onNavigate('briefing-detail', undefined, briefing.id);
+                }}
               />
             </ScrollReveal>
           ))}

@@ -81,7 +81,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, onNavigat
       aria-modal="true"
       aria-labelledby="mobile-menu-title"
       data-mobile
-      className="fixed inset-0 z-50 bg-base flex flex-col animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 bg-canvas flex flex-col animate-in fade-in duration-200"
     >
       <h2 id="mobile-menu-title" className="sr-only">
         Navigation menu

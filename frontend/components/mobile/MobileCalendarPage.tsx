@@ -7,6 +7,7 @@ import { MobileErrorBoundary } from './MobileErrorBoundary';
 import AstridSketch from '../../images/Astrid_Sketch.webp';
 import { API_ENDPOINTS } from '../../config';
 import { track } from '../../lib/analytics';
+import { useBookingStepAnalytics } from '../../lib/useBookingStepAnalytics';
 import type { CalendarProps } from '../types';
 import {
   BUSINESS_TIMEZONE,
@@ -42,6 +43,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [availabilityError, setAvailabilityError] = useState<string | null>(null);
   const calendarStartTracked = useRef(false);
+  const trackDetailsViewed = useBookingStepAnalytics('meet-astrid');
 
   const trackCalendarStart = () => {
     if (calendarStartTracked.current) return;
@@ -161,9 +163,9 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
   const canProceedFromDatetime = Boolean(selectedDate && selectedTime);
 
   return (
-    <div className="min-h-[100dvh] flex flex-col bg-base text-ink" data-mobile>
+    <div className="min-h-[100dvh] flex flex-col bg-canvas text-ink" data-mobile>
       {/* Top bar: back + step indicator */}
-      <header className="sticky top-0 z-40 bg-base/90 backdrop-blur-md border-b border-ink/10 px-4 py-3 flex items-center gap-4">
+      <header className="sticky top-0 z-40 bg-canvas/90 backdrop-blur-md border-b border-ink/10 px-4 py-3 flex items-center gap-4">
         <button
           onClick={handleBack}
           aria-label="Back"
@@ -426,10 +428,14 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
 
       {/* Sticky bottom CTA */}
       {step !== 'success' && (
-        <div className="fixed inset-x-0 bottom-0 z-30 bg-base/95 backdrop-blur-md border-t border-ink/10 px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
+        <div className="fixed inset-x-0 bottom-0 z-30 bg-canvas/95 backdrop-blur-md border-t border-ink/10 px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
           {step === 'datetime' && (
             <MobileButton
-              onClick={() => canProceedFromDatetime && setStep('details')}
+              onClick={() => {
+                if (!canProceedFromDatetime) return;
+                trackDetailsViewed();
+                setStep('details');
+              }}
               disabled={!canProceedFromDatetime}
             >
               Continue
@@ -444,7 +450,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
       )}
 
       {step === 'success' && (
-        <div className="fixed inset-x-0 bottom-0 z-30 bg-base/95 backdrop-blur-md border-t border-ink/10 px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
+        <div className="fixed inset-x-0 bottom-0 z-30 bg-canvas/95 backdrop-blur-md border-t border-ink/10 px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
           <MobileButton variant="dark" onClick={() => onNavigate('landing')}>
             Return home
           </MobileButton>

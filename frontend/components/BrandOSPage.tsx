@@ -166,7 +166,7 @@ const InputPanel: React.FC<{
             onKeyDown={handleKeyDown}
             placeholder="Enter up to 5 names, separated by commas (e.g. Apex, Meridian, Versa)"
             disabled={loading}
-            className="w-full bg-base/30 border border-ink/20 p-3 text-ink rounded-lg placeholder:text-ink-muted/50 focus:border-accent focus:outline-none transition-colors disabled:opacity-50"
+            className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink rounded-lg placeholder:text-ink-muted/50 focus:border-accent focus:outline-none transition-colors disabled:opacity-50"
           />
           <p className="text-xs text-ink-muted mt-1.5">Separate multiple names with commas. Max 5.</p>
         </div>
@@ -183,7 +183,7 @@ const InputPanel: React.FC<{
             placeholder="Describe your product or business in a sentence (e.g. 'AI-powered booking platform for B2B service companies')"
             disabled={loading}
             rows={2}
-            className="w-full bg-base/30 border border-ink/20 p-3 text-ink rounded-lg placeholder:text-ink-muted/50 focus:border-accent focus:outline-none transition-colors resize-none disabled:opacity-50"
+            className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink rounded-lg placeholder:text-ink-muted/50 focus:border-accent focus:outline-none transition-colors resize-none disabled:opacity-50"
           />
         </div>
 
@@ -216,7 +216,7 @@ const InputPanel: React.FC<{
 // --- Expandable Detail Row ---
 
 const DimensionDetail: React.FC<{ scores: BrandScores }> = ({ scores }) => (
-  <div className="bg-base/50 border-t border-ink/5 px-4 md:px-8 py-6">
+  <div className="bg-canvas/50 border-t border-ink/5 px-4 md:px-8 py-6">
     <div className="grid gap-3">
       {DIMENSIONS.map((dim) => {
         const data = scores[dim];
@@ -306,7 +306,7 @@ const ResultsTable: React.FC<{ result: AnalysisResult }> = ({ result }) => {
   return (
     <Widget className="overflow-hidden">
       {/* Toggle for detail columns */}
-      <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-ink/5 bg-base/30">
+      <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-ink/5 bg-canvas/30">
         <h3 className="font-serif text-lg text-ink font-bold">Results</h3>
         <button
           onClick={() => setShowBreakdown(!showBreakdown)}
@@ -320,9 +320,9 @@ const ResultsTable: React.FC<{ result: AnalysisResult }> = ({ result }) => {
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-ink/10 bg-base/20">
+            <tr className="border-b border-ink/10 bg-canvas/20">
               <th
-                className="text-left px-4 md:px-6 py-3 font-bold text-xs uppercase tracking-wider text-ink-muted cursor-pointer hover:text-accent transition-colors sticky left-0 bg-base/20 z-10"
+                className="text-left px-4 md:px-6 py-3 font-bold text-xs uppercase tracking-wider text-ink-muted cursor-pointer hover:text-accent transition-colors sticky left-0 bg-canvas/20 z-10"
                 onClick={() => toggleSort('name')}
               >
                 Brand Name <SortIcon active={sortKey === 'name'} />
@@ -400,7 +400,7 @@ const ResultsTable: React.FC<{ result: AnalysisResult }> = ({ result }) => {
       </div>
 
       {/* Legend */}
-      <div className="px-4 md:px-6 py-4 border-t border-ink/5 bg-base/20 flex flex-wrap gap-4 md:gap-6 text-xs text-ink-muted">
+      <div className="px-4 md:px-6 py-4 border-t border-ink/5 bg-canvas/20 flex flex-wrap gap-4 md:gap-6 text-xs text-ink-muted">
         <div className="flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
           75+ Strong
@@ -1007,7 +1007,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
       <Footer
         onNavigate={onNavigate}
         newsletterHeading="Follow the workshop"
-        newsletterBody="Naming, scoring, and the rest of the studio's builds — one Codex letter every Tuesday. Build-in-public, no fluff."
+        newsletterBody="Naming, scoring, and the rest of the studio's builds — field notes sent when the work earns it. Build-in-public, no fluff."
         newsletterSource="brandos"
       />
     </div>

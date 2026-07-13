@@ -1,15 +1,17 @@
 import React from 'react';
 import { Section, SectionHeader, ScrollReveal, Button, BriefingCard } from './Shared';
 import type { Page } from './types';
-import AgenticWorkflowImage from '../images/001 - What is an Agentic Workflow.jpg';
-import SyntheticDataImage from '../images/002 - Synthetic Data Pipelines.jpg';
-import ZeroTouchCRMImage from '../images/003 - Zero-Touch CRM.jpg';
+import { briefings } from '../content/briefings';
 
 interface NewsletterProps {
    onNavigate?: (page: Page, hash?: string, id?: string) => void;
 }
 
 const Newsletter: React.FC<NewsletterProps> = ({ onNavigate }) => {
+   const homepageBriefings = briefings.filter((briefing) =>
+      ['agentic-workflow', 'synthetic-data', 'zero-touch-crm'].includes(briefing.id)
+   );
+
    return (
       <Section id="newsletter" pattern="circles" className="relative overflow-visible" overflow={true}>
          <SectionHeader
@@ -19,36 +21,19 @@ const Newsletter: React.FC<NewsletterProps> = ({ onNavigate }) => {
          />
 
          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <ScrollReveal delay={100}>
-               <BriefingCard
-                  title="The Agentic Workflow"
-                  description="Why chat interfaces are a dead end, and how to architect autonomous agent swarms that do the work for you."
-                  image={AgenticWorkflowImage}
-                  issueNo="042"
-                  category="Architecture"
-                  onClick={() => onNavigate?.('briefing-detail', undefined, 'agentic-workflow')}
-               />
-            </ScrollReveal>
-            <ScrollReveal delay={300}>
-               <BriefingCard
-                  title="Synthetic Data Pipelines"
-                  description="Running out of human data? Here is the playbook for generating high-fidelity synthetic datasets to fine-tune your models."
-                  image={SyntheticDataImage}
-                  issueNo="043"
-                  category="Engineering"
-                  onClick={() => onNavigate?.('briefing-detail', undefined, 'synthetic-data')}
-               />
-            </ScrollReveal>
-            <ScrollReveal delay={500}>
-               <BriefingCard
-                  title="The Zero-Touch CRM"
-                  description="A technical deep dive into self-healing customer databases that enrich themselves without sales rep intervention."
-                  image={ZeroTouchCRMImage}
-                  issueNo="044"
-                  category="Operations"
-                  onClick={() => onNavigate?.('briefing-detail', undefined, 'zero-touch-crm')}
-               />
-            </ScrollReveal>
+            {homepageBriefings.map((briefing, index) => (
+               <ScrollReveal key={briefing.id} delay={100 + index * 200}>
+                  <BriefingCard
+                     {...briefing}
+                     coverId={briefing.id}
+                     href={`/codex/${briefing.id}`}
+                     onNavigate={(event) => {
+                        event.preventDefault();
+                        onNavigate?.('briefing-detail', undefined, briefing.id);
+                     }}
+                  />
+               </ScrollReveal>
+            ))}
          </div>
 
          <div className="flex justify-center">

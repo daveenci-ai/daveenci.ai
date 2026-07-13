@@ -76,7 +76,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
             <div className="space-y-3">
               {mobileWorkflow.map((step, index) => (
                 <React.Fragment key={step.number}>
-                  <div className="flex items-center gap-3 bg-base/45 border border-ink/10 p-3 rounded-sm">
+                  <div className="flex items-center gap-3 bg-canvas/45 border border-ink/10 p-3 rounded-sm">
                     <step.Icon className="w-5 h-5 text-accent flex-shrink-0" />
                     <div className="min-w-0">
                       <div className="font-mono text-[9px] uppercase tracking-widest text-ink-muted/60">{step.number}</div>
@@ -156,7 +156,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
         </div>
       </section>
 
-      <section className="px-6 py-12 bg-ink text-base">
+      <section className="px-6 py-12 bg-ink text-canvas">
         <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">Operating state · July 2026</div>
         <h2 className="font-serif text-[2.1rem] leading-[1.08] mb-7">Live where proven. Shadowed where consequence is higher.</h2>
         <div className="space-y-4">
@@ -170,7 +170,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
                 {status}
               </div>
               <h3 className="font-serif text-xl mb-2">{title}</h3>
-              <p className="font-sans text-[14px] text-base/65 leading-relaxed">{body}</p>
+              <p className="font-sans text-[14px] text-canvas/65 leading-relaxed">{body}</p>
             </div>
           ))}
         </div>
@@ -193,7 +193,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
 
       <MobileSubscribe
         heading="Follow the operations work"
-        body="How specialist teams take over real workflows — the handoffs, the gates, the morning reports. One Codex letter every Tuesday."
+        body="How specialist teams take over real workflows — the handoffs, the gates, the morning reports. Sent when the work earns an update."
         source="autopilot"
       />
     </MobileShell>

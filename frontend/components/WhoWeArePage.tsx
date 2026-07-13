@@ -43,7 +43,7 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
          </Section>
 
          {/* Anton — founder story (cinematic dark) */}
-         <Section className="bg-ink text-base relative">
+         <Section className="bg-ink text-canvas relative">
             <NodeNetworkBackground colorVar="--color-base" />
             <div className="max-w-5xl mx-auto relative z-10">
                <ScrollReveal>
@@ -52,21 +52,21 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                         <div className="relative w-full max-w-xs mx-auto">
                            <div
                               aria-hidden="true"
-                              className="absolute inset-0 rounded-full border border-base/10 scale-[1.08] pointer-events-none"
+                              className="absolute inset-0 rounded-full border border-canvas/10 scale-[1.08] pointer-events-none"
                            />
                            <div
                               aria-hidden="true"
-                              className="absolute inset-0 rounded-full border border-base/5 scale-[1.18] pointer-events-none"
+                              className="absolute inset-0 rounded-full border border-canvas/5 scale-[1.18] pointer-events-none"
                            />
                            <img
                               src={AntonSketch}
                               alt="Anton Osipov"
                               decoding="async"
-                              className="relative w-full rounded-sm shadow-2xl shadow-black/30 border border-base/10 filter sepia-[0.15] contrast-105"
+                              className="relative w-full rounded-sm shadow-2xl shadow-black/30 border border-canvas/10 filter sepia-[0.15] contrast-105"
                            />
                            <div className="mt-6 text-center">
-                              <div className="font-serif text-2xl text-base">Anton Osipov</div>
-                              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-base/50 mt-1">Founder</div>
+                              <div className="font-serif text-2xl text-canvas">Anton Osipov</div>
+                              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-canvas/50 mt-1">Founder</div>
                            </div>
                         </div>
                      </div>
@@ -74,7 +74,7 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                         <Quote tone="dark">
                            I spent a decade shipping software with mediocre AI help — watching every new model promise to replace my tools and deliver another wrapper around chat.
                         </Quote>
-                        <div className="space-y-5 font-sans text-base/80 text-lg leading-relaxed">
+                        <div className="space-y-5 font-sans text-canvas/80 text-lg leading-relaxed">
                            <p>
                               For years I thought the answer was a better model. A bigger context window. A cleverer prompt. Every wave of "this one changes everything" left me with the same workflow and the same bottlenecks. Generalist tools flatten the work. They don't finish it.
                            </p>
@@ -297,11 +297,11 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                               <g transform="translate(186, 90)">
                                  {/* Human silhouette / gate */}
                                  <g transform="translate(-14, 0)">
-                                    <rect x="-9" y="-16" width="18" height="32" rx="1.5" fill="white" stroke="#16a34a" strokeWidth="1.6">
+                                    <rect x="-9" y="-16" width="18" height="32" rx="1.5" fill="white" stroke="rgb(var(--color-status-success))" strokeWidth="1.6">
                                        <animate attributeName="stroke-width" values="1.4;2.1;1.4" dur="1.8s" repeatCount="indefinite" />
                                     </rect>
-                                    <circle cx="0" cy="-7" r="3" fill="#16a34a" fillOpacity="0.2" stroke="#16a34a" strokeWidth="1" />
-                                    <path d="M -4 7 Q -4 -1 0 -1 Q 4 -1 4 7" fill="#16a34a" fillOpacity="0.2" stroke="#16a34a" strokeWidth="1" />
+                                    <circle cx="0" cy="-7" r="3" fill="rgb(var(--color-status-success))" fillOpacity="0.2" stroke="rgb(var(--color-status-success))" strokeWidth="1" />
+                                    <path d="M -4 7 Q -4 -1 0 -1 Q 4 -1 4 7" fill="rgb(var(--color-status-success))" fillOpacity="0.2" stroke="rgb(var(--color-status-success))" strokeWidth="1" />
                                  </g>
                                  {/* Output document */}
                                  <g transform="translate(10, 0)">
@@ -312,7 +312,7 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                                     <line x1="3" y1="5" x2="15" y2="5" stroke="rgb(var(--color-ink-muted))" strokeWidth="0.6" />
                                  </g>
                                  {/* Approval seal — pulsing on top of document */}
-                                 <circle cx="16" cy="14" r="4.5" fill="#16a34a">
+                                 <circle cx="16" cy="14" r="4.5" fill="rgb(var(--color-status-success))">
                                     <animate attributeName="opacity" values="0.35;1;0.35" dur="1.6s" repeatCount="indefinite" />
                                  </circle>
                                  <path d="M 13.5 14 L 15.2 15.8 L 18.5 12" stroke="white" strokeWidth="1.3" fill="none" />

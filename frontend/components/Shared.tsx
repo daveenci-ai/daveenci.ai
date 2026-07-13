@@ -3,6 +3,7 @@ import React, { useState, useEffect, useId, useRef } from 'react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import type { CardProps, SectionProps, BriefingCardProps } from './types';
 import { track, type AnalyticsEventMap } from '../lib/analytics';
+import { CodexCover } from './CodexCover';
 
 // --- Scroll Animation Hook & Component ---
 
@@ -187,7 +188,7 @@ export const GridPattern: React.FC<{ className?: string }> = ({ className }) => 
 );
 
 // DV monogram with "AI" superscript. Rendered via CSS mask-image so the mark
-// inherits currentColor — `text-ink` on light bg, `text-base` on dark bg,
+// inherits currentColor — `text-ink` on light bg, `text-canvas` on dark bg,
 // `text-accent` for the hover state in the Header all Just Work.
 export const Logo: React.FC<{ className?: string }> = ({ className }) => (
   <span
@@ -245,7 +246,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({ label, value, onChan
           required={required}
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          className={`w-full appearance-none bg-base/30 border border-ink/20 p-3 pr-10 rounded-sm transition-colors hover:border-accent/50 focus:outline-none focus:border-accent ${value ? 'text-ink' : 'text-ink-muted'}`}
+          className={`w-full appearance-none bg-canvas/30 border border-ink/20 p-3 pr-10 rounded-sm transition-colors hover:border-accent/50 focus:outline-none focus:border-accent ${value ? 'text-ink' : 'text-ink-muted'}`}
         >
           <option value="" disabled>{placeholder || 'Select an option'}</option>
           {options.map((option) => (
@@ -361,23 +362,18 @@ export const Card: React.FC<CardProps> = ({ title, children, label, className = 
   </Surface>
 );
 
-export const BriefingCard: React.FC<BriefingCardProps> = ({ title, description, image, issueNo, category, className, onClick }) => (
-  <Surface
-    kind="document"
-    onClick={onClick}
-    className={`group relative flex flex-col h-full bg-white/40 backdrop-blur-md border border-ink/10 overflow-hidden transition-all duration-700 hover:shadow-[0_40px_80px_-20px_rgba(63,132,200,0.15)] hover:border-accent/30 cursor-pointer ${className}`}
+export const BriefingCard: React.FC<BriefingCardProps> = ({ title, description, coverId, issueNo, category, readTime, href, className, onNavigate }) => (
+  <a
+    href={href}
+    onClick={onNavigate}
+    className={`group relative flex flex-col h-full bg-white/40 backdrop-blur-md border border-ink/10 overflow-hidden transition-all duration-700 hover:shadow-[0_40px_80px_-20px_rgba(63,132,200,0.15)] hover:border-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 ${className}`}
+    style={{ borderRadius: 'var(--radius-widget-document)', boxShadow: 'var(--shadow-widget-document)' }}
   >
     <div className="absolute top-0 inset-x-0 h-1 bg-accent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-30"></div>
 
     <div className="relative h-56 overflow-hidden">
       <div className="absolute inset-0 bg-ink/20 mix-blend-multiply z-10 group-hover:opacity-0 transition-opacity duration-500"></div>
-      <img
-        src={image}
-        alt={title}
-        loading="lazy"
-        decoding="async"
-        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out filter grayscale-[0.2] contrast-[1.05] group-hover:grayscale-0 group-hover:contrast-100"
-      />
+      <CodexCover id={coverId} title={title} className="transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
 
       <div className="absolute top-4 left-4 z-20">
         <span className="bg-white/95 backdrop-blur shadow-sm text-[10px] font-bold text-ink tracking-widest uppercase px-3 py-1.5 rounded-sm border border-ink/5 group-hover:text-accent group-hover:border-accent/20 transition-colors">
@@ -404,14 +400,14 @@ export const BriefingCard: React.FC<BriefingCardProps> = ({ title, description, 
       </p>
 
       <div className="relative mt-auto flex items-center justify-between pt-6 border-t border-ink/5 group-hover:border-ink/10 transition-colors">
-        <span className="text-[10px] font-mono text-ink-muted/60 uppercase tracking-wider">Read Time: 4m</span>
-        <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ink group-hover:text-accent transition-colors">
+        <span className="text-[10px] font-mono text-ink-muted/60 uppercase tracking-wider">{readTime}</span>
+        <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ink group-hover:text-accent transition-colors">
           <span>Read Briefing</span>
           <ArrowUpRight className="w-3 h-3 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-        </button>
+        </span>
       </div>
     </div>
-  </Surface>
+  </a>
 );
 
 export const Section: React.FC<SectionProps> = ({ id, className = '', children, pattern = 'none', overflow = false }) => (
@@ -637,7 +633,7 @@ type FormFieldProps = {
 export const FormField: React.FC<FormFieldProps> = ({
   label, name, value, onChange, type = 'text', required, placeholder, error, rows = 4, icon, optionalLabel, className = '',
 }) => {
-  const inputClasses = `w-full bg-base/30 border ${error ? 'border-red-500' : 'border-ink/20'} p-3 text-ink rounded-sm transition-colors focus:outline-none focus:border-accent placeholder:text-ink-muted/50`;
+  const inputClasses = `w-full bg-canvas/30 border ${error ? 'border-red-500' : 'border-ink/20'} p-3 text-ink rounded-sm transition-colors focus:outline-none focus:border-accent placeholder:text-ink-muted/50`;
   const autoComplete = name === 'name' ? 'name' : name === 'email' ? 'email' : name === 'company' ? 'organization' : name === 'phone' ? 'tel' : undefined;
   const errorId = `${name}-error`;
 
@@ -726,15 +722,15 @@ export const Quote: React.FC<{
   className?: string;
 }> = ({ children, attribution, tone = 'light', className = '' }) => {
   const isDark = tone === 'dark';
-  const textColor = isDark ? 'text-base' : 'text-ink';
-  const mutedColor = isDark ? 'text-base/60' : 'text-ink-muted';
-  const ruleColor = isDark ? 'bg-base/30' : 'bg-accent';
+  const textColor = isDark ? 'text-canvas' : 'text-ink';
+  const mutedColor = isDark ? 'text-canvas/60' : 'text-ink-muted';
+  const ruleColor = isDark ? 'bg-canvas/30' : 'bg-accent';
   return (
     <figure className={`relative ${className}`}>
       <span
         aria-hidden="true"
         className={`absolute -top-6 -left-2 md:-top-10 md:-left-6 font-serif text-7xl md:text-9xl leading-none select-none ${
-          isDark ? 'text-base/10' : 'text-accent/15'
+          isDark ? 'text-canvas/10' : 'text-accent/15'
         }`}
       >
         &ldquo;

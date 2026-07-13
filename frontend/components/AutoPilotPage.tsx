@@ -111,7 +111,7 @@ const AutoPilotControlPanel: React.FC = () => (
         { label: 'Job review', detail: 'verify + gate', Icon: Eye },
       ].map((stage, index) => (
         <React.Fragment key={stage.label}>
-          <div className="relative bg-base/50 border border-ink/10 p-4 rounded-sm">
+          <div className="relative bg-canvas/50 border border-ink/10 p-4 rounded-sm">
             <stage.Icon className="w-5 h-5 text-accent mb-5" />
             <div className="font-mono text-[9px] uppercase tracking-widest text-ink-muted/60">0{index + 1}</div>
             <div className="font-serif text-lg text-ink">{stage.label}</div>
@@ -244,7 +244,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
         </div>
       </Section>
 
-      <section className="bg-ink text-base py-20 md:py-24">
+      <section className="bg-ink text-canvas py-20 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-3xl mb-12">
             <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">Operating state · July 2026</div>
@@ -262,7 +262,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
                   <span className={`font-mono text-[9px] uppercase tracking-widest ${item.tone}`}>{item.status} · {item.date}</span>
                 </div>
                 <h3 className="font-serif text-2xl mb-3">{item.title}</h3>
-                <p className="font-sans text-sm text-base/65 leading-relaxed">{item.body}</p>
+                <p className="font-sans text-sm text-canvas/65 leading-relaxed">{item.body}</p>
               </div>
             ))}
           </div>
@@ -287,7 +287,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
       <Footer
         onNavigate={onNavigate}
         newsletterHeading="Follow the operations work"
-        newsletterBody="How specialist teams take over real workflows — the handoffs, the gates, the morning reports. One Codex letter every Tuesday."
+        newsletterBody="How specialist teams take over real workflows — the handoffs, the gates, the morning reports. Sent when the work earns an update."
         newsletterSource="autopilot"
       />
     </div>

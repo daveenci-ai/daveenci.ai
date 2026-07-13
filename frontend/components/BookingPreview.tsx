@@ -171,13 +171,13 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
             </Plate>
           </ScrollReveal>
 
-          <div className="absolute top-32 -left-4 md:-left-6 bg-base shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float z-30">
+          <div className="absolute top-32 -left-4 md:-left-6 bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float z-30">
             <Clock className="w-4 h-4 text-accent" />
             <span className="text-xs font-medium text-ink">30 min</span>
           </div>
 
-          <div className="absolute bottom-2 -right-4 md:-right-6 bg-base shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed z-30">
-            <CalendarDays className="w-4 h-4 text-[#16a34a]" />
+          <div className="absolute bottom-2 -right-4 md:-right-6 bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed z-30">
+            <CalendarDays className="w-4 h-4 text-status-success" />
             <span className="text-xs font-medium text-ink">Live availability</span>
           </div>
         </div>

@@ -20,19 +20,26 @@ Single source of truth: `frontend/src/index.css` `:root` block. Tailwind consume
 
 | Token | Hex | Tailwind class |
 |---|---|---|
-| `--color-base` | `#F5F0E6` | `bg-base`, `text-base` |
-| `--color-alt` | `#E4D6BD` | `bg-alt` |
-| `--color-ink` | `#222222` | `text-ink`, `border-ink/N` |
+| `--color-base` | `#EEE3C8` | `bg-canvas`, `text-canvas` |
+| `--color-alt` | `#8B6F47` | `bg-alt` |
+| `--color-ink` | `#1A1A1A` | `text-ink`, `border-ink/N` |
 | `--color-ink-muted` | `#5A4A3A` | `text-ink-muted` |
 | `--color-accent` | `#3f84c8` | `bg-accent`, `text-accent` |
 | `--color-accent-light` | `#64a1e0` | `bg-accent-light` |
 | `--color-accent-hover` | `#2f6ca8` | `hover:bg-accent-hover` |
-| `--color-paper-border` | `#C4B59D` | `border-paper-border` |
+| `--color-paper-border` | `#8B6F47` | `border-paper-border` |
 | `--color-pulse-surface` | `#FAF8F4` | `bg-pulse-surface` |
+
+Semantic status colors use `--color-status-success`, `--color-status-danger`, and
+`--color-status-critical`. Exact platform/demo colors (LinkedIn, Facebook,
+Instagram, and PulseNote’s sample brand palette) are also named tokens; they are
+exceptions to the DaVeenci palette, but not exceptions to tokenization.
 
 ### Referencing from different contexts
 
-- **JSX Tailwind**: `className="bg-accent text-ink-muted"`
+- **JSX Tailwind**: `className="bg-accent text-ink-muted"`. The parchment
+  color is aliased as `canvas` because Tailwind reserves `text-base` for font
+  sizing; use `bg-canvas` or `text-canvas` for the color.
 - **Inline SVG fill/stroke**: `fill="rgb(var(--color-accent))"`, `stroke="rgb(var(--color-ink))"`
 - **Canvas / inline JS**: read once in `useEffect` with `getComputedStyle(document.documentElement).getPropertyValue('--color-ink').trim()` and cache the triple — see `NodeNetworkBackground` in `Shared.tsx` for the pattern.
 
@@ -65,7 +72,7 @@ All in `frontend/components/Shared.tsx`.
 | Primitive | Purpose |
 |---|---|
 | `<Section id pattern overflow>` | Top-level page section. `pattern` optionally renders a `GridPattern`, `VitruvianBackground`, or `NodeNetworkBackground`. |
-| `<PageHero eyebrow title description actions size centered eyebrowRotation>` | Hero block: eyebrow + title + description + optional actions. `eyebrow` accepts a string (wraps in `<Eyebrow>`) OR a ReactNode (rendered as-is, for Pulse-style pill eyebrows). |
+| `<PageHero eyebrow title description actions size centered>` | Hero block: eyebrow + title + description + optional actions. `eyebrow` accepts a string (wraps in `<Eyebrow>`) OR a ReactNode (rendered as-is, for Pulse-style pill eyebrows). |
 | `<SectionHeader eyebrow title subtitle>` | Section title block. |
 
 ### Widgets
@@ -82,7 +89,7 @@ All in `frontend/components/Shared.tsx`.
 
 | Primitive | Purpose |
 |---|---|
-| `<Eyebrow rotation tone>` | Script-font label above headings |
+| `<Eyebrow>` | Script-font label above headings |
 | `<Tag variant="default\|accent">` | Small pill label |
 | `<Button variant="primary\|secondary\|ghost">` | All action buttons |
 
@@ -111,23 +118,12 @@ Same rule as tokens: **3+ uses or a brand concept**. One-off UIs stay inline.
 
 ---
 
-## Justified hex exceptions
+## Hex exceptions
 
-The ESLint rule warns on 21 hex literals across the codebase, all intentional:
-
-| File | Count | Reason |
-|---|---|---|
-| `AdminPage.tsx` | 5 | Google logo SVG + Sign-in button spec (Google brand palette, not ours) |
-| `PulseLandingPage.tsx` | ~16 | LinkedIn/Facebook/Instagram brand colors, Pulse amber highlight, intentional black, Tailwind-equivalent inline SVG reds |
-
-When a new brand exception is introduced, add an inline suppression with a reason:
-
-```tsx
-// eslint-disable-next-line no-restricted-syntax -- Google brand palette (not tokenized)
-<path fill="#4285F4" />
-```
-
-**Do not add blanket disables** at the file level.
+The expected baseline is zero unexplained warnings. Third-party brand colors and
+demo palettes belong in named CSS tokens so their intent is explicit and their
+use remains searchable. If a literal truly cannot be tokenized, add a narrow
+inline suppression with a reason; never add blanket file-level disables.
 
 ---
 
@@ -137,7 +133,8 @@ When a new brand exception is introduced, add an inline suppression with a reaso
 cd frontend && npm run lint
 ```
 
-Warnings are non-blocking in CI. The expected baseline is 21 — if you see more, you've introduced a new hex literal that should be tokenized (or get a justified exception).
+Warnings are non-blocking in CI, but the expected baseline is zero. Any warning
+should be fixed or explicitly justified before merge.
 
 ---
 
@@ -151,5 +148,5 @@ Warnings are non-blocking in CI. The expected baseline is 21 — if you see more
 - [ ] Error banners use `<ErrorAlert>`
 - [ ] `onNavigate` prop typed as `(page: Page, hash?: string, id?: string) => void`
 - [ ] `npm run build` passes (frontend + backend)
-- [ ] `npm run lint` — warning count unchanged from baseline
+- [ ] `npm run lint` — zero unexplained warnings
 - [ ] Visual smoke test in browser on the affected pages

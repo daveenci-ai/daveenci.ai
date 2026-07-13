@@ -123,7 +123,7 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
                 const StepIcon = Icon as React.ComponentType<{ className?: string }>;
                 return (
                   <React.Fragment key={title as string}>
-                    <div className="flex items-center gap-3 bg-base/45 border border-ink/10 p-3 rounded-sm">
+                    <div className="flex items-center gap-3 bg-canvas/45 border border-ink/10 p-3 rounded-sm">
                       <StepIcon className="w-5 h-5 text-accent flex-shrink-0" />
                       <div className="min-w-0">
                         <div className="font-serif text-[17px] text-ink">{title as string}</div>
@@ -212,10 +212,10 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
         </div>
       </section>
 
-      <section className="px-6 py-12 bg-ink text-base">
+      <section className="px-6 py-12 bg-ink text-canvas">
         <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">Build status · 10 July 2026</div>
         <h2 className="font-serif text-[2.1rem] leading-[1.08] mb-4">Working in paper. Expanding in public.</h2>
-        <p className="font-sans text-[13px] text-base/60 leading-relaxed mb-7">These labels describe engineering progress, not investment performance.</p>
+        <p className="font-sans text-[13px] text-canvas/60 leading-relaxed mb-7">These labels describe engineering progress, not investment performance.</p>
         <div className="space-y-4">
           {mobileStatus.map(([status, title, body, tone, Icon]) => {
             const StatusIcon = Icon as React.ComponentType<{ className?: string }>;
@@ -227,7 +227,7 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
                   <div className={`font-mono text-[9px] uppercase tracking-widest ${toneClass}`}>{status}</div>
                 </div>
                 <h3 className="font-serif text-xl mb-2">{title}</h3>
-                <p className="font-sans text-[14px] text-base/65 leading-relaxed">{body}</p>
+                <p className="font-sans text-[14px] text-canvas/65 leading-relaxed">{body}</p>
               </div>
             );
           })}
@@ -251,7 +251,7 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
 
       <MobileSubscribe
         heading="Follow the CompoundIQ build"
-        body="Working in paper, expanding in public — the Codex letter tracks how specialist teams like this one get designed, gated, and shipped. Every Tuesday."
+        body="Working in paper, expanding in public — the Codex tracks how specialist teams like this one get designed, gated, and shipped. Sent when the work earns an update."
         source="compoundiq"
       />
     </MobileShell>

@@ -42,10 +42,11 @@ Unset ⇒ analytics is a no-op (dev builds log `[analytics]` lines to the consol
 | `demo_complete` | `demo_id` | Demo run first reaches a finished/result state per visit | same files |
 | `next_case_click` | `from_case`, `to_case` | Next-case link clicked at the end of a case page | case pages, both trees (Phase 2) |
 | `calendar_start` | `booking_type` | First date/time selection in a booking flow (once per mount) | `Calendar.tsx`, `BookingWidget.tsx`, `mobile/MobileCalendarPage.tsx` |
+| `booking_step_viewed` | `booking_type`, `step: 'details'` | Prospect first reaches the details step (once per mounted funnel, even after Back/Next) | same files via `lib/useBookingStepAnalytics.ts` |
 | `generate_lead` | `booking_type` | `POST /calendar/book` returns success | same files |
 | `newsletter_subscribe` | `source` | `POST /newsletter/subscribe` returns success | `Footer.tsx` + case-page subscribe blocks (Phase 3) |
 
-`select_content` and `generate_lead` are GA4 recommended events; the rest are custom. Register `case_id`, `demo_id`, `source`, `surface`, `from_case`, `to_case`, `booking_type`, `content_id`, `cta_id`, `from_page`, and `destination` as custom dimensions (event-scoped) if you want them in standard reports: Admin → Custom definitions.
+`select_content` and `generate_lead` are GA4 recommended events; the rest are custom. Register `case_id`, `demo_id`, `source`, `surface`, `from_case`, `to_case`, `booking_type`, `step`, `content_id`, `cta_id`, `from_page`, and `destination` as custom dimensions (event-scoped) if you want them in standard reports: Admin → Custom definitions.
 
 ## 5. DebugView QA checklist
 
@@ -61,7 +62,7 @@ Enable debug: run locally with `VITE_GA_MEASUREMENT_ID` set, and append `?gtm_de
 - [ ] On /brandos run the analyzer → `demo_start` on submit, `demo_complete` when results render. Run it again → no duplicate events (once per visit).
 - [ ] On /purecode run the ticket simulator → `demo_start` / `demo_complete` once each.
 - [ ] Click the next-case link at the end of a case page → `next_case_click` with correct `from_case`/`to_case`, then a `page_view`.
-- [ ] On /calendar pick a date → one `calendar_start`; pick a different time → no second `calendar_start`; complete a booking (use a test slot) → `generate_lead`.
+- [ ] On /calendar pick a date → one `calendar_start`; continue to details → one `booking_step_viewed`; go Back and continue again → no duplicate details event; complete a booking (use a test slot) → `generate_lead`.
 - [ ] Subscribe in the footer → `newsletter_subscribe` with `source: footer`; subscribe from a case-page block → `source` matches that case.
 - [ ] Repeat the pageview and one demo check at mobile viewport width (<768px or DevTools device mode) — events must fire from the mobile tree too.
 

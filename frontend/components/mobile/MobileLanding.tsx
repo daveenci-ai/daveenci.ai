@@ -12,18 +12,20 @@ import { MobilePartnerBlock } from './MobilePartnerBlock';
 import { MobileBooking } from './MobileBooking';
 import { MobileButton } from './MobileButton';
 import type { Page } from '../types';
+import { ProofRail } from '../ProofRail';
 
 interface MobileLandingProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
 /**
- * Mobile-native landing orchestrator. Each folio is its own scene. Booking
- * and Codex scenes remain as placeholders until Phase 4 / 5.
+ * Mobile-native landing orchestrator. Each folio keeps its own composition
+ * while reusing shared proof, content, and navigation logic.
  */
 const MobileLanding: React.FC<MobileLandingProps> = ({ onNavigate }) => (
   <MobileShell onNavigate={onNavigate}>
     <MobileHero onNavigate={onNavigate} />
+    <ProofRail onNavigate={onNavigate} compact />
     <MobileContrast />
     <MobileWorkPreview onNavigate={onNavigate} />
     <MobileMethod />

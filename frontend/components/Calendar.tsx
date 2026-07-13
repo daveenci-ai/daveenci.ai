@@ -20,6 +20,7 @@ import {
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileCalendarPage } from './mobile/MobileCalendarPage';
 import { track } from '../lib/analytics';
+import { useBookingStepAnalytics } from '../lib/useBookingStepAnalytics';
 
 const Calendar: React.FC<CalendarProps> = (props) => {
    const isMobile = useIsMobile();
@@ -48,6 +49,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
    const [displaySlots, setDisplaySlots] = useState<{ display: string, value: string, localTime: string }[]>([]);
 
    const calendarStartFired = useRef(false);
+   const trackDetailsViewed = useBookingStepAnalytics('meet-astrid');
    const trackCalendarStart = () => {
       if (calendarStartFired.current) return;
       calendarStartFired.current = true;
@@ -203,7 +205,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
    };
 
    return (
-      <div className="min-h-screen bg-base font-sans text-ink selection:bg-accent/20 flex flex-col">
+      <div className="min-h-screen bg-canvas font-sans text-ink selection:bg-accent/20 flex flex-col">
          <main className="flex-grow flex items-center justify-center p-6 relative overflow-hidden min-h-screen">
             <VitruvianBackground className="opacity-[0.08] fixed" />
 
@@ -289,7 +291,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
                               <p className="text-ink-muted text-lg mb-8 max-w-md">
                                  A calendar invitation is on its way to your inbox. Looking forward to the conversation.
                               </p>
-                              <div className="bg-base/50 p-6 rounded-sm border border-ink/5 w-full max-w-sm mb-8">
+                              <div className="bg-canvas/50 p-6 rounded-sm border border-ink/5 w-full max-w-sm mb-8">
                                  <div className="flex justify-between text-sm mb-2">
                                     <span className="text-ink-muted">Date</span>
                                     <span className="font-medium text-ink">{selectedDate?.toLocaleDateString()}</span>
@@ -403,7 +405,11 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
                                                 <Button
                                                    variant="primary"
                                                    className={`w-full ${!selectedTime ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                                   onClick={() => selectedTime && setStep('details')}
+                                                   onClick={() => {
+                                                      if (!selectedTime) return;
+                                                      trackDetailsViewed();
+                                                      setStep('details');
+                                                   }}
                                                 >
                                                    Next
                                                 </Button>

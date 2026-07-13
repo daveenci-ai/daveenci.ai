@@ -3,7 +3,7 @@
     {
       "src": "/calendar",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
       ],
       "dest": "/calendar-og.html",
       "status": 200
@@ -11,7 +11,7 @@
     {
       "src": "/brandos",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
       ],
       "dest": "/brandos-og.html",
       "status": 200
@@ -19,7 +19,7 @@
     {
       "src": "/pulsenote",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
       ],
       "dest": "/pulsenote-og.html",
       "status": 200
@@ -30,7 +30,7 @@
     {
       "src": "/briefings",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
       ],
       "dest": "/briefings-og.html",
       "status": 200
@@ -38,7 +38,7 @@
     {
       "src": "/who-we-are",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
       ],
       "dest": "/who-we-are-og.html",
       "status": 200
@@ -46,7 +46,7 @@
     {
       "src": "/autopilot",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
       ],
       "dest": "/autopilot-og.html",
       "status": 200
@@ -54,23 +54,31 @@
     {
       "src": "/compoundiq",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
       ],
       "dest": "/compoundiq-og.html",
       "status": 200
     },
     {
-      "src": "/codex(/.*)?",
+      "src": "/codex$",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
       ],
       "dest": "/briefings-og.html",
       "status": 200
     },
     {
+      "src": "/codex/(agentic-workflow|synthetic-data|zero-touch-crm|rag-vs-long-context|local-llm-stack|prompt-patterns|ai-compliance|saas-pricing|automated-video)",
+      "has": [
+        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
+      ],
+      "dest": "/codex-$1-og.html",
+      "status": 200
+    },
+    {
       "src": "/work",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
       ],
       "dest": "/work-og.html",
       "status": 200
@@ -78,7 +86,7 @@
     {
       "src": "/purecode",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
       ],
       "dest": "/purecode-og.html",
       "status": 200
@@ -86,7 +94,7 @@
     {
       "src": "/events",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
       ],
       "dest": "/events-og.html",
       "status": 200
@@ -94,7 +102,7 @@
     {
       "src": "/thesis",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(bot|crawler|spider|facebookexternalhit).*" }
+        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
       ],
       "dest": "/thesis-og.html",
       "status": 200

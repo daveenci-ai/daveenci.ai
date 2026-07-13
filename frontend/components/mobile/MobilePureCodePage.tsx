@@ -238,7 +238,7 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
 
       <MobileSubscribe
         heading="Follow the shipping log"
-        body="How a 13-specialist code team evolves — new gates, tighter checks, finished pull requests. One Codex letter every Tuesday."
+        body="How a 13-specialist code team evolves — new gates, tighter checks, finished pull requests. Sent when the work earns an update."
         source="purecode"
       />
     </MobileShell>

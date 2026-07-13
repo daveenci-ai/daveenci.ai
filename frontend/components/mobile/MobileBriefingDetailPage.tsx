@@ -4,6 +4,7 @@ import { MobileButton } from './MobileButton';
 import { MobileTopBar } from './MobileTopBar';
 import { MobileErrorBoundary } from './MobileErrorBoundary';
 import type { Page } from '../types';
+import { CodexCover } from '../CodexCover';
 
 export interface MobileBriefingData {
   id: string;
@@ -13,7 +14,6 @@ export interface MobileBriefingData {
   category: string;
   readTime: string;
   issueNo: string;
-  image: string;
   quickAnswerTitle: string;
   quickAnswer: string;
   sections: { id: string; title: string; content: React.ReactNode }[];
@@ -77,7 +77,7 @@ export const MobileBriefingDetailPage: React.FC<MobileBriefingDetailPageProps> =
         {/* Hero image */}
         <div className="px-6 mb-8">
           <div className="aspect-[16/10] w-full overflow-hidden rounded-sm bg-ink/5 border border-ink/10">
-            <img src={data.image} alt={data.title} decoding="async" className="w-full h-full object-cover filter sepia-[0.1] contrast-[1.02]" />
+            <CodexCover id={data.id} title={data.title} />
           </div>
         </div>
 

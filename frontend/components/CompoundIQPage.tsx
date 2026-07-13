@@ -159,7 +159,7 @@ const CompoundIQControlLoop: React.FC = () => (
         { time: ':05', label: 'Paper executor', detail: 'gate + simulate fill', Icon: Activity },
       ].map((stage, index) => (
         <React.Fragment key={stage.label}>
-          <div className="relative bg-base/50 border border-ink/10 p-4 rounded-sm">
+          <div className="relative bg-canvas/50 border border-ink/10 p-4 rounded-sm">
             <div className="flex items-center justify-between mb-6">
               <stage.Icon className="w-5 h-5 text-accent" />
               <span className="font-mono text-[9px] uppercase tracking-widest text-ink-muted/60">{stage.time}</span>
@@ -307,12 +307,12 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
         </div>
       </Section>
 
-      <section className="bg-ink text-base py-20 md:py-24">
+      <section className="bg-ink text-canvas py-20 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-3xl mb-12">
             <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">Build status · 10 July 2026</div>
             <h2 className="font-serif text-4xl md:text-5xl leading-tight">Working in paper. Expanding in public.</h2>
-            <p className="font-sans text-base/65 leading-relaxed mt-5">These labels describe engineering progress, not investment performance.</p>
+            <p className="font-sans text-canvas/65 leading-relaxed mt-5">These labels describe engineering progress, not investment performance.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
             {buildStatus.map((item) => (
@@ -322,7 +322,7 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
                   <span className={`font-mono text-[9px] uppercase tracking-widest text-right ${item.tone}`}>{item.status}</span>
                 </div>
                 <h3 className="font-serif text-xl mb-3">{item.title}</h3>
-                <p className="font-sans text-sm text-base/65 leading-relaxed">{item.body}</p>
+                <p className="font-sans text-sm text-canvas/65 leading-relaxed">{item.body}</p>
               </div>
             ))}
           </div>
@@ -347,7 +347,7 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
       <Footer
         onNavigate={onNavigate}
         newsletterHeading="Follow the CompoundIQ build"
-        newsletterBody="Working in paper, expanding in public — the Codex letter tracks how specialist teams like this one get designed, gated, and shipped. Every Tuesday."
+        newsletterBody="Working in paper, expanding in public — the Codex tracks how specialist teams like this one get designed, gated, and shipped. Sent when the work earns an update."
         newsletterSource="compoundiq"
       />
     </div>

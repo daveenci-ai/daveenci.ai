@@ -1,0 +1,101 @@
+[
+  {
+    "id": "agentic-workflow",
+    "title": "The Agentic Workflow",
+    "seoTitle": "The Agentic Workflow: Architecting Swarms — DaVeenci",
+    "description": "A technical guide to autonomous agent swarms, four-stage reasoning pipelines, and self-correcting AI workers.",
+    "issueNo": "042",
+    "category": "Architecture",
+    "featured": true,
+    "readTime": "15 min read",
+    "publishedAt": "2025-10-14"
+  },
+  {
+    "id": "synthetic-data",
+    "title": "Synthetic Data Pipelines",
+    "seoTitle": "Synthetic Data Pipelines: The Infinite Dataset — DaVeenci",
+    "description": "A playbook for generating high-fidelity synthetic datasets to fine-tune models without exposing private human data.",
+    "issueNo": "043",
+    "category": "Engineering",
+    "featured": true,
+    "readTime": "12 min read",
+    "publishedAt": "2025-10-21"
+  },
+  {
+    "id": "zero-touch-crm",
+    "title": "The Zero-Touch CRM",
+    "seoTitle": "The Zero-Touch CRM: Self-Healing Databases — DaVeenci",
+    "description": "A technical deep dive into customer databases that enrich and maintain themselves without sales-rep intervention.",
+    "issueNo": "044",
+    "category": "Operations",
+    "featured": false,
+    "readTime": "10 min read",
+    "publishedAt": "2025-10-28"
+  },
+  {
+    "id": "rag-vs-long-context",
+    "title": "RAG vs. Long Context: The Architecture of Memory",
+    "seoTitle": "RAG vs. Long Context: The Architecture of Memory — DaVeenci",
+    "description": "A practical comparison of the cost, latency, and reasoning trade-offs between retrieval and long-context models.",
+    "issueNo": "045",
+    "category": "Engineering",
+    "featured": false,
+    "readTime": "12 min read",
+    "publishedAt": "2025-11-04"
+  },
+  {
+    "id": "local-llm-stack",
+    "title": "Local LLM Stack for Legal Ops",
+    "seoTitle": "Local LLM Stack: Private Inference for Legal Ops — DaVeenci",
+    "description": "Hardware and inference-engine guidance for running local language models in privacy-focused legal operations.",
+    "issueNo": "040",
+    "category": "Architecture",
+    "featured": false,
+    "readTime": "14 min read",
+    "publishedAt": "2025-12-07"
+  },
+  {
+    "id": "prompt-patterns",
+    "title": "Prompt Engineering Patterns",
+    "seoTitle": "Prompt Engineering Patterns: Beyond Chain of Thought — DaVeenci",
+    "description": "Implementing tree-of-thought and recursive-criticism patterns for complex reasoning tasks.",
+    "issueNo": "039",
+    "category": "Strategy",
+    "featured": false,
+    "readTime": "16 min read",
+    "publishedAt": "2025-12-07"
+  },
+  {
+    "id": "ai-compliance",
+    "title": "AI Legal Compliance",
+    "seoTitle": "AI Legal Compliance: Navigating the EU AI Act — DaVeenci",
+    "description": "Practical compliance checklists for teams shipping automated decision-making systems under the EU AI Act.",
+    "issueNo": "038",
+    "category": "Strategy",
+    "featured": false,
+    "readTime": "12 min read",
+    "publishedAt": "2025-12-07"
+  },
+  {
+    "id": "saas-pricing",
+    "title": "The Death of SaaS Pricing",
+    "seoTitle": "The Death of SaaS Pricing: From Seats to Outcomes — DaVeenci",
+    "description": "Why per-seat pricing is weakening and how AI products can transition toward outcome-based billing.",
+    "issueNo": "037",
+    "category": "Strategy",
+    "featured": false,
+    "readTime": "10 min read",
+    "publishedAt": "2025-12-07"
+  },
+  {
+    "id": "automated-video",
+    "title": "Automated Video Production",
+    "seoTitle": "Automated Video Production: Hyper-Personalization — DaVeenci",
+    "description": "Using generative video and programmable production to create personalized sales outreach at scale.",
+    "issueNo": "036",
+    "category": "Strategy",
+    "featured": false,
+    "readTime": "11 min read",
+    "publishedAt": "2025-12-07"
+  }
+]

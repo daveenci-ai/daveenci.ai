@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { ScrollReveal, Section, Button, Logo, CustomSelect } from './Shared';
 import { API_ENDPOINTS } from '../config';
 import { track } from '../lib/analytics';
+import { useBookingStepAnalytics } from '../lib/useBookingStepAnalytics';
 import type { Page } from './types';
 import {
   BUSINESS_TIMEZONE,
@@ -77,6 +78,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
   });
 
   const calendarStartFired = useRef(false);
+  const trackDetailsViewed = useBookingStepAnalytics(bookingType);
   const trackCalendarStart = () => {
     if (calendarStartFired.current) return;
     calendarStartFired.current = true;
@@ -203,7 +205,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
                 <p className="text-ink-muted text-lg mb-8 max-w-md">
                   A calendar invitation has been sent to your inbox. I look forward to our conversation.
                 </p>
-                <div className="bg-base/50 p-6 rounded-lg border border-ink/5 w-full max-w-sm mb-8">
+                <div className="bg-canvas/50 p-6 rounded-lg border border-ink/5 w-full max-w-sm mb-8">
                   <div className="flex justify-between text-sm mb-2">
                     <span className="text-ink-muted">Date</span>
                     <span className="font-medium text-ink">{selectedDate?.toLocaleDateString()}</span>
@@ -236,8 +238,8 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
                       <div className="flex items-center justify-between mb-6">
                         <h3 className="font-serif text-xl text-ink">{MONTH_NAMES[currentDate.getMonth()]} {currentDate.getFullYear()}</h3>
                         <div className="flex gap-2">
-                          <button onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="p-1 hover:bg-base rounded-full text-ink-muted"><ChevronLeft className="w-5 h-5" /></button>
-                          <button onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="p-1 hover:bg-base rounded-full text-ink-muted"><ChevronRight className="w-5 h-5" /></button>
+                          <button onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="p-1 hover:bg-canvas rounded-full text-ink-muted"><ChevronLeft className="w-5 h-5" /></button>
+                          <button onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="p-1 hover:bg-canvas rounded-full text-ink-muted"><ChevronRight className="w-5 h-5" /></button>
                         </div>
                       </div>
                       <div className="grid grid-cols-7 gap-2 text-center text-xs font-bold text-ink-muted/40 mb-2">
@@ -297,7 +299,11 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
                             <Button
                               variant="primary"
                               className={`w-full ${!selectedTime ? 'opacity-50 cursor-not-allowed' : ''}`}
-                              onClick={() => selectedTime && setStep('details')}
+                              onClick={() => {
+                                if (!selectedTime) return;
+                                trackDetailsViewed();
+                                setStep('details');
+                              }}
                             >
                               Next
                             </Button>
@@ -318,26 +324,26 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
                         <label htmlFor={`${sectionId}-name`} className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
                           <User className="w-3 h-3" /> Full Name <span className="text-red-500">*</span>
                         </label>
-                        <input id={`${sectionId}-name`} name="name" autoComplete="name" type="text" required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg" placeholder="Leonardo da Vinci" />
+                        <input id={`${sectionId}-name`} name="name" autoComplete="name" type="text" required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg" placeholder="Leonardo da Vinci" />
                       </div>
                       <div>
                         <label htmlFor={`${sectionId}-email`} className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
                           <Mail className="w-3 h-3" /> Email <span className="text-red-500">*</span>
                         </label>
-                        <input id={`${sectionId}-email`} name="email" autoComplete="email" type="email" required value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg" placeholder="leo@florence.it" />
+                        <input id={`${sectionId}-email`} name="email" autoComplete="email" type="email" required value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg" placeholder="leo@florence.it" />
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <label htmlFor={`${sectionId}-company`} className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
                             <Briefcase className="w-3 h-3" /> Company <span className="text-ink-muted/60 lowercase font-normal">(optional)</span>
                           </label>
-                          <input id={`${sectionId}-company`} name="company" autoComplete="organization" type="text" value={formData.company} onChange={e => setFormData({ ...formData, company: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg" placeholder="Acme Inc." />
+                          <input id={`${sectionId}-company`} name="company" autoComplete="organization" type="text" value={formData.company} onChange={e => setFormData({ ...formData, company: e.target.value })} className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg" placeholder="Acme Inc." />
                         </div>
                         <div>
                           <label htmlFor={`${sectionId}-phone`} className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
                             <Phone className="w-3 h-3" /> Phone <span className="text-ink-muted/60 lowercase font-normal">(optional)</span>
                           </label>
-                          <input id={`${sectionId}-phone`} name="phone" autoComplete="tel" type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg" placeholder="+1 555..." />
+                          <input id={`${sectionId}-phone`} name="phone" autoComplete="tel" type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg" placeholder="+1 555..." />
                         </div>
                       </div>
                       <div>
@@ -353,7 +359,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
                         <label htmlFor={`${sectionId}-notes`} className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
                           <HelpCircle className="w-3 h-3" /> Anything else you want to share?
                         </label>
-                        <textarea id={`${sectionId}-notes`} name="notes" value={formData.notes} onChange={e => setFormData({ ...formData, notes: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg min-h-[100px] resize-y" placeholder="Optional - feel free to share any context or specific questions..." />
+                        <textarea id={`${sectionId}-notes`} name="notes" value={formData.notes} onChange={e => setFormData({ ...formData, notes: e.target.value })} className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg min-h-[100px] resize-y" placeholder="Optional - feel free to share any context or specific questions..." />
                       </div>
                     </div>
                     <div className="mt-auto flex gap-4">

@@ -10,7 +10,7 @@ export default {
     theme: {
         extend: {
             colors: {
-                base: 'rgb(var(--color-base) / <alpha-value>)',
+                canvas: 'rgb(var(--color-base) / <alpha-value>)',
                 alt: 'rgb(var(--color-alt) / <alpha-value>)',
                 ink: {
                     DEFAULT: 'rgb(var(--color-ink) / <alpha-value>)',
@@ -23,6 +23,17 @@ export default {
                 },
                 'paper-border': 'rgb(var(--color-paper-border) / <alpha-value>)',
                 'pulse-surface': 'rgb(var(--color-pulse-surface) / <alpha-value>)',
+                'status-success': 'rgb(var(--color-status-success) / <alpha-value>)',
+                'status-danger': 'rgb(var(--color-status-danger) / <alpha-value>)',
+                'status-critical': 'rgb(var(--color-status-critical) / <alpha-value>)',
+                linkedin: 'rgb(var(--color-linkedin) / <alpha-value>)',
+                facebook: 'rgb(var(--color-facebook) / <alpha-value>)',
+                instagram: 'rgb(var(--color-instagram) / <alpha-value>)',
+                'product-navy': 'rgb(var(--color-product-navy) / <alpha-value>)',
+                'product-navy-dark': 'rgb(var(--color-product-navy-dark) / <alpha-value>)',
+                'product-gold': 'rgb(var(--color-product-gold) / <alpha-value>)',
+                'product-charcoal': 'rgb(var(--color-product-charcoal) / <alpha-value>)',
+                'product-cream': 'rgb(var(--color-product-cream) / <alpha-value>)',
             },
             fontFamily: {
                 serif: ['"Playfair Display"', 'Georgia', 'serif'],
