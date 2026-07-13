@@ -16,6 +16,8 @@ export type DemoId = 'brandos_analyzer' | 'purecode_ticket_sim' | 'compoundiq_ga
 
 export interface AnalyticsEventMap {
   select_content: { content_type: 'case_study'; content_id: CaseId; surface: 'work_preview' | 'work_page' };
+  work_preview_viewed: { surface: 'work_preview' };
+  cta_click: { cta_id: string; surface: string; from_page: string; destination: string };
   case_engaged: { case_id: CaseId; trigger: 'active_time' | 'scroll_depth' };
   demo_start: { demo_id: DemoId };
   demo_complete: { demo_id: DemoId };
@@ -68,13 +70,13 @@ const send = (eventName: string, params: Record<string, unknown>): void => {
  * canonical trailing-slash-free pathname so one page never splits into two
  * rows.
  */
-export const trackPageView = (): void => {
+export const trackPageView = (pageTitle = document.title): void => {
   const { pathname } = window.location;
   const path = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
   send('page_view', {
     page_location: window.location.href,
     page_path: path,
-    page_title: document.title,
+    page_title: pageTitle,
   });
 };
 

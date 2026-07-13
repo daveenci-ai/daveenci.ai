@@ -1,10 +1,12 @@
 import React from 'react';
+import { track, type AnalyticsEventMap } from '../../lib/analytics';
 
 type Variant = 'primary' | 'secondary' | 'dark';
 
 interface MobileButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
   fullWidth?: boolean;
+  analytics?: AnalyticsEventMap['cta_click'];
 }
 
 const BASE = 'py-3.5 font-medium tracking-[0.15em] uppercase text-sm rounded-sm transition-all';
@@ -27,10 +29,16 @@ export const MobileButton: React.FC<MobileButtonProps> = ({
   fullWidth = true,
   className = '',
   children,
+  analytics,
+  onClick,
   ...props
 }) => (
   <button
     {...props}
+    onClick={(event) => {
+      if (analytics) track('cta_click', analytics);
+      onClick?.(event);
+    }}
     className={`${BASE} ${fullWidth ? 'w-full' : 'px-6'} ${VARIANT_CLASSES[variant]} ${className}`}
   >
     {children}

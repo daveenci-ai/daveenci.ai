@@ -69,11 +69,7 @@ export const MobilePulseNotePage: React.FC<MobilePulseNotePageProps> = ({ onNavi
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
-    document.title = 'Pulse Note — DaVeenci';
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci | AI & Automation Consultancy';
-    };
   }, []);
 
   const scrollTo = (id: string) => {
@@ -190,7 +186,7 @@ export const MobilePulseNotePage: React.FC<MobilePulseNotePageProps> = ({ onNavi
           {PERSONAS.map((p) => (
             <div key={p.title} className="bg-white border border-ink/10 p-5 shadow-sm hover:shadow-lg transition-all rounded-lg text-center flex flex-col items-center">
               <div className="relative w-32 h-32 mx-auto mb-4 rounded-full bg-pulse-surface border border-ink/10 overflow-hidden flex items-center justify-center">
-                <img src={p.img} alt={p.title} className="w-full h-full object-cover object-top scale-150" />
+                <img src={p.img} alt={p.title} loading="lazy" decoding="async" className="w-full h-full object-cover object-top scale-150" />
               </div>
               <h3 className="font-serif text-lg text-ink mb-2">{p.title}</h3>
               <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{p.desc}</p>

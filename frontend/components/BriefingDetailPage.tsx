@@ -1742,7 +1742,7 @@ const BriefingDetailDesktop: React.FC<BriefingDetailPageProps> = ({ onNavigate, 
                   </div>
                </div>
 
-               <img src={data.image} alt={data.title} className="w-full h-[500px] object-cover object-center rounded-sm mb-12 shadow-xl shadow-ink/5" />
+               <img src={data.image} alt={data.title} decoding="async" className="w-full h-[500px] object-cover object-center rounded-sm mb-12 shadow-xl shadow-ink/5" />
 
                {/* Dynamic Sections */}
                {data.sections.map((section) => (

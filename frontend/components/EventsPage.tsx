@@ -19,11 +19,7 @@ const EventsPage: React.FC<EventsPageProps> = (props) => {
 
 const EventsPageDesktop: React.FC<EventsPageProps> = ({ onNavigate }) => {
   useEffect(() => {
-    document.title = 'Events — DaVeenci';
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci | AI & Automation Consultancy';
-    };
   }, []);
 
   return (
@@ -32,7 +28,7 @@ const EventsPageDesktop: React.FC<EventsPageProps> = ({ onNavigate }) => {
 
       <Section className="pt-44 pb-4 md:pt-52 md:pb-8">
         <GridPattern />
-        <ScrollReveal>
+        <ScrollReveal immediate>
           <PageHero
             eyebrow="Workshop Events"
             title={<>From the <br /><span className="italic text-ink-muted">workshop.</span></>}

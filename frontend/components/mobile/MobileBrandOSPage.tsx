@@ -85,11 +85,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
   const demoCompleteTracked = useRef(false);
 
   useEffect(() => {
-    document.title = 'BrandOS — DaVeenci';
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci | AI & Automation Consultancy';
-    };
   }, []);
 
   const canSubmit = names.trim().length > 0 && context.trim().length > 0 && !loading;
@@ -277,10 +273,12 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
         <Widget className="p-5">
           <div className="space-y-4">
             <div>
-              <label className="block font-mono text-[10px] font-bold text-ink uppercase tracking-wider mb-2">
+              <label htmlFor="mobile-brandos-names" className="block font-mono text-[10px] font-bold text-ink uppercase tracking-wider mb-2">
                 Brand names <span className="text-red-500">*</span>
               </label>
               <input
+                id="mobile-brandos-names"
+                name="brandNames"
                 type="text"
                 value={names}
                 onChange={(e) => setNames(e.target.value)}
@@ -292,10 +290,12 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
             </div>
 
             <div>
-              <label className="block font-mono text-[10px] font-bold text-ink uppercase tracking-wider mb-2">
+              <label htmlFor="mobile-brandos-context" className="block font-mono text-[10px] font-bold text-ink uppercase tracking-wider mb-2">
                 Product context <span className="text-red-500">*</span>
               </label>
               <textarea
+                id="mobile-brandos-context"
+                name="productContext"
                 value={context}
                 onChange={(e) => setContext(e.target.value)}
                 placeholder="AI-powered booking platform for B2B service companies"

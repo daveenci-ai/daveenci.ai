@@ -25,8 +25,8 @@ const MobileLanding: React.FC<MobileLandingProps> = ({ onNavigate }) => (
   <MobileShell onNavigate={onNavigate}>
     <MobileHero onNavigate={onNavigate} />
     <MobileContrast />
-    <MobileMethod />
     <MobileWorkPreview onNavigate={onNavigate} />
+    <MobileMethod />
     <MobileFounderBlock />
     <MobileAdvantage />
     <MobileControls />

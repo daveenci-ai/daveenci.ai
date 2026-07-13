@@ -1,22 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Calendar as CalendarIcon, ArrowRight, X, Check, Loader2 } from 'lucide-react';
-import { format, addDays, getDay, setDay, startOfDay, addWeeks } from 'date-fns';
 import { Section, SectionHeader, ScrollReveal, Surface } from './Shared';
-import type { EventCardProps } from './types';
-import NetworkingImage from '../images/01 - Networking Session.jpg';
-import AEOvsSEOImage from '../images/02 - Battle Between AEO and SEO.jpg';
-import OwnYourStackImage from '../images/03 - Own Your Stack.jpg';
 import { API_ENDPOINTS } from '../config';
+import { formatEventDate, scheduledEvents, workshopTopics, type ScheduledEvent } from './eventCatalog';
 
 interface RegistrationModalProps {
    isOpen: boolean;
    onClose: () => void;
-   event: {
-      title: string;
-      date: string;
-      description: string;
-      isoDate: string; // Added for backend
-   };
+   event: ScheduledEvent | null;
 }
 
 const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, event }) => {
@@ -24,7 +15,24 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
    const [errorMessage, setErrorMessage] = useState('');
 
-   if (!isOpen) return null;
+   const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+   useEffect(() => {
+      if (!isOpen) return;
+      const previousOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      closeButtonRef.current?.focus();
+      const handleKeyDown = (keyboardEvent: KeyboardEvent) => {
+         if (keyboardEvent.key === 'Escape') onClose();
+      };
+      document.addEventListener('keydown', handleKeyDown);
+      return () => {
+         document.body.style.overflow = previousOverflow;
+         document.removeEventListener('keydown', handleKeyDown);
+      };
+   }, [isOpen, onClose]);
+
+   if (!isOpen || !event) return null;
 
    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -40,7 +48,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
                email: formData.email,
                eventName: event.title,
                eventDescription: event.description,
-               eventDate: event.isoDate
+               eventDate: event.startsAt
             })
          });
 
@@ -57,7 +65,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
             setStatus('error');
             setErrorMessage(data.error || 'Failed to register');
          }
-      } catch (error) {
+      } catch {
          setStatus('error');
          setErrorMessage('Network error. Please try again.');
       }
@@ -65,8 +73,8 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
 
    return (
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/20 backdrop-blur-sm animate-in fade-in duration-200">
-         <div className="bg-white w-full max-w-md p-8 rounded-sm shadow-2xl relative animate-in zoom-in-95 duration-200">
-            <button onClick={onClose} className="absolute top-4 right-4 text-ink-muted hover:text-ink">
+         <div role="dialog" aria-modal="true" aria-labelledby="event-registration-title" className="bg-white w-full max-w-md p-8 rounded-sm shadow-2xl relative animate-in zoom-in-95 duration-200">
+            <button ref={closeButtonRef} type="button" aria-label="Close registration" onClick={onClose} className="absolute top-4 right-4 p-2 text-ink-muted hover:text-ink">
                <X className="w-5 h-5" />
             </button>
 
@@ -82,14 +90,17 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
                <>
                   <div className="mb-6">
                      <span className="font-mono text-xs font-bold text-accent uppercase tracking-wider">Event Registration</span>
-                     <h3 className="font-serif text-2xl text-ink mt-1">{event.title}</h3>
-                     <p className="text-sm text-ink-muted mt-2">{event.date}</p>
+                     <h3 id="event-registration-title" className="font-serif text-2xl text-ink mt-1">{event.title}</h3>
+                     <p className="text-sm text-ink-muted mt-2">{formatEventDate(event)}</p>
                   </div>
 
                   <form onSubmit={handleSubmit} className="space-y-4">
                      <div>
-                        <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2">Full Name</label>
+                        <label htmlFor="event-full-name" className="block text-xs font-bold text-ink uppercase tracking-wider mb-2">Full Name</label>
                         <input
+                           id="event-full-name"
+                           name="fullName"
+                           autoComplete="name"
                            type="text"
                            required
                            value={formData.fullName}
@@ -99,8 +110,11 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
                         />
                      </div>
                      <div>
-                        <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2">Email Address</label>
+                        <label htmlFor="event-email" className="block text-xs font-bold text-ink uppercase tracking-wider mb-2">Email Address</label>
                         <input
+                           id="event-email"
+                           name="email"
+                           autoComplete="email"
                            type="email"
                            required
                            value={formData.email}
@@ -111,7 +125,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
                      </div>
 
                      {status === 'error' && (
-                        <div className="text-red-500 text-sm bg-red-50 p-3 rounded-sm">
+                        <div role="alert" className="text-red-500 text-sm bg-red-50 p-3 rounded-sm">
                            {errorMessage}
                         </div>
                      )}
@@ -132,7 +146,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
    );
 };
 
-const CodexEventCard: React.FC<EventCardProps & { index: number; onRegister: () => void }> = ({ image, date, title, description, index, onRegister }) => (
+const CodexEventCard: React.FC<{ event: ScheduledEvent; index: number; onRegister: () => void }> = ({ event, index, onRegister }) => (
    <Surface kind="document" className="group relative flex flex-col h-full min-h-[500px] bg-base transition-all duration-700 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)]">
       <div className="absolute inset-0 border border-paper-border/70 shadow-[inset_0_0_20px_rgba(214,207,192,0.2)] pointer-events-none"></div>
 
@@ -148,15 +162,17 @@ const CodexEventCard: React.FC<EventCardProps & { index: number; onRegister: () 
                <span className="font-serif italic text-sm tracking-[0.12em] uppercase text-ink/60">Folio {100 + index}.v2</span>
             </div>
             <div className="font-mono text-xs font-bold text-white bg-accent px-3 py-1.5 rounded-sm shadow-md tracking-tight">
-               {date}
+               {formatEventDate(event)}
             </div>
          </div>
 
          <div className="relative aspect-square mb-6 overflow-hidden border border-ink/10 p-1 bg-white shadow-sm rotate-[0.5deg] group-hover:rotate-0 transition-transform duration-500">
             <div className="relative w-full h-full overflow-hidden bg-ink/5">
                <img
-                  src={image}
-                  alt={title}
+                  src={event.image}
+                  alt={event.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover opacity-90 filter sepia-[0.2] grayscale-[0.4] contrast-[1.1] group-hover:filter-none group-hover:opacity-100 transition-all duration-700"
                />
                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/graphy.png')] opacity-20 mix-blend-multiply pointer-events-none"></div>
@@ -164,15 +180,15 @@ const CodexEventCard: React.FC<EventCardProps & { index: number; onRegister: () 
          </div>
 
          <div className="mb-6 flex-grow">
-            <h3 className="font-serif text-2xl md:text-3xl text-ink mb-4 group-hover:text-accent transition-colors">{title}</h3>
+            <h3 className="font-serif text-2xl md:text-3xl text-ink mb-4 group-hover:text-accent transition-colors">{event.title}</h3>
             {/* Date moved to top badge */}
             <p className="font-serif text-base leading-relaxed text-ink/70 italic border-l-2 border-ink/10 pl-4">
-               "{description}"
+               "{event.description}"
             </p>
          </div>
 
          <div className="mt-auto pt-4 flex items-center justify-between border-t border-ink/5">
-            <span className="font-mono text-[9px] tracking-widest text-ink/30 uppercase">Ref: DA-2025-0{index + 1}</span>
+            <span className="font-mono text-[9px] tracking-widest text-ink/30 uppercase">Ref: {event.id}</span>
             <button
                onClick={onRegister}
                className="group/btn flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ink hover:text-accent transition-colors"
@@ -186,81 +202,52 @@ const CodexEventCard: React.FC<EventCardProps & { index: number; onRegister: () 
 );
 
 const Events: React.FC = () => {
-   const [selectedEvent, setSelectedEvent] = useState<any>(null);
-
-   const events = useMemo(() => {
-      const today = startOfDay(new Date());
-      const dayOfWeek = getDay(today); // 0 (Sun) to 6 (Sat)
-
-      // Logic: If Sun(0), Mon(1), Tue(2) -> This week's Thursday.
-      // If Wed(3) or later -> Next week's Thursday.
-      let event1Date = setDay(today, 4, { weekStartsOn: 0 }); // Set to Thursday of this week
-      if (dayOfWeek >= 3) {
-         event1Date = addWeeks(event1Date, 1);
-      }
-
-      // Set time to 10:00 AM for consistency
-      event1Date.setHours(10, 0, 0, 0);
-
-      const event2Date = addDays(event1Date, 10);
-      // Event 2 is usually at 10:30 AM based on previous data
-      event2Date.setHours(10, 30, 0, 0);
-
-      const event3Date = addDays(event2Date, 6);
-      // Event 3 at 10:00 AM
-      event3Date.setHours(10, 0, 0, 0);
-
-      return [
-         {
-            image: NetworkingImage,
-            date: `${format(event1Date, "EEE, MMM d, yyyy")} @ ${format(event1Date, "h:mm a")} CST`,
-            isoDate: event1Date.toISOString(),
-            title: "AI × Ops: The Networking Session",
-            description: "Curious about how AI and automation are transforming work? Meet founders, builders, and operators at this interactive networking event."
-         },
-         {
-            image: AEOvsSEOImage,
-            date: `${format(event2Date, "EEE, MMM d, yyyy")} @ ${format(event2Date, "h:mm a")} CST`,
-            isoDate: event2Date.toISOString(),
-            title: "The Battle Between AEO and SEO",
-            description: "In this session, we explore the shifting terrain between classic SEO—the old mapmakers of the web—and AEO, the new intelligence engines."
-         },
-         {
-            image: OwnYourStackImage,
-            date: `${format(event3Date, "EEE, MMM d, yyyy")} @ ${format(event3Date, "h:mm a")} CST`,
-            isoDate: event3Date.toISOString(),
-            title: "AI Foundations: Own Your Stack",
-            description: "Learn how to run AI apps on infrastructure you actually control. We’ll cover the essentials of hosting, servers, and GPU access."
-         }
-      ];
-   }, []);
+   const [selectedEvent, setSelectedEvent] = useState<ScheduledEvent | null>(null);
 
    return (
       <Section id="events" pattern="grid" className="bg-alt/30">
          <div className="relative z-10">
             <SectionHeader
-               eyebrow="Upcoming"
-               title="Come sit in."
-               subtitle="Three sessions on the calendar. Register to reserve a seat."
+               eyebrow={scheduledEvents.length ? 'Upcoming' : 'Next dates'}
+               title={scheduledEvents.length ? 'Come sit in.' : 'The next sessions are being planned.'}
+               subtitle={scheduledEvents.length ? 'Confirmed sessions are listed below with one shared source of truth for time and timezone.' : 'No public dates are open right now. Subscribe at the bottom of the page and we’ll send the next invitation when it is confirmed.'}
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-               {events.map((event, idx) => (
-                  <ScrollReveal key={idx} delay={idx * 150} className="h-full">
-                     <CodexEventCard
-                        index={idx}
-                        {...event}
-                        onRegister={() => setSelectedEvent(event)}
-                     />
-                  </ScrollReveal>
-               ))}
-            </div>
+            {scheduledEvents.length > 0 ? (
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                  {scheduledEvents.map((event, idx) => (
+                     <ScrollReveal key={event.id} delay={idx * 100} className="h-full">
+                        <CodexEventCard event={event} index={idx} onRegister={() => setSelectedEvent(event)} />
+                     </ScrollReveal>
+                  ))}
+               </div>
+            ) : (
+               <div className="max-w-7xl mx-auto">
+                  <div className="flex items-center gap-3 mb-8 text-ink-muted">
+                     <CalendarIcon className="w-5 h-5 text-accent" />
+                     <span className="font-mono text-[10px] uppercase tracking-[0.2em]">Topics from the workshop</span>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                     {workshopTopics.map((topic, idx) => (
+                        <ScrollReveal key={topic.title} delay={idx * 100} className="h-full">
+                           <Surface kind="document" as="article" className="h-full bg-white/55 border border-ink/10 overflow-hidden">
+                              <img src={topic.image} alt="" loading="lazy" decoding="async" className="w-full aspect-[16/10] object-cover grayscale-[0.2]" />
+                              <div className="p-7">
+                                 <h3 className="font-serif text-2xl text-ink mb-3">{topic.title}</h3>
+                                 <p className="font-sans text-sm leading-relaxed text-ink-muted">{topic.description}</p>
+                              </div>
+                           </Surface>
+                        </ScrollReveal>
+                     ))}
+                  </div>
+               </div>
+            )}
          </div>
 
          <RegistrationModal
             isOpen={!!selectedEvent}
             onClose={() => setSelectedEvent(null)}
-            event={selectedEvent || { title: '', date: '', description: '', isoDate: '' }}
+            event={selectedEvent}
          />
       </Section>
    );

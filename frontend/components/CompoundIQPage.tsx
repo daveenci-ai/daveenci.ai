@@ -193,11 +193,7 @@ const CompoundIQControlLoop: React.FC = () => (
 
 const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) => {
   useEffect(() => {
-    document.title = 'CompoundIQ — Governed, Paper-First Trading Research | DaVeenci';
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci — AI teams, not AI tools';
-    };
   }, []);
 
   return (
@@ -208,7 +204,7 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
         <VitruvianBackground className="opacity-[0.08] -right-1/4" />
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 items-center">
           <div className="lg:col-span-6 relative z-10">
-            <ScrollReveal delay={150}>
+            <ScrollReveal immediate>
               <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.22em] uppercase text-amber-800 bg-amber-50/75 border border-amber-700/15 rounded-sm px-2.5 py-1">
                 Build in public · In development · Paper only
               </div>
@@ -219,8 +215,18 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
                 size="md"
                 actions={
                   <>
-                    <Button variant="primary" onClick={() => onNavigate('calendar')} className="text-[16px] px-8 py-4">Talk to us</Button>
-                    <Button variant="secondary" onClick={() => document.getElementById('compoundiq-system')?.scrollIntoView({ behavior: 'smooth' })} className="text-[16px] px-8 py-4">See the system</Button>
+                    <Button
+                      variant="primary"
+                      analytics={{ cta_id: 'try_gate', surface: 'case_hero', from_page: 'compoundiq', destination: '#compoundiq-gate' }}
+                      onClick={() => document.getElementById('compoundiq-gate')?.scrollIntoView({ behavior: 'smooth' })}
+                      className="text-[16px] px-8 py-4"
+                    >Try the gate</Button>
+                    <Button
+                      variant="secondary"
+                      analytics={{ cta_id: 'talk_to_us', surface: 'case_hero', from_page: 'compoundiq', destination: '/calendar' }}
+                      onClick={() => onNavigate('calendar')}
+                      className="text-[16px] px-8 py-4"
+                    >Talk to us</Button>
                   </>
                 }
               />
@@ -244,6 +250,8 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
           ))}
         </div>
       </section>
+
+      <GateSimulator />
 
       <Section id="compoundiq-system" className="py-20 md:py-28" pattern="grid">
         <SectionHeader
@@ -279,8 +287,6 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
           ))}
         </div>
       </Section>
-
-      <GateSimulator />
 
       <Section className="py-20 md:py-28 bg-alt/25">
         <SectionHeader

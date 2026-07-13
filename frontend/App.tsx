@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback, useRef, Suspense, lazy } from 
 import type { Page } from './components/types';
 import { MobileErrorBoundary } from './components/mobile/MobileErrorBoundary';
 import { initAnalytics, trackPageView } from './lib/analytics';
+import { applyRouteMetadata } from './lib/routeMetadata';
 
 // Route-level code splitting — each page becomes its own lazy chunk.
 // Only the landing chunk downloads on initial load; other pages are
@@ -20,6 +21,7 @@ const AutoPilotPage = lazy(() => import('./components/AutoPilotPage'));
 const CompoundIQPage = lazy(() => import('./components/CompoundIQPage'));
 const EventsPage = lazy(() => import('./components/EventsPage'));
 const ThesisPage = lazy(() => import('./components/ThesisPage'));
+const PrivacyPage = lazy(() => import('./components/PrivacyPage'));
 const NotFoundPage = lazy(() => import('./components/NotFoundPage'));
 
 const RouteLoading: React.FC = () => (
@@ -33,9 +35,9 @@ const App: React.FC = () => {
   const [selectedBriefingId, setSelectedBriefingId] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [targetSection, setTargetSection] = useState<string | null>(null);
-  // Guards the initial pageview against React StrictMode's double effect
-  // invocation in dev (the ref survives the setup/cleanup/setup cycle).
-  const initialPageviewFired = useRef(false);
+  const [routeReady, setRouteReady] = useState(false);
+  // The ref survives React StrictMode's development-only effect replay.
+  const lastPageviewKey = useRef<string | null>(null);
 
   // Handle Initial Load and Back/Forward buttons
   useEffect(() => {
@@ -92,38 +94,49 @@ const App: React.FC = () => {
         setPage('events');
       } else if (path === '/thesis') {
         setPage('thesis');
+      } else if (path === '/privacy') {
+        setPage('privacy');
       } else {
         setPage('not-found');
         setSelectedBriefingId(null);
       }
     };
 
-    // Hydrate state from URL on mount. Pageview fires AFTER the handler so
-    // the legacy-path replaceState redirects above resolve to the canonical
-    // URL first (manual pageviews only — see lib/analytics.ts).
+    // Hydrate state from URL on mount. Route metadata and analytics are
+    // committed by the route effect below after redirects and state settle.
     handleLocationChange();
-    if (!initialPageviewFired.current) {
-      initialPageviewFired.current = true;
-      trackPageView();
-    }
+    setRouteReady(true);
 
     // Listen for popstate events
     window.onpopstate = (e) => {
       if (e.state?.page) {
         setPage(e.state.page);
-        if (e.state.briefingId) setSelectedBriefingId(e.state.briefingId);
+        setSelectedBriefingId(e.state.briefingId || null);
         setActiveSection(null);
       } else {
         // Fallback if state is missing (e.g. external navigation to subpage then back)
         handleLocationChange();
       }
-      trackPageView();
     };
 
     return () => {
       window.onpopstate = null;
     };
   }, []);
+
+  // Commit metadata first, then emit exactly one pageview with the destination
+  // title. This avoids reading the previous page's document.title while a lazy
+  // route is still mounting.
+  useEffect(() => {
+    if (!routeReady) return;
+
+    const metadata = applyRouteMetadata(page, selectedBriefingId);
+    const pageviewKey = `${window.location.pathname}${window.location.search}`;
+    if (lastPageviewKey.current !== pageviewKey) {
+      lastPageviewKey.current = pageviewKey;
+      trackPageView(metadata.title);
+    }
+  }, [page, routeReady, selectedBriefingId]);
 
   // Helper to scroll to a specific hash with polling
   const scrollToHash = useCallback((hash: string) => {
@@ -196,6 +209,7 @@ const App: React.FC = () => {
     if (targetPage === 'compoundiq') path = '/compoundiq';
     if (targetPage === 'events') path = '/events';
     if (targetPage === 'thesis') path = '/thesis';
+    if (targetPage === 'privacy') path = '/privacy';
     // Skip the history push + pageview when the path isn't changing (e.g.
     // footer link to the current page, or landing-section anchors while on
     // landing) — otherwise every such click inflates page_view counts and
@@ -204,7 +218,6 @@ const App: React.FC = () => {
       window.location.pathname === '/' ? '/' : window.location.pathname.replace(/\/$/, '');
     if (path !== currentPath) {
       window.history.pushState({ page: targetPage, briefingId: id }, '', path);
-      trackPageView();
     }
 
     // Immediate Scroll Logic (if not waiting for landing page mount)
@@ -240,6 +253,7 @@ const App: React.FC = () => {
         {page === 'compoundiq' && <CompoundIQPage onNavigate={handleNavigate} />}
         {page === 'events' && <EventsPage onNavigate={handleNavigate} />}
         {page === 'thesis' && <ThesisPage onNavigate={handleNavigate} />}
+        {page === 'privacy' && <PrivacyPage onNavigate={handleNavigate} />}
         {page === 'not-found' && <NotFoundPage onNavigate={handleNavigate} />}
       </Suspense>
       </MobileErrorBoundary>

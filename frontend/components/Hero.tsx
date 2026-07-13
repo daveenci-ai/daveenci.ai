@@ -106,7 +106,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12 items-center">
         <div className="lg:col-span-7 relative z-20">
-          <ScrollReveal delay={200}>
+          <ScrollReveal immediate>
             <SectionDivider className="mb-6" width="w-full max-w-[60%]" />
             <PageHero
               eyebrow="Folio I — The Thesis"
@@ -114,8 +114,8 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               description="DaVeenci builds specialist AI teams that ship finished work — code, media, research — each one orchestrated, human-gated, and accountable to its output."
               actions={
                 <>
-                  <Button variant="primary" onClick={() => onNavigate?.('calendar')} className="text-base px-8 py-4">Walk us through your workflow</Button>
-                  <Button variant="secondary" onClick={() => onNavigate?.('work')} className="text-base px-8 py-4">See the work</Button>
+                  <Button variant="primary" analytics={{ cta_id: 'workflow_call', surface: 'landing_hero', from_page: 'landing', destination: '/calendar' }} onClick={() => onNavigate?.('calendar')} className="text-base px-8 py-4">Walk us through your workflow</Button>
+                  <Button variant="secondary" analytics={{ cta_id: 'see_work', surface: 'landing_hero', from_page: 'landing', destination: '/work' }} onClick={() => onNavigate?.('work')} className="text-base px-8 py-4">See the work</Button>
                 </>
               }
             />

@@ -11,6 +11,8 @@ export const MobileFounderBlock: React.FC = () => (
         <img
           src={AntonSketch}
           alt="Anton Osipov"
+          loading="lazy"
+          decoding="async"
           className="relative w-full rounded-sm shadow-2xl shadow-black/40 border border-base/10 filter sepia-[0.15] contrast-105"
         />
       </div>

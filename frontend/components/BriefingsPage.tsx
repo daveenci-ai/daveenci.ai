@@ -140,7 +140,7 @@ const BriefingsPageDesktop: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
       <Section className="pt-40 pb-12 md:pt-48 md:pb-20">
         <VitruvianBackground className="opacity-[0.12] -right-1/4 scale-[1.15]" />
         <div className="text-center max-w-4xl mx-auto mb-16">
-          <ScrollReveal>
+          <ScrollReveal immediate>
             <PageHero
               eyebrow="The DaVeenci Codex"
               title="Intelligence Briefings"

@@ -189,7 +189,7 @@ const PulseHero: React.FC = () => {
       <VitruvianBackground className="opacity-[0.08]" />
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         <div className="lg:col-span-6 relative z-20">
-          <ScrollReveal delay={200}>
+          <ScrollReveal immediate>
             <PageHero
               eyebrow={
                 <span className="inline-block mb-4 font-mono text-xs font-bold text-accent uppercase tracking-widest bg-accent/5 px-3 py-1 border border-accent/10 rounded-sm">
@@ -1144,7 +1144,7 @@ const ImageGeneration: React.FC = () => (
         <ScrollReveal key={item.label} delay={i * 150}>
           <div className="bg-white shadow-lg border border-ink/10 rounded-sm overflow-hidden group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <div className="aspect-[16/10] bg-base/50 flex items-center justify-center relative overflow-hidden">
-              <img src={item.src} alt={item.alt} className="w-full h-full object-cover" />
+              <img src={item.src} alt={item.alt} loading="lazy" decoding="async" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent" />
             </div>
             <div className="p-4 flex items-center justify-between">
@@ -1395,7 +1395,7 @@ export const CreatorMode: React.FC = () => {
                 <span className="font-mono text-[9px] text-ink/50 uppercase tracking-widest">Newsletter</span>
               </div>
               <div className="flex gap-3 items-start">
-                <img src={activeScenario.article.heroImage} alt="" className="w-20 h-14 rounded border border-ink/10 object-cover flex-shrink-0" />
+                <img src={activeScenario.article.heroImage} alt="" loading="lazy" decoding="async" className="w-20 h-14 rounded border border-ink/10 object-cover flex-shrink-0" />
                 <div className="min-w-0">
                   <h4 className="font-serif text-sm text-ink font-semibold leading-tight mb-0.5 truncate">{activeScenario.article.title}</h4>
                   <p className="text-[11px] text-ink-muted leading-snug line-clamp-2">{activeScenario.article.intro}</p>
@@ -1413,7 +1413,7 @@ export const CreatorMode: React.FC = () => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                 {activeScenario.posts.map((post, i) => (
                   <div key={`${activeScenario.id}-${i}`} className="border border-ink/10 rounded-lg overflow-hidden bg-base/5">
-                    <img src={post.image} alt="" className="w-full aspect-square object-cover" />
+                    <img src={post.image} alt="" loading="lazy" decoding="async" className="w-full aspect-square object-cover" />
                     <div className="p-2">
                       <p className="text-accent font-bold text-[9px] mb-0.5">{post.day}</p>
                       <h5 className="font-serif text-[11px] text-ink leading-tight mb-1 line-clamp-2">{post.title}</h5>
@@ -1486,7 +1486,7 @@ const UseCases: React.FC = () => (
         <ScrollReveal key={p.title} delay={i * 120} className="h-full">
           <div className="bg-white border border-ink/10 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group text-center h-full flex flex-col items-center">
             <div className="w-44 h-44 mx-auto mb-6 rounded-full bg-pulse-surface border border-ink/10 p-2 group-hover:border-accent/30 transition-colors overflow-hidden">
-              <img src={p.img} alt={p.title} className="w-full h-full object-cover object-top rounded-full scale-150" />
+              <img src={p.img} alt={p.title} loading="lazy" decoding="async" className="w-full h-full object-cover object-top rounded-full scale-150" />
             </div>
             <h3 className="font-serif text-xl text-ink mb-2">{p.title}</h3>
             <p className="text-sm text-ink-muted leading-relaxed flex-1">{p.desc}</p>

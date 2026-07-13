@@ -20,11 +20,7 @@ export const MobileThesisPage: React.FC<MobileThesisPageProps> = ({ onNavigate }
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    document.title = 'The Thesis — DaVeenci';
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci | AI & Automation Consultancy';
-    };
   }, []);
 
   useEffect(() => {

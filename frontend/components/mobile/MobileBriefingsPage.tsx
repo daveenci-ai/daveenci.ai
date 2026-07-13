@@ -13,11 +13,7 @@ export const MobileBriefingsPage: React.FC<MobileBriefingsPageProps> = ({ onNavi
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   useEffect(() => {
-    document.title = 'The Codex — DaVeenci';
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci | AI & Automation Consultancy';
-    };
   }, []);
 
   const filtered =
@@ -78,6 +74,7 @@ export const MobileBriefingsPage: React.FC<MobileBriefingsPageProps> = ({ onNavi
                 alt={b.title}
                 className="w-full h-full object-cover filter sepia-[0.1] contrast-[1.02]"
                 loading="lazy"
+                decoding="async"
               />
             </div>
             <div className="flex items-center gap-3 mb-2">

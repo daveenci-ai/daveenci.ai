@@ -26,6 +26,8 @@ const PartnerBlock: React.FC = () => (
               <img
                 src={AstridSketch}
                 alt="Astrid Abrahamyan"
+                loading="lazy"
+                decoding="async"
                 className="relative w-full rounded-sm shadow-2xl shadow-black/30 border border-base/10 filter sepia-[0.15] contrast-105"
               />
             </div>

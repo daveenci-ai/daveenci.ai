@@ -109,7 +109,7 @@ export const MobileGateSimulator: React.FC = () => {
   };
 
   return (
-    <section className="px-6 py-12">
+    <section id="compoundiq-gate" className="px-6 py-12">
       <div className="flex items-center gap-3 mb-5">
         <span className="h-px w-8 bg-ink-muted/30" />
         <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">Try the gate</span>

@@ -123,7 +123,7 @@ export const GateSimulator: React.FC = () => {
   };
 
   return (
-    <Section className="py-20 md:py-28">
+    <Section id="compoundiq-gate" className="py-20 md:py-28">
       <SectionHeader
         eyebrow="Try the gate"
         title="Send a signal through the gate."

@@ -847,11 +847,7 @@ export const TryItSimulator: React.FC = () => {
 
 const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
   useEffect(() => {
-    document.title = 'PureCode — DaVeenci';
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci | AI & Automation Consultancy';
-    };
   }, []);
 
   return (
@@ -863,7 +859,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
         <VitruvianBackground className="opacity-[0.08]" />
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           <div className="lg:col-span-6 relative z-20">
-            <ScrollReveal delay={200}>
+            <ScrollReveal immediate>
               <PageHero
                 eyebrow={
                   <span className="inline-block mb-4 font-mono text-xs font-bold text-accent uppercase tracking-widest bg-accent/5 px-3 py-1 border border-accent/10 rounded-sm">

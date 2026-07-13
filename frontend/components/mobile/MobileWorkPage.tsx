@@ -56,11 +56,7 @@ interface MobileWorkPageProps {
 
 export const MobileWorkPage: React.FC<MobileWorkPageProps> = ({ onNavigate }) => {
   useEffect(() => {
-    document.title = 'Our Work — DaVeenci';
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci | AI & Automation Consultancy';
-    };
   }, []);
 
   return (
@@ -86,10 +82,13 @@ export const MobileWorkPage: React.FC<MobileWorkPageProps> = ({ onNavigate }) =>
       {/* Cases */}
       <section className="px-6 pb-10 space-y-5">
         {WORK_ITEMS.map((item) => (
-          <button
+          <a
             key={item.title}
-            onClick={() => {
+            href={`/${item.page}`}
+            onClick={(event) => {
               track('select_content', { content_type: 'case_study', content_id: item.page, surface: 'work_page' });
+              if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+              event.preventDefault();
               onNavigate(item.page);
             }}
             className="block w-full text-left"
@@ -102,7 +101,7 @@ export const MobileWorkPage: React.FC<MobileWorkPageProps> = ({ onNavigate }) =>
               <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-4">{item.blurb}</p>
               <span className="font-sans text-sm font-medium text-accent">Read the case →</span>
             </MobileScenePlate>
-          </button>
+          </a>
         ))}
       </section>
 

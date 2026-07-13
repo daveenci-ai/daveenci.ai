@@ -145,11 +145,7 @@ const AutoPilotControlPanel: React.FC = () => (
 
 const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
   useEffect(() => {
-    document.title = 'AutoPilot for f8 Real Estate Media — DaVeenci';
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci — AI teams, not AI tools';
-    };
   }, []);
 
   return (
@@ -160,7 +156,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
         <VitruvianBackground className="opacity-[0.08] -right-1/4" />
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 items-center">
           <div className="lg:col-span-6 relative z-10">
-            <ScrollReveal delay={150}>
+            <ScrollReveal immediate>
               <PageHero
                 eyebrow="A DaVeenci team · Real estate operations"
                 title={<>From order email<br /><span className="italic text-ink-muted/80">to delivery gate.</span></>}

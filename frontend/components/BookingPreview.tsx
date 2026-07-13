@@ -193,7 +193,7 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
             <div className="max-w-xl border-l border-ink/10 pl-6">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-14 h-14 rounded-sm overflow-hidden border border-ink/10 flex-shrink-0">
-                  <img src={AstridSketch} alt="Astrid Abrahamyan" className="w-full h-full object-cover object-top scale-125 sepia-[0.15] contrast-105" />
+                  <img src={AstridSketch} alt="Astrid Abrahamyan" loading="lazy" decoding="async" className="w-full h-full object-cover object-top scale-125 sepia-[0.15] contrast-105" />
                 </div>
                 <div>
                   <div className="font-serif text-lg text-ink leading-tight">Astrid Abrahamyan</div>

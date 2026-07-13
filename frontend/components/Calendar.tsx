@@ -73,46 +73,6 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
    }, []);
 
    useEffect(() => {
-      document.title = "Talk to us — DaVeenci";
-
-      // Update meta description
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-         metaDesc.setAttribute("content", "Book a 30-minute call with DaVeenci. Bring the workflow you want a specialist team for.");
-      }
-
-      // Update Open Graph meta tags for link previews
-      let ogTitle = document.querySelector('meta[property="og:title"]');
-      if (!ogTitle) {
-         ogTitle = document.createElement('meta');
-         ogTitle.setAttribute('property', 'og:title');
-         document.head.appendChild(ogTitle);
-      }
-      ogTitle.setAttribute('content', 'Talk to us — DaVeenci');
-
-      let ogDescription = document.querySelector('meta[property="og:description"]');
-      if (!ogDescription) {
-         ogDescription = document.createElement('meta');
-         ogDescription.setAttribute('property', 'og:description');
-         document.head.appendChild(ogDescription);
-      }
-      ogDescription.setAttribute('content', 'Book a 30-minute call with DaVeenci. Bring the workflow you want a specialist team for.');
-
-      // Twitter Card meta tags
-      let twitterTitle = document.querySelector('meta[name="twitter:title"]');
-      if (!twitterTitle) {
-         twitterTitle = document.createElement('meta');
-         twitterTitle.setAttribute('name', 'twitter:title');
-         document.head.appendChild(twitterTitle);
-      }
-      twitterTitle.setAttribute('content', 'Talk to us — DaVeenci');
-
-      return () => {
-         document.title = "DaVeenci | AI & Automation Consultancy";
-      };
-   }, []);
-
-   useEffect(() => {
       if (!selectedDate) {
          setDisplaySlots([]);
          return;
@@ -163,7 +123,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
          setBusySlots(data.busySlots);
          setAvailabilityError(null);
       } catch (error) {
-         console.error('Failed to fetch availability', error);
+         if (import.meta.env.DEV) console.debug('[calendar] Live availability unavailable', error);
          setAvailabilityError("We couldn't load live availability. Times shown may not reflect current bookings.");
       } finally {
          setIsLoading(false);
@@ -283,7 +243,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
 
                            <div className="flex items-center gap-4 py-6 border-y border-ink/5 mb-6">
                               <div className="w-20 h-20 rounded-sm overflow-hidden border border-ink/10 flex-shrink-0">
-                                 <img src={AstridSketch} alt="Astrid Abrahamyan" className="w-full h-full object-cover object-top scale-125" />
+                                 <img src={AstridSketch} alt="Astrid Abrahamyan" decoding="async" className="w-full h-full object-cover object-top scale-125" />
                               </div>
                               <div>
                                  <div className="font-serif text-ink text-lg leading-none mb-1">Astrid Abrahamyan</div>

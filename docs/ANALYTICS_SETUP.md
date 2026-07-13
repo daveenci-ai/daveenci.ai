@@ -5,10 +5,7 @@ How to connect daveenci.ai's analytics layer to a GA4 property, verify it, and a
 ## 1. Architecture (what's in the code)
 
 - **One typed module:** `frontend/lib/analytics.ts`. Everything flows through `track()` (typed against `AnalyticsEventMap`) and `trackPageView()`. gtag.js is injected at runtime by `initAnalytics()` only when the measurement ID env var is present; without it the module logs to the dev console and sends nothing.
-- **Manual pageviews only.** The site uses a custom `pushState` router (`frontend/App.tsx`), not react-router. `initAnalytics()` configures GA4 with `send_page_view: false`, and `page_view` is fired manually from the router choke points:
-  - initial load — `App.tsx` (after `handleLocationChange()`, so legacy-URL `replaceState` redirects resolve first; ref-guarded against React StrictMode's double effect invocation in dev)
-  - in-app navigation — `handleNavigate` right after `pushState`, **skipped when the path isn't changing** (footer link to the current page, landing-section anchors) so repeat clicks can't inflate counts
-  - back/forward — the `popstate` handler
+- **Manual pageviews only.** The site uses a custom `pushState` router (`frontend/App.tsx`), not react-router. `initAnalytics()` configures GA4 with `send_page_view: false`. Initial loads, in-app navigation, and back/forward all converge on one route-committed effect: it applies centralized route metadata first, then emits `page_view` with the destination title. Same-path links and landing anchors do not change route state and therefore do not inflate pageviews. A URL-key ref guards React StrictMode's development-only effect replay.
 - **Attribution-safe pageviews.** `page_view` sends `page_location` as the full `window.location.href` (query string included — UTM/gclid survive) and `page_path` as the canonical trailing-slash-free pathname so one page never splits into two report rows.
 - **Engagement hook:** `frontend/lib/useCaseEngaged.ts` fires `case_engaged` once per case-page visit at 30 visible-tab seconds OR 50% scroll depth (visibility-aware interval + IntersectionObserver sentinel). The scroll trigger additionally requires an actual scroll (`scrollY > 8`), so a page whose lazy content hasn't loaded yet can't false-fire on mount.
 
@@ -38,6 +35,8 @@ Unset ⇒ analytics is a no-op (dev builds log `[analytics]` lines to the consol
 |---|---|---|---|
 | `page_view` | `page_location`, `page_path`, `page_title` | Initial load, every `navigate()`, back/forward | `frontend/App.tsx` |
 | `select_content` | `content_type: 'case_study'`, `content_id`, `surface: 'work_preview' \| 'work_page'` | Case card clicked on homepage WorkPreview or /work | `WorkPreview.tsx`, `WorkPage.tsx`, `mobile/MobileWorkPreview.tsx`, `mobile/MobileWorkPage.tsx` |
+| `work_preview_viewed` | `surface: 'work_preview'` | At least 35% of the homepage Selected Work section enters the viewport | desktop + mobile WorkPreview |
+| `cta_click` | `cta_id`, `surface`, `from_page`, `destination` | An instrumented hero, header, case, or sticky CTA is activated | shared Button/MobileButton callers |
 | `case_engaged` | `case_id`, `trigger: 'active_time' \| 'scroll_depth'` | 30 visible seconds OR 50% scroll on a case page (once per visit) | `lib/useCaseEngaged.ts`, called from the CompoundIQ/AutoPilot/PureCode/BrandOS page wrappers (covers desktop + mobile) |
 | `demo_start` | `demo_id: 'brandos_analyzer' \| 'purecode_ticket_sim' \| 'compoundiq_gate_sim'` | First user-initiated demo run per visit | `BrandOSPage.tsx`, `mobile/MobileBrandOSPage.tsx`, `PureCodePage.tsx`, gate simulator (Phase 4) |
 | `demo_complete` | `demo_id` | Demo run first reaches a finished/result state per visit | same files |
@@ -46,7 +45,7 @@ Unset ⇒ analytics is a no-op (dev builds log `[analytics]` lines to the consol
 | `generate_lead` | `booking_type` | `POST /calendar/book` returns success | same files |
 | `newsletter_subscribe` | `source` | `POST /newsletter/subscribe` returns success | `Footer.tsx` + case-page subscribe blocks (Phase 3) |
 
-`select_content` and `generate_lead` are GA4 recommended events; the rest are custom. Register `case_id`, `demo_id`, `source`, `surface`, `from_case`, `to_case`, `booking_type`, `content_id` as custom dimensions (event-scoped) if you want them in standard reports: Admin → Custom definitions.
+`select_content` and `generate_lead` are GA4 recommended events; the rest are custom. Register `case_id`, `demo_id`, `source`, `surface`, `from_case`, `to_case`, `booking_type`, `content_id`, `cta_id`, `from_page`, and `destination` as custom dimensions (event-scoped) if you want them in standard reports: Admin → Custom definitions.
 
 ## 5. DebugView QA checklist
 
@@ -56,6 +55,8 @@ Enable debug: run locally with `VITE_GA_MEASUREMENT_ID` set, and append `?gtm_de
 - [ ] Load `/?utm_source=test` → the `page_view`'s `page_location` still contains `utm_source=test`.
 - [ ] While on `/`, click a header link that scrolls to a landing section → NO new `page_view`. Click a footer link to the page you're already on → NO new `page_view`.
 - [ ] Click a case card in "Selected work" → one `select_content` (check `content_id`, `surface: work_preview`) followed by one `page_view` for the case page.
+- [ ] Scroll until 35% of Selected Work is visible → one `work_preview_viewed`. Click a case card and calculate card CTR as `select_content / work_preview_viewed`, not clicks divided by all sessions.
+- [ ] Click the homepage hero, header, CompoundIQ gate, and mobile sticky CTAs → one `cta_click` each with the expected `cta_id`, `surface`, `from_page`, and `destination`.
 - [ ] Stay on the case page 30s with the tab focused → one `case_engaged` (`trigger: active_time`). Reload, immediately scroll past halfway instead → one `case_engaged` (`trigger: scroll_depth`). Confirm it never fires twice on one visit.
 - [ ] On /brandos run the analyzer → `demo_start` on submit, `demo_complete` when results render. Run it again → no duplicate events (once per visit).
 - [ ] On /purecode run the ticket simulator → `demo_start` / `demo_complete` once each.
@@ -71,4 +72,5 @@ The known duplicate risk is GA4 Enhanced Measurement history tracking (step 2.3)
 1. In DebugView, navigate Home → /work → a case page → browser Back.
 2. Count `page_view` events: must be exactly 4 (one per transition, including Back).
 3. Visit a legacy URL directly (`/brand-analyzer`): must produce exactly one `page_view`, with `page_path: /brandos` (the redirect resolves before the pageview fires).
-4. If you see pairs of near-simultaneous `page_view`s on navigation, EM history tracking is still ON — turn it off; do not "fix" this in code. (The initial-load pageview is already StrictMode-guarded, so a pair on *navigation* can only come from EM.)
+4. Confirm every pageview carries the destination title, including direct loads of `/compoundiq`, in-app navigation from `/work`, and browser Back.
+5. If you see pairs of near-simultaneous `page_view`s on navigation, EM history tracking is still ON — turn it off; do not "fix" this in code. (The route effect is already StrictMode-guarded, so a pair on *navigation* can only come from EM.)

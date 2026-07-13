@@ -52,11 +52,7 @@ const mobileWorkflow = [
 
 export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavigate }) => {
   useEffect(() => {
-    document.title = 'AutoPilot for f8 Real Estate Media — DaVeenci';
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci — AI teams, not AI tools';
-    };
   }, []);
 
   return (

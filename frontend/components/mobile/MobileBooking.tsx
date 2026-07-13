@@ -145,7 +145,7 @@ export const MobileBooking: React.FC<MobileBookingProps> = ({ onNavigate }) => {
       {/* Astrid mini row */}
       <div className="flex items-center gap-3 mb-6">
         <div className="w-12 h-12 rounded-sm overflow-hidden border border-ink/10 flex-shrink-0">
-          <img src={AstridSketch} alt="Astrid Abrahamyan" className="w-full h-full object-cover object-top scale-125 sepia-[0.15] contrast-105" />
+          <img src={AstridSketch} alt="Astrid Abrahamyan" loading="lazy" decoding="async" className="w-full h-full object-cover object-top scale-125 sepia-[0.15] contrast-105" />
         </div>
         <div>
           <div className="font-serif text-base text-ink leading-tight">Astrid Abrahamyan</div>

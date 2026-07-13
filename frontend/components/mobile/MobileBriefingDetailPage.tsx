@@ -29,11 +29,7 @@ export const MobileBriefingDetailPage: React.FC<MobileBriefingDetailPageProps> =
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    document.title = `${data.title} — DaVeenci`;
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci | AI & Automation Consultancy';
-    };
   }, [data.title]);
 
   useEffect(() => {
@@ -81,7 +77,7 @@ export const MobileBriefingDetailPage: React.FC<MobileBriefingDetailPageProps> =
         {/* Hero image */}
         <div className="px-6 mb-8">
           <div className="aspect-[16/10] w-full overflow-hidden rounded-sm bg-ink/5 border border-ink/10">
-            <img src={data.image} alt={data.title} className="w-full h-full object-cover filter sepia-[0.1] contrast-[1.02]" />
+            <img src={data.image} alt={data.title} decoding="async" className="w-full h-full object-cover filter sepia-[0.1] contrast-[1.02]" />
           </div>
         </div>
 

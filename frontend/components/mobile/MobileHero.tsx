@@ -51,7 +51,7 @@ export const MobileHero: React.FC<MobileHeroProps> = ({ onNavigate }) => (
 
     {/* Thumb-zone actions */}
     <div className="mt-auto pt-8">
-      <MobileButton onClick={() => onNavigate('calendar')}>Walk us through your workflow</MobileButton>
+      <MobileButton analytics={{ cta_id: 'workflow_call', surface: 'landing_hero', from_page: 'landing', destination: '/calendar' }} onClick={() => onNavigate('calendar')}>Walk us through your workflow</MobileButton>
       <button
         onClick={() => onNavigate('work')}
         className="inline-flex items-center gap-2 -ml-3 px-3 py-3 font-serif italic text-[16px] text-accent tracking-[0.03em] active:text-ink transition-colors"

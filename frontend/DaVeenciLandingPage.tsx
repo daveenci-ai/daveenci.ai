@@ -33,8 +33,8 @@ const DaVeenciLandingPage: React.FC<DaVeenciLandingPageProps> = ({ onNavigate, a
 
       <Hero onNavigate={onNavigate} />
       <Contrast />
-      <Method />
       <WorkPreview onNavigate={onNavigate} />
+      <Method />
       <FounderBlock onNavigate={onNavigate} />
       <Advantage />
       <Controls />

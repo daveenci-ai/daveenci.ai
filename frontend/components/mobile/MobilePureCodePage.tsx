@@ -70,11 +70,7 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
-    document.title = 'PureCode — DaVeenci';
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci | AI & Automation Consultancy';
-    };
   }, []);
 
   return (

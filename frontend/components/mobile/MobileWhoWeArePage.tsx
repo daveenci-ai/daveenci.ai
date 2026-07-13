@@ -45,11 +45,7 @@ const DISTINCTIONS: Distinction[] = [
 
 export const MobileWhoWeArePage: React.FC<MobileWhoWeArePageProps> = ({ onNavigate }) => {
   useEffect(() => {
-    document.title = 'Who we are — DaVeenci';
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci | AI & Automation Consultancy';
-    };
   }, []);
 
   const scrollerRef = useRef<HTMLDivElement>(null);

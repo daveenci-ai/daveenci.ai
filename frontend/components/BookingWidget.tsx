@@ -174,7 +174,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
             <div className="mb-8">
               <Logo className="w-12 h-12 text-ink mb-6" />
               <span className="font-mono text-xs font-bold text-ink-muted/60 uppercase tracking-widest mb-2 block">{eyebrow}</span>
-              <h1 className="font-serif text-3xl lg:text-4xl text-ink mb-4">{title}</h1>
+              <h3 className="font-serif text-3xl lg:text-4xl text-ink mb-4">{title}</h3>
               <div className="flex items-center gap-6 text-sm font-medium text-ink-muted mb-8">
                 <div className="flex items-center gap-2"><Clock className="w-4 h-4" /> 30 Min</div>
                 <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" /> Available</div>
@@ -182,7 +182,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
               <p className="text-ink-muted leading-relaxed mb-8">{leftBody}</p>
               <div className="flex items-center gap-4 py-6 border-y border-ink/5 mb-6">
                 <div className="w-20 h-20 rounded-lg overflow-hidden border border-ink/10 flex-shrink-0">
-                  <img src={hostImage} alt={hostName} className="w-full h-full object-cover object-top scale-125" />
+                  <img src={hostImage} alt={hostName} loading="lazy" decoding="async" className="w-full h-full object-cover object-top scale-125" />
                 </div>
                 <div>
                   <div className="font-serif text-ink text-lg leading-none mb-1">{hostName}</div>
@@ -315,29 +315,29 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
                     <h3 className="font-serif text-2xl text-ink mb-6">Your Information</h3>
                     <div className="space-y-4 mb-6">
                       <div>
-                        <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <label htmlFor={`${sectionId}-name`} className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
                           <User className="w-3 h-3" /> Full Name <span className="text-red-500">*</span>
                         </label>
-                        <input type="text" required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg" placeholder="Leonardo da Vinci" />
+                        <input id={`${sectionId}-name`} name="name" autoComplete="name" type="text" required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg" placeholder="Leonardo da Vinci" />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <label htmlFor={`${sectionId}-email`} className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
                           <Mail className="w-3 h-3" /> Email <span className="text-red-500">*</span>
                         </label>
-                        <input type="email" required value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg" placeholder="leo@florence.it" />
+                        <input id={`${sectionId}-email`} name="email" autoComplete="email" type="email" required value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg" placeholder="leo@florence.it" />
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
+                          <label htmlFor={`${sectionId}-company`} className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
                             <Briefcase className="w-3 h-3" /> Company <span className="text-ink-muted/60 lowercase font-normal">(optional)</span>
                           </label>
-                          <input type="text" value={formData.company} onChange={e => setFormData({ ...formData, company: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg" placeholder="Acme Inc." />
+                          <input id={`${sectionId}-company`} name="company" autoComplete="organization" type="text" value={formData.company} onChange={e => setFormData({ ...formData, company: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg" placeholder="Acme Inc." />
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
+                          <label htmlFor={`${sectionId}-phone`} className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
                             <Phone className="w-3 h-3" /> Phone <span className="text-ink-muted/60 lowercase font-normal">(optional)</span>
                           </label>
-                          <input type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg" placeholder="+1 555..." />
+                          <input id={`${sectionId}-phone`} name="phone" autoComplete="tel" type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg" placeholder="+1 555..." />
                         </div>
                       </div>
                       <div>
@@ -350,10 +350,10 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <label htmlFor={`${sectionId}-notes`} className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
                           <HelpCircle className="w-3 h-3" /> Anything else you want to share?
                         </label>
-                        <textarea value={formData.notes} onChange={e => setFormData({ ...formData, notes: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg min-h-[100px] resize-y" placeholder="Optional - feel free to share any context or specific questions..." />
+                        <textarea id={`${sectionId}-notes`} name="notes" value={formData.notes} onChange={e => setFormData({ ...formData, notes: e.target.value })} className="w-full bg-base/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-lg min-h-[100px] resize-y" placeholder="Optional - feel free to share any context or specific questions..." />
                       </div>
                     </div>
                     <div className="mt-auto flex gap-4">

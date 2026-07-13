@@ -48,7 +48,12 @@ export const MobileSubscribe: React.FC<MobileSubscribeProps> = ({ heading, body,
         </p>
       ) : (
         <div className="flex flex-col gap-3">
+          <label htmlFor={`mobile-newsletter-email-${source}`} className="sr-only">Email address</label>
           <input
+            id={`mobile-newsletter-email-${source}`}
+            name="email"
+            autoComplete="email"
+            aria-label="Email address"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

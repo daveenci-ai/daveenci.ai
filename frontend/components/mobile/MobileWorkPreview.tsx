@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { MobileButton } from './MobileButton';
 import { MobileFolioScene } from './MobileFolioScene';
 import { MobileScenePlate } from './MobileScenePlate';
@@ -39,7 +39,23 @@ const CASES: Array<{
   },
 ];
 
-export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate }) => (
+export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate }) => {
+  const impressionTracked = useRef(false);
+
+  useEffect(() => {
+    const element = document.getElementById('selected-work');
+    if (!element) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || impressionTracked.current) return;
+      impressionTracked.current = true;
+      track('work_preview_viewed', { surface: 'work_preview' });
+      observer.disconnect();
+    }, { threshold: 0.35 });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
   <MobileFolioScene id="selected-work" eyebrow="Selected work" className="bg-white/30">
     <h2 className="font-serif text-[2.35rem] leading-[1.08] text-ink mb-4 tracking-tight">
       Built in the
@@ -52,10 +68,13 @@ export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate
 
     <div className="space-y-4 mb-7">
       {CASES.map((item) => (
-        <button
+        <a
           key={item.title}
-          onClick={() => {
+          href={`/${item.page}`}
+          onClick={(event) => {
             track('select_content', { content_type: 'case_study', content_id: item.page, surface: 'work_preview' });
+            if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+            event.preventDefault();
             onNavigate(item.page);
           }}
           className="block w-full text-left"
@@ -67,7 +86,7 @@ export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate
             <h3 className="font-serif text-[1.65rem] leading-none text-ink mb-2">{item.title}</h3>
             <p className="font-sans text-[13px] text-ink-muted leading-relaxed">{item.blurb}</p>
           </MobileScenePlate>
-        </button>
+        </a>
       ))}
     </div>
 
@@ -75,4 +94,5 @@ export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate
       See all work
     </MobileButton>
   </MobileFolioScene>
-);
+  );
+};

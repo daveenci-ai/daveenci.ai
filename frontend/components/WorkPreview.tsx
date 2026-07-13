@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Section, ScrollReveal, Surface, Button, FolioHeader } from './Shared';
 import { track } from '../lib/analytics';
 import type { Page } from './types';
@@ -31,7 +31,23 @@ const examples = [
   },
 ];
 
-const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => (
+const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => {
+  const impressionTracked = useRef(false);
+
+  useEffect(() => {
+    const element = document.getElementById('selected-work');
+    if (!element) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || impressionTracked.current) return;
+      impressionTracked.current = true;
+      track('work_preview_viewed', { surface: 'work_preview' });
+      observer.disconnect();
+    }, { threshold: 0.35 });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
   <Section id="selected-work" pattern="nodes">
     <ScrollReveal className="mb-12 md:mb-16">
       <FolioHeader
@@ -44,30 +60,26 @@ const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
       {examples.map((example, i) => (
         <ScrollReveal key={example.title} delay={100 + i * 150}>
-          <Surface
-            kind="document"
-            onClick={() => {
+          <a
+            href={`/${example.page}`}
+            className="block h-full rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+            onClick={(event) => {
               track('select_content', { content_type: 'case_study', content_id: example.page, surface: 'work_preview' });
+              if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+              event.preventDefault();
               onNavigate(example.page);
             }}
-            className="cursor-pointer h-full p-8 md:p-10 bg-white/60 border border-ink/10 hover:shadow-2xl hover:border-accent/30 transition-all duration-300 group flex flex-col"
           >
-            <div className="flex items-start justify-between gap-4 mb-4">
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
-                {example.label}
-              </span>
-              <span className={`font-mono text-[8px] uppercase tracking-[0.14em] text-right ${example.page === 'compoundiq' ? 'text-amber-800' : 'text-green-700'}`}>
-                {example.status}
-              </span>
-            </div>
-            <h3 className="font-serif text-2xl md:text-3xl text-ink mb-4 group-hover:text-accent transition-colors">
-              {example.title}
-            </h3>
-            <p className="font-sans text-ink-muted leading-relaxed mb-6 flex-grow">{example.blurb}</p>
-            <span className="font-sans text-sm font-medium text-accent group-hover:translate-x-1 transition-transform">
-              Read the case →
-            </span>
-          </Surface>
+            <Surface kind="document" className="h-full p-8 md:p-10 bg-white/60 border border-ink/10 hover:shadow-2xl hover:border-accent/30 transition-all duration-300 group flex flex-col">
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">{example.label}</span>
+                <span className={`font-mono text-[8px] uppercase tracking-[0.14em] text-right ${example.page === 'compoundiq' ? 'text-amber-800' : 'text-green-700'}`}>{example.status}</span>
+              </div>
+              <h3 className="font-serif text-2xl md:text-3xl text-ink mb-4 group-hover:text-accent transition-colors">{example.title}</h3>
+              <p className="font-sans text-ink-muted leading-relaxed mb-6 flex-grow">{example.blurb}</p>
+              <span className="font-sans text-sm font-medium text-accent group-hover:translate-x-1 transition-transform">Read the case →</span>
+            </Surface>
+          </a>
         </ScrollReveal>
       ))}
     </div>
@@ -78,6 +90,7 @@ const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => (
       </Button>
     </div>
   </Section>
-);
+  );
+};
 
 export default WorkPreview;

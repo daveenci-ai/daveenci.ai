@@ -57,11 +57,7 @@ const WorkPage: React.FC<WorkPageProps> = (props) => {
 
 const WorkPageDesktop: React.FC<WorkPageProps> = ({ onNavigate }) => {
   useEffect(() => {
-    document.title = 'Our Work — DaVeenci';
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci | AI & Automation Consultancy';
-    };
   }, []);
 
   return (
@@ -70,7 +66,7 @@ const WorkPageDesktop: React.FC<WorkPageProps> = ({ onNavigate }) => {
 
       <Section className="pt-44 pb-8 md:pt-52 md:pb-12">
         <GridPattern />
-        <ScrollReveal>
+        <ScrollReveal immediate>
           <PageHero
             eyebrow="Our Work"
             title={<>Specialist AI teams.<br /><span className="italic text-ink-muted/80">Built in the real world.</span></>}
@@ -85,26 +81,24 @@ const WorkPageDesktop: React.FC<WorkPageProps> = ({ onNavigate }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {workItems.map((item, i) => (
             <ScrollReveal key={item.title} delay={100 + i * 150}>
-              <Surface
-                kind="document"
-                onClick={() => {
+              <a
+                href={`/${item.page}`}
+                className="block h-full rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                onClick={(event) => {
                   track('select_content', { content_type: 'case_study', content_id: item.page, surface: 'work_page' });
+                  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                  event.preventDefault();
                   onNavigate(item.page);
                 }}
-                className="cursor-pointer h-full p-10 md:p-12 bg-white/60 border border-ink/10 hover:shadow-2xl hover:border-accent/30 transition-all duration-300 group flex flex-col"
               >
-                <span className="block font-mono text-[10px] uppercase tracking-[0.2em] text-accent mb-4">
-                  {item.label}
-                </span>
-                <h2 className="font-serif text-3xl md:text-4xl text-ink mb-3 group-hover:text-accent transition-colors">
-                  {item.title}
-                </h2>
-                <p className="font-serif italic text-lg text-ink-muted mb-5">{item.subtitle}</p>
-                <p className="font-sans text-ink-muted leading-relaxed mb-8 flex-grow">{item.blurb}</p>
-                <span className="font-sans text-sm font-medium text-accent group-hover:translate-x-1 transition-transform">
-                  Read the case →
-                </span>
-              </Surface>
+                <Surface kind="document" className="h-full p-10 md:p-12 bg-white/60 border border-ink/10 hover:shadow-2xl hover:border-accent/30 transition-all duration-300 group flex flex-col">
+                  <span className="block font-mono text-[10px] uppercase tracking-[0.2em] text-accent mb-4">{item.label}</span>
+                  <h2 className="font-serif text-3xl md:text-4xl text-ink mb-3 group-hover:text-accent transition-colors">{item.title}</h2>
+                  <p className="font-serif italic text-lg text-ink-muted mb-5">{item.subtitle}</p>
+                  <p className="font-sans text-ink-muted leading-relaxed mb-8 flex-grow">{item.blurb}</p>
+                  <span className="font-sans text-sm font-medium text-accent group-hover:translate-x-1 transition-transform">Read the case →</span>
+                </Surface>
+              </a>
             </ScrollReveal>
           ))}
         </div>

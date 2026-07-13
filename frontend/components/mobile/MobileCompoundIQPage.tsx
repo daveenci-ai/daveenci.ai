@@ -74,11 +74,7 @@ const mobileStatus = [
 
 export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNavigate }) => {
   useEffect(() => {
-    document.title = 'CompoundIQ — Governed, Paper-First Trading Research | DaVeenci';
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci — AI teams, not AI tools';
-    };
   }, []);
 
   return (
@@ -98,7 +94,17 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
         <p className="font-serif text-[16px] text-ink-muted leading-[1.6] mb-7">
           CompoundIQ is an in-progress, paper-first trading team. Versioned hypotheses become testable strategies; only approved, enabled, unexpired signals reach the simulator; every fill returns as feedback.
         </p>
-        <MobileButton onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
+        <div className="space-y-3">
+          <MobileButton
+            analytics={{ cta_id: 'try_gate', surface: 'case_hero', from_page: 'compoundiq', destination: '#compoundiq-gate' }}
+            onClick={() => document.getElementById('compoundiq-gate')?.scrollIntoView({ behavior: 'smooth' })}
+          >Try the gate</MobileButton>
+          <MobileButton
+            variant="secondary"
+            analytics={{ cta_id: 'talk_to_us', surface: 'case_hero', from_page: 'compoundiq', destination: '/calendar' }}
+            onClick={() => onNavigate('calendar')}
+          >Talk to us</MobileButton>
+        </div>
 
         <div className="mt-8">
           <MobileScenePlate figLabel="Fig. i · Governed loop">
@@ -153,6 +159,8 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
         </div>
       </section>
 
+      <MobileGateSimulator />
+
       <section className="px-6 py-12">
         <div className="flex items-center gap-3 mb-5">
           <span className="h-px w-8 bg-ink-muted/30" />
@@ -174,8 +182,6 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
           ))}
         </div>
       </section>
-
-      <MobileGateSimulator />
 
       <section className="px-6 py-12 bg-alt/25">
         <div className="flex items-center gap-3 mb-5">

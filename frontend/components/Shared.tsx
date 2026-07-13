@@ -1,15 +1,17 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useId, useRef } from 'react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import type { CardProps, SectionProps, BriefingCardProps } from './types';
+import { track, type AnalyticsEventMap } from '../lib/analytics';
 
 // --- Scroll Animation Hook & Component ---
 
-export const ScrollReveal: React.FC<{ children: React.ReactNode; className?: string; delay?: number; direction?: 'up' | 'left' | 'right' }> = ({ children, className = "", delay = 0, direction = 'up' }) => {
-  const [isVisible, setIsVisible] = useState(false);
+export const ScrollReveal: React.FC<{ children: React.ReactNode; className?: string; delay?: number; direction?: 'up' | 'left' | 'right'; immediate?: boolean }> = ({ children, className = "", delay = 0, direction = 'up', immediate = false }) => {
+  const [isVisible, setIsVisible] = useState(immediate);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (immediate) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -21,7 +23,7 @@ export const ScrollReveal: React.FC<{ children: React.ReactNode; className?: str
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  }, []);
+  }, [immediate]);
 
   const getTransform = () => {
     if (direction === 'up') return 'translate-y-6';
@@ -33,7 +35,7 @@ export const ScrollReveal: React.FC<{ children: React.ReactNode; className?: str
   return (
     <div
       ref={ref}
-      className={`transition-all duration-[1400ms] ease-out transform ${isVisible ? "opacity-100 translate-y-0 translate-x-0" : `opacity-0 ${getTransform()}`
+      className={`${immediate ? '' : 'transition-all duration-500 ease-out transform motion-reduce:transition-none'} ${isVisible ? "opacity-100 translate-y-0 translate-x-0" : `opacity-0 ${getTransform()}`
         } ${className}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
@@ -229,65 +231,42 @@ interface CustomSelectProps {
 }
 
 export const CustomSelect: React.FC<CustomSelectProps> = ({ label, value, onChange, options, placeholder, required, icon }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  const selectId = useId();
 
   return (
-    <div className="relative" ref={containerRef}>
-      <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
+    <div className="relative">
+      <label htmlFor={selectId} className="block text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center gap-2">
         {icon} {label} {required && <span className="text-red-500">*</span>}
       </label>
 
-      <div
-        onClick={() => setIsOpen(!isOpen)}
-        className={`w-full bg-base/30 border ${isOpen ? 'border-accent' : 'border-ink/20'} p-3 text-ink cursor-pointer rounded-sm flex justify-between items-center transition-colors hover:border-accent/50`}
-      >
-        <span className={!value ? "text-ink-muted" : ""}>{value || placeholder || "Select an option"}</span>
-        <div className={`w-4 h-4 text-ink-muted transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+      <div className="relative">
+        <select
+          id={selectId}
+          required={required}
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          className={`w-full appearance-none bg-base/30 border border-ink/20 p-3 pr-10 rounded-sm transition-colors hover:border-accent/50 focus:outline-none focus:border-accent ${value ? 'text-ink' : 'text-ink-muted'}`}
+        >
+          <option value="" disabled>{placeholder || 'Select an option'}</option>
+          {options.map((option) => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+        </select>
+        <div aria-hidden="true" className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted pointer-events-none">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
         </div>
       </div>
-
-      {isOpen && (
-        <div className="absolute top-full left-0 w-full bg-white border border-ink/10 shadow-xl z-50 mt-1 rounded-sm max-h-60 overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
-          {options.map((option) => (
-            <div
-              key={option}
-              onClick={() => {
-                onChange(option);
-                setIsOpen(false);
-              }}
-              className={`p-3 text-sm cursor-pointer transition-colors ${value === option
-                ? 'bg-accent/10 text-accent font-medium'
-                : 'text-ink hover:bg-accent hover:text-white'
-                }`}
-            >
-              {option}
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };
 
-export const Button: React.FC<{
+interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
   variant?: 'primary' | 'secondary' | 'ghost';
   children: React.ReactNode;
-  className?: string;
-  onClick?: () => void;
-}> = ({ variant = 'primary', children, className = '', onClick }) => {
+  analytics?: AnalyticsEventMap['cta_click'];
+}
+
+export const Button: React.FC<ButtonProps> = ({ variant = 'primary', children, className = '', onClick, analytics, ...buttonProps }) => {
   const baseStyles = "inline-flex items-center justify-center px-6 py-3 font-sans text-sm font-medium transition-all duration-500 ease-out group relative overflow-hidden";
 
   const variants = {
@@ -297,7 +276,14 @@ export const Button: React.FC<{
   };
 
   return (
-    <button onClick={onClick} className={`${baseStyles} ${variants[variant]} ${className}`}>
+    <button
+      {...buttonProps}
+      onClick={(event) => {
+        if (analytics) track('cta_click', analytics);
+        onClick?.(event);
+      }}
+      className={`${baseStyles} ${variants[variant]} ${className}`}
+    >
       <span className="relative z-10 flex items-center">{children}
         {variant === 'primary' && <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />}
       </span>
@@ -357,7 +343,7 @@ export const Card: React.FC<CardProps> = ({ title, children, label, className = 
 
     {image && (
       <div className="w-full aspect-square overflow-hidden relative border-b border-ink/5 flex-shrink-0">
-        <img src={image} alt={title} className="w-full h-full object-cover" />
+        <img src={image} alt={title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
       </div>
     )}
 
@@ -388,6 +374,8 @@ export const BriefingCard: React.FC<BriefingCardProps> = ({ title, description, 
       <img
         src={image}
         alt={title}
+        loading="lazy"
+        decoding="async"
         className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out filter grayscale-[0.2] contrast-[1.05] group-hover:grayscale-0 group-hover:contrast-100"
       />
 
@@ -650,6 +638,8 @@ export const FormField: React.FC<FormFieldProps> = ({
   label, name, value, onChange, type = 'text', required, placeholder, error, rows = 4, icon, optionalLabel, className = '',
 }) => {
   const inputClasses = `w-full bg-base/30 border ${error ? 'border-red-500' : 'border-ink/20'} p-3 text-ink rounded-sm transition-colors focus:outline-none focus:border-accent placeholder:text-ink-muted/50`;
+  const autoComplete = name === 'name' ? 'name' : name === 'email' ? 'email' : name === 'company' ? 'organization' : name === 'phone' ? 'tel' : undefined;
+  const errorId = `${name}-error`;
 
   return (
     <div className={className}>
@@ -664,6 +654,8 @@ export const FormField: React.FC<FormFieldProps> = ({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           required={required}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
           placeholder={placeholder}
           rows={rows}
           className={inputClasses}
@@ -676,11 +668,14 @@ export const FormField: React.FC<FormFieldProps> = ({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           required={required}
+          autoComplete={autoComplete}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
           placeholder={placeholder}
           className={inputClasses}
         />
       )}
-      {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
+      {error && <p id={errorId} role="alert" className="mt-1 text-xs text-red-600">{error}</p>}
     </div>
   );
 };

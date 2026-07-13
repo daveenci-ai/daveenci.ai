@@ -147,7 +147,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
               </a>
             );
           })}
-          <Button variant="primary" className="py-2 px-5 text-xs uppercase tracking-[0.15em] shadow-md hover:shadow-lg whitespace-nowrap ml-2" onClick={goToCalendar}>Talk to us</Button>
+          <Button variant="primary" analytics={{ cta_id: 'talk_to_us', surface: 'header', from_page: currentPage, destination: '/calendar' }} className="py-2 px-5 text-xs uppercase tracking-[0.15em] shadow-md hover:shadow-lg whitespace-nowrap ml-2" onClick={goToCalendar}>Talk to us</Button>
         </nav>
 
         {/* Mobile Menu Button - Visible on screens smaller than LG */}
@@ -173,7 +173,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
               </a>
             );
           })}
-          <Button variant="primary" className="w-full mt-4 py-4 text-base" onClick={goToCalendar}>Talk to us</Button>
+          <Button variant="primary" analytics={{ cta_id: 'talk_to_us', surface: 'header_menu', from_page: currentPage, destination: '/calendar' }} className="w-full mt-4 py-4 text-base" onClick={goToCalendar}>Talk to us</Button>
         </div>
       )}
     </header>

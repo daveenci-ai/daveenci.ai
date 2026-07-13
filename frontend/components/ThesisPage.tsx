@@ -18,11 +18,7 @@ const ThesisPage: React.FC<ThesisPageProps> = (props) => {
 
 const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
   useEffect(() => {
-    document.title = 'The Thesis — DaVeenci';
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci | AI & Automation Consultancy';
-    };
   }, []);
 
   return (
@@ -33,7 +29,7 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
       <Section className="pt-44 pb-16 md:pt-52 md:pb-24">
         <GridPattern />
         <div className="max-w-4xl mx-auto text-center">
-          <ScrollReveal>
+          <ScrollReveal immediate>
             <div className="flex items-center justify-center gap-3 mb-8">
               <span className="h-px w-10 bg-ink-muted/40" />
               <span className="font-serif italic text-xs tracking-[0.3em] uppercase text-ink-muted">An Essay · Manifesto</span>

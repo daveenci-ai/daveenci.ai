@@ -1,28 +1,18 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, Check, Loader2, ArrowRight } from 'lucide-react';
-import { format, addDays, getDay, setDay, startOfDay, addWeeks } from 'date-fns';
 import { MobileShell } from './MobileShell';
 import { MobileButton } from './MobileButton';
-import NetworkingImage from '../../images/01 - Networking Session.jpg';
-import AEOvsSEOImage from '../../images/02 - Battle Between AEO and SEO.jpg';
-import OwnYourStackImage from '../../images/03 - Own Your Stack.jpg';
 import { API_ENDPOINTS } from '../../config';
 import type { Page } from '../types';
-
-interface EventItem {
-  image: string;
-  date: string;
-  isoDate: string;
-  title: string;
-  description: string;
-}
+import { formatEventDate, scheduledEvents, workshopTopics, type ScheduledEvent } from '../eventCatalog';
+import { MobileSubscribe } from './MobileSubscribe';
 
 interface MobileEventsPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
 const RegistrationSheet: React.FC<{
-  event: EventItem | null;
+  event: ScheduledEvent | null;
   onClose: () => void;
 }> = ({ event, onClose }) => {
   const [formData, setFormData] = useState({ fullName: '', email: '' });
@@ -55,7 +45,7 @@ const RegistrationSheet: React.FC<{
           email: formData.email,
           eventName: event.title,
           eventDescription: event.description,
-          eventDate: event.isoDate,
+          eventDate: event.startsAt,
         }),
       });
       const data = await response.json();
@@ -101,7 +91,7 @@ const RegistrationSheet: React.FC<{
         <h2 id="events-sheet-title" className="font-serif text-[1.75rem] leading-[1.15] text-ink mb-2 tracking-tight">
           {event.title}
         </h2>
-        <p className="font-mono text-[11px] text-ink-muted mb-5">{event.date}</p>
+        <p className="font-mono text-[11px] text-ink-muted mb-5">{formatEventDate(event, true)}</p>
         <p className="font-serif italic text-[15px] text-ink-muted leading-relaxed mb-6 border-l-2 border-ink/10 pl-4">
           "{event.description}"
         </p>
@@ -117,11 +107,14 @@ const RegistrationSheet: React.FC<{
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block font-mono text-[10px] font-bold text-ink uppercase tracking-wider mb-2">
+              <label htmlFor="mobile-event-full-name" className="block font-mono text-[10px] font-bold text-ink uppercase tracking-wider mb-2">
                 Full name <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
+                id="mobile-event-full-name"
+                name="fullName"
+                autoComplete="name"
                 required
                 value={formData.fullName}
                 onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
@@ -131,11 +124,14 @@ const RegistrationSheet: React.FC<{
               />
             </div>
             <div>
-              <label className="block font-mono text-[10px] font-bold text-ink uppercase tracking-wider mb-2">
+              <label htmlFor="mobile-event-email" className="block font-mono text-[10px] font-bold text-ink uppercase tracking-wider mb-2">
                 Email <span className="text-red-500">*</span>
               </label>
               <input
                 type="email"
+                id="mobile-event-email"
+                name="email"
+                autoComplete="email"
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -170,52 +166,10 @@ const RegistrationSheet: React.FC<{
 };
 
 export const MobileEventsPage: React.FC<MobileEventsPageProps> = ({ onNavigate }) => {
-  const [selected, setSelected] = useState<EventItem | null>(null);
+  const [selected, setSelected] = useState<ScheduledEvent | null>(null);
 
   useEffect(() => {
-    document.title = 'Events — DaVeenci';
     window.scrollTo(0, 0);
-    return () => {
-      document.title = 'DaVeenci | AI & Automation Consultancy';
-    };
-  }, []);
-
-  const events: EventItem[] = useMemo(() => {
-    const today = startOfDay(new Date());
-    const dayOfWeek = getDay(today);
-    let event1Date = setDay(today, 4, { weekStartsOn: 0 });
-    if (dayOfWeek >= 3) event1Date = addWeeks(event1Date, 1);
-    event1Date.setHours(10, 0, 0, 0);
-
-    const event2Date = addDays(event1Date, 10);
-    event2Date.setHours(10, 30, 0, 0);
-
-    const event3Date = addDays(event2Date, 6);
-    event3Date.setHours(10, 0, 0, 0);
-
-    return [
-      {
-        image: NetworkingImage,
-        date: `${format(event1Date, 'EEE, MMM d')} · ${format(event1Date, 'h:mm a')} CST`,
-        isoDate: event1Date.toISOString(),
-        title: 'AI × Ops: The Networking Session',
-        description: 'Curious about how AI and automation are transforming work? Meet founders, builders, and operators at this interactive networking event.',
-      },
-      {
-        image: AEOvsSEOImage,
-        date: `${format(event2Date, 'EEE, MMM d')} · ${format(event2Date, 'h:mm a')} CST`,
-        isoDate: event2Date.toISOString(),
-        title: 'The Battle Between AEO and SEO',
-        description: 'In this session, we explore the shifting terrain between classic SEO — the old mapmakers of the web — and AEO, the new intelligence engines.',
-      },
-      {
-        image: OwnYourStackImage,
-        date: `${format(event3Date, 'EEE, MMM d')} · ${format(event3Date, 'h:mm a')} CST`,
-        isoDate: event3Date.toISOString(),
-        title: 'AI Foundations: Own Your Stack',
-        description: "Learn how to run AI apps on infrastructure you actually control. We'll cover the essentials of hosting, servers, and GPU access.",
-      },
-    ];
   }, []);
 
   return (
@@ -232,14 +186,22 @@ export const MobileEventsPage: React.FC<MobileEventsPageProps> = ({ onNavigate }
           <span className="italic text-ink-muted/70">workshop.</span>
         </h1>
         <p className="font-serif text-[17px] text-ink-muted leading-[1.6]">
-          Occasional in-person and online sessions — on specialist AI teams, orchestration, and what we're learning as we build. Three upcoming on the calendar.
+          Occasional in-person and online sessions — on specialist AI teams, orchestration, and what we're learning as we build.
         </p>
       </section>
 
       <section className="px-6 pb-10 space-y-5">
-        {events.map((event, i) => (
+        {scheduledEvents.length === 0 && (
+          <div className="bg-white/55 border border-ink/10 rounded-sm p-5 mb-7">
+            <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-accent mb-2">Next dates</div>
+            <h2 className="font-serif text-2xl text-ink mb-3">The next sessions are being planned.</h2>
+            <p className="font-sans text-[14px] leading-relaxed text-ink-muted">No public dates are open right now. Subscribe at the bottom of the page and we’ll send the next confirmed invitation.</p>
+          </div>
+        )}
+
+        {scheduledEvents.map((event, i) => (
           <article
-            key={event.isoDate}
+            key={event.id}
             className="bg-white border border-ink/10 rounded-sm overflow-hidden shadow-sm shadow-ink/5"
           >
             <div className="aspect-[16/9] bg-ink/5 overflow-hidden">
@@ -248,12 +210,13 @@ export const MobileEventsPage: React.FC<MobileEventsPageProps> = ({ onNavigate }
                 alt={event.title}
                 className="w-full h-full object-cover filter sepia-[0.15] contrast-105"
                 loading="lazy"
+                decoding="async"
               />
             </div>
             <div className="p-5">
               <div className="flex items-center gap-3 mb-2">
                 <span className="font-mono text-[10px] font-bold tracking-widest text-white bg-accent px-2 py-1 rounded-sm">
-                  {event.date}
+                  {formatEventDate(event, true)}
                 </span>
                 <span className="font-mono text-[9px] tracking-widest text-ink-muted/50 uppercase">
                   Folio {100 + i}
@@ -273,7 +236,30 @@ export const MobileEventsPage: React.FC<MobileEventsPageProps> = ({ onNavigate }
             </div>
           </article>
         ))}
+
+        {scheduledEvents.length === 0 && (
+          <div className="pt-2">
+            <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-ink-muted mb-4">Topics from the workshop</div>
+            <div className="space-y-5">
+              {workshopTopics.map((topic) => (
+                <article key={topic.title} className="bg-white border border-ink/10 rounded-sm overflow-hidden shadow-sm shadow-ink/5">
+                  <img src={topic.image} alt="" loading="lazy" decoding="async" className="w-full aspect-[16/9] object-cover" />
+                  <div className="p-5">
+                    <h2 className="font-serif text-xl text-ink leading-snug mb-3">{topic.title}</h2>
+                    <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{topic.description}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        )}
       </section>
+
+      <MobileSubscribe
+        heading="Get the next workshop invitation"
+        body="Confirmed dates, practical field notes, and new builds from the workshop. One Codex letter every Tuesday."
+        source="events"
+      />
 
       <RegistrationSheet event={selected} onClose={() => setSelected(null)} />
     </MobileShell>

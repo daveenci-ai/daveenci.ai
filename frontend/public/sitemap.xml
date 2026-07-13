@@ -57,7 +57,66 @@
   </url>
   <url>
     <loc>https://daveenci.ai/events</loc>
-    <changefreq>weekly</changefreq>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://daveenci.ai/privacy</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://daveenci.ai/codex/agentic-workflow</loc>
+    <lastmod>2025-10-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://daveenci.ai/codex/synthetic-data</loc>
+    <lastmod>2025-10-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://daveenci.ai/codex/zero-touch-crm</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://daveenci.ai/codex/rag-vs-long-context</loc>
+    <lastmod>2025-11-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://daveenci.ai/codex/local-llm-stack</loc>
+    <lastmod>2025-12-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://daveenci.ai/codex/prompt-patterns</loc>
+    <lastmod>2025-12-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://daveenci.ai/codex/ai-compliance</loc>
+    <lastmod>2025-12-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://daveenci.ai/codex/saas-pricing</loc>
+    <lastmod>2025-12-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://daveenci.ai/codex/automated-video</loc>
+    <lastmod>2025-12-07</lastmod>
+    <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
 </urlset>

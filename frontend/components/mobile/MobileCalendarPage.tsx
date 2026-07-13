@@ -68,10 +68,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
   }, []);
 
   useEffect(() => {
-    document.title = 'Talk to us — DaVeenci';
-    return () => {
-      document.title = 'DaVeenci | AI & Automation Consultancy';
-    };
+    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
@@ -92,7 +89,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
       setBusySlots(data.busySlots);
       setAvailabilityError(null);
     } catch (error) {
-      console.error('Failed to fetch availability', error);
+      if (import.meta.env.DEV) console.debug('[calendar] Live availability unavailable', error);
       setAvailabilityError("We couldn't load live availability. Times shown may not reflect current bookings.");
     } finally {
       setIsLoading(false);
@@ -197,7 +194,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
             {/* Intro strip */}
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-sm overflow-hidden border border-ink/10 flex-shrink-0">
-                <img src={AstridSketch} alt="Astrid Abrahamyan" className="w-full h-full object-cover object-top scale-125 sepia-[0.15] contrast-105" />
+                <img src={AstridSketch} alt="Astrid Abrahamyan" decoding="async" className="w-full h-full object-cover object-top scale-125 sepia-[0.15] contrast-105" />
               </div>
               <div>
                 <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">Discovery Call</div>

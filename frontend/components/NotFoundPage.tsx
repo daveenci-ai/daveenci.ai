@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button, Eyebrow } from './Shared';
 import Header from './Header';
 import Footer from './Footer';
@@ -9,13 +9,6 @@ interface NotFoundPageProps {
 }
 
 const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate }) => {
-  useEffect(() => {
-    document.title = '404 — Page Not Found | DaVeenci';
-    return () => {
-      document.title = 'DaVeenci | AI & Automation Consultancy';
-    };
-  }, []);
-
   return (
     <div className="flex flex-col min-h-screen">
       <Header onNavigate={onNavigate} currentPage="not-found" />

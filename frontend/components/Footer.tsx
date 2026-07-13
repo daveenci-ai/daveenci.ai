@@ -63,7 +63,12 @@ const Footer: React.FC<FooterProps> = ({
             </p>
           ) : (
             <div className="flex flex-col sm:flex-row gap-3">
+              <label htmlFor={`newsletter-email-${newsletterSource}`} className="sr-only">Email address</label>
               <input
+                id={`newsletter-email-${newsletterSource}`}
+                name="email"
+                autoComplete="email"
+                aria-label="Email address"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -72,9 +77,10 @@ const Footer: React.FC<FooterProps> = ({
                 className="flex-1 bg-white/10 border border-white/20 px-4 py-3 text-base placeholder:text-base/40 focus:outline-none focus:border-accent rounded-sm"
                 disabled={status === 'loading'}
               />
-              <Button variant="primary" onClick={handleSubscribe} className="px-6">
+              <Button type="button" variant="primary" onClick={handleSubscribe} className="px-6">
                 {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
               </Button>
+              {status === 'error' && <p role="alert" className="self-center text-sm text-red-300">Please check your email and try again.</p>}
             </div>
           )}
         </div>
@@ -120,6 +126,8 @@ const Footer: React.FC<FooterProps> = ({
           </div>
           <div className="text-xs text-base/40">
             <span>© {new Date().getFullYear()} DaVeenci</span>
+            <span aria-hidden="true" className="mx-2">·</span>
+            <a href="/privacy" onClick={go('privacy')} className="hover:text-base transition-colors">Privacy</a>
           </div>
         </div>
       </div>

@@ -154,10 +154,12 @@ const InputPanel: React.FC<{
     <Widget className="p-6 md:p-8">
       <div className="space-y-5">
         <div>
-          <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2">
+          <label htmlFor="brandos-names" className="block text-xs font-bold text-ink uppercase tracking-wider mb-2">
             Brand Names <span className="text-red-500">*</span>
           </label>
           <input
+            id="brandos-names"
+            name="brandNames"
             type="text"
             value={names}
             onChange={(e) => onNamesChange(e.target.value)}
@@ -170,10 +172,12 @@ const InputPanel: React.FC<{
         </div>
 
         <div>
-          <label className="block text-xs font-bold text-ink uppercase tracking-wider mb-2">
+          <label htmlFor="brandos-context" className="block text-xs font-bold text-ink uppercase tracking-wider mb-2">
             Product Context <span className="text-red-500">*</span>
           </label>
           <textarea
+            id="brandos-context"
+            name="productContext"
             value={context}
             onChange={(e) => onContextChange(e.target.value)}
             placeholder="Describe your product or business in a sentence (e.g. 'AI-powered booking platform for B2B service companies')"
@@ -805,7 +809,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
         <VitruvianBackground className="opacity-[0.08]" />
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           <div className="lg:col-span-6 relative z-20">
-            <ScrollReveal delay={200}>
+            <ScrollReveal immediate>
               <PageHero
                 eyebrow={
                   <span className="inline-block mb-4 font-mono text-xs font-bold text-accent uppercase tracking-widest bg-accent/5 px-3 py-1 border border-accent/10 rounded-sm">

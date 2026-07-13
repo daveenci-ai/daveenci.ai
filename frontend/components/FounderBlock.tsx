@@ -27,6 +27,8 @@ const FounderBlock: React.FC<FounderBlockProps> = (_props) => (
               <img
                 src={AntonSketch}
                 alt="Anton Osipov"
+                loading="lazy"
+                decoding="async"
                 className="relative w-full rounded-sm shadow-2xl shadow-black/30 border border-base/10 filter sepia-[0.15] contrast-105"
               />
             </div>

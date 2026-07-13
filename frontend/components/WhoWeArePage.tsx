@@ -30,7 +30,7 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
          {/* Intro */}
          <Section className="pt-40 pb-12 md:pt-48 md:pb-16">
             <VitruvianBackground className="opacity-[0.12] -right-1/4 scale-[1.15]" />
-            <ScrollReveal className="max-w-4xl mx-auto relative z-10">
+            <ScrollReveal immediate className="max-w-4xl mx-auto relative z-10">
                <PageHero
                   eyebrow="Folio 0 — The Mission"
                   title={<>We build the team. <br /><span className="italic text-ink-muted">You own the output.</span></>}
@@ -61,6 +61,7 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                            <img
                               src={AntonSketch}
                               alt="Anton Osipov"
+                              decoding="async"
                               className="relative w-full rounded-sm shadow-2xl shadow-black/30 border border-base/10 filter sepia-[0.15] contrast-105"
                            />
                            <div className="mt-6 text-center">
@@ -108,6 +109,8 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                            <img
                               src={AstridSketch}
                               alt="Astrid Abrahamyan"
+                              loading="lazy"
+                              decoding="async"
                               className="relative w-full rounded-sm shadow-xl shadow-ink/10 border border-ink/10 filter sepia-[0.15] contrast-105"
                            />
                            <div className="mt-6 text-center">
