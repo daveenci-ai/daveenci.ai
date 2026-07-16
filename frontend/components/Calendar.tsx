@@ -240,7 +240,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
                            </div>
 
                            <p className="text-ink-muted leading-relaxed mb-8 font-serif">
-                              Thirty minutes with Astrid. No slide deck. Bring the workflow you want a specialist team for, or the strategic gap you want to close.
+                              Thirty minutes with Astrid. No slide deck. Bring one recurring workflow, the systems it crosses, and the consequence of getting it wrong.
                            </p>
 
                            <div className="flex items-center gap-4 py-6 border-y border-ink/5 mb-6">
@@ -259,15 +259,15 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
                            <ol className="space-y-4 border-l border-ink/10 pl-5">
                               <li className="flex gap-4 items-baseline text-sm text-ink-muted leading-relaxed">
                                  <span className="font-serif italic text-accent tracking-[0.1em] flex-shrink-0 w-4 text-right">i.</span>
-                                 <span>The workflow or domain you want a team for</span>
+                                 <span>The recurring input, handoffs, and finished output</span>
                               </li>
                               <li className="flex gap-4 items-baseline text-sm text-ink-muted leading-relaxed">
                                  <span className="font-serif italic text-accent tracking-[0.1em] flex-shrink-0 w-4 text-right">ii.</span>
-                                 <span>Where specialist agents + human gates would fit</span>
+                                 <span>Where integrations, specialist roles, and human gates belong</span>
                               </li>
                               <li className="flex gap-4 items-baseline text-sm text-ink-muted leading-relaxed">
                                  <span className="font-serif italic text-accent tracking-[0.1em] flex-shrink-0 w-4 text-right">iii.</span>
-                                 <span>Whether we're the right team to build it — honestly</span>
+                                 <span>Whether a fixed-scope Workflow Blueprint is worth doing</span>
                               </li>
                            </ol>
 
@@ -493,7 +493,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
                                           type="textarea"
                                           value={formData.notes}
                                           onChange={(val) => setFormData({ ...formData, notes: val })}
-                                          placeholder="Optional - feel free to share any context or specific questions..."
+                                          placeholder="Optional — what recurring input, handoff, or exception is costing your team attention?"
                                           icon={<HelpCircle className="w-3 h-3" />}
                                           rows={4}
                                        />

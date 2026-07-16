@@ -84,10 +84,10 @@ const App: React.FC = () => {
         setPage('work');
       } else if (path === '/purecode') {
         setPage('purecode');
-      } else if (path === '/shootos') {
-        window.history.replaceState({}, '', '/autopilot');
-        setPage('autopilot');
       } else if (path === '/autopilot') {
+        window.history.replaceState({}, '', '/shootos');
+        setPage('autopilot');
+      } else if (path === '/shootos') {
         setPage('autopilot');
       } else if (path === '/compoundiq') {
         setPage('compoundiq');
@@ -207,7 +207,7 @@ const App: React.FC = () => {
     if (targetPage === 'brandos') path = '/brandos';
     if (targetPage === 'work') path = '/work';
     if (targetPage === 'purecode') path = '/purecode';
-    if (targetPage === 'autopilot') path = '/autopilot';
+    if (targetPage === 'autopilot') path = '/shootos';
     if (targetPage === 'compoundiq') path = '/compoundiq';
     if (targetPage === 'events') path = '/events';
     if (targetPage === 'thesis') path = '/thesis';

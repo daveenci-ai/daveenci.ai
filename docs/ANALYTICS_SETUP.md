@@ -13,7 +13,7 @@ How to connect daveenci.ai's analytics layer to a GA4 property, verify it, and a
 
 1. In Google Analytics: **Admin → Create → Property**, name it (e.g. "daveenci.ai"), set time zone/currency.
 2. Add a **Web data stream** for `https://daveenci.ai`. Copy the Measurement ID (`G-XXXXXXXXXX`).
-3. **Disable Enhanced Measurement history tracking — required.** In the data stream: **Enhanced measurement → gear icon → Page changes based on browser history events → OFF.** The router calls `replaceState` for legacy-URL redirects (`App.tsx` — `/briefings→/codex`, `/book-demo→/pulsenote`, `/brand-analyzer→/brandos`, `/shootos→/autopilot`) and `pushState` on every navigation; with EM history tracking on, GA4 would fire its own `page_view` on top of the manual one → double counting. Leave the other EM toggles (scroll, outbound clicks, etc.) as you like — they don't conflict.
+3. **Disable Enhanced Measurement history tracking — required.** In the data stream: **Enhanced measurement → gear icon → Page changes based on browser history events → OFF.** The router calls `replaceState` for legacy-URL redirects (`App.tsx` — `/briefings→/codex`, `/book-demo→/pulsenote`, `/brand-analyzer→/brandos`, `/autopilot→/shootos`) and `pushState` on every navigation; with EM history tracking on, GA4 would fire its own `page_view` on top of the manual one → double counting. Leave the other EM toggles (scroll, outbound clicks, etc.) as you like — they don't conflict.
 4. Mark events as key events (Admin → Events) once they arrive: `generate_lead` at minimum; `demo_complete` and `calendar_start` recommended.
 
 ## 3. Environment variable
@@ -37,7 +37,7 @@ Unset ⇒ analytics is a no-op (dev builds log `[analytics]` lines to the consol
 | `select_content` | `content_type: 'case_study'`, `content_id`, `surface: 'work_preview' \| 'work_page'` | Case card clicked on homepage WorkPreview or /work | `WorkPreview.tsx`, `WorkPage.tsx`, `mobile/MobileWorkPreview.tsx`, `mobile/MobileWorkPage.tsx` |
 | `work_preview_viewed` | `surface: 'work_preview'` | At least 35% of the homepage Selected Work section enters the viewport | desktop + mobile WorkPreview |
 | `cta_click` | `cta_id`, `surface`, `from_page`, `destination` | An instrumented hero, header, case, or sticky CTA is activated | shared Button/MobileButton callers |
-| `case_engaged` | `case_id`, `trigger: 'active_time' \| 'scroll_depth'` | 30 visible seconds OR 50% scroll on a case page (once per visit) | `lib/useCaseEngaged.ts`, called from the CompoundIQ/AutoPilot/PureCode/BrandOS page wrappers (covers desktop + mobile) |
+| `case_engaged` | `case_id`, `trigger: 'active_time' \| 'scroll_depth'` | 30 visible seconds OR 50% scroll on a case page (once per visit) | `lib/useCaseEngaged.ts`, called from the CompoundIQ/ShootOS (internal ID `autopilot`)/PureCode/BrandOS page wrappers (covers desktop + mobile) |
 | `demo_start` | `demo_id: 'brandos_analyzer' \| 'purecode_ticket_sim' \| 'compoundiq_gate_sim'` | First user-initiated demo run per visit | `BrandOSPage.tsx`, `mobile/MobileBrandOSPage.tsx`, `PureCodePage.tsx`, gate simulator (Phase 4) |
 | `demo_complete` | `demo_id` | Demo run first reaches a finished/result state per visit | same files |
 | `next_case_click` | `from_case`, `to_case` | Next-case link clicked at the end of a case page | case pages, both trees (Phase 2) |

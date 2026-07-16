@@ -147,7 +147,7 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
                   What teams actually need isn't more autonomy. It's more coordination and more accountability. That means humans — at the right points, with the right authority, reviewing the right things. We call these <strong className="text-canvas">human gates.</strong>
                 </p>
                 <p>
-                  PureCode has three gates: <em>scope</em> (before anything is built), <em>design</em> (before implementation), <em>ship</em> (before merge). AutoPilot routes unreadable, ambiguous, and high-consequence decisions to operators instead of silently passing them. Every DaVeenci team has gates. Not because automation can't go further without them — it can — but because the output needs to be accountable to someone, and that someone needs to be a human making a real decision.
+                  PureCode has three gates: <em>scope</em> (before anything is built), <em>design</em> (before implementation), <em>ship</em> (before merge). Inside ShootOS, AutoPilot routes unreadable, ambiguous, and high-consequence decisions to operators instead of silently passing them. Every DaVeenci team has gates. Not because automation can't go further without them — it can — but because the output needs to be accountable to someone, and that someone needs to be a human making a real decision.
                 </p>
                 <p>
                   Governance isn't a feature bolted on top of an autonomous system. It IS the product. Remove the gates and you've removed the thing clients are paying for: a team that ships work they can stand behind.

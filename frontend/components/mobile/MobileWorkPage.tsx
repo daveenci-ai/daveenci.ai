@@ -1,54 +1,9 @@
 import React, { useEffect } from 'react';
 import { MobileShell } from './MobileShell';
 import { MobileScenePlate } from './MobileScenePlate';
-import { track, type CaseId } from '../../lib/analytics';
+import { track } from '../../lib/analytics';
 import type { Page } from '../types';
-
-interface WorkItem {
-  page: CaseId;
-  label: string;
-  title: string;
-  subtitle: string;
-  blurb: string;
-}
-
-const WORK_ITEMS: WorkItem[] = [
-  {
-    page: 'purecode',
-    label: 'Code',
-    title: 'PureCode',
-    subtitle: 'The code team.',
-    blurb: 'A feature request walks in. A shipped pull request walks out. 13 specialist agents, 3 human gates, orchestrated end-to-end.',
-  },
-  {
-    page: 'autopilot',
-    label: 'Real estate operations',
-    title: 'AutoPilot',
-    subtitle: 'The production operations team.',
-    blurb: 'Order email in. Scheduled job, continuous QC, safe remediation, and verified delivery out — three coordinated services across the production loop.',
-  },
-  {
-    page: 'compoundiq',
-    label: 'Trading research & execution',
-    title: 'CompoundIQ',
-    subtitle: 'The governed trading team.',
-    blurb: 'Hypothesis in. Versioned research, explicit action gates, paper execution, and structured feedback out — an in-progress system designed to earn autonomy safely.',
-  },
-  {
-    page: 'pulsenote',
-    label: 'Content',
-    title: 'PulseNote',
-    subtitle: 'The content team.',
-    blurb: 'Meeting transcripts in. Publish-ready newsletters, social posts, and visuals out. One workflow across every platform you publish to.',
-  },
-  {
-    page: 'brandos',
-    label: 'Brand',
-    title: 'BrandOS',
-    subtitle: 'The brand team.',
-    blurb: 'A name, positioning, or launch idea goes in. Weighted scoring across 10 dimensions, calibrated to your business stage. Specialist-grade naming diligence.',
-  },
-];
+import { workCatalog, workStatusClass } from '../../content/workCatalog';
 
 interface MobileWorkPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -75,16 +30,16 @@ export const MobileWorkPage: React.FC<MobileWorkPageProps> = ({ onNavigate }) =>
           <span className="italic text-ink-muted/70">Built in the real world.</span>
         </h1>
         <p className="font-serif text-[17px] text-ink-muted leading-[1.6]">
-          Each example below is a specialist team we've designed and built. Some are operating today; others are being proven in public. Every one coordinates narrow roles, human gates, and accountable finished work.
+          Every case shows its status plainly: production, endorsed practice, demonstration, or research still earning trust.
         </p>
       </section>
 
       {/* Cases */}
       <section className="px-6 pb-10 space-y-5">
-        {WORK_ITEMS.map((item) => (
+        {workCatalog.map((item) => (
           <a
             key={item.title}
-            href={`/${item.page}`}
+            href={item.href}
             onClick={(event) => {
               track('select_content', { content_type: 'case_study', content_id: item.page, surface: 'work_page' });
               if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -94,6 +49,7 @@ export const MobileWorkPage: React.FC<MobileWorkPageProps> = ({ onNavigate }) =>
             className="block w-full text-left"
           >
             <MobileScenePlate figLabel={item.label}>
+              <div className={`font-mono text-[8px] uppercase tracking-[0.14em] mb-3 ${workStatusClass(item.statusTone)}`}>{item.status}</div>
               <h2 className="font-serif text-[2rem] leading-[1.1] text-ink mb-1.5 tracking-tight">
                 {item.title}
               </h2>

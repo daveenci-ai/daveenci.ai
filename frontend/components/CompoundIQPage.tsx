@@ -342,7 +342,7 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
         </div>
       </Section>
 
-      <NextCase from="compoundiq" to="autopilot" title="AutoPilot" hook="Governance works in trading. See it hold a real-estate delivery line together — from order email to the final gate." onNavigate={onNavigate} />
+      <NextCase from="compoundiq" to="autopilot" title="ShootOS" hook="Governance works in trading. See it hold a real-estate-media delivery line together—from order email to the final gate." onNavigate={onNavigate} />
 
       <Footer
         onNavigate={onNavigate}

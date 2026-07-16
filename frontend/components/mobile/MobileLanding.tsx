@@ -13,6 +13,7 @@ import { MobileBooking } from './MobileBooking';
 import { MobileButton } from './MobileButton';
 import type { Page } from '../types';
 import { ProofRail } from '../ProofRail';
+import CommercialOffers from '../CommercialOffers';
 
 interface MobileLandingProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -26,8 +27,9 @@ const MobileLanding: React.FC<MobileLandingProps> = ({ onNavigate }) => (
   <MobileShell onNavigate={onNavigate}>
     <MobileHero onNavigate={onNavigate} />
     <ProofRail onNavigate={onNavigate} compact />
-    <MobileContrast />
+    <CommercialOffers onNavigate={onNavigate} compact />
     <MobileWorkPreview onNavigate={onNavigate} />
+    <MobileContrast />
     <MobileMethod />
     <MobileFounderBlock />
     <MobileAdvantage />

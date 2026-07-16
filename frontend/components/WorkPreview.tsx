@@ -2,34 +2,11 @@ import React, { useEffect, useRef } from 'react';
 import { Section, ScrollReveal, Surface, Button, FolioHeader } from './Shared';
 import { track } from '../lib/analytics';
 import type { Page } from './types';
+import { featuredWork, workStatusClass } from '../content/workCatalog';
 
 interface WorkPreviewProps {
   onNavigate: (page: Page) => void;
 }
-
-const examples = [
-  {
-    page: 'purecode' as const,
-    label: 'Code',
-    status: 'Operating',
-    title: 'PureCode',
-    blurb: 'A specialist AI team that turns a feature request into a shipped pull request. 13 agents, 3 human gates.',
-  },
-  {
-    page: 'autopilot' as const,
-    label: 'Real estate operations',
-    status: 'Operating',
-    title: 'AutoPilot',
-    blurb: 'Three coordinated services that create and schedule orders, continuously review operations, safely repair known exceptions, and verify delivery.',
-  },
-  {
-    page: 'compoundiq' as const,
-    label: 'Trading research & execution',
-    status: 'In development · Paper only',
-    title: 'CompoundIQ',
-    blurb: 'Versioned market research, explicit action gates, paper execution, and structured feedback — designed to earn autonomy safely.',
-  },
-];
 
 const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => {
   const impressionTracked = useRef(false);
@@ -58,10 +35,10 @@ const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => {
     </ScrollReveal>
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-      {examples.map((example, i) => (
+      {featuredWork.map((example, i) => (
         <ScrollReveal key={example.title} delay={100 + i * 150}>
           <a
-            href={`/${example.page}`}
+            href={example.href}
             className="block h-full rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
             onClick={(event) => {
               track('select_content', { content_type: 'case_study', content_id: example.page, surface: 'work_preview' });
@@ -73,10 +50,10 @@ const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => {
             <Surface kind="document" className="h-full p-8 md:p-10 bg-white/60 border border-ink/10 hover:shadow-2xl hover:border-accent/30 transition-all duration-300 group flex flex-col">
               <div className="flex items-start justify-between gap-4 mb-4">
                 <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">{example.label}</span>
-                <span className={`font-mono text-[8px] uppercase tracking-[0.14em] text-right ${example.page === 'compoundiq' ? 'text-amber-800' : 'text-green-700'}`}>{example.status}</span>
+                <span className={`font-mono text-[8px] uppercase tracking-[0.14em] text-right ${workStatusClass(example.statusTone)}`}>{example.status}</span>
               </div>
               <h3 className="font-serif text-2xl md:text-3xl text-ink mb-4 group-hover:text-accent transition-colors">{example.title}</h3>
-              <p className="font-sans text-ink-muted leading-relaxed mb-6 flex-grow">{example.blurb}</p>
+              <p className="font-sans text-ink-muted leading-relaxed mb-6 flex-grow">{example.previewBlurb}</p>
               <span className="font-sans text-sm font-medium text-accent group-hover:translate-x-1 transition-transform">Read the case →</span>
             </Surface>
           </a>

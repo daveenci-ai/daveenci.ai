@@ -32,6 +32,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
 
   const navLinks: NavLink[] = [
     { label: "About", href: "/who-we-are" },
+    { label: "Services", href: "#services" },
     { label: "Thesis", href: "/thesis" },
     { label: "Work", href: "/work" },
     { label: "Codex", href: "/codex" },
@@ -131,7 +132,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
               <span className="hidden md:flex items-center gap-4">
                 <span aria-hidden="true" className="h-4 w-px bg-ink/15"></span>
                 <span className="relative text-xs tracking-[0.2em] text-ink-muted font-medium uppercase transition-colors duration-500 group-hover:text-ink">
-                  A studio of specialist AI teams
+                  A governed AI systems workshop
                   <span aria-hidden="true" className="absolute -bottom-1 left-0 h-px bg-accent transition-all duration-300 w-0 group-hover:w-full"></span>
                 </span>
               </span>

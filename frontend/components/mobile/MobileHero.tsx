@@ -14,15 +14,15 @@ interface MobileHeroProps {
  * "See the work" link). MobileShell adds the persistent "Talk to us" bar.
  */
 export const MobileHero: React.FC<MobileHeroProps> = ({ onNavigate }) => (
-  <MobileFolioScene id="hero" eyebrow="Folio I — The Thesis">
-    <h1 className="font-serif text-[3.25rem] leading-[1.02] text-ink mb-6 mt-2 tracking-tight">
-      AI teams.
+  <MobileFolioScene id="hero" eyebrow="A workshop for governed AI operations">
+    <h1 className="font-serif text-[2.9rem] leading-[1.02] text-ink mb-6 mt-2 tracking-tight">
+      Difficult workflows.
       <br />
-      <span className="italic text-ink-muted/70">Not AI tools.</span>
+      <span className="italic text-ink-muted/70">Built to operate.</span>
     </h1>
 
     <MobileSceneSubtitle>
-      DaVeenci builds specialist AI teams that ship finished work — each one orchestrated, human-gated, and accountable to its output.
+      DaVeenci maps, builds, and improves governed production systems for recurring work that crosses tools, teams, and judgment.
     </MobileSceneSubtitle>
 
     {/* Fig. i — mini plate with simplified team motif */}
@@ -51,13 +51,16 @@ export const MobileHero: React.FC<MobileHeroProps> = ({ onNavigate }) => (
 
     {/* Thumb-zone actions */}
     <div className="mt-auto pt-8">
-      <MobileButton analytics={{ cta_id: 'workflow_call', surface: 'landing_hero', from_page: 'landing', destination: '/calendar' }} onClick={() => onNavigate('calendar')}>Walk us through your workflow</MobileButton>
+      <MobileButton analytics={{ cta_id: 'start_blueprint', surface: 'landing_hero', from_page: 'landing', destination: '/calendar' }} onClick={() => onNavigate('calendar')}>Start with a Workflow Blueprint</MobileButton>
       <button
         onClick={() => onNavigate('work')}
         className="inline-flex items-center gap-2 -ml-3 px-3 py-3 font-serif italic text-[16px] text-accent tracking-[0.03em] active:text-ink transition-colors"
       >
         See the work <span aria-hidden="true">→</span>
       </button>
+      <p className="mt-4 font-mono text-[9px] uppercase tracking-[0.12em] text-ink-muted/60 leading-relaxed">
+        Blueprint $5,000 · Builds from $14,000
+      </p>
     </div>
   </MobileFolioScene>
 );

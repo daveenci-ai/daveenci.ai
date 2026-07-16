@@ -12,21 +12,21 @@ interface Symptom {
 const SYMPTOMS: Symptom[] = [
   {
     n: 'i',
-    title: 'The Generalist Tax',
-    lead: 'Average at each, excellent at none.',
-    detail: 'One chat window, every job — coding, research, strategy, design.',
+    title: 'The Handoff Gap',
+    lead: 'A tool can help with a task without owning the workflow.',
+    detail: 'Production work still crosses inboxes, internal systems, operators, and customer commitments.',
   },
   {
     n: 'ii',
     title: 'The Governance Gap',
-    lead: 'When it breaks in production, you own the wreck.',
-    detail: 'No review. No gate. No accountability.',
+    lead: 'Confidence is not approval.',
+    detail: 'High-consequence work needs explicit review, traceable decisions, and someone accountable for release.',
   },
   {
     n: 'iii',
-    title: 'The Orchestration Gap',
-    lead: "Five of the same isn't a team.",
-    detail: 'A team is specialists, coordinated. AI tools are one generalist, cloned.',
+    title: 'The Operating Gap',
+    lead: 'Multiple prompts are not an operating system.',
+    detail: 'Reliable work needs narrow roles, shared state, retries, observability, and a defined finish line.',
   },
 ];
 
@@ -34,15 +34,15 @@ export const MobileContrast: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <MobileFolioScene id="contrast" eyebrow="Folio II — The Industry Is Wrong" className="bg-white/40">
+    <MobileFolioScene id="contrast" eyebrow="Folio II — Where Tools Stop" className="bg-white/40">
       <MobileSceneTitle>
-        One model cannot
+        Useful tools.
         <br />
-        <span className="italic text-ink-muted/70">be everyone.</span>
+        <span className="italic text-ink-muted/70">Missing operating system.</span>
       </MobileSceneTitle>
 
       <MobileSceneSubtitle>
-        Every major AI product is one generalist pretending to do the work of a specialist team. It's mediocre at all of it.
+        A good AI tool can accelerate one task. Production still needs coordinated roles, integrations, memory, controls, and an accountable release gate.
       </MobileSceneSubtitle>
 
       <ol className="border-t border-ink/10">

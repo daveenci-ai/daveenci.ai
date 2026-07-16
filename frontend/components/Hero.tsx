@@ -109,18 +109,18 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           <ScrollReveal immediate>
             <SectionDivider className="mb-6" width="w-full max-w-[60%]" />
             <PageHero
-              eyebrow="Folio I — The Thesis"
-              title={<>AI teams.<br /><span className="italic text-ink-muted/80">Not AI tools.</span></>}
-              description="DaVeenci builds specialist AI teams that ship finished work — code, media, research — each one orchestrated, human-gated, and accountable to its output."
+              eyebrow="A workshop for governed AI operations"
+              title={<>Difficult workflows.<br /><span className="italic text-ink-muted/80">Built to operate.</span></>}
+              description="DaVeenci maps, builds, and improves production systems for recurring work that crosses tools, teams, and judgment—with specialist AI roles, explicit human gates, and accountable finished outputs."
               actions={
                 <>
-                  <Button variant="primary" analytics={{ cta_id: 'workflow_call', surface: 'landing_hero', from_page: 'landing', destination: '/calendar' }} onClick={() => onNavigate?.('calendar')} className="text-base px-8 py-4">Walk us through your workflow</Button>
+                  <Button variant="primary" analytics={{ cta_id: 'start_blueprint', surface: 'landing_hero', from_page: 'landing', destination: '/calendar' }} onClick={() => onNavigate?.('calendar')} className="text-base px-8 py-4">Start with a Workflow Blueprint</Button>
                   <Button variant="secondary" analytics={{ cta_id: 'see_work', surface: 'landing_hero', from_page: 'landing', destination: '/work' }} onClick={() => onNavigate?.('work')} className="text-base px-8 py-4">See the work</Button>
                 </>
               }
             />
             <p className="mt-8 text-xs md:text-sm text-ink-muted/60 font-medium tracking-wide">
-              One workshop. Many specialist teams. Each one shipping finished work.
+              Blueprint $5,000 · Production builds from $14,000 · Ongoing operation from $2,500/month
             </p>
           </ScrollReveal>
         </div>

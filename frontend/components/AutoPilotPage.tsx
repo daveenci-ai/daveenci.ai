@@ -28,6 +28,8 @@ import { useIsMobile } from './mobile/useIsMobile';
 import { MobileAutoPilotPage } from './mobile/MobileAutoPilotPage';
 import { useCaseEngaged } from '../lib/useCaseEngaged';
 import type { Page } from './types';
+import { CaseEvidence } from './CaseEvidence';
+import { shootosEvidence } from '../content/shootosEvidence';
 
 interface AutoPilotPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -96,7 +98,7 @@ const AutoPilotControlPanel: React.FC = () => (
     <div className="absolute inset-0 opacity-[0.035] bg-[radial-gradient(rgb(var(--color-ink))_1px,transparent_1px)] [background-size:18px_18px]" />
     <div className="relative flex items-center justify-between border-b border-ink/10 pb-4 mb-5">
       <div>
-        <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">f8 operations · AutoPilot</div>
+        <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">ShootOS system · AutoPilot</div>
         <div className="font-serif text-lg text-ink mt-1">Production control loop</div>
       </div>
       <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-widest text-green-700">
@@ -158,9 +160,9 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
           <div className="lg:col-span-6 relative z-10">
             <ScrollReveal immediate>
               <PageHero
-                eyebrow="A DaVeenci team · Real estate operations"
+                eyebrow="ShootOS · A specialist real-estate-media practice by DaVeenci"
                 title={<>From order email<br /><span className="italic text-ink-muted/80">to delivery gate.</span></>}
-                description="For f8 Real Estate Media, DaVeenci built an accountable operations team that creates and schedules orders, reviews them continuously, safely repairs known exceptions, and verifies every deliverable before release."
+                description="ShootOS combines reusable industry knowledge with AutoPilot, the governed operations system DaVeenci built for f8 Real Estate Media. It creates and schedules orders, reviews them continuously, repairs known exceptions safely, and verifies every deliverable before release."
                 size="md"
                 actions={
                   <>
@@ -189,6 +191,12 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
           ))}
         </div>
       </section>
+
+      <CaseEvidence
+        title="The workflow, the controls, and what exists today."
+        subtitle="ShootOS is presented as an operating practice, not a concept. This ledger separates the reusable vertical knowledge from the AutoPilot system running inside it."
+        items={shootosEvidence}
+      />
 
       <Section id="autopilot-workflow" className="py-20 md:py-28" pattern="grid">
         <SectionHeader
@@ -229,7 +237,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
         <SectionHeader
           eyebrow="Why it is a team"
           title="The right kind of intelligence for each decision."
-          subtitle="AutoPilot does not ask one model to improvise the whole workflow. It assigns rules, perception, memory, and judgment to the layer best suited to each one."
+          subtitle="Inside ShootOS, AutoPilot does not ask one model to improvise the whole workflow. It assigns rules, perception, memory, and judgment to the layer best suited to each one."
         />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {safety.map((item, index) => (
@@ -288,7 +296,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
         onNavigate={onNavigate}
         newsletterHeading="Follow the operations work"
         newsletterBody="How specialist teams take over real workflows — the handoffs, the gates, the morning reports. Sent when the work earns an update."
-        newsletterSource="autopilot"
+        newsletterSource="shootos"
       />
     </div>
   );

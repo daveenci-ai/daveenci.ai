@@ -16,6 +16,8 @@ import { MobileSubscribe } from './MobileSubscribe';
 import { MobileScenePlate } from './MobileScenePlate';
 import { MobileShell } from './MobileShell';
 import type { Page } from '../types';
+import { CaseEvidence } from '../CaseEvidence';
+import { shootosEvidence } from '../../content/shootosEvidence';
 
 interface MobileAutoPilotPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -59,7 +61,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
     <MobileShell onNavigate={onNavigate}>
       <section className="px-6 pt-10 pb-10">
         <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.22em] uppercase text-accent bg-accent/5 border border-accent/10 rounded-sm px-2.5 py-1">
-          A DaVeenci team · Real estate operations
+          ShootOS · A specialist practice by DaVeenci
         </div>
         <h1 className="font-serif text-[2.6rem] leading-[1.04] text-ink mb-5 tracking-tight">
           From order email
@@ -67,7 +69,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
           <span className="italic text-ink-muted/70">to delivery gate.</span>
         </h1>
         <p className="font-serif text-[16px] text-ink-muted leading-[1.6] mb-7">
-          For f8 Real Estate Media, DaVeenci built an accountable operations team that creates, reviews, repairs, and verifies production work before release.
+          ShootOS combines reusable real-estate-media knowledge with AutoPilot, the governed operations system DaVeenci built for f8 Real Estate Media.
         </p>
         <MobileButton onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
 
@@ -105,6 +107,13 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
           ))}
         </div>
       </section>
+
+      <CaseEvidence
+        compact
+        title="The workflow, controls, and operating truth."
+        subtitle="The evidence ledger separates the ShootOS practice from the AutoPilot system running inside it."
+        items={shootosEvidence}
+      />
 
       <section className="px-6 py-12">
         <div className="flex items-center gap-3 mb-5">
@@ -194,7 +203,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
       <MobileSubscribe
         heading="Follow the operations work"
         body="How specialist teams take over real workflows — the handoffs, the gates, the morning reports. Sent when the work earns an update."
-        source="autopilot"
+        source="shootos"
       />
     </MobileShell>
   );

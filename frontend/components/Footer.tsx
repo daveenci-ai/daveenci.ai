@@ -92,7 +92,7 @@ const Footer: React.FC<FooterProps> = ({
             <ul className="space-y-2">
               <li><a href="/work" onClick={go('work')} className="text-sm text-canvas/80 hover:text-white transition-colors">All work</a></li>
               <li><a href="/purecode" onClick={go('purecode')} className="text-sm text-canvas/80 hover:text-white transition-colors">PureCode</a></li>
-              <li><a href="/autopilot" onClick={go('autopilot')} className="text-sm text-canvas/80 hover:text-white transition-colors">AutoPilot</a></li>
+              <li><a href="/shootos" onClick={go('autopilot')} className="text-sm text-canvas/80 hover:text-white transition-colors">ShootOS</a></li>
               <li><a href="/compoundiq" onClick={go('compoundiq')} className="text-sm text-canvas/80 hover:text-white transition-colors">CompoundIQ</a></li>
             </ul>
           </div>
@@ -101,6 +101,7 @@ const Footer: React.FC<FooterProps> = ({
             <h4 className="font-mono text-[10px] uppercase tracking-[0.2em] text-canvas/50 mb-4">Company</h4>
             <ul className="space-y-2">
               <li><a href="/who-we-are" onClick={go('who-we-are')} className="text-sm text-canvas/80 hover:text-white transition-colors">About</a></li>
+              <li><a href="/#services" onClick={go('landing', '#services')} className="text-sm text-canvas/80 hover:text-white transition-colors">Services</a></li>
               <li><a href="/thesis" onClick={go('thesis')} className="text-sm text-canvas/80 hover:text-white transition-colors">Thesis</a></li>
               <li><a href="/calendar" onClick={go('calendar')} className="text-sm text-canvas/80 hover:text-white transition-colors">Talk to us</a></li>
               <li><a href="/events" onClick={go('events')} className="text-sm text-canvas/80 hover:text-white transition-colors">Events</a></li>

@@ -187,7 +187,7 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
             <FolioHeader
               eyebrow="Folio VI — The Call"
               title={<>Thirty minutes.<br />No slide deck.</>}
-              subtitle="Bring the workflow you want a specialist team for. Astrid will tell you honestly whether we're the right workshop to build it."
+              subtitle="Bring one recurring workflow, the systems it crosses, and the consequence of getting it wrong. Astrid will tell you honestly whether a Workflow Blueprint is the right next step."
             />
 
             <div className="max-w-xl border-l border-ink/10 pl-6">
@@ -205,15 +205,15 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
               <ul className="space-y-2.5 text-ink-muted leading-relaxed">
                 <li className="flex gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
-                  The workflow or domain you want a team for
+                  The recurring input, handoffs, and finished output
                 </li>
                 <li className="flex gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
-                  Where specialist agents + human gates would fit
+                  Where integrations, specialist roles, and human gates belong
                 </li>
                 <li className="flex gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
-                  Whether we're the right workshop to build it
+                  Whether a fixed-scope Workflow Blueprint is worth doing
                 </li>
               </ul>
             </div>

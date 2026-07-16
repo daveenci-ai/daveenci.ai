@@ -395,7 +395,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
               type="textarea"
               value={formData.notes}
               onChange={(val) => setFormData({ ...formData, notes: val })}
-              placeholder="Optional — feel free to share context or questions..."
+              placeholder="Optional — what recurring input, handoff, or exception is costing your team attention?"
               icon={<HelpCircle className="w-3 h-3" />}
               rows={4}
             />

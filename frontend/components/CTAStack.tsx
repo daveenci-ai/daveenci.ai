@@ -21,7 +21,7 @@ const CTAStack: React.FC<CTAStackProps> = ({ onNavigate }) => {
     },
     {
       title: 'See the work',
-      detail: 'Case studies: PureCode, AutoPilot, CompoundIQ, and the teams still taking shape.',
+      detail: 'Case studies: PureCode, ShootOS, CompoundIQ, and the teams still earning trust.',
       cta: 'Browse work',
       onClick: () => onNavigate('work'),
       variant: 'secondary' as const,

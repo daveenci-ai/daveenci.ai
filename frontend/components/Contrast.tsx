@@ -17,9 +17,9 @@ const GeneralistDiagram: React.FC = () => {
         {/* Faint construction circle — sketchbook scaffolding echo */}
         <circle cx="150" cy="125" r="95" stroke="rgb(var(--color-paper-border))" strokeWidth="0.8" strokeDasharray="3 3" fill="none" opacity="0.35" />
 
-        {/* WRECK — ongoing system error popups, piling up and cycling */}
+        {/* Unreviewed output — work leaving the tool without an operating gate. */}
         <text x="150" y="16" textAnchor="middle" fontSize="7" fill="rgb(var(--color-status-danger))" fontFamily="serif" fontStyle="italic" letterSpacing="0.15em">
-          WRECK
+          UNREVIEWED
           <animate attributeName="opacity" values="0.5;1;0.55;1;0.5" dur="1.4s" repeatCount="indefinite" />
         </text>
 
@@ -123,12 +123,12 @@ const GeneralistDiagram: React.FC = () => {
       {/* Annotation pills */}
       <div className="absolute top-2 -left-4 md:-left-6 bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
         <Cpu className="w-4 h-4 text-ink-muted" />
-        <span className="text-xs font-medium text-ink">One chat, every job</span>
+        <span className="text-xs font-medium text-ink">One tool, many handoffs</span>
       </div>
 
       <div className="absolute bottom-2 -right-4 md:-right-6 bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
         <AlertTriangle className="w-4 h-4 text-status-danger" />
-        <span className="text-xs font-medium text-ink">No gate</span>
+        <span className="text-xs font-medium text-ink">No release gate</span>
       </div>
     </Plate>
   );
@@ -137,21 +137,21 @@ const GeneralistDiagram: React.FC = () => {
 const symptoms = [
   {
     n: 'i',
-    title: 'The Generalist Tax',
-    lead: 'Average at each, excellent at none.',
-    detail: 'One chat window, every job — coding, research, strategy, design.',
+    title: 'The Handoff Gap',
+    lead: 'A tool can help with a task without owning the workflow.',
+    detail: 'Production work still crosses inboxes, internal systems, operators, and customer commitments.',
   },
   {
     n: 'ii',
     title: 'The Governance Gap',
-    lead: 'When it breaks in production, you own the wreck.',
-    detail: 'No review. No gate. No accountability.',
+    lead: 'Confidence is not approval.',
+    detail: 'High-consequence work needs explicit review, traceable decisions, and someone accountable for release.',
   },
   {
     n: 'iii',
-    title: 'The Orchestration Gap',
-    lead: "Five of the same isn't a team.",
-    detail: 'A team is specialists, coordinated. AI tools are one generalist, cloned.',
+    title: 'The Operating Gap',
+    lead: 'Multiple prompts are not an operating system.',
+    detail: 'Reliable work needs narrow roles, shared state, retries, observability, and a defined finish line.',
   },
 ];
 
@@ -167,9 +167,9 @@ const Contrast: React.FC = () => (
       <div className="lg:col-span-7 lg:order-2 order-1 relative z-20">
         <ScrollReveal delay={100}>
           <FolioHeader
-            eyebrow="Folio II — The Industry Is Wrong"
-            title={<>One model cannot<br />be everyone.</>}
-            subtitle="Every major AI product is one generalist pretending to do the work of a specialist team. It's mediocre at all of it."
+            eyebrow="Folio II — Where Tools Stop"
+            title={<>Useful tools.<br />Missing operating system.</>}
+            subtitle="A good AI tool can accelerate one task. A production workflow still needs coordinated roles, integrations, memory, controls, and a person accountable for release."
           />
 
           <ol className="space-y-8 max-w-xl border-l border-ink/10 pl-6">

@@ -9,8 +9,9 @@ interface MobileMenuProps {
   onNavigate: (page: Page, hash?: string) => void;
 }
 
-const MENU_ITEMS: { label: string; page: Page }[] = [
+const MENU_ITEMS: { label: string; page: Page; hash?: string }[] = [
   { label: 'About', page: 'who-we-are' },
+  { label: 'Services', page: 'landing', hash: '#services' },
   { label: 'Thesis', page: 'thesis' },
   { label: 'Work', page: 'work' },
   { label: 'Codex', page: 'briefings' },
@@ -69,9 +70,9 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, onNavigat
 
   if (!open) return null;
 
-  const go = (page: Page) => {
+  const go = (page: Page, hash?: string) => {
     onClose();
-    onNavigate(page);
+    onNavigate(page, hash);
   };
 
   return (
@@ -100,7 +101,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, onNavigat
         {MENU_ITEMS.map((item) => (
           <button
             key={item.label}
-            onClick={() => go(item.page)}
+            onClick={() => go(item.page, item.hash)}
             className="text-left font-serif text-4xl text-ink leading-none active:text-accent transition-colors"
           >
             {item.label}

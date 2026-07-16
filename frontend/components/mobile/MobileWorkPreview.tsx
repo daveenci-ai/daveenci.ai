@@ -2,42 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import { MobileButton } from './MobileButton';
 import { MobileFolioScene } from './MobileFolioScene';
 import { MobileScenePlate } from './MobileScenePlate';
-import { track, type CaseId } from '../../lib/analytics';
+import { track } from '../../lib/analytics';
 import type { Page } from '../types';
+import { featuredWork, workStatusClass } from '../../content/workCatalog';
 
 interface MobileWorkPreviewProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
-
-const CASES: Array<{
-  page: CaseId;
-  label: string;
-  status: string;
-  title: string;
-  blurb: string;
-}> = [
-  {
-    page: 'purecode',
-    label: 'Code',
-    status: 'Operating',
-    title: 'PureCode',
-    blurb: 'A feature request becomes a shipped pull request through 13 specialist agents and three human gates.',
-  },
-  {
-    page: 'autopilot',
-    label: 'Real estate operations',
-    status: 'Operating',
-    title: 'AutoPilot',
-    blurb: 'Three coordinated services create, review, repair, and verify production work before release.',
-  },
-  {
-    page: 'compoundiq',
-    label: 'Trading research & execution',
-    status: 'In development · Paper only',
-    title: 'CompoundIQ',
-    blurb: 'Versioned research, explicit action gates, paper execution, and structured feedback in one constrained loop.',
-  },
-];
 
 export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate }) => {
   const impressionTracked = useRef(false);
@@ -67,10 +38,10 @@ export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate
     </p>
 
     <div className="space-y-4 mb-7">
-      {CASES.map((item) => (
+      {featuredWork.map((item) => (
         <a
           key={item.title}
-          href={`/${item.page}`}
+          href={item.href}
           onClick={(event) => {
             track('select_content', { content_type: 'case_study', content_id: item.page, surface: 'work_preview' });
             if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -80,11 +51,11 @@ export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate
           className="block w-full text-left"
         >
           <MobileScenePlate figLabel={item.label} className="p-4">
-            <div className={`font-mono text-[8px] uppercase tracking-[0.14em] mb-3 ${item.page === 'compoundiq' ? 'text-amber-800' : 'text-green-700'}`}>
+            <div className={`font-mono text-[8px] uppercase tracking-[0.14em] mb-3 ${workStatusClass(item.statusTone)}`}>
               {item.status}
             </div>
             <h3 className="font-serif text-[1.65rem] leading-none text-ink mb-2">{item.title}</h3>
-            <p className="font-sans text-[13px] text-ink-muted leading-relaxed">{item.blurb}</p>
+            <p className="font-sans text-[13px] text-ink-muted leading-relaxed">{item.previewBlurb}</p>
           </MobileScenePlate>
         </a>
       ))}

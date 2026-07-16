@@ -15,6 +15,7 @@ import MobileLanding from './components/mobile/MobileLanding';
 import { useIsMobile } from './components/mobile/useIsMobile';
 import type { Page } from './components/types';
 import { ProofRail } from './components/ProofRail';
+import CommercialOffers from './components/CommercialOffers';
 
 interface DaVeenciLandingPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -34,8 +35,9 @@ const DaVeenciLandingPage: React.FC<DaVeenciLandingPageProps> = ({ onNavigate, a
 
       <Hero onNavigate={onNavigate} />
       <ProofRail onNavigate={onNavigate} />
-      <Contrast />
+      <CommercialOffers onNavigate={onNavigate} />
       <WorkPreview onNavigate={onNavigate} />
+      <Contrast />
       <Method />
       <FounderBlock onNavigate={onNavigate} />
       <Advantage />

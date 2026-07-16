@@ -139,7 +139,7 @@ export const MobileBooking: React.FC<MobileBookingProps> = ({ onNavigate }) => {
       </MobileSceneTitle>
 
       <MobileSceneSubtitle>
-        Bring the workflow you want a specialist team for. Astrid will tell you honestly whether we're the right workshop to build it.
+        Bring one recurring workflow and the consequence of getting it wrong. Astrid will tell you honestly whether a Workflow Blueprint is the right next step.
       </MobileSceneSubtitle>
 
       {/* Astrid mini row */}

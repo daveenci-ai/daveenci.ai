@@ -1,5 +1,6 @@
 import type { Page } from '../components/types';
 import { getBriefingSummary } from '../content/briefings';
+import { commercialOffers } from '../content/commercialOffers';
 
 const SITE_URL = 'https://daveenci.ai';
 const DEFAULT_IMAGE = `${SITE_URL}/daveenci-og.png`;
@@ -19,8 +20,8 @@ export interface RouteMetadata {
 
 const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'not-found'>, RouteMetadata> = {
   landing: {
-    title: 'DaVeenci — AI teams, not AI tools',
-    description: 'A studio of specialist AI teams that ship finished work — code, media, and research — with human gates and accountable outputs.',
+    title: 'DaVeenci — Governed AI Production Systems',
+    description: 'DaVeenci maps, builds, and improves governed AI production systems for difficult recurring workflows, with explicit human gates and accountable outputs.',
     path: '/',
   },
   briefings: {
@@ -35,7 +36,7 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'not-found'>, Rou
   },
   calendar: {
     title: 'Talk to Us — DaVeenci',
-    description: 'Book a 30-minute working session with DaVeenci and bring the workflow you want a specialist AI team to own.',
+    description: 'Book a 30-minute working session with DaVeenci to discuss a recurring workflow and whether it belongs in a fixed-scope Workflow Blueprint.',
     path: '/calendar',
   },
   pulsenote: {
@@ -49,8 +50,8 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'not-found'>, Rou
     path: '/brandos',
   },
   work: {
-    title: 'Our Work — Specialist AI Teams | DaVeenci',
-    description: 'Explore specialist AI teams built for code delivery, media operations, governed research, content, and brand decisions.',
+    title: 'Our Work — Governed AI Production Systems | DaVeenci',
+    description: 'Explore DaVeenci production systems, operating practices, demonstrations, and research—each with an explicit operating status.',
     path: '/work',
   },
   purecode: {
@@ -59,9 +60,9 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'not-found'>, Rou
     path: '/purecode',
   },
   autopilot: {
-    title: 'AutoPilot — Real Estate Media Operations | DaVeenci',
-    description: 'From order email to delivery gate: coordinated services for scheduling, continuous review, safe remediation, and verification.',
-    path: '/autopilot',
+    title: 'ShootOS — Real-Estate-Media Operations by DaVeenci',
+    description: 'ShootOS is DaVeenci’s specialist real-estate-media practice, powered by AutoPilot for intake, scheduling, continuous review, safe remediation, and delivery verification.',
+    path: '/shootos',
   },
   compoundiq: {
     title: 'CompoundIQ — Governed, Paper-First Trading Research | DaVeenci',
@@ -143,6 +144,14 @@ const updateStructuredData = (metadata: RouteMetadata, url: string, image: strin
   const existing = document.getElementById('route-structured-data');
   existing?.remove();
 
+  const organizationData = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'DaVeenci',
+    url: SITE_URL,
+    description: ROUTE_METADATA.landing.description,
+  };
+
   const data = metadata.type === 'article'
     ? {
         '@context': 'https://schema.org',
@@ -160,13 +169,23 @@ const updateStructuredData = (metadata: RouteMetadata, url: string, image: strin
           logo: { '@type': 'ImageObject', url: `${SITE_URL}/daveenci-logo.png` },
         },
       }
-    : {
-        '@context': 'https://schema.org',
-        '@type': 'Organization',
-        name: 'DaVeenci',
-        url: SITE_URL,
-        description: ROUTE_METADATA.landing.description,
-      };
+    : metadata.path === '/'
+      ? {
+          ...organizationData,
+          makesOffer: commercialOffers.map((offer) => ({
+            '@type': 'Offer',
+            name: offer.title,
+            description: offer.description,
+            priceCurrency: 'USD',
+            priceSpecification: {
+              '@type': 'PriceSpecification',
+              minPrice: offer.id === 'blueprint' ? '5000' : offer.id === 'build' ? '14000' : '2500',
+              priceCurrency: 'USD',
+              unitText: offer.id === 'operate' ? 'MONTH' : offer.timeline,
+            },
+          })),
+        }
+      : organizationData;
 
   const script = document.createElement('script');
   script.id = 'route-structured-data';
