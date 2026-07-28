@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MobileTopBar } from './MobileTopBar';
 import { MobileButton } from './MobileButton';
 import { MobileErrorBoundary } from './MobileErrorBoundary';
+import { MobileFooter } from './MobileFooter';
 import type { Page } from '../types';
 
 interface MobileShellProps {
@@ -40,13 +41,14 @@ export const MobileShell: React.FC<MobileShellProps> = ({
   <div className="relative" data-mobile>
     <MobileTopBar onNavigate={onNavigate} />
 
-    <main
-      className={`pt-14 ${
-        showBottomCTA ? 'pb-[calc(env(safe-area-inset-bottom)+5rem)]' : ''
-      }`}
-    >
+    <main className="pt-14">
       <MobileErrorBoundary>{children}</MobileErrorBoundary>
     </main>
+
+    <MobileFooter
+      onNavigate={onNavigate}
+      className={showBottomCTA ? 'pb-[calc(env(safe-area-inset-bottom)+6rem)]' : ''}
+    />
 
     {showBottomCTA && (
       <div

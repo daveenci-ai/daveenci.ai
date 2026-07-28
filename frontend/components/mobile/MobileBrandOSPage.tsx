@@ -35,8 +35,11 @@ const WEIGHTS: Record<string, number> = {
   scalability: 0.9,
   pronounceability: 0.8,
   visualIdentity: 0.7,
-  negativeRisk: 0.6,
-  trust: 1.3,
+  // Must mirror backend/src/services/brandAnalyzer.ts WEIGHTS exactly — the
+  // scorecard is rendered from keys the API returns, so an invented key
+  // (this used to carry `trust: 1.3`) renders nothing and drops a real one.
+  emotionalAppeal: 0.7,
+  negativeRisk: 0.7,
 };
 
 const DIMENSION_LABELS: Record<string, string> = {
@@ -48,8 +51,8 @@ const DIMENSION_LABELS: Record<string, string> = {
   scalability: 'Scalability',
   pronounceability: 'Pronounceability',
   visualIdentity: 'Visual Identity',
+  emotionalAppeal: 'Emotional Appeal',
   negativeRisk: 'Negative Risk',
-  trust: 'Trust',
 };
 
 const DIMENSIONS = Object.keys(DIMENSION_LABELS);
@@ -189,7 +192,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
             <div>
               <h3 className="font-serif text-[1.75rem] leading-[1.15] text-ink mb-3 tracking-tight">Scored across 10 dimensions, independently</h3>
               <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-4">
-                Every candidate gets decomposed into Clarity, Relevance, Trust, Industry Fit, and six more — each scored 0-100 with a concrete reason.
+                Every candidate gets decomposed into Clarity, Relevance, Industry Fit, Memorability, and six more — each scored 0-100 with a concrete reason.
               </p>
               <ul className="space-y-2.5">
                 {['Each dimension has a diagnostic question', 'Scores come with evidence, not a thumbs-up', 'Negative Risk is inverse-scored — high = safe'].map((b, i) => (
@@ -469,7 +472,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
         </h2>
         <Widget as="ol" className="px-5">
           {[
-            { q: 'What are the 10 dimensions?', a: 'Clarity, Relevance, Trust, Industry Fit, Memorability, Uniqueness, Scalability, Pronounceability, Visual Identity, and Negative Risk. Each is weighted differently (Clarity ×1.8 is heaviest; Negative Risk ×0.6 is inverse-scored so high = safe).' },
+            { q: 'What are the 10 dimensions?', a: 'Clarity, Relevance, Industry Fit, Memorability, Uniqueness, Scalability, Pronounceability, Visual Identity, Emotional Appeal, and Negative Risk. Each is weighted differently (Clarity ×1.8 is heaviest; Negative Risk ×0.7 is inverse-scored so high = safe).' },
             { q: "Why does 'business stage' matter?", a: "Weights shift by stage. Bootstrap optimizes for clarity and pronounceability. Scale optimizes for uniqueness and visual identity. BrandOS recalibrates accordingly." },
             { q: 'How is this different from a naming agency?', a: "An agency generates candidates. BrandOS scores the candidates you already have. Due-diligence layer — a specialist-grade second opinion before sign-off." },
             { q: 'Does it handle multi-language names?', a: "Yes with caveats. Strongest in English. Negative Risk catches obvious issues; native-speaker review recommended for flagship launches." },

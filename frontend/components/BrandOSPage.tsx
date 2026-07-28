@@ -856,7 +856,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
             <div>
               <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">Scored across 10 dimensions, independently</h3>
               <p className="font-sans text-lg text-ink-muted leading-relaxed mb-6">
-                Every candidate gets decomposed into Clarity, Relevance, Trust, Industry Fit, Memorability, Uniqueness, Scalability, Pronounceability, Visual Identity, and Negative Risk — each scored 0-100 with a concrete reason. That's the scorecard behind the verdict.
+                Every candidate gets decomposed into Clarity, Relevance, Industry Fit, Memorability, Uniqueness, Scalability, Pronounceability, Visual Identity, Emotional Appeal, and Negative Risk — each scored 0-100 with a concrete reason. That's the scorecard behind the verdict.
               </p>
               <ul className="space-y-3">
                 {['Each dimension has a specific diagnostic question', 'Scores come with evidence, not a thumbs-up', 'Negative Risk is inverse-scored — high = safe', 'No hand-waving — every number justifies itself'].map((item, i) => (
@@ -976,7 +976,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
         <ScrollReveal>
           <div className="max-w-3xl mx-auto bg-white shadow-xl border border-ink/10 rounded-lg px-8">
             {[
-              { q: 'What are the 10 dimensions?', a: 'Clarity, Relevance, Trust, Industry Fit, Memorability, Uniqueness, Scalability, Pronounceability, Visual Identity, and Negative Risk. Each is weighted differently (Clarity ×1.8 is the heaviest; Negative Risk ×0.6 is the lightest but inverse-scored so a high score means low risk).' },
+              { q: 'What are the 10 dimensions?', a: 'Clarity, Relevance, Industry Fit, Memorability, Uniqueness, Scalability, Pronounceability, Visual Identity, Emotional Appeal, and Negative Risk. Each is weighted differently (Clarity ×1.8 is the heaviest; Negative Risk ×0.7 is inverse-scored, so a high score means low risk).' },
               { q: "Why does 'business stage' matter?", a: "Weights shift by stage. A Bootstrap name optimizes for clarity and pronounceability (you're explaining it a hundred times a day). A Scale-stage name optimizes for uniqueness and visual identity (you're defending trademark and building brand recognition). BrandOS recalibrates the scoring accordingly." },
               { q: 'How is this different from a naming agency?', a: "A naming agency generates candidates. BrandOS scores the candidates you (or an agency) already have. Think of it as a due-diligence layer — a specialist-grade second opinion before you sign off." },
               { q: 'Does it handle multi-language names?', a: "Yes, with caveats. The tool is currently strongest in English. For multi-language brand evaluation (e.g., \"does this name mean something embarrassing in Portuguese?\"), the Negative Risk dimension catches the obvious issues but we recommend a native-speaker review for flagship launches." },

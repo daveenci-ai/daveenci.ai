@@ -35,7 +35,6 @@ const DaVeenciLandingPage: React.FC<DaVeenciLandingPageProps> = ({ onNavigate, a
 
       <Hero onNavigate={onNavigate} />
       <ProofRail onNavigate={onNavigate} />
-      <CommercialOffers onNavigate={onNavigate} />
       <WorkPreview onNavigate={onNavigate} />
       <Contrast />
       <Method />
@@ -43,6 +42,9 @@ const DaVeenciLandingPage: React.FC<DaVeenciLandingPageProps> = ({ onNavigate, a
       <Advantage />
       <Controls />
       <PartnerBlock />
+      {/* Pricing sits after the problem (Contrast), the method, and the people
+          — not third, where it quoted $5,000 before saying what it buys. */}
+      <CommercialOffers onNavigate={onNavigate} />
       <BookingPreview onNavigate={onNavigate} />
       <Newsletter onNavigate={onNavigate} />
 

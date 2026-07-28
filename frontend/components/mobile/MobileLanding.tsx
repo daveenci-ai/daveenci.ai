@@ -11,6 +11,7 @@ import { MobileWorkPreview } from './MobileWorkPreview';
 import { MobilePartnerBlock } from './MobilePartnerBlock';
 import { MobileBooking } from './MobileBooking';
 import { MobileButton } from './MobileButton';
+import { MobileSubscribe } from './MobileSubscribe';
 import type { Page } from '../types';
 import { ProofRail } from '../ProofRail';
 import CommercialOffers from '../CommercialOffers';
@@ -27,7 +28,6 @@ const MobileLanding: React.FC<MobileLandingProps> = ({ onNavigate }) => (
   <MobileShell onNavigate={onNavigate}>
     <MobileHero onNavigate={onNavigate} />
     <ProofRail onNavigate={onNavigate} compact />
-    <CommercialOffers onNavigate={onNavigate} compact />
     <MobileWorkPreview onNavigate={onNavigate} />
     <MobileContrast />
     <MobileMethod />
@@ -35,6 +35,8 @@ const MobileLanding: React.FC<MobileLandingProps> = ({ onNavigate }) => (
     <MobileAdvantage />
     <MobileControls />
     <MobilePartnerBlock />
+    {/* Parity with the desktop tree — pricing after trust, not before it. */}
+    <CommercialOffers onNavigate={onNavigate} compact />
     <MobileBooking onNavigate={onNavigate} />
 
     <MobileFolioScene id="codex" eyebrow="Folio VII — The Codex">
@@ -61,6 +63,13 @@ const MobileLanding: React.FC<MobileLandingProps> = ({ onNavigate }) => (
         </MobileButton>
       </div>
     </MobileFolioScene>
+
+    {/* The mobile homepage had no newsletter capture of any kind. */}
+    <MobileSubscribe
+      heading="Subscribe to the Codex"
+      body="Field notes from active builds, sent when the work earns it. Build-in-public. No fluff."
+      source="mobile_landing"
+    />
   </MobileShell>
 );
 

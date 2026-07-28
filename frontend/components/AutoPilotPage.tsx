@@ -171,20 +171,34 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
                   </>
                 }
               />
-              {/* Client credit — f8 is named in the copy above; the mark makes it
-                  checkable rather than an assertion. Used with permission. */}
-              <div className="mt-10 flex items-center gap-4">
-                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">Built for</span>
-                <span aria-hidden="true" className="h-px w-6 bg-ink-muted/30" />
-                <img
-                  src="/clients/f8-logo.svg"
-                  alt="f/8 Real Estate Media"
-                  width={1068}
-                  height={882}
-                  className="h-12 md:h-14 w-auto"
-                  loading="lazy"
-                  decoding="async"
-                />
+              {/* Client credit. Both are real real-estate-media clients, used
+                  with permission; the marks make the claim checkable rather
+                  than an assertion. */}
+              <div className="mt-10">
+                <div className="flex items-center gap-4 mb-5">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">Built for</span>
+                  <span aria-hidden="true" className="h-px w-6 bg-ink-muted/30" />
+                </div>
+                <div className="flex flex-wrap items-center gap-x-10 gap-y-5">
+                  <img
+                    src="/clients/f8-logo.svg"
+                    alt="f/8 Real Estate Media"
+                    width={1068}
+                    height={882}
+                    className="h-12 md:h-14 w-auto"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <img
+                    src="/clients/archipix-logo.svg"
+                    alt="Archi-Pix"
+                    width={3429}
+                    height={554}
+                    className="h-8 md:h-10 w-auto"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
               </div>
             </ScrollReveal>
           </div>
