@@ -169,7 +169,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
               <Search className="w-4 h-4" /> Try it now
             </span>
           </MobileButton>
-          <MobileButton variant="secondary" onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
+          <MobileButton variant="secondary" analytics={{ cta_id: 'book_brandos_intro', surface: 'case_hero', from_page: 'brandos', destination: '#booking' }} onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}>Book a BrandOS intro</MobileButton>
         </div>
 
         <div className="mt-8 flex justify-center">
@@ -504,6 +504,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
       </section>
 
       {/* Book a BrandOS intro */}
+      <div id="booking" className="scroll-mt-16">
       <BookingWidget
         onNavigate={onNavigate}
         eyebrow="BrandOS Intro"
@@ -515,6 +516,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
         hostRole="Partner"
         hostImage={AstridSketch}
       />
+      </div>
 
       <MobileNextCase
         from="brandos"

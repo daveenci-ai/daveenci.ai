@@ -828,7 +828,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
                     >
                       <span className="flex items-center gap-2"><SearchIcon className="w-4 h-4" /> Try it now</span>
                     </Button>
-                    <Button variant="secondary" onClick={() => onNavigate('calendar')} className="text-base px-8 py-4">Talk to us</Button>
+                    <Button variant="secondary" analytics={{ cta_id: 'book_brandos_intro', surface: 'case_hero', from_page: 'brandos', destination: '#booking' }} onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })} className="text-base px-8 py-4">Book a BrandOS intro</Button>
                   </>
                 }
               />
@@ -990,6 +990,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
       </Section>
 
       {/* Book an intro — inline calendar */}
+      <div id="booking" className="scroll-mt-24">
       <BookingWidget
         onNavigate={onNavigate}
         eyebrow="BrandOS Intro"
@@ -1001,6 +1002,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
         hostRole="Partner"
         hostImage={AstridSketch}
       />
+      </div>
 
       <NextCase from="brandos" to="compoundiq" title="CompoundIQ" hook="From naming to capital — a governed research team that proposes freely, yet can't act until every gate agrees." onNavigate={onNavigate} />
 

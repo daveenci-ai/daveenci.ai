@@ -878,7 +878,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
                 size="md"
                 actions={
                   <>
-                    <Button variant="primary" onClick={() => onNavigate('calendar')} className="text-base px-8 py-4">Bring us a real ticket</Button>
+                    <Button variant="primary" analytics={{ cta_id: 'bring_a_ticket', surface: 'case_hero', from_page: 'purecode', destination: '#booking' }} onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })} className="text-base px-8 py-4">Bring us a real ticket</Button>
                     <Button variant="secondary" onClick={() => onNavigate('work')} className="text-base px-8 py-4">See all work</Button>
                   </>
                 }
@@ -1014,7 +1014,10 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
         </ScrollReveal>
       </Section>
 
-      {/* Book an intro — inline calendar */}
+      {/* Book an intro — inline calendar. The page's CTAs scroll here rather
+          than routing to /calendar: two booking paths on one page left people
+          unsure whether they had actually booked. */}
+      <div id="booking" className="scroll-mt-24">
       <BookingWidget
         onNavigate={onNavigate}
         eyebrow="PureCode Intro"
@@ -1026,6 +1029,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
         hostRole="Founder"
         hostImage={AntonSketch}
       />
+      </div>
 
       {/* Final CTA */}
       <Section className="py-16 md:py-24" pattern="circles">
@@ -1038,7 +1042,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
               PureCode is one example of what a DaVeenci team looks like. We design and build specialist teams for the workflows that matter most to your business — code is just one of them.
             </p>
             <div className="flex justify-center">
-              <Button variant="primary" onClick={() => onNavigate('calendar')} className="text-base px-8 py-4">
+              <Button variant="primary" analytics={{ cta_id: 'bring_a_ticket', surface: 'case_closing', from_page: 'purecode', destination: '#booking' }} onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })} className="text-base px-8 py-4">
                 Bring us a real ticket
               </Button>
             </div>

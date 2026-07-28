@@ -101,9 +101,9 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
           >Try the gate</MobileButton>
           <MobileButton
             variant="secondary"
-            analytics={{ cta_id: 'talk_to_us', surface: 'case_hero', from_page: 'compoundiq', destination: '/calendar' }}
+            analytics={{ cta_id: 'map_autonomy', surface: 'case_hero', from_page: 'compoundiq', destination: '/calendar' }}
             onClick={() => onNavigate('calendar')}
-          >Talk to us</MobileButton>
+          >Map where autonomy stops</MobileButton>
         </div>
 
         <div className="mt-8">

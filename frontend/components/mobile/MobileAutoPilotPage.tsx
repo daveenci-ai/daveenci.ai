@@ -98,7 +98,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
             />
           </div>
         </div>
-        <MobileButton onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
+        <MobileButton analytics={{ cta_id: 'name_handoff', surface: 'case_hero', from_page: 'autopilot', destination: '/calendar' }} onClick={() => onNavigate('calendar')}>Name the handoff that breaks</MobileButton>
         <MobileButton
           variant="secondary"
           className="mt-3"

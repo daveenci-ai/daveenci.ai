@@ -89,7 +89,7 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
           PureCode is 13 specialist agents coordinated by a controller, gated by humans at three critical points. A feature request walks in. A shipped pull request walks out.
         </p>
         <div className="flex flex-col gap-3 mb-8">
-          <MobileButton onClick={() => onNavigate('calendar')}>Bring us a real ticket</MobileButton>
+          <MobileButton analytics={{ cta_id: 'bring_a_ticket', surface: 'case_hero', from_page: 'purecode', destination: '#booking' }} onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}>Bring us a real ticket</MobileButton>
           <MobileButton variant="secondary" onClick={() => onNavigate('work')}>See all work</MobileButton>
         </div>
 
@@ -215,7 +215,8 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
         </Widget>
       </section>
 
-      {/* Book a PureCode intro */}
+      {/* Book a PureCode intro — the page's CTAs scroll here. */}
+      <div id="booking" className="scroll-mt-16">
       <BookingWidget
         onNavigate={onNavigate}
         eyebrow="PureCode Intro"
@@ -227,6 +228,7 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
         hostRole="Founder"
         hostImage={AntonSketch}
       />
+      </div>
 
       {/* Closing section — parity with the desktop tree. */}
       <section className="px-6 py-14 text-center">
@@ -236,7 +238,7 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
         <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-7">
           PureCode is one example of what a DaVeenci team looks like. We design and build specialist teams for the workflows that matter most to your business — code is just one of them.
         </p>
-        <MobileButton onClick={() => onNavigate('calendar')}>Bring us a real ticket</MobileButton>
+        <MobileButton analytics={{ cta_id: 'bring_a_ticket', surface: 'case_closing', from_page: 'purecode', destination: '#booking' }} onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}>Bring us a real ticket</MobileButton>
       </section>
 
       <MobileNextCase

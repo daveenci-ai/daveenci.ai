@@ -241,7 +241,7 @@ export const MobilePulseNotePage: React.FC<MobilePulseNotePageProps> = ({ onNavi
           Every single idea you have is a goldmine of content. PulseNote makes sure nothing gets lost.
         </p>
         <MobileButton variant="secondary" onClick={() => scrollTo('booking')}>
-          Book your demo
+          Book a demo
         </MobileButton>
       </section>
 

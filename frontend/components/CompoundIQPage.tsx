@@ -223,10 +223,10 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
                     >Try the gate</Button>
                     <Button
                       variant="secondary"
-                      analytics={{ cta_id: 'talk_to_us', surface: 'case_hero', from_page: 'compoundiq', destination: '/calendar' }}
+                      analytics={{ cta_id: 'map_autonomy', surface: 'case_hero', from_page: 'compoundiq', destination: '/calendar' }}
                       onClick={() => onNavigate('calendar')}
                       className="text-[16px] px-8 py-4"
-                    >Talk to us</Button>
+                    >Map where autonomy stops</Button>
                   </>
                 }
               />

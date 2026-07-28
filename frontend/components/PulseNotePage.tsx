@@ -197,7 +197,7 @@ const PulseHero: React.FC = () => {
               size="md"
               actions={
                 <>
-                  <Button variant="primary" onClick={() => scrollTo('booking')} className="text-base px-8 py-4">Book a Demo</Button>
+                  <Button variant="primary" onClick={() => scrollTo('booking')} className="text-base px-8 py-4">Book a demo</Button>
                   <Button variant="secondary" onClick={() => scrollTo('try-it')} className="text-base px-8 py-4">See How It Works</Button>
                 </>
               }
@@ -1584,7 +1584,7 @@ const FinalCTA: React.FC = () => {
             Every single idea you have is a goldmine of content. PulseNote makes sure nothing gets lost.
           </p>
           <button onClick={scrollTo} className="inline-flex items-center px-8 py-4 text-base font-medium bg-white text-ink hover:bg-canvas transition-all shadow-lg hover:shadow-xl active:scale-95">
-            Book Your Demo
+            Book a demo
             <ChevronRight className="ml-2 w-5 h-5" />
           </button>
         </ScrollReveal>

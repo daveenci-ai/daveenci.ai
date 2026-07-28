@@ -77,7 +77,7 @@ export const CommercialOffers: React.FC<CommercialOffersProps> = ({ onNavigate, 
           onClick={() => onNavigate('calendar')}
           className="px-7 py-4"
         >
-          <span className="inline-flex items-center gap-2">Discuss a Workflow Blueprint <ArrowRight className="w-4 h-4" /></span>
+          <span className="inline-flex items-center gap-2">Start with a Workflow Blueprint <ArrowRight className="w-4 h-4" /></span>
         </Button>
       </div>
     </>

@@ -166,7 +166,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
                 size="md"
                 actions={
                   <>
-                    <Button variant="primary" onClick={() => onNavigate('calendar')} className="text-[16px] px-8 py-4">Talk to us</Button>
+                    <Button variant="primary" analytics={{ cta_id: 'name_handoff', surface: 'case_hero', from_page: 'autopilot', destination: '/calendar' }} onClick={() => onNavigate('calendar')} className="text-[16px] px-8 py-4">Name the handoff that breaks</Button>
                     <Button variant="secondary" onClick={() => document.getElementById('autopilot-workflow')?.scrollIntoView({ behavior: 'smooth' })} className="text-[16px] px-8 py-4">See the workflow</Button>
                   </>
                 }
