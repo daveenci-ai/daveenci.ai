@@ -4,12 +4,17 @@ import type { Page } from './components/types';
 import { MobileErrorBoundary } from './components/mobile/MobileErrorBoundary';
 import { initAnalytics, trackPageView } from './lib/analytics';
 import { applyRouteMetadata } from './lib/routeMetadata';
+import DaVeenciLandingPage from './DaVeenciLandingPage';
 import { installReducedMotionSmil } from './lib/reducedMotionSmil';
 
 // Route-level code splitting — each page becomes its own lazy chunk.
 // Only the landing chunk downloads on initial load; other pages are
 // fetched on first navigation.
-const DaVeenciLandingPage = lazy(() => import('./DaVeenciLandingPage'));
+// Eager, not lazy. The static hero shell paints at ~0.8s; if the landing
+// route is a lazy chunk, React mounts, wipes the shell and shows the
+// Suspense spinner before the real hero arrives — content appearing,
+// vanishing, then reappearing. Bundling the homepage into the entry costs
+// other routes ~20kB gz and removes that flash entirely.
 const BriefingsPage = lazy(() => import('./components/BriefingsPage'));
 const BriefingDetailPage = lazy(() => import('./components/BriefingDetailPage'));
 const WhoWeArePage = lazy(() => import('./components/WhoWeArePage'));

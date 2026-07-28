@@ -27,10 +27,11 @@
   <!-- Regular meta -->
   <meta name="description" content="DaVeenci maps, builds, and improves governed AI production systems for difficult recurring workflows, with explicit human gates and accountable outputs." />
 
-  <!-- Self-hosted fonts (@font-face lives in src/index.css). Only the serif is
-       preloaded: it renders the hero h1, which is the LCP element. Preloading
-       Inter as well measured 0.2s worse — it competes for the same bandwidth
-       without being on the critical paint path. -->
+  <!-- Self-hosted fonts (@font-face lives in src/index.css). Only the roman
+       serif is preloaded: it renders the hero h1, the LCP element. Preloading
+       Inter measured 0.2s worse, and preloading the italic face — even though
+       the h1's second line uses it — measured ~0.1s worse again. Both compete
+       for bandwidth the first paint is waiting on. Measured, not assumed. -->
   <link rel="preload" href="/fonts/playfair-display-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Tailwind CSS -->
