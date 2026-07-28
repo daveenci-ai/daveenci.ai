@@ -11,13 +11,15 @@ export const MobileFounderBlock: React.FC = () => (
         <img
           src={AntonSketch}
           alt="Anton Osipov"
+          width={1024}
+          height={1040}
           loading="lazy"
           decoding="async"
           className="relative w-full rounded-sm shadow-2xl shadow-black/40 border border-canvas/10 filter sepia-[0.15] contrast-105"
         />
       </div>
       <div className="font-serif text-2xl text-canvas leading-none">Anton Osipov</div>
-      <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-canvas/50 mt-2">Founder</div>
+      <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-canvas/70 mt-2">Founder</div>
     </div>
 
     <blockquote className="mt-8 relative">

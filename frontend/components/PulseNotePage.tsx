@@ -202,6 +202,13 @@ const PulseHero: React.FC = () => {
                 </>
               }
             />
+            {/* Every figure in the screens below — the $40K, the 60%, the 200+
+                conversations — comes from one invented example meeting. Labeling
+                it once, up front, keeps the demo useful without letting it read
+                as a client result. */}
+            <p className="mt-8 max-w-xl font-mono text-[10px] uppercase tracking-[0.18em] text-ink-muted leading-relaxed">
+              PulseNote is a product demonstration. The transcripts, posts and figures shown throughout this page are generated from one example meeting — not from client work.
+            </p>
           </ScrollReveal>
         </div>
 

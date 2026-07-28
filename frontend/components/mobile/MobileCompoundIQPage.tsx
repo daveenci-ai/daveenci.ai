@@ -26,7 +26,7 @@ interface MobileCompoundIQPageProps {
 }
 
 const mobileProof = [
-  ['5', 'specialist roles'],
+  ['4', 'specialist roles'],
   ['15', 'research instruments'],
   ['3', 'action gate checks'],
   [':00 · :02 · :05', 'hourly paper loop'],

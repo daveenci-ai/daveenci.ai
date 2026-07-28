@@ -152,8 +152,9 @@ const CalibratedCard: React.FC = () => {
                 />
                 {/* Specialist label */}
                 <text x={x} y={baseY + 10} textAnchor="middle" fontSize="9" fill="rgb(var(--color-ink-muted))" fontFamily="serif" fontStyle="italic">{b.label}</text>
-                {/* Accuracy percent */}
-                <text x={x} y={baseY - barHeight - 4} textAnchor="middle" fontSize="7" fill={isHigh ? 'rgb(var(--color-accent))' : 'rgb(var(--color-ink-muted))'} fontFamily="serif" fontStyle="italic" fontWeight={isHigh ? '600' : '400'}>{b.accuracy}%</text>
+                {/* No numeric label: these bars are a schematic of how weighting
+                    works, not measurements. Printing "92%" beside them read as a
+                    published accuracy figure that nothing on the site supports. */}
                 {/* Subtle pulse on high-accuracy bars */}
                 {isHigh && (
                   <rect
@@ -173,9 +174,9 @@ const CalibratedCard: React.FC = () => {
         </svg>
 
         <div className="text-center px-3 mt-auto">
-          <p className="font-serif italic tracking-[0.2em] text-xs font-semibold uppercase text-accent mb-2">accuracy · track record · weighted</p>
+          <p className="font-serif italic tracking-[0.2em] text-xs font-semibold uppercase text-accent-strong mb-2">schematic · track record</p>
           <p className="text-sm text-ink-muted leading-relaxed">
-            Each specialist carries a trust score from actual outcomes. When specialists disagree, track record decides.
+            Each specialist accumulates a track record inside the system it runs in. When specialists disagree, the one with the better record on that call carries more weight.
           </p>
         </div>
       </div>

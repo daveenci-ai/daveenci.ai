@@ -4,6 +4,7 @@ import { fromZonedTime } from 'date-fns-tz';
 import { Section, ScrollReveal, FolioHeader, Plate } from './Shared';
 import AstridSketch from '../images/Astrid_Sketch.webp';
 import { API_ENDPOINTS } from '../config';
+import { useNearViewport } from '../lib/useNearViewport';
 import type { Page } from './types';
 import {
   MEETING_DURATION_MINUTES,
@@ -64,8 +65,14 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
   const [busySlots, setBusySlots] = useState<BusySlot[]>([]);
   const userTimezone = useMemo(() => Intl.DateTimeFormat().resolvedOptions().timeZone, []);
   const localSlots = useMemo(() => getLocalSlots(userTimezone), [userTimezone]);
+  // This section sits near the bottom of the homepage. Holding the request
+  // until it approaches the viewport keeps it out of the LCP window and stops
+  // every homepage view from hitting the calendar API.
+  const [sectionRef, isNearViewport] = useNearViewport<HTMLDivElement>();
 
   useEffect(() => {
+    if (!isNearViewport) return;
+
     const fetchAvailability = async () => {
       const { start, end } = getAvailabilityRange(new Date());
       try {
@@ -79,7 +86,7 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
       }
     };
     fetchAvailability();
-  }, []);
+  }, [isNearViewport]);
 
   const days = useMemo(() => {
     const result: { date: Date; slots: string[] }[] = [];
@@ -129,7 +136,7 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
 
   return (
     <Section id="book" pattern="nodes" overflow={true} className="bg-white/50">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 xl:gap-32 items-center">
+      <div ref={sectionRef} className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 xl:gap-32 items-center">
         <div className="lg:col-span-5 lg:order-1 order-2 relative h-[560px] flex items-center justify-center">
           <ScrollReveal delay={300} direction="right" className="w-full flex justify-center">
             <Plate fig="vi" title="The Calendar">
@@ -193,7 +200,7 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
             <div className="max-w-xl border-l border-ink/10 pl-6">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-14 h-14 rounded-sm overflow-hidden border border-ink/10 flex-shrink-0">
-                  <img src={AstridSketch} alt="Astrid Abrahamyan" loading="lazy" decoding="async" className="w-full h-full object-cover object-top scale-125 sepia-[0.15] contrast-105" />
+                  <img src={AstridSketch} alt="Astrid Abrahamyan" width={1024} height={1024} loading="lazy" decoding="async" className="w-full h-full object-cover object-top scale-125 sepia-[0.15] contrast-105" />
                 </div>
                 <div>
                   <div className="font-serif text-lg text-ink leading-tight">Astrid Abrahamyan</div>

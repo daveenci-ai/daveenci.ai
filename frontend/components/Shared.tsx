@@ -271,9 +271,11 @@ export const Button: React.FC<ButtonProps> = ({ variant = 'primary', children, c
   const baseStyles = "inline-flex items-center justify-center px-6 py-3 font-sans text-sm font-medium transition-all duration-500 ease-out group relative overflow-hidden";
 
   const variants = {
-    primary: "bg-accent hover:bg-accent-hover text-white shadow-sm hover:shadow-md",
+    // Fills use accent-hover / accent-strong rather than the base accent:
+    // white on #3F84C8 is 3.93:1, which fails WCAG AA for button text.
+    primary: "bg-accent-hover hover:bg-accent-strong text-white shadow-sm hover:shadow-md",
     secondary: "bg-transparent border border-ink/20 text-ink hover:border-ink/50 hover:bg-ink/5",
-    ghost: "bg-transparent text-accent hover:text-accent-hover p-0",
+    ghost: "bg-transparent text-accent-strong hover:text-accent-hover p-0",
   };
 
   return (

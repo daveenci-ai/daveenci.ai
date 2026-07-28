@@ -20,6 +20,7 @@ export default {
                     DEFAULT: 'rgb(var(--color-accent) / <alpha-value>)',
                     light: 'rgb(var(--color-accent-light) / <alpha-value>)',
                     hover: 'rgb(var(--color-accent-hover) / <alpha-value>)',
+                    strong: 'rgb(var(--color-accent-strong) / <alpha-value>)',
                 },
                 'paper-border': 'rgb(var(--color-paper-border) / <alpha-value>)',
                 'pulse-surface': 'rgb(var(--color-pulse-surface) / <alpha-value>)',

@@ -11,6 +11,8 @@ export const MobilePartnerBlock: React.FC = () => (
         <img
           src={AstridSketch}
           alt="Astrid Abrahamyan"
+          width={1024}
+          height={1024}
           loading="lazy"
           decoding="async"
           className="relative w-full rounded-sm shadow-xl shadow-ink/10 border border-ink/10 filter sepia-[0.15] contrast-105"

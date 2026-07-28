@@ -119,7 +119,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 </>
               }
             />
-            <p className="mt-8 text-xs md:text-sm text-ink-muted/60 font-medium tracking-wide">
+            <p className="mt-8 text-xs md:text-sm text-ink-muted font-medium tracking-wide">
               Blueprint $5,000 · Production builds from $14,000 · Ongoing operation from $2,500/month
             </p>
           </ScrollReveal>

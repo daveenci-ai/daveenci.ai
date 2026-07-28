@@ -837,10 +837,17 @@ export const TryItSimulator: React.FC = () => {
         </div>
       )}
       {isRunning && (
-        <div className="text-center font-mono text-[10px] uppercase tracking-widest text-ink-muted/50 mt-5">
+        <div className="text-center font-mono text-[10px] uppercase tracking-widest text-ink-muted mt-5">
           Pipeline running…
         </div>
       )}
+
+      {/* The tickets, PR numbers and check results below are written examples,
+          not records of client work. Saying so is cheaper than having a visitor
+          assume otherwise and find out later. */}
+      <p className="text-center font-mono text-[10px] uppercase tracking-[0.18em] text-ink-muted mt-8">
+        Illustrative — the tickets and results are worked examples, not client work
+      </p>
     </div>
   );
 };

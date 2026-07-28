@@ -4,6 +4,7 @@ import { fromZonedTime } from 'date-fns-tz';
 import { MobileFolioScene, MobileSceneTitle, MobileSceneSubtitle } from './MobileFolioScene';
 import AstridSketch from '../../images/Astrid_Sketch.webp';
 import { API_ENDPOINTS } from '../../config';
+import { useNearViewport } from '../../lib/useNearViewport';
 import type { Page } from '../types';
 import {
   MEETING_DURATION_MINUTES,
@@ -65,8 +66,12 @@ export const MobileBooking: React.FC<MobileBookingProps> = ({ onNavigate }) => {
   const [activeDayIdx, setActiveDayIdx] = useState(0);
   const userTimezone = useMemo(() => Intl.DateTimeFormat().resolvedOptions().timeZone, []);
   const localSlots = useMemo(() => getLocalSlots(userTimezone), [userTimezone]);
+  // Deferred until the section approaches the viewport — see BookingPreview.
+  const [sectionRef, isNearViewport] = useNearViewport<HTMLDivElement>();
 
   useEffect(() => {
+    if (!isNearViewport) return;
+
     const fetchAvailability = async () => {
       const { start, end } = getAvailabilityRange(new Date());
       try {
@@ -80,7 +85,7 @@ export const MobileBooking: React.FC<MobileBookingProps> = ({ onNavigate }) => {
       }
     };
     fetchAvailability();
-  }, []);
+  }, [isNearViewport]);
 
   const days = useMemo(() => {
     const result: { date: Date; slots: string[] }[] = [];
@@ -143,9 +148,9 @@ export const MobileBooking: React.FC<MobileBookingProps> = ({ onNavigate }) => {
       </MobileSceneSubtitle>
 
       {/* Astrid mini row */}
-      <div className="flex items-center gap-3 mb-6">
+      <div ref={sectionRef} className="flex items-center gap-3 mb-6">
         <div className="w-12 h-12 rounded-sm overflow-hidden border border-ink/10 flex-shrink-0">
-          <img src={AstridSketch} alt="Astrid Abrahamyan" loading="lazy" decoding="async" className="w-full h-full object-cover object-top scale-125 sepia-[0.15] contrast-105" />
+          <img src={AstridSketch} alt="Astrid Abrahamyan" width={1024} height={1024} loading="lazy" decoding="async" className="w-full h-full object-cover object-top scale-125 sepia-[0.15] contrast-105" />
         </div>
         <div>
           <div className="font-serif text-base text-ink leading-tight">Astrid Abrahamyan</div>

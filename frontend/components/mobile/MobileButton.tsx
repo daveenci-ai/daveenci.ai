@@ -12,8 +12,9 @@ interface MobileButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement
 const BASE = 'py-3.5 font-medium tracking-[0.15em] uppercase text-sm rounded-sm transition-all';
 
 const VARIANT_CLASSES: Record<Variant, string> = {
+  // accent-hover, not accent: white on the base accent is 3.93:1 and fails AA.
   primary:
-    'bg-accent text-white shadow-md disabled:bg-ink/10 disabled:text-ink-muted/50 disabled:shadow-none disabled:cursor-not-allowed',
+    'bg-accent-hover active:bg-accent-strong text-white shadow-md disabled:bg-ink/10 disabled:text-ink-muted/50 disabled:shadow-none disabled:cursor-not-allowed',
   secondary: 'bg-white/60 border border-ink/20 text-ink',
   dark: 'bg-ink text-white',
 };

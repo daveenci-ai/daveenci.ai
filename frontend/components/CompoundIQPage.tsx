@@ -36,7 +36,7 @@ interface CompoundIQPageProps {
 }
 
 const proof = [
-  { value: '5', label: 'specialist roles' },
+  { value: '4', label: 'specialist roles' },
   { value: '15', label: 'research instruments' },
   { value: '3', label: 'action gate checks' },
   { value: ':00 · :02 · :05', label: 'hourly paper loop' },

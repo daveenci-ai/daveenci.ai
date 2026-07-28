@@ -24,9 +24,9 @@ const CARDS: Card[] = [
   },
   {
     fig: 'iv.c',
-    eyebrow: 'accuracy · track record · weighted',
+    eyebrow: 'schematic · track record',
     title: 'Calibrated Trust',
-    body: 'Each specialist carries a trust score from actual outcomes. When specialists disagree, track record decides.',
+    body: 'Each specialist accumulates a track record inside the system it runs in. When specialists disagree, the one with the better record on that call carries more weight.',
   },
 ];
 

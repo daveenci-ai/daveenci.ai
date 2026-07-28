@@ -100,6 +100,11 @@ export const MobilePulseNotePage: React.FC<MobilePulseNotePageProps> = ({ onNavi
           <MobileButton variant="secondary" onClick={() => scrollTo('try-it')}>See how it works</MobileButton>
         </div>
 
+        {/* Parity with the desktop tree — see PulseNotePage.tsx. */}
+        <p className="mb-8 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-muted leading-relaxed">
+          PulseNote is a product demonstration. The transcripts, posts and figures shown throughout this page are generated from one example meeting — not from client work.
+        </p>
+
         <div className="flex justify-center">
           <PulseHeroDiagram />
         </div>

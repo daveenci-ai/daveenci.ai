@@ -54,11 +54,11 @@ export const MobileHero: React.FC<MobileHeroProps> = ({ onNavigate }) => (
       <MobileButton analytics={{ cta_id: 'start_blueprint', surface: 'landing_hero', from_page: 'landing', destination: '/calendar' }} onClick={() => onNavigate('calendar')}>Start with a Workflow Blueprint</MobileButton>
       <button
         onClick={() => onNavigate('work')}
-        className="inline-flex items-center gap-2 -ml-3 px-3 py-3 font-serif italic text-[16px] text-accent tracking-[0.03em] active:text-ink transition-colors"
+        className="inline-flex items-center gap-2 -ml-3 px-3 py-3 font-serif italic text-[16px] text-accent-strong tracking-[0.03em] active:text-ink transition-colors"
       >
         See the work <span aria-hidden="true">→</span>
       </button>
-      <p className="mt-4 font-mono text-[9px] uppercase tracking-[0.12em] text-ink-muted/60 leading-relaxed">
+      <p className="mt-4 font-mono text-[9px] uppercase tracking-[0.12em] text-ink-muted leading-relaxed">
         Blueprint $5,000 · Builds from $14,000
       </p>
     </div>

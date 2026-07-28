@@ -2,6 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Self-hosted variable fonts (latin subset).
+   Replaces the render-blocking fonts.googleapis.com stylesheet, which cost
+   ~780ms of blocked render and eight separate static faces. Two variable
+   files cover every weight the site uses; the third covers serif italics.
+   The two used above the fold are preloaded from index.html. */
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 900;
+  src: url('/fonts/playfair-display-latin-var.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400 900;
+  src: url('/fonts/playfair-display-latin-var-italic.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('/fonts/inter-latin-var.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
 :root {
   /* Brand identity system 2026 — DaVeenci Renaissance workshop palette.
      Colors stored as space-separated RGB triples so Tailwind's /<alpha-value>
@@ -12,7 +44,8 @@
   --color-ink-muted: 90 74 58;        /* #5A4A3A — Warm brown for italics & body */
   --color-accent: 63 132 200;         /* #3f84c8 — Cornflower Blue (contrast accent) */
   --color-accent-light: 100 161 224;  /* #64a1e0 */
-  --color-accent-hover: 47 108 168;   /* #2f6ca8 */
+  --color-accent-hover: 47 108 168;   /* #2f6ca8 — 5.48:1 with white, AA for button fills */
+  --color-accent-strong: 30 90 148;   /* #1e5a94 — 7.13:1 with white, 5.59:1 as text on parchment */
   --color-paper-border: 139 111 71;   /* aligned to Umber amber — diagram line work */
   --color-pulse-surface: 250 248 244; /* #FAF8F4 — Pulse product screen bg (unchanged) */
   --color-status-success: 22 163 74;  /* #16A34A — approved / live */
