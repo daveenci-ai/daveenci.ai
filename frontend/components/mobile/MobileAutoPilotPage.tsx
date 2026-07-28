@@ -99,6 +99,13 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
           </div>
         </div>
         <MobileButton onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
+        <MobileButton
+          variant="secondary"
+          className="mt-3"
+          onClick={() => document.getElementById('autopilot-workflow')?.scrollIntoView({ behavior: 'smooth' })}
+        >
+          See the workflow
+        </MobileButton>
 
         <div className="mt-8">
           <MobileScenePlate figLabel="Fig. i · Control loop">
@@ -142,7 +149,8 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
         items={shootosEvidence}
       />
 
-      <section className="px-6 py-12">
+      {/* id matches the desktop tree so the hero's "See the workflow" lands here. */}
+      <section id="autopilot-workflow" className="px-6 py-12 scroll-mt-16">
         <div className="flex items-center gap-3 mb-5">
           <span className="h-px w-8 bg-ink-muted/30" />
           <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">The operating system</span>

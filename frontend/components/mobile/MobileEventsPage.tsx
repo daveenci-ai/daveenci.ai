@@ -120,7 +120,7 @@ const RegistrationSheet: React.FC<{
                 onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                 placeholder="Leonardo da Vinci"
                 disabled={status === 'loading'}
-                className="w-full bg-white border border-ink/20 rounded-sm p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none disabled:opacity-50"
+                className="w-full bg-white border border-ink/20 rounded-sm p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50"
               />
             </div>
             <div>
@@ -137,7 +137,7 @@ const RegistrationSheet: React.FC<{
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="leo@florence.it"
                 disabled={status === 'loading'}
-                className="w-full bg-white border border-ink/20 rounded-sm p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none disabled:opacity-50"
+                className="w-full bg-white border border-ink/20 rounded-sm p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50"
               />
             </div>
 

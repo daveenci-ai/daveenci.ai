@@ -287,7 +287,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
                 onChange={(e) => setNames(e.target.value)}
                 placeholder="Up to 5, comma-separated"
                 disabled={loading}
-                className="w-full bg-canvas/30 border border-ink/20 rounded-lg p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none disabled:opacity-50"
+                className="w-full bg-canvas/30 border border-ink/20 rounded-lg p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50"
               />
               <p className="text-[11px] text-ink-muted mt-1.5">Max 5 names.</p>
             </div>
@@ -304,7 +304,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
                 placeholder="AI-powered booking platform for B2B service companies"
                 disabled={loading}
                 rows={3}
-                className="w-full bg-canvas/30 border border-ink/20 rounded-lg p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none resize-none disabled:opacity-50"
+                className="w-full bg-canvas/30 border border-ink/20 rounded-lg p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent resize-none disabled:opacity-50"
               />
             </div>
 

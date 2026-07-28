@@ -166,7 +166,7 @@ const InputPanel: React.FC<{
             onKeyDown={handleKeyDown}
             placeholder="Enter up to 5 names, separated by commas (e.g. Apex, Meridian, Versa)"
             disabled={loading}
-            className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink rounded-lg placeholder:text-ink-muted/50 focus:border-accent focus:outline-none transition-colors disabled:opacity-50"
+            className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink rounded-lg placeholder:text-ink-muted/50 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors disabled:opacity-50"
           />
           <p className="text-xs text-ink-muted mt-1.5">Separate multiple names with commas. Max 5.</p>
         </div>
@@ -183,7 +183,7 @@ const InputPanel: React.FC<{
             placeholder="Describe your product or business in a sentence (e.g. 'AI-powered booking platform for B2B service companies')"
             disabled={loading}
             rows={2}
-            className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink rounded-lg placeholder:text-ink-muted/50 focus:border-accent focus:outline-none transition-colors resize-none disabled:opacity-50"
+            className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink rounded-lg placeholder:text-ink-muted/50 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors resize-none disabled:opacity-50"
           />
         </div>
 

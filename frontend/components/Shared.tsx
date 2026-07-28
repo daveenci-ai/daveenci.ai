@@ -246,7 +246,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({ label, value, onChan
           required={required}
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          className={`w-full appearance-none bg-canvas/30 border border-ink/20 p-3 pr-10 rounded-sm transition-colors hover:border-accent/50 focus:outline-none focus:border-accent ${value ? 'text-ink' : 'text-ink-muted'}`}
+          className={`w-full appearance-none bg-canvas/30 border border-ink/20 p-3 pr-10 rounded-sm transition-colors hover:border-accent/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus:border-accent ${value ? 'text-ink' : 'text-ink-muted'}`}
         >
           <option value="" disabled>{placeholder || 'Select an option'}</option>
           {options.map((option) => (
@@ -635,7 +635,7 @@ type FormFieldProps = {
 export const FormField: React.FC<FormFieldProps> = ({
   label, name, value, onChange, type = 'text', required, placeholder, error, rows = 4, icon, optionalLabel, className = '',
 }) => {
-  const inputClasses = `w-full bg-canvas/30 border ${error ? 'border-red-500' : 'border-ink/20'} p-3 text-ink rounded-sm transition-colors focus:outline-none focus:border-accent placeholder:text-ink-muted/50`;
+  const inputClasses = `w-full bg-canvas/30 border ${error ? 'border-red-500' : 'border-ink/20'} p-3 text-ink rounded-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus:border-accent placeholder:text-ink-muted/50`;
   const autoComplete = name === 'name' ? 'name' : name === 'email' ? 'email' : name === 'company' ? 'organization' : name === 'phone' ? 'tel' : undefined;
   const errorId = `${name}-error`;
 

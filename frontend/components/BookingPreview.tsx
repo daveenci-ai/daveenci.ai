@@ -208,7 +208,7 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
                 </div>
               </div>
 
-              <h4 className="font-serif text-xs text-ink uppercase tracking-[0.25em] mb-3">What we cover</h4>
+              <h3 className="font-serif text-xs text-ink uppercase tracking-[0.25em] mb-3">What we cover</h3>
               <ul className="space-y-2.5 text-ink-muted leading-relaxed">
                 <li className="flex gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />

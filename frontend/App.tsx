@@ -4,6 +4,7 @@ import type { Page } from './components/types';
 import { MobileErrorBoundary } from './components/mobile/MobileErrorBoundary';
 import { initAnalytics, trackPageView } from './lib/analytics';
 import { applyRouteMetadata } from './lib/routeMetadata';
+import { installReducedMotionSmil } from './lib/reducedMotionSmil';
 
 // Route-level code splitting — each page becomes its own lazy chunk.
 // Only the landing chunk downloads on initial load; other pages are
@@ -38,6 +39,10 @@ const App: React.FC = () => {
   const [routeReady, setRouteReady] = useState(false);
   // The ref survives React StrictMode's development-only effect replay.
   const lastPageviewKey = useRef<string | null>(null);
+
+  // SVG SMIL keeps animating through the CSS reduced-motion override; this
+  // pauses it for anyone who asked for less motion. See lib/reducedMotionSmil.
+  useEffect(() => installReducedMotionSmil(), []);
 
   // Handle Initial Load and Back/Forward buttons
   useEffect(() => {

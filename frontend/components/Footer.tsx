@@ -74,7 +74,7 @@ const Footer: React.FC<FooterProps> = ({
                 onChange={(e) => setEmail(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSubscribe()}
                 placeholder="you@company.com"
-                className="flex-1 bg-white/10 border border-white/20 px-4 py-3 text-base text-canvas placeholder:text-canvas/40 focus:outline-none focus:border-accent rounded-sm"
+                className="flex-1 bg-white/10 border border-white/20 px-4 py-3 text-base text-canvas placeholder:text-canvas/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus:border-accent rounded-sm"
                 disabled={status === 'loading'}
               />
               <Button type="button" variant="primary" onClick={handleSubscribe} className="px-6">

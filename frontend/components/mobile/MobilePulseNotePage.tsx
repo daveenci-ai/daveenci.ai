@@ -232,6 +232,19 @@ export const MobilePulseNotePage: React.FC<MobilePulseNotePageProps> = ({ onNavi
         </Widget>
       </section>
 
+      {/* Closing band — parity with the desktop tree's FinalCTA. */}
+      <section className="bg-ink text-white px-6 py-16 text-center">
+        <h2 className="font-serif text-[2rem] leading-[1.1] mb-4">
+          Stop leaving insights on the table.
+        </h2>
+        <p className="font-sans text-[15px] text-white/60 leading-relaxed mb-8">
+          Every single idea you have is a goldmine of content. PulseNote makes sure nothing gets lost.
+        </p>
+        <MobileButton variant="secondary" onClick={() => scrollTo('booking')}>
+          Book your demo
+        </MobileButton>
+      </section>
+
       {/* Book a Pulse demo */}
       <div id="booking">
         <BookingWidget

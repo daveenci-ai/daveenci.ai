@@ -165,6 +165,24 @@ export const MobileBooking: React.FC<MobileBookingProps> = ({ onNavigate }) => {
         </div>
       </div>
 
+      {/* What the call covers — parity with the desktop BookingPreview, and
+          the expectation-setting the brief asks for next to every CTA. */}
+      <div className="mb-7 border-l border-ink/10 pl-4">
+        <h3 className="font-serif text-[11px] text-ink uppercase tracking-[0.25em] mb-3">What we cover</h3>
+        <ul className="space-y-2 font-sans text-[14px] text-ink-muted leading-relaxed">
+          {[
+            'The recurring input, handoffs, and finished output',
+            'Where integrations, specialist roles, and human gates belong',
+            'Whether a fixed-scope Workflow Blueprint is worth doing',
+          ].map((item) => (
+            <li key={item} className="flex gap-3">
+              <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+
       {/* Day tabs */}
       {days.length > 0 && (
         <>

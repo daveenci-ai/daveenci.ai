@@ -154,7 +154,7 @@ export const GateSimulator: React.FC = () => {
                     aria-label={`${gate.label} ${gates[gate.key] ? 'passing' : 'blocking'}`}
                     onClick={() => toggleGate(gate.key)}
                     disabled={sending}
-                    className={`relative w-16 h-7 rounded-full border transition-colors flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+                    className={`relative w-16 h-7 rounded-full border transition-colors flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent before:absolute before:inset-x-0 before:-inset-y-2 before:content-[''] ${
                       gates[gate.key] ? 'bg-accent/15 border-accent/40' : 'bg-amber-800/10 border-amber-800/40'
                     }`}
                   >

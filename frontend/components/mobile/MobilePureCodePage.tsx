@@ -228,6 +228,17 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
         hostImage={AntonSketch}
       />
 
+      {/* Closing section — parity with the desktop tree. */}
+      <section className="px-6 py-14 text-center">
+        <h2 className="font-serif text-[1.9rem] leading-[1.15] text-ink mb-4 tracking-tight">
+          Want a team like this for your stack?
+        </h2>
+        <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-7">
+          PureCode is one example of what a DaVeenci team looks like. We design and build specialist teams for the workflows that matter most to your business — code is just one of them.
+        </p>
+        <MobileButton onClick={() => onNavigate('calendar')}>Bring us a real ticket</MobileButton>
+      </section>
+
       <MobileNextCase
         from="purecode"
         to="brandos"

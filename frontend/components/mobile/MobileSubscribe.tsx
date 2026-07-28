@@ -60,7 +60,7 @@ export const MobileSubscribe: React.FC<MobileSubscribeProps> = ({ heading, body,
             onKeyDown={(e) => e.key === 'Enter' && handleSubscribe()}
             placeholder="you@company.com"
             disabled={status === 'loading'}
-            className="bg-white/10 border border-white/20 px-4 py-3 text-base text-canvas placeholder:text-canvas/40 focus:outline-none focus:border-accent rounded-sm"
+            className="bg-white/10 border border-white/20 px-4 py-3 text-base text-canvas placeholder:text-canvas/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus:border-accent rounded-sm"
           />
           <MobileButton onClick={handleSubscribe}>
             {status === 'loading' ? 'Subscribing…' : 'Subscribe'}

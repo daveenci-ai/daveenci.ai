@@ -105,7 +105,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
                            required
                            value={formData.fullName}
                            onChange={e => setFormData({ ...formData, fullName: e.target.value })}
-                           className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm"
+                           className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus:border-accent transition-colors rounded-sm"
                            placeholder="Leonardo da Vinci"
                         />
                      </div>
@@ -119,7 +119,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
                            required
                            value={formData.email}
                            onChange={e => setFormData({ ...formData, email: e.target.value })}
-                           className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink focus:outline-none focus:border-accent transition-colors rounded-sm"
+                           className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus:border-accent transition-colors rounded-sm"
                            placeholder="leo@florence.it"
                         />
                      </div>

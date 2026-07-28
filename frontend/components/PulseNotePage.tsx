@@ -1610,6 +1610,8 @@ const PulseNotePageDesktop: React.FC<PulseNotePageProps> = ({ onNavigate }) => {
       <WhatPulseDoes />
       <CreatorMode />
       <UseCases />
+      {/* Was defined and never rendered — mobile has shown this FAQ all along. */}
+      <FAQ />
       <PulseBooking onNavigate={onNavigate} />
       <FinalCTA />
       <Footer onNavigate={onNavigate} />
