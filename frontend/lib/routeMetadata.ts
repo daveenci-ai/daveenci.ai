@@ -179,7 +179,7 @@ const updateStructuredData = (metadata: RouteMetadata, url: string, image: strin
             priceCurrency: 'USD',
             priceSpecification: {
               '@type': 'PriceSpecification',
-              minPrice: offer.id === 'blueprint' ? '5000' : offer.id === 'build' ? '14000' : '2500',
+              minPrice: offer.id === 'blueprint' ? '5000' : offer.id === 'build' ? '14000' : '4000',
               priceCurrency: 'USD',
               unitText: offer.id === 'operate' ? 'MONTH' : offer.timeline,
             },

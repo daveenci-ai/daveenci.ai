@@ -71,6 +71,20 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
         <p className="font-serif text-[16px] text-ink-muted leading-[1.6] mb-7">
           ShootOS combines reusable real-estate-media knowledge with AutoPilot, the governed operations system DaVeenci built for f8 Real Estate Media.
         </p>
+        {/* Client credit — parity with the desktop tree. */}
+        <div className="flex items-center gap-3 mb-7">
+          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">Built for</span>
+          <span aria-hidden="true" className="h-px w-5 bg-ink-muted/30" />
+          <img
+            src="/clients/f8-logo.svg"
+            alt="f/8 Real Estate Media"
+            width={1068}
+            height={882}
+            className="h-10 w-auto"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
         <MobileButton onClick={() => onNavigate('calendar')}>Talk to us</MobileButton>
 
         <div className="mt-8">

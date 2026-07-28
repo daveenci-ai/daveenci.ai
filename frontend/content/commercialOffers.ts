@@ -42,7 +42,7 @@ export const commercialOffers: CommercialOffer[] = [
     id: 'operate',
     number: '03',
     title: 'Operate and Improve',
-    price: 'From $2,500/mo',
+    price: 'From $4,000/mo',
     timeline: 'Ongoing',
     description: 'Keep the system observable, useful, and aligned as the workflow and underlying models change.',
     deliverables: [

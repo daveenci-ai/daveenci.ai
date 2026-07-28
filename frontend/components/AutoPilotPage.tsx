@@ -171,6 +171,21 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
                   </>
                 }
               />
+              {/* Client credit — f8 is named in the copy above; the mark makes it
+                  checkable rather than an assertion. Used with permission. */}
+              <div className="mt-10 flex items-center gap-4">
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">Built for</span>
+                <span aria-hidden="true" className="h-px w-6 bg-ink-muted/30" />
+                <img
+                  src="/clients/f8-logo.svg"
+                  alt="f/8 Real Estate Media"
+                  width={1068}
+                  height={882}
+                  className="h-12 md:h-14 w-auto"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
             </ScrollReveal>
           </div>
           <div className="lg:col-span-6">
