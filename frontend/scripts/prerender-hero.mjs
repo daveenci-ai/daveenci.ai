@@ -49,9 +49,17 @@ async function main() {
     );
   }
 
+  // Vercel rewrites every path to this one file, so without a guard the
+  // homepage hero would paint on /codex/..., /shootos, and every other deep
+  // link before React swapped in the real page. This runs during parse,
+  // before first paint, and costs nothing on the homepage.
+  const guard =
+    "<script>if(location.pathname!=='/'){var s=" +
+    "document.getElementById('hero-shell');if(s)s.remove();}</script>";
+
   await fs.writeFile(
     indexPath,
-    html.replace(PLACEHOLDER, `<div id="root">${shell}</div>`),
+    html.replace(PLACEHOLDER, `<div id="root">${shell}${guard}</div>`),
     'utf8',
   );
   await fs.rm(outDir, { recursive: true, force: true });

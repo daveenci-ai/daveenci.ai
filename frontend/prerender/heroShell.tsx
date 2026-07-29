@@ -32,7 +32,7 @@ export function renderHeroShell(): string {
     // aria-hidden + inert: this is a paint placeholder, not interactive UI.
     // React replaces it on mount; until then it must not take focus or be
     // announced twice to a screen reader.
-    '<div data-hero-shell aria-hidden="true" inert>',
+    '<div id="hero-shell" data-hero-shell aria-hidden="true" inert>',
     `<div class="hidden md:flex md:flex-col w-full overflow-x-hidden">${desktop}</div>`,
     `<div class="md:hidden relative" data-mobile><main class="pt-14">${mobile}</main></div>`,
     '</div>',
