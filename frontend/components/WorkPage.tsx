@@ -6,7 +6,7 @@ import { useIsMobile } from './mobile/useIsMobile';
 import { MobileWorkPage } from './mobile/MobileWorkPage';
 import { track } from '../lib/analytics';
 import type { Page } from './types';
-import { workCatalog, workStatusClass } from '../content/workCatalog';
+import { PRACTICES, workCatalog, type Practice, workStatusClass } from '../content/workCatalog';
 
 interface WorkPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -40,9 +40,23 @@ const WorkPageDesktop: React.FC<WorkPageProps> = ({ onNavigate }) => {
         </ScrollReveal>
       </Section>
 
-      <Section className="pt-5 pb-12 md:pt-7 md:pb-16">
+      {(['operations', 'creative'] as Practice[]).map((practice) => (
+      <Section key={practice} className="pt-5 pb-12 md:pt-7 md:pb-16">
+        {/* Grouped by practice rather than shown as one flat grid: five cards
+            in two columns left an orphan cell, and more importantly a visitor
+            had to work out for themselves what connected them. */}
+        <ScrollReveal>
+          <div className="max-w-3xl mb-10 md:mb-12">
+            <div className="flex items-center gap-4 mb-4">
+              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{PRACTICES[practice].name}</span>
+              <span aria-hidden="true" className="h-px flex-1 bg-ink-muted/20" />
+              <span className="font-serif italic text-sm text-ink-muted">Led by {PRACTICES[practice].lead}</span>
+            </div>
+            <p className="font-sans text-lg text-ink-muted leading-relaxed">{PRACTICES[practice].summary}</p>
+          </div>
+        </ScrollReveal>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {workCatalog.map((item, i) => (
+          {workCatalog.filter((item) => item.practice === practice).map((item, i) => (
             <ScrollReveal key={item.title} delay={100 + i * 150}>
               <a
                 href={item.href}
@@ -69,6 +83,7 @@ const WorkPageDesktop: React.FC<WorkPageProps> = ({ onNavigate }) => {
           ))}
         </div>
       </Section>
+      ))}
 
       <Section className="py-16 md:py-24" pattern="circles">
         <div className="max-w-3xl mx-auto text-center">

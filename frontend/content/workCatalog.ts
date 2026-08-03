@@ -1,7 +1,25 @@
 import type { CaseId } from '../lib/analytics';
 
+export type Practice = 'operations' | 'creative';
+
+export const PRACTICES: Record<Practice, { name: string; lead: string; summary: string }> = {
+  operations: {
+    name: 'Operations Systems',
+    lead: 'Anton Osipov',
+    summary:
+      'Recurring work that crosses tools, teams, and judgment — intake, review, exception handling, and delivery, with the gates that make autonomy safe.',
+  },
+  creative: {
+    name: 'Creative Production',
+    lead: 'Astrid Abrahamyan',
+    summary:
+      'Strategy, paid campaigns across Facebook, LinkedIn, Google, TikTok and ChatGPT, and the content that feeds them — ads, video, and brand decisions — run as a governed workflow with a human approving before anything publishes.',
+  },
+};
+
 export interface WorkCatalogItem {
   page: CaseId;
+  practice: Practice;
   href: string;
   label: string;
   status: string;
@@ -16,6 +34,7 @@ export interface WorkCatalogItem {
 export const workCatalog: WorkCatalogItem[] = [
   {
     page: 'purecode',
+    practice: 'operations',
     href: '/purecode',
     label: 'Code delivery',
     status: 'Operating',
@@ -28,6 +47,7 @@ export const workCatalog: WorkCatalogItem[] = [
   },
   {
     page: 'autopilot',
+    practice: 'operations',
     href: '/shootos',
     label: 'Real-estate media operations',
     status: 'Operating practice',
@@ -40,6 +60,7 @@ export const workCatalog: WorkCatalogItem[] = [
   },
   {
     page: 'compoundiq',
+    practice: 'operations',
     href: '/compoundiq',
     label: 'Trading research & execution',
     status: 'In development · Paper only',
@@ -52,6 +73,7 @@ export const workCatalog: WorkCatalogItem[] = [
   },
   {
     page: 'pulsenote',
+    practice: 'creative',
     href: '/pulsenote',
     label: 'Content operations',
     status: 'Product demonstration',
@@ -64,6 +86,7 @@ export const workCatalog: WorkCatalogItem[] = [
   },
   {
     page: 'brandos',
+    practice: 'creative',
     href: '/brandos',
     label: 'Brand decisions',
     status: 'Live demonstration',

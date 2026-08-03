@@ -3,7 +3,7 @@ import { MobileShell } from './MobileShell';
 import { MobileScenePlate } from './MobileScenePlate';
 import { track } from '../../lib/analytics';
 import type { Page } from '../types';
-import { workCatalog, workStatusClass } from '../../content/workCatalog';
+import { PRACTICES, workCatalog, workStatusClass, type Practice } from '../../content/workCatalog';
 
 interface MobileWorkPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -34,9 +34,18 @@ export const MobileWorkPage: React.FC<MobileWorkPageProps> = ({ onNavigate }) =>
         </p>
       </section>
 
-      {/* Cases */}
-      <section className="px-6 pb-10 space-y-5">
-        {workCatalog.map((item) => (
+      {/* Cases — grouped by practice, parity with the desktop tree. */}
+      {(['operations', 'creative'] as Practice[]).map((practice) => (
+      <section key={practice} className="px-6 pb-10 space-y-5">
+        <div className="pt-2 pb-1">
+          <div className="flex items-center gap-3 mb-3">
+            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent">{PRACTICES[practice].name}</span>
+            <span aria-hidden="true" className="h-px flex-1 bg-ink-muted/20" />
+          </div>
+          <p className="font-serif italic text-[13px] text-ink-muted mb-3">Led by {PRACTICES[practice].lead}</p>
+          <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{PRACTICES[practice].summary}</p>
+        </div>
+        {workCatalog.filter((item) => item.practice === practice).map((item) => (
           <a
             key={item.title}
             href={item.href}
@@ -60,6 +69,7 @@ export const MobileWorkPage: React.FC<MobileWorkPageProps> = ({ onNavigate }) =>
           </a>
         ))}
       </section>
+      ))}
 
       {/* End CTA */}
       <section className="px-6 py-10 bg-white/40">
