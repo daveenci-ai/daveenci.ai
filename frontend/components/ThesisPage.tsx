@@ -100,7 +100,7 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
         <Section className="py-6 md:py-10">
           <div className="max-w-3xl mx-auto">
             <ScrollReveal>
-              <Quote attribution="Anton Osipov · Founder">
+              <Quote attribution="Anton Osipov · Co-Founder">
                 A coder who also writes contracts ships survivable versions of both. That's the tax.
               </Quote>
             </ScrollReveal>

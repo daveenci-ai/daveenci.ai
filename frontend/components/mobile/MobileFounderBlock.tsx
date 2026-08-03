@@ -19,7 +19,7 @@ export const MobileFounderBlock: React.FC = () => (
         />
       </div>
       <div className="font-serif text-2xl text-canvas leading-none">Anton Osipov</div>
-      <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-canvas/70 mt-2">Founder</div>
+      <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-canvas/70 mt-2">Co-Founder</div>
     </div>
 
     <blockquote className="mt-8 relative">

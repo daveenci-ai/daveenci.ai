@@ -1026,7 +1026,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
         leftBody="We'll look at your codebase, your existing review flow, and the tickets that eat your senior engineers' time — then scope what a specialist team + human gates would mean for you."
         bookingType="demo-purecode"
         hostName="Anton Osipov"
-        hostRole="Founder"
+        hostRole="Co-Founder"
         hostImage={AntonSketch}
       />
       </div>

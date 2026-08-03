@@ -36,7 +36,7 @@ const FounderBlock: React.FC<FounderBlockProps> = (_props) => (
             </div>
           </div>
           <div className="md:col-span-8">
-            <Quote tone="dark" attribution="Anton Osipov · Founder">
+            <Quote tone="dark" attribution="Anton Osipov · Co-Founder">
               I spent a decade shipping software with mediocre AI help. Then I stopped trying to hire a generalist tool, and started building a team of specialists. DaVeenci is that bet — one workshop, many teams, each one good at one thing.
             </Quote>
           </div>

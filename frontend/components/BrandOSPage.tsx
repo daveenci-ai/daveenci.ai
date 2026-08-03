@@ -999,7 +999,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
         leftBody="We'll run your shortlist through BrandOS together, look at where the weights actually land for your stage, and map out what a rebrand or launch diligence engagement looks like if that's where this is heading."
         bookingType="demo-brandos"
         hostName="Astrid Abrahamyan"
-        hostRole="Partner"
+        hostRole="Co-Founder"
         hostImage={AstridSketch}
       />
       </div>

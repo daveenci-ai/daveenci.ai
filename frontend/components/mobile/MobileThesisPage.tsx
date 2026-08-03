@@ -78,7 +78,7 @@ export const MobileThesisPage: React.FC<MobileThesisPageProps> = ({ onNavigate }
           <p>The problem isn't that the model is bad at any one job. It's that being a generalist means never being accountable to a specialty. A coder who also writes contracts ships <em>survivable</em> versions of both. That's the tax.</p>
         </Chapter>
 
-        <PullQuote attribution="Anton Osipov · Founder">
+        <PullQuote attribution="Anton Osipov · Co-Founder">
           A coder who also writes contracts ships survivable versions of both. That's the tax.
         </PullQuote>
 

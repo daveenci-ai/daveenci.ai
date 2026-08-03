@@ -1556,7 +1556,7 @@ const PulseBooking: React.FC<{ onNavigate: (page: Page, hash?: string, id?: stri
     leftBody="I will walk you through how Pulse Note captures meetings, extracts insights, and generates publish-ready content, tailored to your brand and workflow."
     bookingType="demo-ai"
     hostName="Astrid Abrahamyan"
-    hostRole="Partner"
+    hostRole="Co-Founder"
     hostImage={AstridSketch}
   />
 );

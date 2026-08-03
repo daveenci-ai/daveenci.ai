@@ -204,7 +204,7 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
                 </div>
                 <div>
                   <div className="font-serif text-lg text-ink leading-tight">Astrid Abrahamyan</div>
-                  <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted mt-1">Partner</div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted mt-1">Co-Founder</div>
                 </div>
               </div>
 

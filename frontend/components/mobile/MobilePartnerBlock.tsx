@@ -19,7 +19,7 @@ export const MobilePartnerBlock: React.FC = () => (
         />
       </div>
       <div className="font-serif text-2xl text-ink leading-none">Astrid Abrahamyan</div>
-      <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted mt-2">Partner</div>
+      <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted mt-2">Co-Founder</div>
     </div>
 
     <blockquote className="mt-8 relative">

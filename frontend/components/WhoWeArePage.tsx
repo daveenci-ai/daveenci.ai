@@ -66,7 +66,7 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                            />
                            <div className="mt-6 text-center">
                               <div className="font-serif text-2xl text-canvas">Anton Osipov</div>
-                              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-canvas/50 mt-1">Founder</div>
+                              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-canvas/70 mt-1">Co-Founder</div>
                            </div>
                         </div>
                      </div>
@@ -115,7 +115,7 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                            />
                            <div className="mt-6 text-center">
                               <div className="font-serif text-2xl text-ink">Astrid Abrahamyan</div>
-                              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted mt-1">Partner</div>
+                              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted mt-1">Co-Founder</div>
                            </div>
                         </div>
                      </div>

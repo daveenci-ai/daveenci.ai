@@ -249,7 +249,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
                               </div>
                               <div>
                                  <div className="font-serif text-ink text-lg leading-none mb-1">Astrid Abrahamyan</div>
-                                 <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest">Partner</div>
+                                 <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest">Co-Founder</div>
                               </div>
                            </div>
                         </div>
