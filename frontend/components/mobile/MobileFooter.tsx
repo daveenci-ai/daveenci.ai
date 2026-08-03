@@ -77,6 +77,10 @@ export const MobileFooter: React.FC<MobileFooterProps> = ({ onNavigate, classNam
       <div className="mt-10 pt-6 border-t border-canvas/10 flex items-center justify-between gap-4">
         <Logo className="w-8 h-8 opacity-90" />
         <div className="text-right text-[11px] text-canvas/60 leading-relaxed">
+          <a
+            href="mailto:anton@daveenci.ai"
+            className="block py-1 underline underline-offset-4 active:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+          >anton@daveenci.ai</a>
           <div>© {new Date().getFullYear()} DaVeenci</div>
           <a
             href="/privacy"

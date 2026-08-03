@@ -44,7 +44,7 @@ const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
 
           <section>
             <h2 className="font-serif text-3xl text-ink mb-4">Retention and choices</h2>
-            <p>We keep contact and booking records only as long as they remain useful for the purpose you requested, our operating records, or applicable obligations. You can block analytics through browser privacy controls. To request access, correction, deletion, or removal from the Codex, use the Talk to us page and identify the request as a privacy request.</p>
+            <p>We keep contact and booking records only as long as they remain useful for the purpose you requested, our operating records, or applicable obligations. You can block analytics through browser privacy controls. To request access, correction, deletion, or removal from the Codex, email anton@daveenci.ai and identify the request as a privacy request.</p>
           </section>
 
           <section>
@@ -53,10 +53,9 @@ const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
           </section>
 
           <a
-            href="/calendar"
-            onClick={(event) => { event.preventDefault(); onNavigate('calendar'); }}
-            className="inline-flex text-accent font-medium hover:text-accent-hover underline underline-offset-4"
-          >Contact us about your data</a>
+            href="mailto:anton@daveenci.ai?subject=Privacy%20request"
+            className="inline-flex text-accent-strong font-medium hover:text-accent-hover underline underline-offset-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+          >Email us about your data</a>
         </div>
       </Section>
 

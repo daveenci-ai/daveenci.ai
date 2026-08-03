@@ -125,10 +125,15 @@ const Footer: React.FC<FooterProps> = ({
           <div className="flex items-center gap-3 opacity-90">
             <Logo className="w-8 h-8" />
           </div>
-          <div className="text-xs text-canvas/40">
+          <div className="text-xs text-canvas/60 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+            <a
+              href="mailto:anton@daveenci.ai"
+              className="hover:text-canvas transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+            >anton@daveenci.ai</a>
+            <span aria-hidden="true">·</span>
             <span>© {new Date().getFullYear()} DaVeenci</span>
-            <span aria-hidden="true" className="mx-2">·</span>
-            <a href="/privacy" onClick={go('privacy')} className="hover:text-canvas transition-colors">Privacy</a>
+            <span aria-hidden="true">·</span>
+            <a href="/privacy" onClick={go('privacy')} className="hover:text-canvas transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm">Privacy</a>
           </div>
         </div>
       </div>
