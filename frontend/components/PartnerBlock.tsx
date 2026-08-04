@@ -9,7 +9,7 @@ const PartnerBlock: React.FC = () => (
       <ScrollReveal>
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
           <div className="md:col-span-8 md:order-1 order-2">
-            <Quote tone="dark" attribution="Astrid Abrahamyan · Partner">
+            <Quote tone="dark" attribution="Astrid Abrahamyan · Co-Founder">
               I spend my days inside founder conversations. Each one is a workflow that's stuck — a bottleneck, a handoff, a tool that almost gets there. My job is to turn that into a team design the workshop can build, and you can actually run.
             </Quote>
           </div>
