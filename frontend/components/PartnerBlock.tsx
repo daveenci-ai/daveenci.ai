@@ -28,6 +28,10 @@ const PartnerBlock: React.FC<PartnerBlockProps> = ({ onNavigate }) => (
               <p className="mt-4 max-w-3xl font-sans text-[16px] leading-relaxed text-canvas/75">
                 {PRACTICES.creative.summary}
               </p>
+              {/* Sector list matches mobile/MobilePartnerBlock.tsx — keep the two in sync. */}
+              <p className="mt-3 font-serif text-sm italic leading-relaxed text-canvas/60">
+                Law · Health · Non-profit · Ecommerce · Beverages
+              </p>
               <ul className="mt-5 grid grid-cols-1 gap-2 font-mono text-[9px] uppercase tracking-[0.14em] text-canvas/65 sm:grid-cols-3">
                 <li className="border border-canvas/15 px-3 py-2">Campaign strategy</li>
                 <li className="border border-canvas/15 px-3 py-2">Ads + content</li>

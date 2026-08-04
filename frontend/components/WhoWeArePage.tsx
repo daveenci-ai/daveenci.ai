@@ -93,9 +93,6 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                               Then I stopped trying to hire a generalist tool, and started building a team of specialists. DaVeenci is that bet — one workshop, many teams, each one good at one thing. Code. Media. Research. Whatever domain the work actually lives in.
                            </p>
                            <p>
-                              In practice, Anton leads the architecture of recurring operating systems: the integrations, specialist roles, shared state, exception handling, and human gates required to carry work from intake to accountable delivery.
-                           </p>
-                           <p>
                               A good team beats a good tool. Not because specialists are smarter — they're not. Because coordination, governance, and accountability are what ship finished work. We build the team. You own the output. That's the whole pitch.
                            </p>
                         </div>
@@ -150,10 +147,13 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                         </div>
                         <div className="space-y-5 font-sans text-ink-muted text-lg leading-relaxed">
                            <p>
-                              Astrid leads marketing strategy, paid campaign management across Facebook, LinkedIn, Google, TikTok, and ChatGPT, and the development of campaign content, ads, and YouTube video.
+                              I lead marketing strategy, paid campaign management across Facebook, LinkedIn, Google, TikTok and ChatGPT, and the content those campaigns run on — ads and YouTube video included. The work currently crosses law, health, non-profit, ecommerce and beverages. The sectors vary; the operating standard doesn't. The brief is explicit, versions stay visible, and a person owns the approval before anything publishes.
                            </p>
                            <p>
-                              Her current work crosses law, health, non-profit, ecommerce, and beverages. The sectors vary; the operating standard does not. The brief is explicit, versions remain visible, and a person owns the approval before anything publishes.
+                              I also own the conversations. Every founder who talks to us arrives with a story about work that's stuck — a bottleneck, a handoff, a tool that almost gets there. My job is to listen carefully enough to translate that into a team design we can actually build.
+                           </p>
+                           <p>
+                              It's not a discovery questionnaire. It's a working session. By the end I can usually tell you which specialists you'd need, where the human gates should sit, and how we'd scope the first cut. Sometimes the honest answer is that we're not the right workshop for this — and I'll tell you that, too.
                            </p>
                            <p>
                               If you have a workflow you want specialists for, the first step is thirty minutes with me. No slide deck. Bring the thing that's stuck.
