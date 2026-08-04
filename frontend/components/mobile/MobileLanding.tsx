@@ -31,10 +31,10 @@ const MobileLanding: React.FC<MobileLandingProps> = ({ onNavigate }) => (
     <MobileWorkPreview onNavigate={onNavigate} />
     <MobileContrast />
     <MobileMethod />
-    <MobileFounderBlock />
+    <MobileFounderBlock onNavigate={onNavigate} />
     <MobileAdvantage />
     <MobileControls />
-    <MobilePartnerBlock />
+    <MobilePartnerBlock onNavigate={onNavigate} />
     {/* Parity with the desktop tree — pricing after trust, not before it. */}
     <CommercialOffers onNavigate={onNavigate} compact />
     <MobileBooking onNavigate={onNavigate} />

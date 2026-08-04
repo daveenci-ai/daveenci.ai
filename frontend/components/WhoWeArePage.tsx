@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import { Section, ScrollReveal, VitruvianBackground, NodeNetworkBackground, Button, PageHero, Quote, Surface, Plate } from './Shared';
+import { Section, ScrollReveal, VitruvianBackground, GiocondaBackground, NodeNetworkBackground, Button, PageHero, Quote, Surface, Plate } from './Shared';
 import type { Page } from './types';
 import AntonSketch from '../images/Anton_Sketch.webp';
 import AstridSketch from '../images/Astrid_Sketch.webp';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileWhoWeArePage } from './mobile/MobileWhoWeArePage';
+import { PRACTICES } from '../content/workCatalog';
 
 interface WhoWeArePageProps {
    onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -61,6 +62,8 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                            <img
                               src={AntonSketch}
                               alt="Anton Osipov"
+                              width={1024}
+                              height={1040}
                               decoding="async"
                               className="relative w-full rounded-sm shadow-2xl shadow-black/30 border border-canvas/10 filter sepia-[0.15] contrast-105"
                            />
@@ -74,12 +77,23 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                         <Quote tone="dark">
                            I spent a decade shipping software with mediocre AI help — watching every new model promise to replace my tools and deliver another wrapper around chat.
                         </Quote>
+                        <div className="border-y border-canvas/15 py-6">
+                           <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent-light">
+                              {PRACTICES.operations.name} · Led by {PRACTICES.operations.lead}
+                           </div>
+                           <p className="mt-3 font-sans text-base leading-relaxed text-canvas/75">
+                              {PRACTICES.operations.summary}
+                           </p>
+                        </div>
                         <div className="space-y-5 font-sans text-canvas/80 text-lg leading-relaxed">
                            <p>
                               For years I thought the answer was a better model. A bigger context window. A cleverer prompt. Every wave of "this one changes everything" left me with the same workflow and the same bottlenecks. Generalist tools flatten the work. They don't finish it.
                            </p>
                            <p>
                               Then I stopped trying to hire a generalist tool, and started building a team of specialists. DaVeenci is that bet — one workshop, many teams, each one good at one thing. Code. Media. Research. Whatever domain the work actually lives in.
+                           </p>
+                           <p>
+                              In practice, Anton leads the architecture of recurring operating systems: the integrations, specialist roles, shared state, exception handling, and human gates required to carry work from intake to accountable delivery.
                            </p>
                            <p>
                               A good team beats a good tool. Not because specialists are smarter — they're not. Because coordination, governance, and accountability are what ship finished work. We build the team. You own the output. That's the whole pitch.
@@ -92,8 +106,9 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
          </Section>
 
          {/* Astrid — the partner */}
-         <Section className="bg-white/40 relative" pattern="nodes">
-            <div className="max-w-5xl mx-auto">
+         <Section className="bg-white/40 relative" overflow>
+            <GiocondaBackground className="text-ink opacity-[0.055]" />
+            <div className="max-w-5xl mx-auto relative z-10">
                <ScrollReveal>
                   <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
                      <div className="md:col-span-4">
@@ -109,6 +124,8 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                            <img
                               src={AstridSketch}
                               alt="Astrid Abrahamyan"
+                              width={1024}
+                              height={1024}
                               loading="lazy"
                               decoding="async"
                               className="relative w-full rounded-sm shadow-xl shadow-ink/10 border border-ink/10 filter sepia-[0.15] contrast-105"
@@ -123,12 +140,20 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                         <Quote>
                            Every team we build starts the same way — a founder showing me the workflow that's eating their week.
                         </Quote>
+                        <div className="border-y border-ink/10 py-6">
+                           <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent-strong">
+                              {PRACTICES.creative.name} · Led by {PRACTICES.creative.lead}
+                           </div>
+                           <p className="mt-3 font-sans text-base leading-relaxed text-ink-muted">
+                              {PRACTICES.creative.summary}
+                           </p>
+                        </div>
                         <div className="space-y-5 font-sans text-ink-muted text-lg leading-relaxed">
                            <p>
-                              I own the conversations. Every founder who talks to us arrives with a story about work that's stuck — a bottleneck, a handoff, a tool that almost gets there. My job is to listen carefully enough to translate that into a team design we can actually build.
+                              Astrid leads marketing strategy, paid campaign management across Facebook, LinkedIn, Google, TikTok, and ChatGPT, and the development of campaign content, ads, and YouTube video.
                            </p>
                            <p>
-                              It's not a discovery questionnaire. It's a working session. By the end I can usually tell you which specialists you'd need, where the human gates should sit, and how we'd scope the first cut. Sometimes the honest answer is that we're not the right workshop for this — and I'll tell you that, too.
+                              Her current work crosses law, health, non-profit, ecommerce, and beverages. The sectors vary; the operating standard does not. The brief is explicit, versions remain visible, and a person owns the approval before anything publishes.
                            </p>
                            <p>
                               If you have a workflow you want specialists for, the first step is thirty minutes with me. No slide deck. Bring the thing that's stuck.

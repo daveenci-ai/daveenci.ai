@@ -16,6 +16,7 @@ const LINK_GROUPS: { heading: string; links: { label: string; page: Page; hash?:
       { label: 'PureCode', page: 'purecode' },
       { label: 'ShootOS', page: 'autopilot' },
       { label: 'CompoundIQ', page: 'compoundiq' },
+      { label: 'Creative Production', page: 'creative-production' },
       { label: 'BrandOS', page: 'brandos' },
       { label: 'PulseNote', page: 'pulsenote' },
     ],

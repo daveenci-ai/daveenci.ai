@@ -69,6 +69,11 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'not-found'>, Rou
     description: 'Versioned trading research, explicit action gates, paper execution, and structured feedback in one constrained loop.',
     path: '/compoundiq',
   },
+  'creative-production': {
+    title: 'Creative Production — Governed Campaigns and Content | DaVeenci',
+    description: 'Marketing strategy, paid campaign management, content, ads, and YouTube video run through a governed workflow with explicit human approval before publication.',
+    path: '/creative-production',
+  },
   events: {
     title: 'Workshop Events — DaVeenci',
     description: 'Occasional DaVeenci sessions on specialist AI teams, orchestration, governance, and lessons from active builds.',

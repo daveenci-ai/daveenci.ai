@@ -75,6 +75,67 @@ export const VitruvianBackground: React.FC<{ className?: string }> = ({ classNam
   );
 };
 
+/**
+ * GiocondaBackground — the painterly counterpart to VitruvianBackground.
+ * It uses the compositional frame and a fragment of the folded hands rather
+ * than reproducing the portrait, keeping the motif in the same construction-
+ * drawing register as the rest of the site.
+ *
+ * SOURCE-REFERENCE PLACEHOLDER: Anton should approve the public-domain
+ * Gioconda composition/hands reference before this motif is treated as final
+ * brand artwork. The paths below are an original schematic interpretation,
+ * not a traced reproduction.
+ */
+export const GiocondaBackground: React.FC<{ className?: string }> = ({ className }) => (
+  <div
+    aria-hidden="true"
+    className={`absolute inset-x-0 -top-40 -bottom-40 pointer-events-none overflow-hidden ${className}`}
+    style={{
+      maskImage: 'linear-gradient(to bottom, transparent 2%, black 17%, black 82%, transparent 98%)',
+      WebkitMaskImage: 'linear-gradient(to bottom, transparent 2%, black 17%, black 82%, transparent 98%)',
+    }}
+  >
+    <svg
+      className="absolute left-1/2 top-1/2 h-[820px] w-[820px] -translate-x-1/2 -translate-y-1/2"
+      viewBox="0 0 800 800"
+      fill="none"
+    >
+      <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+        {/* Compositional scaffold — frame, horizon, and pyramidal balance. */}
+        <rect x="154" y="72" width="492" height="656" strokeWidth="0.7" />
+        <line x1="400" y1="72" x2="400" y2="728" strokeWidth="0.55" />
+        <line x1="154" y1="322" x2="646" y2="322" strokeWidth="0.55" strokeDasharray="10 12" />
+        <path d="M400 112 L188 650 L612 650 Z" strokeWidth="0.7" />
+        <path d="M214 176 Q400 104 586 176" strokeWidth="0.6" strokeDasharray="7 11" />
+
+        {/* Sfumato study — receding landscape contours, deliberately faint. */}
+        <path d="M116 304 C214 242 266 292 342 250 C430 202 500 260 688 184" strokeWidth="0.65" />
+        <path d="M104 346 C198 292 280 336 352 300 C438 258 536 302 704 244" strokeWidth="0.5" />
+        <path d="M98 392 C208 340 270 382 354 350 C454 312 544 354 708 298" strokeWidth="0.45" />
+
+        {/* Fragment study — sleeves and folded hands, not the portrait. */}
+        <path d="M250 390 C268 426 292 462 326 500 C350 526 372 545 408 561" strokeWidth="0.95" />
+        <path d="M552 392 C530 432 506 468 474 501 C448 529 426 548 392 565" strokeWidth="0.95" />
+        <path d="M294 498 C331 506 366 520 410 544 C433 556 461 566 493 565" strokeWidth="1" />
+        <path d="M493 565 C476 578 455 581 432 574 L353 548 C336 542 319 546 302 558" strokeWidth="0.85" />
+        <path d="M333 532 C362 538 393 550 422 563" strokeWidth="0.55" />
+        <path d="M347 523 C378 532 408 543 436 557" strokeWidth="0.55" />
+        <path d="M365 517 C395 528 422 538 448 551" strokeWidth="0.55" />
+        <path d="M403 546 C431 534 458 523 489 516" strokeWidth="0.65" />
+        <path d="M416 554 C446 545 473 536 503 533" strokeWidth="0.55" />
+        <path d="M429 562 C459 557 483 551 512 551" strokeWidth="0.55" />
+        <path d="M286 482 C270 528 268 580 282 630" strokeWidth="0.65" />
+        <path d="M518 482 C532 526 535 579 520 630" strokeWidth="0.65" />
+
+        {/* Proportion marks keep the motif analytical, not illustrative. */}
+        <circle cx="400" cy="548" r="106" strokeWidth="0.5" strokeDasharray="5 10" />
+        <line x1="276" y1="548" x2="524" y2="548" strokeWidth="0.45" />
+        <line x1="400" y1="424" x2="400" y2="672" strokeWidth="0.45" />
+      </g>
+    </svg>
+  </div>
+);
+
 export const NodeNetworkBackground: React.FC<{ className?: string; colorVar?: string }> = ({ className, colorVar = '--color-ink' }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -268,7 +329,7 @@ interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>
 }
 
 export const Button: React.FC<ButtonProps> = ({ variant = 'primary', children, className = '', onClick, analytics, ...buttonProps }) => {
-  const baseStyles = "inline-flex items-center justify-center px-6 py-3 font-sans text-sm font-medium transition-all duration-500 ease-out group relative overflow-hidden";
+  const baseStyles = "inline-flex items-center justify-center px-6 py-3 font-sans text-sm font-medium transition-all duration-500 ease-out group relative overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4";
 
   const variants = {
     // Fills use accent-hover / accent-strong rather than the base accent:

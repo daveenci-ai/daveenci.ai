@@ -12,6 +12,7 @@ declare global {
 }
 
 export type CaseId = 'compoundiq' | 'autopilot' | 'purecode' | 'brandos' | 'pulsenote';
+export type PracticeId = 'operations' | 'creative';
 export type DemoId = 'brandos_analyzer' | 'purecode_ticket_sim' | 'compoundiq_gate_sim';
 
 export interface AnalyticsEventMap {
@@ -22,6 +23,8 @@ export interface AnalyticsEventMap {
   demo_start: { demo_id: DemoId };
   demo_complete: { demo_id: DemoId };
   next_case_click: { from_case: CaseId; to_case: CaseId };
+  practice_open: { practice_id: PracticeId; surface: 'homepage_practice' | 'about' | 'work_page' | 'footer' };
+  practice_case_click: { practice_id: PracticeId; case_id: CaseId; surface: 'practice_page' };
   calendar_start: { booking_type: string };
   booking_step_viewed: { booking_type: string; step: 'details' };
   generate_lead: { booking_type: string };
