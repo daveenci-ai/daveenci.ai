@@ -45,7 +45,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
   const isActive = (link: NavLink) => {
     if (link.href === '/codex' && (currentPage === 'briefings' || currentPage === 'briefing-detail')) return true;
     if (link.href === '/who-we-are' && currentPage === 'who-we-are') return true;
-    if (link.href === '/work' && (currentPage === 'work' || currentPage === 'purecode' || currentPage === 'autopilot' || currentPage === 'compoundiq')) return true;
+    if (link.href === '/work' && (currentPage === 'work' || currentPage === 'purecode' || currentPage === 'autopilot' || currentPage === 'compoundiq' || currentPage === 'creative-production')) return true;
     if (link.href === '/thesis' && currentPage === 'thesis') return true;
     if (link.href === '/events' && currentPage === 'events') return true;
     if (link.href.startsWith('#') && currentPage === 'landing' && activeSection === link.href) return true;
@@ -149,7 +149,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link)}
-                className={`text-xs uppercase tracking-[0.18em] font-medium transition-colors relative group whitespace-nowrap px-2 py-1 ${active ? 'text-accent' : 'text-ink-muted hover:text-ink'
+                className={`text-xs uppercase tracking-[0.18em] font-medium transition-colors relative group whitespace-nowrap px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 ${active ? 'text-accent' : 'text-ink-muted hover:text-ink'
                   }`}
               >
                 <span className="relative z-10">{link.label}</span>
@@ -168,7 +168,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
           aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           aria-expanded={isMenuOpen}
           aria-controls="site-navigation-menu"
-          className="lg:hidden p-2 text-ink hover:text-accent transform transition-transform active:scale-95"
+          className="lg:hidden p-2 text-ink hover:text-accent transform transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4"
         >
           {isMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
         </button>
@@ -184,7 +184,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link)}
-                className={`text-xl font-serif border-b border-ink/5 pb-3 transition-colors ${active ? 'font-bold text-accent' : 'text-ink hover:text-accent'
+                className={`text-xl font-serif border-b border-ink/5 pb-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 ${active ? 'font-bold text-accent' : 'text-ink hover:text-accent'
                   }`}
               >
                 {link.label}

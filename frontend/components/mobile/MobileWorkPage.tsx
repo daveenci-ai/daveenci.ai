@@ -36,7 +36,7 @@ export const MobileWorkPage: React.FC<MobileWorkPageProps> = ({ onNavigate }) =>
 
       {/* Cases — grouped by practice, parity with the desktop tree. */}
       {(['operations', 'creative'] as Practice[]).map((practice) => (
-      <section key={practice} className="px-6 pb-10 space-y-5">
+      <section id={practice} key={practice} className="scroll-mt-16 px-6 pb-10 space-y-5">
         <div className="pt-2 pb-1">
           <div className="flex items-center gap-3 mb-3">
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent">{PRACTICES[practice].name}</span>

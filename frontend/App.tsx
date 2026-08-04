@@ -25,6 +25,7 @@ const WorkPage = lazy(() => import('./components/WorkPage'));
 const PureCodePage = lazy(() => import('./components/PureCodePage'));
 const AutoPilotPage = lazy(() => import('./components/AutoPilotPage'));
 const CompoundIQPage = lazy(() => import('./components/CompoundIQPage'));
+const CreativeProductionPage = lazy(() => import('./components/CreativeProductionPage'));
 const EventsPage = lazy(() => import('./components/EventsPage'));
 const ThesisPage = lazy(() => import('./components/ThesisPage'));
 const PrivacyPage = lazy(() => import('./components/PrivacyPage'));
@@ -36,8 +37,14 @@ const RouteLoading: React.FC = () => (
   </div>
 );
 
+const getInitialPage = (): Page => {
+  const path = window.location.pathname === '/' ? '/' : window.location.pathname.replace(/\/$/, '');
+  if (path === '/creative-production') return 'creative-production';
+  return 'landing';
+};
+
 const App: React.FC = () => {
-  const [page, setPage] = useState<Page>('landing');
+  const [page, setPage] = useState<Page>(getInitialPage);
   const [selectedBriefingId, setSelectedBriefingId] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [targetSection, setTargetSection] = useState<string | null>(null);
@@ -101,6 +108,8 @@ const App: React.FC = () => {
         setPage('autopilot');
       } else if (path === '/compoundiq') {
         setPage('compoundiq');
+      } else if (path === '/creative-production') {
+        setPage('creative-production');
       } else if (path === '/events') {
         setPage('events');
       } else if (path === '/thesis') {
@@ -219,6 +228,7 @@ const App: React.FC = () => {
     if (targetPage === 'purecode') path = '/purecode';
     if (targetPage === 'autopilot') path = '/shootos';
     if (targetPage === 'compoundiq') path = '/compoundiq';
+    if (targetPage === 'creative-production') path = '/creative-production';
     if (targetPage === 'events') path = '/events';
     if (targetPage === 'thesis') path = '/thesis';
     if (targetPage === 'privacy') path = '/privacy';
@@ -263,6 +273,7 @@ const App: React.FC = () => {
         {page === 'purecode' && <PureCodePage onNavigate={handleNavigate} />}
         {page === 'autopilot' && <AutoPilotPage onNavigate={handleNavigate} />}
         {page === 'compoundiq' && <CompoundIQPage onNavigate={handleNavigate} />}
+        {page === 'creative-production' && <CreativeProductionPage onNavigate={handleNavigate} />}
         {page === 'events' && <EventsPage onNavigate={handleNavigate} />}
         {page === 'thesis' && <ThesisPage onNavigate={handleNavigate} />}
         {page === 'privacy' && <PrivacyPage onNavigate={handleNavigate} />}

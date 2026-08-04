@@ -41,7 +41,7 @@ const WorkPageDesktop: React.FC<WorkPageProps> = ({ onNavigate }) => {
       </Section>
 
       {(['operations', 'creative'] as Practice[]).map((practice) => (
-      <Section key={practice} className="pt-5 pb-12 md:pt-7 md:pb-16">
+      <Section id={practice} key={practice} className="scroll-mt-24 pt-5 pb-12 md:pt-7 md:pb-16">
         {/* Grouped by practice rather than shown as one flat grid: five cards
             in two columns left an orphan cell, and more importantly a visitor
             had to work out for themselves what connected them. */}

@@ -86,10 +86,10 @@ export const MobileWhoWeArePage: React.FC<MobileWhoWeArePageProps> = ({ onNaviga
       </MobileFolioScene>
 
       {/* Anton */}
-      <MobileFounderBlock />
+      <MobileFounderBlock onNavigate={onNavigate} />
 
       {/* Astrid */}
-      <MobilePartnerBlock />
+      <MobilePartnerBlock onNavigate={onNavigate} />
 
       {/* The Distinction — swipeable 3 cards */}
       <MobileFolioScene id="distinction" eyebrow="The Distinction" className="bg-white/40">

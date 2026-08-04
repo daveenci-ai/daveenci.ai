@@ -62,7 +62,8 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [step, setStep] = useState<'datetime' | 'details' | 'success'>('datetime');
   const [busySlots, setBusySlots] = useState<{ start: string; end: string }[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [availabilityEnabled, setAvailabilityEnabled] = useState(false);
 
   const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -106,7 +107,27 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
     }
   };
 
-  useEffect(() => { fetchAvailability(); }, []);
+  useEffect(() => {
+    const element = document.getElementById(sectionId);
+    if (!element || typeof IntersectionObserver === 'undefined') {
+      setAvailabilityEnabled(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      setAvailabilityEnabled(true);
+      observer.disconnect();
+    }, { rootMargin: '500px 0px' });
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [sectionId]);
+
+  useEffect(() => {
+    if (!availabilityEnabled) return;
+    fetchAvailability();
+  }, [availabilityEnabled, currentDate]);
 
   const checkSlotAvailability = (slotIsoTime: string) =>
     checkSharedSlotAvailability(slotIsoTime, busySlots, MEETING_DURATION_MINUTES, BUFFER_MINUTES);
@@ -132,7 +153,6 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
     trackCalendarStart();
     setSelectedDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), day));
     setSelectedTime(null);
-    fetchAvailability();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -184,7 +204,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
               <p className="text-ink-muted leading-relaxed mb-8">{leftBody}</p>
               <div className="flex items-center gap-4 py-6 border-y border-ink/5 mb-6">
                 <div className="w-20 h-20 rounded-lg overflow-hidden border border-ink/10 flex-shrink-0">
-                  <img src={hostImage} alt={hostName} loading="lazy" decoding="async" className="w-full h-full object-cover object-top scale-125" />
+                  <img src={hostImage} alt={hostName} width={1024} height={1024} loading="lazy" decoding="async" className="w-full h-full object-cover object-top scale-125" />
                 </div>
                 <div>
                   <div className="font-serif text-ink text-lg leading-none mb-1">{hostName}</div>
@@ -238,8 +258,8 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
                       <div className="flex items-center justify-between mb-6">
                         <h3 className="font-serif text-xl text-ink">{MONTH_NAMES[currentDate.getMonth()]} {currentDate.getFullYear()}</h3>
                         <div className="flex gap-2">
-                          <button onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="p-3 hover:bg-canvas rounded-full text-ink-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"><ChevronLeft className="w-5 h-5" /></button>
-                          <button onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="p-3 hover:bg-canvas rounded-full text-ink-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"><ChevronRight className="w-5 h-5" /></button>
+                          <button aria-label="Previous month" onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="p-3 hover:bg-canvas rounded-full text-ink-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"><ChevronLeft aria-hidden="true" className="w-5 h-5" /></button>
+                          <button aria-label="Next month" onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="p-3 hover:bg-canvas rounded-full text-ink-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"><ChevronRight aria-hidden="true" className="w-5 h-5" /></button>
                         </div>
                       </div>
                       <div className="grid grid-cols-7 gap-2 text-center text-xs font-bold text-ink-muted/40 mb-2">

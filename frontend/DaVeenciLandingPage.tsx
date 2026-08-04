@@ -41,7 +41,7 @@ const DaVeenciLandingPage: React.FC<DaVeenciLandingPageProps> = ({ onNavigate, a
       <FounderBlock onNavigate={onNavigate} />
       <Advantage />
       <Controls />
-      <PartnerBlock />
+      <PartnerBlock onNavigate={onNavigate} />
       {/* Pricing sits after the problem (Contrast), the method, and the people
           — not third, where it quoted $5,000 before saying what it buys. */}
       <CommercialOffers onNavigate={onNavigate} />
