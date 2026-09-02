@@ -82,11 +82,11 @@ The footer reveal is desktop-only: on mobile the footer is often taller than the
 
 What changed on the homepage, in order: hero planes + pointer tilt → ProofRail rides over the hero → four stacking Work cards with schematics → Contrast (plate/pill planes, progressive list) → pinned, scroll-scrubbed Method → one Principals spread with a sticky portrait swap (replaces FounderBlock + PartnerBlock, now deleted) → Advantage unchanged → Controls mirrored to plate-right → Offers as a sticky-header ladder with the fourth tier → Booking planes → Codex teaser leads with No. 046 → footer revealed from beneath the page. Mobile mirrors every scene except pinning (stacking cards, scrubbed rail, inline principals, footer reveal).
 
-### Decisions Anton should confirm before merge
-1. **Analytics OS public price** — the offer card says "From $6,500 · five weeks to the first verdict" (the Measure tier). Remove the figure if the offer should be quoted only.
-2. **Case status** — `content/workCatalog.ts` and `AnalyticsOSPage.tsx` carry "New engagement · Scoped Sep 2026" and describe "a direct-to-consumer telehealth brand". Flip to "In delivery" and name the client only with their consent.
-3. **Codex No. 046** is signed by Anton and dated 2026-09-02; it names no codename and states Phase 0 is in build. Read it once before it goes live — it is the most specific public statement of how the workshop operates.
-4. **Chips** under Operations Systems now include "Marketing measurement".
+### Decisions confirmed by Anton (2026-09-02)
+1. **Analytics OS public price** — "From $6,500 · five weeks to the first verdict" stays on the offer card.
+2. **Client naming** — the client stays unnamed; the case keeps describing the system and "a direct-to-consumer telehealth brand". Status stays "New engagement · Scoped Sep 2026" until Anton changes it.
+3. **Codex No. 046** — approved as written (signed by Anton, dated 2026-09-02, no codename, Phase 0 in build).
+4. **Chips** under Operations Systems include "Marketing measurement".
 
 ### Follow-ups (not in this run)
 - Case pages and the Work page have no layered treatment yet (second pass).
