@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Clock, CalendarDays } from 'lucide-react';
 import { fromZonedTime } from 'date-fns-tz';
 import { Section, ScrollReveal, FolioHeader, Plate } from './Shared';
+import { Parallax, Reveal } from './motion/Parallax';
 import AstridSketch from '../images/Astrid_Sketch.webp';
 import { API_ENDPOINTS } from '../config';
 import { useNearViewport } from '../lib/useNearViewport';
@@ -137,7 +138,7 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
   return (
     <Section id="book" pattern="nodes" overflow={true} className="bg-white/50">
       <div ref={sectionRef} className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 xl:gap-32 items-center">
-        <div className="lg:col-span-5 lg:order-1 order-2 relative h-[560px] flex items-center justify-center">
+        <Parallax plane="plate" className="lg:col-span-5 lg:order-1 order-2 relative h-[560px] flex items-center justify-center">
           <ScrollReveal delay={300} direction="right" className="w-full flex justify-center">
             <Plate fig="vi" title="The Calendar">
               <div className="flex items-baseline justify-between mb-4">
@@ -178,16 +179,20 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
             </Plate>
           </ScrollReveal>
 
-          <div className="absolute top-32 -left-4 md:-left-6 bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float z-30">
-            <Clock className="w-4 h-4 text-accent" />
-            <span className="text-xs font-medium text-ink">30 min</span>
-          </div>
+          <Parallax plane="annotation" inherit className="absolute top-32 -left-4 md:-left-6 z-30">
+            <div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
+              <Clock className="w-4 h-4 text-accent" />
+              <span className="text-xs font-medium text-ink">30 min</span>
+            </div>
+          </Parallax>
 
-          <div className="absolute bottom-2 -right-4 md:-right-6 bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed z-30">
-            <CalendarDays className="w-4 h-4 text-status-success" />
-            <span className="text-xs font-medium text-ink">Live availability</span>
-          </div>
-        </div>
+          <Parallax plane="annotation" inherit className="absolute bottom-2 -right-4 md:-right-6 z-30">
+            <div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
+              <CalendarDays className="w-4 h-4 text-status-success" />
+              <span className="text-xs font-medium text-ink">Live availability</span>
+            </div>
+          </Parallax>
+        </Parallax>
 
         <div className="lg:col-span-7 lg:order-2 order-1 relative z-20">
           <ScrollReveal delay={100}>
@@ -210,18 +215,16 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
 
               <h3 className="font-serif text-xs text-ink uppercase tracking-[0.25em] mb-3">What we cover</h3>
               <ul className="space-y-2.5 text-ink-muted leading-relaxed">
-                <li className="flex gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
-                  The recurring input, handoffs, and finished output
-                </li>
-                <li className="flex gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
-                  Where integrations, specialist roles, and human gates belong
-                </li>
-                <li className="flex gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
-                  Whether a fixed-scope Workflow Blueprint is worth doing
-                </li>
+                {[
+                  'The recurring input, handoffs, and finished output',
+                  'Where integrations, specialist roles, and human gates belong',
+                  'Whether a fixed-scope Workflow Blueprint is worth doing',
+                ].map((item) => (
+                  <Reveal as="li" key={item} enterEnd={0.78} lift={16} className="flex gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    {item}
+                  </Reveal>
+                ))}
               </ul>
             </div>
           </ScrollReveal>

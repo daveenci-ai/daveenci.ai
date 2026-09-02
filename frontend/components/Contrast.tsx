@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Cpu, AlertTriangle } from 'lucide-react';
 import { Section, ScrollReveal, Plate, FolioHeader } from './Shared';
+import { Parallax, Reveal } from './motion/Parallax';
 
 const JOBS = ['CODE', 'RESEARCH', 'STRATEGY', 'DESIGN'];
 
@@ -121,15 +122,15 @@ const GeneralistDiagram: React.FC = () => {
       </svg>
 
       {/* Annotation pills */}
-      <div className="absolute top-2 -left-4 md:-left-6 bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
+      <Parallax plane="annotation" inherit className="absolute top-2 -left-4 md:-left-6"><div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
         <Cpu className="w-4 h-4 text-ink-muted" />
         <span className="text-xs font-medium text-ink">One tool, many handoffs</span>
-      </div>
+      </div></Parallax>
 
-      <div className="absolute bottom-2 -right-4 md:-right-6 bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
+      <Parallax plane="annotation" inherit className="absolute bottom-2 -right-4 md:-right-6"><div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
         <AlertTriangle className="w-4 h-4 text-status-danger" />
         <span className="text-xs font-medium text-ink">No release gate</span>
-      </div>
+      </div></Parallax>
     </Plate>
   );
 };
@@ -158,11 +159,12 @@ const symptoms = [
 const Contrast: React.FC = () => (
   <Section id="contrast" pattern="nodes" overflow={true} className="bg-white/50">
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 xl:gap-32 items-center">
-      <div className="lg:col-span-5 lg:order-1 order-2 relative h-[420px] flex items-center justify-center">
+      {/* Plate plane: the figure lags the copy; its pills lead it (three speeds). */}
+      <Parallax plane="plate" className="lg:col-span-5 lg:order-1 order-2 relative h-[420px] flex items-center justify-center">
         <ScrollReveal delay={300} direction="right" className="w-full flex justify-center">
           <GeneralistDiagram />
         </ScrollReveal>
-      </div>
+      </Parallax>
 
       <div className="lg:col-span-7 lg:order-2 order-1 relative z-20">
         <ScrollReveal delay={100}>
@@ -174,14 +176,14 @@ const Contrast: React.FC = () => (
 
           <ol className="space-y-8 max-w-xl border-l border-ink/10 pl-6">
             {symptoms.map((s) => (
-              <li key={s.n} className="flex gap-5 items-baseline">
+              <Reveal as="li" key={s.n} enterEnd={0.72} className="flex gap-5 items-baseline">
                 <span className="font-serif italic text-accent text-lg tracking-[0.1em] flex-shrink-0 w-6 text-right">{s.n}.</span>
                 <div>
                   <h3 className="font-serif text-xl text-ink mb-2">{s.title}</h3>
                   <p className="font-serif italic text-lg text-ink leading-snug mb-1">{s.lead}</p>
                   <p className="text-ink-muted leading-relaxed">{s.detail}</p>
                 </div>
-              </li>
+              </Reveal>
             ))}
           </ol>
         </ScrollReveal>
