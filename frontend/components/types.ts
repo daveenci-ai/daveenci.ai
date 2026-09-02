@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-export type Page = 'landing' | 'briefings' | 'briefing-detail' | 'who-we-are' | 'calendar' | 'pulsenote' | 'brandos' | 'work' | 'purecode' | 'autopilot' | 'compoundiq' | 'creative-production' | 'events' | 'thesis' | 'privacy' | 'not-found';
+export type Page = 'landing' | 'briefings' | 'briefing-detail' | 'who-we-are' | 'calendar' | 'pulsenote' | 'brandos' | 'work' | 'purecode' | 'autopilot' | 'compoundiq' | 'analytics-os' | 'creative-production' | 'events' | 'thesis' | 'privacy' | 'not-found';
 
 export interface NavLink {
   label: string;
@@ -22,6 +22,8 @@ export interface SectionProps {
   children: React.ReactNode;
   pattern?: 'none' | 'grid' | 'circles' | 'nodes';
   overflow?: boolean;
+  /** Ref to the <section> element (scroll-progress subscribers attach here). */
+  innerRef?: React.Ref<HTMLElement>;
 }
 
 export interface EventCardProps {

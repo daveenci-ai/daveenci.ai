@@ -24,6 +24,7 @@ export default {
                 },
                 'paper-border': 'rgb(var(--color-paper-border) / <alpha-value>)',
                 'pulse-surface': 'rgb(var(--color-pulse-surface) / <alpha-value>)',
+                paper: 'rgb(var(--color-paper) / <alpha-value>)',
                 'status-success': 'rgb(var(--color-status-success) / <alpha-value>)',
                 'status-danger': 'rgb(var(--color-status-danger) / <alpha-value>)',
                 'status-critical': 'rgb(var(--color-status-critical) / <alpha-value>)',

@@ -217,18 +217,49 @@ export const NodeNetworkBackground: React.FC<{ className?: string; colorVar?: st
           }
         }
       });
-      animationFrameId = requestAnimationFrame(animate);
+      if (running) animationFrameId = requestAnimationFrame(animate);
     };
 
     const resizeObserver = new ResizeObserver(() => resize());
     if (container) resizeObserver.observe(container);
 
+    // Run the loop only while the canvas is on screen and the tab is visible.
+    // Four of these sit on the homepage; unthrottled they spent the frame
+    // budget the scroll-linked planes now need. Pausing (not tearing down)
+    // keeps particle positions, so a section scrolling back in resumes
+    // exactly where it stopped.
+    let running = false;
+    let onScreen = false;
+    const start = () => {
+      if (running) return;
+      running = true;
+      animationFrameId = requestAnimationFrame(animate);
+    };
+    const stop = () => {
+      running = false;
+      cancelAnimationFrame(animationFrameId);
+    };
+    const sync = () => {
+      if (onScreen && !document.hidden) start();
+      else stop();
+    };
+    const visibility = typeof IntersectionObserver !== 'undefined'
+      ? new IntersectionObserver(([entry]) => {
+          onScreen = entry.isIntersecting;
+          sync();
+        }, { rootMargin: '10% 0px' })
+      : null;
+    if (visibility) visibility.observe(canvas);
+    else { onScreen = true; sync(); }
+    document.addEventListener('visibilitychange', sync);
+
     resize();
-    animate();
 
     return () => {
       resizeObserver.disconnect();
-      cancelAnimationFrame(animationFrameId);
+      visibility?.disconnect();
+      document.removeEventListener('visibilitychange', sync);
+      stop();
     };
   }, []);
 
@@ -473,8 +504,11 @@ export const BriefingCard: React.FC<BriefingCardProps> = ({ title, description, 
   </a>
 );
 
-export const Section: React.FC<SectionProps> = ({ id, className = '', children, pattern = 'none', overflow = false }) => (
-  <section id={id} className={`relative py-20 md:py-28 px-6 ${overflow ? 'overflow-visible' : 'overflow-hidden'} ${className}`}>
+// `overflow-clip`, not `overflow-hidden`: hidden makes the section a scroll
+// container, which pins any `position: sticky` descendant to the section box
+// instead of the viewport. clip clips identically without that side effect.
+export const Section: React.FC<SectionProps> = ({ id, className = '', children, pattern = 'none', overflow = false, innerRef }) => (
+  <section id={id} ref={innerRef} className={`relative py-20 md:py-28 px-6 ${overflow ? 'overflow-visible' : 'overflow-clip'} ${className}`}>
     {pattern === 'grid' && <GridPattern />}
     {pattern === 'circles' && <VitruvianBackground className="opacity-[0.06]" />}
     {pattern === 'nodes' && <NodeNetworkBackground />}
@@ -588,15 +622,18 @@ export const Plate: React.FC<{
   children: React.ReactNode;
   className?: string;
   tilt?: boolean;
-}> = ({ fig, title, children, className = '', tilt = true }) => {
+  /** Content-sized (no square aspect, tighter padding) — for pinned scenes that must fit one viewport. */
+  compact?: boolean;
+}> = ({ fig, title, children, className = '', tilt = true, compact = false }) => {
   const tiltClasses = tilt ? 'rotate-[-2deg] hover:rotate-0' : '';
+  const sizeClasses = compact ? 'p-5 md:p-6' : 'aspect-square p-6 md:p-10';
   return (
     <Surface
       kind="document"
       raised
-      className={`relative w-full max-w-lg lg:max-w-xl mx-auto aspect-square bg-white/60 backdrop-blur-[2px] border border-ink/10 hover:border-accent/30 p-6 md:p-10 transition-all duration-700 ease-out group ${tiltClasses} ${className}`}
+      className={`relative w-full max-w-lg lg:max-w-xl mx-auto ${sizeClasses} bg-white/60 backdrop-blur-[2px] border border-ink/10 hover:border-accent/30 transition-all duration-700 ease-out group ${tiltClasses} ${className}`}
     >
-      <div className="flex justify-between items-center mb-8 border-b border-ink/10 pb-4">
+      <div className={`flex justify-between items-center ${compact ? 'mb-4 pb-3' : 'mb-8 pb-4'} border-b border-ink/10`}>
         <div className="flex gap-1.5">
           <div className="w-3 h-3 rounded-full bg-ink/15" />
           <div className="w-3 h-3 rounded-full bg-ink/15" />
