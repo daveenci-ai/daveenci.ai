@@ -49,7 +49,9 @@ export interface ScrollProgressOptions {
 
 interface Subscriber {
   el: HTMLElement;
-  opts: Required<Pick<ScrollProgressOptions, 'mode' | 'cssVar' | 'enterEnd'>> & ScrollProgressOptions;
+  opts: Required<Pick<ScrollProgressOptions, 'mode' | 'cssVar' | 'enterEnd'>>;
+  /** Live options, so a caller's latest onProgress is the one that runs. */
+  live: { current: ScrollProgressOptions };
   near: boolean;
   last: number;
 }
@@ -96,7 +98,7 @@ function flush() {
     if (Math.abs(p - sub.last) < 0.0005) return;
     sub.last = p;
     sub.el.style.setProperty(sub.opts.cssVar, p.toFixed(4));
-    sub.opts.onProgress?.(p, sub.el);
+    sub.live.current.onProgress?.(p, sub.el);
   });
 }
 
@@ -179,7 +181,8 @@ export function useScrollProgress<T extends HTMLElement = HTMLElement>(
 
     const sub: Subscriber = {
       el,
-      opts: { ...o, mode, cssVar, enterEnd },
+      opts: { mode, cssVar, enterEnd },
+      live: optsRef,
       near: false,
       last: -1,
     };

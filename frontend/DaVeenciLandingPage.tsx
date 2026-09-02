@@ -33,7 +33,7 @@ const DaVeenciLandingPage: React.FC<DaVeenciLandingPageProps> = ({ onNavigate, a
       <Header onNavigate={onNavigate} currentPage="landing" activeSection={activeSection} />
 
       {/* Opaque page canvas above the footer: the page lifts to reveal it. */}
-      <div className="page-canvas relative z-10">
+      <div className="page-canvas">
         <Hero onNavigate={onNavigate} />
         <ProofRail onNavigate={onNavigate} />
         <WorkPreview onNavigate={onNavigate} />

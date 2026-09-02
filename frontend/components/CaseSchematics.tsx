@@ -71,7 +71,7 @@ const ShootOSSchematic: React.FC = () => (
     <rect x="18" y="26" width="124" height="128" rx="1" stroke={scaffold} strokeWidth="0.8" fill="white" fillOpacity="0.5" />
     {[46, 74, 102].map((y) => <line key={y} x1="18" y1={y} x2="142" y2={y} stroke={scaffold} strokeWidth="0.4" strokeDasharray="2 3" />)}
     {[50, 82, 114].map((x) => <line key={x} x1={x} y1="26" x2={x} y2="154" stroke={scaffold} strokeWidth="0.4" strokeDasharray="2 3" />)}
-    <path id="route" d="M 34 132 C 40 96, 70 100, 72 70 S 110 44, 126 42" stroke={accent} strokeWidth="1.4" strokeDasharray="3 2" />
+    <path d="M 34 132 C 40 96, 70 100, 72 70 S 110 44, 126 42" stroke={accent} strokeWidth="1.4" strokeDasharray="3 2" />
     {[[34, 132], [72, 70], [126, 42]].map(([x, y], i) => (
       <g key={i}>
         <circle cx={x} cy={y} r="4" fill="white" stroke={ink} strokeWidth="1.2" />

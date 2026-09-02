@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { MobileFolioScene, MobileSceneTitle, MobileSceneSubtitle } from './MobileFolioScene';
 import { Reveal } from '../motion/Parallax';
 import { useScrollProgress } from '../../lib/useScrollProgress';
@@ -25,7 +25,8 @@ const RAIL_CYCLE_SECONDS = 14;
 export const MobileMethod: React.FC = () => {
   const railRef = useRef<HTMLOListElement | null>(null);
   // The mote's 14 s loop is driven by scroll instead of the clock: it sits at
-  // whichever station the visitor is reading. Reduced motion keeps the loop.
+  // whichever station the visitor is reading. Under reduced motion the hook
+  // fires once with the resting value, which parks the mote mid-rail.
   const progressRef = useScrollProgress<HTMLOListElement>({
     mode: 'through',
     onProgress: (p) => {
@@ -33,10 +34,10 @@ export const MobileMethod: React.FC = () => {
       if (rail) scrubTimeline(rail, p * RAIL_CYCLE_SECONDS * 0.97);
     },
   });
-  const setRail = (node: HTMLOListElement | null) => {
+  const setRail = useCallback((node: HTMLOListElement | null) => {
     railRef.current = node;
     progressRef(node);
-  };
+  }, [progressRef]);
   return (
   <MobileFolioScene id="method" eyebrow="Folio III — The Method">
     <MobileSceneTitle>

@@ -23,11 +23,13 @@ export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate
     cssVar: '--stack-p',
     onProgress: () => {
       const cards = cardsRef.current;
+      if (cards.length < 2) return;
+      let rect = cards[0].getBoundingClientRect();
       for (let i = 0; i < cards.length - 1; i += 1) {
-        const rect = cards[i].getBoundingClientRect();
         const next = cards[i + 1].getBoundingClientRect();
         const cover = Math.min(1, Math.max(0, (rect.bottom - next.top) / Math.max(rect.height, 1)));
         cards[i].style.setProperty('--cover', cover.toFixed(3));
+        rect = next;
       }
     },
   });
@@ -71,9 +73,9 @@ export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate
           className="stack-card block w-full text-left"
           style={{ ['--stack-index' as string]: i }}
         >
-          <MobileScenePlate figLabel={item.label} className="p-4 !bg-paper shadow-lg shadow-ink/10">
+          <MobileScenePlate figLabel={item.label} className="p-4 !bg-paper !backdrop-blur-none shadow-lg shadow-ink/10">
             <div className="flex items-baseline justify-between gap-3 mb-3">
-              <span className="font-serif italic text-[11px] text-ink-muted">{String(i + 1).padStart(2, '0')} / {String(featuredWork.length).padStart(2, '0')}</span>
+              <span aria-hidden="true" className="font-serif italic text-[11px] text-ink-muted">{String(i + 1).padStart(2, '0')} / {String(featuredWork.length).padStart(2, '0')}</span>
               <span className={`font-mono text-[8px] uppercase tracking-[0.14em] text-right ${workStatusClass(item.statusTone)}`}>{item.status}</span>
             </div>
             <h3 className="font-serif text-[1.65rem] leading-none text-ink mb-2">{item.title}</h3>

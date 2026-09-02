@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { Cpu, Activity } from 'lucide-react';
 import { Section, ScrollReveal, Button, VitruvianBackground, PageHero, Plate, SectionDivider } from './Shared';
 import { useScrollProgress, prefersReducedMotion } from '../lib/useScrollProgress';
@@ -114,25 +114,30 @@ function usePointerTilt(sectionRef: React.RefObject<HTMLElement | null>, plateRe
     if (prefersReducedMotion() || !window.matchMedia('(pointer: fine)').matches) return;
 
     let frame = 0;
-    let nextX = 0;
-    let nextY = 0;
+    let pointer: { x: number; y: number } | null = null;
+    // Layout is read inside the frame, never in the event handler.
     const apply = () => {
       frame = 0;
-      plate.style.setProperty('--tilt-x', `${nextX.toFixed(2)}deg`);
-      plate.style.setProperty('--tilt-y', `${nextY.toFixed(2)}deg`);
+      if (!pointer) {
+        plate.style.setProperty('--tilt-x', '0deg');
+        plate.style.setProperty('--tilt-y', '0deg');
+        return;
+      }
+      const rect = plate.getBoundingClientRect();
+      const dx = (pointer.x - (rect.left + rect.width / 2)) / Math.max(rect.width, 1);
+      const dy = (pointer.y - (rect.top + rect.height / 2)) / Math.max(rect.height, 1);
+      // ±5° — enough to read as a physical card, not enough to distort the figure.
+      const tiltY = Math.max(-1, Math.min(1, dx)) * 5;
+      const tiltX = Math.max(-1, Math.min(1, -dy)) * 5;
+      plate.style.setProperty('--tilt-x', `${tiltX.toFixed(2)}deg`);
+      plate.style.setProperty('--tilt-y', `${tiltY.toFixed(2)}deg`);
     };
     const onMove = (event: PointerEvent) => {
-      const rect = plate.getBoundingClientRect();
-      const dx = (event.clientX - (rect.left + rect.width / 2)) / Math.max(rect.width, 1);
-      const dy = (event.clientY - (rect.top + rect.height / 2)) / Math.max(rect.height, 1);
-      // ±5° — enough to read as a physical card, not enough to distort the figure.
-      nextY = Math.max(-1, Math.min(1, dx)) * 5;
-      nextX = Math.max(-1, Math.min(1, -dy)) * 5;
+      pointer = { x: event.clientX, y: event.clientY };
       if (!frame) frame = window.requestAnimationFrame(apply);
     };
     const onLeave = () => {
-      nextX = 0;
-      nextY = 0;
+      pointer = null;
       if (!frame) frame = window.requestAnimationFrame(apply);
     };
     section.addEventListener('pointermove', onMove, { passive: true });
@@ -155,10 +160,10 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   const sectionEl = useRef<HTMLElement | null>(null);
   const plateEl = useRef<HTMLDivElement | null>(null);
   const progressRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
-  const sectionRef = (node: HTMLElement | null) => {
+  const sectionRef = useCallback((node: HTMLElement | null) => {
     sectionEl.current = node;
     progressRef(node);
-  };
+  }, [progressRef]);
   usePointerTilt(sectionEl, plateEl);
 
   return (

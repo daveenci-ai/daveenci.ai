@@ -20,11 +20,12 @@ interface AnalyticsOSPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
+// Design targets of the scoped engagement, not measured results.
 const proof = [
   { value: '1', label: 'warehouse, client-owned' },
-  { value: '3', label: 'sources reconciled daily' },
-  { value: '±2%', label: 'reconciliation tolerance' },
-  { value: '0', label: 'names or health data stored' },
+  { value: '3', label: 'sources to reconcile daily' },
+  { value: '±2%', label: 'reconciliation tolerance, by acceptance test' },
+  { value: '0', label: 'names or health data, by design' },
   { value: '12', label: 'packages across 3 tiers' },
 ];
 
@@ -166,7 +167,7 @@ const AnalyticsOSPageDesktop: React.FC<AnalyticsOSPageProps> = ({ onNavigate }) 
     </Section>
 
     <CaseEvidence
-      title="What the system reads, reconciles, and hands back."
+      title="What the system is designed to read, reconcile, and hand back."
       subtitle="The same evidence standard every DaVeenci case exposes: input, the manual workflow it replaces, systems, gates, finished output, exceptions, and current status."
       items={analyticsOSEvidence}
     />
@@ -200,7 +201,7 @@ const AnalyticsOSPageDesktop: React.FC<AnalyticsOSPageProps> = ({ onNavigate }) 
           <h2 className="font-serif text-4xl md:text-5xl text-ink mb-6">Which campaign is earning its spend?</h2>
           <p className="font-sans text-lg text-ink-muted leading-relaxed mb-8">If the answer lives in three spreadsheets and one person's judgment, that is the workflow to bring. Thirty minutes, no deck.</p>
           <div className="flex justify-center">
-            <Button variant="primary" analytics={{ cta_id: 'bring_spreadsheet', surface: 'case_footer', from_page: 'analytics-os', destination: '/calendar' }} onClick={() => onNavigate('calendar')} className="text-[16px] px-8 py-4">Bring the spreadsheet you don't trust</Button>
+            <Button variant="primary" analytics={{ cta_id: 'bring_spreadsheet', surface: 'case_closing', from_page: 'analytics-os', destination: '/calendar' }} onClick={() => onNavigate('calendar')} className="text-[16px] px-8 py-4">Bring the spreadsheet you don't trust</Button>
           </div>
         </ScrollReveal>
       </div>
@@ -236,7 +237,7 @@ const MobileAnalyticsOSPage: React.FC<AnalyticsOSPageProps> = ({ onNavigate }) =
       <div className="border border-ink/10 bg-white/60 rounded-sm p-4 mb-6">
         <CaseSchematic id="analytics-os" className="aspect-[5/3] w-full" />
       </div>
-      <MobileButton onClick={() => onNavigate('calendar')}>Bring the spreadsheet you don't trust</MobileButton>
+      <MobileButton analytics={{ cta_id: 'bring_spreadsheet', surface: 'case_hero', from_page: 'analytics-os', destination: '/calendar' }} onClick={() => onNavigate('calendar')}>Bring the spreadsheet you don't trust</MobileButton>
       <p className="mt-5 font-sans text-[13px] text-ink-muted leading-relaxed">
         Designed for a direct-to-consumer telehealth brand. The client is named once they consent; until then this page describes the system.
       </p>
@@ -261,7 +262,7 @@ const MobileAnalyticsOSPage: React.FC<AnalyticsOSPageProps> = ({ onNavigate }) =
 
     <CaseEvidence
       compact
-      title="What the system reads, reconciles, and hands back."
+      title="What the system is designed to read, reconcile, and hand back."
       subtitle="Input, the manual workflow it replaces, systems, gates, finished output, exceptions, and current status."
       items={analyticsOSEvidence}
     />
@@ -281,7 +282,7 @@ const MobileAnalyticsOSPage: React.FC<AnalyticsOSPageProps> = ({ onNavigate }) =
     <section className="px-6 py-12 text-center">
       <h2 className="font-serif text-[2rem] leading-[1.1] text-ink mb-4">Which campaign is earning its spend?</h2>
       <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-6">If the answer lives in three spreadsheets, that is the workflow to bring.</p>
-      <MobileButton onClick={() => onNavigate('calendar')}>Bring the spreadsheet you don't trust</MobileButton>
+      <MobileButton analytics={{ cta_id: 'bring_spreadsheet', surface: 'case_closing', from_page: 'analytics-os', destination: '/calendar' }} onClick={() => onNavigate('calendar')}>Bring the spreadsheet you don't trust</MobileButton>
     </section>
 
     <MobileNextCase from="analytics-os" to="compoundiq" title="CompoundIQ" hook="Verdicts with probabilities, gates before actions — applied to trading research." onNavigate={onNavigate} />

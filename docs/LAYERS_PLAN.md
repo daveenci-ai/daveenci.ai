@@ -72,10 +72,13 @@ All layers in §3 are on the branch, desktop and mobile. Verification as run in 
 |---|---|
 | `tsc --noEmit`, `eslint .` | clean, zero warnings |
 | `npm run build` incl. prerender step | passes; hero shell 15.1 kB (was 14.8) |
-| Landing chunk | 113.7 kB gz (was 107.5) — +6.2 kB for the hook, primitives, four schematics and the principals spread |
-| Lighthouse mobile, production build, same machine | performance 75 → **83**, LCP 2.8 s → **2.4 s**, TBT 610 → 480 ms, Speed Index 4.2 → 2.2 s, CLS 0 → 0.007; a11y / best-practices / SEO 100 unchanged. The gain is mostly the four canvas loops no longer running off-screen. |
+| Landing chunk | 113.8 kB gz (was 107.5) — +6.3 kB for the hook, primitives, four schematics and the principals spread; CSS 15.6 kB (was 14.4) |
+| Lighthouse mobile, production build, same machine, two runs | performance 75 → **88**, LCP 2.8 s → **2.3–2.4 s**, TBT 610 → **330–340 ms**, Speed Index 4.2 → 2.2 s, CLS 0 → 0–0.007; a11y / best-practices / SEO 100 unchanged. The gain is mostly the four canvas loops no longer running off-screen. |
+| Independent review pass | one blocker (a mobile stacking context that trapped fixed dialogs under the top bar) and twelve should-fixes — all applied in the fifth commit: reduced-motion cascade order, no SMIL unpause on mount, footer reveal only where the footer fits, stacking fallbacks below 1024px / on short phones, keyboard focus on covered cards, overlay dimming instead of `filter`, no fixed background on a non-root element, live `onProgress`, mobile CTA analytics, design targets worded as targets |
 | Screenshots | 1440×900 and 390×844 at 45 %-viewport steps through the whole page; reduced-motion run at both widths renders every scene static and fully readable |
 | Routes | `/analytics-os` (desktop + mobile), `/codex/governed-agent-operations` render; header/footer/sitemap/metadata updated |
+
+The footer reveal is desktop-only: on mobile the footer is often taller than the viewport, and mobile pages render fixed dialogs inside `<main>` that an opaque canvas would trap.
 
 What changed on the homepage, in order: hero planes + pointer tilt → ProofRail rides over the hero → four stacking Work cards with schematics → Contrast (plate/pill planes, progressive list) → pinned, scroll-scrubbed Method → one Principals spread with a sticky portrait swap (replaces FounderBlock + PartnerBlock, now deleted) → Advantage unchanged → Controls mirrored to plate-right → Offers as a sticky-header ladder with the fourth tier → Booking planes → Codex teaser leads with No. 046 → footer revealed from beneath the page. Mobile mirrors every scene except pinning (stacking cards, scrubbed rail, inline principals, footer reveal).
 

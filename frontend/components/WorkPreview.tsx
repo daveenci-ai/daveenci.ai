@@ -36,17 +36,19 @@ const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => {
     return () => observer.disconnect();
   }, []);
 
-  // One subscriber for the whole stack: four rect reads per frame, no state.
+  // One subscriber for the whole stack: one rect read per card per frame, no state.
   const stackRef = useScrollProgress<HTMLDivElement>({
     mode: 'through',
     cssVar: '--stack-p',
     onProgress: () => {
       const cards = cardsRef.current;
+      if (cards.length < 2) return;
+      let rect = cards[0].getBoundingClientRect();
       for (let i = 0; i < cards.length - 1; i += 1) {
-        const rect = cards[i].getBoundingClientRect();
         const next = cards[i + 1].getBoundingClientRect();
         const cover = Math.min(1, Math.max(0, (rect.bottom - next.top) / Math.max(rect.height, 1)));
         cards[i].style.setProperty('--cover', cover.toFixed(3));
+        rect = next;
       }
     },
   });
@@ -83,14 +85,14 @@ const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => {
                   <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">{example.label}</span>
                   <span className={`font-mono text-[8px] uppercase tracking-[0.14em] text-right ${workStatusClass(example.statusTone)}`}>{example.status}</span>
                 </div>
-                <span className="font-serif italic text-sm text-ink-muted mb-2">{String(i + 1).padStart(2, '0')} / {String(featuredWork.length).padStart(2, '0')}</span>
+                <span aria-hidden="true" className="font-serif italic text-sm text-ink-muted mb-2">{String(i + 1).padStart(2, '0')} / {String(featuredWork.length).padStart(2, '0')}</span>
                 <h3 className="font-serif text-3xl md:text-4xl lg:text-5xl text-ink mb-5 leading-[1.05] group-hover:text-accent transition-colors">{example.title}</h3>
                 <p className="font-serif text-lg md:text-xl text-ink-muted leading-relaxed mb-8 max-w-xl">{example.previewBlurb}</p>
                 <span className="mt-auto font-sans text-sm font-medium text-accent-strong inline-flex items-center gap-1 group-hover:gap-2 transition-all">Read the case <span aria-hidden="true">→</span></span>
               </div>
               <div className="lg:col-span-6">
                 <div className="relative bg-white/70 border border-ink/10 rounded-sm p-5 md:p-6" style={{ boxShadow: 'var(--shadow-widget-document)' }}>
-                  <div className="flex justify-between items-center mb-4 pb-3 border-b border-ink/10">
+                  <div aria-hidden="true" className="flex justify-between items-center mb-4 pb-3 border-b border-ink/10">
                     <div className="flex gap-1.5">
                       <div className="w-2.5 h-2.5 rounded-full bg-ink/15" />
                       <div className="w-2.5 h-2.5 rounded-full bg-ink/15" />

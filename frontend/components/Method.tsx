@@ -274,27 +274,45 @@ const SpecialistTrack: React.FC = () => (
  * reduced motion fall back to the original autoplay in normal flow.
  */
 const FORWARD_PASS_SECONDS = 15.5;
-const PIN_QUERY = '(min-width: 768px) and (min-height: 720px)';
+// Three compact plates plus the header need ~780px; below that the scene
+// autoplays in flow instead of pinning.
+const PIN_QUERY = '(min-width: 1024px) and (min-height: 800px)';
+
+const canPin = () =>
+  typeof window !== 'undefined'
+  && typeof window.matchMedia === 'function'
+  && window.matchMedia(PIN_QUERY).matches
+  && !prefersReducedMotion();
 
 const Method: React.FC = () => {
   const stageRef = useRef<HTMLDivElement | null>(null);
-  const [pinnable, setPinnable] = useState(false);
+  // Lazy initialiser: decide before the first paint so the scene does not
+  // mount in flow and remount inside Pinned a frame later.
+  const [pinnable, setPinnable] = useState(canPin);
+  const wasPinnable = useRef(pinnable);
 
   useEffect(() => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return;
     const media = window.matchMedia(PIN_QUERY);
-    const sync = () => setPinnable(media.matches && !prefersReducedMotion());
-    sync();
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setPinnable(canPin());
     media.addEventListener('change', sync);
-    return () => media.removeEventListener('change', sync);
+    reduced.addEventListener('change', sync);
+    return () => {
+      media.removeEventListener('change', sync);
+      reduced.removeEventListener('change', sync);
+    };
   }, []);
 
-  // When the scene stops being pinned (resize, preference change), hand the
-  // timelines back to the clock so the plates keep moving.
+  // Only when the scene stops being pinned (resize, preference change) are the
+  // timelines handed back to the clock. Never on mount: that would unpause
+  // SMIL that installReducedMotionSmil has just paused.
   useEffect(() => {
-    if (pinnable) return;
-    const stage = stageRef.current;
-    if (stage) releaseTimeline(stage);
+    if (wasPinnable.current && !pinnable && !prefersReducedMotion()) {
+      const stage = stageRef.current;
+      if (stage) releaseTimeline(stage);
+    }
+    wasPinnable.current = pinnable;
   }, [pinnable]);
 
   const scrub = useCallback((p: number) => {
@@ -337,7 +355,7 @@ const Method: React.FC = () => {
   );
 
   return (
-    <Section id="method" pattern="circles" overflow={true} className={pinnable ? 'py-0 md:py-0' : ''}>
+    <Section id="method" pattern="circles" overflow={true} className={pinnable ? '!py-0' : ''}>
       {pinnable ? (
         <Pinned length={2.4} top="0px" onProgress={scrub} stickyClassName="pt-20 pb-4">
           {scene}

@@ -23,7 +23,7 @@ export const analyticsOSEvidence: CaseEvidenceItem[] = [
   {
     label: 'Systems integrated',
     value: 'Meta Marketing API, CRM, sheets, site events',
-    detail: 'Pulled into one client-owned Postgres warehouse every day. Customers appear as pseudonymous IDs; there are no names or emails in the analytics store.',
+    detail: 'To be pulled into one client-owned Postgres warehouse every day. Customers appear as pseudonymous IDs; names and emails never enter the analytics store.',
     icon: Database,
   },
   {
@@ -40,8 +40,8 @@ export const analyticsOSEvidence: CaseEvidenceItem[] = [
   },
   {
     label: 'Exceptions handled',
-    value: 'Broken tags and runaway spend alert within the hour',
-    detail: 'A deliberately broken tag raises an alert in under an hour; spend running ahead of plan or a funnel step dropping does the same, instead of surfacing at month-end.',
+    value: 'Broken tags and runaway spend must alert within the hour',
+    detail: 'The acceptance test: a deliberately broken tag raises an alert in under an hour, and spend running ahead of plan or a funnel step dropping does the same — instead of surfacing at month-end.',
     icon: Gauge,
   },
   {

@@ -234,6 +234,7 @@ body {
   position: sticky;
   top: var(--pin-top, 0px);
   height: calc(100vh - var(--pin-top, 0px));
+  height: calc(100svh - var(--pin-top, 0px));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -245,10 +246,21 @@ body {
   position: sticky;
   top: calc(var(--stack-top, 6rem) + var(--stack-index, 0) * var(--stack-step, 0.9rem));
   transform: translate3d(0, 0, 0) scale(calc(1 - var(--cover, 0) * 0.06));
-  filter: brightness(calc(1 - var(--cover, 0) * 0.22));
   transform-origin: 50% 0%;
-  will-change: transform, filter;
+  will-change: transform;
 }
+/* Dimming is a tinted overlay, not filter(): one compositor layer per card. */
+.stack-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: rgb(var(--color-ink) / calc(var(--cover, 0) * 0.22));
+}
+/* A covered card that receives keyboard focus comes forward so the focus ring is visible. */
+.stack-card:focus-visible { z-index: 1; transform: none; }
+.stack-card:focus-visible::after { background: transparent; }
 
 /* Hero planes. `--p` on the hero section runs 0 → 1 as it scrolls out
    (mode: exit), so every rule here is identity at first paint. */
@@ -266,34 +278,27 @@ body {
   transition: transform 300ms ease-out;
 }
 
-/* Page canvas: the parchment layers used to live on <body>; they move here so
-   the page is opaque and can lift to reveal the footer beneath it. */
+/* Page canvas (desktop landing): an opaque sheet above the footer so the page
+   can lift to reveal it. The parchment gradient stays viewport-locked through a
+   fixed ::before that the canvas clips — a fixed background-attachment on a
+   non-root element would force main-thread scrolling. <body> keeps its own
+   copy of the gradient for every other page. */
 .page-canvas {
+  position: relative;
   background-color: rgb(var(--color-base));
+  clip-path: inset(0);
+}
+.page-canvas::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background-image:
     radial-gradient(ellipse 90% 100% at 50% 45%, transparent 55%, rgba(90, 70, 45, 0.12) 100%),
     radial-gradient(ellipse 100% 110% at 50% 45%, #FCF6E5 0%, #F6ECD2 50%, #EADFBD 100%);
   background-blend-mode: multiply, normal;
   background-repeat: no-repeat, no-repeat;
-  background-attachment: fixed, fixed;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .plane,
-  .reveal-p,
-  .tilt-plate,
-  .hero-scaffold,
-  .hero-plate,
-  .hero-pill,
-  .hero-copy { transform: none !important; opacity: 1; }
-  .pinned { height: auto; }
-  .pinned-stage { position: static; height: auto; }
-  .stack-card { position: relative; top: auto; transform: none; filter: none; }
-  .principal-portraits { position: static; }
-  .principal-portrait-a, .principal-portrait-b { opacity: 1; transform: none; }
-  .principal-portrait-b { position: relative; margin-top: 2rem; }
-  .principal-scaffold-a, .principal-scaffold-b { opacity: 1; }
-  .footer-reveal { position: static; }
 }
 
 /* Pinned Method scene: the folio header is compact so header + rail + plates
@@ -326,15 +331,50 @@ body {
 }
 
 /* Footer reveal: the page canvas is opaque and sits above the footer, which
-   is pinned to the viewport bottom; the page lifts away to reveal it. */
-.footer-reveal { position: sticky; bottom: 0; z-index: 0; }
+   is pinned to the viewport bottom; the page lifts away to reveal it. A footer
+   taller than the viewport would never show its top, so short windows get the
+   plain footer. */
+.footer-reveal { position: sticky; bottom: 0; z-index: -1; }
+@media (max-height: 46rem) {
+  .footer-reveal { position: static; }
+}
 
 /* Work stack: room between cards decides how long each case is read before the
    next one slides over it. */
 .work-stack { position: relative; }
 .work-stack > .stack-card + .stack-card { margin-top: 14vh; }
 .work-stack-mobile > .stack-card + .stack-card { margin-top: 10vh; }
+/* Below the two-column breakpoint a desktop card is taller than the space
+   under the sticky offset; same for short phones. Plain flow there. */
+@media (max-width: 1023px) {
+  .work-stack:not(.work-stack-mobile) > .stack-card { position: relative; top: auto; transform: none; }
+  .work-stack:not(.work-stack-mobile) > .stack-card::after { background: transparent; }
+}
+@media (max-height: 700px) {
+  .work-stack-mobile > .stack-card { position: relative; top: auto; transform: none; }
+  .work-stack-mobile > .stack-card::after { background: transparent; }
+}
 
 /* Codex articles: the content column uses `prose` but the typography plugin is
    not installed; give consecutive paragraphs their breathing room. */
 .prose p + p, .prose p + div, .prose div + p, .prose p + ul { margin-top: 1rem; }
+
+/* Reduced motion — last so it wins every rule above at equal specificity. */
+@media (prefers-reduced-motion: reduce) {
+  .plane,
+  .reveal-p,
+  .tilt-plate,
+  .hero-scaffold,
+  .hero-plate,
+  .hero-pill,
+  .hero-copy { transform: none !important; opacity: 1; }
+  .pinned { height: auto; }
+  .pinned-stage { position: static; height: auto; }
+  .stack-card { position: relative; top: auto; transform: none; }
+  .stack-card::after { background: transparent; }
+  .principal-portraits { position: static; }
+  .principal-portrait-a, .principal-portrait-b { opacity: 1; transform: none; }
+  .principal-portrait-b { position: relative; margin-top: 2rem; }
+  .principal-scaffold-a, .principal-scaffold-b { opacity: 1; }
+  .footer-reveal { position: static; }
+}
