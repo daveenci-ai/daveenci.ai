@@ -15,6 +15,9 @@ import { MobileNextCase } from './MobileNextCase';
 import { MobileSubscribe } from './MobileSubscribe';
 import { MobileScenePlate } from './MobileScenePlate';
 import { MobileShell } from './MobileShell';
+import { Reveal } from '../motion/Parallax';
+import { Stack } from '../motion/Stack';
+import { useScrollProgress } from '../../lib/useScrollProgress';
 import type { Page } from '../types';
 import { CaseEvidence } from '../CaseEvidence';
 import { shootosEvidence } from '../../content/shootosEvidence';
@@ -57,12 +60,16 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
     window.scrollTo(0, 0);
   }, []);
 
+  // Hero planes: copy settles, the figure lags as the hero scrolls out.
+  const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
+
   return (
     <MobileShell onNavigate={onNavigate}>
-      <section className="px-6 pt-10 pb-10">
+      <section ref={heroRef} className="px-6 pt-10 pb-10">
         <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.22em] uppercase text-accent bg-accent/5 border border-accent/10 rounded-sm px-2.5 py-1">
           ShootOS · A specialist practice by DaVeenci
         </div>
+        <div className="hero-copy">
         <h1 className="font-serif text-[2.6rem] leading-[1.04] text-ink mb-5 tracking-tight">
           From order email
           <br />
@@ -71,6 +78,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
         <p className="font-serif text-[16px] text-ink-muted leading-[1.6] mb-7">
           ShootOS combines reusable real-estate-media knowledge with AutoPilot, the governed operations system DaVeenci built for f8 Real Estate Media.
         </p>
+        </div>
         {/* Client credit — parity with the desktop tree. */}
         <div className="mb-7">
           <div className="flex items-center gap-3 mb-4">
@@ -107,7 +115,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
           See the workflow
         </MobileButton>
 
-        <div className="mt-8">
+        <div className="mt-8 hero-plate">
           <MobileScenePlate figLabel="Fig. i · Control loop">
             <div className="space-y-3">
               {mobileWorkflow.map((step, index) => (
@@ -160,15 +168,18 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
           <br />
           <span className="italic text-ink-muted/70">One closed loop.</span>
         </h2>
-        <div className="space-y-5">
+        {/* One stage at a time: cards stack under the top bar, as on the homepage. */}
+        <Stack compact>
           {mobileWorkflow.map((step) => (
-            <MobileScenePlate key={step.number} figLabel={step.number}>
-              <step.Icon className="w-7 h-7 text-accent mb-5" strokeWidth={1.4} />
-              <h3 className="font-serif text-2xl text-ink mb-3">{step.title}</h3>
-              <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{step.body}</p>
-            </MobileScenePlate>
+            <div key={step.number} className="stack-card">
+              <MobileScenePlate figLabel={step.number} className="!bg-paper !backdrop-blur-none shadow-lg shadow-ink/10">
+                <step.Icon className="w-7 h-7 text-accent mb-5" strokeWidth={1.4} />
+                <h3 className="font-serif text-2xl text-ink mb-3">{step.title}</h3>
+                <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{step.body}</p>
+              </MobileScenePlate>
+            </div>
           ))}
-        </div>
+        </Stack>
       </section>
 
       <section className="px-6 py-12 bg-alt/25">
@@ -190,11 +201,11 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
           ].map(([Icon, title, body]) => {
             const ItemIcon = Icon as React.ComponentType<{ className?: string; strokeWidth?: number }>;
             return (
-              <div key={title as string} className="bg-white/65 border border-ink/10 p-5 rounded-sm">
+              <Reveal key={title as string} enterEnd={0.86} lift={16} className="bg-white/65 border border-ink/10 p-5 rounded-sm">
                 <ItemIcon className="w-6 h-6 text-accent mb-4" strokeWidth={1.4} />
                 <h3 className="font-serif text-xl text-ink mb-2">{title as string}</h3>
                 <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{body as string}</p>
-              </div>
+              </Reveal>
             );
           })}
         </div>

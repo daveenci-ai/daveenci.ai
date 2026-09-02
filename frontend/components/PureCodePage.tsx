@@ -7,6 +7,8 @@ import { Section, SectionHeader, ScrollReveal, PageHero, Button, VitruvianBackgr
 import { BookingWidget } from './BookingWidget';
 import AntonSketch from '../images/Anton_Sketch.webp';
 import { useIsMobile } from './mobile/useIsMobile';
+import { Parallax, Reveal } from './motion/Parallax';
+import { useScrollProgress } from '../lib/useScrollProgress';
 import { MobilePureCodePage } from './mobile/MobilePureCodePage';
 import { track } from '../lib/analytics';
 import { useCaseEngaged } from '../lib/useCaseEngaged';
@@ -856,16 +858,20 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  // Hero planes: `--p` runs 0 → 1 as the hero scrolls out (see index.css).
+  const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
 
   return (
-    <div className="flex flex-col w-full overflow-x-hidden min-h-screen">
+    <div className="flex flex-col w-full overflow-x-clip min-h-screen">
       <Header onNavigate={onNavigate} currentPage="purecode" />
 
       {/* Hero */}
-      <Section className="pt-32 pb-20 md:pt-40 md:pb-28 min-h-[90vh] flex items-center">
-        <VitruvianBackground className="opacity-[0.08]" />
+      <Section className="pt-32 pb-20 md:pt-40 md:pb-28 min-h-[90vh] flex items-center" overflow innerRef={heroRef}>
+        <div className="hero-scaffold absolute inset-0 pointer-events-none" aria-hidden="true">
+          <VitruvianBackground className="opacity-[0.08]" />
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          <div className="lg:col-span-6 relative z-20">
+          <div className="lg:col-span-6 relative z-20 hero-copy">
             <ScrollReveal immediate>
               <PageHero
                 eyebrow={
@@ -886,7 +892,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
             </ScrollReveal>
           </div>
 
-          <div className="lg:col-span-6 relative flex items-center justify-center">
+          <div className="lg:col-span-6 relative flex items-center justify-center hero-plate">
             <ScrollReveal delay={500} direction="left" className="w-full flex justify-center">
               <PureCodeHeroDiagram />
             </ScrollReveal>
@@ -900,9 +906,11 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
 
         {/* Row 1 — Specialists (demo L, copy R) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <ScrollReveal delay={200}>
-            <SpecialistRoster />
-          </ScrollReveal>
+          <Parallax plane="plate">
+            <ScrollReveal delay={200}>
+              <SpecialistRoster />
+            </ScrollReveal>
+          </Parallax>
           <ScrollReveal delay={400} direction="left">
             <div>
               <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">13 specialists, not a generalist</h3>
@@ -911,10 +919,10 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
               </p>
               <ul className="space-y-3">
                 {['One specialist per concern — no context loss across files', 'Controller routes the request, specialists own their outputs', 'Sentinel validates before anything reaches a human', 'Every handoff logged — inspectable and replayable'].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-ink-muted">
+                  <Reveal as="li" key={i} enterEnd={0.78} lift={14} className="flex items-start gap-3 text-ink-muted">
                     <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
                     <span className="font-sans">{item}</span>
-                  </li>
+                  </Reveal>
                 ))}
               </ul>
             </div>
@@ -931,24 +939,28 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
               </p>
               <ul className="space-y-3">
                 {['Design proposal shown as a file-by-file plan', 'You approve the architecture, not a finished diff', 'Impossible to drift from scope — scope is the gate', 'Changes after Gate 2 re-trigger the review'].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-ink-muted">
+                  <Reveal as="li" key={i} enterEnd={0.78} lift={14} className="flex items-start gap-3 text-ink-muted">
                     <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
                     <span className="font-sans">{item}</span>
-                  </li>
+                  </Reveal>
                 ))}
               </ul>
             </div>
           </ScrollReveal>
-          <ScrollReveal delay={400} direction="left">
-            <BlueprintBuilder />
-          </ScrollReveal>
+          <Parallax plane="plate">
+            <ScrollReveal delay={400} direction="left">
+              <BlueprintBuilder />
+            </ScrollReveal>
+          </Parallax>
         </div>
 
         {/* Row 3 — Validation (demo L, copy R) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-20">
-          <ScrollReveal delay={200}>
-            <ValidationRunner />
-          </ScrollReveal>
+          <Parallax plane="plate">
+            <ScrollReveal delay={200}>
+              <ValidationRunner />
+            </ScrollReveal>
+          </Parallax>
           <ScrollReveal delay={400} direction="left">
             <div>
               <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">Validation that actually validates</h3>
@@ -957,10 +969,10 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
               </p>
               <ul className="space-y-3">
                 {['Runs your repo\'s actual test / typecheck / lint / audit commands', 'Red blocks the PR — specialists iterate until green', 'Gate 3 arrives with passing checks + a full audit log', 'One-click replay of every agent action, every gate decision'].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-ink-muted">
+                  <Reveal as="li" key={i} enterEnd={0.78} lift={14} className="flex items-start gap-3 text-ink-muted">
                     <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
                     <span className="font-sans">{item}</span>
-                  </li>
+                  </Reveal>
                 ))}
               </ul>
             </div>
@@ -983,7 +995,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
           {USE_CASES.map((uc, i) => {
             const Icon = uc.icon;
             return (
-              <ScrollReveal key={uc.title} delay={i * 120} className="h-full">
+              <Reveal key={uc.title} enterEnd={0.84 - i * 0.03} lift={30} className="h-full">
                 <div className="bg-white border border-ink/10 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group text-center h-full flex flex-col items-center rounded-lg">
                   <div className="relative w-44 h-44 mx-auto mb-6 rounded-full bg-pulse-surface border border-ink/10 group-hover:border-accent/30 transition-colors overflow-hidden flex items-center justify-center">
                     <svg className="absolute inset-0 w-full h-full" viewBox="0 0 176 176" fill="none">
@@ -996,7 +1008,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
                   <h3 className="font-serif text-xl text-ink mb-2">{uc.title}</h3>
                   <p className="font-sans text-sm text-ink-muted leading-relaxed flex-1">{uc.body}</p>
                 </div>
-              </ScrollReveal>
+              </Reveal>
             );
           })}
         </div>

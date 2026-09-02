@@ -2,6 +2,7 @@ import React from 'react';
 import type { LucideIcon } from 'lucide-react';
 import { Activity, AlertTriangle, Boxes, FileInput, PackageCheck, ShieldCheck, Workflow } from 'lucide-react';
 import { ScrollReveal, Section, SectionHeader } from './Shared';
+import { Reveal } from './motion/Parallax';
 
 export interface CaseEvidenceItem {
   label: string;
@@ -24,8 +25,7 @@ const EvidenceGrid: React.FC<{ items: CaseEvidenceItem[]; compact: boolean }> = 
   <div className={`grid grid-cols-1 ${compact ? 'gap-4' : 'md:grid-cols-2 gap-5'}`}>
     {items.map((item, index) => {
       const Icon = item.icon || fallbackIcons[index % fallbackIcons.length];
-      return (
-        <ScrollReveal key={item.label} delay={compact ? 0 : index * 60} immediate={compact}>
+      const card = (
           <div className="h-full bg-white/60 border border-ink/10 p-5 md:p-7 rounded-sm">
             <div className="flex items-start gap-4">
               <Icon aria-hidden="true" className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" strokeWidth={1.5} />
@@ -36,7 +36,13 @@ const EvidenceGrid: React.FC<{ items: CaseEvidenceItem[]; compact: boolean }> = 
               </div>
             </div>
           </div>
-        </ScrollReveal>
+      );
+      // Desktop: each ledger entry rises with the scroll (reversible), the
+      // right-hand column a beat behind the left. Mobile stays immediate.
+      return compact ? (
+        <ScrollReveal key={item.label} immediate>{card}</ScrollReveal>
+      ) : (
+        <Reveal key={item.label} enterEnd={0.8 - (index % 2) * 0.04} lift={24} className="h-full">{card}</Reveal>
       );
     })}
   </div>

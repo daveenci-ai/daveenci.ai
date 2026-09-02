@@ -19,6 +19,9 @@ import { MobileSubscribe } from './MobileSubscribe';
 import { MobileGateSimulator } from './MobileGateSimulator';
 import { MobileScenePlate } from './MobileScenePlate';
 import { MobileShell } from './MobileShell';
+import { Reveal } from '../motion/Parallax';
+import { Stack } from '../motion/Stack';
+import { useScrollProgress } from '../../lib/useScrollProgress';
 import type { Page } from '../types';
 
 interface MobileCompoundIQPageProps {
@@ -77,15 +80,19 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
     window.scrollTo(0, 0);
   }, []);
 
+  // Hero planes: copy settles, the figure lags as the hero scrolls out.
+  const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
+
   return (
     <MobileShell onNavigate={onNavigate}>
-      <section className="px-6 pt-10 pb-10">
+      <section ref={heroRef} className="px-6 pt-10 pb-10">
         <div className="inline-block mb-3 font-mono text-[9px] tracking-[0.2em] uppercase text-amber-800 bg-amber-50/75 border border-amber-700/15 rounded-sm px-2.5 py-1">
           Build in public · In development · Paper only
         </div>
         <div className="font-mono text-[9px] tracking-[0.2em] uppercase text-accent mb-5">
           Trading research & execution
         </div>
+        <div className="hero-copy">
         <h1 className="font-serif text-[2.6rem] leading-[1.04] text-ink mb-5 tracking-tight">
           Research proposes.
           <br />
@@ -94,6 +101,7 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
         <p className="font-serif text-[16px] text-ink-muted leading-[1.6] mb-7">
           CompoundIQ is an in-progress, paper-first trading team. Versioned hypotheses become testable strategies; only approved, enabled, unexpired signals reach the simulator; every fill returns as feedback.
         </p>
+        </div>
         <div className="space-y-3">
           <MobileButton
             analytics={{ cta_id: 'try_gate', surface: 'case_hero', from_page: 'compoundiq', destination: '#compoundiq-gate' }}
@@ -106,7 +114,7 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
           >Map where autonomy stops</MobileButton>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-8 hero-plate">
           <MobileScenePlate figLabel="Fig. i · Governed loop">
             <div className="flex items-center justify-between gap-3 mb-4">
               <div className="font-mono text-[9px] uppercase tracking-widest text-ink-muted">Paper environment</div>
@@ -172,15 +180,18 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
           <span className="italic text-ink-muted/70">One constrained loop.</span>
         </h2>
         <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-8">Research and execution never share working state. Each role communicates through versioned contracts and owns one narrow mandate.</p>
-        <div className="space-y-5">
+        {/* One stage at a time: cards stack under the top bar, as on the homepage. */}
+        <Stack compact>
           {mobileSystem.map((step) => (
-            <MobileScenePlate key={step.number} figLabel={`${step.number} · ${step.label}`}>
-              <step.Icon className="w-7 h-7 text-accent mb-5" strokeWidth={1.4} />
-              <h3 className="font-serif text-2xl text-ink mb-3">{step.title}</h3>
-              <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{step.body}</p>
-            </MobileScenePlate>
+            <div key={step.number} className="stack-card">
+              <MobileScenePlate figLabel={`${step.number} · ${step.label}`} className="!bg-paper !backdrop-blur-none shadow-lg shadow-ink/10">
+                <step.Icon className="w-7 h-7 text-accent mb-5" strokeWidth={1.4} />
+                <h3 className="font-serif text-2xl text-ink mb-3">{step.title}</h3>
+                <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{step.body}</p>
+              </MobileScenePlate>
+            </div>
           ))}
-        </div>
+        </Stack>
       </section>
 
       <section className="px-6 py-12 bg-alt/25">
@@ -202,11 +213,11 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
           ].map(([Icon, title, body]) => {
             const ItemIcon = Icon as React.ComponentType<{ className?: string; strokeWidth?: number }>;
             return (
-              <div key={title as string} className="bg-white/65 border border-ink/10 p-5 rounded-sm">
+              <Reveal key={title as string} enterEnd={0.86} lift={16} className="bg-white/65 border border-ink/10 p-5 rounded-sm">
                 <ItemIcon className="w-6 h-6 text-accent mb-4" strokeWidth={1.4} />
                 <h3 className="font-serif text-xl text-ink mb-2">{title as string}</h3>
                 <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{body as string}</p>
-              </div>
+              </Reveal>
             );
           })}
         </div>

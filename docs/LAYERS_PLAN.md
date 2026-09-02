@@ -93,3 +93,18 @@ What changed on the homepage, in order: hero planes + pointer tilt → ProofRail
 - OG images for `/analytics-os` and No. 046 fall back to the site default.
 - `BriefingDetailPage` uses a `prose` class without the typography plugin; a two-line CSS rule now spaces paragraphs, but the articles would benefit from real typographic defaults.
 - `MobileFounderBlock` / `MobilePartnerBlock` remain for `MobileWhoWeArePage`; the desktop Who We Are page could adopt `Principals` too.
+
+---
+
+## 7. Second pass (2026-09-02, same branch) — Work page and the three featured cases
+
+| Scene | What changed | Files |
+|---|---|---|
+| `motion/Stack` | The stacking-card behaviour becomes a primitive (container assigns `--stack-index`, writes `--cover` per frame from one subscriber; children only carry `stack-card`). Homepage Work previews refactored onto it. | `components/motion/Stack.tsx`, `WorkPreview.tsx`, `mobile/MobileWorkPreview.tsx` |
+| Work page | Each practice is a spread: sticky practice header (`.aside-sticky`, shared with Offers) beside case cards that rise with the scroll, every card with its schematic. Two new drawings so all six cases have one (PulseNote: transcript → three outputs → review; BrandOS: name → ten weighted dimensions → scorecard). Mobile cards carry the schematics too. | `WorkPage.tsx`, `mobile/MobileWorkPage.tsx`, `CaseSchematics.tsx` |
+| Case pages (ShootOS, CompoundIQ, PureCode) | Hero on the homepage's three planes (`--p` on exit; copy settles, figure lags, scaffold drifts). Workflow / system steps are stacking cards — one stage at a time. Guardrail and use-case grids and every evidence-ledger entry rise with the scroll (reversible). PureCode's product frames sit on the plate plane. Demos (ticket simulator, gate simulator) untouched. Mobile: same, with the steps stacking under the top bar. | `AutoPilotPage.tsx`, `CompoundIQPage.tsx`, `PureCodePage.tsx`, `CaseEvidence.tsx`, `mobile/MobileAutoPilotPage.tsx`, `mobile/MobileCompoundIQPage.tsx`, `mobile/MobilePureCodePage.tsx` |
+| Foundation | `useScrollProgress` and `Stack` measure every subscriber before writing (no forced re-layout between reads); stacks fall back to plain flow with ordinary spacing on narrow (<1024px) or short (≤720px desktop, ≤700px mobile) viewports and under reduced motion. | `lib/useScrollProgress.ts`, `src/index.css` |
+
+Verification: tsc / eslint clean, build passes; screenshot sweeps of `/work`, `/shootos`, `/compoundiq`, `/purecode` on desktop and mobile, reduced-motion sweeps of `/compoundiq` (desktop) and `/shootos` (mobile); independent review pass found no blockers — its one should-fix (a `transition-all` fighting a scroll-driven element on the PureCode mobile use cases) and the cheap nits are applied. Analytics payloads unchanged.
+
+Still open: Codex layout, Who We Are, Events, Thesis, PulseNote and BrandOS pages are untouched; OG images for the new routes fall back to the site default.
