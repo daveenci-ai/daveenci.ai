@@ -41,14 +41,18 @@ export const MobileShell: React.FC<MobileShellProps> = ({
   <div className="relative" data-mobile>
     <MobileTopBar onNavigate={onNavigate} />
 
-    <main className="pt-14">
+    {/* Opaque page canvas above the footer, which is pinned beneath it and
+        revealed as the page lifts away — same layering as the desktop tree. */}
+    <main className="pt-14 page-canvas relative z-10">
       <MobileErrorBoundary>{children}</MobileErrorBoundary>
     </main>
 
-    <MobileFooter
-      onNavigate={onNavigate}
-      className={showBottomCTA ? 'pb-[calc(env(safe-area-inset-bottom)+6rem)]' : ''}
-    />
+    <div className="footer-reveal">
+      <MobileFooter
+        onNavigate={onNavigate}
+        className={showBottomCTA ? 'pb-[calc(env(safe-area-inset-bottom)+6rem)]' : ''}
+      />
+    </div>
 
     {showBottomCTA && (
       <div

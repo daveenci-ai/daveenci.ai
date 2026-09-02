@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { MobileFolioScene, MobileSceneTitle, MobileSceneSubtitle } from './MobileFolioScene';
+import { Reveal } from '../motion/Parallax';
+import { useScrollProgress } from '../../lib/useScrollProgress';
+import { scrubTimeline } from '../../lib/scrubTimeline';
 
 interface Station {
   n: string;
@@ -17,7 +20,24 @@ const STATIONS: Station[] = [
   { n: '06', label: 'OUTPUT', title: 'Finished work, shipped', body: 'Merged, sealed, delivered — to the surface where you already work.' },
 ];
 
-export const MobileMethod: React.FC = () => (
+const RAIL_CYCLE_SECONDS = 14;
+
+export const MobileMethod: React.FC = () => {
+  const railRef = useRef<HTMLOListElement | null>(null);
+  // The mote's 14 s loop is driven by scroll instead of the clock: it sits at
+  // whichever station the visitor is reading. Reduced motion keeps the loop.
+  const progressRef = useScrollProgress<HTMLOListElement>({
+    mode: 'through',
+    onProgress: (p) => {
+      const rail = railRef.current;
+      if (rail) scrubTimeline(rail, p * RAIL_CYCLE_SECONDS * 0.97);
+    },
+  });
+  const setRail = (node: HTMLOListElement | null) => {
+    railRef.current = node;
+    progressRef(node);
+  };
+  return (
   <MobileFolioScene id="method" eyebrow="Folio III — The Method">
     <MobileSceneTitle>
       Six stations.
@@ -30,7 +50,7 @@ export const MobileMethod: React.FC = () => (
     </MobileSceneSubtitle>
 
     {/* Vertical station rail */}
-    <ol className="relative border-l border-ink/10 ml-3">
+    <ol ref={setRail} className="relative border-l border-ink/10 ml-3">
       {/* Traveling accent mote on the rail */}
       <div
         aria-hidden="true"
@@ -40,7 +60,7 @@ export const MobileMethod: React.FC = () => (
       {STATIONS.map((s) => {
         const isGate = s.label === 'HUMAN GATE';
         return (
-          <li key={s.n} className="relative pl-7 pb-9 last:pb-0">
+          <Reveal as="li" key={s.n} enterEnd={0.78} lift={14} className="relative pl-7 pb-9 last:pb-0">
             {/* Station dot */}
             <span
               className={`absolute left-[-7px] top-1 w-3 h-3 rounded-full ring-4 ring-canvas ${
@@ -60,9 +80,10 @@ export const MobileMethod: React.FC = () => (
             </div>
             <h3 className="font-serif text-xl text-ink leading-snug mb-1.5">{s.title}</h3>
             <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{s.body}</p>
-          </li>
+          </Reveal>
         );
       })}
     </ol>
   </MobileFolioScene>
-);
+  );
+};
