@@ -165,11 +165,85 @@ const AnalyticsOSSchematic: React.FC = () => (
   </svg>
 );
 
+
+/** Meeting transcript → review-ready newsletter, social posts, and visuals. */
+const PulseNoteSchematic: React.FC = () => (
+  <svg viewBox="0 0 300 180" fill="none" className="w-full h-full" aria-hidden="true">
+    {/* transcript with a waveform */}
+    <rect x="24" y="48" width="52" height="66" rx="1" fill="white" stroke={ink} strokeWidth="1.2" />
+    <polyline points="30,70 34,62 38,76 42,58 46,80 50,66 54,74 58,60 62,78 66,68 70,72" stroke={accent} strokeWidth="1.2" />
+    {[88, 96, 104].map((y) => <line key={y} x1="30" y1={y} x2={y === 96 ? 62 : 70} y2={y} stroke={ink} strokeWidth="1" />)}
+    <Label x={50} y={130}>Transcript</Label>
+    {/* fan-out lines */}
+    <path d="M 76 81 C 100 81, 100 56, 130 56 M 76 81 H 130 M 76 81 C 100 81, 100 106, 130 106" stroke={scaffold} strokeWidth="0.8" strokeDasharray="3 2" />
+    {/* newsletter */}
+    <rect x="130" y="42" width="56" height="28" rx="1" fill="white" stroke={ink} strokeWidth="1.1" />
+    <line x1="136" y1="50" x2="170" y2="50" stroke={ink} strokeWidth="1.2" />
+    <line x1="136" y1="57" x2="180" y2="57" stroke={ink} strokeWidth="0.8" />
+    <line x1="136" y1="63" x2="174" y2="63" stroke={ink} strokeWidth="0.8" />
+    <Label x={158} y={36}>Newsletter</Label>
+    {/* social post */}
+    <rect x="130" y="76" width="56" height="18" rx="9" fill="white" stroke={ink} strokeWidth="1.1" />
+    <circle cx="140" cy="85" r="4" fill={accent} fillOpacity="0.4" stroke={accent} strokeWidth="0.8" />
+    <line x1="148" y1="85" x2="178" y2="85" stroke={ink} strokeWidth="0.9" />
+    <Label x={158} y={106}>Social posts</Label>
+    {/* visual */}
+    <rect x="130" y="112" width="56" height="30" rx="1" fill="white" stroke={ink} strokeWidth="1.1" />
+    <path d="M 134 138 L 148 122 L 158 132 L 166 126 L 182 138 Z" fill={accent} fillOpacity="0.3" stroke={accent} strokeWidth="0.8" />
+    <Label x={158} y={154}>Visuals</Label>
+    {/* review gate */}
+    <path d="M 186 56 C 210 56, 210 92, 226 92 M 186 85 H 226 M 186 127 C 210 127, 210 92, 226 92" stroke={scaffold} strokeWidth="0.8" strokeDasharray="3 2" />
+    <rect x="226" y="80" width="24" height="24" rx="1" fill="white" stroke={ink} strokeWidth="1.4" />
+    <path d="M 231 92 L 236 97 L 245 86" stroke={success} strokeWidth="1.6" />
+    <Label x={238} y={118}>Review</Label>
+    <path d="M 250 92 H 272" stroke={ink} strokeWidth="0.9" strokeDasharray="3 2" />
+    <path d="M 268 88 L 274 92 L 268 96" stroke={ink} strokeWidth="1" />
+    <Label x={266} y={78} fill={accent}>Publish</Label>
+    <Mote path="M 76 81 C 100 81, 100 56, 130 56" dur="3.6s" />
+    <Mote path="M 186 85 H 226" dur="3.6s" begin="1.2s" color={success} />
+  </svg>
+);
+
+/** A name goes in; ten weighted dimensions score it; a scorecard comes out. */
+const BrandOSSchematic: React.FC = () => (
+  <svg viewBox="0 0 300 180" fill="none" className="w-full h-full" aria-hidden="true">
+    {/* name input */}
+    <rect x="22" y="70" width="66" height="26" rx="1" fill="white" stroke={ink} strokeWidth="1.2" />
+    <text x="30" y="87" fontSize="9" fill={ink} fontFamily="serif" fontStyle="italic">Name?</text>
+    <line x1="72" y1="76" x2="72" y2="90" stroke={accent} strokeWidth="1.2" />
+    <Label x={55} y={112}>Input</Label>
+    <path d="M 88 83 H 108" stroke={scaffold} strokeWidth="0.8" strokeDasharray="3 2" />
+    {/* ten weighted dimension bars */}
+    {[0.9, 0.6, 1.0, 0.7, 0.45, 0.8, 0.55, 0.85, 0.35, 0.65].map((w, i) => (
+      <g key={i}>
+        <rect x="110" y={36 + i * 11} width="64" height="6" fill={scaffold} fillOpacity="0.25" />
+        <rect x="110" y={36 + i * 11} width={64 * w} height="6" fill={accent} fillOpacity={0.35 + w * 0.5} />
+      </g>
+    ))}
+    <line x1="110" y1="34" x2="110" y2="148" stroke={ink} strokeWidth="0.8" />
+    <Label x={142} y={162}>10 weighted dimensions</Label>
+    <path d="M 176 92 H 200" stroke={scaffold} strokeWidth="0.8" strokeDasharray="3 2" />
+    {/* scorecard with dial */}
+    <rect x="202" y="50" width="76" height="84" rx="1" fill="white" stroke={ink} strokeWidth="1.2" />
+    <path d="M 214 106 A 26 26 0 0 1 266 106" stroke={scaffold} strokeWidth="2" strokeLinecap="round" />
+    <path d="M 214 106 A 26 26 0 0 1 252.4 83.2" stroke={accent} strokeWidth="2.4" strokeLinecap="round" />
+    <text x="240" y="104" textAnchor="middle" fontSize="8" fill={ink} fontFamily="serif" fontStyle="italic">score</text>
+    <line x1="212" y1="118" x2="268" y2="118" stroke={ink} strokeWidth="0.8" />
+    <line x1="212" y1="125" x2="256" y2="125" stroke={ink} strokeWidth="0.8" />
+    <Label x={240} y={148}>Scorecard</Label>
+    <Label x={240} y={44} fill={accent}>calibrated to stage</Label>
+    <Mote path="M 88 83 H 110" dur="3s" />
+    <Mote path="M 176 92 H 202" dur="3s" begin="1.5s" />
+  </svg>
+);
+
 export const CASE_SCHEMATICS: Partial<Record<CaseId, React.FC>> = {
   purecode: PureCodeSchematic,
   autopilot: ShootOSSchematic,
   compoundiq: CompoundIQSchematic,
   'analytics-os': AnalyticsOSSchematic,
+  pulsenote: PulseNoteSchematic,
+  brandos: BrandOSSchematic,
 };
 
 export const CaseSchematic: React.FC<{ id: CaseId; className?: string }> = ({ id, className = '' }) => {

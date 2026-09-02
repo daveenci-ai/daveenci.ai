@@ -92,14 +92,20 @@ let intersection: IntersectionObserver | null = null;
 function flush() {
   frame = 0;
   const vh = window.innerHeight;
+  // Measure every subscriber before writing anything: a style write between
+  // reads would force a synchronous re-layout for the next read.
+  const updates: Array<[Subscriber, number]> = [];
   subscribers.forEach((sub) => {
     if (!sub.near) return;
     const p = measure(sub, vh);
     if (Math.abs(p - sub.last) < 0.0005) return;
+    updates.push([sub, p]);
+  });
+  for (const [sub, p] of updates) {
     sub.last = p;
     sub.el.style.setProperty(sub.opts.cssVar, p.toFixed(4));
     sub.live.current.onProgress?.(p, sub.el);
-  });
+  }
 }
 
 function schedule() {

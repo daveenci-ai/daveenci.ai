@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import { Section, ScrollReveal, GridPattern, PageHero, Button, Surface } from './Shared';
+import { Reveal } from './motion/Parallax';
+import { CaseSchematic } from './CaseSchematics';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileWorkPage } from './mobile/MobileWorkPage';
 import { track } from '../lib/analytics';
@@ -24,7 +26,7 @@ const WorkPageDesktop: React.FC<WorkPageProps> = ({ onNavigate }) => {
   }, []);
 
   return (
-    <div className="flex flex-col w-full overflow-x-hidden min-h-screen">
+    <div className="flex flex-col w-full overflow-x-clip min-h-screen">
       <Header onNavigate={onNavigate} currentPage="work" />
 
       <Section className="pt-36 pb-4 md:pt-44 md:pb-6">
@@ -42,45 +44,56 @@ const WorkPageDesktop: React.FC<WorkPageProps> = ({ onNavigate }) => {
 
       {(['operations', 'creative'] as Practice[]).map((practice) => (
       <Section id={practice} key={practice} className="scroll-mt-24 pt-5 pb-12 md:pt-7 md:pb-16">
-        {/* Grouped by practice rather than shown as one flat grid: five cards
-            in two columns left an orphan cell, and more importantly a visitor
-            had to work out for themselves what connected them. */}
-        <ScrollReveal>
-          <div className="max-w-3xl mb-10 md:mb-12">
-            <div className="flex items-center gap-4 mb-4">
-              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{PRACTICES[practice].name}</span>
-              <span aria-hidden="true" className="h-px flex-1 bg-ink-muted/20" />
-              <span className="font-serif italic text-sm text-ink-muted">Led by {PRACTICES[practice].lead}</span>
-            </div>
-            <p className="font-sans text-lg text-ink-muted leading-relaxed">{PRACTICES[practice].summary}</p>
-          </div>
-        </ScrollReveal>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {workCatalog.filter((item) => item.practice === practice).map((item, i) => (
-            <ScrollReveal key={item.title} delay={100 + i * 150}>
-              <a
-                href={item.href}
-                className="block h-full rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-                onClick={(event) => {
-                  track('select_content', { content_type: 'case_study', content_id: item.page, surface: 'work_page' });
-                  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-                  event.preventDefault();
-                  onNavigate(item.page);
-                }}
-              >
-                <Surface kind="document" className="h-full p-10 md:p-12 bg-white/60 border border-ink/10 hover:shadow-2xl hover:border-accent/30 transition-all duration-300 group flex flex-col">
-                  <div className="flex items-start justify-between gap-5 mb-4">
-                    <span className="block font-mono text-[10px] uppercase tracking-[0.2em] text-accent">{item.label}</span>
-                    <span className={`font-mono text-[8px] uppercase tracking-[0.14em] text-right ${workStatusClass(item.statusTone)}`}>{item.status}</span>
-                  </div>
-                  <h2 className="font-serif text-3xl md:text-4xl text-ink mb-3 group-hover:text-accent transition-colors">{item.title}</h2>
-                  <p className="font-serif italic text-lg text-ink-muted mb-5">{item.subtitle}</p>
-                  <p className="font-sans text-ink-muted leading-relaxed mb-8 flex-grow">{item.blurb}</p>
-                  <span className="font-sans text-sm font-medium text-accent group-hover:translate-x-1 transition-transform">Read the case →</span>
-                </Surface>
-              </a>
+        {/* The practice header sticks while its cases scroll past — the same
+            layered rhythm as the homepage offers ladder. Grouped by practice
+            rather than one flat grid so a visitor sees what connects them. */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+          <div className="lg:col-span-4 aside-sticky">
+            <ScrollReveal>
+              <div className="flex items-center gap-4 mb-4">
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{PRACTICES[practice].name}</span>
+                <span aria-hidden="true" className="h-px flex-1 bg-ink-muted/20" />
+              </div>
+              <p className="font-serif italic text-sm text-ink-muted mb-4">Led by {PRACTICES[practice].lead}</p>
+              <p className="font-sans text-lg text-ink-muted leading-relaxed">{PRACTICES[practice].summary}</p>
             </ScrollReveal>
-          ))}
+          </div>
+          <div className="lg:col-span-8 grid grid-cols-1 gap-8">
+            {workCatalog.filter((item) => item.practice === practice).map((item) => (
+              <Reveal key={item.title} enterEnd={0.78} lift={36}>
+                <a
+                  href={item.href}
+                  className="block h-full rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                  onClick={(event) => {
+                    track('select_content', { content_type: 'case_study', content_id: item.page, surface: 'work_page' });
+                    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                    event.preventDefault();
+                    onNavigate(item.page);
+                  }}
+                >
+                  <Surface kind="document" className="h-full p-8 md:p-10 bg-white/60 border border-ink/10 hover:shadow-2xl hover:border-accent/30 transition-all duration-300 group">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                      <div className="md:col-span-7 flex flex-col h-full">
+                        <div className="flex items-start justify-between gap-5 mb-4">
+                          <span className="block font-mono text-[10px] uppercase tracking-[0.2em] text-accent">{item.label}</span>
+                          <span className={`font-mono text-[8px] uppercase tracking-[0.14em] text-right ${workStatusClass(item.statusTone)}`}>{item.status}</span>
+                        </div>
+                        <h2 className="font-serif text-3xl md:text-4xl text-ink mb-2 group-hover:text-accent transition-colors">{item.title}</h2>
+                        <p className="font-serif italic text-lg text-ink-muted mb-4">{item.subtitle}</p>
+                        <p className="font-sans text-ink-muted leading-relaxed mb-6 flex-grow">{item.blurb}</p>
+                        <span className="font-sans text-sm font-medium text-accent-strong inline-flex items-center gap-1 group-hover:gap-2 transition-all">Read the case <span aria-hidden="true">→</span></span>
+                      </div>
+                      <div className="md:col-span-5">
+                        <div aria-hidden="true" className="bg-white/70 border border-ink/10 rounded-sm p-4" style={{ boxShadow: 'var(--shadow-widget-document)' }}>
+                          <CaseSchematic id={item.page} className="aspect-[5/3] w-full" />
+                        </div>
+                      </div>
+                    </div>
+                  </Surface>
+                </a>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </Section>
       ))}

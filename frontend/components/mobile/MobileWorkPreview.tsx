@@ -3,8 +3,8 @@ import { MobileButton } from './MobileButton';
 import { MobileFolioScene } from './MobileFolioScene';
 import { MobileScenePlate } from './MobileScenePlate';
 import { CaseSchematic } from '../CaseSchematics';
+import { Stack } from '../motion/Stack';
 import { track } from '../../lib/analytics';
-import { useScrollProgress } from '../../lib/useScrollProgress';
 import type { Page } from '../types';
 import { featuredWork, workStatusClass } from '../../content/workCatalog';
 
@@ -14,26 +14,6 @@ interface MobileWorkPreviewProps {
 
 export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate }) => {
   const impressionTracked = useRef(false);
-  const cardsRef = useRef<HTMLElement[]>([]);
-
-  // Stacking cards, as on desktop: each case sticks under the top bar and the
-  // next slides over it; the covered card scales down and dims via --cover.
-  const stackRef = useScrollProgress<HTMLDivElement>({
-    mode: 'through',
-    cssVar: '--stack-p',
-    onProgress: () => {
-      const cards = cardsRef.current;
-      if (cards.length < 2) return;
-      let rect = cards[0].getBoundingClientRect();
-      for (let i = 0; i < cards.length - 1; i += 1) {
-        const next = cards[i + 1].getBoundingClientRect();
-        const cover = Math.min(1, Math.max(0, (rect.bottom - next.top) / Math.max(rect.height, 1)));
-        cards[i].style.setProperty('--cover', cover.toFixed(3));
-        rect = next;
-      }
-    },
-  });
-
   useEffect(() => {
     const element = document.getElementById('selected-work');
     if (!element) return;
@@ -58,11 +38,10 @@ export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate
       Some teams are operating today. Others are being proven in public. Every one makes its roles and gates explicit.
     </p>
 
-    <div ref={stackRef} className="work-stack work-stack-mobile mb-7" style={{ ['--stack-top' as string]: '4.5rem', ['--stack-step' as string]: '0.6rem' }}>
+    <Stack compact className="mb-7">
       {featuredWork.map((item, i) => (
         <a
           key={item.title}
-          ref={(node) => { if (node) cardsRef.current[i] = node; }}
           href={item.href}
           onClick={(event) => {
             track('select_content', { content_type: 'case_study', content_id: item.page, surface: 'work_preview' });
@@ -71,7 +50,6 @@ export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate
             onNavigate(item.page);
           }}
           className="stack-card block w-full text-left"
-          style={{ ['--stack-index' as string]: i }}
         >
           <MobileScenePlate figLabel={item.label} className="p-4 !bg-paper !backdrop-blur-none shadow-lg shadow-ink/10">
             <div className="flex items-baseline justify-between gap-3 mb-3">
@@ -87,7 +65,7 @@ export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate
           </MobileScenePlate>
         </a>
       ))}
-    </div>
+    </Stack>
 
     <MobileButton variant="secondary" onClick={() => onNavigate('work')}>
       See all work

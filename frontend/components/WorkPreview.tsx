@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { Section, ScrollReveal, Surface, Button, FolioHeader } from './Shared';
 import { CaseSchematic } from './CaseSchematics';
+import { Stack } from './motion/Stack';
 import { track } from '../lib/analytics';
-import { useScrollProgress } from '../lib/useScrollProgress';
 import type { Page } from './types';
 import { featuredWork, workStatusClass } from '../content/workCatalog';
 
@@ -13,15 +13,12 @@ interface WorkPreviewProps {
 const FIG = ['ii.a', 'ii.b', 'ii.c', 'ii.d'];
 
 /**
- * Stacking-card scene. Each case card sticks below the header; the next one
- * slides up over it, and the covered card scales down and dims (`--cover`,
- * written per frame from the stack's scroll progress). The visitor reads one
- * case at a time without the page getting longer than a plain grid would be.
- * Reduced motion: the cards simply stack in flow.
+ * Stacking-card scene (see motion/Stack): each case card sticks below the
+ * header and the next one slides over it, so the visitor reads one case at a
+ * time without the page getting longer than a plain grid would be.
  */
 const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => {
   const impressionTracked = useRef(false);
-  const cardsRef = useRef<HTMLElement[]>([]);
 
   useEffect(() => {
     const element = document.getElementById('selected-work');
@@ -36,23 +33,6 @@ const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => {
     return () => observer.disconnect();
   }, []);
 
-  // One subscriber for the whole stack: one rect read per card per frame, no state.
-  const stackRef = useScrollProgress<HTMLDivElement>({
-    mode: 'through',
-    cssVar: '--stack-p',
-    onProgress: () => {
-      const cards = cardsRef.current;
-      if (cards.length < 2) return;
-      let rect = cards[0].getBoundingClientRect();
-      for (let i = 0; i < cards.length - 1; i += 1) {
-        const next = cards[i + 1].getBoundingClientRect();
-        const cover = Math.min(1, Math.max(0, (rect.bottom - next.top) / Math.max(rect.height, 1)));
-        cards[i].style.setProperty('--cover', cover.toFixed(3));
-        rect = next;
-      }
-    },
-  });
-
   return (
   <Section id="selected-work" pattern="nodes">
     <ScrollReveal className="mb-12 md:mb-16">
@@ -63,14 +43,12 @@ const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => {
       />
     </ScrollReveal>
 
-    <div ref={stackRef} className="work-stack" style={{ ['--stack-top' as string]: '6.5rem', ['--stack-step' as string]: '1rem' }}>
+    <Stack>
       {featuredWork.map((example, i) => (
         <a
           key={example.page}
-          ref={(node) => { if (node) cardsRef.current[i] = node; }}
           href={example.href}
           className="stack-card block rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-          style={{ ['--stack-index' as string]: i }}
           onClick={(event) => {
             track('select_content', { content_type: 'case_study', content_id: example.page, surface: 'work_preview' });
             if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -107,7 +85,7 @@ const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => {
           </Surface>
         </a>
       ))}
-    </div>
+    </Stack>
 
     <div className="flex justify-center mt-16 md:mt-24">
       <Button variant="secondary" onClick={() => onNavigate('work')} className="px-8 py-4">

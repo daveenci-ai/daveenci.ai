@@ -323,9 +323,10 @@ body {
   .principal-scaffold-a, .principal-scaffold-b { opacity: 1; }
 }
 
-/* Offers: header column sticks beneath the fixed header while tiers scroll. */
+/* Sticky aside: a header column that holds beneath the fixed header while
+   the cards beside it scroll (Offers ladder, Work page practices). */
 @media (min-width: 1024px) {
-  .offers-sticky { position: sticky; top: 7rem; }
+  .aside-sticky { position: sticky; top: 7rem; }
   .offers-header h2 { font-size: clamp(2.5rem, 3.6vw, 3.75rem); }
   .offers-header p { margin-bottom: 2rem; }
 }
@@ -344,15 +345,18 @@ body {
 .work-stack { position: relative; }
 .work-stack > .stack-card + .stack-card { margin-top: 14vh; }
 .work-stack-mobile > .stack-card + .stack-card { margin-top: 10vh; }
-/* Below the two-column breakpoint a desktop card is taller than the space
-   under the sticky offset; same for short phones. Plain flow there. */
-@media (max-width: 1023px) {
+/* Where a stuck card would not fit under the sticky offset — narrow desktop
+   layouts, short laptops, short phones — the cards simply flow, with the
+   ordinary rhythm between them instead of the stacking gap. */
+@media (max-width: 1023px), (max-height: 720px) {
   .work-stack:not(.work-stack-mobile) > .stack-card { position: relative; top: auto; transform: none; }
   .work-stack:not(.work-stack-mobile) > .stack-card::after { background: transparent; }
+  .work-stack:not(.work-stack-mobile) > .stack-card + .stack-card { margin-top: 2.5rem; }
 }
 @media (max-height: 700px) {
   .work-stack-mobile > .stack-card { position: relative; top: auto; transform: none; }
   .work-stack-mobile > .stack-card::after { background: transparent; }
+  .work-stack-mobile > .stack-card + .stack-card { margin-top: 1.25rem; }
 }
 
 /* Codex articles: the content column uses `prose` but the typography plugin is
@@ -372,6 +376,8 @@ body {
   .pinned-stage { position: static; height: auto; }
   .stack-card { position: relative; top: auto; transform: none; }
   .stack-card::after { background: transparent; }
+  .work-stack > .stack-card + .stack-card { margin-top: 2.5rem; }
+  .work-stack-mobile > .stack-card + .stack-card { margin-top: 1.25rem; }
   .principal-portraits { position: static; }
   .principal-portrait-a, .principal-portrait-b { opacity: 1; transform: none; }
   .principal-portrait-b { position: relative; margin-top: 2rem; }

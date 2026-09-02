@@ -98,7 +98,7 @@ export const CommercialOffers: React.FC<CommercialOffersProps> = ({ onNavigate, 
     // Sticky header column + scrolling ladder: the promise stays put while the
     // tiers move past it — the same layered idea as the founders' spread.
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-      <div className="lg:col-span-5 offers-sticky">
+      <div className="lg:col-span-5 aside-sticky">
         {header}
         {cta}
       </div>
