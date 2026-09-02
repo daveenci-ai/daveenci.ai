@@ -45,7 +45,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
   const isActive = (link: NavLink) => {
     if (link.href === '/codex' && (currentPage === 'briefings' || currentPage === 'briefing-detail')) return true;
     if (link.href === '/who-we-are' && currentPage === 'who-we-are') return true;
-    if (link.href === '/work' && (currentPage === 'work' || currentPage === 'purecode' || currentPage === 'autopilot' || currentPage === 'compoundiq' || currentPage === 'creative-production')) return true;
+    if (link.href === '/work' && (currentPage === 'work' || currentPage === 'purecode' || currentPage === 'autopilot' || currentPage === 'compoundiq' || currentPage === 'analytics-os' || currentPage === 'creative-production')) return true;
     if (link.href === '/thesis' && currentPage === 'thesis') return true;
     if (link.href === '/events' && currentPage === 'events') return true;
     if (link.href.startsWith('#') && currentPage === 'landing' && activeSection === link.href) return true;

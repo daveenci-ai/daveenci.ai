@@ -7,6 +7,7 @@ import { MobileBriefingDetailPage } from './mobile/MobileBriefingDetailPage';
 import type { Page } from './types';
 import { Clock, Tag, ChevronRight, Check, X, AlertTriangle, Lightbulb, BookOpen, Layers } from 'lucide-react';
 import { CodexCover } from './CodexCover';
+import { governedAgentOperations } from '../content/briefingGovernedAgents';
 
 interface BriefingDetailPageProps {
    onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -19,7 +20,7 @@ interface BriefingSection {
    content: React.ReactNode;
 }
 
-interface BriefingData {
+export interface BriefingData {
    id: string;
    title: string;
    metaDescription: string;
@@ -1592,6 +1593,9 @@ const briefings: Record<string, BriefingData> = {
          { question: "Does Veo generate sound?", answer: "Veo generates video. For sales assets, use clean, controlled TTS (Voiceover) rather than AI-generated ambient noise." }
       ]
    }
+   ,
+   // Codex No. 046 lives in its own file (content/briefingGovernedAgents.tsx).
+   'governed-agent-operations': governedAgentOperations,
 };
 
 const BriefingDetailPage: React.FC<BriefingDetailPageProps> = (props) => {

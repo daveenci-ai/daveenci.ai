@@ -25,6 +25,7 @@ const WorkPage = lazy(() => import('./components/WorkPage'));
 const PureCodePage = lazy(() => import('./components/PureCodePage'));
 const AutoPilotPage = lazy(() => import('./components/AutoPilotPage'));
 const CompoundIQPage = lazy(() => import('./components/CompoundIQPage'));
+const AnalyticsOSPage = lazy(() => import('./components/AnalyticsOSPage'));
 const CreativeProductionPage = lazy(() => import('./components/CreativeProductionPage'));
 const EventsPage = lazy(() => import('./components/EventsPage'));
 const ThesisPage = lazy(() => import('./components/ThesisPage'));
@@ -108,6 +109,8 @@ const App: React.FC = () => {
         setPage('autopilot');
       } else if (path === '/compoundiq') {
         setPage('compoundiq');
+      } else if (path === '/analytics-os') {
+        setPage('analytics-os');
       } else if (path === '/creative-production') {
         setPage('creative-production');
       } else if (path === '/events') {
@@ -228,6 +231,7 @@ const App: React.FC = () => {
     if (targetPage === 'purecode') path = '/purecode';
     if (targetPage === 'autopilot') path = '/shootos';
     if (targetPage === 'compoundiq') path = '/compoundiq';
+    if (targetPage === 'analytics-os') path = '/analytics-os';
     if (targetPage === 'creative-production') path = '/creative-production';
     if (targetPage === 'events') path = '/events';
     if (targetPage === 'thesis') path = '/thesis';
@@ -273,6 +277,7 @@ const App: React.FC = () => {
         {page === 'purecode' && <PureCodePage onNavigate={handleNavigate} />}
         {page === 'autopilot' && <AutoPilotPage onNavigate={handleNavigate} />}
         {page === 'compoundiq' && <CompoundIQPage onNavigate={handleNavigate} />}
+        {page === 'analytics-os' && <AnalyticsOSPage onNavigate={handleNavigate} />}
         {page === 'creative-production' && <CreativeProductionPage onNavigate={handleNavigate} />}
         {page === 'events' && <EventsPage onNavigate={handleNavigate} />}
         {page === 'thesis' && <ThesisPage onNavigate={handleNavigate} />}

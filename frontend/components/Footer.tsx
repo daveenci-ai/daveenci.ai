@@ -94,6 +94,7 @@ const Footer: React.FC<FooterProps> = ({
               <li><a href="/purecode" onClick={go('purecode')} className="text-sm text-canvas/80 hover:text-white transition-colors">PureCode</a></li>
               <li><a href="/shootos" onClick={go('autopilot')} className="text-sm text-canvas/80 hover:text-white transition-colors">ShootOS</a></li>
               <li><a href="/compoundiq" onClick={go('compoundiq')} className="text-sm text-canvas/80 hover:text-white transition-colors">CompoundIQ</a></li>
+              <li><a href="/analytics-os" onClick={go('analytics-os')} className="text-sm text-canvas/80 hover:text-white transition-colors">Marketing Analytics OS</a></li>
               <li><a href="/creative-production" onClick={go('creative-production')} className="text-sm text-canvas/80 hover:text-white transition-colors">Creative Production</a></li>
             </ul>
           </div>

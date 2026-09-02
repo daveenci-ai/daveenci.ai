@@ -7,6 +7,11 @@ interface CoverBlueprint {
 }
 
 const blueprints: Record<string, CoverBlueprint> = {
+  'governed-agent-operations': {
+    code: 'CONTROL / 10',
+    stages: ['Propose', 'Approve exact', 'Policy check', 'Broker executes'],
+    caption: 'The model never grants permission',
+  },
   'agentic-workflow': {
     code: 'AGENT / 04',
     stages: ['Request', 'Plan', 'Specialists', 'Human gate'],
