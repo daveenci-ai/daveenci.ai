@@ -149,7 +149,7 @@ const Principals: React.FC<PrincipalsProps> = ({ onNavigate, compact = false }) 
         <ScrollReveal>
           <div className="mb-14 md:mb-20 flex items-center gap-4">
             <span className="h-px w-10 bg-canvas/25" aria-hidden="true" />
-            <span className="font-serif italic text-base tracking-[0.15em] uppercase text-canvas/60">Folio IV — The Principals</span>
+            <span className="font-serif italic text-base tracking-[0.15em] uppercase text-canvas/60">The Principals</span>
           </div>
         </ScrollReveal>
 

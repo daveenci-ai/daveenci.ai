@@ -87,6 +87,7 @@ What changed on the homepage, in order: hero planes + pointer tilt → ProofRail
 2. **Client naming** — the client stays unnamed; the case keeps describing the system and "a direct-to-consumer telehealth brand". Status stays "New engagement · Scoped Sep 2026" until Anton changes it.
 3. **Codex No. 046** — approved as written (signed by Anton, dated 2026-09-02, no codename, Phase 0 in build).
 4. **Chips** under Operations Systems include "Marketing measurement".
+5. **Tier prices on `/analytics-os`** (2026-09-03, at the final pre-merge review) — all three published: Measure $6,500, + Learn $6,000, + Automate $5,600.
 
 ### Follow-ups (not in this run)
 - Case pages and the Work page have no layered treatment yet (second pass).
@@ -123,5 +124,7 @@ Still open after the second pass: Codex layout, Who We Are, Events, Thesis, Puls
 | Codex index + article | Index: drawing on the scaffold plane, featured covers and archive cards cascade; No. 043 un-featured so the featured grid stays a 2-up (046 + 041). Article: masthead settles as it scrolls out, cover plate lags a few px; TOC already sticky. Mobile: same, lighter. | `BriefingsPage.tsx`, `BriefingDetailPage.tsx`, `content/briefings.json`, `mobile/MobileBriefingsPage.tsx`, `mobile/MobileBriefingDetailPage.tsx` |
 
 Verification: tsc / eslint clean, build passes (main chunk 114.9 kB gz); screenshot sweeps of `/brandos`, `/who-we-are`, `/thesis`, `/events`, `/briefings`, `/codex/governed-agent-operations`, `/pulsenote` on desktop and mobile, reduced-motion sweeps of `/who-we-are` and `/brandos`; independent review found no blockers — its should-fixes (sticky breakpoint on Who We Are, clamped cascade indexes, whole-masthead settle on the mobile article) are applied. Left as is on purpose: the Events and Thesis heroes keep `overflow-clip` because their scaffold is a `GridPattern` with no slack below it (the band it leaves at the top of the section is always above the viewport during exit; letting it spill below would put dots over the next section). Analytics payloads unchanged; no content or claims changed.
+
+Final pre-merge review (whole branch, fresh clone, `npm ci` + build): no blockers; the three folio labels this branch added to the homepage ("Selected work", "The Principals", "Ways to work together") had been given numerals that collided with the existing I–VII sequence — numerals dropped, matching the mobile tree. Tier prices confirmed by Anton (decision 5 above).
 
 Not done, if ever wanted: the Briefings desktop hero has no exit planes (its section also holds the featured grid, so exit progress would be meaningless); `MobileFounderBlock` / `MobilePartnerBlock` still duplicate `Principals` on mobile Who We Are.

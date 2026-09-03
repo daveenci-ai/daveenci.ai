@@ -37,7 +37,7 @@ const WorkPreview: React.FC<WorkPreviewProps> = ({ onNavigate }) => {
   <Section id="selected-work" pattern="nodes">
     <ScrollReveal className="mb-12 md:mb-16">
       <FolioHeader
-        eyebrow="Folio II — Selected work"
+        eyebrow="Selected work"
         title="What specialist teams look like in practice."
         subtitle="Some are operating today. Others are being proven in public. Every one separates roles, makes its gates explicit, and stays accountable to the finished work."
       />

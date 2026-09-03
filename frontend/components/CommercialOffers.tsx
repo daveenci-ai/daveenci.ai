@@ -26,7 +26,7 @@ export const CommercialOffers: React.FC<CommercialOffersProps> = ({ onNavigate, 
     </div>
   ) : (
     <FolioHeader
-      eyebrow="Folio VI — Ways to work together"
+      eyebrow="Ways to work together"
       title={<>Map it. Build it.<br /><span className="italic text-ink-muted/75">Keep it earning trust.</span></>}
       subtitle="Start with a fixed-scope Blueprint. Move into production only when the value, failure modes, integrations, and human gates are clear."
       className="offers-header"
