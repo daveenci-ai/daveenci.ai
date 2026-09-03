@@ -1,6 +1,7 @@
 import React from 'react';
 import { MobileFolioScene } from './MobileFolioScene';
 import { MobileButton } from './MobileButton';
+import { Reveal } from '../motion/Parallax';
 import AntonSketch from '../../images/Anton_Sketch.webp';
 import { VitruvianBackground } from '../Shared';
 import type { Page } from '../types';
@@ -32,17 +33,19 @@ export const MobileFounderBlock: React.FC<MobileFounderBlockProps> = ({ onNaviga
       <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-canvas/70 mt-2">Co-Founder</div>
     </div>
 
-    <blockquote className="relative z-10 mt-6">
-      <span
-        aria-hidden="true"
-        className="absolute -top-2 -left-1 font-serif text-6xl text-accent/30 leading-none select-none"
-      >
-        "
-      </span>
-      <p className="font-serif italic text-[1.375rem] leading-[1.4] text-canvas/90 pl-6">
-        I spent a decade shipping software with mediocre AI help. Then I stopped trying to hire a generalist tool, and started building a team of specialists.
-      </p>
-    </blockquote>
+    <Reveal enterEnd={0.85} lift={16} className="relative z-10 mt-6">
+      <blockquote>
+        <span
+          aria-hidden="true"
+          className="absolute -top-2 -left-1 font-serif text-6xl text-accent/30 leading-none select-none"
+        >
+          "
+        </span>
+        <p className="font-serif italic text-[1.375rem] leading-[1.4] text-canvas/90 pl-6">
+          I spent a decade shipping software with mediocre AI help. Then I stopped trying to hire a generalist tool, and started building a team of specialists.
+        </p>
+      </blockquote>
+    </Reveal>
 
     <div className="relative z-10 mt-6 border-t border-canvas/15 pt-5">
       <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent-light">{PRACTICES.operations.name}</div>

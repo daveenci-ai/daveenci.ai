@@ -28,7 +28,7 @@
     "description": "A playbook for generating high-fidelity synthetic datasets to fine-tune models without exposing private human data.",
     "issueNo": "043",
     "category": "Engineering",
-    "featured": true,
+    "featured": false,
     "readTime": "12 min read",
     "publishedAt": "2025-10-21"
   },

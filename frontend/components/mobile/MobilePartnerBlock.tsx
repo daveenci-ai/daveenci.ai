@@ -1,6 +1,7 @@
 import React from 'react';
 import { MobileFolioScene } from './MobileFolioScene';
 import { MobileButton } from './MobileButton';
+import { Reveal } from '../motion/Parallax';
 import AstridSketch from '../../images/Astrid_Sketch.webp';
 import { GiocondaBackground } from '../Shared';
 import type { Page } from '../types';
@@ -32,17 +33,19 @@ export const MobilePartnerBlock: React.FC<MobilePartnerBlockProps> = ({ onNaviga
       <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted mt-2">Co-Founder</div>
     </div>
 
-    <blockquote className="relative z-10 mt-6">
-      <span
-        aria-hidden="true"
-        className="absolute -top-2 -left-1 font-serif text-6xl text-accent/30 leading-none select-none"
-      >
-        "
-      </span>
-      <p className="font-serif italic text-[1.375rem] leading-[1.4] text-ink pl-6">
-        Every team we build starts the same way — a founder showing me the workflow that's eating their week.
-      </p>
-    </blockquote>
+    <Reveal enterEnd={0.85} lift={16} className="relative z-10 mt-6">
+      <blockquote>
+        <span
+          aria-hidden="true"
+          className="absolute -top-2 -left-1 font-serif text-6xl text-accent/30 leading-none select-none"
+        >
+          "
+        </span>
+        <p className="font-serif italic text-[1.375rem] leading-[1.4] text-ink pl-6">
+          Every team we build starts the same way — a founder showing me the workflow that's eating their week.
+        </p>
+      </blockquote>
+    </Reveal>
 
     <div className="relative z-10 mt-6 border-t border-ink/10 pt-5">
       <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent-strong">{PRACTICES.creative.name}</div>

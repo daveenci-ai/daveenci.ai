@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Calendar as CalendarIcon, ArrowRight, X, Check, Loader2 } from 'lucide-react';
-import { Section, SectionHeader, ScrollReveal, Surface } from './Shared';
+import { Section, SectionHeader, Surface } from './Shared';
+import { Reveal } from './motion/Parallax';
 import { API_ENDPOINTS } from '../config';
 import { formatEventDate, scheduledEvents, workshopTopics, type ScheduledEvent } from './eventCatalog';
 
@@ -216,9 +217,9 @@ const Events: React.FC = () => {
             {scheduledEvents.length > 0 ? (
                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
                   {scheduledEvents.map((event, idx) => (
-                     <ScrollReveal key={event.id} delay={idx * 100} className="h-full">
+                     <Reveal key={event.id} enterEnd={0.84 - (idx % 3) * 0.04} lift={32} className="h-full">
                         <CodexEventCard event={event} index={idx} onRegister={() => setSelectedEvent(event)} />
-                     </ScrollReveal>
+                     </Reveal>
                   ))}
                </div>
             ) : (
@@ -229,7 +230,7 @@ const Events: React.FC = () => {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                      {workshopTopics.map((topic, idx) => (
-                        <ScrollReveal key={topic.title} delay={idx * 100} className="h-full">
+                        <Reveal key={topic.title} enterEnd={0.84 - (idx % 3) * 0.04} lift={32} className="h-full">
                            <Surface kind="document" as="article" className="h-full bg-white/55 border border-ink/10 overflow-hidden">
                               <img src={topic.image} alt="" loading="lazy" decoding="async" className="w-full aspect-[16/10] object-cover grayscale-[0.2]" />
                               <div className="p-7">
@@ -237,7 +238,7 @@ const Events: React.FC = () => {
                                  <p className="font-sans text-sm leading-relaxed text-ink-muted">{topic.description}</p>
                               </div>
                            </Surface>
-                        </ScrollReveal>
+                        </Reveal>
                      ))}
                   </div>
                </div>

@@ -6,6 +6,7 @@ import { MobilePartnerBlock } from './MobilePartnerBlock';
 import { MobileScenePlate } from './MobileScenePlate';
 import { MobileButton } from './MobileButton';
 import type { Page } from '../types';
+import { useScrollProgress } from '../../lib/useScrollProgress';
 
 interface MobileWhoWeArePageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -51,6 +52,9 @@ export const MobileWhoWeArePage: React.FC<MobileWhoWeArePageProps> = ({ onNaviga
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // Hero copy settles upward and fades as the mission scene scrolls out.
+  const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
+
   useEffect(() => {
     const el = scrollerRef.current;
     if (!el) return;
@@ -74,15 +78,17 @@ export const MobileWhoWeArePage: React.FC<MobileWhoWeArePageProps> = ({ onNaviga
   return (
     <MobileShell onNavigate={onNavigate}>
       {/* Hero — Folio 0 · The Mission */}
-      <MobileFolioScene id="mission" eyebrow="Folio 0 — The Mission">
-        <h1 className="font-serif text-[3rem] leading-[1.05] text-ink mb-6 mt-2 tracking-tight">
-          We build the team.
-          <br />
-          <span className="italic text-ink-muted/70">You own the output.</span>
-        </h1>
-        <p className="font-serif text-[17px] text-ink-muted leading-[1.6]">
-          DaVeenci is two people and a workshop. We design specialist AI teams for founders whose work is stuck between a chat window and a team they can't afford to hire.
-        </p>
+      <MobileFolioScene id="mission" eyebrow="Folio 0 — The Mission" innerRef={heroRef}>
+        <div className="hero-copy">
+          <h1 className="font-serif text-[3rem] leading-[1.05] text-ink mb-6 mt-2 tracking-tight">
+            We build the team.
+            <br />
+            <span className="italic text-ink-muted/70">You own the output.</span>
+          </h1>
+          <p className="font-serif text-[17px] text-ink-muted leading-[1.6]">
+            DaVeenci is two people and a workshop. We design specialist AI teams for founders whose work is stuck between a chat window and a team they can't afford to hire.
+          </p>
+        </div>
       </MobileFolioScene>
 
       {/* Anton */}

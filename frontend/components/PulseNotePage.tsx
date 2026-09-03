@@ -11,6 +11,8 @@ import NewsletterVisual from '../images/pulse-visual-newsletter.svg';
 import SocialVisual from '../images/pulse-visual-social.svg';
 import BlogVisual from '../images/pulse-visual-blog.svg';
 import { useIsMobile } from './mobile/useIsMobile';
+import { Parallax, Reveal } from './motion/Parallax';
+import { useScrollProgress } from '../lib/useScrollProgress';
 import { MobilePulseNotePage } from './mobile/MobilePulseNotePage';
 import { useCaseEngaged } from '../lib/useCaseEngaged';
 
@@ -180,11 +182,16 @@ const PulseHero: React.FC = () => {
     }
   };
 
+  // Hero planes: copy settles, the diagram lags as the hero scrolls out.
+  const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
+
   return (
-    <Section className="pt-32 pb-20 md:pt-40 md:pb-28 min-h-[90vh] flex items-center">
-      <VitruvianBackground className="opacity-[0.08]" />
+    <Section className="pt-32 pb-20 md:pt-40 md:pb-28 min-h-[90vh] flex items-center" overflow innerRef={heroRef}>
+      <div className="hero-scaffold absolute inset-0 pointer-events-none" aria-hidden="true">
+        <VitruvianBackground className="opacity-[0.08]" />
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-        <div className="lg:col-span-6 relative z-20">
+        <div className="lg:col-span-6 relative z-20 hero-copy">
           <ScrollReveal immediate>
             <PageHero
               eyebrow={
@@ -212,7 +219,7 @@ const PulseHero: React.FC = () => {
           </ScrollReveal>
         </div>
 
-        <div className="lg:col-span-6 relative h-[400px] md:h-[480px] flex items-center justify-center">
+        <div className="lg:col-span-6 relative h-[400px] md:h-[480px] flex items-center justify-center hero-plate">
           <ScrollReveal delay={500} direction="left" className="w-full flex justify-center">
             <PulseHeroDiagram />
           </ScrollReveal>
@@ -925,9 +932,11 @@ const WhatPulseDoes: React.FC = () => (
   <Section id="product" pattern="grid">
     <SectionHeader eyebrow="The Product" title="What you can do with PulseNote" subtitle="From raw ideas and meeting insights to polished content, automatically." />
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-      <ScrollReveal delay={200}>
-        <MeetingAnalyzerAnimation />
-      </ScrollReveal>
+      <Parallax plane="plate">
+        <ScrollReveal delay={200}>
+          <MeetingAnalyzerAnimation />
+        </ScrollReveal>
+      </Parallax>
       <ScrollReveal delay={400} direction="left">
         <div>
           <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">Turn your meeting Insights to content</h3>
@@ -948,16 +957,20 @@ const WhatPulseDoes: React.FC = () => (
           </p>
         </div>
       </ScrollReveal>
-      <ScrollReveal delay={400} direction="left">
-        <IdeaToContentAnimation />
-      </ScrollReveal>
+      <Parallax plane="plate">
+        <ScrollReveal delay={400} direction="left">
+          <IdeaToContentAnimation />
+        </ScrollReveal>
+      </Parallax>
     </div>
 
     {/* Stay on Schedule row */}
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-20">
-      <ScrollReveal delay={200}>
-        <ScheduleAnimation />
-      </ScrollReveal>
+      <Parallax plane="plate">
+        <ScrollReveal delay={200}>
+          <ScheduleAnimation />
+        </ScrollReveal>
+      </Parallax>
       <ScrollReveal delay={400} direction="left">
         <div>
           <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">Stay on Schedule</h3>
@@ -978,9 +991,11 @@ const WhatPulseDoes: React.FC = () => (
           </p>
         </div>
       </ScrollReveal>
-      <ScrollReveal delay={400} direction="left">
-        <BrandingAnimation />
-      </ScrollReveal>
+      <Parallax plane="plate">
+        <ScrollReveal delay={400} direction="left">
+          <BrandingAnimation />
+        </ScrollReveal>
+      </Parallax>
     </div>
   </Section>
 );
@@ -1144,7 +1159,7 @@ const ImageGeneration: React.FC = () => (
         { label: 'Social Card', src: SocialVisual, alt: 'Social card generated visual with connected content nodes' },
         { label: 'Blog Feature', src: BlogVisual, alt: 'Blog feature generated visual in editorial sketch style' },
       ].map((item, i) => (
-        <ScrollReveal key={item.label} delay={i * 150}>
+        <Reveal key={item.label} enterEnd={0.84 - i * 0.03} lift={28}>
           <div className="bg-white shadow-lg border border-ink/10 rounded-sm overflow-hidden group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <div className="aspect-[16/10] bg-canvas/50 flex items-center justify-center relative overflow-hidden">
               <img src={item.src} alt={item.alt} loading="lazy" decoding="async" className="w-full h-full object-cover" />
@@ -1155,7 +1170,7 @@ const ImageGeneration: React.FC = () => (
               <Image className="w-4 h-4 text-ink-muted/40" />
             </div>
           </div>
-        </ScrollReveal>
+        </Reveal>
       ))}
     </div>
   </Section>
@@ -1486,7 +1501,7 @@ const UseCases: React.FC = () => (
     <SectionHeader eyebrow="Use Cases" title="Who is PulseNote For?" subtitle="Whether you're a founder, content creator, or team lead — Pulse fits into your workflow." />
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
       {personas.map((p, i) => (
-        <ScrollReveal key={p.title} delay={i * 120} className="h-full">
+        <Reveal key={p.title} enterEnd={0.84 - i * 0.03} lift={30} className="h-full">
           <div className="bg-white border border-ink/10 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group text-center h-full flex flex-col items-center">
             <div className="w-44 h-44 mx-auto mb-6 rounded-full bg-pulse-surface border border-ink/10 p-2 group-hover:border-accent/30 transition-colors overflow-hidden">
               <img src={p.img} alt={p.title} loading="lazy" decoding="async" className="w-full h-full object-cover object-top rounded-full scale-150" />
@@ -1494,7 +1509,7 @@ const UseCases: React.FC = () => (
             <h3 className="font-serif text-xl text-ink mb-2">{p.title}</h3>
             <p className="text-sm text-ink-muted leading-relaxed flex-1">{p.desc}</p>
           </div>
-        </ScrollReveal>
+        </Reveal>
       ))}
     </div>
   </Section>
@@ -1604,7 +1619,7 @@ const PulseNotePage: React.FC<PulseNotePageProps> = (props) => {
 
 const PulseNotePageDesktop: React.FC<PulseNotePageProps> = ({ onNavigate }) => {
   return (
-    <div className="min-h-screen text-ink [&_h1]:[text-wrap:balance] [&_h2]:[text-wrap:balance] [&_h3]:[text-wrap:balance] [&_p]:[text-wrap:pretty]">
+    <div className="min-h-screen text-ink overflow-x-clip [&_h1]:[text-wrap:balance] [&_h2]:[text-wrap:balance] [&_h3]:[text-wrap:balance] [&_p]:[text-wrap:pretty]">
       <Header onNavigate={onNavigate} currentPage="pulsenote" />
       <PulseHero />
       <WhatPulseDoes />

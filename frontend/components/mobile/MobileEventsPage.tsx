@@ -6,6 +6,8 @@ import { API_ENDPOINTS } from '../../config';
 import type { Page } from '../types';
 import { formatEventDate, scheduledEvents, workshopTopics, type ScheduledEvent } from '../eventCatalog';
 import { MobileSubscribe } from './MobileSubscribe';
+import { Reveal } from '../motion/Parallax';
+import { useScrollProgress } from '../../lib/useScrollProgress';
 
 interface MobileEventsPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -172,22 +174,27 @@ export const MobileEventsPage: React.FC<MobileEventsPageProps> = ({ onNavigate }
     window.scrollTo(0, 0);
   }, []);
 
+  // Hero copy settles upward and fades as the masthead scrolls out.
+  const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
+
   return (
     <MobileShell onNavigate={onNavigate}>
-      <section className="px-6 pt-10 pb-8">
+      <section ref={heroRef} className="px-6 pt-10 pb-8">
         <div className="flex items-center gap-3 mb-5">
           <span className="h-px w-8 bg-ink-muted/30" />
           <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">
             Workshop Events
           </span>
         </div>
-        <h1 className="font-serif text-[2.75rem] leading-[1.05] text-ink mb-5 tracking-tight">
-          From the <br />
-          <span className="italic text-ink-muted/70">workshop.</span>
-        </h1>
-        <p className="font-serif text-[17px] text-ink-muted leading-[1.6]">
-          Occasional in-person and online sessions — on specialist AI teams, orchestration, and what we're learning as we build.
-        </p>
+        <div className="hero-copy">
+          <h1 className="font-serif text-[2.75rem] leading-[1.05] text-ink mb-5 tracking-tight">
+            From the <br />
+            <span className="italic text-ink-muted/70">workshop.</span>
+          </h1>
+          <p className="font-serif text-[17px] text-ink-muted leading-[1.6]">
+            Occasional in-person and online sessions — on specialist AI teams, orchestration, and what we're learning as we build.
+          </p>
+        </div>
       </section>
 
       <section className="px-6 pb-10 space-y-5">
@@ -200,8 +207,11 @@ export const MobileEventsPage: React.FC<MobileEventsPageProps> = ({ onNavigate }
         )}
 
         {scheduledEvents.map((event, i) => (
-          <article
+          <Reveal
+            as="article"
             key={event.id}
+            enterEnd={0.86}
+            lift={20}
             className="bg-white border border-ink/10 rounded-sm overflow-hidden shadow-sm shadow-ink/5"
           >
             <div className="aspect-[16/9] bg-ink/5 overflow-hidden">
@@ -234,7 +244,7 @@ export const MobileEventsPage: React.FC<MobileEventsPageProps> = ({ onNavigate }
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
-          </article>
+          </Reveal>
         ))}
 
         {scheduledEvents.length === 0 && (
@@ -242,13 +252,13 @@ export const MobileEventsPage: React.FC<MobileEventsPageProps> = ({ onNavigate }
             <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-ink-muted mb-4">Topics from the workshop</div>
             <div className="space-y-5">
               {workshopTopics.map((topic) => (
-                <article key={topic.title} className="bg-white border border-ink/10 rounded-sm overflow-hidden shadow-sm shadow-ink/5">
+                <Reveal as="article" key={topic.title} enterEnd={0.86} lift={20} className="bg-white border border-ink/10 rounded-sm overflow-hidden shadow-sm shadow-ink/5">
                   <img src={topic.image} alt="" loading="lazy" decoding="async" className="w-full aspect-[16/9] object-cover" />
                   <div className="p-5">
                     <h2 className="font-serif text-xl text-ink leading-snug mb-3">{topic.title}</h2>
                     <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{topic.description}</p>
                   </div>
-                </article>
+                </Reveal>
               ))}
             </div>
           </div>

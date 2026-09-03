@@ -330,6 +330,10 @@ body {
   .offers-header h2 { font-size: clamp(2.5rem, 3.6vw, 3.75rem); }
   .offers-header p { margin-bottom: 2rem; }
 }
+/* Same hold for grids that go two-column at the md breakpoint (Who We Are portraits). */
+@media (min-width: 768px) {
+  .aside-sticky-md { position: sticky; top: 7rem; }
+}
 
 /* Footer reveal: the page canvas is opaque and sits above the footer, which
    is pinned to the viewport bottom; the page lifts away to reveal it. A footer

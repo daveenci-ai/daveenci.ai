@@ -7,6 +7,8 @@ import { MobileBriefingDetailPage } from './mobile/MobileBriefingDetailPage';
 import type { Page } from './types';
 import { Clock, Tag, ChevronRight, Check, X, AlertTriangle, Lightbulb, BookOpen, Layers } from 'lucide-react';
 import { CodexCover } from './CodexCover';
+import { Parallax } from './motion/Parallax';
+import { useScrollProgress } from '../lib/useScrollProgress';
 import { governedAgentOperations } from '../content/briefingGovernedAgents';
 
 interface BriefingDetailPageProps {
@@ -1640,13 +1642,16 @@ const BriefingDetailDesktop: React.FC<BriefingDetailPageProps> = ({ onNavigate, 
       window.scrollTo(0, 0);
    }, [id]);
 
+   // The masthead settles upward and fades as the article header scrolls out.
+   const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
+
    return (
       <div className="flex flex-col w-full min-h-screen">
          <Header onNavigate={onNavigate} currentPage="briefing-detail" />
 
          {/* Article Header */}
-         <Section className="pt-32 pb-16 md:pt-40 md:pb-24 bg-white/50" pattern="nodes" overflow={true}>
-            <div className="max-w-4xl mx-auto text-center">
+         <Section className="pt-32 pb-16 md:pt-40 md:pb-24 bg-white/50" pattern="nodes" overflow={true} innerRef={heroRef}>
+            <div className="max-w-4xl mx-auto text-center hero-copy">
                <div className="flex items-center justify-center gap-3 mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
                   <span className="px-3 py-1 bg-white/50 backdrop-blur border border-ink/10 rounded-sm text-[10px] font-bold tracking-widest uppercase text-accent">
                      {data.category}
@@ -1716,9 +1721,10 @@ const BriefingDetailDesktop: React.FC<BriefingDetailPageProps> = ({ onNavigate, 
                   </div>
                </div>
 
-               <div className="w-full aspect-[16/9] overflow-hidden rounded-sm mb-12 shadow-xl shadow-ink/5 border border-ink/10">
+               {/* The cover plate lags the copy by a few pixels — the same depth cue as the case pages. */}
+               <Parallax plane="plate" as="figure" className="w-full aspect-[16/9] overflow-hidden rounded-sm mb-12 shadow-xl shadow-ink/5 border border-ink/10">
                   <CodexCover id={data.id} title={data.title} />
-               </div>
+               </Parallax>
 
                {/* Dynamic Sections */}
                {data.sections.map((section) => (

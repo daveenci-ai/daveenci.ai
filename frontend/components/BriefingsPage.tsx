@@ -8,6 +8,7 @@ import { Filter } from 'lucide-react';
 import { briefings } from '../content/briefings';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileBriefingsPage } from './mobile/MobileBriefingsPage';
+import { Parallax, Reveal } from './motion/Parallax';
 
 interface BriefingsPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -37,12 +38,15 @@ const BriefingsPageDesktop: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
   const featuredBriefings = allBriefings.filter((b) => b.featured);
 
   return (
-    <div className="flex flex-col w-full min-h-screen">
+    <div className="flex flex-col w-full min-h-screen overflow-x-clip">
       <Header onNavigate={onNavigate} currentPage="briefings" />
 
-      {/* Hero Section */}
+      {/* Hero Section — the drawing sits on the scaffold plane behind the
+          title and the featured covers, drifting slower than both. */}
       <Section className="pt-40 pb-12 md:pt-48 md:pb-20">
-        <VitruvianBackground className="opacity-[0.12] -right-1/4 scale-[1.15]" />
+        <Parallax plane="scaffold" className="absolute inset-0 pointer-events-none" aria-hidden="true">
+          <VitruvianBackground className="opacity-[0.12] -right-1/4 scale-[1.15]" />
+        </Parallax>
         <div className="text-center max-w-4xl mx-auto mb-16">
           <ScrollReveal immediate>
             <PageHero
@@ -57,7 +61,7 @@ const BriefingsPageDesktop: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
         {/* Featured Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
           {featuredBriefings.map((briefing, idx) => (
-            <ScrollReveal key={briefing.issueNo} delay={idx * 150} className="h-full">
+            <Reveal key={briefing.issueNo} enterEnd={0.84 - (idx % 2) * 0.05} lift={36} className="h-full">
               <BriefingCard
                 {...briefing}
                 coverId={briefing.id}
@@ -68,7 +72,7 @@ const BriefingsPageDesktop: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
                   onNavigate('briefing-detail', undefined, briefing.id);
                 }}
               />
-            </ScrollReveal>
+            </Reveal>
           ))}
         </div>
       </Section>
@@ -97,7 +101,7 @@ const BriefingsPageDesktop: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredBriefings.map((briefing, idx) => (
-            <ScrollReveal key={briefing.issueNo} delay={idx * 50}>
+            <Reveal key={briefing.issueNo} enterEnd={0.86 - (idx % 3) * 0.03} lift={24}>
               <BriefingCard
                 {...briefing}
                 coverId={briefing.id}
@@ -107,7 +111,7 @@ const BriefingsPageDesktop: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
                   onNavigate('briefing-detail', undefined, briefing.id);
                 }}
               />
-            </ScrollReveal>
+            </Reveal>
           ))}
         </div>
 
