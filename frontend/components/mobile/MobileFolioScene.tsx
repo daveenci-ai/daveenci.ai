@@ -4,6 +4,8 @@ interface MobileFolioSceneProps {
   id?: string;
   eyebrow?: string;
   className?: string;
+  /** Ref to the <section> (scroll-progress subscribers attach here). */
+  innerRef?: React.Ref<HTMLElement>;
   children: React.ReactNode;
 }
 
@@ -19,10 +21,12 @@ export const MobileFolioScene: React.FC<MobileFolioSceneProps> = ({
   id,
   eyebrow,
   className = '',
+  innerRef,
   children,
 }) => (
   <section
     id={id}
+    ref={innerRef}
     className={`relative flex flex-col px-6 pt-10 pb-8 ${className}`}
   >
     {eyebrow && (

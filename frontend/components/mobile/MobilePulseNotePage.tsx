@@ -14,6 +14,8 @@ import {
 import { BookingWidget } from '../BookingWidget';
 import AstridSketch from '../../images/Astrid_Sketch.webp';
 import type { Page } from '../types';
+import { Reveal } from '../motion/Parallax';
+import { useScrollProgress } from '../../lib/useScrollProgress';
 
 interface MobilePulseNotePageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -47,10 +49,10 @@ const FeatureRow: React.FC<{
       <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-4">{body}</p>
       <ul className="space-y-2.5">
         {bullets.map((b, i) => (
-          <li key={i} className="flex items-start gap-2.5 text-ink-muted">
+          <Reveal as="li" key={i} enterEnd={0.88 - i * 0.04} lift={12} className="flex items-start gap-2.5 text-ink-muted">
             <div className="w-1 h-1 rounded-full bg-accent mt-2 flex-shrink-0" />
             <span className="font-sans text-[14px] leading-relaxed">{b}</span>
-          </li>
+          </Reveal>
         ))}
       </ul>
     </div>
@@ -80,21 +82,26 @@ export const MobilePulseNotePage: React.FC<MobilePulseNotePageProps> = ({ onNavi
     }
   };
 
+  // Hero planes: copy settles, the diagram lags as the hero scrolls out.
+  const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
+
   return (
     <MobileShell onNavigate={onNavigate}>
       {/* Hero */}
-      <section className="px-6 pt-10 pb-10">
+      <section ref={heroRef} className="px-6 pt-10 pb-10">
         <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.25em] uppercase text-accent bg-accent/5 border border-accent/10 rounded-sm px-2.5 py-1">
           Introducing Pulse Note
         </div>
-        <h1 className="font-serif text-[2.5rem] leading-[1.05] text-ink mb-5 tracking-tight">
-          Your ideas and meeting insights
-          <br />
-          <span className="italic text-ink-muted/70">turned into content.</span>
-        </h1>
-        <p className="font-serif text-[16px] text-ink-muted leading-[1.6] mb-6">
-          Pulse Note analyzes your calls, surfaces the insights and themes that matter, and drafts publish-ready newsletters, social posts, and visuals on autopilot.
-        </p>
+        <div className="hero-copy">
+          <h1 className="font-serif text-[2.5rem] leading-[1.05] text-ink mb-5 tracking-tight">
+            Your ideas and meeting insights
+            <br />
+            <span className="italic text-ink-muted/70">turned into content.</span>
+          </h1>
+          <p className="font-serif text-[16px] text-ink-muted leading-[1.6] mb-6">
+            Pulse Note analyzes your calls, surfaces the insights and themes that matter, and drafts publish-ready newsletters, social posts, and visuals on autopilot.
+          </p>
+        </div>
         <div className="flex flex-col gap-3 mb-8">
           <MobileButton onClick={() => scrollTo('booking')}>Book a demo</MobileButton>
           <MobileButton variant="secondary" onClick={() => scrollTo('try-it')}>See how it works</MobileButton>
@@ -105,7 +112,7 @@ export const MobilePulseNotePage: React.FC<MobilePulseNotePageProps> = ({ onNavi
           PulseNote is a product demonstration. The transcripts, posts and figures shown throughout this page are generated from one example meeting — not from client work.
         </p>
 
-        <div className="flex justify-center">
+        <div className="flex justify-center hero-plate">
           <PulseHeroDiagram />
         </div>
       </section>
@@ -189,13 +196,13 @@ export const MobilePulseNotePage: React.FC<MobilePulseNotePageProps> = ({ onNavi
         </h2>
         <div className="space-y-4">
           {PERSONAS.map((p) => (
-            <div key={p.title} className="bg-white border border-ink/10 p-5 shadow-sm hover:shadow-lg transition-all rounded-lg text-center flex flex-col items-center">
+            <Reveal key={p.title} enterEnd={0.86} lift={20} className="bg-white border border-ink/10 p-5 shadow-sm rounded-lg text-center flex flex-col items-center">
               <div className="relative w-32 h-32 mx-auto mb-4 rounded-full bg-pulse-surface border border-ink/10 overflow-hidden flex items-center justify-center">
                 <img src={p.img} alt={p.title} loading="lazy" decoding="async" className="w-full h-full object-cover object-top scale-150" />
               </div>
               <h3 className="font-serif text-lg text-ink mb-2">{p.title}</h3>
               <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{p.desc}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>

@@ -69,6 +69,11 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'not-found'>, Rou
     description: 'Versioned trading research, explicit action gates, paper execution, and structured feedback in one constrained loop.',
     path: '/compoundiq',
   },
+  'analytics-os': {
+    title: 'Marketing Analytics OS — Measurement That Decides | DaVeenci',
+    description: 'Site events, ad spend, and CRM outcomes reconciled in one client-owned warehouse, with a keep / kill verdict on every campaign and landing-page test.',
+    path: '/analytics-os',
+  },
   'creative-production': {
     title: 'Creative Production — Governed Campaigns and Content | DaVeenci',
     description: 'Marketing strategy, paid campaign management, content, ads, and YouTube video run through a governed workflow with explicit human approval before publication.',

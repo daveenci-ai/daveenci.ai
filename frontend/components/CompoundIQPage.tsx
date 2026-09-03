@@ -26,6 +26,9 @@ import {
   VitruvianBackground,
 } from './Shared';
 import { useIsMobile } from './mobile/useIsMobile';
+import { Reveal } from './motion/Parallax';
+import { Stack } from './motion/Stack';
+import { useScrollProgress } from '../lib/useScrollProgress';
 import { MobileCompoundIQPage } from './mobile/MobileCompoundIQPage';
 import { GateSimulator } from './GateSimulator';
 import { useCaseEngaged } from '../lib/useCaseEngaged';
@@ -195,15 +198,20 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  // Hero planes: `--p` runs 0 → 1 as the hero scrolls out; copy settles, the
+  // figure lags (same rules as the homepage hero, see index.css).
+  const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
 
   return (
-    <div className="flex flex-col w-full overflow-x-hidden min-h-screen">
+    <div className="flex flex-col w-full overflow-x-clip min-h-screen">
       <Header onNavigate={onNavigate} currentPage="compoundiq" />
 
-      <Section className="pt-36 pb-20 md:pt-44 md:pb-28 min-h-[90vh] flex items-center" overflow>
-        <VitruvianBackground className="opacity-[0.08] -right-1/4" />
+      <Section className="pt-36 pb-20 md:pt-44 md:pb-28 min-h-[90vh] flex items-center" overflow innerRef={heroRef}>
+        <div className="hero-scaffold absolute inset-0 pointer-events-none" aria-hidden="true">
+          <VitruvianBackground className="opacity-[0.08] -right-1/4" />
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 items-center">
-          <div className="lg:col-span-6 relative z-10">
+          <div className="lg:col-span-6 relative z-10 hero-copy">
             <ScrollReveal immediate>
               <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.22em] uppercase text-amber-800 bg-amber-50/75 border border-amber-700/15 rounded-sm px-2.5 py-1">
                 Build in public · In development · Paper only
@@ -232,7 +240,7 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
               />
             </ScrollReveal>
           </div>
-          <div className="lg:col-span-6">
+          <div className="lg:col-span-6 hero-plate">
             <ScrollReveal delay={350} direction="left">
               <CompoundIQControlLoop />
             </ScrollReveal>
@@ -259,10 +267,10 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
           title="Four specialists. One constrained loop."
           subtitle="Research and execution never share working state. Each role has a narrow mandate, communicates through versioned contracts, and can be stopped without confusing the rest of the team."
         />
-        <div className="space-y-10">
-          {system.map((step, index) => (
-            <ScrollReveal key={step.number} delay={index * 100}>
-              <article className="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-white/55 border border-ink/10 p-8 md:p-10 shadow-sm rounded-sm">
+        {/* One stage at a time: the cards stack, each sliding over the last. */}
+        <Stack>
+          {system.map((step) => (
+            <article key={step.number} className="stack-card grid grid-cols-1 lg:grid-cols-12 gap-8 bg-paper border border-ink/10 p-8 md:p-10 shadow-lg shadow-ink/5 rounded-sm">
                 <div className="lg:col-span-2 flex lg:block items-center gap-4">
                   <step.Icon className="w-9 h-9 text-accent" strokeWidth={1.4} />
                   <div className="font-serif italic text-4xl text-ink-muted/35 lg:mt-8">{step.number}</div>
@@ -283,9 +291,8 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
                   </ul>
                 </div>
               </article>
-            </ScrollReveal>
           ))}
-        </div>
+        </Stack>
       </Section>
 
       <Section className="py-20 md:py-28 bg-alt/25">
@@ -296,13 +303,13 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
         />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {guardrails.map((item, index) => (
-            <ScrollReveal key={item.title} delay={index * 100}>
+            <Reveal key={item.title} enterEnd={0.82 - (index % 2) * 0.05} lift={28} className="h-full">
               <div className="h-full bg-white/65 border border-ink/10 p-7 md:p-8 rounded-sm">
                 <item.Icon className="w-7 h-7 text-accent mb-6" strokeWidth={1.4} />
                 <h3 className="font-serif text-2xl text-ink mb-3">{item.title}</h3>
                 <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{item.body}</p>
               </div>
-            </ScrollReveal>
+            </Reveal>
           ))}
         </div>
       </Section>

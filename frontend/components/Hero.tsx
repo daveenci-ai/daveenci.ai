@@ -1,7 +1,8 @@
 
-import React from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { Cpu, Activity } from 'lucide-react';
 import { Section, ScrollReveal, Button, VitruvianBackground, PageHero, Plate, SectionDivider } from './Shared';
+import { useScrollProgress, prefersReducedMotion } from '../lib/useScrollProgress';
 import type { Page } from './types';
 
 const HeroDiagram: React.FC = () => (
@@ -82,30 +83,98 @@ const HeroDiagram: React.FC = () => (
 
     </svg>
 
-    {/* Annotation pills — repositioned to avoid overlapping nodes */}
-    <div className="absolute top-2 -left-4 md:-left-6 bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
-      <Cpu className="w-4 h-4 text-accent" />
-      <span className="text-xs font-medium text-ink">Specialist team</span>
+    {/* Annotation pills — the fastest plane. The outer div carries the scroll
+        transform so the float keyframes on the inner div are not overridden. */}
+    <div className="hero-pill absolute top-2 -left-4 md:-left-6">
+      <div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
+        <Cpu className="w-4 h-4 text-accent" />
+        <span className="text-xs font-medium text-ink">Specialist team</span>
+      </div>
     </div>
 
-    <div className="absolute bottom-2 -right-4 md:-right-6 bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
-      <Activity className="w-4 h-4 text-ink-muted" />
-      <span className="text-xs font-medium text-ink">Human-gated</span>
+    <div className="hero-pill absolute bottom-2 -right-4 md:-right-6">
+      <div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
+        <Activity className="w-4 h-4 text-ink-muted" />
+        <span className="text-xs font-medium text-ink">Human-gated</span>
+      </div>
     </div>
   </Plate>
 );
+
+/**
+ * Pointer tilt for the hero plate: a few degrees of perspective rotation that
+ * follow the cursor across the hero. Desktop pointers only; skipped for touch
+ * and for reduced motion. Writes CSS variables, never React state.
+ */
+function usePointerTilt(sectionRef: React.RefObject<HTMLElement | null>, plateRef: React.RefObject<HTMLDivElement | null>) {
+  useEffect(() => {
+    const section = sectionRef.current;
+    const plate = plateRef.current;
+    if (!section || !plate || typeof window === 'undefined') return;
+    if (prefersReducedMotion() || !window.matchMedia('(pointer: fine)').matches) return;
+
+    let frame = 0;
+    let pointer: { x: number; y: number } | null = null;
+    // Layout is read inside the frame, never in the event handler.
+    const apply = () => {
+      frame = 0;
+      if (!pointer) {
+        plate.style.setProperty('--tilt-x', '0deg');
+        plate.style.setProperty('--tilt-y', '0deg');
+        return;
+      }
+      const rect = plate.getBoundingClientRect();
+      const dx = (pointer.x - (rect.left + rect.width / 2)) / Math.max(rect.width, 1);
+      const dy = (pointer.y - (rect.top + rect.height / 2)) / Math.max(rect.height, 1);
+      // ±5° — enough to read as a physical card, not enough to distort the figure.
+      const tiltY = Math.max(-1, Math.min(1, dx)) * 5;
+      const tiltX = Math.max(-1, Math.min(1, -dy)) * 5;
+      plate.style.setProperty('--tilt-x', `${tiltX.toFixed(2)}deg`);
+      plate.style.setProperty('--tilt-y', `${tiltY.toFixed(2)}deg`);
+    };
+    const onMove = (event: PointerEvent) => {
+      pointer = { x: event.clientX, y: event.clientY };
+      if (!frame) frame = window.requestAnimationFrame(apply);
+    };
+    const onLeave = () => {
+      pointer = null;
+      if (!frame) frame = window.requestAnimationFrame(apply);
+    };
+    section.addEventListener('pointermove', onMove, { passive: true });
+    section.addEventListener('pointerleave', onLeave);
+    return () => {
+      section.removeEventListener('pointermove', onMove);
+      section.removeEventListener('pointerleave', onLeave);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, [sectionRef, plateRef]);
+}
 
 interface HeroProps {
   onNavigate?: (page: Page, hash?: string) => void;
 }
 
 const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
+  // `--p` runs 0 → 1 as the hero scrolls out (mode: exit). Every hero plane is
+  // identity at 0, so the prerendered shell and the mounted hero match.
+  const sectionEl = useRef<HTMLElement | null>(null);
+  const plateEl = useRef<HTMLDivElement | null>(null);
+  const progressRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
+  const sectionRef = useCallback((node: HTMLElement | null) => {
+    sectionEl.current = node;
+    progressRef(node);
+  }, [progressRef]);
+  usePointerTilt(sectionEl, plateEl);
+
   return (
-    <Section className="pt-44 pb-24 md:pt-52 md:pb-32 min-h-screen flex items-center" overflow={true}>
-      <VitruvianBackground className="opacity-[0.12] -right-1/4 scale-[1.15]" />
+    <Section className="pt-44 pb-24 md:pt-52 md:pb-32 min-h-screen flex items-center" overflow={true} innerRef={sectionRef}>
+      {/* Scaffold plane — the slowest layer, lags the scroll. */}
+      <div className="hero-scaffold absolute inset-0 pointer-events-none" aria-hidden="true">
+        <VitruvianBackground className="opacity-[0.12] -right-1/4 scale-[1.15]" />
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12 items-center">
-        <div className="lg:col-span-7 relative z-20">
+        <div className="lg:col-span-7 relative z-20 hero-copy">
           <ScrollReveal immediate>
             <SectionDivider className="mb-6" width="w-full max-w-[60%]" />
             <PageHero
@@ -125,9 +194,11 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           </ScrollReveal>
         </div>
 
-        <div className="lg:col-span-5 relative h-[420px] flex items-center justify-center">
+        <div className="lg:col-span-5 relative h-[420px] flex items-center justify-center hero-plate">
           <ScrollReveal delay={500} direction="left" className="w-full flex justify-center">
-            <HeroDiagram />
+            <div ref={plateEl} className="tilt-plate w-full flex justify-center">
+              <HeroDiagram />
+            </div>
           </ScrollReveal>
         </div>
       </div>

@@ -13,6 +13,8 @@ import { useIsMobile } from './mobile/useIsMobile';
 import { MobileBrandOSPage } from './mobile/MobileBrandOSPage';
 import { track } from '../lib/analytics';
 import { useCaseEngaged } from '../lib/useCaseEngaged';
+import { Parallax, Reveal } from './motion/Parallax';
+import { useScrollProgress } from '../lib/useScrollProgress';
 import { Search as SearchIcon, ChevronDown as ChevronDownIcon, Target, Users, Rocket as RocketIcon, Building2 as BuildingIcon } from 'lucide-react';
 
 // --- Types ---
@@ -741,6 +743,10 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
   const demoStartFired = useRef(false);
   const demoCompleteFired = useRef(false);
 
+  // Hero planes: copy settles first, the scorecard diagram lags behind it as
+  // the hero scrolls out (exit progress → `--p` on the section).
+  const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
+
   const canSubmit = names.trim().length > 0 && context.trim().length > 0 && !loading;
 
   const handleSubmit = async () => {
@@ -801,14 +807,16 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
   };
 
   return (
-    <div className="flex flex-col w-full overflow-x-hidden min-h-screen">
+    <div className="flex flex-col w-full overflow-x-clip min-h-screen">
       <Header onNavigate={onNavigate} currentPage="brandos" />
 
       {/* Hero */}
-      <Section className="pt-32 pb-20 md:pt-40 md:pb-28 min-h-[90vh] flex items-center">
-        <VitruvianBackground className="opacity-[0.08]" />
+      <Section className="pt-32 pb-20 md:pt-40 md:pb-28 min-h-[90vh] flex items-center" overflow innerRef={heroRef}>
+        <div className="hero-scaffold absolute inset-0 pointer-events-none" aria-hidden="true">
+          <VitruvianBackground className="opacity-[0.08]" />
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          <div className="lg:col-span-6 relative z-20">
+          <div className="lg:col-span-6 relative z-20 hero-copy">
             <ScrollReveal immediate>
               <PageHero
                 eyebrow={
@@ -835,7 +843,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
             </ScrollReveal>
           </div>
 
-          <div className="lg:col-span-6 relative flex items-center justify-center">
+          <div className="lg:col-span-6 relative flex items-center justify-center hero-plate">
             <ScrollReveal delay={500} direction="left" className="w-full flex justify-center">
               <BrandOSHeroDiagram />
             </ScrollReveal>
@@ -843,15 +851,19 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
         </div>
       </Section>
 
-      {/* The Product — feature rows */}
+      {/* The Product — feature rows. The product frames ride on the plate
+          plane (a few px behind the copy) and the bullet lists reveal one line
+          at a time, reversibly, as the row enters. */}
       <Section id="product" pattern="grid">
         <SectionHeader eyebrow="The Product" title="10 dimensions. Weighted by stage." subtitle="Scoring a name is not a vibes problem. It's a dimensions problem — and the weights shift depending on where you are in your business." />
 
         {/* Row 1 — Dimensions (demo L, copy R) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <ScrollReveal delay={200}>
-            <DimensionShowcase />
-          </ScrollReveal>
+          <Parallax plane="plate">
+            <ScrollReveal delay={200}>
+              <DimensionShowcase />
+            </ScrollReveal>
+          </Parallax>
           <ScrollReveal delay={400} direction="left">
             <div>
               <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4">Scored across 10 dimensions, independently</h3>
@@ -860,10 +872,10 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
               </p>
               <ul className="space-y-3">
                 {['Each dimension has a specific diagnostic question', 'Scores come with evidence, not a thumbs-up', 'Negative Risk is inverse-scored — high = safe', 'No hand-waving — every number justifies itself'].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-ink-muted">
+                  <Reveal as="li" key={i} enterEnd={0.86 - i * 0.05} lift={16} className="flex items-start gap-3 text-ink-muted">
                     <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
                     <span className="font-sans">{item}</span>
-                  </li>
+                  </Reveal>
                 ))}
               </ul>
             </div>
@@ -880,17 +892,19 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
               </p>
               <ul className="space-y-3">
                 {['Bootstrap · Clarity + Pronounceability lead', 'Seed · Relevance signals the category', 'Growth · Memorability + Uniqueness kick in', 'Scale · Visual Identity + Negative Risk dominate'].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-ink-muted">
+                  <Reveal as="li" key={i} enterEnd={0.86 - i * 0.05} lift={16} className="flex items-start gap-3 text-ink-muted">
                     <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
                     <span className="font-sans">{item}</span>
-                  </li>
+                  </Reveal>
                 ))}
               </ul>
             </div>
           </ScrollReveal>
-          <ScrollReveal delay={400} direction="left">
-            <StageWeightShifter />
-          </ScrollReveal>
+          <Parallax plane="plate">
+            <ScrollReveal delay={400} direction="left">
+              <StageWeightShifter />
+            </ScrollReveal>
+          </Parallax>
         </div>
       </Section>
 
@@ -951,7 +965,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
           ].map((uc, i) => {
             const Icon = uc.icon;
             return (
-              <ScrollReveal key={uc.title} delay={i * 120} className="h-full">
+              <Reveal key={uc.title} enterEnd={0.84 - i * 0.03} lift={30} className="h-full">
                 <div className="bg-white border border-ink/10 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group text-center h-full flex flex-col items-center rounded-lg">
                   <div className="relative w-44 h-44 mx-auto mb-6 rounded-full bg-pulse-surface border border-ink/10 group-hover:border-accent/30 transition-colors overflow-hidden flex items-center justify-center">
                     <svg className="absolute inset-0 w-full h-full" viewBox="0 0 176 176" fill="none">
@@ -964,7 +978,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
                   <h3 className="font-serif text-xl text-ink mb-2">{uc.title}</h3>
                   <p className="font-sans text-sm text-ink-muted leading-relaxed flex-1">{uc.body}</p>
                 </div>
-              </ScrollReveal>
+              </Reveal>
             );
           })}
         </div>

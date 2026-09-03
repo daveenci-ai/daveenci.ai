@@ -33,7 +33,7 @@ export function renderHeroShell(): string {
     // React replaces it on mount; until then it must not take focus or be
     // announced twice to a screen reader.
     '<div id="hero-shell" data-hero-shell aria-hidden="true" inert>',
-    `<div class="hidden md:flex md:flex-col w-full overflow-x-hidden">${desktop}</div>`,
+    `<div class="hidden md:flex md:flex-col w-full overflow-x-clip"><div class="page-canvas">${desktop}</div></div>`,
     `<div class="md:hidden relative" data-mobile><main class="pt-14">${mobile}</main></div>`,
     '</div>',
   ].join('');

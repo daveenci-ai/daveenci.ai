@@ -8,6 +8,8 @@ import AstridSketch from '../images/Astrid_Sketch.webp';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileWhoWeArePage } from './mobile/MobileWhoWeArePage';
 import { PRACTICES } from '../content/workCatalog';
+import { Parallax, Reveal } from './motion/Parallax';
+import { useScrollProgress } from '../lib/useScrollProgress';
 
 interface WhoWeArePageProps {
    onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -24,14 +26,20 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
       window.scrollTo(0, 0);
    }, []);
 
+   // Intro planes: the construction drawing sinks behind the copy as the
+   // intro scrolls out (exit progress → `--p` on the section).
+   const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
+
    return (
-      <div className="flex flex-col w-full min-h-screen">
+      <div className="flex flex-col w-full min-h-screen overflow-x-clip">
          <Header onNavigate={onNavigate} currentPage="who-we-are" />
 
          {/* Intro */}
-         <Section className="pt-40 pb-12 md:pt-48 md:pb-16">
-            <VitruvianBackground className="opacity-[0.12] -right-1/4 scale-[1.15]" />
-            <ScrollReveal immediate className="max-w-4xl mx-auto relative z-10">
+         <Section className="pt-40 pb-12 md:pt-48 md:pb-16" innerRef={heroRef}>
+            <div className="hero-scaffold absolute inset-0 pointer-events-none" aria-hidden="true">
+               <VitruvianBackground className="opacity-[0.12] -right-1/4 scale-[1.15]" />
+            </div>
+            <ScrollReveal immediate className="max-w-4xl mx-auto relative z-10 hero-copy">
                <PageHero
                   eyebrow="Folio 0 — The Mission"
                   title={<>We build the team. <br /><span className="italic text-ink-muted">You own the output.</span></>}
@@ -49,7 +57,8 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
             <div className="max-w-5xl mx-auto relative z-10">
                <ScrollReveal>
                   <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
-                     <div className="md:col-span-4">
+                     {/* The portrait holds beneath the header while the story scrolls past it. */}
+                     <div className="md:col-span-4 aside-sticky-md">
                         <div className="relative w-full max-w-xs mx-auto">
                            <div
                               aria-hidden="true"
@@ -86,15 +95,21 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                            </p>
                         </div>
                         <div className="space-y-5 font-sans text-canvas/80 text-lg leading-relaxed">
-                           <p>
-                              For years I thought the answer was a better model. A bigger context window. A cleverer prompt. Every wave of "this one changes everything" left me with the same workflow and the same bottlenecks. Generalist tools flatten the work. They don't finish it.
-                           </p>
-                           <p>
-                              Then I stopped trying to hire a generalist tool, and started building a team of specialists. DaVeenci is that bet — one workshop, many teams, each one good at one thing. Code. Media. Research. Whatever domain the work actually lives in.
-                           </p>
-                           <p>
-                              A good team beats a good tool. Not because specialists are smarter — they're not. Because coordination, governance, and accountability are what ship finished work. We build the team. You own the output. That's the whole pitch.
-                           </p>
+                           <Reveal enterEnd={0.82} lift={16}>
+                              <p>
+                                 For years I thought the answer was a better model. A bigger context window. A cleverer prompt. Every wave of "this one changes everything" left me with the same workflow and the same bottlenecks. Generalist tools flatten the work. They don't finish it.
+                              </p>
+                           </Reveal>
+                           <Reveal enterEnd={0.82} lift={16}>
+                              <p>
+                                 Then I stopped trying to hire a generalist tool, and started building a team of specialists. DaVeenci is that bet — one workshop, many teams, each one good at one thing. Code. Media. Research. Whatever domain the work actually lives in.
+                              </p>
+                           </Reveal>
+                           <Reveal enterEnd={0.82} lift={16}>
+                              <p>
+                                 A good team beats a good tool. Not because specialists are smarter — they're not. Because coordination, governance, and accountability are what ship finished work. We build the team. You own the output. That's the whole pitch.
+                              </p>
+                           </Reveal>
                         </div>
                      </div>
                   </div>
@@ -108,7 +123,8 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
             <div className="max-w-5xl mx-auto relative z-10">
                <ScrollReveal>
                   <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
-                     <div className="md:col-span-4">
+                     {/* The portrait holds beneath the header while the story scrolls past it. */}
+                     <div className="md:col-span-4 aside-sticky-md">
                         <div className="relative w-full max-w-xs mx-auto">
                            <div
                               aria-hidden="true"
@@ -146,18 +162,26 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                            </p>
                         </div>
                         <div className="space-y-5 font-sans text-ink-muted text-lg leading-relaxed">
-                           <p>
-                              I lead marketing strategy, paid campaign management across Facebook, LinkedIn, Google, TikTok and ChatGPT, and the content those campaigns run on — ads and YouTube video included. The work currently crosses law, health, non-profit, ecommerce and beverages. The sectors vary; the operating standard doesn't. The brief is explicit, versions stay visible, and a person owns the approval before anything publishes.
-                           </p>
-                           <p>
-                              I also own the conversations. Every founder who talks to us arrives with a story about work that's stuck — a bottleneck, a handoff, a tool that almost gets there. My job is to listen carefully enough to translate that into a team design we can actually build.
-                           </p>
-                           <p>
-                              It's not a discovery questionnaire. It's a working session. By the end I can usually tell you which specialists you'd need, where the human gates should sit, and how we'd scope the first cut. Sometimes the honest answer is that we're not the right workshop for this — and I'll tell you that, too.
-                           </p>
-                           <p>
-                              If you have a workflow you want specialists for, the first step is thirty minutes with me. No slide deck. Bring the thing that's stuck.
-                           </p>
+                           <Reveal enterEnd={0.82} lift={16}>
+                              <p>
+                                 I lead marketing strategy, paid campaign management across Facebook, LinkedIn, Google, TikTok and ChatGPT, and the content those campaigns run on — ads and YouTube video included. The work currently crosses law, health, non-profit, ecommerce and beverages. The sectors vary; the operating standard doesn't. The brief is explicit, versions stay visible, and a person owns the approval before anything publishes.
+                              </p>
+                           </Reveal>
+                           <Reveal enterEnd={0.82} lift={16}>
+                              <p>
+                                 I also own the conversations. Every founder who talks to us arrives with a story about work that's stuck — a bottleneck, a handoff, a tool that almost gets there. My job is to listen carefully enough to translate that into a team design we can actually build.
+                              </p>
+                           </Reveal>
+                           <Reveal enterEnd={0.82} lift={16}>
+                              <p>
+                                 It's not a discovery questionnaire. It's a working session. By the end I can usually tell you which specialists you'd need, where the human gates should sit, and how we'd scope the first cut. Sometimes the honest answer is that we're not the right workshop for this — and I'll tell you that, too.
+                              </p>
+                           </Reveal>
+                           <Reveal enterEnd={0.82} lift={16}>
+                              <p>
+                                 If you have a workflow you want specialists for, the first step is thirty minutes with me. No slide deck. Bring the thing that's stuck.
+                              </p>
+                           </Reveal>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-3 pt-2">
                            <Button variant="primary" onClick={() => onNavigate('calendar')}>
@@ -172,7 +196,10 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
 
          {/* The Distinction — three Folio III-style plates + a fun CTA widget */}
          <Section>
-            <VitruvianBackground className="opacity-[0.12] -right-1/4 scale-[1.15]" />
+            {/* Scaffold plane: the drawing drifts slower than the plates in front of it. */}
+            <Parallax plane="scaffold" className="absolute inset-0 pointer-events-none" aria-hidden="true">
+               <VitruvianBackground className="opacity-[0.12] -right-1/4 scale-[1.15]" />
+            </Parallax>
             <div className="max-w-7xl mx-auto relative z-10">
                <ScrollReveal className="mb-12 text-center max-w-2xl mx-auto">
                   <p className="font-serif italic text-sm tracking-[0.15em] uppercase text-ink-muted mb-3">The Distinction</p>
@@ -182,7 +209,7 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                </ScrollReveal>
 
                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 md:mb-20">
-                  <ScrollReveal delay={100}>
+                  <Reveal enterEnd={0.84} lift={32}>
                      <Plate fig="a" title="Teams" tilt={false}>
                         <div className="relative h-full flex flex-col items-center pt-2 pb-6">
                            <svg viewBox="0 40 240 130" className="w-full max-w-[320px] mx-auto">
@@ -227,9 +254,9 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                            </div>
                         </div>
                      </Plate>
-                  </ScrollReveal>
+                  </Reveal>
 
-                  <ScrollReveal delay={250}>
+                  <Reveal enterEnd={0.80} lift={32}>
                      <Plate fig="b" title="Builders" tilt={false}>
                         <div className="relative h-full flex flex-col items-center pt-2 pb-6">
                            <svg viewBox="0 40 240 130" className="w-full max-w-[320px] mx-auto">
@@ -289,9 +316,9 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                            </div>
                         </div>
                      </Plate>
-                  </ScrollReveal>
+                  </Reveal>
 
-                  <ScrollReveal delay={400}>
+                  <Reveal enterEnd={0.76} lift={32}>
                      <Plate fig="c" title="Governance" tilt={false}>
                         <div className="relative h-full flex flex-col items-center pt-2 pb-6">
                            <svg viewBox="0 40 240 130" className="w-full max-w-[320px] mx-auto">
@@ -353,7 +380,7 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                            </div>
                         </div>
                      </Plate>
-                  </ScrollReveal>
+                  </Reveal>
                </div>
 
                {/* CTA widget — Fig. d */}

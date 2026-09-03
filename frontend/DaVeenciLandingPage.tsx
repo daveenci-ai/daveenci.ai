@@ -6,10 +6,9 @@ import Method from './components/Method';
 import Advantage from './components/Advantage';
 import Controls from './components/Controls';
 import WorkPreview from './components/WorkPreview';
-import PartnerBlock from './components/PartnerBlock';
+import Principals from './components/Principals';
 import BookingPreview from './components/BookingPreview';
 import Newsletter from './components/Newsletter';
-import FounderBlock from './components/FounderBlock';
 import Footer from './components/Footer';
 import MobileLanding from './components/mobile/MobileLanding';
 import { useIsMobile } from './components/mobile/useIsMobile';
@@ -30,25 +29,30 @@ const DaVeenciLandingPage: React.FC<DaVeenciLandingPageProps> = ({ onNavigate, a
   }
 
   return (
-    <div className="flex flex-col w-full overflow-x-hidden">
+    <div className="flex flex-col w-full overflow-x-clip">
       <Header onNavigate={onNavigate} currentPage="landing" activeSection={activeSection} />
 
-      <Hero onNavigate={onNavigate} />
-      <ProofRail onNavigate={onNavigate} />
-      <WorkPreview onNavigate={onNavigate} />
-      <Contrast />
-      <Method />
-      <FounderBlock onNavigate={onNavigate} />
-      <Advantage />
-      <Controls />
-      <PartnerBlock onNavigate={onNavigate} />
-      {/* Pricing sits after the problem (Contrast), the method, and the people
-          — not third, where it quoted $5,000 before saying what it buys. */}
-      <CommercialOffers onNavigate={onNavigate} />
-      <BookingPreview onNavigate={onNavigate} />
-      <Newsletter onNavigate={onNavigate} />
+      {/* Opaque page canvas above the footer: the page lifts to reveal it. */}
+      <div className="page-canvas">
+        <Hero onNavigate={onNavigate} />
+        <ProofRail onNavigate={onNavigate} />
+        <WorkPreview onNavigate={onNavigate} />
+        <Contrast />
+        <Method />
+        {/* One spread for both founders replaces two identical dark bands. */}
+        <Principals onNavigate={onNavigate} />
+        <Advantage />
+        <Controls />
+        {/* Pricing sits after the problem (Contrast), the method, and the people
+            — not third, where it quoted $5,000 before saying what it buys. */}
+        <CommercialOffers onNavigate={onNavigate} />
+        <BookingPreview onNavigate={onNavigate} />
+        <Newsletter onNavigate={onNavigate} />
+      </div>
 
-      <Footer onNavigate={onNavigate} />
+      <div className="footer-reveal">
+        <Footer onNavigate={onNavigate} />
+      </div>
     </div>
   );
 };

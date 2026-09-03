@@ -2,6 +2,7 @@ import React from 'react';
 import { MobileButton } from './MobileButton';
 import { MobileFolioScene, MobileSceneSubtitle } from './MobileFolioScene';
 import { MobileScenePlate } from './MobileScenePlate';
+import { useScrollProgress } from '../../lib/useScrollProgress';
 import type { Page } from '../types';
 
 interface MobileHeroProps {
@@ -13,8 +14,13 @@ interface MobileHeroProps {
  * subtitle → Fig. i mini-plate → thumb-zone actions (primary calendar CTA +
  * "See the work" link). MobileShell adds the persistent "Talk to us" bar.
  */
-export const MobileHero: React.FC<MobileHeroProps> = ({ onNavigate }) => (
-  <MobileFolioScene id="hero" eyebrow="A workshop for governed AI operations">
+export const MobileHero: React.FC<MobileHeroProps> = ({ onNavigate }) => {
+  // `--p` runs 0 → 1 as the hero scrolls out; identity at 0 keeps the
+  // prerendered shell and the mounted hero pixel-identical.
+  const ref = useScrollProgress<HTMLElement>({ mode: 'exit' });
+  return (
+  <MobileFolioScene id="hero" eyebrow="A workshop for governed AI operations" innerRef={ref}>
+    <div className="hero-copy">
     <h1 className="font-serif text-[2.9rem] leading-[1.02] text-ink mb-6 mt-2 tracking-tight">
       Difficult workflows.
       <br />
@@ -24,8 +30,10 @@ export const MobileHero: React.FC<MobileHeroProps> = ({ onNavigate }) => (
     <MobileSceneSubtitle>
       DaVeenci maps, builds, and improves governed production systems for recurring work that crosses tools, teams, and judgment.
     </MobileSceneSubtitle>
+    </div>
 
-    {/* Fig. i — mini plate with simplified team motif */}
+    {/* Fig. i — mini plate with simplified team motif; lags the scroll. */}
+    <div className="hero-plate">
     <MobileScenePlate figLabel="Fig. i · The Team">
       <svg viewBox="0 0 200 140" className="w-full h-auto max-w-[260px] mx-auto block">
         {/* Orbital ring */}
@@ -48,6 +56,7 @@ export const MobileHero: React.FC<MobileHeroProps> = ({ onNavigate }) => (
         </circle>
       </svg>
     </MobileScenePlate>
+    </div>
 
     {/* Thumb-zone actions */}
     <div className="mt-auto pt-8">
@@ -63,4 +72,5 @@ export const MobileHero: React.FC<MobileHeroProps> = ({ onNavigate }) => (
       </p>
     </div>
   </MobileFolioScene>
-);
+  );
+};

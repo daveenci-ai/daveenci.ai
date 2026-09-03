@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight, Play } from 'lucide-react';
 import { homeProof } from '../content/homeProof';
 import { track } from '../lib/analytics';
+import { Reveal } from './motion/Parallax';
 import type { Page } from './types';
 
 interface ProofRailProps {
@@ -24,8 +25,11 @@ export const ProofRail: React.FC<ProofRailProps> = ({ onNavigate, compact = fals
   return (
     <section
       aria-labelledby="operating-proof-heading"
-      className={compact ? 'px-6 pb-10' : 'relative z-20 px-6 pb-14 md:pb-18'}
+      // Desktop: the rail rides up over the hero's lower edge as it enters,
+      // the first "layer over layer" moment on the page.
+      className={compact ? 'px-6 pb-10' : 'relative z-20 px-6 pb-14 md:pb-18 -mt-10 md:-mt-16'}
     >
+      <Reveal enterEnd={0.82} lift={compact ? 24 : 48}>
       <a
         href="/purecode#try-it"
         onClick={openDemo}
@@ -61,6 +65,7 @@ export const ProofRail: React.FC<ProofRailProps> = ({ onNavigate, compact = fals
           </span>
         </div>
       </a>
+      </Reveal>
     </section>
   );
 };

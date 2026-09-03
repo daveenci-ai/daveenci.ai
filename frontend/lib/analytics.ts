@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-export type CaseId = 'compoundiq' | 'autopilot' | 'purecode' | 'brandos' | 'pulsenote';
+export type CaseId = 'compoundiq' | 'autopilot' | 'purecode' | 'brandos' | 'pulsenote' | 'analytics-os';
 export type PracticeId = 'operations' | 'creative';
 export type DemoId = 'brandos_analyzer' | 'purecode_ticket_sim' | 'compoundiq_gate_sim';
 

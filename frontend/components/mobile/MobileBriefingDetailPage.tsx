@@ -5,6 +5,7 @@ import { MobileTopBar } from './MobileTopBar';
 import { MobileErrorBoundary } from './MobileErrorBoundary';
 import type { Page } from '../types';
 import { CodexCover } from '../CodexCover';
+import { useScrollProgress } from '../../lib/useScrollProgress';
 
 export interface MobileBriefingData {
   id: string;
@@ -43,6 +44,10 @@ export const MobileBriefingDetailPage: React.FC<MobileBriefingDetailPageProps> =
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Masthead planes: the title settles upward, the cover lags a few pixels
+  // behind it, as the article header scrolls out.
+  const heroRef = useScrollProgress<HTMLDivElement>({ mode: 'exit' });
+
   return (
     <div className="min-h-[100dvh] flex flex-col text-ink" data-mobile>
       <MobileTopBar onNavigate={onNavigate} backTo="briefings" progress={progress} />
@@ -50,34 +55,36 @@ export const MobileBriefingDetailPage: React.FC<MobileBriefingDetailPageProps> =
       <main className="flex-1 pt-14">
       <MobileErrorBoundary>
         {/* Article title block */}
-        <section className="px-6 pt-8 pb-6">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{data.category}</span>
-            <span className="text-ink-muted/40">·</span>
-            <span className="font-mono text-[10px] tracking-[0.1em] text-ink-muted">#{data.issueNo}</span>
-          </div>
-          <h1 className="font-serif text-[2.25rem] leading-[1.1] text-ink mb-5 tracking-tight">
-            {data.title}
-          </h1>
-          <div className="flex flex-wrap items-center gap-3 text-[12px] text-ink-muted font-serif italic">
-            <span>{data.author}</span>
-            <span className="text-ink-muted/30">·</span>
-            <span className="flex items-center gap-1.5">
-              <Clock className="w-3 h-3" />
-              {data.readTime}
-            </span>
-            <span className="text-ink-muted/30">·</span>
-            <span className="flex items-center gap-1.5">
-              <Tag className="w-3 h-3" />
-              {data.publishDate}
-            </span>
-          </div>
-        </section>
+        <div ref={heroRef}>
+          <section className="px-6 pt-8 pb-6 hero-copy">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{data.category}</span>
+              <span className="text-ink-muted/40">·</span>
+              <span className="font-mono text-[10px] tracking-[0.1em] text-ink-muted">#{data.issueNo}</span>
+            </div>
+            <h1 className="font-serif text-[2.25rem] leading-[1.1] text-ink mb-5 tracking-tight">
+              {data.title}
+            </h1>
+            <div className="flex flex-wrap items-center gap-3 text-[12px] text-ink-muted font-serif italic">
+              <span>{data.author}</span>
+              <span className="text-ink-muted/30">·</span>
+              <span className="flex items-center gap-1.5">
+                <Clock className="w-3 h-3" />
+                {data.readTime}
+              </span>
+              <span className="text-ink-muted/30">·</span>
+              <span className="flex items-center gap-1.5">
+                <Tag className="w-3 h-3" />
+                {data.publishDate}
+              </span>
+            </div>
+          </section>
 
-        {/* Hero image */}
-        <div className="px-6 mb-8">
-          <div className="aspect-[16/10] w-full overflow-hidden rounded-sm bg-ink/5 border border-ink/10">
-            <CodexCover id={data.id} title={data.title} />
+          {/* Hero image */}
+          <div className="px-6 mb-8 hero-plate">
+            <div className="aspect-[16/10] w-full overflow-hidden rounded-sm bg-ink/5 border border-ink/10">
+              <CodexCover id={data.id} title={data.title} />
+            </div>
           </div>
         </div>
 

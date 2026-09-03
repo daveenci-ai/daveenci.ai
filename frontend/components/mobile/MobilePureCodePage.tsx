@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Users, Building2, Briefcase, GitPullRequest, Plus, Minus } from 'lucide-react';
 import { MobileShell } from './MobileShell';
+import { Reveal } from '../motion/Parallax';
+import { useScrollProgress } from '../../lib/useScrollProgress';
 import { MobileButton } from './MobileButton';
 import { MobileNextCase } from './MobileNextCase';
 import { MobileSubscribe } from './MobileSubscribe';
@@ -73,13 +75,17 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
     window.scrollTo(0, 0);
   }, []);
 
+  // Hero planes: copy settles, the diagram lags as the hero scrolls out.
+  const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
+
   return (
     <MobileShell onNavigate={onNavigate}>
       {/* Hero */}
-      <section className="px-6 pt-10 pb-10">
+      <section ref={heroRef} className="px-6 pt-10 pb-10">
         <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.25em] uppercase text-accent bg-accent/5 border border-accent/10 rounded-sm px-2.5 py-1">
           A DaVeenci team · Code
         </div>
+        <div className="hero-copy">
         <h1 className="font-serif text-[2.5rem] leading-[1.05] text-ink mb-5 tracking-tight">
           Ship finished pull requests,
           <br />
@@ -88,12 +94,13 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
         <p className="font-serif text-[16px] text-ink-muted leading-[1.6] mb-6">
           PureCode is 13 specialist agents coordinated by a controller, gated by humans at three critical points. A feature request walks in. A shipped pull request walks out.
         </p>
+        </div>
         <div className="flex flex-col gap-3 mb-8">
           <MobileButton analytics={{ cta_id: 'bring_a_ticket', surface: 'case_hero', from_page: 'purecode', destination: '#booking' }} onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}>Bring us a real ticket</MobileButton>
           <MobileButton variant="secondary" onClick={() => onNavigate('work')}>See all work</MobileButton>
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex justify-center hero-plate">
           <PureCodeHeroDiagram />
         </div>
       </section>
@@ -166,7 +173,7 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
           {USE_CASES.map((uc) => {
             const Icon = uc.icon;
             return (
-              <div key={uc.title} className="bg-white border border-ink/10 p-5 shadow-sm hover:shadow-lg transition-all rounded-lg text-center flex flex-col items-center">
+              <Reveal key={uc.title} enterEnd={0.86} lift={16} className="bg-white border border-ink/10 p-5 shadow-sm rounded-lg text-center flex flex-col items-center">
                 <div className="relative w-32 h-32 mx-auto mb-4 rounded-full bg-pulse-surface border border-ink/10 overflow-hidden flex items-center justify-center">
                   <svg className="absolute inset-0 w-full h-full" viewBox="0 0 176 176" fill="none">
                     <circle cx="88" cy="88" r="78" stroke="rgb(var(--color-ink))" strokeWidth="0.6" opacity="0.08" />
@@ -177,7 +184,7 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
                 </div>
                 <h3 className="font-serif text-lg text-ink mb-2">{uc.title}</h3>
                 <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{uc.body}</p>
-              </div>
+              </Reveal>
             );
           })}
         </div>

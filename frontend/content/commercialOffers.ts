@@ -1,5 +1,7 @@
 export interface CommercialOffer {
-  id: 'blueprint' | 'build' | 'operate';
+  id: 'blueprint' | 'build' | 'operate' | 'analytics-os';
+  /** Productized system rather than a step on the ladder. */
+  productized?: boolean;
   number: string;
   title: string;
   price: string;
@@ -51,5 +53,20 @@ export const commercialOffers: CommercialOffer[] = [
       'Monthly operating report and expansion roadmap',
     ],
     note: 'Infrastructure, model usage, and response-time commitments are scoped separately.',
+  },
+  {
+    id: 'analytics-os',
+    number: '04',
+    title: 'Marketing Analytics OS',
+    price: 'From $6,500',
+    timeline: 'Five weeks to the first verdict',
+    description: 'A productized measurement system: site events, ad spend, and CRM outcomes reconciled in a warehouse you own, with keep / kill verdicts you can calculate.',
+    deliverables: [
+      'Measurement plan and data boundary — pseudonymous IDs, nothing sensitive',
+      'First-party event tracking and a client-owned warehouse',
+      'Funnel and spend dashboard with a keep / kill rule per campaign',
+    ],
+    note: 'Learn (experiments, attribution, alerts) and Automate (AI variants, action queue, multi-brand) tiers extend it.',
+    productized: true,
   },
 ];

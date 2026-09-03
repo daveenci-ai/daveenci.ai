@@ -5,6 +5,8 @@ import { Section, ScrollReveal, GridPattern, VitruvianBackground, Quote, Button,
 import type { Page } from './types';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileThesisPage } from './mobile/MobileThesisPage';
+import { Parallax, Reveal } from './motion/Parallax';
+import { useScrollProgress } from '../lib/useScrollProgress';
 
 interface ThesisPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -21,14 +23,19 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Hero planes: the grid sinks behind the title as the hero scrolls out.
+  const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
+
   return (
-    <div className="flex flex-col w-full overflow-x-hidden min-h-screen">
+    <div className="flex flex-col w-full overflow-x-clip min-h-screen">
       <Header onNavigate={onNavigate} currentPage="thesis" />
 
       {/* Hero — essay-style, distinct from the marketing Folio I on the home page */}
-      <Section className="pt-44 pb-16 md:pt-52 md:pb-24">
-        <GridPattern />
-        <div className="max-w-4xl mx-auto text-center">
+      <Section className="pt-44 pb-16 md:pt-52 md:pb-24" innerRef={heroRef}>
+        <div className="hero-scaffold absolute inset-0 pointer-events-none" aria-hidden="true">
+          <GridPattern />
+        </div>
+        <div className="max-w-4xl mx-auto text-center hero-copy">
           <ScrollReveal immediate>
             <div className="flex items-center justify-center gap-3 mb-8">
               <span className="h-px w-10 bg-ink-muted/40" />
@@ -100,9 +107,11 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
         <Section className="py-6 md:py-10">
           <div className="max-w-3xl mx-auto">
             <ScrollReveal>
-              <Quote attribution="Anton Osipov · Co-Founder">
-                A coder who also writes contracts ships survivable versions of both. That's the tax.
-              </Quote>
+              <Parallax plane="annotation" amplitude={-28}>
+                <Quote attribution="Anton Osipov · Co-Founder">
+                  A coder who also writes contracts ships survivable versions of both. That's the tax.
+                </Quote>
+              </Parallax>
             </ScrollReveal>
           </div>
         </Section>
@@ -132,7 +141,9 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
 
         {/* Section 3: Governance Is the Product (cinematic dark) */}
         <Section className="py-14 md:py-20 bg-ink text-canvas relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-accent/10 rounded-full blur-3xl -mr-40 -mt-40 pointer-events-none"></div>
+          <Parallax plane="scaffold" className="absolute inset-0 pointer-events-none" aria-hidden="true">
+            <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-accent/10 rounded-full blur-3xl -mr-40 -mt-40"></div>
+          </Parallax>
           <div className="max-w-3xl mx-auto relative z-10">
             <ScrollReveal>
               <div className="font-mono text-xs uppercase tracking-[0.2em] text-accent mb-4">III · Governance Is the Product</div>
@@ -184,9 +195,11 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
         <Section className="py-6 md:py-10">
           <div className="max-w-3xl mx-auto">
             <ScrollReveal>
-              <Quote>
-                Models are plentiful and commoditizing. Orchestration is scarce and compounding.
-              </Quote>
+              <Parallax plane="annotation" amplitude={-28}>
+                <Quote>
+                  Models are plentiful and commoditizing. Orchestration is scarce and compounding.
+                </Quote>
+              </Parallax>
             </ScrollReveal>
           </div>
         </Section>
@@ -227,11 +240,13 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
                     label: 'Memory',
                     body: 'Shared knowledge store so specialists build on each other\'s work across runs. Without it, the team starts every job from scratch.',
                   },
-                ].map((piece) => (
-                  <Surface key={piece.label} kind="document" className="p-6 bg-white/60 border border-ink/10">
-                    <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent mb-2">{piece.label}</div>
-                    <p className="font-sans text-ink leading-relaxed">{piece.body}</p>
-                  </Surface>
+                ].map((piece, i) => (
+                  <Reveal key={piece.label} enterEnd={0.86 - i * 0.02} lift={20}>
+                    <Surface kind="document" className="p-6 bg-white/60 border border-ink/10">
+                      <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent mb-2">{piece.label}</div>
+                      <p className="font-sans text-ink leading-relaxed">{piece.body}</p>
+                    </Surface>
+                  </Reveal>
                 ))}
               </div>
 

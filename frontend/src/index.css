@@ -48,6 +48,7 @@
   --color-accent-strong: 30 90 148;   /* #1e5a94 — 7.13:1 with white, 5.59:1 as text on parchment */
   --color-paper-border: 139 111 71;   /* aligned to Umber amber — diagram line work */
   --color-pulse-surface: 250 248 244; /* #FAF8F4 — Pulse product screen bg (unchanged) */
+  --color-paper: 251 247 236;         /* #FBF7EC — opaque card paper; stacking cards must not show through */
   --color-status-success: 22 163 74;  /* #16A34A — approved / live */
   --color-status-danger: 185 28 28;  /* #B91C1C — blocked / gate alert */
   --color-status-critical: 239 68 68; /* #EF4444 — destructive comparison */
@@ -204,3 +205,186 @@ body {
 .animate-card-active-1 { animation: card-1-active 18.5s ease-in-out infinite; border-radius: 0.125rem; }
 .animate-card-active-2 { animation: card-2-active 18.5s ease-in-out infinite; border-radius: 0.125rem; }
 .animate-card-active-3 { animation: card-3-active 18.5s ease-in-out infinite; border-radius: 0.125rem; }
+
+/* ---------------------------------------------------------------------------
+   Layered motion — see docs/LAYERS_PLAN.md.
+   `--p` is written per element by lib/useScrollProgress (0 → 1). Every rule
+   below resolves to identity at the resting value, so the first paint and the
+   prerendered hero shell look exactly like the mounted page at scroll 0.
+   --------------------------------------------------------------------------- */
+
+/* Depth plane: lags (positive --amp) or leads (negative --amp) the scroll. */
+.plane {
+  transform: translate3d(0, calc((var(--p, 0.5) - 0.5) * var(--amp, 0px)), 0);
+  will-change: transform;
+}
+
+/* Scroll-driven reveal: follows the page instead of firing once. */
+.reveal-p {
+  opacity: var(--p, 1);
+  transform: translate3d(0, calc((1 - var(--p, 1)) * var(--lift, 28px)), 0);
+}
+
+/* Pinned scene: tall wrapper, sticky stage. */
+.pinned {
+  position: relative;
+  height: var(--pin-length, 250vh);
+}
+.pinned-stage {
+  position: sticky;
+  top: var(--pin-top, 0px);
+  height: calc(100vh - var(--pin-top, 0px));
+  height: calc(100svh - var(--pin-top, 0px));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Stacking cards: each card sticks a little lower than the one before it and
+   is scaled/dimmed by --cover (0 → 1) as the next card slides over it. */
+.stack-card {
+  position: sticky;
+  top: calc(var(--stack-top, 6rem) + var(--stack-index, 0) * var(--stack-step, 0.9rem));
+  transform: translate3d(0, 0, 0) scale(calc(1 - var(--cover, 0) * 0.06));
+  transform-origin: 50% 0%;
+  will-change: transform;
+}
+/* Dimming is a tinted overlay, not filter(): one compositor layer per card. */
+.stack-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: rgb(var(--color-ink) / calc(var(--cover, 0) * 0.22));
+}
+/* A covered card that receives keyboard focus comes forward so the focus ring is visible. */
+.stack-card:focus-visible { z-index: 1; transform: none; }
+.stack-card:focus-visible::after { background: transparent; }
+
+/* Hero planes. `--p` on the hero section runs 0 → 1 as it scrolls out
+   (mode: exit), so every rule here is identity at first paint. */
+.hero-scaffold { transform: translate3d(0, calc(var(--p, 0) * 160px), 0); will-change: transform; }
+.hero-plate    { transform: translate3d(0, calc(var(--p, 0) * 48px), 0); will-change: transform; }
+.hero-pill     { transform: translate3d(0, calc(var(--p, 0) * -56px), 0); }
+.hero-copy {
+  opacity: calc(1 - var(--p, 0) * 0.8);
+  transform: translate3d(0, calc(var(--p, 0) * -32px), 0);
+}
+
+/* Pointer tilt on figure plates (desktop only; set by Hero). */
+.tilt-plate {
+  transform: perspective(1200px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 300ms ease-out;
+}
+
+/* Page canvas (desktop landing): an opaque sheet above the footer so the page
+   can lift to reveal it. The parchment gradient stays viewport-locked through a
+   fixed ::before that the canvas clips — a fixed background-attachment on a
+   non-root element would force main-thread scrolling. <body> keeps its own
+   copy of the gradient for every other page. */
+.page-canvas {
+  position: relative;
+  background-color: rgb(var(--color-base));
+  clip-path: inset(0);
+}
+.page-canvas::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse 90% 100% at 50% 45%, transparent 55%, rgba(90, 70, 45, 0.12) 100%),
+    radial-gradient(ellipse 100% 110% at 50% 45%, #FCF6E5 0%, #F6ECD2 50%, #EADFBD 100%);
+  background-blend-mode: multiply, normal;
+  background-repeat: no-repeat, no-repeat;
+}
+
+/* Pinned Method scene: the folio header is compact so header + rail + plates
+   fit one viewport; the hint fades once the specialist has started moving. */
+.method-header-pinned h2 { font-size: clamp(2rem, 3.4vw, 3rem); margin-bottom: 0.75rem; margin-top: 0.5rem; }
+.method-header-pinned p { margin-bottom: 1.25rem; font-size: 1.0625rem; }
+.method-scroll-hint { opacity: calc(1 - var(--p, 0) * 4); transition: opacity 200ms linear; }
+
+/* Principals spread: the portrait column sticks while the quotes scroll;
+   --swap (0 → 1, written on the section) crossfades Anton → Astrid and the
+   scaffold drawing behind them. */
+.principal-portraits { position: sticky; top: 7rem; }
+.principal-portrait-a { opacity: calc(1 - var(--swap, 0)); transform: translate3d(0, calc(var(--swap, 0) * -20px), 0); }
+.principal-portrait-b { position: absolute; inset: 0; opacity: var(--swap, 0); transform: translate3d(0, calc((1 - var(--swap, 0)) * 20px), 0); }
+.principal-scaffold { position: absolute; inset: 0; pointer-events: none; }
+.principal-scaffold-a { opacity: calc(1 - var(--swap, 0)); }
+.principal-scaffold-b { opacity: var(--swap, 0); }
+@media (max-width: 767px) {
+  .principal-portraits { position: static; }
+  .principal-portrait-a, .principal-portrait-b { opacity: 1; transform: none; }
+  .principal-portrait-b { position: relative; margin-top: 2rem; }
+  .principal-scaffold-a, .principal-scaffold-b { opacity: 1; }
+}
+
+/* Sticky aside: a header column that holds beneath the fixed header while
+   the cards beside it scroll (Offers ladder, Work page practices). */
+@media (min-width: 1024px) {
+  .aside-sticky { position: sticky; top: 7rem; }
+  .offers-header h2 { font-size: clamp(2.5rem, 3.6vw, 3.75rem); }
+  .offers-header p { margin-bottom: 2rem; }
+}
+/* Same hold for grids that go two-column at the md breakpoint (Who We Are portraits). */
+@media (min-width: 768px) {
+  .aside-sticky-md { position: sticky; top: 7rem; }
+}
+
+/* Footer reveal: the page canvas is opaque and sits above the footer, which
+   is pinned to the viewport bottom; the page lifts away to reveal it. A footer
+   taller than the viewport would never show its top, so short windows get the
+   plain footer. */
+.footer-reveal { position: sticky; bottom: 0; z-index: -1; }
+@media (max-height: 46rem) {
+  .footer-reveal { position: static; }
+}
+
+/* Work stack: room between cards decides how long each case is read before the
+   next one slides over it. */
+.work-stack { position: relative; }
+.work-stack > .stack-card + .stack-card { margin-top: 14vh; }
+.work-stack-mobile > .stack-card + .stack-card { margin-top: 10vh; }
+/* Where a stuck card would not fit under the sticky offset — narrow desktop
+   layouts, short laptops, short phones — the cards simply flow, with the
+   ordinary rhythm between them instead of the stacking gap. */
+@media (max-width: 1023px), (max-height: 720px) {
+  .work-stack:not(.work-stack-mobile) > .stack-card { position: relative; top: auto; transform: none; }
+  .work-stack:not(.work-stack-mobile) > .stack-card::after { background: transparent; }
+  .work-stack:not(.work-stack-mobile) > .stack-card + .stack-card { margin-top: 2.5rem; }
+}
+@media (max-height: 700px) {
+  .work-stack-mobile > .stack-card { position: relative; top: auto; transform: none; }
+  .work-stack-mobile > .stack-card::after { background: transparent; }
+  .work-stack-mobile > .stack-card + .stack-card { margin-top: 1.25rem; }
+}
+
+/* Codex articles: the content column uses `prose` but the typography plugin is
+   not installed; give consecutive paragraphs their breathing room. */
+.prose p + p, .prose p + div, .prose div + p, .prose p + ul { margin-top: 1rem; }
+
+/* Reduced motion — last so it wins every rule above at equal specificity. */
+@media (prefers-reduced-motion: reduce) {
+  .plane,
+  .reveal-p,
+  .tilt-plate,
+  .hero-scaffold,
+  .hero-plate,
+  .hero-pill,
+  .hero-copy { transform: none !important; opacity: 1; }
+  .pinned { height: auto; }
+  .pinned-stage { position: static; height: auto; }
+  .stack-card { position: relative; top: auto; transform: none; }
+  .stack-card::after { background: transparent; }
+  .work-stack > .stack-card + .stack-card { margin-top: 2.5rem; }
+  .work-stack-mobile > .stack-card + .stack-card { margin-top: 1.25rem; }
+  .principal-portraits { position: static; }
+  .principal-portrait-a, .principal-portrait-b { opacity: 1; transform: none; }
+  .principal-portrait-b { position: relative; margin-top: 2rem; }
+  .principal-scaffold-a, .principal-scaffold-b { opacity: 1; }
+  .footer-reveal { position: static; }
+}

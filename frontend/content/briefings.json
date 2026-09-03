@@ -1,5 +1,16 @@
 [
   {
+    "id": "governed-agent-operations",
+    "title": "How We Run Our Own Agents",
+    "seoTitle": "How We Run Our Own Agents: An Enforceable Control Plane — DaVeenci",
+    "description": "The operating model behind DaVeenci's own autonomous agents: an untrusted planner, isolated workers, and a control plane that approves exact artifacts. Architecture v9, Phase 0 in build.",
+    "issueNo": "046",
+    "category": "Operations",
+    "featured": true,
+    "readTime": "9 min read",
+    "publishedAt": "2026-09-02"
+  },
+  {
     "id": "agentic-workflow",
     "title": "The Agentic Workflow",
     "seoTitle": "The Agentic Workflow: Architecting Swarms — DaVeenci",
@@ -17,7 +28,7 @@
     "description": "A playbook for generating high-fidelity synthetic datasets to fine-tune models without exposing private human data.",
     "issueNo": "043",
     "category": "Engineering",
-    "featured": true,
+    "featured": false,
     "readTime": "12 min read",
     "publishedAt": "2025-10-21"
   },

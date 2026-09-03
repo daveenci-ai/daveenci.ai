@@ -1,6 +1,7 @@
 import React from 'react';
 import { Hash, Send, Monitor, Eye, Check } from 'lucide-react';
 import { Section, ScrollReveal, Plate, FolioHeader } from './Shared';
+import { Parallax, Reveal } from './motion/Parallax';
 
 const feedRows = [
   { label: 'architect', action: 'proposed PR #42', age: '00:12', status: 'done' as const },
@@ -77,15 +78,15 @@ const ControlPanelDiagram: React.FC = () => (
       <text x="240" y="213" fontSize="7.5" textAnchor="middle" fill="rgb(var(--color-ink))" fontFamily="serif" fontStyle="italic" letterSpacing="0.2em">REROUTE</text>
     </svg>
 
-    <div className="absolute top-2 -left-4 md:-left-6 bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
+    <Parallax plane="annotation" inherit className="absolute top-2 -left-4 md:-left-6"><div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
       <Eye className="w-4 h-4 text-accent" />
       <span className="text-xs font-medium text-ink">Live oversight</span>
-    </div>
+    </div></Parallax>
 
-    <div className="absolute bottom-2 -right-4 md:-right-6 bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
+    <Parallax plane="annotation" inherit className="absolute bottom-2 -right-4 md:-right-6"><div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
       <Check className="w-4 h-4 text-status-success" />
       <span className="text-xs font-medium text-ink">One-click control</span>
-    </div>
+    </div></Parallax>
   </Plate>
 );
 
@@ -116,13 +117,15 @@ const channels = [
 const Controls: React.FC = () => (
   <Section id="controls" pattern="circles" overflow={true}>
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 xl:gap-32 items-center">
-      <div className="lg:col-span-5 lg:order-1 order-2 relative h-[420px] flex items-center justify-center">
-        <ScrollReveal delay={300} direction="right" className="w-full flex justify-center">
+      {/* Mirrored: copy left, plate right — so Contrast, Controls and Booking
+          stop reading as the same layout three times. */}
+      <Parallax plane="plate" className="lg:col-span-5 lg:order-2 order-2 relative h-[420px] flex items-center justify-center">
+        <ScrollReveal delay={300} direction="left" className="w-full flex justify-center">
           <ControlPanelDiagram />
         </ScrollReveal>
-      </div>
+      </Parallax>
 
-      <div className="lg:col-span-7 lg:order-2 order-1 relative z-20">
+      <div className="lg:col-span-7 lg:order-1 order-1 relative z-20">
         <ScrollReveal delay={100}>
           <FolioHeader
             eyebrow="Folio V — The Controls"
@@ -134,7 +137,7 @@ const Controls: React.FC = () => (
             {channels.map((c) => {
               const Icon = c.icon;
               return (
-                <li key={c.n} className="flex gap-5 items-baseline">
+                <Reveal as="li" key={c.n} enterEnd={0.72} className="flex gap-5 items-baseline">
                   <span className="font-serif italic text-accent text-lg tracking-[0.1em] flex-shrink-0 w-6 text-right">{c.n}.</span>
                   <div>
                     <div className="flex items-center gap-2 mb-2">
@@ -144,7 +147,7 @@ const Controls: React.FC = () => (
                     <p className="font-serif italic text-lg text-ink leading-snug mb-1">{c.lead}</p>
                     <p className="text-ink-muted leading-relaxed">{c.detail}</p>
                   </div>
-                </li>
+                </Reveal>
               );
             })}
           </ol>

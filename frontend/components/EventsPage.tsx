@@ -6,6 +6,7 @@ import { Section, ScrollReveal, GridPattern, PageHero } from './Shared';
 import type { Page } from './types';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileEventsPage } from './mobile/MobileEventsPage';
+import { useScrollProgress } from '../lib/useScrollProgress';
 
 interface EventsPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -22,13 +23,18 @@ const EventsPageDesktop: React.FC<EventsPageProps> = ({ onNavigate }) => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Hero planes: the grid sinks behind the title as the hero scrolls out.
+  const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
+
   return (
-    <div className="flex flex-col w-full overflow-x-hidden min-h-screen">
+    <div className="flex flex-col w-full overflow-x-clip min-h-screen">
       <Header onNavigate={onNavigate} currentPage="events" />
 
-      <Section className="pt-44 pb-4 md:pt-52 md:pb-8">
-        <GridPattern />
-        <ScrollReveal immediate>
+      <Section className="pt-44 pb-4 md:pt-52 md:pb-8" innerRef={heroRef}>
+        <div className="hero-scaffold absolute inset-0 pointer-events-none" aria-hidden="true">
+          <GridPattern />
+        </div>
+        <ScrollReveal immediate className="hero-copy">
           <PageHero
             eyebrow="Workshop Events"
             title={<>From the <br /><span className="italic text-ink-muted">workshop.</span></>}

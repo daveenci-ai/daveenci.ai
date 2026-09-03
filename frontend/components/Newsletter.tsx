@@ -99,7 +99,7 @@ const SupportingBriefing: React.FC<HomepageBriefingProps> = ({ briefing, onNavig
 
 const Newsletter: React.FC<NewsletterProps> = ({ onNavigate }) => {
    const homepageBriefings = briefings.filter((briefing) =>
-      ['agentic-workflow', 'synthetic-data', 'zero-touch-crm'].includes(briefing.id)
+      ['governed-agent-operations', 'agentic-workflow', 'zero-touch-crm'].includes(briefing.id)
    ).sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 
    const [featuredBriefing, ...supportingBriefings] = homepageBriefings;

@@ -3,6 +3,8 @@ import { MobileButton } from './MobileButton';
 import { MobileTopBar } from './MobileTopBar';
 import { MobileErrorBoundary } from './MobileErrorBoundary';
 import type { Page } from '../types';
+import { Reveal } from '../motion/Parallax';
+import { useScrollProgress } from '../../lib/useScrollProgress';
 
 interface MobileThesisPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -34,6 +36,9 @@ export const MobileThesisPage: React.FC<MobileThesisPageProps> = ({ onNavigate }
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Hero copy settles upward and fades as the masthead scrolls out.
+  const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
+
   return (
     <div className="min-h-[100dvh] flex flex-col text-ink" data-mobile>
       <MobileTopBar onNavigate={onNavigate} progress={progress} />
@@ -41,7 +46,7 @@ export const MobileThesisPage: React.FC<MobileThesisPageProps> = ({ onNavigate }
       <main className="flex-1 pt-14">
       <MobileErrorBoundary>
         {/* Hero */}
-        <section className="px-6 pt-12 pb-12">
+        <section ref={heroRef} className="px-6 pt-12 pb-12">
           <div className="flex items-center justify-center gap-3 mb-8">
             <span className="h-px w-8 bg-ink-muted/40" />
             <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">
@@ -49,14 +54,16 @@ export const MobileThesisPage: React.FC<MobileThesisPageProps> = ({ onNavigate }
             </span>
             <span className="h-px w-8 bg-ink-muted/40" />
           </div>
-          <h1 className="font-serif text-[2.75rem] leading-[1.05] text-ink mb-6 text-center">
-            The case against
-            <br />
-            <span className="italic text-accent">generalist AI.</span>
-          </h1>
-          <p className="font-serif text-[17px] text-ink-muted leading-[1.6] text-center mb-8">
-            The next era of knowledge work won't be won by bigger models. It'll be won by better teams. Here's the case — in six parts.
-          </p>
+          <div className="hero-copy">
+            <h1 className="font-serif text-[2.75rem] leading-[1.05] text-ink mb-6 text-center">
+              The case against
+              <br />
+              <span className="italic text-accent">generalist AI.</span>
+            </h1>
+            <p className="font-serif text-[17px] text-ink-muted leading-[1.6] text-center mb-8">
+              The next era of knowledge work won't be won by bigger models. It'll be won by better teams. Here's the case — in six parts.
+            </p>
+          </div>
           <div className="flex items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted/70">
             <span>Anton Osipov</span>
             <span className="text-ink-muted/30">·</span>
@@ -120,11 +127,11 @@ export const MobileThesisPage: React.FC<MobileThesisPageProps> = ({ onNavigate }
           </div>
 
           <div className="space-y-3">
-            {PLAYBOOK.map((piece) => (
-              <div key={piece.label} className="bg-white/60 border border-ink/10 rounded-sm p-4">
+            {PLAYBOOK.map((piece, i) => (
+              <Reveal key={piece.label} enterEnd={0.88 - i * 0.02} lift={16} className="bg-white/60 border border-ink/10 rounded-sm p-4">
                 <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent mb-1.5">{piece.label}</div>
                 <p className="font-sans text-[14px] text-ink leading-relaxed">{piece.body}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
 
@@ -181,13 +188,15 @@ const Chapter: React.FC<{ num: string; title: string; heading: string; children:
 
 const PullQuote: React.FC<{ children: React.ReactNode; attribution?: string }> = ({ children, attribution }) => (
   <section className="px-6 py-6">
-    <blockquote className="max-w-prose mx-auto border-l-2 border-accent/40 pl-5">
-      <p className="font-serif italic text-xl text-ink leading-[1.4]">{children}</p>
-      {attribution && (
-        <footer className="mt-3 font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">
-          — {attribution}
-        </footer>
-      )}
-    </blockquote>
+    <Reveal enterEnd={0.85} lift={16} className="max-w-prose mx-auto">
+      <blockquote className="border-l-2 border-accent/40 pl-5">
+        <p className="font-serif italic text-xl text-ink leading-[1.4]">{children}</p>
+        {attribution && (
+          <footer className="mt-3 font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">
+            — {attribution}
+          </footer>
+        )}
+      </blockquote>
+    </Reveal>
   </section>
 );

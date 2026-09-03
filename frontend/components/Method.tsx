@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Section, ScrollReveal, Plate, FolioHeader } from './Shared';
+import { Pinned } from './motion/Parallax';
+import { scrubTimeline, releaseTimeline } from '../lib/scrubTimeline';
+import { prefersReducedMotion } from '../lib/useScrollProgress';
 
-const DomainCard: React.FC = () => (
+const DomainCard: React.FC<{ compact?: boolean }> = ({ compact = false }) => (
   <div className="animate-card-active-1 rounded-sm h-full">
-    <Plate fig="iii.a" title="Domain & Brief" tilt={false}>
-      <div className="relative h-full flex flex-col items-center pt-2 pb-6">
+    <Plate fig="iii.a" title="Domain & Brief" tilt={false} compact={compact}>
+      <div className={`relative h-full flex flex-col items-center pt-2 ${compact ? "pb-2" : "pb-6"}`}>
         <div className="absolute top-[-1rem] left-1/2 -translate-x-1/2 w-px h-4 bg-accent/40" />
 
-        <svg viewBox="0 50 240 120" className="w-full max-w-[320px] mx-auto">
+        <svg viewBox="0 50 240 120" className={`w-full mx-auto ${compact ? "max-w-[250px]" : "max-w-[320px]"}`}>
           {/* Connection — DOMAIN → BRIEF with traveling mote */}
           <line x1="82" y1="90" x2="160" y2="90" stroke="rgb(var(--color-accent))" strokeWidth="0.8" strokeDasharray="2 2" opacity="0.55" />
           <circle cy="90" r="2.4" opacity="0" fill="rgb(var(--color-accent))">
@@ -56,7 +59,7 @@ const DomainCard: React.FC = () => (
           <text x="186" y="154" textAnchor="middle" fontSize="8" fill="rgb(var(--color-ink-muted))" fontFamily="serif" fontStyle="italic" opacity="0.7">task at hand</text>
         </svg>
 
-        <div className="text-center px-3 mt-auto">
+        <div className={`text-center px-3 ${compact ? "mt-3" : "mt-auto"}`}>
           <p className="font-serif italic tracking-[0.2em] text-xs font-semibold uppercase text-accent mb-2">persistent · current</p>
           <p className="text-sm text-ink-muted leading-relaxed">
             A lasting domain matched to a specific brief. The right mind on the right task.
@@ -67,13 +70,13 @@ const DomainCard: React.FC = () => (
   </div>
 );
 
-const CapabilityCard: React.FC = () => (
+const CapabilityCard: React.FC<{ compact?: boolean }> = ({ compact = false }) => (
   <div className="animate-card-active-2 rounded-sm h-full">
-    <Plate fig="iii.b" title="Tools & Context" tilt={false}>
-      <div className="relative h-full flex flex-col items-center pt-2 pb-6">
+    <Plate fig="iii.b" title="Tools & Context" tilt={false} compact={compact}>
+      <div className={`relative h-full flex flex-col items-center pt-2 ${compact ? "pb-2" : "pb-6"}`}>
         <div className="absolute top-[-1rem] left-1/2 -translate-x-1/2 w-px h-4 bg-accent/40" />
 
-        <svg viewBox="0 50 240 120" className="w-full max-w-[320px] mx-auto">
+        <svg viewBox="0 50 240 120" className={`w-full mx-auto ${compact ? "max-w-[250px]" : "max-w-[320px]"}`}>
           {/* Connection — TOOLS → CONTEXT with traveling mote */}
           <line x1="78" y1="90" x2="162" y2="90" stroke="rgb(var(--color-accent))" strokeWidth="0.8" strokeDasharray="2 2" opacity="0.55" />
           <circle cy="90" r="2.4" opacity="0" fill="rgb(var(--color-accent))">
@@ -147,7 +150,7 @@ const CapabilityCard: React.FC = () => (
           <text x="186" y="154" textAnchor="middle" fontSize="8" fill="rgb(var(--color-ink-muted))" fontFamily="serif" fontStyle="italic" opacity="0.7">earned depth</text>
         </svg>
 
-        <div className="text-center px-3 mt-auto">
+        <div className={`text-center px-3 ${compact ? "mt-3" : "mt-auto"}`}>
           <p className="font-serif italic tracking-[0.2em] text-xs font-semibold uppercase text-accent mb-2">purpose-built · earned</p>
           <p className="text-sm text-ink-muted leading-relaxed">
             Instruments fit for the work, and depth built from it. The specialist's working memory.
@@ -158,13 +161,13 @@ const CapabilityCard: React.FC = () => (
   </div>
 );
 
-const DeliveryCard: React.FC = () => (
+const DeliveryCard: React.FC<{ compact?: boolean }> = ({ compact = false }) => (
   <div className="animate-card-active-3 rounded-sm h-full">
-    <Plate fig="iii.c" title="Gate & Output" tilt={false}>
-      <div className="relative h-full flex flex-col items-center pt-2 pb-6">
+    <Plate fig="iii.c" title="Gate & Output" tilt={false} compact={compact}>
+      <div className={`relative h-full flex flex-col items-center pt-2 ${compact ? "pb-2" : "pb-6"}`}>
         <div className="absolute top-[-1rem] left-1/2 -translate-x-1/2 w-px h-4 bg-accent/40" />
 
-        <svg viewBox="0 50 240 120" className="w-full max-w-[320px] mx-auto">
+        <svg viewBox="0 50 240 120" className={`w-full mx-auto ${compact ? "max-w-[250px]" : "max-w-[320px]"}`}>
           {/* Connection — approved work flows from the gate to the output */}
           <line x1="78" y1="90" x2="158" y2="90" stroke="rgb(var(--color-accent))" strokeWidth="0.8" strokeDasharray="2 2" opacity="0.55" />
           {/* Green mote (already approved at the gate) traveling to the output */}
@@ -221,7 +224,7 @@ const DeliveryCard: React.FC = () => (
           <text x="186" y="154" textAnchor="middle" fontSize="8" fill="rgb(var(--color-ink-muted))" fontFamily="serif" fontStyle="italic" opacity="0.7">signed · shipped</text>
         </svg>
 
-        <div className="text-center px-3 mt-auto">
+        <div className={`text-center px-3 ${compact ? "mt-3" : "mt-auto"}`}>
           <p className="font-serif italic tracking-[0.2em] text-xs font-semibold uppercase text-accent mb-2">approved · accountable</p>
           <p className="text-sm text-ink-muted leading-relaxed">
             Every output crosses a human. Approved delivery, signed and shipped.
@@ -263,30 +266,103 @@ const SpecialistTrack: React.FC = () => (
   </div>
 );
 
-const Method: React.FC = () => (
-  <Section id="method" pattern="circles" overflow={true}>
-    <ScrollReveal delay={100}>
-      <FolioHeader
-        eyebrow="Folio III — The Method"
-        title={<>A specialist for each job.<br />A gate for every output.</>}
-        subtitle="Three beats. The specialist focuses on one domain, brings purpose-built tools and earned context, then ships through a human gate."
-      />
-    </ScrollReveal>
+/**
+ * The 18.5 s choreography (CSS keyframes for the specialist ball and the card
+ * glow, SMIL inside each plate) is kept as-is and driven by scroll instead of
+ * the clock: the section pins for ~2.4 viewports and progress scrubs the
+ * forward pass (0 → 15.5 s, stations 1 → 6). Short or narrow viewports and
+ * reduced motion fall back to the original autoplay in normal flow.
+ */
+const FORWARD_PASS_SECONDS = 15.5;
+// Three compact plates plus the header need ~780px; below that the scene
+// autoplays in flow instead of pinning.
+const PIN_QUERY = '(min-width: 1024px) and (min-height: 800px)';
 
-    <SpecialistTrack />
+const canPin = () =>
+  typeof window !== 'undefined'
+  && typeof window.matchMedia === 'function'
+  && window.matchMedia(PIN_QUERY).matches
+  && !prefersReducedMotion();
 
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
-      <ScrollReveal delay={200}>
-        <DomainCard />
+const Method: React.FC = () => {
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  // Lazy initialiser: decide before the first paint so the scene does not
+  // mount in flow and remount inside Pinned a frame later.
+  const [pinnable, setPinnable] = useState(canPin);
+  const wasPinnable = useRef(pinnable);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return;
+    const media = window.matchMedia(PIN_QUERY);
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setPinnable(canPin());
+    media.addEventListener('change', sync);
+    reduced.addEventListener('change', sync);
+    return () => {
+      media.removeEventListener('change', sync);
+      reduced.removeEventListener('change', sync);
+    };
+  }, []);
+
+  // Only when the scene stops being pinned (resize, preference change) are the
+  // timelines handed back to the clock. Never on mount: that would unpause
+  // SMIL that installReducedMotionSmil has just paused.
+  useEffect(() => {
+    if (wasPinnable.current && !pinnable && !prefersReducedMotion()) {
+      const stage = stageRef.current;
+      if (stage) releaseTimeline(stage);
+    }
+    wasPinnable.current = pinnable;
+  }, [pinnable]);
+
+  const scrub = useCallback((p: number) => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    scrubTimeline(stage, p * FORWARD_PASS_SECONDS);
+  }, []);
+
+  const scene = (
+    <div ref={stageRef} className="w-full">
+      <ScrollReveal delay={100}>
+        <FolioHeader
+          eyebrow="Folio III — The Method"
+          title={<>A specialist for each job.<br />A gate for every output.</>}
+          subtitle="Three beats. The specialist focuses on one domain, brings purpose-built tools and earned context, then ships through a human gate."
+          className={pinnable ? 'method-header-pinned' : ''}
+        />
       </ScrollReveal>
-      <ScrollReveal delay={300}>
-        <CapabilityCard />
-      </ScrollReveal>
-      <ScrollReveal delay={400}>
-        <DeliveryCard />
-      </ScrollReveal>
+
+      <SpecialistTrack />
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+        <ScrollReveal delay={200}>
+          <DomainCard compact={pinnable} />
+        </ScrollReveal>
+        <ScrollReveal delay={300}>
+          <CapabilityCard compact={pinnable} />
+        </ScrollReveal>
+        <ScrollReveal delay={400}>
+          <DeliveryCard compact={pinnable} />
+        </ScrollReveal>
+      </div>
+
+      {pinnable && (
+        <p className="method-scroll-hint mt-8 text-center font-serif italic text-xs tracking-[0.2em] uppercase text-ink-muted/70" aria-hidden="true">
+          Scroll to move the specialist through the six stations
+        </p>
+      )}
     </div>
-  </Section>
-);
+  );
+
+  return (
+    <Section id="method" pattern="circles" overflow={true} className={pinnable ? '!py-0' : ''}>
+      {pinnable ? (
+        <Pinned length={2.4} top="0px" onProgress={scrub} stickyClassName="pt-20 pb-4">
+          {scene}
+        </Pinned>
+      ) : scene}
+    </Section>
+  );
+};
 
 export default Method;

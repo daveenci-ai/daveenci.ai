@@ -29,6 +29,7 @@ Single source of truth: `frontend/src/index.css` `:root` block. Tailwind consume
 | `--color-accent-hover` | `#2f6ca8` | `hover:bg-accent-hover` |
 | `--color-paper-border` | `#8B6F47` | `border-paper-border` |
 | `--color-pulse-surface` | `#FAF8F4` | `bg-pulse-surface` |
+| `--color-paper` | `#FBF7EC` | `bg-paper` (opaque card paper for stacking cards) |
 
 Semantic status colors use `--color-status-success`, `--color-status-danger`, and
 `--color-status-critical`. Exact platform/demo colors (LinkedIn, Facebook,

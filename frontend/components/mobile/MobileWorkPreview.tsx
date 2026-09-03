@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { MobileButton } from './MobileButton';
 import { MobileFolioScene } from './MobileFolioScene';
 import { MobileScenePlate } from './MobileScenePlate';
+import { CaseSchematic } from '../CaseSchematics';
+import { Stack } from '../motion/Stack';
 import { track } from '../../lib/analytics';
 import type { Page } from '../types';
 import { featuredWork, workStatusClass } from '../../content/workCatalog';
@@ -12,7 +14,6 @@ interface MobileWorkPreviewProps {
 
 export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate }) => {
   const impressionTracked = useRef(false);
-
   useEffect(() => {
     const element = document.getElementById('selected-work');
     if (!element) return;
@@ -37,8 +38,8 @@ export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate
       Some teams are operating today. Others are being proven in public. Every one makes its roles and gates explicit.
     </p>
 
-    <div className="space-y-4 mb-7">
-      {featuredWork.map((item) => (
+    <Stack compact className="mb-7">
+      {featuredWork.map((item, i) => (
         <a
           key={item.title}
           href={item.href}
@@ -48,18 +49,23 @@ export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate
             event.preventDefault();
             onNavigate(item.page);
           }}
-          className="block w-full text-left"
+          className="stack-card block w-full text-left"
         >
-          <MobileScenePlate figLabel={item.label} className="p-4">
-            <div className={`font-mono text-[8px] uppercase tracking-[0.14em] mb-3 ${workStatusClass(item.statusTone)}`}>
-              {item.status}
+          <MobileScenePlate figLabel={item.label} className="p-4 !bg-paper !backdrop-blur-none shadow-lg shadow-ink/10">
+            <div className="flex items-baseline justify-between gap-3 mb-3">
+              <span aria-hidden="true" className="font-serif italic text-[11px] text-ink-muted">{String(i + 1).padStart(2, '0')} / {String(featuredWork.length).padStart(2, '0')}</span>
+              <span className={`font-mono text-[8px] uppercase tracking-[0.14em] text-right ${workStatusClass(item.statusTone)}`}>{item.status}</span>
             </div>
             <h3 className="font-serif text-[1.65rem] leading-none text-ink mb-2">{item.title}</h3>
-            <p className="font-sans text-[13px] text-ink-muted leading-relaxed">{item.previewBlurb}</p>
+            <p className="font-sans text-[13px] text-ink-muted leading-relaxed mb-4">{item.previewBlurb}</p>
+            <div className="border border-ink/10 bg-white/70 rounded-sm p-3">
+              <CaseSchematic id={item.page} className="aspect-[5/3] w-full" />
+            </div>
+            <span className="mt-4 inline-flex items-center gap-1 font-sans text-[13px] font-medium text-accent-strong">Read the case <span aria-hidden="true">→</span></span>
           </MobileScenePlate>
         </a>
       ))}
-    </div>
+    </Stack>
 
     <MobileButton variant="secondary" onClick={() => onNavigate('work')}>
       See all work

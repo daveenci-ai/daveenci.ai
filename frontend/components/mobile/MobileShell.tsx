@@ -41,6 +41,9 @@ export const MobileShell: React.FC<MobileShellProps> = ({
   <div className="relative" data-mobile>
     <MobileTopBar onNavigate={onNavigate} />
 
+    {/* No footer reveal on mobile: the footer is often taller than the
+        viewport, and pages render fixed dialogs inside <main> that a
+        stacking context here would trap under the top bar. */}
     <main className="pt-14">
       <MobileErrorBoundary>{children}</MobileErrorBoundary>
     </main>

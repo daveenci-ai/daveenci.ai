@@ -72,6 +72,21 @@ export const workCatalog: WorkCatalogItem[] = [
     featured: true,
   },
   {
+    page: 'analytics-os',
+    practice: 'operations',
+    href: '/analytics-os',
+    label: 'Marketing measurement',
+    // Flip to "In delivery" once the client has signed and consented to be
+    // named; until then the case describes the system, not the client.
+    status: 'New engagement · Scoped Sep 2026',
+    statusTone: 'development',
+    title: 'Marketing Analytics OS',
+    subtitle: 'The measurement team.',
+    blurb: 'Ad spend, site events, and CRM outcomes land in one client-owned warehouse. Every campaign and landing-page test carries a verdict — keep, kill, or spend this much more to know — computed with proper statistics, not read by eye.',
+    previewBlurb: 'Site events, ad spend, and CRM outcomes reconciled in one client-owned warehouse, with a keep / kill verdict on every campaign and test.',
+    featured: true,
+  },
+  {
     page: 'pulsenote',
     practice: 'creative',
     href: '/pulsenote',

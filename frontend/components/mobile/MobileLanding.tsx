@@ -4,11 +4,10 @@ import { MobileFolioScene } from './MobileFolioScene';
 import { MobileHero } from './MobileHero';
 import { MobileContrast } from './MobileContrast';
 import { MobileMethod } from './MobileMethod';
-import { MobileFounderBlock } from './MobileFounderBlock';
 import { MobileAdvantage } from './MobileAdvantage';
 import { MobileControls } from './MobileControls';
 import { MobileWorkPreview } from './MobileWorkPreview';
-import { MobilePartnerBlock } from './MobilePartnerBlock';
+import Principals from '../Principals';
 import { MobileBooking } from './MobileBooking';
 import { MobileButton } from './MobileButton';
 import { MobileSubscribe } from './MobileSubscribe';
@@ -31,10 +30,10 @@ const MobileLanding: React.FC<MobileLandingProps> = ({ onNavigate }) => (
     <MobileWorkPreview onNavigate={onNavigate} />
     <MobileContrast />
     <MobileMethod />
-    <MobileFounderBlock onNavigate={onNavigate} />
+    {/* Both founders on one spread, as on desktop. */}
+    <Principals onNavigate={onNavigate} compact />
     <MobileAdvantage />
     <MobileControls />
-    <MobilePartnerBlock onNavigate={onNavigate} />
     {/* Parity with the desktop tree — pricing after trust, not before it. */}
     <CommercialOffers onNavigate={onNavigate} compact />
     <MobileBooking onNavigate={onNavigate} />
