@@ -4,26 +4,31 @@ import { format } from 'date-fns';
 import { CustomSelect, FormField } from '../Shared';
 import { MobileButton } from './MobileButton';
 import { MobileErrorBoundary } from './MobileErrorBoundary';
-import AstridSketch from '../../images/Astrid_Sketch.webp';
 import { API_ENDPOINTS } from '../../config';
 import { track } from '../../lib/analytics';
 import { useBookingStepAnalytics } from '../../lib/useBookingStepAnalytics';
 import type { CalendarProps } from '../types';
 import {
-  BUSINESS_TIMEZONE,
-  BUSINESS_HOURS,
-  MEETING_DURATION_MINUTES,
-  BUFFER_MINUTES,
   MONTH_NAMES,
   buildDisplaySlots,
   getAvailabilityRange,
   checkSlotAvailability as checkSharedSlotAvailability,
   isDayDisabled,
+  hostSlotConfig,
+  type SlotConfig,
+  type DisplaySlot,
 } from '../calendarAvailability';
+import { BOOKING_HOSTS } from '../bookingHosts';
+import { readAttribution } from '../../lib/attribution';
+import { TimezonePicker, downloadIcs } from '../BookingBits';
+
+// Shown as the .ics organizer only; the real invite comes from Google.
+const HOST_EMAIL = 'anton@daveenci.ai';
 
 type Step = 'datetime' | 'details' | 'success';
 
-export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
+export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' }) => {
+  const copy = BOOKING_HOSTS[host];
   const [step, setStep] = useState<Step>('datetime');
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -33,22 +38,27 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
     email: '',
     company: '',
     phone: '',
-    reason: 'Multiple areas (we will prioritize together)',
+    reason: copy.defaultReason,
     notes: '',
+    // Honeypot: a person never sees this, a bot fills it in.
+    website: '',
   });
 
-  const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const [displaySlots, setDisplaySlots] = useState<{ display: string; value: string; localTime: string }[]>([]);
+  const [userTimezone, setUserTimezone] = useState(
+    () => Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
+  );
+  const [slotConfig, setSlotConfig] = useState<SlotConfig>(() => hostSlotConfig(host));
+  const [displaySlots, setDisplaySlots] = useState<DisplaySlot[]>([]);
   const [busySlots, setBusySlots] = useState<{ start: string; end: string }[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [availabilityError, setAvailabilityError] = useState<string | null>(null);
   const calendarStartTracked = useRef(false);
-  const trackDetailsViewed = useBookingStepAnalytics('meet-astrid');
+  const trackDetailsViewed = useBookingStepAnalytics(copy.key);
 
   const trackCalendarStart = () => {
     if (calendarStartTracked.current) return;
     calendarStartTracked.current = true;
-    track('calendar_start', { booking_type: 'meet-astrid' });
+    track('calendar_start', { booking_type: copy.key });
   };
 
   // Apply sessionStorage preselect from landing
@@ -78,17 +88,27 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
       setDisplaySlots([]);
       return;
     }
-    setDisplaySlots(buildDisplaySlots(selectedDate, USER_TIMEZONE, BUSINESS_HOURS, BUSINESS_TIMEZONE));
-  }, [selectedDate]);
+    setDisplaySlots(buildDisplaySlots(selectedDate, userTimezone, slotConfig));
+  }, [selectedDate, userTimezone, slotConfig]);
 
   const fetchAvailability = async () => {
     setIsLoading(true);
     const { start, end } = getAvailabilityRange(currentDate);
     try {
-      const response = await fetch(`${API_ENDPOINTS.availability}?start=${start}&end=${end}`);
+      const response = await fetch(`${API_ENDPOINTS.availability}?host=${host}&start=${start}&end=${end}`);
       if (!response.ok) throw new Error(`Availability request failed (${response.status})`);
       const data = await response.json();
       setBusySlots(data.busySlots);
+      if (data.host) {
+        setSlotConfig({
+          durationMin: data.host.durationMin,
+          bufferMin: data.host.bufferMin,
+          minLeadHours: data.host.minLeadHours,
+          timezone: data.host.timezone,
+          businessHours: data.host.businessHours,
+          businessDays: data.host.businessDays,
+        });
+      }
       setAvailabilityError(null);
     } catch (error) {
       if (import.meta.env.DEV) console.debug('[calendar] Live availability unavailable', error);
@@ -122,11 +142,10 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
     fetchAvailability();
   };
 
-  const isDateDisabled = (day: number) =>
-    isDayDisabled(day, currentDate, busySlots, BUSINESS_HOURS, BUSINESS_TIMEZONE, MEETING_DURATION_MINUTES, BUFFER_MINUTES);
+  const isDateDisabled = (day: number) => isDayDisabled(day, currentDate, busySlots, slotConfig);
 
   const isTimeDisabled = (slotIso: string) =>
-    !checkSharedSlotAvailability(slotIso, busySlots, MEETING_DURATION_MINUTES, BUFFER_MINUTES);
+    !checkSharedSlotAvailability(slotIso, busySlots, slotConfig);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -134,12 +153,21 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
       const response = await fetch(API_ENDPOINTS.book, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, dateTime: selectedTime, bookingType: 'meet-astrid' }),
+        body: JSON.stringify({
+          ...formData,
+          dateTime: selectedTime,
+          host,
+          timezone: userTimezone,
+          ...readAttribution(),
+          page: `/book/${host}`,
+        }),
       });
       const data = await response.json();
       if (response.ok) {
-        track('generate_lead', { booking_type: 'meet-astrid' });
+        track('generate_lead', { booking_type: copy.key });
         setStep('success');
+      } else if (response.status === 429) {
+        alert('Too many submissions from your network. Please try again in a while.');
       } else if (response.status === 409 && data.isDuplicate) {
         alert(data.error || 'You already have a meeting scheduled at this time.');
         fetchAvailability();
@@ -196,13 +224,13 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
             {/* Intro strip */}
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-sm overflow-hidden border border-ink/10 flex-shrink-0">
-                <img src={AstridSketch} alt="Astrid Abrahamyan" decoding="async" className="w-full h-full object-cover object-top scale-125 sepia-[0.15] contrast-105" />
+                <img src={copy.portrait} alt={copy.name} decoding="async" className="w-full h-full object-cover object-top scale-125 sepia-[0.15] contrast-105" />
               </div>
               <div>
-                <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">Discovery Call</div>
-                <h1 className="font-serif text-xl text-ink leading-tight">Talk to us.</h1>
+                <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">{copy.eyebrow}</div>
+                <h1 className="font-serif text-xl text-ink leading-tight">{copy.lead} {copy.leadEmphasis}</h1>
                 <div className="flex items-center gap-2 mt-1 text-xs text-ink-muted font-serif italic">
-                  <Clock className="w-3 h-3" /> 30 min
+                  <Clock className="w-3 h-3" /> {copy.durationLabel}
                   <span className="text-ink-muted/40">·</span>
                   <span className="flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-500" /> Available
@@ -292,6 +320,12 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
               </h4>
 
               {selectedDate && (
+                <div className="flex justify-center mb-4">
+                  <TimezonePicker value={userTimezone} onChange={setUserTimezone} />
+                </div>
+              )}
+
+              {selectedDate && (
                 isLoading ? (
                   <div className="flex flex-col items-center py-8 text-ink-muted/60">
                     <div className="w-6 h-6 border-2 border-accent/30 border-t-accent rounded-full animate-spin mb-3" />
@@ -306,6 +340,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
                           trackCalendarStart();
                           setSelectedTime(slot.value);
                         }}
+                        aria-label={slot.label}
                         className={`py-2.5 font-serif italic text-sm border rounded-sm transition-all ${
                           selectedTime === slot.value
                             ? 'bg-accent/10 text-accent border-accent ring-1 ring-accent'
@@ -377,17 +412,12 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
               optionalLabel="(optional)"
             />
             <CustomSelect
-              label="What brings you here?"
+              label={copy.reasonLabel}
               required
               value={formData.reason}
               onChange={(val) => setFormData({ ...formData, reason: val })}
               icon={<HelpCircle className="w-3 h-3" />}
-              options={[
-                'I have a specific workflow I want a team for',
-                "I'm exploring — want to see if specialist AI teams fit my work",
-                'I read the thesis and want to discuss it',
-                "Something else — I'll explain on the call",
-              ]}
+              options={copy.reasonOptions}
             />
             <FormField
               label="Anything else?"
@@ -399,6 +429,20 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
               icon={<HelpCircle className="w-3 h-3" />}
               rows={4}
             />
+
+            {/* Honeypot — hidden from people, tempting to bots. */}
+            <div aria-hidden="true" className="absolute w-px h-px -m-px overflow-hidden opacity-0 pointer-events-none">
+              <label htmlFor="website-mobile">Website</label>
+              <input
+                id="website-mobile"
+                name="website"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={formData.website}
+                onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+              />
+            </div>
           </form>
         )}
 
@@ -408,9 +452,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
               <Check className="w-10 h-10 text-green-600" />
             </div>
             <h2 className="font-serif text-3xl text-ink mb-3">You're on the calendar.</h2>
-            <p className="text-ink-muted text-base mb-8 max-w-sm">
-              A calendar invitation is on its way to your inbox. Looking forward to the conversation.
-            </p>
+            <p className="text-ink-muted text-base mb-8 max-w-sm">{copy.confirmation}</p>
             <div className="w-full bg-white/60 border border-ink/10 p-5 rounded-sm mb-8">
               <div className="flex justify-between text-sm mb-2">
                 <span className="text-ink-muted">Date</span>
@@ -418,9 +460,28 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate }) => {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-ink-muted">Time</span>
-                <span className="font-medium text-ink">{selectedTime ? format(new Date(selectedTime), 'hh:mm a') : ''}</span>
+                <span className="font-medium text-ink">
+                  {selectedTime
+                    ? `${new Date(selectedTime).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: userTimezone })} · ${userTimezone}`
+                    : ''}
+                </span>
               </div>
             </div>
+
+            <MobileButton
+              variant="primary"
+              className="w-full"
+              onClick={() => selectedTime && downloadIcs({
+                title: copy.eventTitle,
+                start: selectedTime,
+                durationMin: slotConfig.durationMin,
+                hostEmail: HOST_EMAIL,
+                attendeeEmail: formData.email,
+                description: copy.blurb,
+              })}
+            >
+              Add to calendar
+            </MobileButton>
           </div>
         )}
       </MobileErrorBoundary>

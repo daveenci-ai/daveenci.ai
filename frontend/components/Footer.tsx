@@ -91,6 +91,7 @@ const Footer: React.FC<FooterProps> = ({
             <h4 className="font-mono text-[10px] uppercase tracking-[0.2em] text-canvas/60 mb-4">Work</h4>
             <ul className="space-y-2">
               <li><a href="/work" onClick={go('work')} className="text-sm text-canvas/80 hover:text-white transition-colors">All work</a></li>
+              <li><a href="/modules" onClick={go('modules')} className="text-sm text-canvas/80 hover:text-white transition-colors">Modules</a></li>
               <li><a href="/purecode" onClick={go('purecode')} className="text-sm text-canvas/80 hover:text-white transition-colors">PureCode</a></li>
               <li><a href="/shootos" onClick={go('autopilot')} className="text-sm text-canvas/80 hover:text-white transition-colors">ShootOS</a></li>
               <li><a href="/compoundiq" onClick={go('compoundiq')} className="text-sm text-canvas/80 hover:text-white transition-colors">CompoundIQ</a></li>
@@ -105,7 +106,7 @@ const Footer: React.FC<FooterProps> = ({
               <li><a href="/who-we-are" onClick={go('who-we-are')} className="text-sm text-canvas/80 hover:text-white transition-colors">About</a></li>
               <li><a href="/#services" onClick={go('landing', '#services')} className="text-sm text-canvas/80 hover:text-white transition-colors">Services</a></li>
               <li><a href="/thesis" onClick={go('thesis')} className="text-sm text-canvas/80 hover:text-white transition-colors">Thesis</a></li>
-              <li><a href="/calendar" onClick={go('calendar')} className="text-sm text-canvas/80 hover:text-white transition-colors">Talk to us</a></li>
+              <li><a href="/book" onClick={go('book')} className="text-sm text-canvas/80 hover:text-white transition-colors">Talk to us</a></li>
               <li><a href="/events" onClick={go('events')} className="text-sm text-canvas/80 hover:text-white transition-colors">Events</a></li>
               <li><a href="/brandos" onClick={go('brandos')} className="text-sm text-canvas/80 hover:text-white transition-colors">BrandOS</a></li>
               <li><a href="/pulsenote" onClick={go('pulsenote')} className="text-sm text-canvas/80 hover:text-white transition-colors">PulseNote</a></li>
@@ -132,6 +133,8 @@ const Footer: React.FC<FooterProps> = ({
               href="mailto:anton@daveenci.ai"
               className="hover:text-canvas transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
             >anton@daveenci.ai</a>
+            <span aria-hidden="true">·</span>
+            <span>DaVeenci LLC · 2900 W Anderson Ln, Ste C-200, PMB 1049, Austin, TX 78757</span>
             <span aria-hidden="true">·</span>
             <span>© {new Date().getFullYear()} DaVeenci</span>
             <span aria-hidden="true">·</span>

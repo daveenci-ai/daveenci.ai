@@ -8,11 +8,10 @@ import { API_ENDPOINTS } from '../config';
 import { useNearViewport } from '../lib/useNearViewport';
 import type { Page } from './types';
 import {
-  MEETING_DURATION_MINUTES,
-  BUFFER_MINUTES,
   MIN_LEAD_HOURS,
   getAvailabilityRange,
   checkSlotAvailability,
+  hostSlotConfig,
   type BusySlot,
 } from './calendarAvailability';
 
@@ -133,7 +132,7 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
     });
 
   const isSlotBusy = (iso: string) =>
-    !checkSlotAvailability(iso, busySlots, MEETING_DURATION_MINUTES, BUFFER_MINUTES);
+    !checkSlotAvailability(iso, busySlots, hostSlotConfig('astrid'));
 
   return (
     <Section id="book" pattern="nodes" overflow={true} className="bg-white/50">

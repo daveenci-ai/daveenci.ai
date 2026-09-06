@@ -5,10 +5,48 @@ import { registerForEvent } from './services/events';
 import { subscribeToNewsletter } from './services/newsletter';
 import { getAuthUrl, verifyGoogleToken } from './services/auth';
 import { analyzeBrands } from './services/brandAnalyzer';
+import { postToCrm } from './services/crmIntake';
+import { getHost } from './hosts';
+import { checkFormGuards } from './lib/formGuards';
+import { buildBookingIntake, sanitizeSource, sanitizeToken } from './lib/bookingIntake';
 
 const router = Router();
 
+const clientIp = (req: Request) =>
+    (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || req.ip || undefined;
+
+const guard = (req: Request, res: Response): boolean => {
+    const result = checkFormGuards(req.headers.origin, req.body, {
+        allowLocalhost: process.env.NODE_ENV !== 'production',
+    });
+    if (result.ok) return true;
+    if (result.reason === 'origin') {
+        res.status(403).json({ success: false, error: 'Forbidden' });
+    } else {
+        // Say nothing useful to a bot; a person never trips this.
+        res.status(200).json({ success: true });
+    }
+    return false;
+};
+
+/**
+ * Hand a submission to the CRM intake. Never throws: intake being down must
+ * not cost a booking or a subscription.
+ */
+const forwardToCrm = async (
+    kind: 'event' | 'consultation' | 'newsletter',
+    payload: Record<string, unknown>,
+    req: Request,
+) => {
+    const result = await postToCrm(kind, payload, { clientIp: clientIp(req) });
+    if (!result.ok) {
+        console.error(`CRM intake ${kind} failed`, { status: result.status, error: result.error });
+    }
+    return result;
+};
+
 router.post('/newsletter/subscribe', async (req: Request, res: Response) => {
+    if (!guard(req, res)) return;
     try {
         const { email, source } = req.body;
         if (!email) {
@@ -21,7 +59,38 @@ router.post('/newsletter/subscribe', async (req: Request, res: Response) => {
             typeof source === 'string' && source.trim()
                 ? source.trim().slice(0, 100).replace(/[\uD800-\uDFFF]$/, '')
                 : undefined;
-        const result = await subscribeToNewsletter(email, cleanSource || undefined);
+        const crm = await forwardToCrm('newsletter', {
+            email,
+            source: cleanSource || 'site',
+            src: sanitizeSource(req.body.src),
+            t: sanitizeToken(req.body.t),
+            page: typeof req.body.page === 'string' ? req.body.page : '',
+            website: '',
+        }, req);
+
+        if (crm.rateLimited) {
+            return res.status(429).json({
+                success: false,
+                error: 'Too many submissions from your network. Please try again in a while.',
+            });
+        }
+
+        // The legacy Postgres record is on its way out with Supabase; a
+        // failure here must not lose a subscription the CRM already has.
+        let result: any = null;
+        try {
+            result = await subscribeToNewsletter(email, cleanSource || undefined);
+        } catch (error: any) {
+            if (error?.code === '23505') {
+                return res.status(409).json({
+                    success: false,
+                    error: 'You are already subscribed to the newsletter.',
+                    isDuplicate: true,
+                });
+            }
+            console.error('Newsletter legacy store failed (continuing):', error);
+        }
+
         res.status(200).json({ success: true, result });
     } catch (error: any) {
         console.error('Newsletter subscription error:', error);
@@ -37,7 +106,29 @@ router.post('/newsletter/subscribe', async (req: Request, res: Response) => {
 });
 
 router.post('/events/register', async (req: Request, res: Response) => {
+    if (!guard(req, res)) return;
     try {
+        // ASSUMPTION: the Events-page form is the intake's "consultation"
+        // kind — it is the only site form left unclaimed by §4 of the brief.
+        // Verify with one test post before the first campaign.
+        const crm = await forwardToCrm('consultation', {
+            name: req.body?.name,
+            email: req.body?.email,
+            event_name: req.body?.eventName,
+            event_start: req.body?.eventDateTime,
+            src: sanitizeSource(req.body?.src),
+            t: sanitizeToken(req.body?.t),
+            page: '/events',
+            website: '',
+        }, req);
+
+        if (crm.rateLimited) {
+            return res.status(429).json({
+                success: false,
+                error: 'Too many submissions from your network. Please try again in a while.',
+            });
+        }
+
         const result = await registerForEvent(req.body);
         res.status(200).json({ success: true, result });
     } catch (error: any) {
@@ -54,14 +145,35 @@ router.post('/events/register', async (req: Request, res: Response) => {
 });
 
 router.post('/calendar/book', async (req: Request, res: Response) => {
+    if (!guard(req, res)) return;
+
+    // Bookings made before hosts existed carry no host and belong to Astrid.
+    const host = getHost(req.body?.host) || getHost('astrid')!;
+    if (!host.calendarId) {
+        console.error(`No calendar configured for host ${host.key}`);
+        return res.status(503).json({ success: false, error: 'Booking is temporarily unavailable.' });
+    }
+
     try {
-        // Run both operations in parallel
-        const [event, dbRecord] = await Promise.all([
-            createCalendarEvent(req.body),
-            saveConsultationRequest(req.body)
+        const event = await createCalendarEvent(req.body, host);
+
+        // Attribution matters more than the legacy record, and neither may
+        // undo a meeting that is already on the calendar.
+        const [, dbRecord] = await Promise.all([
+            forwardToCrm('event', buildBookingIntake(host, req.body), req),
+            saveConsultationRequest(req.body, host.name).catch((error: any) => {
+                if (error?.code === '23505') throw error;
+                console.error('Booking legacy store failed (continuing):', error);
+                return null;
+            }),
         ]);
 
-        res.status(200).json({ success: true, event, dbRecord });
+        res.status(200).json({
+            success: true,
+            event,
+            dbRecord,
+            host: { key: host.key, name: host.name, durationMin: host.durationMin },
+        });
     } catch (error: any) {
         console.error('Booking error:', error);
 
@@ -85,9 +197,26 @@ router.get('/calendar/availability', async (req: Request, res: Response) => {
             return res.status(400).json({ error: 'Missing start or end date' });
         }
 
-        const busySlots = await getBusySlots(start as string, end as string);
+        const host = getHost(req.query.host as string) || getHost('astrid')!;
+        const busySlots = await getBusySlots(start as string, end as string, host);
 
-        res.json({ busySlots });
+        // The client renders the grid from this, so the server stays the one
+        // source of truth for duration, hours and buffers. calendarId is
+        // deliberately not included.
+        res.json({
+            busySlots,
+            host: {
+                key: host.key,
+                name: host.name,
+                role: host.role,
+                durationMin: host.durationMin,
+                timezone: host.timezone,
+                businessHours: host.businessHours,
+                businessDays: host.businessDays,
+                bufferMin: host.bufferMin,
+                minLeadHours: host.minLeadHours,
+            },
+        });
     } catch (error) {
         console.error('Availability error:', error);
         res.status(500).json({ error: 'Failed to fetch availability' });

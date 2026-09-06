@@ -7,11 +7,10 @@ import { API_ENDPOINTS } from '../../config';
 import { useNearViewport } from '../../lib/useNearViewport';
 import type { Page } from '../types';
 import {
-  MEETING_DURATION_MINUTES,
-  BUFFER_MINUTES,
   MIN_LEAD_HOURS,
   getAvailabilityRange,
   checkSlotAvailability,
+  hostSlotConfig,
   type BusySlot,
 } from '../calendarAvailability';
 
@@ -131,7 +130,7 @@ export const MobileBooking: React.FC<MobileBookingProps> = ({ onNavigate }) => {
     });
 
   const isSlotBusy = (iso: string) =>
-    !checkSlotAvailability(iso, busySlots, MEETING_DURATION_MINUTES, BUFFER_MINUTES);
+    !checkSlotAvailability(iso, busySlots, hostSlotConfig('astrid'));
 
   const activeDay = days[activeDayIdx];
 

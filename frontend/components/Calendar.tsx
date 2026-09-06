@@ -4,19 +4,23 @@ import { Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight, Check, User
 import { format } from 'date-fns';
 import { Logo, Button, VitruvianBackground, ScrollReveal, CustomSelect, FormField } from './Shared';
 import type { CalendarProps } from './types';
-import AstridSketch from '../images/Astrid_Sketch.webp';
 import { API_ENDPOINTS } from '../config';
 import {
-   BUSINESS_TIMEZONE,
-   BUSINESS_HOURS,
-   MEETING_DURATION_MINUTES,
-   BUFFER_MINUTES,
    MONTH_NAMES,
    buildDisplaySlots,
    getAvailabilityRange,
    checkSlotAvailability as checkSharedSlotAvailability,
    isDayDisabled,
+   hostSlotConfig,
+   type SlotConfig,
+   type DisplaySlot,
 } from './calendarAvailability';
+import { BOOKING_HOSTS } from './bookingHosts';
+import { readAttribution } from '../lib/attribution';
+import { TimezonePicker, downloadIcs } from './BookingBits';
+
+// Shown as the .ics organizer only; the real invite comes from Google.
+const HOST_EMAIL = 'anton@daveenci.ai';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileCalendarPage } from './mobile/MobileCalendarPage';
 import { track } from '../lib/analytics';
@@ -28,7 +32,8 @@ const Calendar: React.FC<CalendarProps> = (props) => {
    return <CalendarDesktop {...props} />;
 };
 
-const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
+const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' }) => {
+   const copy = BOOKING_HOSTS[host];
    const [step, setStep] = useState<'datetime' | 'details' | 'success'>('datetime');
    const [currentDate, setCurrentDate] = useState(new Date());
    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -39,21 +44,27 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
       email: '',
       company: '',
       phone: '',
-      reason: "Multiple areas (we will prioritize together)",
-      notes: ''
+      reason: copy.defaultReason,
+      notes: '',
+      // Honeypot: a person never sees this, a bot fills it in.
+      website: ''
    });
 
-   // But display times in user's local timezone
-   const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
+   const [userTimezone, setUserTimezone] = useState(
+      () => Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
+   );
+   // The server owns duration, hours and buffers; this renders the grid until
+   // the availability response lands and if it fails.
+   const [slotConfig, setSlotConfig] = useState<SlotConfig>(() => hostSlotConfig(host));
 
-   const [displaySlots, setDisplaySlots] = useState<{ display: string, value: string, localTime: string }[]>([]);
+   const [displaySlots, setDisplaySlots] = useState<DisplaySlot[]>([]);
 
    const calendarStartFired = useRef(false);
-   const trackDetailsViewed = useBookingStepAnalytics('meet-astrid');
+   const trackDetailsViewed = useBookingStepAnalytics(copy.key);
    const trackCalendarStart = () => {
       if (calendarStartFired.current) return;
       calendarStartFired.current = true;
-      track('calendar_start', { booking_type: 'meet-astrid' });
+      track('calendar_start', { booking_type: copy.key });
    };
 
    // Apply pre-selection handed off from the landing page booking preview
@@ -79,8 +90,8 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
          setDisplaySlots([]);
          return;
       }
-      setDisplaySlots(buildDisplaySlots(selectedDate, USER_TIMEZONE, BUSINESS_HOURS, BUSINESS_TIMEZONE));
-   }, [selectedDate]);
+      setDisplaySlots(buildDisplaySlots(selectedDate, userTimezone, slotConfig));
+   }, [selectedDate, userTimezone, slotConfig]);
 
    const monthNames = MONTH_NAMES;
 
@@ -117,12 +128,22 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
       const { start, end } = getAvailabilityRange(currentDate);
 
       try {
-         const response = await fetch(`${API_ENDPOINTS.availability}?start=${start}&end=${end}`);
+         const response = await fetch(`${API_ENDPOINTS.availability}?host=${host}&start=${start}&end=${end}`);
          if (!response.ok) {
             throw new Error(`Availability request failed (${response.status})`);
          }
          const data = await response.json();
          setBusySlots(data.busySlots);
+         if (data.host) {
+            setSlotConfig({
+               durationMin: data.host.durationMin,
+               bufferMin: data.host.bufferMin,
+               minLeadHours: data.host.minLeadHours,
+               timezone: data.host.timezone,
+               businessHours: data.host.businessHours,
+               businessDays: data.host.businessDays,
+            });
+         }
          setAvailabilityError(null);
       } catch (error) {
          if (import.meta.env.DEV) console.debug('[calendar] Live availability unavailable', error);
@@ -137,21 +158,10 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
       fetchAvailability();
    }, []);
 
-   const checkSlotAvailability = (slotIsoTime: string) => {
-      return checkSharedSlotAvailability(slotIsoTime, busySlots, MEETING_DURATION_MINUTES, BUFFER_MINUTES);
-   };
+   const checkSlotAvailability = (slotIsoTime: string) =>
+      checkSharedSlotAvailability(slotIsoTime, busySlots, slotConfig);
 
-   const isDateDisabled = (day: number) => {
-      return isDayDisabled(
-         day,
-         currentDate,
-         busySlots,
-         BUSINESS_HOURS,
-         BUSINESS_TIMEZONE,
-         MEETING_DURATION_MINUTES,
-         BUFFER_MINUTES
-      );
-   };
+   const isDateDisabled = (day: number) => isDayDisabled(day, currentDate, busySlots, slotConfig);
 
    const isTimeDisabled = (slotIso: string) => {
       return !checkSlotAvailability(slotIso);
@@ -169,15 +179,20 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
             body: JSON.stringify({
                ...formData,
                dateTime: selectedTime, // Send ISO string
-               bookingType: 'meet-astrid'
+               host,
+               timezone: userTimezone,
+               ...readAttribution(),
+               page: `/book/${host}`,
             }),
          });
 
          const data = await response.json();
 
          if (response.ok) {
-            track('generate_lead', { booking_type: 'meet-astrid' });
+            track('generate_lead', { booking_type: copy.key });
             setStep('success');
+         } else if (response.status === 429) {
+            alert('Too many submissions from your network. Please try again in a while.');
          } else if (response.status === 409 && data.isDuplicate) {
             // Already booked - show friendly message and refresh availability
             alert(data.error || 'You already have a meeting scheduled at this time.');
@@ -186,7 +201,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
             const month = currentDate.getMonth();
             const start = new Date(year, month, 1).toISOString();
             const end = new Date(year, month + 1, 0).toISOString();
-            const availResponse = await fetch(`${API_ENDPOINTS.availability}?start=${start}&end=${end}`);
+            const availResponse = await fetch(`${API_ENDPOINTS.availability}?host=${host}&start=${start}&end=${end}`);
             if (availResponse.ok) {
                const availData = await availResponse.json();
                setBusySlots(availData.busySlots);
@@ -210,7 +225,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
             <VitruvianBackground className="opacity-[0.08] fixed" />
 
             <div className="relative z-10 w-full max-w-6xl">
-               <ScrollReveal>
+               <ScrollReveal immediate>
                   <div className="bg-white/60 backdrop-blur-xl shadow-2xl shadow-ink/10 border border-ink/10 rounded-sm overflow-hidden flex flex-col lg:flex-row min-h-[780px]">
 
                      {/* Left Panel: Context & Agenda - Increased Width */}
@@ -226,49 +241,41 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
                            </button>
                            <div className="flex items-center gap-3 mb-5">
                               <span className="h-px w-8 bg-ink-muted/30" />
-                              <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">Discovery Call</span>
+                              <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">{copy.eyebrow}</span>
                            </div>
-                           <h1 className="font-serif text-4xl lg:text-5xl text-ink leading-[1.05] mb-6">Talk <em className="italic text-accent">to us.</em></h1>
+                           <h1 className="font-serif text-4xl lg:text-5xl text-ink leading-[1.05] mb-6">{copy.lead} <em className="italic text-accent">{copy.leadEmphasis}</em></h1>
 
                            <div className="flex items-center gap-6 font-serif italic text-sm text-ink-muted mb-8">
                               <span className="flex items-center gap-2">
-                                 <Clock className="w-4 h-4" /> 30 min
+                                 <Clock className="w-4 h-4" /> {copy.durationLabel}
                               </span>
                               <span className="flex items-center gap-2">
                                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" /> Available
                               </span>
                            </div>
 
-                           <p className="text-ink-muted leading-relaxed mb-8 font-serif">
-                              Thirty minutes with Astrid. No slide deck. Bring one recurring workflow, the systems it crosses, and the consequence of getting it wrong.
-                           </p>
+                           <p className="text-ink-muted leading-relaxed mb-8 font-serif">{copy.blurb}</p>
 
                            <div className="flex items-center gap-4 py-6 border-y border-ink/5 mb-6">
                               <div className="w-20 h-20 rounded-sm overflow-hidden border border-ink/10 flex-shrink-0">
-                                 <img src={AstridSketch} alt="Astrid Abrahamyan" decoding="async" className="w-full h-full object-cover object-top scale-125" />
+                                 <img src={copy.portrait} alt={copy.name} decoding="async" className="w-full h-full object-cover object-top scale-125" />
                               </div>
                               <div>
-                                 <div className="font-serif text-ink text-lg leading-none mb-1">Astrid Abrahamyan</div>
-                                 <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest">Co-Founder</div>
+                                 <div className="font-serif text-ink text-lg leading-none mb-1">{copy.name}</div>
+                                 <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest">{copy.role}</div>
                               </div>
                            </div>
                         </div>
 
                         <div className="mt-auto">
-                           <h3 className="font-serif italic text-xs text-ink uppercase tracking-[0.25em] mb-4">What we cover</h3>
+                           <h3 className="font-serif italic text-xs text-ink uppercase tracking-[0.25em] mb-4">{copy.agendaTitle}</h3>
                            <ol className="space-y-4 border-l border-ink/10 pl-5">
-                              <li className="flex gap-4 items-baseline text-sm text-ink-muted leading-relaxed">
-                                 <span className="font-serif italic text-accent tracking-[0.1em] flex-shrink-0 w-4 text-right">i.</span>
-                                 <span>The recurring input, handoffs, and finished output</span>
-                              </li>
-                              <li className="flex gap-4 items-baseline text-sm text-ink-muted leading-relaxed">
-                                 <span className="font-serif italic text-accent tracking-[0.1em] flex-shrink-0 w-4 text-right">ii.</span>
-                                 <span>Where integrations, specialist roles, and human gates belong</span>
-                              </li>
-                              <li className="flex gap-4 items-baseline text-sm text-ink-muted leading-relaxed">
-                                 <span className="font-serif italic text-accent tracking-[0.1em] flex-shrink-0 w-4 text-right">iii.</span>
-                                 <span>Whether a fixed-scope Workflow Blueprint is worth doing</span>
-                              </li>
+                              {copy.agenda.map((item, i) => (
+                                 <li key={item} className="flex gap-4 items-baseline text-sm text-ink-muted leading-relaxed">
+                                    <span className="font-serif italic text-accent tracking-[0.1em] flex-shrink-0 w-4 text-right">{['i.', 'ii.', 'iii.', 'iv.'][i]}</span>
+                                    <span>{item}</span>
+                                 </li>
+                              ))}
                            </ol>
 
                            <div className="mt-8 pt-6 border-t border-ink/10">
@@ -288,9 +295,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
                                  <Check className="w-10 h-10 text-green-600" />
                               </div>
                               <h2 className="font-serif text-3xl text-ink mb-2">You're on the calendar.</h2>
-                              <p className="text-ink-muted text-lg mb-8 max-w-md">
-                                 A calendar invitation is on its way to your inbox. Looking forward to the conversation.
-                              </p>
+                              <p className="text-ink-muted text-lg mb-8 max-w-md">{copy.confirmation}</p>
                               <div className="bg-canvas/50 p-6 rounded-sm border border-ink/5 w-full max-w-sm mb-8">
                                  <div className="flex justify-between text-sm mb-2">
                                     <span className="text-ink-muted">Date</span>
@@ -298,7 +303,11 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
                                  </div>
                                  <div className="flex justify-between text-sm">
                                     <span className="text-ink-muted">Time</span>
-                                    <span className="font-medium text-ink">{selectedTime ? format(new Date(selectedTime), 'hh:mm a') : ''}</span>
+                                    <span className="font-medium text-ink">
+                                       {selectedTime
+                                          ? `${new Date(selectedTime).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: userTimezone })} · ${userTimezone}`
+                                          : ''}
+                                    </span>
                                  </div>
 
                                  {formData.notes && (
@@ -310,7 +319,22 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
                                     </div>
                                  )}
                               </div>
-                              <Button variant="secondary" onClick={() => onNavigate('landing')}>Return to Homepage</Button>
+                              <div className="flex flex-col sm:flex-row gap-3">
+                                 <Button
+                                    variant="primary"
+                                    onClick={() => selectedTime && downloadIcs({
+                                       title: copy.eventTitle,
+                                       start: selectedTime,
+                                       durationMin: slotConfig.durationMin,
+                                       hostEmail: HOST_EMAIL,
+                                       attendeeEmail: formData.email,
+                                       description: copy.blurb,
+                                    })}
+                                 >
+                                    Add to calendar
+                                 </Button>
+                                 <Button variant="secondary" onClick={() => onNavigate('landing')}>Return to Homepage</Button>
+                              </div>
                            </div>
                         ) : (
                            <div className="p-8 lg:p-12 h-full flex flex-col justify-center items-center">
@@ -369,9 +393,13 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
 
                                     {/* Time Slots - Stacked Below */}
                                     <div className="pt-6 border-t border-ink/10 min-h-[200px]">
-                                       <h3 className="font-serif italic text-lg text-ink mb-5 text-center">
+                                       <h3 className="font-serif italic text-lg text-ink mb-3 text-center">
                                           {selectedDate ? selectedDate.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' }) : 'Choose a date to see open times.'}
                                        </h3>
+
+                                       <div className="flex justify-center mb-5">
+                                          <TimezonePicker value={userTimezone} onChange={setUserTimezone} />
+                                       </div>
 
                                        {availabilityError && (
                                           <div role="alert" className="mb-4 text-xs font-serif italic text-amber-900 bg-amber-50/70 border border-amber-200/80 rounded-sm px-4 py-2.5 flex items-start gap-3">
@@ -393,12 +421,14 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
                                                          <button
                                                             key={slot.value}
                                                             onClick={() => { trackCalendarStart(); setSelectedTime(slot.value); }}
+                                                            aria-label={slot.label}
+                                                            title={slot.label}
                                                             className={`py-2.5 px-2 font-serif italic text-sm border rounded-sm transition-all text-center ${selectedTime === slot.value
                                                                ? 'bg-accent/10 text-accent border-accent ring-1 ring-accent shadow-sm'
                                                                : 'bg-white border-ink/10 text-ink hover:border-accent hover:text-accent hover:bg-accent/5 hover:shadow-sm'
                                                                }`}
                                                          >
-                                                            {slot.display}
+                                                            <span className="block">{slot.display}</span>
                                                          </button>
                                                    ))}
                                                 </div>
@@ -474,17 +504,12 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
                                        </div>
 
                                        <CustomSelect
-                                          label="What brings you here?"
+                                          label={copy.reasonLabel}
                                           required
                                           value={formData.reason}
                                           onChange={(val) => setFormData({ ...formData, reason: val })}
                                           icon={<HelpCircle className="w-3 h-3" />}
-                                          options={[
-                                             "I have a specific workflow I want a team for",
-                                             "I'm exploring — want to see if specialist AI teams fit my work",
-                                             "I read the thesis and want to discuss it",
-                                             "Something else — I'll explain on the call"
-                                          ]}
+                                          options={copy.reasonOptions}
                                        />
 
                                        <FormField
@@ -496,6 +521,20 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate }) => {
                                           placeholder="Optional — what recurring input, handoff, or exception is costing your team attention?"
                                           icon={<HelpCircle className="w-3 h-3" />}
                                           rows={4}
+                                       />
+                                    </div>
+
+                                    {/* Honeypot — hidden from people, tempting to bots. */}
+                                    <div aria-hidden="true" className="absolute w-px h-px -m-px overflow-hidden opacity-0 pointer-events-none">
+                                       <label htmlFor="website-desktop">Website</label>
+                                       <input
+                                          id="website-desktop"
+                                          name="website"
+                                          type="text"
+                                          tabIndex={-1}
+                                          autoComplete="off"
+                                          value={formData.website}
+                                          onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                                        />
                                     </div>
 

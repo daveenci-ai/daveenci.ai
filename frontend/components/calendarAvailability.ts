@@ -2,6 +2,18 @@ import { fromZonedTime } from 'date-fns-tz';
 
 export type BusySlot = { start: string; end: string };
 
+export interface SlotConfig {
+  /** Meeting length; also the interval between offered slots. */
+  durationMin: number;
+  bufferMin: number;
+  minLeadHours: number;
+  /** Timezone the business hours below are expressed in. */
+  timezone: string;
+  businessHours: number[];
+  /** Day numbers (0 = Sunday). */
+  businessDays: number[];
+}
+
 export const BUSINESS_TIMEZONE = 'America/Chicago';
 export const BUSINESS_HOURS = [8, 9, 10, 11, 12, 13, 14, 15];
 export const BUSINESS_DAYS = [1, 2, 3, 4]; // Monday=1 through Thursday=4
@@ -9,41 +21,73 @@ export const MEETING_DURATION_MINUTES = 30;
 export const BUFFER_MINUTES = 10;
 export const MIN_LEAD_HOURS = 24;
 
+/**
+ * Client-side defaults. The server is the source of truth and hands the real
+ * config back with the availability response; these keep the grid renderable
+ * before that lands and if it fails.
+ */
+const DEFAULTS: Omit<SlotConfig, 'durationMin'> = {
+  bufferMin: 10,
+  minLeadHours: 24,
+  timezone: BUSINESS_TIMEZONE,
+  businessHours: BUSINESS_HOURS,
+  businessDays: BUSINESS_DAYS,
+};
+
+/** Anything but 'anton' falls back to Astrid, as the server does. */
+export const hostSlotConfig = (host: string): SlotConfig => ({
+  ...DEFAULTS,
+  durationMin: host === 'anton' ? 15 : 30,
+});
+
 export const MONTH_NAMES = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December',
 ];
 
+export interface DisplaySlot {
+  /** Time only, in the visitor's zone: "6:30 PM". */
+  display: string;
+  /** Time with its zone — what the UI must show. Never render `display` bare. */
+  label: string;
+  /** Absolute start, ISO 8601. */
+  value: string;
+  timezone: string;
+}
+
+/** Slot start times for one day, as ISO strings, spaced by the meeting length. */
+export const getSlotsForDate = (date: Date, config: SlotConfig): string[] => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  const minutes: number[] = [];
+  for (let m = 0; m < 60; m += config.durationMin) minutes.push(m);
+
+  return config.businessHours
+    .flatMap((hour) =>
+      minutes.map((minute) => {
+        const local = `${year}-${month}-${day}T${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00`;
+        return fromZonedTime(local, config.timezone).toISOString();
+      }),
+    )
+    .sort();
+};
+
 export const buildDisplaySlots = (
   selectedDate: Date,
   userTimezone: string,
-  businessHours: number[] = BUSINESS_HOURS,
-  businessTimezone: string = BUSINESS_TIMEZONE,
-) => {
-  const year = selectedDate.getFullYear();
-  const month = selectedDate.getMonth() + 1;
-  const day = selectedDate.getDate();
-
-  const slots = businessHours.flatMap((hour) => {
-    return [0, 30].map((minute) => {
-      const isoDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00`;
-      const utcDate = fromZonedTime(isoDateStr, businessTimezone);
-      return {
-        display: utcDate.toLocaleTimeString(undefined, {
-          hour: 'numeric',
-          minute: '2-digit',
-          hour12: true,
-          timeZone: userTimezone,
-        }),
-        value: utcDate.toISOString(),
-        localTime: userTimezone,
-      };
+  config: SlotConfig,
+): DisplaySlot[] =>
+  getSlotsForDate(selectedDate, config).map((value) => {
+    const display = new Date(value).toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+      timeZone: userTimezone,
     });
+    return { display, label: `${display} · ${userTimezone}`, value, timezone: userTimezone };
   });
-
-  slots.sort((a, b) => new Date(a.value).getTime() - new Date(b.value).getTime());
-  return slots;
-};
 
 export const getAvailabilityRange = (currentDate: Date) => {
   const year = currentDate.getFullYear();
@@ -55,35 +99,17 @@ export const getAvailabilityRange = (currentDate: Date) => {
   return { start, end };
 };
 
-export const getSlotsForDate = (
-  date: Date,
-  businessHours: number[] = BUSINESS_HOURS,
-  businessTimezone: string = BUSINESS_TIMEZONE,
-) => {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-
-  return businessHours.flatMap((hour) => {
-    return [0, 30].map((minute) => {
-      const isoDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00`;
-      return fromZonedTime(isoDateStr, businessTimezone).toISOString();
-    });
-  });
-};
-
 export const checkSlotAvailability = (
   slotIsoTime: string,
   busySlots: BusySlot[],
-  meetingDurationMinutes: number = MEETING_DURATION_MINUTES,
-  bufferMinutes: number = BUFFER_MINUTES,
-) => {
+  config: SlotConfig,
+): boolean => {
   const slotStart = new Date(slotIsoTime);
-  const slotStartWithBuffer = new Date(slotStart.getTime() - bufferMinutes * 60000);
-  const slotEnd = new Date(slotStart.getTime() + meetingDurationMinutes * 60000);
-  const slotEndWithBuffer = new Date(slotEnd.getTime() + bufferMinutes * 60000);
+  const slotStartWithBuffer = new Date(slotStart.getTime() - config.bufferMin * 60000);
+  const slotEnd = new Date(slotStart.getTime() + config.durationMin * 60000);
+  const slotEndWithBuffer = new Date(slotEnd.getTime() + config.bufferMin * 60000);
 
-  const minBookingTime = new Date(Date.now() + MIN_LEAD_HOURS * 60 * 60000);
+  const minBookingTime = new Date(Date.now() + config.minLeadHours * 60 * 60000);
   if (slotStart < minBookingTime) return false;
 
   return !busySlots.some((slot) => {
@@ -97,21 +123,15 @@ export const isDayDisabled = (
   day: number,
   currentDate: Date,
   busySlots: BusySlot[],
-  businessHours: number[] = BUSINESS_HOURS,
-  businessTimezone: string = BUSINESS_TIMEZONE,
-  meetingDurationMinutes: number = MEETING_DURATION_MINUTES,
-  bufferMinutes: number = BUFFER_MINUTES,
-  businessDays: number[] = BUSINESS_DAYS,
-) => {
+  config: SlotConfig,
+): boolean => {
   const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   if (date < today) return true;
 
-  // Disable days outside business days (Mon-Thu)
-  if (!businessDays.includes(date.getDay())) return true;
+  if (!config.businessDays.includes(date.getDay())) return true;
 
-  const slots = getSlotsForDate(date, businessHours, businessTimezone);
-  return !slots.some((slotIso) =>
-    checkSlotAvailability(slotIso, busySlots, meetingDurationMinutes, bufferMinutes));
+  return !getSlotsForDate(date, config).some((slotIso) =>
+    checkSlotAvailability(slotIso, busySlots, config));
 };
