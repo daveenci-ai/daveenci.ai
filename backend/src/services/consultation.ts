@@ -1,6 +1,6 @@
 import { query } from '../db';
 
-export const saveConsultationRequest = async (data: any) => {
+export const saveConsultationRequest = async (data: any, hostName = 'Astrid Abrahamyan') => {
   const { name, email, phone, company, reason, notes, date, time, dateTime } = data;
 
   // Combine date and time for scheduled_with (assuming UTC for simplicity or relying on DB to handle timezone if provided)
@@ -27,7 +27,7 @@ export const saveConsultationRequest = async (data: any) => {
     company,
     reason,
     notes,
-    'Astrid Abrahamyan', // Static for now as per plan
+    hostName,
     scheduleUtc
   ];
 

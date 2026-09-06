@@ -1,4 +1,5 @@
 import { google } from 'googleapis';
+import type { Host } from '../hosts';
 
 const CALENDAR_SCOPES = ['https://www.googleapis.com/auth/calendar'];
 const GMAIL_SCOPES = ['https://www.googleapis.com/auth/gmail.send'];
@@ -19,16 +20,12 @@ export const createAuthClient = (scopes: string[]) => {
     });
 };
 
-const sendOwnerEmail = async (eventDetails: any) => {
+const sendOwnerEmail = async (eventDetails: any, host: Host) => {
     const { name, email, company, reason, notes, date, time, dateTime } = eventDetails;
     const auth = createAuthClient([...CALENDAR_SCOPES, ...GMAIL_SCOPES]);
     const gmail = google.gmail({ version: 'v1', auth });
 
-    const subjectMap: Record<string, string> = {
-        'demo-ai': `New Booking: Astrid Demo AI | ${name}`,
-        'meet-astrid': `New Booking: Meet Astrid | ${name}`,
-    };
-    const subject = subjectMap[eventDetails.bookingType] || `New Booking: Meeting | ${name}`;
+    const subject = `New Booking: ${host.key === 'anton' ? 'Module call' : 'Meet Astrid'} | ${name}`;
 
     // Format time from ISO dateTime or fallback to date/time fields
     let formattedTime = 'N/A';
@@ -49,7 +46,8 @@ Company: ${company || 'N/A'}
 Reason: ${reason || 'N/A'}
 Notes: ${notes || 'N/A'}
 
-Agent: Astrid Abrahamyan
+Host: ${host.name}
+Length: ${host.durationMin} min
 Time: ${formattedTime}
 `;
 
@@ -83,8 +81,8 @@ Time: ${formattedTime}
     }
 };
 
-export const createCalendarEvent = async (eventDetails: any) => {
-    const { name, email, company, phone, reason, notes, date, time, dateTime } = eventDetails;
+export const createCalendarEvent = async (eventDetails: any, host: Host) => {
+    const { name, email, date, time, dateTime } = eventDetails;
 
     const auth = createAuthClient(CALENDAR_SCOPES);
     const calendar = google.calendar({ version: 'v3', auth });
@@ -97,31 +95,25 @@ export const createCalendarEvent = async (eventDetails: any) => {
         startDateTime = new Date(`${date}T${time}:00`);
     }
 
-    const endDateTime = new Date(startDateTime.getTime() + 30 * 60000); // 30 min duration
+    const endDateTime = new Date(startDateTime.getTime() + host.durationMin * 60000);
 
-    const bookingType = eventDetails.bookingType;
-    const isDemoAI = bookingType === 'demo-ai';
-    const isMeetAstrid = bookingType === 'meet-astrid';
+    const summary = host.key === 'anton'
+        ? `Module call | ${name}`
+        : `Meet Astrid | ${name}`;
 
-    const summaryMap: Record<string, string> = {
-        'demo-ai': `Astrid Demo AI | ${name}`,
-        'meet-astrid': `Meet Astrid | ${name}`,
-    };
-
-    const descriptionMap: Record<string, string> = {
-        'demo-ai': `Agenda:
-• Explore custom AI agents and automation workflows.
-• Demo of live pipelines for CRM and Marketing.
-• Discuss implementation roadmap and ROI projections.`,
-        'meet-astrid': `Proposed Agenda:
+    const description = host.key === 'anton'
+        ? `Agenda:
+• How your orders actually arrive — which inbox, which platform, how many service types.
+• Whether the Order Intake module fits as it stands.
+• A start date.`
+        : `Proposed Agenda:
 • Get to know each other and your business goals.
 • Identify potential areas where we can provide value.
-• Discuss next steps for working together.`,
-    };
+• Discuss next steps for working together.`;
 
     const event = {
-        summary: summaryMap[bookingType] || `Meeting | ${name}`,
-        description: descriptionMap[bookingType] || '',
+        summary,
+        description,
         start: {
             dateTime: startDateTime.toISOString(),
             timeZone: 'UTC', // We are providing absolute ISO time
@@ -132,7 +124,7 @@ export const createCalendarEvent = async (eventDetails: any) => {
         },
         attendees: [
             { email: email }, // Client gets invited
-            { email: process.env.GOOGLE_CALENDAR_ID }, // Send notification to the calendar ID
+            { email: host.calendarId }, // Notify the host whose calendar this is
         ],
         conferenceData: {
             createRequest: {
@@ -144,14 +136,14 @@ export const createCalendarEvent = async (eventDetails: any) => {
 
     try {
         const response = await calendar.events.insert({
-            calendarId: process.env.GOOGLE_CALENDAR_ID,
+            calendarId: host.calendarId,
             conferenceDataVersion: 1, // Required to create Google Meet links
             requestBody: event,
             sendUpdates: 'all', // Send email invitations to attendees
         });
 
         // Send detailed email to owner in background
-        sendOwnerEmail(eventDetails).catch(err => console.error('Background email error:', err?.response?.data || err?.message || err));
+        sendOwnerEmail(eventDetails, host).catch(err => console.error('Background email error:', err?.response?.data || err?.message || err));
 
         return response.data;
     } catch (error) {
@@ -160,20 +152,21 @@ export const createCalendarEvent = async (eventDetails: any) => {
     }
 };
 
-export const getBusySlots = async (start: string, end: string) => {
+export const getBusySlots = async (start: string, end: string, host: Host) => {
     const auth = createAuthClient(CALENDAR_SCOPES);
     const calendar = google.calendar({ version: 'v3', auth });
+    const calendarId = host.calendarId || 'primary';
 
     try {
         const response = await calendar.freebusy.query({
             requestBody: {
                 timeMin: start,
                 timeMax: end,
-                items: [{ id: process.env.GOOGLE_CALENDAR_ID || 'primary' }],
+                items: [{ id: calendarId }],
             },
         });
 
-        const busySlots = response.data.calendars?.[process.env.GOOGLE_CALENDAR_ID || 'primary']?.busy || [];
+        const busySlots = response.data.calendars?.[calendarId]?.busy || [];
         return busySlots;
     } catch (error) {
         console.error('Error fetching busy slots:', error);

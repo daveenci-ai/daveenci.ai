@@ -6,6 +6,7 @@ import { initAnalytics, trackPageView } from './lib/analytics';
 import { applyRouteMetadata } from './lib/routeMetadata';
 import DaVeenciLandingPage from './DaVeenciLandingPage';
 import { installReducedMotionSmil } from './lib/reducedMotionSmil';
+import { rememberAttribution, defaultBookingHost, readAttribution } from './lib/attribution';
 
 // Route-level code splitting — each page becomes its own lazy chunk.
 // Only the landing chunk downloads on initial load; other pages are
@@ -19,6 +20,9 @@ const BriefingsPage = lazy(() => import('./components/BriefingsPage'));
 const BriefingDetailPage = lazy(() => import('./components/BriefingDetailPage'));
 const WhoWeArePage = lazy(() => import('./components/WhoWeArePage'));
 const Calendar = lazy(() => import('./components/Calendar'));
+const BookPage = lazy(() => import('./components/BookPage'));
+const ModulesPage = lazy(() => import('./components/ModulesPage'));
+const OrderIntakePage = lazy(() => import('./components/OrderIntakePage'));
 const PulseNotePage = lazy(() => import('./components/PulseNotePage'));
 const BrandOSPage = lazy(() => import('./components/BrandOSPage'));
 const WorkPage = lazy(() => import('./components/WorkPage'));
@@ -61,6 +65,10 @@ const App: React.FC = () => {
   useEffect(() => {
     initAnalytics();
 
+    // Record ?t= / ?src= before anything routes on them: the token arrives on
+    // the module page and has to survive the click to the booking page.
+    rememberAttribution(window.location.search);
+
     const handleLocationChange = () => {
       // Normalize path: Remove trailing slash if it's not the root
       const path = window.location.pathname === '/' ? '/' : window.location.pathname.replace(/\/$/, '');
@@ -87,7 +95,27 @@ const App: React.FC = () => {
       } else if (path === '/who-we-are') {
         setPage('who-we-are');
       } else if (path === '/calendar') {
-        setPage('calendar');
+        // Legacy: the discovery call now lives under /book.
+        window.history.replaceState({}, '', '/book/astrid');
+        setPage('book-astrid');
+      } else if (path === '/book/anton') {
+        setPage('book-anton');
+      } else if (path === '/book/astrid') {
+        setPage('book-astrid');
+      } else if (path === '/book') {
+        // Anyone who arrived through outreach or the module page already
+        // wants Anton; everyone else gets the choice.
+        const host = defaultBookingHost(readAttribution());
+        if (host === 'anton') {
+          window.history.replaceState({}, '', `/book/anton${window.location.search}`);
+          setPage('book-anton');
+        } else {
+          setPage('book');
+        }
+      } else if (path === '/modules') {
+        setPage('modules');
+      } else if (path === '/modules/order-intake') {
+        setPage('order-intake');
       } else if (path === '/book-demo') {
         window.history.replaceState({}, '', '/pulsenote');
         setPage('pulsenote');
@@ -224,7 +252,12 @@ const App: React.FC = () => {
     if (targetPage === 'briefings') path = '/codex';
     if (targetPage === 'briefing-detail') path = `/codex/${id}`;
     if (targetPage === 'who-we-are') path = '/who-we-are';
-    if (targetPage === 'calendar') path = '/calendar';
+    if (targetPage === 'calendar') path = '/book/astrid';
+    if (targetPage === 'book') path = '/book';
+    if (targetPage === 'book-anton') path = '/book/anton';
+    if (targetPage === 'book-astrid') path = '/book/astrid';
+    if (targetPage === 'modules') path = '/modules';
+    if (targetPage === 'order-intake') path = '/modules/order-intake';
     if (targetPage === 'pulsenote') path = '/pulsenote';
     if (targetPage === 'brandos') path = '/brandos';
     if (targetPage === 'work') path = '/work';
@@ -270,7 +303,12 @@ const App: React.FC = () => {
           <BriefingDetailPage onNavigate={handleNavigate} id={selectedBriefingId} />
         )}
         {page === 'who-we-are' && <WhoWeArePage onNavigate={handleNavigate} />}
-        {page === 'calendar' && <Calendar onNavigate={handleNavigate} />}
+        {page === 'calendar' && <Calendar onNavigate={handleNavigate} host="astrid" />}
+        {page === 'book' && <BookPage onNavigate={handleNavigate} />}
+        {page === 'book-anton' && <Calendar onNavigate={handleNavigate} host="anton" />}
+        {page === 'book-astrid' && <Calendar onNavigate={handleNavigate} host="astrid" />}
+        {page === 'modules' && <ModulesPage onNavigate={handleNavigate} />}
+        {page === 'order-intake' && <OrderIntakePage onNavigate={handleNavigate} />}
         {page === 'pulsenote' && <PulseNotePage onNavigate={handleNavigate} />}
         {page === 'brandos' && <BrandOSPage onNavigate={handleNavigate} />}
         {page === 'work' && <WorkPage onNavigate={handleNavigate} />}

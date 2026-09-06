@@ -24,6 +24,15 @@
       "dest": "/pulsenote-og.html",
       "status": 200
     },
+    {
+      "src": "/modules/order-intake",
+      "has": [
+        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
+      ],
+      "dest": "/order-intake-og.html",
+      "status": 200
+    },
+    { "src": "/calendar", "status": 301, "headers": { "Location": "/book/astrid" } },
     { "src": "/book-demo", "status": 301, "headers": { "Location": "/pulsenote" } },
     { "src": "/brand-analyzer", "status": 301, "headers": { "Location": "/brandos" } },
     { "src": "/autopilot", "status": 301, "headers": { "Location": "/shootos" } },
@@ -126,7 +135,7 @@
     { "src": "/api/(.*)", "dest": "/api/index.ts" },
     { "src": "/briefings(/.*)?", "status": 301, "headers": { "Location": "/codex$1" } },
     { "handle": "filesystem" },
-    { "src": "/(codex|who-we-are|calendar|pulsenote|brandos|work|purecode|shootos|compoundiq|analytics-os|creative-production|events|thesis|privacy)(/.*)?", "dest": "/index.html" },
+    { "src": "/(codex|who-we-are|calendar|book|modules|pulsenote|brandos|work|purecode|shootos|compoundiq|analytics-os|creative-production|events|thesis|privacy)(/.*)?", "dest": "/index.html" },
     { "src": "/", "dest": "/index.html" },
     { "src": "/.*", "dest": "/404.html", "status": 404 }
   ]

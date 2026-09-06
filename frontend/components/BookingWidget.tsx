@@ -7,16 +7,16 @@ import { track } from '../lib/analytics';
 import { useBookingStepAnalytics } from '../lib/useBookingStepAnalytics';
 import type { Page } from './types';
 import {
-  BUSINESS_TIMEZONE,
-  BUSINESS_HOURS,
-  MEETING_DURATION_MINUTES,
-  BUFFER_MINUTES,
   MONTH_NAMES,
   buildDisplaySlots,
   getAvailabilityRange,
   checkSlotAvailability as checkSharedSlotAvailability,
   isDayDisabled,
+  hostSlotConfig,
 } from './calendarAvailability';
+
+// These widgets sit on product pages and book Astrid's discovery call.
+const SLOT_CONFIG = hostSlotConfig('astrid');
 
 interface BookingWidgetProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -88,7 +88,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 
   useEffect(() => {
     if (!selectedDate) { setDisplaySlots([]); return; }
-    setDisplaySlots(buildDisplaySlots(selectedDate, USER_TIMEZONE, BUSINESS_HOURS, BUSINESS_TIMEZONE));
+    setDisplaySlots(buildDisplaySlots(selectedDate, USER_TIMEZONE, SLOT_CONFIG));
   }, [selectedDate]);
 
   const fetchAvailability = async () => {
@@ -130,10 +130,10 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
   }, [availabilityEnabled, currentDate]);
 
   const checkSlotAvailability = (slotIsoTime: string) =>
-    checkSharedSlotAvailability(slotIsoTime, busySlots, MEETING_DURATION_MINUTES, BUFFER_MINUTES);
+    checkSharedSlotAvailability(slotIsoTime, busySlots, SLOT_CONFIG);
 
   const isDateDisabled = (day: number) =>
-    isDayDisabled(day, currentDate, busySlots, BUSINESS_HOURS, BUSINESS_TIMEZONE, MEETING_DURATION_MINUTES, BUFFER_MINUTES);
+    isDayDisabled(day, currentDate, busySlots, SLOT_CONFIG);
 
   const isTimeDisabled = (slotIso: string) => !checkSlotAvailability(slotIso);
 

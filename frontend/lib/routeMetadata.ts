@@ -34,6 +34,31 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'not-found'>, Rou
     description: 'Meet the small, senior team behind DaVeenci and the specialist AI systems we build with operators.',
     path: '/who-we-are',
   },
+  book: {
+    title: 'Book a Call — DaVeenci',
+    description: 'Book fifteen minutes with Anton about a module, or thirty minutes with Astrid about a recurring workflow.',
+    path: '/book',
+  },
+  'book-anton': {
+    title: '15 Minutes with Anton — DaVeenci',
+    description: 'A short call to check that a DaVeenci module fits how your orders actually arrive, and to pick a start date.',
+    path: '/book/anton',
+  },
+  'book-astrid': {
+    title: 'Talk to Us — DaVeenci',
+    description: 'Book a 30-minute working session with DaVeenci to discuss a recurring workflow and whether it belongs in a fixed-scope Workflow Blueprint.',
+    path: '/book/astrid',
+  },
+  modules: {
+    title: 'Modules — Fixed-Price AI Modules | DaVeenci',
+    description: 'Fixed-price modules that do one job inside an existing operation, live within a week.',
+    path: '/modules',
+  },
+  'order-intake': {
+    title: 'Order Intake — concierge order emails into Aryeo or Spiro | DaVeenci',
+    description: 'Order Intake reads the concierge order email and places the order in Aryeo or Spiro. You approve each one. $2,500, fixed.',
+    path: '/modules/order-intake',
+  },
   calendar: {
     title: 'Talk to Us — DaVeenci',
     description: 'Book a 30-minute working session with DaVeenci to discuss a recurring workflow and whether it belongs in a fixed-scope Workflow Blueprint.',

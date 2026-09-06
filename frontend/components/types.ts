@@ -1,7 +1,9 @@
 
 import React from 'react';
 
-export type Page = 'landing' | 'briefings' | 'briefing-detail' | 'who-we-are' | 'calendar' | 'pulsenote' | 'brandos' | 'work' | 'purecode' | 'autopilot' | 'compoundiq' | 'analytics-os' | 'creative-production' | 'events' | 'thesis' | 'privacy' | 'not-found';
+export type Page = 'landing' | 'briefings' | 'briefing-detail' | 'who-we-are' | 'calendar' | 'book' | 'book-anton' | 'book-astrid' | 'modules' | 'order-intake' | 'pulsenote' | 'brandos' | 'work' | 'purecode' | 'autopilot' | 'compoundiq' | 'analytics-os' | 'creative-production' | 'events' | 'thesis' | 'privacy' | 'not-found';
+
+export type BookingHost = 'anton' | 'astrid';
 
 export interface NavLink {
   label: string;
@@ -47,4 +49,6 @@ export interface BriefingCardProps {
 
 export interface CalendarProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
+  /** Which host this booking page books. Defaults to Astrid's discovery call. */
+  host?: BookingHost;
 }
