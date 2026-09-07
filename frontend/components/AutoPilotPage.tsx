@@ -3,7 +3,6 @@ import {
   AlertTriangle,
   ArrowDown,
   CheckCircle2,
-  Clock3,
   Database,
   Eye,
   Mail,
@@ -11,7 +10,6 @@ import {
   ShieldCheck,
   UserCheck,
   Workflow,
-  Wrench,
 } from 'lucide-react';
 import Header from './Header';
 import Footer from './Footer';
@@ -33,13 +31,14 @@ import { useCaseEngaged } from '../lib/useCaseEngaged';
 import type { Page } from './types';
 import { CaseEvidence } from './CaseEvidence';
 import { shootosEvidence } from '../content/shootosEvidence';
+import { shootosModules, shootosPlatforms } from '../content/shootosModules';
 
 interface AutoPilotPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
 const proof = [
-  { value: '3', label: 'coordinated services' },
+  { value: '4', label: 'modules' },
   { value: '10 min', label: 'order-review cadence' },
   { value: '8', label: 'order quality checks' },
   { value: '75', label: 'product mappings' },
@@ -67,8 +66,8 @@ const workflow = [
     number: '03',
     eyebrow: 'Verify & gate delivery',
     title: 'Confirm the promised media exists before the customer sees it.',
-    body: 'Before the morning delivery window, Job Review compares every listing against a 75-product deliverable matrix. Vision verifies required media subtypes and produces an explainable A–F quality grade for human review.',
-    bullets: ['Deliverable checks across images, video, 3D, files, and URLs', 'Vision-assisted subtype and photo-quality review', 'One actionable report with direct links to every job'],
+    body: 'Before the morning delivery window, Job Review compares every listing against a 75-product deliverable matrix and confirms required media subtypes with vision. Photo Review then judges each delivered image — focus, exposure, duplicates, coverage — and tickets only what is wrong.',
+    bullets: ['Deliverable checks across images, video, 3D, files, and URLs', 'Per-image review: blur, exposure, duplicates, coverage, ordered photo types', 'One report a day, one ticket per order — with direct links to every job'],
     Icon: Eye,
   },
 ];
@@ -170,7 +169,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
               <PageHero
                 eyebrow="ShootOS · A specialist real-estate-media practice by DaVeenci"
                 title={<>From order email<br /><span className="italic text-ink-muted/80">to delivery gate.</span></>}
-                description="ShootOS combines reusable industry knowledge with AutoPilot, the governed operations system DaVeenci built for f8 Real Estate Media. It creates and schedules orders, reviews them continuously, repairs known exceptions safely, and verifies every deliverable before release."
+                description="ShootOS is a set of modules for real-estate media companies, each doing one job inside the platform you already run — starting with Order Intake. They place and schedule orders, review them continuously, repair known exceptions safely, and verify every deliverable before release."
                 size="md"
                 actions={
                   <>
@@ -179,33 +178,32 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
                   </>
                 }
               />
-              {/* Client credit. Both are real real-estate-media clients, used
-                  with permission; the marks make the claim checkable rather
-                  than an assertion. */}
+              {/* Built for = the ordering platforms the modules drive. Client marks stay as checkable proof. */}
               <div className="mt-10">
-                <div className="flex items-center gap-4 mb-5">
+                <div className="flex items-center gap-4 mb-4">
                   <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">Built for</span>
                   <span aria-hidden="true" className="h-px w-6 bg-ink-muted/30" />
                 </div>
+                <ul className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                  {shootosPlatforms.map((platform) => (
+                    <li
+                      key={platform.name}
+                      className={`font-serif text-lg ${platform.state === 'built' ? 'text-ink' : 'text-ink-muted/70'}`}
+                      title={platform.state === 'built' ? 'Built and running' : 'On request'}
+                    >
+                      {platform.name}
+                      {platform.state === 'on request' && <span className="font-mono text-[9px] uppercase tracking-widest text-ink-muted/60 ml-1.5 align-middle">on request</span>}
+                    </li>
+                  ))}
+                </ul>
+                <p className="font-sans text-xs text-ink-muted mt-3">The modules drive each platform&rsquo;s own order forms and pages, so a new platform is a mapping, not a rebuild.</p>
+                <div className="flex items-center gap-4 mt-7 mb-4">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">Running at</span>
+                  <span aria-hidden="true" className="h-px w-6 bg-ink-muted/30" />
+                </div>
                 <div className="flex flex-wrap items-center gap-x-10 gap-y-5">
-                  <img
-                    src="/clients/f8-logo.svg"
-                    alt="f/8 Real Estate Media"
-                    width={1068}
-                    height={882}
-                    className="h-12 md:h-14 w-auto"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <img
-                    src="/clients/archipix-logo.svg"
-                    alt="Archi-Pix"
-                    width={3429}
-                    height={554}
-                    className="h-8 md:h-10 w-auto"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <img src="/clients/f8-logo.svg" alt="f/8 Real Estate Media" width={1068} height={882} className="h-10 md:h-12 w-auto" loading="lazy" decoding="async" />
+                  <img src="/clients/archipix-logo.svg" alt="Archi-Pix" width={3429} height={554} className="h-7 md:h-9 w-auto" loading="lazy" decoding="async" />
                 </div>
               </div>
             </ScrollReveal>
@@ -238,7 +236,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
       <Section id="autopilot-workflow" className="py-20 md:py-28" pattern="grid">
         <SectionHeader
           eyebrow="The operating system"
-          title="Three specialists. One closed loop."
+          title="Four modules. One closed loop."
           subtitle="Each service owns one stage of the work, shares state with the next, and knows exactly when to stop and ask a human."
         />
         {/* One stage at a time: the cards stack, each sliding over the last. */}
@@ -288,27 +286,45 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
         </div>
       </Section>
 
-      <section className="bg-ink text-canvas py-20 md:py-24">
+      <section id="shootos-modules" className="bg-ink text-canvas py-20 md:py-24 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-3xl mb-12">
-            <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">Operating state · July 2026</div>
-            <h2 className="font-serif text-4xl md:text-5xl leading-tight">Live where proven. Shadowed where consequence is higher.</h2>
+            <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">The modules · September 2026</div>
+            <h2 className="font-serif text-4xl md:text-5xl leading-tight">Four modules. One question each. Start with Order Intake.</h2>
+            <p className="font-sans text-canvas/65 mt-5 leading-relaxed">Each module runs inside the platform you already use and stops when it is not sure. Order Intake is the first, small one — a way to see how we work. The other three follow once it is live, each fitted to how your shop runs — and everything can be customised.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              { status: 'Live', date: '07 Jul', title: 'Order Review', body: 'Continuous QC, issue routing, safe write-backs, and completion tags.', Icon: Wrench, tone: 'text-green-300' },
-              { status: 'Live', date: '09 Jul', title: 'Job Review', body: 'Deliverable verification, vision subtypes, quality grades, and the morning report.', Icon: Eye, tone: 'text-green-300' },
-              { status: 'Shadow', date: 'gated', title: 'Delivery reschedule', body: 'Built and isolated behind global and per-action controls until live selectors are fully confirmed.', Icon: Clock3, tone: 'text-amber-300' },
-            ].map((item) => (
-              <div key={item.title} className="border border-white/15 bg-white/5 p-6 rounded-sm">
-                <div className="flex items-center justify-between mb-8">
-                  <item.Icon className={`w-5 h-5 ${item.tone}`} />
-                  <span className={`font-mono text-[9px] uppercase tracking-widest ${item.tone}`}>{item.status} · {item.date}</span>
-                </div>
-                <h3 className="font-serif text-2xl mb-3">{item.title}</h3>
-                <p className="font-sans text-sm text-canvas/65 leading-relaxed">{item.body}</p>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {shootosModules.map((module) => {
+              const tone = module.status === 'live' ? 'text-green-300' : 'text-amber-300';
+              const card = (
+                <>
+                  <div className="flex items-center justify-between gap-3 mb-6">
+                    <span className="font-serif italic text-2xl text-canvas/35">{module.number}</span>
+                    <span className={`font-mono text-[9px] uppercase tracking-widest text-right ${tone}`}>{module.statusNote}</span>
+                  </div>
+                  <h3 className="font-serif text-2xl mb-1">{module.title}</h3>
+                  <p className="font-serif italic text-sm text-canvas/60 mb-3">{module.question}</p>
+                  <p className="font-sans text-sm text-canvas/80 leading-relaxed mb-3">{module.summary}</p>
+                  <p className="font-sans text-xs text-canvas/55 leading-relaxed">{module.detail}</p>
+                  <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+                    <span className="font-mono text-[9px] uppercase tracking-widest text-canvas/60">{module.price ?? 'Scoped per shop'}</span>
+                    {module.page && <span className="font-serif italic text-sm text-accent-light">Read the details →</span>}
+                  </div>
+                </>
+              );
+              return module.page ? (
+                <a
+                  key={module.title}
+                  href={module.path}
+                  onClick={(e) => { e.preventDefault(); onNavigate(module.page as Page); }}
+                  className="block border border-white/15 bg-white/5 p-6 rounded-sm transition-colors hover:border-accent-light/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-light"
+                >
+                  {card}
+                </a>
+              ) : (
+                <div key={module.title} className="border border-white/15 bg-white/5 p-6 rounded-sm">{card}</div>
+              );
+            })}
           </div>
         </div>
       </section>
