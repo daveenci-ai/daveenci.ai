@@ -21,13 +21,14 @@ import { useScrollProgress } from '../../lib/useScrollProgress';
 import type { Page } from '../types';
 import { CaseEvidence } from '../CaseEvidence';
 import { shootosEvidence } from '../../content/shootosEvidence';
+import { shootosModules, shootosPlatforms } from '../../content/shootosModules';
 
 interface MobileAutoPilotPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
 const mobileProof = [
-  ['3', 'services'],
+  ['4', 'modules'],
   ['10 min', 'review cadence'],
   ['8', 'order checks'],
   ['75', 'product mappings'],
@@ -50,7 +51,7 @@ const mobileWorkflow = [
   {
     number: '03',
     title: 'Verify & gate',
-    body: 'Check every promised deliverable, use vision for media subtypes and quality, then deliver or hold for review.',
+    body: 'Check every promised deliverable, confirm media subtypes with vision, review each photo, then deliver or hold for review.',
     Icon: Eye,
   },
 ];
@@ -76,35 +77,23 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
           <span className="italic text-ink-muted/70">to delivery gate.</span>
         </h1>
         <p className="font-serif text-[16px] text-ink-muted leading-[1.6] mb-7">
-          ShootOS combines reusable real-estate-media knowledge with AutoPilot, the governed operations system DaVeenci built for f8 Real Estate Media.
+          ShootOS is a set of modules for real-estate media companies, each doing one job inside the platform you already run — starting with Order Intake.
         </p>
         </div>
-        {/* Client credit — parity with the desktop tree. */}
+        {/* Built for = platforms. Parity with the desktop tree. */}
         <div className="mb-7">
-          <div className="flex items-center gap-3 mb-4">
+          <div className="flex items-center gap-3 mb-3">
             <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">Built for</span>
             <span aria-hidden="true" className="h-px w-5 bg-ink-muted/30" />
           </div>
-          <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
-            <img
-              src="/clients/f8-logo.svg"
-              alt="f/8 Real Estate Media"
-              width={1068}
-              height={882}
-              className="h-10 w-auto"
-              loading="lazy"
-              decoding="async"
-            />
-            <img
-              src="/clients/archipix-logo.svg"
-              alt="Archi-Pix"
-              width={3429}
-              height={554}
-              className="h-7 w-auto"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
+          <ul className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+            {shootosPlatforms.map((platform) => (
+              <li key={platform.name} className={`font-serif text-[17px] ${platform.state === 'built' ? 'text-ink' : 'text-ink-muted/70'}`}>
+                {platform.name}
+                {platform.state === 'on request' && <span className="font-mono text-[8px] uppercase tracking-widest text-ink-muted/60 ml-1 align-middle">on request</span>}
+              </li>
+            ))}
+          </ul>
         </div>
         <MobileButton analytics={{ cta_id: 'name_handoff', surface: 'case_hero', from_page: 'autopilot', destination: '/calendar' }} onClick={() => onNavigate('calendar')}>Name the handoff that breaks</MobileButton>
         <MobileButton
@@ -164,7 +153,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
           <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">The operating system</span>
         </div>
         <h2 className="font-serif text-[2.15rem] leading-[1.08] text-ink mb-8 tracking-tight">
-          Three specialists.
+          Four modules.
           <br />
           <span className="italic text-ink-muted/70">One closed loop.</span>
         </h2>
@@ -211,23 +200,33 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
         </div>
       </section>
 
-      <section className="px-6 py-12 bg-ink text-canvas">
-        <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">Operating state · July 2026</div>
-        <h2 className="font-serif text-[2.1rem] leading-[1.08] mb-7">Live where proven. Shadowed where consequence is higher.</h2>
+      <section id="shootos-modules" className="px-6 py-12 bg-ink text-canvas scroll-mt-16">
+        <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">The modules · September 2026</div>
+        <h2 className="font-serif text-[2.1rem] leading-[1.08] mb-4">Four modules. Start with Order Intake.</h2>
+        <p className="font-sans text-[14px] text-canvas/65 leading-relaxed mb-7">Each module runs inside the platform you already use and stops when it is not sure. Order Intake is the first, small one; the rest follow once it is live.</p>
         <div className="space-y-4">
-          {[
-            ['Live · 07 Jul', 'Order Review', 'Continuous QC, safe fixes, and issue routing.', 'green'],
-            ['Live · 09 Jul', 'Job Review', 'Deliverable checks, vision QA, and the morning report.', 'green'],
-            ['Shadow · gated', 'Delivery reschedule', 'Isolated until the final production controls are confirmed.', 'amber'],
-          ].map(([status, title, body, tone]) => (
-            <div key={title} className="border border-white/15 bg-white/5 p-5 rounded-sm">
-              <div className={`font-mono text-[9px] uppercase tracking-widest mb-5 ${tone === 'green' ? 'text-green-300' : 'text-amber-300'}`}>
-                {status}
-              </div>
-              <h3 className="font-serif text-xl mb-2">{title}</h3>
-              <p className="font-sans text-[14px] text-canvas/65 leading-relaxed">{body}</p>
-            </div>
-          ))}
+          {shootosModules.map((module) => {
+            const tone = module.status === 'live' ? 'text-green-300' : 'text-amber-300';
+            const inner = (
+              <>
+                <div className={`font-mono text-[9px] uppercase tracking-widest mb-4 ${tone}`}>{module.statusNote}</div>
+                <h3 className="font-serif text-xl mb-1">{module.number} · {module.title}</h3>
+                <p className="font-serif italic text-[13px] text-canvas/60 mb-2">{module.question}</p>
+                <p className="font-sans text-[14px] text-canvas/75 leading-relaxed">{module.summary}</p>
+                <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-3 font-mono text-[9px] uppercase tracking-widest text-canvas/60">
+                  <span>{module.price ?? 'Scoped per shop'}</span>
+                  {module.page && <span className="font-serif italic normal-case tracking-normal text-sm text-accent-light">Details →</span>}
+                </div>
+              </>
+            );
+            return module.page ? (
+              <a key={module.title} href={module.path} onClick={(e) => { e.preventDefault(); onNavigate(module.page as Page); }} className="block border border-white/15 bg-white/5 p-5 rounded-sm">
+                {inner}
+              </a>
+            ) : (
+              <div key={module.title} className="border border-white/15 bg-white/5 p-5 rounded-sm">{inner}</div>
+            );
+          })}
         </div>
       </section>
 

@@ -24,7 +24,7 @@ export const shootosEvidence: CaseEvidenceItem[] = [
   {
     label: 'Finished output',
     value: 'A scheduled, reviewed, delivery-ready job',
-    detail: 'The system leaves behind an inspectable job, completion tags, verified deliverables, an explainable quality grade, and an actionable morning report.',
+    detail: 'The system leaves behind an inspectable job, completion tags, verified deliverables, per-photo findings, and an actionable morning report.',
   },
   {
     label: 'Exceptions handled',
@@ -33,12 +33,12 @@ export const shootosEvidence: CaseEvidenceItem[] = [
   },
   {
     label: 'Operating status',
-    value: 'Production where proven; shadow-gated elsewhere',
-    detail: 'Order Review and Job Review are live. Delivery rescheduling remains isolated until its final production controls are confirmed.',
+    value: 'Live where proven; switched on per client elsewhere',
+    detail: 'Order Intake, Order Review and Job Review are live. Photo Review is built and is switched on per client once its checks are tuned; delivery rescheduling stays isolated until its production controls are confirmed.',
   },
   {
     label: 'Evidence currently exposed',
-    value: '3 services · 8 checks · 75 mappings · 50 vision rules',
+    value: '4 modules · 8 checks · 75 mappings · 50 vision rules',
     detail: 'The operating cadence is ten minutes, with persisted state and explicit evidence for every action and hold.',
   },
 ];
