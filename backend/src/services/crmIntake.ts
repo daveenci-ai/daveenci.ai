@@ -1,4 +1,4 @@
-export type CrmFormKind = 'event' | 'consultation' | 'newsletter';
+export type CrmFormKind = 'booking' | 'event' | 'newsletter';
 
 export const CRM_INTAKE_BASE_URL = process.env.CRM_INTAKE_URL || 'https://go.daveenci.ai';
 
@@ -33,6 +33,12 @@ export const postToCrm = async (
         'Content-Type': 'application/json',
         Origin: 'https://daveenci.ai',
     };
+
+    // With the shared secret the intake trusts our X-Forwarded-For and rate
+    // limits per visitor; without it, it falls back to the Origin rule and
+    // limits on the Vercel egress IP — one bucket for the whole site.
+    const secret = process.env.GO_FORM_SECRET;
+    if (secret) headers.Authorization = `Bearer ${secret}`;
     // Posts are server-to-server, so without this the intake rate limit would
     // key on the Vercel egress IP and throttle every visitor at once.
     if (options.clientIp) headers['X-Forwarded-For'] = options.clientIp;

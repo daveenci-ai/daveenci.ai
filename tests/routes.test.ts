@@ -50,7 +50,7 @@ describe('POST /api/calendar/book', () => {
     const res = await request(app).post('/api/calendar/book').set('Origin', ORIGIN).send(booking);
     expect(res.status).toBe(200);
     expect(createCalendarEvent).toHaveBeenCalledTimes(1);
-    expect(crmCalls[0].url).toContain('/form/event');
+    expect(crmCalls[0].url).toContain('/form/booking');
     expect(crmCalls[0].body).toMatchObject({ host: 'anton', src: 'module', duration_min: '15' });
   });
 
@@ -130,6 +130,31 @@ describe('GET /api/calendar/availability', () => {
     const res = await request(app).get('/api/calendar/availability')
       .query({ host: 'mallory', start: '2026-09-01T00:00:00Z', end: '2026-09-30T00:00:00Z' });
     expect(res.body.host.key).toBe('astrid');
+  });
+});
+
+describe('POST /api/events/register', () => {
+  test('forwards an event registration to the event endpoint', async () => {
+    const res = await request(app).post('/api/events/register').set('Origin', ORIGIN)
+      .send({ name: 'Katie', email: 'katie@example.com', eventName: 'Networking Session', website: '' });
+    expect(res.status).toBe(200);
+    expect(crmCalls[0].url).toContain('/form/event');
+    expect(crmCalls[0].body).toMatchObject({ event_name: 'Networking Session', page: '/events' });
+  });
+
+  test('registers even when the legacy store is gone', async () => {
+    registerForEvent.mockRejectedValueOnce(new Error('no such table'));
+    const res = await request(app).post('/api/events/register').set('Origin', ORIGIN)
+      .send({ name: 'Katie', email: 'katie@example.com', eventName: 'X', website: '' });
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+  });
+
+  test('still reports a duplicate registration', async () => {
+    registerForEvent.mockRejectedValueOnce(Object.assign(new Error('dup'), { code: '23505' }));
+    const res = await request(app).post('/api/events/register').set('Origin', ORIGIN)
+      .send({ name: 'Katie', email: 'katie@example.com', eventName: 'X', website: '' });
+    expect(res.status).toBe(409);
   });
 });
 
