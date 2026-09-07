@@ -34,7 +34,7 @@ export const shootosEvidence: CaseEvidenceItem[] = [
   {
     label: 'Operating status',
     value: 'Live where proven; switched on per client elsewhere',
-    detail: 'Order Intake, Order Review and Job Review are live. Photo Review is built and is switched on per client once its checks are tuned; delivery rescheduling stays isolated until its production controls are confirmed.',
+    detail: 'Order Intake, Order Review and Daily Review are live. Photo Review is built and is switched on per client once its checks are tuned; delivery rescheduling stays isolated until its production controls are confirmed.',
   },
   {
     label: 'Evidence currently exposed',

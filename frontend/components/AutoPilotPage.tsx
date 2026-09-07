@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import {
   AlertTriangle,
-  ArrowDown,
+  CalendarCheck,
   CheckCircle2,
   Database,
   Eye,
@@ -32,6 +32,7 @@ import type { Page } from './types';
 import { CaseEvidence } from './CaseEvidence';
 import { shootosEvidence } from '../content/shootosEvidence';
 import { shootosModules, shootosPlatforms } from '../content/shootosModules';
+import { ModuleSchematic } from './ShootOSModuleSchematics';
 
 interface AutoPilotPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -47,28 +48,36 @@ const proof = [
 
 const workflow = [
   {
+    id: 'order-intake',
     number: '01',
-    eyebrow: 'Intake & schedule',
-    title: 'Turn an order email into a scheduled production job.',
-    body: 'AutoPilot reads structured listing orders, creates the job in Aryeo, finds the right customer, configures the package and services, then selects the closest available appointment inside the allowed window.',
-    bullets: ['Gmail intake + structured extraction', 'Customer, package, and regional service matching', 'Scheduling with explicit exception routes'],
-    Icon: Mail,
+    eyebrow: 'Order Intake',
+    title: 'Turn an order email into a placed, verified order.',
+    body: 'Reads the concierge order email, opens the right order form for the office and region, fills every field, finds the agent by email, adds the package and selections, books the nearest open slot and submits — then reads the order number back before it counts as placed.',
+    bullets: ['Email intake with structured extraction', 'Agent by email, package and regional selections', 'Read-back verification; unsure cases held for a person'],
   },
   {
+    id: 'order-review',
     number: '02',
-    eyebrow: 'Review & repair',
-    title: 'Continuously inspect the order while it is still fixable.',
-    body: 'Every ten minutes, the Order Review specialist applies eight operational checks. Known mechanical issues can be corrected safely; ambiguous cases become a focused human ticket instead of a silent pass.',
-    bullets: ['Eight configurable business checks', 'Safe write-backs with read-back verification', 'Reviewed, flagged, or retried — never quietly skipped'],
-    Icon: ScanSearch,
+    eyebrow: 'Order Review',
+    title: 'Inspect the order while it is still fixable.',
+    body: 'Every ten minutes, eight operational checks run against each new order. Known mechanical issues are corrected safely with read-back verification; anything ambiguous becomes one focused ticket for a person instead of a silent pass.',
+    bullets: ['Eight configurable business checks', 'Safe write-backs: notes, add-ons, on-camera email, payout tier', 'Reviewed, flagged, or retried — never quietly skipped'],
   },
   {
+    id: 'daily-review',
     number: '03',
-    eyebrow: 'Verify & gate delivery',
-    title: 'Confirm the promised media exists before the customer sees it.',
-    body: 'Before the morning delivery window, Job Review compares every listing against a 75-product deliverable matrix and confirms required media subtypes with vision. Photo Review then judges each delivered image — focus, exposure, duplicates, coverage — and tickets only what is wrong.',
-    bullets: ['Deliverable checks across images, video, 3D, files, and URLs', 'Per-image review: blur, exposure, duplicates, coverage, ordered photo types', 'One report a day, one ticket per order — with direct links to every job'],
-    Icon: Eye,
+    eyebrow: 'Daily Review',
+    title: 'See the whole morning before anything goes out.',
+    body: 'From six o\'clock, every listing due for delivery is audited against the product matrix and its ordered image types are confirmed by vision. One report before the 9 AM window says what is complete, what is missing and what needs urgent attention.',
+    bullets: ['Deliverable checks across images, video, 3D, floor plans, files and URLs', 'Complete · missing · could not verify · urgent — in one place', 'One report a day with a direct link to every job'],
+  },
+  {
+    id: 'photo-review',
+    number: '04',
+    eyebrow: 'Photo Review',
+    title: 'Look at every photo the way an editor would.',
+    body: 'Each delivered image is checked for focus, exposure, duplicates, coverage and the photo types the order asked for. Findings name the specific frames, and a ticket is raised only when something is wrong — one per order, once.',
+    bullets: ['Per-image checks with a vision veto on outliers', 'Frames named by number, so the right picture gets fixed', 'Tuned per client from before-and-after examples'],
   },
 ];
 
@@ -100,7 +109,7 @@ const AutoPilotControlPanel: React.FC = () => (
     <div className="absolute inset-0 opacity-[0.035] bg-[radial-gradient(rgb(var(--color-ink))_1px,transparent_1px)] [background-size:18px_18px]" />
     <div className="relative flex items-center justify-between border-b border-ink/10 pb-4 mb-5">
       <div>
-        <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">ShootOS system · AutoPilot</div>
+        <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">ShootOS · four modules</div>
         <div className="font-serif text-lg text-ink mt-1">Production control loop</div>
       </div>
       <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-widest text-green-700">
@@ -108,22 +117,21 @@ const AutoPilotControlPanel: React.FC = () => (
       </div>
     </div>
 
-    <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <div className="relative grid grid-cols-2 sm:grid-cols-4 gap-3">
       {[
-        { label: 'Intake', detail: 'create + schedule', Icon: Mail },
-        { label: 'Order review', detail: 'check + repair', Icon: ScanSearch },
-        { label: 'Job review', detail: 'verify + gate', Icon: Eye },
+        { label: 'Order Intake', detail: 'place + verify', Icon: Mail },
+        { label: 'Order Review', detail: 'check + repair', Icon: ScanSearch },
+        { label: 'Daily Review', detail: 'audit + report', Icon: CalendarCheck },
+        { label: 'Photo Review', detail: 'look + ticket', Icon: Eye },
       ].map((stage, index) => (
         <React.Fragment key={stage.label}>
           <div className="relative bg-canvas/50 border border-ink/10 p-4 rounded-sm">
             <stage.Icon className="w-5 h-5 text-accent mb-5" />
             <div className="font-mono text-[9px] uppercase tracking-widest text-ink-muted/60">0{index + 1}</div>
-            <div className="font-serif text-lg text-ink">{stage.label}</div>
+            <div className="font-serif text-[17px] text-ink">{stage.label}</div>
             <div className="font-sans text-xs text-ink-muted mt-1">{stage.detail}</div>
           </div>
-          {index < 2 && (
-            <ArrowDown className="sm:hidden w-4 h-4 text-accent mx-auto -my-1" />
-          )}
+
         </React.Fragment>
       ))}
     </div>
@@ -224,23 +232,28 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
         <SectionHeader
           eyebrow="The operating system"
           title="Four modules. One closed loop."
-          subtitle="Each service owns one stage of the work, shares state with the next, and knows exactly when to stop and ask a human."
+          subtitle="Each module owns one stage of the work, shares state with the next, and knows exactly when to stop and ask a human."
         />
         {/* One stage at a time: the cards stack, each sliding over the last. */}
         <Stack>
           {workflow.map((step) => (
             <article key={step.number} className="stack-card grid grid-cols-1 lg:grid-cols-12 gap-8 bg-paper border border-ink/10 p-8 md:p-10 shadow-lg shadow-ink/5 rounded-sm">
-                <div className="lg:col-span-2 flex lg:block items-center gap-4">
-                  <step.Icon className="w-9 h-9 text-accent" strokeWidth={1.4} />
-                  <div className="font-serif italic text-4xl text-ink-muted/35 lg:mt-8">{step.number}</div>
+                <div className="lg:col-span-5">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="font-serif italic text-xs tracking-[0.2em] text-ink-muted uppercase">Fig. {step.number} · {step.eyebrow}</div>
+                  </div>
+                  <div className="border border-ink/10 bg-white/60 rounded-sm p-3">
+                    <ModuleSchematic id={step.id} className="aspect-[5/3] w-full" />
+                  </div>
                 </div>
-                <div className="lg:col-span-6">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent mb-3">{step.eyebrow}</div>
+                <div className="lg:col-span-7 flex flex-col justify-center">
+                  <div className="flex items-baseline gap-4 mb-3">
+                    <span className="font-serif italic text-3xl text-ink-muted/35">{step.number}</span>
+                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">{step.eyebrow}</span>
+                  </div>
                   <h2 className="font-serif text-3xl md:text-4xl text-ink leading-tight mb-4">{step.title}</h2>
-                  <p className="font-sans text-[17px] leading-relaxed text-ink-muted">{step.body}</p>
-                </div>
-                <div className="lg:col-span-4 lg:border-l border-ink/10 lg:pl-8 flex items-center">
-                  <ul className="space-y-3 w-full">
+                  <p className="font-sans text-[17px] leading-relaxed text-ink-muted mb-6">{step.body}</p>
+                  <ul className="space-y-2.5">
                     {step.bullets.map((bullet) => (
                       <li key={bullet} className="flex items-start gap-3 font-sans text-sm leading-relaxed text-ink-muted">
                         <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />

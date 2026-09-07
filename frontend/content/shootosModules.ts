@@ -7,6 +7,7 @@ export type ModuleStatus = 'live' | 'built';
 
 export interface ShootOSModule {
   number: string;
+  id: 'order-intake' | 'order-review' | 'daily-review' | 'photo-review';
   title: string;
   status: ModuleStatus;
   statusNote: string;
@@ -21,6 +22,7 @@ export interface ShootOSModule {
 export const shootosModules: ShootOSModule[] = [
   {
     number: '01',
+    id: 'order-intake',
     title: 'Order Intake',
     status: 'live',
     statusNote: 'Live · Spiro since Dec 2025, Aryeo since Apr 2026',
@@ -33,6 +35,7 @@ export const shootosModules: ShootOSModule[] = [
   },
   {
     number: '02',
+    id: 'order-review',
     title: 'Order Review',
     status: 'live',
     statusNote: 'Live · since Jul 2026, every 10 minutes',
@@ -42,15 +45,17 @@ export const shootosModules: ShootOSModule[] = [
   },
   {
     number: '03',
-    title: 'Job Review',
+    id: 'daily-review',
+    title: 'Daily Review',
     status: 'live',
-    statusNote: 'Live · since Jul 2026, before the 9 AM delivery window',
-    question: 'Was everything that was ordered actually delivered?',
-    summary: 'Audits every listing due for delivery against the product matrix and reports what is missing, in one email a day.',
-    detail: 'Resumable morning sweeps over the delivery queue. Each listing is checked for the media and links its products promise — photos, video, 3D, floor plans, files, URLs — and required image sub-types (aerial, twilight, virtual twilight, virtual staging) are confirmed by a vision model. Missing items, and anything that could not be verified, land in one report before 9 AM with a direct link to every job. A sweep that cannot vouch for its scope sends nothing.',
+    statusNote: 'Live · since Jul 2026, every morning before 9 AM',
+    question: 'What is about to go out, and what needs a person first?',
+    summary: 'Runs every morning over everything due for delivery and gives the whole picture in one report: complete, missing, urgent.',
+    detail: 'Resumable sweeps from six o\'clock over the delivery queue. Each listing is checked against the product matrix — photos, video, 3D, floor plans, files, URLs — and required image sub-types (aerial, twilight, virtual twilight, virtual staging) are confirmed by a vision model. The report before the 9 AM window lists what is complete, what is missing, what could not be verified and what needs urgent attention, with a direct link to every job. A sweep that cannot vouch for its scope sends nothing.',
   },
   {
     number: '04',
+    id: 'photo-review',
     title: 'Photo Review',
     status: 'built',
     statusNote: 'Built · switched on per client after tuning',

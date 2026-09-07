@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import {
   AlertTriangle,
+  CalendarCheck,
   CheckCircle2,
   Clock3,
   Database,
@@ -22,6 +23,7 @@ import type { Page } from '../types';
 import { CaseEvidence } from '../CaseEvidence';
 import { shootosEvidence } from '../../content/shootosEvidence';
 import { shootosModules, shootosPlatforms } from '../../content/shootosModules';
+import { ModuleSchematic } from '../ShootOSModuleSchematics';
 
 interface MobileAutoPilotPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -36,24 +38,10 @@ const mobileProof = [
 ];
 
 const mobileWorkflow = [
-  {
-    number: '01',
-    title: 'Intake & schedule',
-    body: 'Read the order, create the Aryeo job, match the customer and services, then schedule the closest allowed appointment.',
-    Icon: Mail,
-  },
-  {
-    number: '02',
-    title: 'Review & repair',
-    body: 'Run eight operational checks every ten minutes. Fix known mechanical issues and route ambiguity to a person.',
-    Icon: ScanSearch,
-  },
-  {
-    number: '03',
-    title: 'Verify & gate',
-    body: 'Check every promised deliverable, confirm media subtypes with vision, review each photo, then deliver or hold for review.',
-    Icon: Eye,
-  },
+  { id: 'order-intake', number: '01', title: 'Order Intake', body: 'Read the order email, fill the platform\'s order form, match the agent by email, book the nearest slot, submit, and read the order number back.', Icon: Mail },
+  { id: 'order-review', number: '02', title: 'Order Review', body: 'Run eight checks every ten minutes. Fix what is safe to fix, with read-back; route anything ambiguous to a person.', Icon: ScanSearch },
+  { id: 'daily-review', number: '03', title: 'Daily Review', body: 'Every morning, audit everything due for delivery and report what is complete, missing or urgent before 9 AM.', Icon: CalendarCheck },
+  { id: 'photo-review', number: '04', title: 'Photo Review', body: 'Look at every photo — focus, exposure, duplicates, coverage — and ticket only what is wrong, naming the frame.', Icon: Eye },
 ];
 
 export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavigate }) => {
@@ -160,8 +148,10 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
         <Stack compact>
           {mobileWorkflow.map((step) => (
             <div key={step.number} className="stack-card">
-              <MobileScenePlate figLabel={step.number} className="!bg-paper !backdrop-blur-none shadow-lg shadow-ink/10">
-                <step.Icon className="w-7 h-7 text-accent mb-5" strokeWidth={1.4} />
+              <MobileScenePlate figLabel={`Fig. ${step.number} · ${step.title}`} className="!bg-paper !backdrop-blur-none shadow-lg shadow-ink/10">
+                <div className="border border-ink/10 bg-white/60 rounded-sm p-2 mb-4">
+                  <ModuleSchematic id={step.id} className="aspect-[5/3] w-full" />
+                </div>
                 <h3 className="font-serif text-2xl text-ink mb-3">{step.title}</h3>
                 <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{step.body}</p>
               </MobileScenePlate>
