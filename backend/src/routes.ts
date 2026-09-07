@@ -34,7 +34,7 @@ const guard = (req: Request, res: Response): boolean => {
  * not cost a booking or a subscription.
  */
 const forwardToCrm = async (
-    kind: 'event' | 'consultation' | 'newsletter',
+    kind: 'booking' | 'event' | 'newsletter',
     payload: Record<string, unknown>,
     req: Request,
 ) => {
@@ -108,10 +108,7 @@ router.post('/newsletter/subscribe', async (req: Request, res: Response) => {
 router.post('/events/register', async (req: Request, res: Response) => {
     if (!guard(req, res)) return;
     try {
-        // ASSUMPTION: the Events-page form is the intake's "consultation"
-        // kind — it is the only site form left unclaimed by §4 of the brief.
-        // Verify with one test post before the first campaign.
-        const crm = await forwardToCrm('consultation', {
+        const crm = await forwardToCrm('event', {
             name: req.body?.name,
             email: req.body?.email,
             event_name: req.body?.eventName,
@@ -129,7 +126,17 @@ router.post('/events/register', async (req: Request, res: Response) => {
             });
         }
 
-        const result = await registerForEvent(req.body);
+        // As with bookings and the newsletter, the legacy Postgres record is
+        // on its way out with Supabase and must not cost a registration the
+        // CRM already has.
+        let result: any = null;
+        try {
+            result = await registerForEvent(req.body);
+        } catch (error: any) {
+            if (error?.code === '23505') throw error;
+            console.error('Event registration legacy store failed (continuing):', error);
+        }
+
         res.status(200).json({ success: true, result });
     } catch (error: any) {
         console.error('Event registration error:', error);
@@ -160,7 +167,7 @@ router.post('/calendar/book', async (req: Request, res: Response) => {
         // Attribution matters more than the legacy record, and neither may
         // undo a meeting that is already on the calendar.
         const [, dbRecord] = await Promise.all([
-            forwardToCrm('event', buildBookingIntake(host, req.body), req),
+            forwardToCrm('booking', buildBookingIntake(host, req.body), req),
             saveConsultationRequest(req.body, host.name).catch((error: any) => {
                 if (error?.code === '23505') throw error;
                 console.error('Booking legacy store failed (continuing):', error);
