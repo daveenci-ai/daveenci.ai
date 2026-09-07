@@ -60,12 +60,12 @@ export const shootosModules: ShootOSModule[] = [
   },
 ];
 
-// The ordering platforms ShootOS automates. Built and running on the first two; the rest on request —
-// the modules drive the platform's own order forms and pages, so a new platform is a mapping, not a rebuild.
-export const shootosPlatforms: { name: string; state: 'built' | 'on request' }[] = [
-  { name: 'Aryeo', state: 'built' },
-  { name: 'Spiro', state: 'built' },
-  { name: 'HDPhotoHub', state: 'on request' },
-  { name: 'Full Frame', state: 'on request' },
-  { name: 'ViewShoot', state: 'on request' },
+// The ordering platforms ShootOS automates — shown as their own marks (official logo files, used to indicate
+// compatibility). Built and running on Aryeo and Spiro; the others are a mapping, not a rebuild.
+export const shootosPlatforms: { name: string; logo: string; width: number; height: number }[] = [
+  { name: 'Aryeo', logo: '/platforms/aryeo.png', width: 500, height: 137 },
+  { name: 'Spiro', logo: '/platforms/spiro.png', width: 874, height: 387 },
+  { name: 'HDPhotoHub', logo: '/platforms/hdphotohub.svg', width: 371, height: 102 },
+  { name: 'Full Frame', logo: '/platforms/fullframe.svg', width: 300, height: 78 },
+  { name: 'ViewShoot', logo: '/platforms/viewshoot.png', width: 273, height: 55 },
 ];

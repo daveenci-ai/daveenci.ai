@@ -184,15 +184,10 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
                   <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">Built for</span>
                   <span aria-hidden="true" className="h-px w-6 bg-ink-muted/30" />
                 </div>
-                <ul className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                <ul className="flex flex-wrap items-center gap-x-9 gap-y-5">
                   {shootosPlatforms.map((platform) => (
-                    <li
-                      key={platform.name}
-                      className={`font-serif text-lg ${platform.state === 'built' ? 'text-ink' : 'text-ink-muted/70'}`}
-                      title={platform.state === 'built' ? 'Built and running' : 'On request'}
-                    >
-                      {platform.name}
-                      {platform.state === 'on request' && <span className="font-mono text-[9px] uppercase tracking-widest text-ink-muted/60 ml-1.5 align-middle">on request</span>}
+                    <li key={platform.name} className="flex items-center">
+                      <img src={platform.logo} alt={platform.name} width={platform.width} height={platform.height} className="h-7 md:h-8 w-auto" loading="lazy" decoding="async" />
                     </li>
                   ))}
                 </ul>

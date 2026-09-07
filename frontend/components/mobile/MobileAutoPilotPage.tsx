@@ -86,11 +86,10 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
             <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">Built for</span>
             <span aria-hidden="true" className="h-px w-5 bg-ink-muted/30" />
           </div>
-          <ul className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+          <ul className="flex flex-wrap items-center gap-x-6 gap-y-4">
             {shootosPlatforms.map((platform) => (
-              <li key={platform.name} className={`font-serif text-[17px] ${platform.state === 'built' ? 'text-ink' : 'text-ink-muted/70'}`}>
-                {platform.name}
-                {platform.state === 'on request' && <span className="font-mono text-[8px] uppercase tracking-widest text-ink-muted/60 ml-1 align-middle">on request</span>}
+              <li key={platform.name} className="flex items-center">
+                <img src={platform.logo} alt={platform.name} width={platform.width} height={platform.height} className="h-6 w-auto" loading="lazy" decoding="async" />
               </li>
             ))}
           </ul>
