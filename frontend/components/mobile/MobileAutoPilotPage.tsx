@@ -80,7 +80,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
           ShootOS is a set of modules for real-estate media companies, each doing one job inside the platform you already run — starting with Order Intake.
         </p>
         </div>
-        {/* Built for = platforms; client marks as proof. Parity with the desktop tree. */}
+        {/* Built for = platforms. Parity with the desktop tree. */}
         <div className="mb-7">
           <div className="flex items-center gap-3 mb-3">
             <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">Built for</span>
@@ -94,14 +94,6 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
               </li>
             ))}
           </ul>
-          <div className="flex items-center gap-3 mt-5 mb-3">
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">Running at</span>
-            <span aria-hidden="true" className="h-px w-5 bg-ink-muted/30" />
-          </div>
-          <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
-            <img src="/clients/f8-logo.svg" alt="f/8 Real Estate Media" width={1068} height={882} className="h-9 w-auto" loading="lazy" decoding="async" />
-            <img src="/clients/archipix-logo.svg" alt="Archi-Pix" width={3429} height={554} className="h-6 w-auto" loading="lazy" decoding="async" />
-          </div>
         </div>
         <MobileButton analytics={{ cta_id: 'name_handoff', surface: 'case_hero', from_page: 'autopilot', destination: '/calendar' }} onClick={() => onNavigate('calendar')}>Name the handoff that breaks</MobileButton>
         <MobileButton

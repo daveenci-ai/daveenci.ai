@@ -178,7 +178,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
                   </>
                 }
               />
-              {/* Built for = the ordering platforms the modules drive. Client marks stay as checkable proof. */}
+              {/* Built for = the ordering platforms the modules drive. */}
               <div className="mt-10">
                 <div className="flex items-center gap-4 mb-4">
                   <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">Built for</span>
@@ -197,14 +197,6 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
                   ))}
                 </ul>
                 <p className="font-sans text-xs text-ink-muted mt-3">The modules drive each platform&rsquo;s own order forms and pages, so a new platform is a mapping, not a rebuild.</p>
-                <div className="flex items-center gap-4 mt-7 mb-4">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">Running at</span>
-                  <span aria-hidden="true" className="h-px w-6 bg-ink-muted/30" />
-                </div>
-                <div className="flex flex-wrap items-center gap-x-10 gap-y-5">
-                  <img src="/clients/f8-logo.svg" alt="f/8 Real Estate Media" width={1068} height={882} className="h-10 md:h-12 w-auto" loading="lazy" decoding="async" />
-                  <img src="/clients/archipix-logo.svg" alt="Archi-Pix" width={3429} height={554} className="h-7 md:h-9 w-auto" loading="lazy" decoding="async" />
-                </div>
               </div>
             </ScrollReveal>
           </div>
