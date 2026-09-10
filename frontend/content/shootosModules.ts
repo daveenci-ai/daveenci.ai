@@ -23,7 +23,7 @@ export const shootosModules: ShootOSModule[] = [
   {
     number: '01',
     id: 'order-intake',
-    title: 'Order Intake',
+    title: 'Concierge Order Intake',
     status: 'live',
     statusNote: 'Live · Spiro since Dec 2025, Aryeo since Apr 2026',
     question: 'Did the order email become an order?',
@@ -31,7 +31,7 @@ export const shootosModules: ShootOSModule[] = [
     detail: 'Right order form for the office and region; address, square footage, access notes, lockbox code; agent found by email, never by name; package and state-specific selections; nearest open slot to the requested time; submitted with no payment step. The order number is read back before the order counts as placed. Agent not found, no slot in the window, new client — the email is labelled and held for a person. Retries on transient failures; never places the same order twice.',
     price: '$2,500 fixed · live within a week',
     page: 'order-intake',
-    path: '/modules/order-intake',
+    path: '/shootos/concierge-order-intake',
   },
   {
     number: '02',

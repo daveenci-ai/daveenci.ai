@@ -25,7 +25,7 @@
       "status": 200
     },
     {
-      "src": "/modules/order-intake",
+      "src": "/(modules/order-intake|shootos/concierge-order-intake)",
       "has": [
         { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
       ],
