@@ -11,7 +11,7 @@ interface ModulesPageProps {
 
 const MODULES: { title: string; blurb: string; price: string; page: Page; path: string }[] = [
   {
-    title: 'Order Intake',
+    title: 'Concierge Order Intake',
     blurb: 'Reads the concierge order email and places the order in Aryeo or Spiro — then confirms it exists. Anything it is not sure about is held for a person.',
     price: '$2,500, fixed',
     page: 'order-intake',
