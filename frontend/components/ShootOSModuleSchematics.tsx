@@ -141,7 +141,7 @@ export const DailyReviewSchematic: React.FC = () => {
       {/* the report */}
       <rect x="216" y="48" width="66" height="92" rx="1" fill="white" stroke={ink} strokeWidth="1.2" />
       <line x1="216" y1="62" x2="282" y2="62" stroke={ink} strokeWidth="1" />
-      <text x="249" y="58" textAnchor="middle" fontSize="6.5" fill={ink} fontFamily="sans-serif">Daily Review</text>
+      <text x="249" y="58" textAnchor="middle" fontSize="6.5" fill={ink} fontFamily="sans-serif">Daily Report</text>
       {[['Complete', success, '6'], ['Missing items', accent, '2'], ['Urgent', danger, '1'], ['Not checked', muted, '0']].map(([t, c, n], i) => (
         <g key={t as string}>
           <circle cx="224" cy={73 + i * 15} r="2.4" fill={c as string} />

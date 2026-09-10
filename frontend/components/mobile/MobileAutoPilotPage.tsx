@@ -40,8 +40,8 @@ const mobileProof = [
 const mobileWorkflow = [
   { id: 'order-intake', number: '01', title: 'Concierge Order Intake', body: 'Read the order email, fill the platform\'s order form, match the agent by email, book the nearest slot, submit, and read the order number back.', Icon: Mail },
   { id: 'order-review', number: '02', title: 'Order Review', body: 'Run eight checks every ten minutes. Fix what is safe to fix, with read-back; route anything ambiguous to a person.', Icon: ScanSearch },
-  { id: 'daily-review', number: '03', title: 'Daily Review', body: 'Every morning, audit everything due for delivery and report what is complete, missing or urgent before 9 AM.', Icon: CalendarCheck },
-  { id: 'photo-review', number: '04', title: 'Photo Review', body: 'Look at every photo — focus, exposure, duplicates, coverage — and ticket only what is wrong, naming the frame.', Icon: Eye },
+  { id: 'daily-review', number: '03', title: 'Daily Report', body: 'Every morning, audit everything due for delivery and report what is complete, missing or urgent before 9 AM.', Icon: CalendarCheck },
+  { id: 'photo-review', number: '04', title: 'Real-time Photo Review', body: 'Look at every photo — focus, exposure, duplicates, coverage — and ticket only what is wrong, naming the frame.', Icon: Eye },
 ];
 
 export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavigate }) => {

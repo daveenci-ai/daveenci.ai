@@ -27,7 +27,7 @@ const NOT_INCLUDED = [
   'Order sources other than email (forms, phone)',
   'A second platform',
   'Custom pricing rules',
-  'Photo QA — that is the Photo Review module',
+  'Photo QA — that is the Real-time Photo Review module',
 ];
 
 const TWO_WEEKS = [

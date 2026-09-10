@@ -46,7 +46,7 @@ export const shootosModules: ShootOSModule[] = [
   {
     number: '03',
     id: 'daily-review',
-    title: 'Daily Review',
+    title: 'Daily Report',
     status: 'live',
     statusNote: 'Live · since Jul 2026, every morning before 9 AM',
     question: 'What is about to go out, and what needs a person first?',
@@ -56,7 +56,7 @@ export const shootosModules: ShootOSModule[] = [
   {
     number: '04',
     id: 'photo-review',
-    title: 'Photo Review',
+    title: 'Real-time Photo Review',
     status: 'built',
     statusNote: 'Built · switched on per client after tuning',
     question: 'Is each delivered photo right?',
