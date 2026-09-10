@@ -23,7 +23,7 @@ export const shootosModules: ShootOSModule[] = [
   {
     number: '01',
     id: 'order-intake',
-    title: 'Concierge Order Intake',
+    title: 'Order Intake',
     status: 'live',
     statusNote: 'Live · Spiro since Dec 2025, Aryeo since Apr 2026',
     question: 'Did the order email become an order?',
