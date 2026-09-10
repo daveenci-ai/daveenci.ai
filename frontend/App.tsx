@@ -114,7 +114,13 @@ const App: React.FC = () => {
         }
       } else if (path === '/modules') {
         setPage('modules');
+      } else if (path === '/shootos/concierge-order-intake') {
+        setPage('order-intake');
       } else if (path === '/modules/order-intake') {
+        // Legacy: the module now lives under ShootOS. Redirect client-side so
+        // the outreach attribution (?t=, ?src=) and #video survive the move —
+        // a vercel.json 301 drops the query string.
+        window.history.replaceState({}, '', `/shootos/concierge-order-intake${window.location.search}${window.location.hash}`);
         setPage('order-intake');
       } else if (path === '/book-demo') {
         window.history.replaceState({}, '', '/pulsenote');
@@ -257,7 +263,7 @@ const App: React.FC = () => {
     if (targetPage === 'book-anton') path = '/book/anton';
     if (targetPage === 'book-astrid') path = '/book/astrid';
     if (targetPage === 'modules') path = '/modules';
-    if (targetPage === 'order-intake') path = '/modules/order-intake';
+    if (targetPage === 'order-intake') path = '/shootos/concierge-order-intake';
     if (targetPage === 'pulsenote') path = '/pulsenote';
     if (targetPage === 'brandos') path = '/brandos';
     if (targetPage === 'work') path = '/work';

@@ -50,7 +50,7 @@ const workflow = [
   {
     id: 'order-intake',
     number: '01',
-    eyebrow: 'Order Intake',
+    eyebrow: 'Concierge Order Intake',
     title: 'Turn an order email into a placed, verified order.',
     body: 'Reads the concierge order email, opens the right order form for the office and region, fills every field, finds the agent by email, adds the package and selections, books the nearest open slot and submits — then reads the order number back before it counts as placed.',
     bullets: ['Email intake with structured extraction', 'Agent by email, package and regional selections', 'Read-back verification; unsure cases held for a person'],
@@ -119,7 +119,7 @@ const AutoPilotControlPanel: React.FC = () => (
 
     <div className="relative grid grid-cols-2 sm:grid-cols-4 gap-3">
       {[
-        { label: 'Order Intake', detail: 'place + verify', Icon: Mail },
+        { label: 'Concierge Order Intake', detail: 'place + verify', Icon: Mail },
         { label: 'Order Review', detail: 'check + repair', Icon: ScanSearch },
         { label: 'Daily Review', detail: 'audit + report', Icon: CalendarCheck },
         { label: 'Photo Review', detail: 'look + ticket', Icon: Eye },
@@ -177,7 +177,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
               <PageHero
                 eyebrow="ShootOS · A specialist real-estate-media practice by DaVeenci"
                 title={<>From order email<br /><span className="italic text-ink-muted/80">to delivery gate.</span></>}
-                description="ShootOS is a set of modules for real-estate media companies, each doing one job inside the platform you already run — starting with Order Intake. They place and schedule orders, review them continuously, repair known exceptions safely, and verify every deliverable before release."
+                description="ShootOS is a set of modules for real-estate media companies, each doing one job inside the platform you already run — starting with Concierge Order Intake. They place and schedule orders, review them continuously, repair known exceptions safely, and verify every deliverable before release."
                 size="md"
                 actions={
                   <>
@@ -224,7 +224,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
 
       <CaseEvidence
         title="The workflow, the controls, and what exists today."
-        subtitle="ShootOS is presented as an operating practice, not a concept. This ledger separates the reusable vertical knowledge from the AutoPilot system running inside it."
+        subtitle="ShootOS is presented as an operating practice, not a concept. This ledger separates the reusable vertical knowledge from the modules running inside it."
         items={shootosEvidence}
       />
 
@@ -271,7 +271,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
         <SectionHeader
           eyebrow="Why it is a team"
           title="The right kind of intelligence for each decision."
-          subtitle="Inside ShootOS, AutoPilot does not ask one model to improvise the whole workflow. It assigns rules, perception, memory, and judgment to the layer best suited to each one."
+          subtitle="ShootOS does not ask one model to improvise the whole workflow. It assigns rules, perception, memory, and judgment to the layer best suited to each one."
         />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {safety.map((item, index) => (
@@ -290,8 +290,8 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-3xl mb-12">
             <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">The modules · September 2026</div>
-            <h2 className="font-serif text-4xl md:text-5xl leading-tight">Four modules. One question each. Start with Order Intake.</h2>
-            <p className="font-sans text-canvas/65 mt-5 leading-relaxed">Each module runs inside the platform you already use and stops when it is not sure. Order Intake is the first, small one — a way to see how we work. The other three follow once it is live, each fitted to how your shop runs — and everything can be customised.</p>
+            <h2 className="font-serif text-4xl md:text-5xl leading-tight">Four modules. One question each. Start with Concierge Order Intake.</h2>
+            <p className="font-sans text-canvas/65 mt-5 leading-relaxed">Each module runs inside the platform you already use and stops when it is not sure. Concierge Order Intake is the first, small one — a way to see how we work. The other three follow once it is live, each fitted to how your shop runs — and everything can be customised.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {shootosModules.map((module) => {
@@ -308,7 +308,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
                   <p className="font-sans text-xs text-canvas/55 leading-relaxed">{module.detail}</p>
                   <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
                     <span className="font-mono text-[9px] uppercase tracking-widest text-canvas/60">{module.price ?? 'Scoped per shop'}</span>
-                    {module.page && <span className="font-serif italic text-sm text-accent-light">Read the details →</span>}
+                    {module.page && <span className="font-serif italic text-sm text-accent-light">See the module →</span>}
                   </div>
                 </>
               );

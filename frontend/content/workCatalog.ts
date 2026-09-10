@@ -54,8 +54,8 @@ export const workCatalog: WorkCatalogItem[] = [
     statusTone: 'operating',
     title: 'ShootOS',
     subtitle: 'A specialist practice by DaVeenci.',
-    blurb: 'Industry knowledge and reusable AutoPilot infrastructure for order intake, scheduling, continuous QC, safe remediation, and verified delivery.',
-    previewBlurb: 'A real-estate-media operating practice powered by AutoPilot: intake, scheduling, continuous QC, safe remediation, and delivery verification.',
+    blurb: 'Industry knowledge and reusable modules for concierge order intake, scheduling, continuous QC, safe remediation, and verified delivery.',
+    previewBlurb: 'A real-estate-media operating practice: modules for intake, scheduling, continuous QC, safe remediation, and delivery verification.',
     featured: true,
   },
   {

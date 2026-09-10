@@ -104,9 +104,13 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
 
       <Section className="pt-36 md:pt-44 pb-12" pattern="grid">
         <div className="max-w-3xl">
-          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent mb-5">
-            Module · Real-estate media
-          </div>
+          <a
+            href="/shootos"
+            onClick={(e) => { e.preventDefault(); onNavigate('autopilot'); }}
+            className="inline-block font-mono text-[10px] uppercase tracking-[0.22em] text-accent mb-5 hover:text-ink transition-colors"
+          >
+            ShootOS · Module 01
+          </a>
           <h1 className="font-serif text-5xl md:text-6xl text-ink leading-tight mb-5">Concierge Order Intake</h1>
           <p className="font-serif text-xl text-ink-muted leading-relaxed">
             Concierge order emails, placed in Aryeo or Spiro — without anyone retyping them.

@@ -38,7 +38,7 @@ const mobileProof = [
 ];
 
 const mobileWorkflow = [
-  { id: 'order-intake', number: '01', title: 'Order Intake', body: 'Read the order email, fill the platform\'s order form, match the agent by email, book the nearest slot, submit, and read the order number back.', Icon: Mail },
+  { id: 'order-intake', number: '01', title: 'Concierge Order Intake', body: 'Read the order email, fill the platform\'s order form, match the agent by email, book the nearest slot, submit, and read the order number back.', Icon: Mail },
   { id: 'order-review', number: '02', title: 'Order Review', body: 'Run eight checks every ten minutes. Fix what is safe to fix, with read-back; route anything ambiguous to a person.', Icon: ScanSearch },
   { id: 'daily-review', number: '03', title: 'Daily Review', body: 'Every morning, audit everything due for delivery and report what is complete, missing or urgent before 9 AM.', Icon: CalendarCheck },
   { id: 'photo-review', number: '04', title: 'Photo Review', body: 'Look at every photo — focus, exposure, duplicates, coverage — and ticket only what is wrong, naming the frame.', Icon: Eye },
@@ -65,7 +65,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
           <span className="italic text-ink-muted/70">to delivery gate.</span>
         </h1>
         <p className="font-serif text-[16px] text-ink-muted leading-[1.6] mb-7">
-          ShootOS is a set of modules for real-estate media companies, each doing one job inside the platform you already run — starting with Order Intake.
+          ShootOS is a set of modules for real-estate media companies, each doing one job inside the platform you already run — starting with Concierge Order Intake.
         </p>
         </div>
         {/* Built for = platforms. Parity with the desktop tree. */}
@@ -129,7 +129,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
       <CaseEvidence
         compact
         title="The workflow, controls, and operating truth."
-        subtitle="The evidence ledger separates the ShootOS practice from the AutoPilot system running inside it."
+        subtitle="The evidence ledger separates the ShootOS practice from the modules running inside it."
         items={shootosEvidence}
       />
 
@@ -191,8 +191,8 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
 
       <section id="shootos-modules" className="px-6 py-12 bg-ink text-canvas scroll-mt-16">
         <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">The modules · September 2026</div>
-        <h2 className="font-serif text-[2.1rem] leading-[1.08] mb-4">Four modules. Start with Order Intake.</h2>
-        <p className="font-sans text-[14px] text-canvas/65 leading-relaxed mb-7">Each module runs inside the platform you already use and stops when it is not sure. Order Intake is the first, small one; the rest follow once it is live.</p>
+        <h2 className="font-serif text-[2.1rem] leading-[1.08] mb-4">Four modules. Start with Concierge Order Intake.</h2>
+        <p className="font-sans text-[14px] text-canvas/65 leading-relaxed mb-7">Each module runs inside the platform you already use and stops when it is not sure. Concierge Order Intake is the first, small one; the rest follow once it is live.</p>
         <div className="space-y-4">
           {shootosModules.map((module) => {
             const tone = module.status === 'live' ? 'text-green-300' : 'text-amber-300';
@@ -204,7 +204,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
                 <p className="font-sans text-[14px] text-canvas/75 leading-relaxed">{module.summary}</p>
                 <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-3 font-mono text-[9px] uppercase tracking-widest text-canvas/60">
                   <span>{module.price ?? 'Scoped per shop'}</span>
-                  {module.page && <span className="font-serif italic normal-case tracking-normal text-sm text-accent-light">Details →</span>}
+                  {module.page && <span className="font-serif italic normal-case tracking-normal text-sm text-accent-light">See the module →</span>}
                 </div>
               </>
             );
