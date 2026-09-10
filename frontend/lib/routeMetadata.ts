@@ -55,8 +55,8 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'not-found'>, Rou
     path: '/modules',
   },
   'order-intake': {
-    title: 'Order Intake — concierge order emails into Aryeo or Spiro | DaVeenci',
-    description: 'Order Intake reads the concierge order email and places the order in Aryeo or Spiro. You approve each one. $2,500, fixed.',
+    title: 'Concierge Order Intake — order emails placed in Aryeo or Spiro | DaVeenci',
+    description: 'Concierge Order Intake reads the concierge order email, places the order in Aryeo or Spiro and confirms it exists. Holds what it is not sure about. $2,500, fixed.',
     path: '/modules/order-intake',
   },
   calendar: {
