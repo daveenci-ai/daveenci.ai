@@ -66,7 +66,7 @@ const workflow = [
   {
     id: 'daily-review',
     number: '03',
-    eyebrow: 'Daily Review',
+    eyebrow: 'Daily Report',
     title: 'See the whole morning before anything goes out.',
     body: 'From six o\'clock, every listing due for delivery is audited against the product matrix and its ordered image types are confirmed by vision. One report before the 9 AM window says what is complete, what is missing and what needs urgent attention.',
     bullets: ['Deliverable checks across images, video, 3D, floor plans, files and URLs', 'Complete · missing · could not verify · urgent — in one place', 'One report a day with a direct link to every job'],
@@ -74,7 +74,7 @@ const workflow = [
   {
     id: 'photo-review',
     number: '04',
-    eyebrow: 'Photo Review',
+    eyebrow: 'Real-time Photo Review',
     title: 'Look at every photo the way an editor would.',
     body: 'Each delivered image is checked for focus, exposure, duplicates, coverage and the photo types the order asked for. Findings name the specific frames, and a ticket is raised only when something is wrong — one per order, once.',
     bullets: ['Per-image checks with a vision veto on outliers', 'Frames named by number, so the right picture gets fixed', 'Tuned per client from before-and-after examples'],
@@ -121,8 +121,8 @@ const AutoPilotControlPanel: React.FC = () => (
       {[
         { label: 'Concierge Order Intake', detail: 'place + verify', Icon: Mail },
         { label: 'Order Review', detail: 'check + repair', Icon: ScanSearch },
-        { label: 'Daily Review', detail: 'audit + report', Icon: CalendarCheck },
-        { label: 'Photo Review', detail: 'look + ticket', Icon: Eye },
+        { label: 'Daily Report', detail: 'audit + report', Icon: CalendarCheck },
+        { label: 'Real-time Photo Review', detail: 'look + ticket', Icon: Eye },
       ].map((stage, index) => (
         <React.Fragment key={stage.label}>
           <div className="relative bg-canvas/50 border border-ink/10 p-4 rounded-sm">
