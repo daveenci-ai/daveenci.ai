@@ -1,6 +1,7 @@
 import type { Page } from '../components/types';
 import { getBriefingSummary } from '../content/briefings';
 import { commercialOffers } from '../content/commercialOffers';
+import { getGuide, guideStructuredData } from '../content/guides';
 
 const SITE_URL = 'https://daveenci.ai';
 const DEFAULT_IMAGE = `${SITE_URL}/daveenci-og.png`;
@@ -16,9 +17,12 @@ export interface RouteMetadata {
   publishedAt?: string;
   author?: string;
   noIndex?: boolean;
+  /** Guides: the schema.org graph is built from the guide itself. */
+  guideSlug?: string;
+  modifiedAt?: string;
 }
 
-const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'not-found'>, RouteMetadata> = {
+const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'guide' | 'not-found'>, RouteMetadata> = {
   landing: {
     title: 'DaVeenci — Governed AI Production Systems',
     description: 'DaVeenci maps, builds, and improves governed AI production systems for difficult recurring workflows, with explicit human gates and accountable outputs.',
@@ -53,6 +57,11 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'not-found'>, Rou
     title: 'Modules — Fixed-Price AI Modules | DaVeenci',
     description: 'Fixed-price modules that do one job inside an existing operation, live within a week.',
     path: '/modules',
+  },
+  guides: {
+    title: 'Guides for real-estate media shops — order intake, Aryeo, Spiro | DaVeenci',
+    description: 'Straight answers to the questions real-estate media owners ask about concierge order intake, Aryeo and Spiro — from work that runs every day.',
+    path: '/guides',
   },
   'order-intake': {
     title: 'Concierge Order Intake — order emails placed in Aryeo or Spiro | DaVeenci',
@@ -122,6 +131,28 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'not-found'>, Rou
 };
 
 export const getRouteMetadata = (page: Page, briefingId?: string | null): RouteMetadata => {
+  if (page === 'guide') {
+    const guide = getGuide(briefingId);
+    if (guide) {
+      return {
+        title: guide.seoTitle,
+        description: guide.description,
+        path: `/guides/${guide.slug}`,
+        type: 'article',
+        publishedAt: guide.publishedAt,
+        modifiedAt: guide.updatedAt,
+        author: guide.author,
+        guideSlug: guide.slug,
+      };
+    }
+    return {
+      title: 'Guide Not Found — DaVeenci',
+      description: 'The requested guide could not be found.',
+      path: briefingId ? `/guides/${briefingId}` : '/guides',
+      noIndex: true,
+    };
+  }
+
   if (page === 'briefing-detail') {
     const article = getBriefingSummary(briefingId);
     if (article && briefingId) {
@@ -175,9 +206,10 @@ const upsertCanonical = (href: string): void => {
   element.href = href;
 };
 
-const updateStructuredData = (metadata: RouteMetadata, url: string, image: string): void => {
-  const existing = document.getElementById('route-structured-data');
-  existing?.remove();
+/** The JSON-LD object for a route — pure, so the build-time prerender can emit the same thing. */
+export const buildStructuredData = (metadata: RouteMetadata, url: string, image: string): Record<string, unknown> => {
+  const guide = metadata.guideSlug ? getGuide(metadata.guideSlug) : undefined;
+  if (guide) return guideStructuredData(guide, url, image, SITE_URL);
 
   const organizationData = {
     '@context': 'https://schema.org',
@@ -221,6 +253,16 @@ const updateStructuredData = (metadata: RouteMetadata, url: string, image: strin
           })),
         }
       : organizationData;
+  return data;
+};
+
+export const SITE = SITE_URL;
+export const DEFAULT_OG_IMAGE = DEFAULT_IMAGE;
+
+const updateStructuredData = (metadata: RouteMetadata, url: string, image: string): void => {
+  const existing = document.getElementById('route-structured-data');
+  existing?.remove();
+  const data = buildStructuredData(metadata, url, image);
 
   const script = document.createElement('script');
   script.id = 'route-structured-data';

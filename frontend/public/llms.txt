@@ -1,0 +1,19 @@
+# DaVeenci
+
+> DaVeenci builds production AI operations systems for recurring work that crosses tools, teams and judgment — with explicit human gates and accountable outputs. Based in Austin, TX. Founder: Anton Osipov.
+
+## ShootOS — modules for real-estate media companies
+
+- [ShootOS overview](https://daveenci.ai/shootos): four modules that run inside the ordering platform a real-estate media shop already uses (Aryeo, Spiro): Concierge Order Intake, Order Review, Daily Report, Real-time Photo Review.
+- [Concierge Order Intake](https://daveenci.ai/shootos/concierge-order-intake): reads a concierge order email (e.g. Coldwell Banker Listing Concierge), places the order in Aryeo or Spiro, reads the order number back to confirm, holds anything it is not sure about. $2,500 fixed, live within a week, full refund if orders are not landing correctly after two weeks.
+
+## Guides
+
+- [How do you place Coldwell Banker Listing Concierge orders in Aryeo automatically?](https://daveenci.ai/guides/coldwell-banker-listing-concierge-orders-into-aryeo)
+
+## Company
+
+- [Services and pricing](https://daveenci.ai/): Workflow Blueprint $5,000 · Production Build from $14,000 · Ongoing Operation from $4,000/month.
+- [Who we are](https://daveenci.ai/who-we-are)
+- [Codex](https://daveenci.ai/codex): field notes from active builds.
+- Contact: anton@daveenci.ai · https://daveenci.ai/book
