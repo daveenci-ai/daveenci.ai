@@ -1,145 +1,91 @@
 {
   "routes": [
     {
-      "src": "/calendar",
-      "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
-      ],
-      "dest": "/calendar-og.html",
-      "status": 200
-    },
-    {
-      "src": "/brandos",
-      "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
-      ],
-      "dest": "/brandos-og.html",
-      "status": 200
-    },
-    {
-      "src": "/pulsenote",
-      "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
-      ],
-      "dest": "/pulsenote-og.html",
-      "status": 200
-    },
-    { "src": "/shootos/concierge-order-intake", "dest": "/_prerendered/concierge-order-intake.html", "status": 200 },
-    { "src": "/guides", "dest": "/_prerendered/guides.html", "status": 200 },
-    { "src": "/guides/coldwell-banker-listing-concierge-orders-into-aryeo", "dest": "/_prerendered/guide-coldwell-banker-listing-concierge-orders-into-aryeo.html", "status": 200 },
-    {
-      "src": "/modules/order-intake",
-      "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
-      ],
-      "dest": "/order-intake-og.html",
-      "status": 200
-    },
-    { "src": "/calendar", "status": 301, "headers": { "Location": "/book/astrid" } },
-    { "src": "/book-demo", "status": 301, "headers": { "Location": "/pulsenote" } },
-    { "src": "/brand-analyzer", "status": 301, "headers": { "Location": "/brandos" } },
-    { "src": "/autopilot", "status": 301, "headers": { "Location": "/shootos" } },
-    {
-      "src": "/briefings",
-      "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
-      ],
-      "dest": "/briefings-og.html",
-      "status": 200
-    },
-    {
-      "src": "/who-we-are",
-      "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
-      ],
-      "dest": "/who-we-are-og.html",
-      "status": 200
-    },
-    {
-      "src": "/shootos",
-      "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
-      ],
-      "dest": "/shootos-og.html",
-      "status": 200
-    },
-    {
-      "src": "/analytics-os",
-      "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
-      ],
-      "dest": "/analytics-os-og.html",
-      "status": 200
-    },
-    {
-      "src": "/compoundiq",
-      "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
-      ],
-      "dest": "/compoundiq-og.html",
-      "status": 200
-    },
-    {
-      "src": "/creative-production",
-      "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
-      ],
-      "dest": "/creative-production-og.html",
-      "status": 200
-    },
-    {
-      "src": "/codex$",
-      "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
-      ],
-      "dest": "/briefings-og.html",
+      "src": "/(thesis|work|who-we-are|purecode|shootos|compoundiq|analytics-os|creative-production|events|pulsenote|brandos|privacy|modules|codex|guides)",
+      "dest": "/_prerendered/$1.html",
       "status": 200
     },
     {
       "src": "/codex/(governed-agent-operations|agentic-workflow|synthetic-data|zero-touch-crm|rag-vs-long-context|local-llm-stack|prompt-patterns|ai-compliance|saas-pricing|automated-video)",
-      "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
-      ],
-      "dest": "/codex-$1-og.html",
+      "dest": "/_prerendered/codex-$1.html",
       "status": 200
     },
     {
-      "src": "/work",
-      "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
-      ],
-      "dest": "/work-og.html",
+      "src": "/shootos/concierge-order-intake",
+      "dest": "/_prerendered/concierge-order-intake.html",
       "status": 200
     },
     {
-      "src": "/purecode",
-      "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
-      ],
-      "dest": "/purecode-og.html",
+      "src": "/guides/(coldwell-banker-listing-concierge-orders-into-aryeo)",
+      "dest": "/_prerendered/guide-$1.html",
       "status": 200
     },
     {
-      "src": "/events",
+      "src": "/modules/order-intake",
       "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*"
+        }
       ],
-      "dest": "/events-og.html",
+      "dest": "/order-intake-og.html",
       "status": 200
     },
     {
-      "src": "/thesis",
-      "has": [
-        { "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot).*" }
-      ],
-      "dest": "/thesis-og.html",
-      "status": 200
+      "src": "/calendar",
+      "status": 301,
+      "headers": {
+        "Location": "/book/astrid"
+      }
     },
-    { "src": "/api/(.*)", "dest": "/api/index.ts" },
-    { "src": "/briefings(/.*)?", "status": 301, "headers": { "Location": "/codex$1" } },
-    { "handle": "filesystem" },
-    { "src": "/(codex|who-we-are|calendar|book|modules|guides|pulsenote|brandos|work|purecode|shootos|compoundiq|analytics-os|creative-production|events|thesis|privacy)(/.*)?", "dest": "/index.html" },
-    { "src": "/", "dest": "/index.html" },
-    { "src": "/.*", "dest": "/404.html", "status": 404 }
+    {
+      "src": "/book-demo",
+      "status": 301,
+      "headers": {
+        "Location": "/pulsenote"
+      }
+    },
+    {
+      "src": "/brand-analyzer",
+      "status": 301,
+      "headers": {
+        "Location": "/brandos"
+      }
+    },
+    {
+      "src": "/autopilot",
+      "status": 301,
+      "headers": {
+        "Location": "/shootos"
+      }
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/index.ts"
+    },
+    {
+      "src": "/briefings(/.*)?",
+      "status": 301,
+      "headers": {
+        "Location": "/codex$1"
+      }
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(codex|who-we-are|calendar|book|modules|guides|pulsenote|brandos|work|purecode|shootos|compoundiq|analytics-os|creative-production|events|thesis|privacy)(/.*)?",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/.*",
+      "dest": "/404.html",
+      "status": 404
+    }
   ]
 }
