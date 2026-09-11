@@ -54,6 +54,18 @@ function rewriteHead(html, route) {
   return out;
 }
 
+
+/** True when some vercel.json route (path regex + dest) maps this path to its prerendered file. Regex groups are honoured. */
+function servedBy(routes, route) {
+  return routes.some((r) => {
+    if (!r.src || !r.dest || r.has) return false;
+    const m = route.path.match(new RegExp(`^${r.src}$`));
+    if (!m) return false;
+    const dest = r.dest.replace(/\$(\d)/g, (_, i) => m[Number(i)] ?? '');
+    return dest === `/_prerendered/${route.file}`;
+  });
+}
+
 async function main() {
   await build({
     root,
@@ -74,14 +86,14 @@ async function main() {
     throw new Error(`prerender-routes: could not find ${PLACEHOLDER} in dist/index.html — run before prerender-hero.`);
   }
   const sitemap = await fs.readFile(path.join(root, 'public', 'sitemap.xml'), 'utf8');
-  const vercel = await fs.readFile(path.join(root, '..', 'vercel.json'), 'utf8');
+  const vercelRoutes = JSON.parse(await fs.readFile(path.join(root, '..', 'vercel.json'), 'utf8')).routes;
 
   await fs.mkdir(targetDir, { recursive: true });
   for (const route of routes) {
     if (!sitemap.includes(`<loc>${SITE}${route.path}</loc>`)) {
       throw new Error(`prerender-routes: ${route.path} is not in public/sitemap.xml — add it (crawlers find pages there first)`);
     }
-    if (!vercel.includes(`/_prerendered/${route.file}`)) {
+    if (!servedBy(vercelRoutes, route)) {
       throw new Error(`prerender-routes: vercel.json has no route serving /_prerendered/${route.file} for ${route.path}`);
     }
     const page = rewriteHead(html, route).replace(PLACEHOLDER, `<div id="root">${route.html}</div>`);

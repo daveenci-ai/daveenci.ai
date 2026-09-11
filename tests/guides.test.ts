@@ -26,7 +26,7 @@ describe('guides (AEO answer pages)', () => {
     expect(sitemap).toContain('<loc>https://daveenci.ai/shootos/concierge-order-intake</loc>');
     for (const g of guides) {
       expect(sitemap).toContain(`<loc>https://daveenci.ai/guides/${g.slug}</loc>`);
-      expect(vercel).toContain(`"/_prerendered/guide-${g.slug}.html"`);
+      expect(vercel).toMatch(new RegExp(`"src": "/guides/\\([^"]*\\b${g.slug}\\b[^"]*\\)"`));   // explicit slug list → unknown slugs fall to the SPA 404
     }
   });
 
