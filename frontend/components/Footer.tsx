@@ -108,6 +108,7 @@ const Footer: React.FC<FooterProps> = ({
               <li><a href="/thesis" onClick={go('thesis')} className="text-sm text-canvas/80 hover:text-white transition-colors">Thesis</a></li>
               <li><a href="/book" onClick={go('book')} className="text-sm text-canvas/80 hover:text-white transition-colors">Talk to us</a></li>
               <li><a href="/events" onClick={go('events')} className="text-sm text-canvas/80 hover:text-white transition-colors">Events</a></li>
+              <li><a href="/guides" onClick={go('guides')} className="text-sm text-canvas/80 hover:text-white transition-colors">Guides</a></li>
               <li><a href="/brandos" onClick={go('brandos')} className="text-sm text-canvas/80 hover:text-white transition-colors">BrandOS</a></li>
               <li><a href="/pulsenote" onClick={go('pulsenote')} className="text-sm text-canvas/80 hover:text-white transition-colors">PulseNote</a></li>
             </ul>

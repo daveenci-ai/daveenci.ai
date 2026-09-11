@@ -23,6 +23,8 @@ const Calendar = lazy(() => import('./components/Calendar'));
 const BookPage = lazy(() => import('./components/BookPage'));
 const ModulesPage = lazy(() => import('./components/ModulesPage'));
 const OrderIntakePage = lazy(() => import('./components/OrderIntakePage'));
+const GuidesPage = lazy(() => import('./components/GuidesPage'));
+const GuidePage = lazy(() => import('./components/GuidePage'));
 const PulseNotePage = lazy(() => import('./components/PulseNotePage'));
 const BrandOSPage = lazy(() => import('./components/BrandOSPage'));
 const WorkPage = lazy(() => import('./components/WorkPage'));
@@ -51,6 +53,7 @@ const getInitialPage = (): Page => {
 const App: React.FC = () => {
   const [page, setPage] = useState<Page>(getInitialPage);
   const [selectedBriefingId, setSelectedBriefingId] = useState<string | null>(null);
+  const [selectedGuideSlug, setSelectedGuideSlug] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [targetSection, setTargetSection] = useState<string | null>(null);
   const [routeReady, setRouteReady] = useState(false);
@@ -114,6 +117,14 @@ const App: React.FC = () => {
         }
       } else if (path === '/modules') {
         setPage('modules');
+      } else if (path === '/guides') {
+        setPage('guides');
+      } else if (path.startsWith('/guides/')) {
+        const slug = path.split('/')[2];
+        if (slug) {
+          setPage('guide');
+          setSelectedGuideSlug(slug);
+        }
       } else if (path === '/shootos/concierge-order-intake') {
         setPage('order-intake');
       } else if (path === '/modules/order-intake') {
@@ -188,13 +199,13 @@ const App: React.FC = () => {
   useEffect(() => {
     if (!routeReady) return;
 
-    const metadata = applyRouteMetadata(page, selectedBriefingId);
+    const metadata = applyRouteMetadata(page, page === 'guide' ? selectedGuideSlug : selectedBriefingId);
     const pageviewKey = `${window.location.pathname}${window.location.search}`;
     if (lastPageviewKey.current !== pageviewKey) {
       lastPageviewKey.current = pageviewKey;
       trackPageView(metadata.title);
     }
-  }, [page, routeReady, selectedBriefingId]);
+  }, [page, routeReady, selectedBriefingId, selectedGuideSlug]);
 
   // Helper to scroll to a specific hash with polling
   const scrollToHash = useCallback((hash: string) => {
@@ -239,7 +250,8 @@ const App: React.FC = () => {
   const handleNavigate = (targetPage: Page, hash?: string, id?: string) => {
     // Update basic routing state
     setPage(targetPage);
-    if (id) setSelectedBriefingId(id);
+    if (id && targetPage === 'guide') setSelectedGuideSlug(id);
+    else if (id) setSelectedBriefingId(id);
 
     // Handle Active Section State (Visual)
     if (hash) {
@@ -264,6 +276,8 @@ const App: React.FC = () => {
     if (targetPage === 'book-astrid') path = '/book/astrid';
     if (targetPage === 'modules') path = '/modules';
     if (targetPage === 'order-intake') path = '/shootos/concierge-order-intake';
+    if (targetPage === 'guides') path = '/guides';
+    if (targetPage === 'guide') path = `/guides/${id}`;
     if (targetPage === 'pulsenote') path = '/pulsenote';
     if (targetPage === 'brandos') path = '/brandos';
     if (targetPage === 'work') path = '/work';
@@ -315,6 +329,8 @@ const App: React.FC = () => {
         {page === 'book-astrid' && <Calendar onNavigate={handleNavigate} host="astrid" />}
         {page === 'modules' && <ModulesPage onNavigate={handleNavigate} />}
         {page === 'order-intake' && <OrderIntakePage onNavigate={handleNavigate} />}
+        {page === 'guides' && <GuidesPage onNavigate={handleNavigate} />}
+        {page === 'guide' && <GuidePage onNavigate={handleNavigate} slug={selectedGuideSlug} />}
         {page === 'pulsenote' && <PulseNotePage onNavigate={handleNavigate} />}
         {page === 'brandos' && <BrandOSPage onNavigate={handleNavigate} />}
         {page === 'work' && <WorkPage onNavigate={handleNavigate} />}
