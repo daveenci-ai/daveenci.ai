@@ -24,6 +24,7 @@ import { CaseEvidence } from '../CaseEvidence';
 import { shootosEvidence } from '../../content/shootosEvidence';
 import { shootosModules, shootosPlatforms } from '../../content/shootosModules';
 import { ModuleSchematic } from '../ShootOSModuleSchematics';
+import { ShootOSGuides } from '../ShootOSGuides';
 
 interface MobileAutoPilotPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -217,6 +218,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
             );
           })}
         </div>
+        <ShootOSGuides onNavigate={onNavigate} compact />
       </section>
 
       <section className="px-6 py-12 text-center">

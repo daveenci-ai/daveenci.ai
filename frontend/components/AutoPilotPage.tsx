@@ -27,6 +27,7 @@ import { Reveal } from './motion/Parallax';
 import { Stack } from './motion/Stack';
 import { useScrollProgress } from '../lib/useScrollProgress';
 import { MobileAutoPilotPage } from './mobile/MobileAutoPilotPage';
+import { ShootOSGuides } from './ShootOSGuides';
 import { useCaseEngaged } from '../lib/useCaseEngaged';
 import type { Page } from './types';
 import { CaseEvidence } from './CaseEvidence';
@@ -326,6 +327,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
               );
             })}
           </div>
+          <ShootOSGuides onNavigate={onNavigate} />
         </div>
       </section>
 

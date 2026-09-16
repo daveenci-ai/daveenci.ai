@@ -10,6 +10,9 @@
 ## Guides
 
 - [How do you place Coldwell Banker Listing Concierge orders in Aryeo automatically?](https://daveenci.ai/guides/coldwell-banker-listing-concierge-orders-into-aryeo)
+- [Aryeo changed the order form — what should a media shop check before orders go wrong?](https://daveenci.ai/guides/aryeo-changed-the-order-form-what-to-check)
+- [Why do concierge orders end up on the wrong order form, wrong agent or wrong time?](https://daveenci.ai/guides/why-concierge-orders-land-on-the-wrong-order-form)
+- [How do you stop copy-pasting order emails into Aryeo or Spiro?](https://daveenci.ai/guides/stop-copy-pasting-order-emails-into-aryeo-or-spiro)
 
 ## Company
 

@@ -16,7 +16,7 @@
       "status": 200
     },
     {
-      "src": "/guides/(coldwell-banker-listing-concierge-orders-into-aryeo)",
+      "src": "/guides/(coldwell-banker-listing-concierge-orders-into-aryeo|aryeo-changed-the-order-form-what-to-check|why-concierge-orders-land-on-the-wrong-order-form|stop-copy-pasting-order-emails-into-aryeo-or-spiro)",
       "dest": "/_prerendered/guide-$1.html",
       "status": 200
     },
