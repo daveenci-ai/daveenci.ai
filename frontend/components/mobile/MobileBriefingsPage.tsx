@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MobileShell } from './MobileShell';
-import { allBriefings, accentStyle, CategoryMotif } from '../BriefingsPage';
+import { briefings as allBriefings } from '../../content/briefings';
+import { accentStyle, CategoryMotif } from '../codexAccents';
 import type { Page } from '../types';
 import { CodexCover } from '../CodexCover';
 import { Reveal } from '../motion/Parallax';
@@ -115,7 +116,7 @@ export const MobileBriefingsPage: React.FC<MobileBriefingsPageProps> = ({ onNavi
                   <span className="text-ink-muted/40">·</span>
                   <span className="font-mono text-[9px] tracking-[0.1em] text-ink-muted">#{b.issueNo}</span>
                 </div>
-                <h3 className={`font-serif text-ink mb-2 ${b.featured ? 'text-[1.75rem] leading-[1.15] tracking-tight' : 'text-[1.375rem] leading-[1.25]'}`}>{b.title}</h3>
+                <h2 className={`font-serif text-ink mb-2 ${b.featured ? 'text-[1.75rem] leading-[1.15] tracking-tight' : 'text-[1.375rem] leading-[1.25]'}`}>{b.title}</h2>
                 <p className="font-sans text-[14px] text-ink-muted leading-relaxed line-clamp-3">{b.description}</p>
                 <span className="mt-3 block font-mono text-[9px] uppercase tracking-[0.16em] text-ink-muted">{b.readTime}</span>
               </div>
