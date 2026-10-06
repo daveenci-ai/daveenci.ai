@@ -83,7 +83,7 @@ export const MobileFooter: React.FC<MobileFooterProps> = ({ onNavigate, classNam
             href="mailto:anton@daveenci.ai"
             className="block py-1 underline underline-offset-4 active:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
           >anton@daveenci.ai</a>
-          <div>© {new Date().getFullYear()} DaVeenci</div>
+          <div>© {new Date().getFullYear()} DaVeenci. All rights reserved.</div>
           <a
             href="/privacy"
             onClick={go('privacy')}
