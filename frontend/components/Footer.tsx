@@ -142,6 +142,7 @@ const Footer: React.FC<FooterProps> = ({
             <a href="/privacy" onClick={go('privacy')} className="hover:text-canvas transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm">Privacy</a>
           </div>
         </div>
+        <div className="mt-4 text-xs text-canvas/60 text-center md:text-right">Last updated: October 2026</div>
       </div>
     </footer>
   );
