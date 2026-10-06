@@ -137,7 +137,7 @@ const Footer: React.FC<FooterProps> = ({
             <span aria-hidden="true">·</span>
             <span>DaVeenci LLC · 2900 W Anderson Ln, Ste C-200, PMB 1049, Austin, TX 78757</span>
             <span aria-hidden="true">·</span>
-            <span>© {new Date().getFullYear()} DaVeenci</span>
+            <span>© {new Date().getFullYear()} DaVeenci. All rights reserved.</span>
             <span aria-hidden="true">·</span>
             <a href="/privacy" onClick={go('privacy')} className="hover:text-canvas transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm">Privacy</a>
           </div>
