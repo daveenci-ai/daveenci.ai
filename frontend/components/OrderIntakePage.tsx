@@ -11,8 +11,10 @@ interface OrderIntakePageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
-// Anton supplies the recording; until then the page shows a marked placeholder.
-const VIDEO_URL = import.meta.env.VITE_ORDER_INTAKE_VIDEO_URL || '';
+// The walkthrough (v1.5, 72 s, silent, captions burned in): real Aryeo screens redacted into one fictional shop.
+// Served from /public so it ships with the site; VITE_ORDER_INTAKE_VIDEO_URL still overrides it.
+const VIDEO_URL = import.meta.env.VITE_ORDER_INTAKE_VIDEO_URL || '/videos/concierge-order-intake.mp4';
+const VIDEO_POSTER = '/videos/concierge-order-intake-poster.jpg';
 
 const INCLUDED = [
   'One email source',
@@ -125,10 +127,14 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
             {VIDEO_URL ? (
               <video
                 controls
-                preload="metadata"
+                autoPlay
+                muted
                 playsInline
+                preload="metadata"
+                poster={VIDEO_POSTER}
                 className="w-full h-full object-cover"
                 src={VIDEO_URL}
+                aria-label="Concierge Order Intake walkthrough: a concierge order email becomes an Aryeo order"
               />
             ) : (
               <div className="w-full h-full flex flex-col items-center justify-center text-center px-6">
