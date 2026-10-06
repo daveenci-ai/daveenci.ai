@@ -84,6 +84,7 @@ export const MobileFooter: React.FC<MobileFooterProps> = ({ onNavigate, classNam
             className="block py-1 underline underline-offset-4 active:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
           >anton@daveenci.ai</a>
           <div>© {new Date().getFullYear()} DaVeenci. All rights reserved.</div>
+          <div>Last updated: October 2026</div>
           <a
             href="/privacy"
             onClick={go('privacy')}
