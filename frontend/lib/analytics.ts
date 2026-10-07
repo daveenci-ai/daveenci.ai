@@ -4,6 +4,8 @@
 // tracking unreliable (see docs/ANALYTICS_SETUP.md — EM history tracking
 // must be disabled on the GA4 property).
 
+import type { VoiceVariant } from './videoVariant';
+
 declare global {
   interface Window {
     dataLayer?: unknown[];
@@ -18,7 +20,7 @@ export type DemoId = 'brandos_analyzer' | 'purecode_ticket_sim' | 'compoundiq_ga
 export interface AnalyticsEventMap {
   select_content: { content_type: 'case_study'; content_id: CaseId; surface: 'work_preview' | 'work_page' };
   work_preview_viewed: { surface: 'work_preview' };
-  cta_click: { cta_id: string; surface: string; from_page: string; destination: string };
+  cta_click: { cta_id: string; surface: string; from_page: string; destination: string; video_variant?: VoiceVariant };
   case_engaged: { case_id: CaseId; trigger: 'active_time' | 'scroll_depth' };
   demo_start: { demo_id: DemoId };
   demo_complete: { demo_id: DemoId };
@@ -27,7 +29,11 @@ export interface AnalyticsEventMap {
   practice_case_click: { practice_id: PracticeId; case_id: CaseId; surface: 'practice_page' };
   calendar_start: { booking_type: string };
   booking_step_viewed: { booking_type: string; step: 'details' };
-  generate_lead: { booking_type: string };
+  generate_lead: { booking_type: string; video_variant?: VoiceVariant };
+  // Voice A/B on the Concierge Order Intake walkthrough (lib/videoVariant.ts).
+  video_impression: { video_id: 'order_intake'; video_variant: VoiceVariant; forced: boolean };
+  video_sound_on: { video_id: 'order_intake'; video_variant: VoiceVariant; via: 'button' | 'controls' };
+  video_progress: { video_id: 'order_intake'; video_variant: VoiceVariant; percent: 25 | 50 | 75 | 100; sound: boolean };
   newsletter_subscribe: { source: string };
 }
 

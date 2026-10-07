@@ -1,18 +1,22 @@
-import React, { useEffect, useMemo } from 'react';
-import { Check, X, Play } from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Check, X, Volume2 } from 'lucide-react';
 import Header from './Header';
 import Footer from './Footer';
 import { Section, Button } from './Shared';
 import type { Page } from './types';
 import { readAttribution } from '../lib/attribution';
+import { track } from '../lib/analytics';
+import { newProgressMarks, pickVideoVariant, videoSrc } from '../lib/videoVariant';
 import AntonSketch from '../images/Anton_Sketch.webp';
 
 interface OrderIntakePageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
 }
 
-// Anton supplies the recording; until then the page shows a marked placeholder.
-const VIDEO_URL = import.meta.env.VITE_ORDER_INTAKE_VIDEO_URL || '';
+// The walkthrough (v1.9, ~60 s, captions burned in; real Aryeo screens redacted into one fictional shop), narrated by
+// one of two AI voices. Each visitor gets one voice, 50/50, and keeps it (lib/videoVariant.ts). Browsers only autoplay
+// muted video, so it starts muted and offers "Play with sound", which restarts it from the top with the voice on.
+const VIDEO_POSTER = '/videos/concierge-order-intake-poster.jpg';
 
 const INCLUDED = [
   'One email source',
@@ -92,9 +96,69 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
     onNavigate('book-anton');
   };
 
-  const BookButton = ({ className = '' }: { className?: string }) => (
+  // Voice A/B: which narrator this visitor hears, and what they do with the video.
+  // The static prerender has no visitor to assign, so it shows Mark; the live page re-renders with the real pick.
+  const { variant, forced } = useMemo(
+    () => (typeof window === 'undefined' ? { variant: 'mark' as const, forced: false } : pickVideoVariant(window.location.search)),
+    [],
+  );
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [soundOn, setSoundOn] = useState(false);
+  const soundOnSent = useRef(false);
+  const progressSent = useRef(new Set<number>());
+
+  useEffect(() => {
+    track('video_impression', { video_id: 'order_intake', video_variant: variant, forced });
+  }, [variant, forced]);
+
+  const reportSoundOn = (via: 'button' | 'controls') => {
+    setSoundOn(true);
+    if (soundOnSent.current) return;
+    soundOnSent.current = true;
+    // Progress from here on counts as listened-to: start the quarter marks over.
+    progressSent.current = new Set();
+    track('video_sound_on', { video_id: 'order_intake', video_variant: variant, via });
+  };
+
+  const playWithSound = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.currentTime = 0;
+    v.muted = false;
+    reportSoundOn('button');
+    void v.play().catch(() => {
+      /* the browser refused; the controls are still there */
+    });
+  };
+
+  const onVolumeChange = () => {
+    const v = videoRef.current;
+    if (v && !v.muted && v.volume > 0) reportSoundOn('controls');
+  };
+
+  const onTimeUpdate = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    for (const percent of newProgressMarks(v.currentTime, v.duration, progressSent.current)) {
+      progressSent.current.add(percent);
+      track('video_progress', { video_id: 'order_intake', video_variant: variant, percent, sound: !v.muted });
+    }
+  };
+
+  const BookButton = ({ className = '', surface }: { className?: string; surface: string }) => (
     <a href={bookHref} onClick={bookNow} className={`inline-block ${className}`}>
-      <Button variant="primary">Book 15 minutes with Anton</Button>
+      <Button
+        variant="primary"
+        analytics={{
+          cta_id: 'book_anton',
+          surface,
+          from_page: '/shootos/concierge-order-intake',
+          destination: '/book/anton',
+          video_variant: variant,
+        }}
+      >
+        Book 15 minutes with Anton
+      </Button>
     </a>
   );
 
@@ -122,26 +186,35 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
       <Section id="video" className="py-10 md:py-14 bg-white/35">
         <div className="max-w-3xl">
           <div className="aspect-video w-full border border-ink/10 rounded-sm overflow-hidden bg-ink/5">
-            {VIDEO_URL ? (
+            <div className="relative w-full h-full">
               <video
+                ref={videoRef}
                 controls
-                preload="metadata"
+                autoPlay
+                muted
                 playsInline
+                preload="metadata"
+                poster={VIDEO_POSTER}
                 className="w-full h-full object-cover"
-                src={VIDEO_URL}
+                src={videoSrc(variant)}
+                onVolumeChange={onVolumeChange}
+                onTimeUpdate={onTimeUpdate}
+                aria-label="Concierge Order Intake walkthrough: a concierge order email becomes an Aryeo order"
               />
-            ) : (
-              <div className="w-full h-full flex flex-col items-center justify-center text-center px-6">
-                <Play className="w-10 h-10 text-ink-muted/40 mb-4" aria-hidden="true" />
-                <p className="font-serif italic text-lg text-ink-muted">Ninety-second walkthrough</p>
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted/60 mt-3">
-                  Placeholder — video not yet published
-                </p>
-              </div>
-            )}
+              {!soundOn && (
+                <button
+                  type="button"
+                  onClick={playWithSound}
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-ink/85 hover:bg-ink text-white font-sans text-sm md:text-base px-5 py-3 shadow-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  <Volume2 className="w-5 h-5" aria-hidden="true" />
+                  Play with sound
+                </button>
+              )}
+            </div>
           </div>
           <div className="mt-8">
-            <BookButton />
+            <BookButton surface="under_video" />
           </div>
         </div>
       </Section>
@@ -297,7 +370,7 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
               <p className="font-sans text-ink-muted leading-relaxed mb-6">
                 Fifteen minutes to check that it fits how your orders actually come in, and to pick a start date.
               </p>
-              <BookButton />
+              <BookButton surface="founder_block" />
             </div>
           </div>
         </div>
