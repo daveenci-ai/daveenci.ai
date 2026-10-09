@@ -16,6 +16,7 @@ import Footer from './Footer';
 import { NextCase } from './NextCase';
 import {
   Button,
+  Eyebrow,
   PageHero,
   ScrollReveal,
   Section,
@@ -118,7 +119,7 @@ const AutoPilotControlPanel: React.FC = () => (
       </div>
     </div>
 
-    <div className="relative grid grid-cols-2 sm:grid-cols-4 gap-3">
+    <div className="relative grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-3">
       {[
         { label: 'Concierge Order Intake', detail: 'place + verify', Icon: Mail },
         { label: 'Order Review', detail: 'check + repair', Icon: ScanSearch },
@@ -176,7 +177,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
           <div className="lg:col-span-6 relative z-10 hero-copy">
             <ScrollReveal immediate>
               <PageHero
-                eyebrow="Shoot Ops · A specialist real-estate-media practice by DaVeenci"
+                eyebrow={<Eyebrow className="text-balance">Shoot Ops · A specialist <span className="whitespace-nowrap">real-estate-media</span> practice by DaVeenci</Eyebrow>}
                 title={<>From order email<br /><span className="italic text-ink-muted/80">to delivery gate.</span></>}
                 description="Shoot Ops is a set of modules for real-estate media companies, each doing one job inside the platform you already run — starting with Concierge Order Intake. They place and schedule orders, review them continuously, repair known exceptions safely, and verify every deliverable before release."
                 size="md"
