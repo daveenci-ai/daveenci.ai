@@ -24,7 +24,7 @@ const GuidesPage: React.FC<GuidesPageProps> = ({ onNavigate }) => {
           <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent mb-5">Guides</div>
           <h1 className="font-serif text-5xl md:text-6xl text-ink leading-tight mb-7">Straight answers for real-estate media shops.</h1>
           <p className="font-serif text-xl text-ink-muted leading-relaxed">
-            The questions owners ask about order intake, Aryeo and Spiro, answered from work that runs every day.
+            The questions owners ask about order intake and Aryeo, answered from work that runs every day.
           </p>
         </div>
       </Section>

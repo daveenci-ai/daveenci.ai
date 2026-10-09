@@ -59,13 +59,13 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'guide' | 'not-fo
     path: '/modules',
   },
   guides: {
-    title: 'Guides for real-estate media shops — order intake, Aryeo, Spiro | DaVeenci',
-    description: 'Straight answers to the questions real-estate media owners ask about concierge order intake, Aryeo and Spiro — from work that runs every day.',
+    title: 'Guides for real-estate media shops — order intake, Aryeo | DaVeenci',
+    description: 'Straight answers to the questions real-estate media owners ask about concierge order intake and Aryeo — from work that runs every day.',
     path: '/guides',
   },
   'order-intake': {
-    title: 'Concierge Order Intake — order emails placed in Aryeo or Spiro | DaVeenci',
-    description: 'Concierge Order Intake reads the concierge order email, places the order in Aryeo or Spiro and confirms it exists. Holds what it is not sure about. $2,500, fixed.',
+    title: 'Concierge Order Intake — order emails placed in Aryeo | DaVeenci',
+    description: 'Concierge Order Intake reads the concierge order email, places the order in Aryeo and confirms it exists. Holds what it is not sure about. $2,500, fixed.',
     path: '/shootos/concierge-order-intake',
   },
   calendar: {
