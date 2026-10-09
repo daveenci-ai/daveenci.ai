@@ -132,7 +132,7 @@ export const guides: Guide[] = [
       note: 'The module described above, with the price, what is included, and a 15-minute call to check fit.',
     },
     related: [
-      { label: 'ShootOS — modules for real-estate media companies', path: '/shootos' },
+      { label: 'Shoot Ops — modules for real-estate media companies', path: '/shootos' },
       { label: 'Why concierge orders land on the wrong order form, agent or time', path: '/guides/why-concierge-orders-land-on-the-wrong-order-form' },
       { label: 'Aryeo changed the order form — what to check', path: '/guides/aryeo-changed-the-order-form-what-to-check' },
     ],

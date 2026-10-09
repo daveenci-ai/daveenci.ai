@@ -94,8 +94,8 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'guide' | 'not-fo
     path: '/purecode',
   },
   autopilot: {
-    title: 'ShootOS — Real-Estate-Media Operations by DaVeenci',
-    description: 'ShootOS is DaVeenci’s specialist real-estate-media practice: modules for intake, scheduling, continuous review, safe remediation, and delivery verification.',
+    title: 'Shoot Ops — Real-Estate-Media Operations by DaVeenci',
+    description: 'Shoot Ops is DaVeenci’s specialist real-estate-media practice: modules for intake, scheduling, continuous review, safe remediation, and delivery verification.',
     path: '/shootos',
   },
   compoundiq: {

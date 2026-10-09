@@ -52,7 +52,7 @@ export const workCatalog: WorkCatalogItem[] = [
     label: 'Real-estate media operations',
     status: 'Operating practice',
     statusTone: 'operating',
-    title: 'ShootOS',
+    title: 'Shoot Ops',
     subtitle: 'A specialist practice by DaVeenci.',
     blurb: 'Industry knowledge and reusable modules for concierge order intake, scheduling, continuous QC, safe remediation, and verified delivery.',
     previewBlurb: 'A real-estate-media operating practice: modules for intake, scheduling, continuous QC, safe remediation, and delivery verification.',
