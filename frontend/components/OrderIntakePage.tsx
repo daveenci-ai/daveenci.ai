@@ -173,7 +173,7 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
             onClick={(e) => { e.preventDefault(); onNavigate('autopilot'); }}
             className="inline-block font-mono text-[10px] uppercase tracking-[0.22em] text-accent mb-5 hover:text-ink transition-colors"
           >
-            ShootOS · Module 01
+            Shoot Ops · Module 01
           </a>
           <h1 className="font-serif text-5xl md:text-6xl text-ink leading-tight mb-5">Concierge Order Intake</h1>
           <p className="font-serif text-xl text-ink-muted leading-relaxed">

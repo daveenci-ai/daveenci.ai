@@ -255,7 +255,7 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
       <MobileNextCase
         from="compoundiq"
         to="autopilot"
-        title="ShootOS"
+        title="Shoot Ops"
         hook="Governance works in trading. See it hold a real-estate delivery line together — from order email to the final gate."
         onNavigate={onNavigate}
       />

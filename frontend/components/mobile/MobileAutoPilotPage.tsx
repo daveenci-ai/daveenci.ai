@@ -57,7 +57,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
     <MobileShell onNavigate={onNavigate}>
       <section ref={heroRef} className="px-6 pt-10 pb-10">
         <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.22em] uppercase text-accent bg-accent/5 border border-accent/10 rounded-sm px-2.5 py-1">
-          ShootOS · A specialist practice by DaVeenci
+          Shoot Ops · A specialist practice by DaVeenci
         </div>
         <div className="hero-copy">
         <h1 className="font-serif text-[2.6rem] leading-[1.04] text-ink mb-5 tracking-tight">
@@ -66,7 +66,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
           <span className="italic text-ink-muted/70">to delivery gate.</span>
         </h1>
         <p className="font-serif text-[16px] text-ink-muted leading-[1.6] mb-7">
-          ShootOS is a set of modules for real-estate media companies, each doing one job inside the platform you already run — starting with Concierge Order Intake.
+          Shoot Ops is a set of modules for real-estate media companies, each doing one job inside the platform you already run — starting with Concierge Order Intake.
         </p>
         </div>
         {/* Built for = platforms. Parity with the desktop tree. */}
@@ -130,7 +130,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
       <CaseEvidence
         compact
         title="The workflow, controls, and operating truth."
-        subtitle="The evidence ledger separates the ShootOS practice from the modules running inside it."
+        subtitle="The evidence ledger separates the Shoot Ops practice from the modules running inside it."
         items={shootosEvidence}
       />
 

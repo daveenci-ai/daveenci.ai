@@ -14,7 +14,7 @@ const LINK_GROUPS: { heading: string; links: { label: string; page: Page; hash?:
     links: [
       { label: 'All work', page: 'work' },
       { label: 'PureCode', page: 'purecode' },
-      { label: 'ShootOS', page: 'autopilot' },
+      { label: 'Shoot Ops', page: 'autopilot' },
       { label: 'CompoundIQ', page: 'compoundiq' },
       { label: 'Marketing Analytics OS', page: 'analytics-os' },
       { label: 'Creative Production', page: 'creative-production' },

@@ -16,6 +16,7 @@ import Footer from './Footer';
 import { NextCase } from './NextCase';
 import {
   Button,
+  Eyebrow,
   PageHero,
   ScrollReveal,
   Section,
@@ -110,7 +111,7 @@ const AutoPilotControlPanel: React.FC = () => (
     <div className="absolute inset-0 opacity-[0.035] bg-[radial-gradient(rgb(var(--color-ink))_1px,transparent_1px)] [background-size:18px_18px]" />
     <div className="relative flex items-center justify-between border-b border-ink/10 pb-4 mb-5">
       <div>
-        <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">ShootOS · four modules</div>
+        <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">Shoot Ops · four modules</div>
         <div className="font-serif text-lg text-ink mt-1">Production control loop</div>
       </div>
       <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-widest text-green-700">
@@ -118,7 +119,7 @@ const AutoPilotControlPanel: React.FC = () => (
       </div>
     </div>
 
-    <div className="relative grid grid-cols-2 sm:grid-cols-4 gap-3">
+    <div className="relative grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-3">
       {[
         { label: 'Concierge Order Intake', detail: 'place + verify', Icon: Mail },
         { label: 'Order Review', detail: 'check + repair', Icon: ScanSearch },
@@ -176,9 +177,9 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
           <div className="lg:col-span-6 relative z-10 hero-copy">
             <ScrollReveal immediate>
               <PageHero
-                eyebrow="ShootOS · A specialist real-estate-media practice by DaVeenci"
+                eyebrow={<Eyebrow className="text-balance">Shoot Ops · A specialist <span className="whitespace-nowrap">real-estate-media</span> practice by DaVeenci</Eyebrow>}
                 title={<>From order email<br /><span className="italic text-ink-muted/80">to delivery gate.</span></>}
-                description="ShootOS is a set of modules for real-estate media companies, each doing one job inside the platform you already run — starting with Concierge Order Intake. They place and schedule orders, review them continuously, repair known exceptions safely, and verify every deliverable before release."
+                description="Shoot Ops is a set of modules for real-estate media companies, each doing one job inside the platform you already run — starting with Concierge Order Intake. They place and schedule orders, review them continuously, repair known exceptions safely, and verify every deliverable before release."
                 size="md"
                 actions={
                   <>
@@ -225,7 +226,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
 
       <CaseEvidence
         title="The workflow, the controls, and what exists today."
-        subtitle="ShootOS is presented as an operating practice, not a concept. This ledger separates the reusable vertical knowledge from the modules running inside it."
+        subtitle="Shoot Ops is presented as an operating practice, not a concept. This ledger separates the reusable vertical knowledge from the modules running inside it."
         items={shootosEvidence}
       />
 
@@ -272,7 +273,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
         <SectionHeader
           eyebrow="Why it is a team"
           title="The right kind of intelligence for each decision."
-          subtitle="ShootOS does not ask one model to improvise the whole workflow. It assigns rules, perception, memory, and judgment to the layer best suited to each one."
+          subtitle="Shoot Ops does not ask one model to improvise the whole workflow. It assigns rules, perception, memory, and judgment to the layer best suited to each one."
         />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {safety.map((item, index) => (
