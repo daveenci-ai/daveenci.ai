@@ -15,7 +15,7 @@ const MENU_ITEMS: { label: string; page: Page; hash?: string }[] = [
   { label: 'Thesis', page: 'thesis' },
   { label: 'Work', page: 'work' },
   { label: 'Codex', page: 'briefings' },
-  { label: 'Events', page: 'events' },
+  { label: 'Guides', page: 'guides' },
 ];
 
 export const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, onNavigate }) => {

@@ -16,7 +16,6 @@ import AutoPilotPage from '../components/AutoPilotPage';
 import CompoundIQPage from '../components/CompoundIQPage';
 import AnalyticsOSPage from '../components/AnalyticsOSPage';
 import CreativeProductionPage from '../components/CreativeProductionPage';
-import EventsPage from '../components/EventsPage';
 import ThesisPage from '../components/ThesisPage';
 import PrivacyPage from '../components/PrivacyPage';
 import { guides } from '../content/guides';
@@ -72,7 +71,6 @@ export function renderRoutes(): PrerenderedRoute[] {
   add('/compoundiq', 'compoundiq.html', <CompoundIQPage onNavigate={noop} />, 'compoundiq');
   add('/analytics-os', 'analytics-os.html', <AnalyticsOSPage onNavigate={noop} />, 'analytics-os');
   add('/creative-production', 'creative-production.html', <CreativeProductionPage onNavigate={noop} />, 'creative-production');
-  add('/events', 'events.html', <EventsPage onNavigate={noop} />, 'events');
   add('/pulsenote', 'pulsenote.html', <PulseNotePage onNavigate={noop} />, 'pulsenote');
   add('/brandos', 'brandos.html', <BrandOSPage onNavigate={noop} />, 'brandos');
   add('/privacy', 'privacy.html', <PrivacyPage onNavigate={noop} />, 'privacy');

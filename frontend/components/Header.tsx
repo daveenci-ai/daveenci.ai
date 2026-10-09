@@ -36,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
     { label: "Thesis", href: "/thesis" },
     { label: "Work", href: "/work" },
     { label: "Codex", href: "/codex" },
-    { label: "Events", href: "/events" },
+    { label: "Guides", href: "/guides" },
   ];
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -47,7 +47,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
     if (link.href === '/who-we-are' && currentPage === 'who-we-are') return true;
     if (link.href === '/work' && (currentPage === 'work' || currentPage === 'purecode' || currentPage === 'autopilot' || currentPage === 'compoundiq' || currentPage === 'analytics-os' || currentPage === 'creative-production')) return true;
     if (link.href === '/thesis' && currentPage === 'thesis') return true;
-    if (link.href === '/events' && currentPage === 'events') return true;
+    if (link.href === '/guides' && (currentPage === 'guides' || currentPage === 'guide')) return true;
     if (link.href.startsWith('#') && currentPage === 'landing' && activeSection === link.href) return true;
     return false;
   };
@@ -80,8 +80,8 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
       return;
     }
 
-    if (link.href === '/events') {
-      onNavigate?.('events');
+    if (link.href === '/guides') {
+      onNavigate?.('guides');
       window.scrollTo(0, 0);
       return;
     }
