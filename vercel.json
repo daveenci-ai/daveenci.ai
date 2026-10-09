@@ -16,7 +16,7 @@
       "status": 200
     },
     {
-      "src": "/guides/(coldwell-banker-listing-concierge-orders-into-aryeo|aryeo-changed-the-order-form-what-to-check|why-concierge-orders-land-on-the-wrong-order-form|stop-copy-pasting-order-emails-into-aryeo-or-spiro)",
+      "src": "/guides/(coldwell-banker-listing-concierge-orders-into-aryeo|aryeo-changed-the-order-form-what-to-check|why-concierge-orders-land-on-the-wrong-order-form|stop-copy-pasting-order-emails-into-aryeo-or-spiro|automated-order-entry-wrong-order-vs-unplaced-order|concierge-order-email-missing-square-footage-or-access-details|why-photographers-revisit-missed-bedrooms-and-bathrooms|what-access-should-order-automation-get-in-aryeo|does-aryeo-have-an-api-to-create-orders)",
       "dest": "/_prerendered/guide-$1.html",
       "status": 200
     },
