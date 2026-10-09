@@ -159,7 +159,9 @@ const App: React.FC = () => {
       } else if (path === '/creative-production') {
         setPage('creative-production');
       } else if (path === '/events') {
-        setPage('events');
+        // Events was retired from the site (9 Oct 2026); old links land on the guides.
+        window.history.replaceState({}, '', '/guides');
+        setPage('guides');
       } else if (path === '/thesis') {
         setPage('thesis');
       } else if (path === '/privacy') {

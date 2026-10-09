@@ -1,7 +1,7 @@
 {
   "routes": [
     {
-      "src": "/(thesis|work|who-we-are|purecode|shootos|compoundiq|analytics-os|creative-production|events|pulsenote|brandos|privacy|modules|codex|guides)",
+      "src": "/(thesis|work|who-we-are|purecode|shootos|compoundiq|analytics-os|creative-production|pulsenote|brandos|privacy|modules|codex|guides)",
       "dest": "/_prerendered/$1.html",
       "status": 200
     },
@@ -61,6 +61,13 @@
       }
     },
     {
+      "src": "/events/?",
+      "status": 301,
+      "headers": {
+        "Location": "/guides"
+      }
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/index.ts"
     },
@@ -75,7 +82,7 @@
       "handle": "filesystem"
     },
     {
-      "src": "/(codex|who-we-are|calendar|book|modules|guides|pulsenote|brandos|work|purecode|shootos|compoundiq|analytics-os|creative-production|events|thesis|privacy)(/.*)?",
+      "src": "/(codex|who-we-are|calendar|book|modules|guides|pulsenote|brandos|work|purecode|shootos|compoundiq|analytics-os|creative-production|thesis|privacy)(/.*)?",
       "dest": "/index.html"
     },
     {

@@ -28,7 +28,7 @@ const LINK_GROUPS: { heading: string; links: { label: string; page: Page; hash?:
       { label: 'About', page: 'who-we-are' },
       { label: 'Services', page: 'landing', hash: '#services' },
       { label: 'Thesis', page: 'thesis' },
-      { label: 'Events', page: 'events' },
+      { label: 'Guides', page: 'guides' },
       { label: 'Codex', page: 'briefings' },
       { label: 'Talk to us', page: 'calendar' },
     ],
