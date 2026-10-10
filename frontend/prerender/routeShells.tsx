@@ -57,13 +57,13 @@ export function renderRoutes(): PrerenderedRoute[] {
     out.push({ path, file, html: wrap(renderToStaticMarkup(element)), metadata, structuredData: buildStructuredData(metadata, url, DEFAULT_OG_IMAGE) });
   };
 
-  add('/shootos/concierge-order-intake', 'concierge-order-intake.html', <OrderIntakePage onNavigate={noop} />, 'order-intake');
+  add('/shoot-ops/concierge-order-intake', 'concierge-order-intake.html', <OrderIntakePage onNavigate={noop} />, 'order-intake');
   add('/guides', 'guides.html', <GuidesPage onNavigate={noop} />, 'guides');
   for (const g of guides) {
     add(`/guides/${g.slug}`, `guide-${g.slug}.html`, <GuidePage onNavigate={noop} slug={g.slug} isStatic />, 'guide', g.slug);
   }
   add('/modules', 'modules.html', <ModulesPage onNavigate={noop} />, 'modules');
-  add('/shootos', 'shootos.html', <AutoPilotPage onNavigate={noop} />, 'autopilot');
+  add('/shoot-ops', 'shoot-ops.html', <AutoPilotPage onNavigate={noop} />, 'autopilot');
   add('/thesis', 'thesis.html', <ThesisPage onNavigate={noop} />, 'thesis');
   add('/work', 'work.html', <WorkPage onNavigate={noop} />, 'work');
   add('/who-we-are', 'who-we-are.html', <WhoWeArePage onNavigate={noop} />, 'who-we-are');

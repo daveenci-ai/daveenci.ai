@@ -48,7 +48,7 @@ export const workCatalog: WorkCatalogItem[] = [
   {
     page: 'autopilot',
     practice: 'operations',
-    href: '/shootos',
+    href: '/shoot-ops',
     label: 'Real-estate media operations',
     status: 'Operating practice',
     statusTone: 'operating',

@@ -1,6 +1,6 @@
 import type { CaseEvidenceItem } from '../components/CaseEvidence';
 
-export const shootosEvidence: CaseEvidenceItem[] = [
+export const shootOpsEvidence: CaseEvidenceItem[] = [
   {
     label: 'Recurring input',
     value: 'A structured listing-order email',

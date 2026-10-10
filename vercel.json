@@ -1,7 +1,21 @@
 {
   "routes": [
     {
-      "src": "/(thesis|work|who-we-are|purecode|shootos|compoundiq|analytics-os|creative-production|pulsenote|brandos|privacy|modules|codex|guides)",
+      "src": "/shootos/?",
+      "status": 301,
+      "headers": {
+        "Location": "/shoot-ops"
+      }
+    },
+    {
+      "src": "/shootos/(.*)",
+      "status": 301,
+      "headers": {
+        "Location": "/shoot-ops/$1"
+      }
+    },
+    {
+      "src": "/(thesis|work|who-we-are|purecode|shoot-ops|compoundiq|analytics-os|creative-production|pulsenote|brandos|privacy|modules|codex|guides)",
       "dest": "/_prerendered/$1.html",
       "status": 200
     },
@@ -11,7 +25,7 @@
       "status": 200
     },
     {
-      "src": "/shootos/concierge-order-intake",
+      "src": "/shoot-ops/concierge-order-intake",
       "dest": "/_prerendered/concierge-order-intake.html",
       "status": 200
     },
@@ -57,7 +71,7 @@
       "src": "/autopilot",
       "status": 301,
       "headers": {
-        "Location": "/shootos"
+        "Location": "/shoot-ops"
       }
     },
     {
@@ -82,7 +96,7 @@
       "handle": "filesystem"
     },
     {
-      "src": "/(codex|who-we-are|calendar|book|modules|guides|pulsenote|brandos|work|purecode|shootos|compoundiq|analytics-os|creative-production|thesis|privacy)(/.*)?",
+      "src": "/(codex|who-we-are|calendar|book|modules|guides|pulsenote|brandos|work|purecode|shoot-ops|compoundiq|analytics-os|creative-production|thesis|privacy)(/.*)?",
       "dest": "/index.html"
     },
     {

@@ -7,7 +7,7 @@ import type { Page } from './types';
 import { readAttribution } from '../lib/attribution';
 import { track } from '../lib/analytics';
 import { newProgressMarks, pickVideoVariant, videoSrc } from '../lib/videoVariant';
-import { platformTermsNote } from '../content/shootosModules';
+import { platformTermsNote } from '../content/shootOpsModules';
 import AntonSketch from '../images/Anton_Sketch.webp';
 
 interface OrderIntakePageProps {
@@ -17,7 +17,7 @@ interface OrderIntakePageProps {
 // The walkthrough (v1.9, ~60 s, captions burned in; real Aryeo screens redacted into one fictional shop), narrated by
 // one of two AI voices. Each visitor gets one voice, 50/50, and keeps it (lib/videoVariant.ts). Browsers only autoplay
 // muted video, so it starts muted and offers "Play with sound", which restarts it from the top with the voice on.
-// v2 (9 Oct 2026): the title card says Shoot Ops; a new file name so CDNs and browsers don't serve the old ShootOS card.
+// v2 (9 Oct 2026): the title card says Shoot Ops; a new file name so CDNs and browsers don't serve the old Shoot Ops card.
 const VIDEO_POSTER = '/videos/concierge-order-intake-poster-v2.jpg';
 
 const INCLUDED = [
@@ -158,7 +158,7 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
         analytics={{
           cta_id: 'book_anton',
           surface,
-          from_page: '/shootos/concierge-order-intake',
+          from_page: '/shoot-ops/concierge-order-intake',
           destination: '/book/anton',
           video_variant: variant,
         }}
@@ -175,7 +175,7 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
       <Section className="pt-36 md:pt-44 pb-12" pattern="grid">
         <div className="max-w-3xl">
           <a
-            href="/shootos"
+            href="/shoot-ops"
             onClick={(e) => { e.preventDefault(); onNavigate('autopilot'); }}
             className="inline-block font-mono text-[10px] uppercase tracking-[0.22em] text-accent mb-5 hover:text-ink transition-colors"
           >

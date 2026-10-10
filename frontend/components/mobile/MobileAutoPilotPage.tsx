@@ -21,10 +21,10 @@ import { Stack } from '../motion/Stack';
 import { useScrollProgress } from '../../lib/useScrollProgress';
 import type { Page } from '../types';
 import { CaseEvidence } from '../CaseEvidence';
-import { shootosEvidence } from '../../content/shootosEvidence';
-import { platformTermsNote, shootosModules, shootosPlatforms } from '../../content/shootosModules';
-import { ModuleSchematic } from '../ShootOSModuleSchematics';
-import { ShootOSGuides } from '../ShootOSGuides';
+import { shootOpsEvidence } from '../../content/shootOpsEvidence';
+import { platformTermsNote, shootOpsModules, shootOpsPlatforms } from '../../content/shootOpsModules';
+import { ModuleSchematic } from '../ShootOpsModuleSchematics';
+import { ShootOpsGuides } from '../ShootOpsGuides';
 
 interface MobileAutoPilotPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -76,7 +76,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
             <span aria-hidden="true" className="h-px w-5 bg-ink-muted/30" />
           </div>
           <ul className="flex flex-wrap items-center gap-x-6 gap-y-4">
-            {shootosPlatforms.map((platform) => (
+            {shootOpsPlatforms.map((platform) => (
               <li key={platform.name} className="flex items-center">
                 <img src={platform.logo} alt={platform.name} width={platform.width} height={platform.height} className="h-6 w-auto" loading="lazy" decoding="async" />
               </li>
@@ -131,7 +131,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
         compact
         title="The workflow, controls, and operating truth."
         subtitle="The evidence ledger separates the Shoot Ops practice from the modules running inside it."
-        items={shootosEvidence}
+        items={shootOpsEvidence}
       />
 
       {/* id matches the desktop tree so the hero's "See the workflow" lands here. */}
@@ -190,12 +190,12 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
         </div>
       </section>
 
-      <section id="shootos-modules" className="px-6 py-12 bg-ink text-canvas scroll-mt-16">
+      <section id="shoot-ops-modules" className="px-6 py-12 bg-ink text-canvas scroll-mt-16">
         <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">The modules · September 2026</div>
         <h2 className="font-serif text-[2.1rem] leading-[1.08] mb-4">Four modules. Start with Concierge Order Intake.</h2>
         <p className="font-sans text-[14px] text-canvas/65 leading-relaxed mb-7">Each module runs inside the platform you already use and stops when it is not sure. Concierge Order Intake is the first, small one; the rest follow once it is live.</p>
         <div className="space-y-4">
-          {shootosModules.map((module) => {
+          {shootOpsModules.map((module) => {
             const tone = module.status === 'live' ? 'text-green-300' : 'text-amber-300';
             const inner = (
               <>
@@ -218,7 +218,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
             );
           })}
         </div>
-        <ShootOSGuides onNavigate={onNavigate} compact />
+        <ShootOpsGuides onNavigate={onNavigate} compact />
         <p className="mt-8 font-sans text-xs text-canvas/50 leading-relaxed">{platformTermsNote}</p>
       </section>
 
@@ -240,7 +240,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
       <MobileSubscribe
         heading="Follow the operations work"
         body="How specialist teams take over real workflows — the handoffs, the gates, the morning reports. Sent when the work earns an update."
-        source="shootos"
+        source="shoot-ops"
       />
     </MobileShell>
   );
