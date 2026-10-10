@@ -25,7 +25,7 @@ export const shootosModules: ShootOSModule[] = [
     id: 'order-intake',
     title: 'Concierge Order Intake',
     status: 'live',
-    statusNote: 'Live · Spiro since Dec 2025, Aryeo since Apr 2026',
+    statusNote: 'Live · Aryeo since Apr 2026',
     question: 'Did the order email become an order?',
     summary: 'Reads the concierge order email and places the order on the ordering platform, then confirms it exists.',
     detail: 'Right order form for the office and region; address, square footage, access notes, lockbox code; agent found by email, never by name; package and state-specific selections; nearest open slot to the requested time; submitted with no payment step. The order number is read back before the order counts as placed. Agent not found, no slot in the window, new client — the email is labelled and held for a person. Retries on transient failures; never places the same order twice.',
@@ -66,10 +66,9 @@ export const shootosModules: ShootOSModule[] = [
 ];
 
 // The ordering platforms ShootOS automates — shown as their own marks (official logo files, used to indicate
-// compatibility). Built and running on Aryeo and Spiro; the others are a mapping, not a rebuild.
+// compatibility). Built and running on Aryeo (9 Oct 2026: the offer is Aryeo-only; the others are a mapping, not a rebuild).
 export const shootosPlatforms: { name: string; logo: string; width: number; height: number }[] = [
   { name: 'Aryeo', logo: '/platforms/aryeo.png', width: 500, height: 137 },
-  { name: 'Spiro', logo: '/platforms/spiro.png', width: 874, height: 387 },
   { name: 'HDPhotoHub', logo: '/platforms/hdphotohub.svg', width: 371, height: 102 },
   { name: 'Full Frame', logo: '/platforms/fullframe.svg', width: 300, height: 78 },
   { name: 'ViewShoot', logo: '/platforms/viewshoot.png', width: 273, height: 55 },

@@ -103,8 +103,8 @@ export const guides: Guide[] = [
     ],
     faq: [
       {
-        q: 'Does this work with Spiro as well as Aryeo?',
-        a: 'Yes. The same module is built for Aryeo and Spiro; other ordering platforms on request. One module handles one email source and one destination platform.',
+        q: 'Which ordering platform does it work with?',
+        a: 'Aryeo. One module handles one email source and one Aryeo account.',
       },
       {
         q: 'Does it need Aryeo API access?',
@@ -124,7 +124,7 @@ export const guides: Guide[] = [
       },
     ],
     publishedAt: '2026-09-11',
-    updatedAt: '2026-09-11',
+    updatedAt: '2026-10-09',
     author: 'Anton Osipov',
     cta: {
       label: 'See the Concierge Order Intake module',
@@ -179,7 +179,7 @@ export const guides: Guide[] = [
         heading: 'Making the next change boring',
         paragraphs: [
           'Keep the concierge order form as untouched as you can — it is the one your automation and your habits depend on. Make catalog changes on a known date, tell whoever maintains your order entry a week ahead, and watch the first morning. Shops that do this treat an Aryeo release as an afternoon, not a week.',
-          'Concierge Order Intake, our module for exactly this job, stops and labels the held orders when the form changes; the optional monthly plan covers watching Aryeo and Spiro for changes and repairing what they break. Without the plan, the repair is quoted before it is done.',
+          'Concierge Order Intake, our module for exactly this job, stops and labels the held orders when the form changes. There is no subscription: a repair is quoted before it is done, and you decide.',
         ],
       },
     ],
@@ -196,18 +196,14 @@ export const guides: Guide[] = [
         q: 'Should order-entry automation keep running through a change?',
         a: 'No. It should stop when the form no longer matches what it expects, hold the orders and tell you why. Keying by hand for a day is cheaper than a day of wrong orders.',
       },
-      {
-        q: 'Does this apply to Spiro too?',
-        a: 'Yes. Spiro changes less often, but the same checklist applies: order pages per region, the fields you copy, the products, the slot picker, and whether anything automated stopped.',
-      },
     ],
     publishedAt: '2026-09-16',
-    updatedAt: '2026-09-16',
+    updatedAt: '2026-10-10',
     author: 'Anton Osipov',
     cta: {
       label: 'See the Concierge Order Intake module',
       path: '/shootos/concierge-order-intake',
-      note: 'The module that places concierge orders in Aryeo or Spiro and stops, rather than guesses, when the form changes.',
+      note: 'The module that places concierge orders in Aryeo and stops, rather than guesses, when the form changes.',
     },
     related: [
       { label: 'How do you place Coldwell Banker Listing Concierge orders in Aryeo automatically?', path: '/guides/coldwell-banker-listing-concierge-orders-into-aryeo' },
@@ -219,14 +215,14 @@ export const guides: Guide[] = [
     question: 'Why do concierge orders end up on the wrong order form, wrong agent or wrong time?',
     seoTitle: 'Why concierge orders land on the wrong order form, agent or time | DaVeenci',
     description:
-      'Four ways a hand-keyed concierge order goes wrong in Aryeo or Spiro — default form, agent matched by name, add-ons by market, time zone — and the fix for each.',
+      'Four ways a hand-keyed concierge order goes wrong in Aryeo — default form, agent matched by name, add-ons by market, time zone — and the fix for each.',
     answer:
       'Because the email and the order form do not line up, and a person bridges the gap from memory. The four misses that come up at every shop: the agent’s default order page is the retail one, not the concierge one; the agent is found by name and two agents share it; the add-on differs by office or region; and the requested time is in the agent’s time zone, not yours. Each has a fix, and none of them is “be more careful”.',
     sections: [
       {
         heading: 'Where the order actually comes from',
         paragraphs: [
-          'A concierge programme sends one email per listing when an agent picks your shop: address, square footage (often blank), package ordered, photography selections, requested date and time, the listing agent’s name and email, access instructions with the lockbox code, and notes. Someone copies that into Aryeo or Spiro. Most orders take about five minutes and go fine. The ones that do not are the ones the customer finds first.',
+          'A concierge programme sends one email per listing when an agent picks your shop: address, square footage (often blank), package ordered, photography selections, requested date and time, the listing agent’s name and email, access instructions with the lockbox code, and notes. Someone copies that into Aryeo. Most orders take about five minutes and go fine. The ones that do not are the ones the customer finds first.',
         ],
       },
       {
@@ -260,7 +256,7 @@ export const guides: Guide[] = [
       {
         heading: 'What stops all four',
         paragraphs: [
-          'Each miss has the same shape: a rule the person has to remember. Rules are what software is for. Concierge Order Intake places the order using the form for that office and region, finds the agent by email, applies the mapped selections for that office, books inside the requested window in the right time zone, then reads the order number back from Aryeo or Spiro. Anything it is unsure about — new agent, no slot, unreadable field — it holds and tells you, rather than placing it wrong.',
+          'Each miss has the same shape: a rule the person has to remember. Rules are what software is for. Concierge Order Intake places the order using the form for that office and region, finds the agent by email, applies the mapped selections for that office, books inside the requested window in the right time zone, then reads the order number back from Aryeo. Anything it is unsure about — new agent, no slot, unreadable field — it holds and tells you, rather than placing it wrong.',
         ],
       },
     ],
@@ -283,7 +279,7 @@ export const guides: Guide[] = [
       },
     ],
     publishedAt: '2026-09-16',
-    updatedAt: '2026-09-16',
+    updatedAt: '2026-10-09',
     author: 'Anton Osipov',
     cta: {
       label: 'See the Concierge Order Intake module',
@@ -292,22 +288,22 @@ export const guides: Guide[] = [
     },
     related: [
       { label: 'How do you place Coldwell Banker Listing Concierge orders in Aryeo automatically?', path: '/guides/coldwell-banker-listing-concierge-orders-into-aryeo' },
-      { label: 'How do you stop copy-pasting order emails into Aryeo or Spiro?', path: '/guides/stop-copy-pasting-order-emails-into-aryeo-or-spiro' },
+      { label: 'How do you stop copy-pasting order emails into Aryeo?', path: '/guides/stop-copy-pasting-order-emails-into-aryeo-or-spiro' },
     ],
   },
   {
     slug: 'stop-copy-pasting-order-emails-into-aryeo-or-spiro',
-    question: 'How do you stop copy-pasting order emails into Aryeo or Spiro?',
-    seoTitle: 'How to stop copy-pasting order emails into Aryeo or Spiro | DaVeenci',
+    question: 'How do you stop copy-pasting order emails into Aryeo?',
+    seoTitle: 'How to stop copy-pasting order emails into Aryeo | DaVeenci',
     description:
-      'Three ways to stop keying order emails into Aryeo or Spiro by hand — a parser, a generic automation tool, or a module that drives the order form and verifies.',
+      'Three ways to stop keying order emails into Aryeo by hand — a parser, a generic automation tool, or a module that drives the order form and verifies.',
     answer:
       'There are three ways, and only one of them survives odd emails. An email parser feeding a form works until the layout changes. A generic automation tool can fill fields but cannot pick the right order form for the office or tell you the order actually landed. A module that drives the platform’s own order form the way a person does — form by office, agent by email, nearest slot, then reads the order number back — handles the emails a parser cannot, and holds the rest for a person.',
     sections: [
       {
         heading: 'Why the emails are still being copied by hand',
         paragraphs: [
-          'Most shops did not choose to key orders by hand. They had an email import tool on an older system and lost it when they moved to Aryeo or Spiro; or they tried the platform’s own import for months and gave up; or they tried an AI tool that filled the form nine times out of ten and could not say which time was the tenth. So someone sits with the inbox open and copies: address, square footage, access notes, agent, package, time, submit.',
+          'Most shops did not choose to key orders by hand. They had an email import tool on an older system and lost it when they moved to Aryeo; or they tried the platform’s own import for months and gave up; or they tried an AI tool that filled the form nine times out of ten and could not say which time was the tenth. So someone sits with the inbox open and copies: address, square footage, access notes, agent, package, time, submit.',
           'It is about five minutes an order when nothing is unusual. The cost is not the minutes. It is that the person doing it is the same person answering the phone, and that the misses — wrong form, wrong agent, wrong time — surface as customer calls.',
         ],
       },
@@ -326,14 +322,14 @@ export const guides: Guide[] = [
       {
         heading: 'Option three: a module that drives the form and verifies',
         paragraphs: [
-          'The approach that holds up is to do what a good admin does, by rule, every time: open the concierge form for that office and region; fill address, square footage, access notes and lockbox code; find the agent by email, never by name; add the package and the selections mapped for that office; book the nearest open slot inside the requested window, in the right time zone; submit with no payment step; then read the order number back from Aryeo or Spiro. An order counts as placed only once it exists there.',
+          'The approach that holds up is to do what a good admin does, by rule, every time: open the concierge form for that office and region; fill address, square footage, access notes and lockbox code; find the agent by email, never by name; add the package and the selections mapped for that office; book the nearest open slot inside the requested window, in the right time zone; submit with no payment step; then read the order number back from Aryeo. An order counts as placed only once it exists there.',
           'Everything it cannot do by rule — new agent, no slot in the window, an unreadable field, a form that changed — it holds, labels the email, and tells the team why. The person handles the exception, not the whole day.',
         ],
       },
       {
         heading: 'What to ask before you buy any of them',
         paragraphs: [
-          'Whichever route, ask the same four questions. When it is not sure, does it stop or guess? Where does a held order show up, and who is told? What happens the morning Aryeo or Spiro changes the form? And what access does it need — a team-member login you can revoke, or your owner login?',
+          'Whichever route, ask the same four questions. When it is not sure, does it stop or guess? Where does a held order show up, and who is told? What happens the morning Aryeo changes the form? And what access does it need — a team-member login you can revoke, or your owner login?',
         ],
         bullets: [
           'Stops or guesses: the only acceptable answer is stops.',
@@ -349,8 +345,8 @@ export const guides: Guide[] = [
         a: 'No. Any programme or portal that sends a structured order email works the same way. Orders that arrive by web form or phone are a different job and are not covered.',
       },
       {
-        q: 'Does Aryeo or Spiro have an API for creating orders?',
-        a: 'Aryeo’s public API documents a create-order call and appointment scheduling, but not the order form’s own rules for each office, so using it means rebuilding those in code. We have not found a published order API for Spiro. Our module drives the order form with a team-member login.',
+        q: 'Does Aryeo have an API for creating orders?',
+        a: 'Aryeo’s public API documents a create-order call and appointment scheduling, but not the order form’s own rules for each office, so using it means rebuilding those in code. Our module drives the order form with a team-member login.',
       },
       {
         q: 'How long does it take to set up?',
@@ -358,11 +354,11 @@ export const guides: Guide[] = [
       },
       {
         q: 'What does it cost?',
-        a: 'Concierge Order Intake is $2,500, fixed. It runs in your own Google and GitHub accounts and you keep the code. An optional monthly plan covers repairs when the platform changes; it is priced on the call and never required.',
+        a: 'Concierge Order Intake is $2,500, fixed. It runs in your own Google and GitHub accounts and you keep the code. There is no subscription; if a platform change breaks it later, the repair is quoted before any work.',
       },
     ],
     publishedAt: '2026-09-16',
-    updatedAt: '2026-10-09',
+    updatedAt: '2026-10-10',
     author: 'Anton Osipov',
     cta: {
       label: 'See the Concierge Order Intake module',
@@ -455,7 +451,7 @@ export const guides: Guide[] = [
       },
     ],
     publishedAt: '2026-07-16',
-    updatedAt: '2026-07-16',
+    updatedAt: '2026-10-09',
     author: 'Anton Osipov',
     cta: {
       label: 'See the Concierge Order Intake module',
@@ -464,7 +460,7 @@ export const guides: Guide[] = [
     },
     related: [
       { label: 'Why concierge orders land on the wrong order form, agent or time', path: '/guides/why-concierge-orders-land-on-the-wrong-order-form' },
-      { label: 'How to stop copy-pasting order emails into Aryeo or Spiro', path: '/guides/stop-copy-pasting-order-emails-into-aryeo-or-spiro' },
+      { label: 'How to stop copy-pasting order emails into Aryeo', path: '/guides/stop-copy-pasting-order-emails-into-aryeo-or-spiro' },
       { label: 'Shoot Ops — modules for real-estate media companies', path: '/shootos' },
     ],
   },
@@ -797,13 +793,9 @@ export const guides: Guide[] = [
         q: 'Will an API integration break when Aryeo redesigns its screens?',
         a: 'A screen redesign should not affect it. A change to the API itself can, so whoever maintains it should watch Aryeo’s changelog.',
       },
-      {
-        q: 'Does Spiro have an API to create orders?',
-        a: 'We have not found a published one. Check with Spiro for your account.',
-      },
     ],
     publishedAt: '2026-10-07',
-    updatedAt: '2026-10-07',
+    updatedAt: '2026-10-09',
     author: 'Anton Osipov',
     cta: {
       label: 'See the Concierge Order Intake module',

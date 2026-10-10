@@ -145,31 +145,31 @@
   </url>
   <url>
     <loc>https://daveenci.ai/guides/coldwell-banker-listing-concierge-orders-into-aryeo</loc>
-    <lastmod>2026-09-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://daveenci.ai/guides/aryeo-changed-the-order-form-what-to-check</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://daveenci.ai/guides/why-concierge-orders-land-on-the-wrong-order-form</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://daveenci.ai/guides/stop-copy-pasting-order-emails-into-aryeo-or-spiro</loc>
     <lastmod>2026-10-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://daveenci.ai/guides/aryeo-changed-the-order-form-what-to-check</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://daveenci.ai/guides/why-concierge-orders-land-on-the-wrong-order-form</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://daveenci.ai/guides/stop-copy-pasting-order-emails-into-aryeo-or-spiro</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://daveenci.ai/guides/automated-order-entry-wrong-order-vs-unplaced-order</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-10-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -193,7 +193,7 @@
   </url>
   <url>
     <loc>https://daveenci.ai/guides/does-aryeo-have-an-api-to-create-orders</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
