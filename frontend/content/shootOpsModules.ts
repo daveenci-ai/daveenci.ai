@@ -1,11 +1,11 @@
 import type { Page } from '../components/types';
 
-// The ShootOS module catalogue — one source for /shootos (desktop + mobile) and /modules.
+// The Shoot Ops module catalogue — one source for /shoot-ops (desktop + mobile) and /modules.
 // Four modules, four repositories, one shared state store. Status is the operating truth, not a roadmap:
 // 'live' means running on a schedule at a client today; 'built' means deployed but not yet switched on.
 export type ModuleStatus = 'live' | 'built';
 
-export interface ShootOSModule {
+export interface ShootOpsModule {
   number: string;
   id: 'order-intake' | 'order-review' | 'daily-review' | 'photo-review';
   title: string;
@@ -19,7 +19,7 @@ export interface ShootOSModule {
   path?: string;
 }
 
-export const shootosModules: ShootOSModule[] = [
+export const shootOpsModules: ShootOpsModule[] = [
   {
     number: '01',
     id: 'order-intake',
@@ -31,7 +31,7 @@ export const shootosModules: ShootOSModule[] = [
     detail: 'Right order form for the office and region; address, square footage, access notes, lockbox code; agent found by email, never by name; package and state-specific selections; nearest open slot to the requested time; submitted with no payment step. The order number is read back before the order counts as placed. Agent not found, no slot in the window, new client — the email is labelled and held for a person. Retries on transient failures; never places the same order twice.',
     price: '$2,500 fixed · live within a week',
     page: 'order-intake',
-    path: '/shootos/concierge-order-intake',
+    path: '/shoot-ops/concierge-order-intake',
   },
   {
     number: '02',
@@ -65,9 +65,9 @@ export const shootosModules: ShootOSModule[] = [
   },
 ];
 
-// The ordering platforms ShootOS automates — shown as their own marks (official logo files, used to indicate
+// The ordering platforms Shoot Ops automates — shown as their own marks (official logo files, used to indicate
 // compatibility). Built and running on Aryeo and Spiro; the others are a mapping, not a rebuild.
-export const shootosPlatforms: { name: string; logo: string; width: number; height: number }[] = [
+export const shootOpsPlatforms: { name: string; logo: string; width: number; height: number }[] = [
   { name: 'Aryeo', logo: '/platforms/aryeo.png', width: 500, height: 137 },
   { name: 'Spiro', logo: '/platforms/spiro.png', width: 874, height: 387 },
   { name: 'HDPhotoHub', logo: '/platforms/hdphotohub.svg', width: 371, height: 102 },
@@ -76,7 +76,7 @@ export const shootosPlatforms: { name: string; logo: string; width: number; heig
 ];
 
 /**
- * Shown on /shootos and in the module FAQ (Anton, 10 Oct 2026). Deliberately general: the site never
+ * Shown on /shoot-ops and in the module FAQ (Anton, 10 Oct 2026). Deliberately general: the site never
  * discusses any platform's terms; the client owns the accounts and accepts those terms themselves.
  */
 export const platformTermsNote =

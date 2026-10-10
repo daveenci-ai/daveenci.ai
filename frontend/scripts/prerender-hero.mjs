@@ -50,7 +50,7 @@ async function main() {
   }
 
   // Vercel rewrites every path to this one file, so without a guard the
-  // homepage hero would paint on /codex/..., /shootos, and every other deep
+  // homepage hero would paint on /codex/..., /shoot-ops, and every other deep
   // link before React swapped in the real page. This runs during parse,
   // before first paint, and costs nothing on the homepage.
   const guard =

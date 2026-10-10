@@ -2,16 +2,16 @@ import React from 'react';
 import type { Page } from './types';
 import { guides } from '../content/guides';
 
-interface ShootOSGuidesProps {
+interface ShootOpsGuidesProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
   compact?: boolean;
 }
 
 /**
- * The guides strip on /shootos: the module pages sell, the guides answer. Rendered inside the dark modules section
+ * The guides strip on /shoot-ops: the module pages sell, the guides answer. Rendered inside the dark modules section
  * on desktop and mobile so a reader who is not ready for a call still leaves with the answer they came for.
  */
-export const ShootOSGuides: React.FC<ShootOSGuidesProps> = ({ onNavigate, compact = false }) => (
+export const ShootOpsGuides: React.FC<ShootOpsGuidesProps> = ({ onNavigate, compact = false }) => (
   <div className={`border-t border-white/10 ${compact ? 'mt-10 pt-8' : 'mt-14 pt-10'}`}>
     <div className={`${compact ? '' : 'flex flex-col md:flex-row md:items-baseline md:justify-between gap-4'} mb-5`}>
       <div>
@@ -42,4 +42,4 @@ export const ShootOSGuides: React.FC<ShootOSGuidesProps> = ({ onNavigate, compac
   </div>
 );
 
-export default ShootOSGuides;
+export default ShootOpsGuides;

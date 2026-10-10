@@ -65,7 +65,7 @@ const PureCodeSchematic: React.FC = () => (
 );
 
 /** Order intake → schedule → route → QC → verified delivery. */
-const ShootOSSchematic: React.FC = () => (
+const ShootOpsSchematic: React.FC = () => (
   <svg viewBox="0 0 300 180" fill="none" className="w-full h-full" aria-hidden="true">
     {/* map with route */}
     <rect x="18" y="26" width="124" height="128" rx="1" stroke={scaffold} strokeWidth="0.8" fill="white" fillOpacity="0.5" />
@@ -239,7 +239,7 @@ const BrandOSSchematic: React.FC = () => (
 
 export const CASE_SCHEMATICS: Partial<Record<CaseId, React.FC>> = {
   purecode: PureCodeSchematic,
-  autopilot: ShootOSSchematic,
+  autopilot: ShootOpsSchematic,
   compoundiq: CompoundIQSchematic,
   'analytics-os': AnalyticsOSSchematic,
   pulsenote: PulseNoteSchematic,

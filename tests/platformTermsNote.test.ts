@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { platformTermsNote } from '../frontend/content/shootosModules';
+import { platformTermsNote } from '../frontend/content/shootOpsModules';
 
 const src = (p: string) => readFileSync(new URL(`../frontend/components/${p}`, import.meta.url), 'utf8');
 
@@ -12,7 +12,7 @@ describe('platform terms note (Anton, 10 Oct 2026)', () => {
     expect(platformTermsNote).not.toMatch(/legal entity|scrap|automated means|terms of service/i);
   });
 
-  it('is shown on /shootos (desktop and mobile) and in the module FAQ', () => {
+  it('is shown on /shoot-ops (desktop and mobile) and in the module FAQ', () => {
     for (const f of ['AutoPilotPage.tsx', 'mobile/MobileAutoPilotPage.tsx', 'OrderIntakePage.tsx']) {
       expect(src(f)).toContain('platformTermsNote');
     }

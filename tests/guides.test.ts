@@ -23,7 +23,7 @@ describe('guides (AEO answer pages)', () => {
 
   test('every guide is prerendered: listed in the sitemap and routed by vercel.json', () => {
     expect(sitemap).toContain('<loc>https://daveenci.ai/guides</loc>');
-    expect(sitemap).toContain('<loc>https://daveenci.ai/shootos/concierge-order-intake</loc>');
+    expect(sitemap).toContain('<loc>https://daveenci.ai/shoot-ops/concierge-order-intake</loc>');
     for (const g of guides) {
       expect(sitemap).toContain(`<loc>https://daveenci.ai/guides/${g.slug}</loc>`);
       expect(vercel).toMatch(new RegExp(`"src": "/guides/\\([^"]*\\b${g.slug}\\b[^"]*\\)"`));   // explicit slug list → unknown slugs fall to the SPA 404

@@ -9,23 +9,23 @@
 1. **Copy:** use verbatim from Anton's doc §3.1 / §3.2 / §3.3 / §3.4 / §3.5 / §3.7 / §3.8.
 2. **Waitlist:** reuse existing `/api/newsletter/subscribe` endpoint. No backend changes.
 3. **/briefings → /codex:** server-side 301 via `vercel.json` routes + in-app route handling.
-4. **Nav:** simple link list for Phase 1 (no dropdown): PureCode · ShootOS · Codex · About. Primary CTA: "Join the waitlist."
+4. **Nav:** simple link list for Phase 1 (no dropdown): PureCode · Shoot Ops · Codex · About. Primary CTA: "Join the waitlist."
 5. **Homepage section removals:** Problems (replaced by Contrast), Solutions, Booking, Brand Analyzer promo (moves off-homepage entirely — still reachable at `/brand-analyzer`).
 6. **Events:** demote to bottom of homepage, above Footer.
 7. **Newsletter section:** stays; copy tweaked per §3.6.
-8. **Product pages:** `/purecode` and `/shootos` ship as one-screen stubs with waitlist capture (they get the full build in Phase 2).
+8. **Product pages:** `/purecode` and `/shoot-ops` ship as one-screen stubs with waitlist capture (they get the full build in Phase 2).
 
 ## File map
 
 **Create:**
 - `frontend/components/Contrast.tsx` — the "Industry Is Wrong" section
 - `frontend/components/PureCodeTeaser.tsx` — homepage PureCode block
-- `frontend/components/ShootOSTeaser.tsx` — homepage ShootOS block
+- `frontend/components/ShootOpsTeaser.tsx` — homepage Shoot Ops block
 - `frontend/components/NextTeams.tsx` — "three more teams in design" tease
 - `frontend/components/FounderBlock.tsx` — Anton founder moment
 - `frontend/components/CTAStack.tsx` — three-card CTA stack
 - `frontend/components/PureCodePage.tsx` — stub /purecode
-- `frontend/components/ShootOSPage.tsx` — stub /shootos
+- `frontend/components/ShootOpsPage.tsx` — stub /shoot-ops
 
 **Modify:**
 - `frontend/components/Hero.tsx` — new H1/sub/CTAs/footnote
@@ -33,8 +33,8 @@
 - `frontend/components/Footer.tsx` — 4-column rebuild
 - `frontend/components/Newsletter.tsx` — rename "Join the Guild" → "Subscribe to the Codex"
 - `frontend/DaVeenciLandingPage.tsx` — new section order
-- `frontend/App.tsx` — routes for `/purecode`, `/shootos`, `/codex` (301 from `/briefings`)
-- `frontend/components/types.ts` — Page type adds `'purecode'`, `'shootos'`, `'codex'`
+- `frontend/App.tsx` — routes for `/purecode`, `/shoot-ops`, `/codex` (301 from `/briefings`)
+- `frontend/components/types.ts` — Page type adds `'purecode'`, `'shoot-ops'`, `'codex'`
 - `vercel.json` — 301 redirect `/briefings` → `/codex`, new route allowlist
 - `frontend/public/sitemap.xml` — add new routes, rename briefings → codex
 
@@ -50,7 +50,7 @@
 2. `<Hero>` — thesis + CTAs
 3. `<Contrast>` — Folio II (new)
 4. `<PureCodeTeaser>` — Folio III (new)
-5. `<ShootOSTeaser>` — Folio IV (new)
+5. `<ShootOpsTeaser>` — Folio IV (new)
 6. `<NextTeams>` — Folio V (new)
 7. `<Newsletter>` — Codex (existing, copy tweaked)
 8. `<FounderBlock>` — Anton moment (new)

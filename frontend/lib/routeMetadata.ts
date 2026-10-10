@@ -66,7 +66,7 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'guide' | 'not-fo
   'order-intake': {
     title: 'Concierge Order Intake — order emails placed in Aryeo or Spiro | DaVeenci',
     description: 'Concierge Order Intake reads the concierge order email, places the order in Aryeo or Spiro and confirms it exists. Holds what it is not sure about. $2,500, fixed.',
-    path: '/shootos/concierge-order-intake',
+    path: '/shoot-ops/concierge-order-intake',
   },
   calendar: {
     title: 'Talk to Us — DaVeenci',
@@ -96,7 +96,7 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'guide' | 'not-fo
   autopilot: {
     title: 'Shoot Ops — Real-Estate-Media Operations by DaVeenci',
     description: 'Shoot Ops is DaVeenci’s specialist real-estate-media practice: modules for intake, scheduling, continuous review, safe remediation, and delivery verification.',
-    path: '/shootos',
+    path: '/shoot-ops',
   },
   compoundiq: {
     title: 'CompoundIQ — Governed, Paper-First Trading Research | DaVeenci',

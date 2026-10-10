@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * One construction drawing per ShootOS module, in the register of CaseSchematics:
+ * One construction drawing per Shoot Ops module, in the register of CaseSchematics:
  * dashed scaffolds, ink for the mechanism, accent for the thing that moves, one
  * SMIL mote so each reads as a process. Pure SVG — identical in prerender and paint.
  */

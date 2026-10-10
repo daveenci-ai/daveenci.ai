@@ -3,11 +3,11 @@
 ## Brand architecture
 
 - **DaVeenci** is the governed AI systems workshop. It maps, builds, and improves difficult recurring workflows across domains.
-- **ShootOS** is DaVeenci's specialist real-estate-media operating practice.
-- **AutoPilot** is the governed operations system inside ShootOS. It is not the customer-facing practice name.
+- **Shoot Ops** is DaVeenci's specialist real-estate-media operating practice.
+- **AutoPilot** is the governed operations system inside Shoot Ops. It is not the customer-facing practice name.
 - PureCode, CompoundIQ, PulseNote, and BrandOS remain named systems or case studies under DaVeenci.
 
-The canonical public route is `/shootos`. `/autopilot` is a legacy URL and redirects permanently to `/shootos`. The internal React page key and GA4 `case_id` remain `autopilot` so historical funnel reporting does not split.
+The canonical public route is `/shoot-ops`. `/autopilot` is a legacy URL and redirects permanently to `/shoot-ops`. The internal React page key and GA4 `case_id` remain `autopilot` so historical funnel reporting does not split.
 
 ## Offer ladder
 
@@ -25,4 +25,4 @@ The canonical public route is `/shootos`. `/autopilot` is a legacy URL and redir
 
 ## Case-study evidence standard
 
-Every case should expose the recurring input, original manual workflow, specialist roles, systems integrated, human gates, finished output, handled exceptions, measurable improvement when verified, and current operating status. ShootOS is the first case using the reusable evidence-led structure in `frontend/components/CaseEvidence.tsx`.
+Every case should expose the recurring input, original manual workflow, specialist roles, systems integrated, human gates, finished output, handled exceptions, measurable improvement when verified, and current operating status. Shoot Ops is the first case using the reusable evidence-led structure in `frontend/components/CaseEvidence.tsx`.

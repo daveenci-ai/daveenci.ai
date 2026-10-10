@@ -125,13 +125,19 @@ const App: React.FC = () => {
           setPage('guide');
           setSelectedGuideSlug(slug);
         }
-      } else if (path === '/shootos/concierge-order-intake') {
+      } else if (path === '/shootos' || path.startsWith('/shootos/')) {
+        // Legacy (renamed 10 Oct 2026): /shootos → /shoot-ops. Vercel 301s these too; this keeps ?t= and #video
+        // if a cached client reaches the old path.
+        const next = path.replace(/^\/shootos/, '/shoot-ops');
+        window.history.replaceState({}, '', `${next}${window.location.search}${window.location.hash}`);
+        setPage(next === '/shoot-ops' ? 'autopilot' : 'order-intake');
+      } else if (path === '/shoot-ops/concierge-order-intake') {
         setPage('order-intake');
       } else if (path === '/modules/order-intake') {
-        // Legacy: the module now lives under ShootOS. Redirect client-side so
+        // Legacy: the module now lives under Shoot Ops. Redirect client-side so
         // the outreach attribution (?t=, ?src=) and #video survive the move —
         // a vercel.json 301 drops the query string.
-        window.history.replaceState({}, '', `/shootos/concierge-order-intake${window.location.search}${window.location.hash}`);
+        window.history.replaceState({}, '', `/shoot-ops/concierge-order-intake${window.location.search}${window.location.hash}`);
         setPage('order-intake');
       } else if (path === '/book-demo') {
         window.history.replaceState({}, '', '/pulsenote');
@@ -148,9 +154,9 @@ const App: React.FC = () => {
       } else if (path === '/purecode') {
         setPage('purecode');
       } else if (path === '/autopilot') {
-        window.history.replaceState({}, '', '/shootos');
+        window.history.replaceState({}, '', '/shoot-ops');
         setPage('autopilot');
-      } else if (path === '/shootos') {
+      } else if (path === '/shoot-ops') {
         setPage('autopilot');
       } else if (path === '/compoundiq') {
         setPage('compoundiq');
@@ -277,14 +283,14 @@ const App: React.FC = () => {
     if (targetPage === 'book-anton') path = '/book/anton';
     if (targetPage === 'book-astrid') path = '/book/astrid';
     if (targetPage === 'modules') path = '/modules';
-    if (targetPage === 'order-intake') path = '/shootos/concierge-order-intake';
+    if (targetPage === 'order-intake') path = '/shoot-ops/concierge-order-intake';
     if (targetPage === 'guides') path = '/guides';
     if (targetPage === 'guide') path = `/guides/${id}`;
     if (targetPage === 'pulsenote') path = '/pulsenote';
     if (targetPage === 'brandos') path = '/brandos';
     if (targetPage === 'work') path = '/work';
     if (targetPage === 'purecode') path = '/purecode';
-    if (targetPage === 'autopilot') path = '/shootos';
+    if (targetPage === 'autopilot') path = '/shoot-ops';
     if (targetPage === 'compoundiq') path = '/compoundiq';
     if (targetPage === 'analytics-os') path = '/analytics-os';
     if (targetPage === 'creative-production') path = '/creative-production';

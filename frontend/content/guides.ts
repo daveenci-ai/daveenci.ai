@@ -128,11 +128,11 @@ export const guides: Guide[] = [
     author: 'Anton Osipov',
     cta: {
       label: 'See the Concierge Order Intake module',
-      path: '/shootos/concierge-order-intake',
+      path: '/shoot-ops/concierge-order-intake',
       note: 'The module described above, with the price, what is included, and a 15-minute call to check fit.',
     },
     related: [
-      { label: 'Shoot Ops — modules for real-estate media companies', path: '/shootos' },
+      { label: 'Shoot Ops — modules for real-estate media companies', path: '/shoot-ops' },
       { label: 'Why concierge orders land on the wrong order form, agent or time', path: '/guides/why-concierge-orders-land-on-the-wrong-order-form' },
       { label: 'Aryeo changed the order form — what to check', path: '/guides/aryeo-changed-the-order-form-what-to-check' },
     ],
@@ -206,7 +206,7 @@ export const guides: Guide[] = [
     author: 'Anton Osipov',
     cta: {
       label: 'See the Concierge Order Intake module',
-      path: '/shootos/concierge-order-intake',
+      path: '/shoot-ops/concierge-order-intake',
       note: 'The module that places concierge orders in Aryeo or Spiro and stops, rather than guesses, when the form changes.',
     },
     related: [
@@ -287,7 +287,7 @@ export const guides: Guide[] = [
     author: 'Anton Osipov',
     cta: {
       label: 'See the Concierge Order Intake module',
-      path: '/shootos/concierge-order-intake',
+      path: '/shoot-ops/concierge-order-intake',
       note: 'Form by office, agent by email, selections by market, time by zone — then the order number read back. $2,500 fixed.',
     },
     related: [
@@ -366,7 +366,7 @@ export const guides: Guide[] = [
     author: 'Anton Osipov',
     cta: {
       label: 'See the Concierge Order Intake module',
-      path: '/shootos/concierge-order-intake',
+      path: '/shoot-ops/concierge-order-intake',
       note: 'The module described in option three, with the price, what is included, and a 15-minute call to check fit.',
     },
     related: [
@@ -459,13 +459,13 @@ export const guides: Guide[] = [
     author: 'Anton Osipov',
     cta: {
       label: 'See the Concierge Order Intake module',
-      path: '/shootos/concierge-order-intake',
+      path: '/shoot-ops/concierge-order-intake',
       note: 'The order-entry module described above, with what it does when it is not sure, and a 15-minute call to check fit.',
     },
     related: [
       { label: 'Why concierge orders land on the wrong order form, agent or time', path: '/guides/why-concierge-orders-land-on-the-wrong-order-form' },
       { label: 'How to stop copy-pasting order emails into Aryeo or Spiro', path: '/guides/stop-copy-pasting-order-emails-into-aryeo-or-spiro' },
-      { label: 'Shoot Ops — modules for real-estate media companies', path: '/shootos' },
+      { label: 'Shoot Ops — modules for real-estate media companies', path: '/shoot-ops' },
     ],
   },
   {
@@ -552,13 +552,13 @@ export const guides: Guide[] = [
     author: 'Anton Osipov',
     cta: {
       label: 'See the Shoot Ops modules',
-      path: '/shootos',
+      path: '/shoot-ops',
       note: 'Order entry, order review and the morning delivery report, each running on its own and raising one ticket only when something is wrong.',
     },
     related: [
       { label: 'Why concierge orders land on the wrong order form, agent or time', path: '/guides/why-concierge-orders-land-on-the-wrong-order-form' },
       { label: 'Wrong order vs an order that never got placed', path: '/guides/automated-order-entry-wrong-order-vs-unplaced-order' },
-      { label: 'Concierge Order Intake', path: '/shootos/concierge-order-intake' },
+      { label: 'Concierge Order Intake', path: '/shoot-ops/concierge-order-intake' },
     ],
   },
   {
@@ -635,13 +635,13 @@ export const guides: Guide[] = [
     author: 'Anton Osipov',
     cta: {
       label: 'See Order Review and the other Shoot Ops modules',
-      path: '/shootos',
+      path: '/shoot-ops',
       note: 'Order Review checks every new order while it is still fixable; the Daily Report checks every delivery before 9 a.m.',
     },
     related: [
       { label: 'Concierge order email missing square footage or access details', path: '/guides/concierge-order-email-missing-square-footage-or-access-details' },
       { label: 'Why concierge orders land on the wrong order form, agent or time', path: '/guides/why-concierge-orders-land-on-the-wrong-order-form' },
-      { label: 'Concierge Order Intake', path: '/shootos/concierge-order-intake' },
+      { label: 'Concierge Order Intake', path: '/shoot-ops/concierge-order-intake' },
     ],
   },
   {
@@ -719,7 +719,7 @@ export const guides: Guide[] = [
     author: 'Anton Osipov',
     cta: {
       label: 'See the Concierge Order Intake module',
-      path: '/shootos/concierge-order-intake',
+      path: '/shoot-ops/concierge-order-intake',
       note: 'What access it needs, how the first two weeks go, and a 15-minute call to check fit.',
     },
     related: [
@@ -807,7 +807,7 @@ export const guides: Guide[] = [
     author: 'Anton Osipov',
     cta: {
       label: 'See the Concierge Order Intake module',
-      path: '/shootos/concierge-order-intake',
+      path: '/shoot-ops/concierge-order-intake',
       note: 'Order entry from the concierge email into Aryeo, with the order number read back — and a 15-minute call to talk through form or API for your shop.',
     },
     related: [

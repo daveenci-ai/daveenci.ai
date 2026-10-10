@@ -28,13 +28,13 @@ import { Reveal } from './motion/Parallax';
 import { Stack } from './motion/Stack';
 import { useScrollProgress } from '../lib/useScrollProgress';
 import { MobileAutoPilotPage } from './mobile/MobileAutoPilotPage';
-import { ShootOSGuides } from './ShootOSGuides';
+import { ShootOpsGuides } from './ShootOpsGuides';
 import { useCaseEngaged } from '../lib/useCaseEngaged';
 import type { Page } from './types';
 import { CaseEvidence } from './CaseEvidence';
-import { shootosEvidence } from '../content/shootosEvidence';
-import { platformTermsNote, shootosModules, shootosPlatforms } from '../content/shootosModules';
-import { ModuleSchematic } from './ShootOSModuleSchematics';
+import { shootOpsEvidence } from '../content/shootOpsEvidence';
+import { platformTermsNote, shootOpsModules, shootOpsPlatforms } from '../content/shootOpsModules';
+import { ModuleSchematic } from './ShootOpsModuleSchematics';
 
 interface AutoPilotPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -195,7 +195,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
                   <span aria-hidden="true" className="h-px w-6 bg-ink-muted/30" />
                 </div>
                 <ul className="flex flex-wrap items-center gap-x-9 gap-y-5">
-                  {shootosPlatforms.map((platform) => (
+                  {shootOpsPlatforms.map((platform) => (
                     <li key={platform.name} className="flex items-center">
                       <img src={platform.logo} alt={platform.name} width={platform.width} height={platform.height} className="h-7 md:h-8 w-auto" loading="lazy" decoding="async" />
                     </li>
@@ -227,7 +227,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
       <CaseEvidence
         title="The workflow, the controls, and what exists today."
         subtitle="Shoot Ops is presented as an operating practice, not a concept. This ledger separates the reusable vertical knowledge from the modules running inside it."
-        items={shootosEvidence}
+        items={shootOpsEvidence}
       />
 
       <Section id="autopilot-workflow" className="py-20 md:py-28" pattern="grid">
@@ -288,7 +288,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
         </div>
       </Section>
 
-      <section id="shootos-modules" className="bg-ink text-canvas py-20 md:py-24 scroll-mt-24">
+      <section id="shoot-ops-modules" className="bg-ink text-canvas py-20 md:py-24 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-3xl mb-12">
             <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">The modules · September 2026</div>
@@ -296,7 +296,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
             <p className="font-sans text-canvas/65 mt-5 leading-relaxed">Each module runs inside the platform you already use and stops when it is not sure. Concierge Order Intake is the first, small one — a way to see how we work. The other three follow once it is live, each fitted to how your shop runs — and everything can be customised.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {shootosModules.map((module) => {
+            {shootOpsModules.map((module) => {
               const tone = module.status === 'live' ? 'text-green-300' : 'text-amber-300';
               const card = (
                 <>
@@ -328,7 +328,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
               );
             })}
           </div>
-          <ShootOSGuides onNavigate={onNavigate} />
+          <ShootOpsGuides onNavigate={onNavigate} />
           <p className="mt-10 font-sans text-xs text-canvas/50 leading-relaxed max-w-3xl">{platformTermsNote}</p>
         </div>
       </section>
@@ -352,7 +352,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
         onNavigate={onNavigate}
         newsletterHeading="Follow the operations work"
         newsletterBody="How specialist teams take over real workflows — the handoffs, the gates, the morning reports. Sent when the work earns an update."
-        newsletterSource="shootos"
+        newsletterSource="shoot-ops"
       />
     </div>
   );

@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-# Answer-engine and AI search crawlers are welcome: the pages under /guides and /shootos are written to be cited.
+# Answer-engine and AI search crawlers are welcome: the pages under /guides and /shoot-ops are written to be cited.
 User-agent: GPTBot
 Allow: /
 User-agent: OAI-SearchBot

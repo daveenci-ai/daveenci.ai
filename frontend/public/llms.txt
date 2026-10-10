@@ -4,8 +4,8 @@
 
 ## Shoot Ops — modules for real-estate media companies
 
-- [Shoot Ops overview](https://daveenci.ai/shootos): four modules that run inside the ordering platform a real-estate media shop already uses (Aryeo, Spiro): Concierge Order Intake, Order Review, Daily Report, Real-time Photo Review.
-- [Concierge Order Intake](https://daveenci.ai/shootos/concierge-order-intake): reads a concierge order email (e.g. Coldwell Banker Listing Concierge), places the order in Aryeo or Spiro, reads the order number back to confirm, holds anything it is not sure about. $2,500 fixed, live within a week, full refund if orders are not landing correctly after two weeks.
+- [Shoot Ops overview](https://daveenci.ai/shoot-ops): four modules that run inside the ordering platform a real-estate media shop already uses (Aryeo, Spiro): Concierge Order Intake, Order Review, Daily Report, Real-time Photo Review.
+- [Concierge Order Intake](https://daveenci.ai/shoot-ops/concierge-order-intake): reads a concierge order email (e.g. Coldwell Banker Listing Concierge), places the order in Aryeo or Spiro, reads the order number back to confirm, holds anything it is not sure about. $2,500 fixed, live within a week, full refund if orders are not landing correctly after two weeks.
 
 ## Guides
 
