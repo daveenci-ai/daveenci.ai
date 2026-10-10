@@ -16,7 +16,8 @@ interface OrderIntakePageProps {
 // The walkthrough (v1.9, ~60 s, captions burned in; real Aryeo screens redacted into one fictional shop), narrated by
 // one of two AI voices. Each visitor gets one voice, 50/50, and keeps it (lib/videoVariant.ts). Browsers only autoplay
 // muted video, so it starts muted and offers "Play with sound", which restarts it from the top with the voice on.
-const VIDEO_POSTER = '/videos/concierge-order-intake-poster.jpg';
+// v2 (9 Oct 2026): the title card says Shoot Ops; a new file name so CDNs and browsers don't serve the old ShootOS card.
+const VIDEO_POSTER = '/videos/concierge-order-intake-poster-v2.jpg';
 
 const INCLUDED = [
   'One email source',
@@ -205,7 +206,7 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
                 <button
                   type="button"
                   onClick={playWithSound}
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-ink/85 hover:bg-ink text-white font-sans text-sm md:text-base px-5 py-3 shadow-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  className="hidden md:inline-flex absolute left-1/2 top-[70%] -translate-x-1/2 -translate-y-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-ink/85 hover:bg-ink text-white font-sans text-base px-5 py-3 shadow-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                 >
                   <Volume2 className="w-5 h-5" aria-hidden="true" />
                   Play with sound
@@ -213,6 +214,16 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
               )}
             </div>
           </div>
+          {!soundOn && (
+            <button
+              type="button"
+              onClick={playWithSound}
+              className="md:hidden mt-4 w-full inline-flex items-center justify-center gap-2 rounded-sm bg-ink text-white font-sans text-base px-5 py-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              <Volume2 className="w-5 h-5" aria-hidden="true" />
+              Play with sound
+            </button>
+          )}
           <div className="mt-8">
             <BookButton surface="under_video" />
           </div>
