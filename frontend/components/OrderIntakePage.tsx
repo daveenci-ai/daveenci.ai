@@ -70,11 +70,11 @@ const FAQS = [
   },
   {
     q: 'What happens when Aryeo changes something?',
-    a: 'Their order forms change without notice — Aryeo changed its form layout on 1 September 2026. When a form no longer looks the way the module expects, it stops and tells you instead of placing wrong orders. Repairing it is what the monthly plan covers; without one, we quote the repair before doing it.',
+    a: 'Their order forms change without notice — Aryeo changed its form layout on 1 September 2026. When a form no longer looks the way the module expects, it stops and tells you instead of placing wrong orders. If you want it repaired, we quote the repair first — there is no subscription and no obligation either way.',
   },
   {
     q: 'What happens after two weeks?',
-    a: 'It keeps running. Nothing else is due unless you take the monthly plan.',
+    a: 'It keeps running. Nothing else is due. If something breaks later, a repair is quoted before any work, and you decide.',
   },
 ];
 
@@ -264,8 +264,8 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
             </ul>
             <div className="font-sans text-sm text-ink-muted leading-relaxed mt-6 pt-6 border-t border-ink/10 space-y-3">
               <p>
-                <span className="text-ink">Optional monthly plan:</span> we watch Aryeo for changes and fix
-                what they break. Priced on the call, never required.
+                <span className="text-ink">No subscription:</span> if an Aryeo change breaks something after the
+                two weeks, the repair is quoted before any work. You decide; nothing is owed until you do.
               </p>
               <p>
                 <span className="text-ink">Change orders:</span> a second email source, a second platform or more

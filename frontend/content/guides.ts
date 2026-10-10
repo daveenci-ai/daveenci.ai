@@ -179,7 +179,7 @@ export const guides: Guide[] = [
         heading: 'Making the next change boring',
         paragraphs: [
           'Keep the concierge order form as untouched as you can — it is the one your automation and your habits depend on. Make catalog changes on a known date, tell whoever maintains your order entry a week ahead, and watch the first morning. Shops that do this treat an Aryeo release as an afternoon, not a week.',
-          'Concierge Order Intake, our module for exactly this job, stops and labels the held orders when the form changes; the optional monthly plan covers watching Aryeo for changes and repairing what they break. Without the plan, the repair is quoted before it is done.',
+          'Concierge Order Intake, our module for exactly this job, stops and labels the held orders when the form changes. There is no subscription: a repair is quoted before it is done, and you decide.',
         ],
       },
     ],
@@ -198,7 +198,7 @@ export const guides: Guide[] = [
       },
     ],
     publishedAt: '2026-09-16',
-    updatedAt: '2026-10-09',
+    updatedAt: '2026-10-10',
     author: 'Anton Osipov',
     cta: {
       label: 'See the Concierge Order Intake module',
@@ -354,11 +354,11 @@ export const guides: Guide[] = [
       },
       {
         q: 'What does it cost?',
-        a: 'Concierge Order Intake is $2,500, fixed. It runs in your own Google and GitHub accounts and you keep the code. An optional monthly plan covers repairs when the platform changes; it is priced on the call and never required.',
+        a: 'Concierge Order Intake is $2,500, fixed. It runs in your own Google and GitHub accounts and you keep the code. There is no subscription; if a platform change breaks it later, the repair is quoted before any work.',
       },
     ],
     publishedAt: '2026-09-16',
-    updatedAt: '2026-10-09',
+    updatedAt: '2026-10-10',
     author: 'Anton Osipov',
     cta: {
       label: 'See the Concierge Order Intake module',
