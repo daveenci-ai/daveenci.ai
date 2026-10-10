@@ -42,7 +42,7 @@ export const BOOKING_HOSTS: Record<BookingHostKey, BookingHostCopy> = {
     agendaTitle: 'What to have handy',
     agenda: [
       'One real concierge order email — forward it after the call',
-      'The name of your Aryeo login person',
+      'The name of your Aryeo or Spiro login person',
       'How many orders a week you get by email',
     ],
     reasonLabel: 'What brings you here?',

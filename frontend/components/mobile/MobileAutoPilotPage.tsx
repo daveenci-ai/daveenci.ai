@@ -22,7 +22,7 @@ import { useScrollProgress } from '../../lib/useScrollProgress';
 import type { Page } from '../types';
 import { CaseEvidence } from '../CaseEvidence';
 import { shootosEvidence } from '../../content/shootosEvidence';
-import { shootosModules, shootosPlatforms } from '../../content/shootosModules';
+import { platformTermsNote, shootosModules, shootosPlatforms } from '../../content/shootosModules';
 import { ModuleSchematic } from '../ShootOSModuleSchematics';
 import { ShootOSGuides } from '../ShootOSGuides';
 
@@ -219,6 +219,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
           })}
         </div>
         <ShootOSGuides onNavigate={onNavigate} compact />
+        <p className="mt-8 font-sans text-xs text-canvas/50 leading-relaxed">{platformTermsNote}</p>
       </section>
 
       <section className="px-6 py-12 text-center">
