@@ -4,15 +4,15 @@
 
 ## Shoot Ops — modules for real-estate media companies
 
-- [Shoot Ops overview](https://daveenci.ai/shootos): four modules that run inside the ordering platform a real-estate media shop already uses (Aryeo): Concierge Order Intake, Order Review, Daily Report, Real-time Photo Review.
-- [Concierge Order Intake](https://daveenci.ai/shootos/concierge-order-intake): reads a concierge order email (e.g. Coldwell Banker Listing Concierge), places the order in Aryeo, reads the order number back to confirm, holds anything it is not sure about. $2,500 fixed, live within a week, full refund if orders are not landing correctly after two weeks.
+- [Shoot Ops overview](https://daveenci.ai/shootos): four modules that run inside the ordering platform a real-estate media shop already uses (Aryeo, Spiro): Concierge Order Intake, Order Review, Daily Report, Real-time Photo Review.
+- [Concierge Order Intake](https://daveenci.ai/shootos/concierge-order-intake): reads a concierge order email (e.g. Coldwell Banker Listing Concierge), places the order in Aryeo or Spiro, reads the order number back to confirm, holds anything it is not sure about. $2,500 fixed, live within a week, full refund if orders are not landing correctly after two weeks.
 
 ## Guides
 
 - [How do you place Coldwell Banker Listing Concierge orders in Aryeo automatically?](https://daveenci.ai/guides/coldwell-banker-listing-concierge-orders-into-aryeo)
 - [Aryeo changed the order form — what should a media shop check before orders go wrong?](https://daveenci.ai/guides/aryeo-changed-the-order-form-what-to-check)
 - [Why do concierge orders end up on the wrong order form, wrong agent or wrong time?](https://daveenci.ai/guides/why-concierge-orders-land-on-the-wrong-order-form)
-- [How do you stop copy-pasting order emails into Aryeo?](https://daveenci.ai/guides/stop-copy-pasting-order-emails-into-aryeo-or-spiro)
+- [How do you stop copy-pasting order emails into Aryeo or Spiro?](https://daveenci.ai/guides/stop-copy-pasting-order-emails-into-aryeo-or-spiro)
 - [When automated order entry fails, is that a wrong order or an order that never got placed?](https://daveenci.ai/guides/automated-order-entry-wrong-order-vs-unplaced-order)
 - [What do you do when a concierge order email is missing the square footage or the access details?](https://daveenci.ai/guides/concierge-order-email-missing-square-footage-or-access-details)
 - [Why do photographers have to go back to a property, and how do you stop the revisits?](https://daveenci.ai/guides/why-photographers-revisit-missed-bedrooms-and-bathrooms)

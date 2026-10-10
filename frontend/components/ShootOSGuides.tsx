@@ -16,7 +16,7 @@ export const ShootOSGuides: React.FC<ShootOSGuidesProps> = ({ onNavigate, compac
     <div className={`${compact ? '' : 'flex flex-col md:flex-row md:items-baseline md:justify-between gap-4'} mb-5`}>
       <div>
         <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-2">Guides</div>
-        <h3 className={`font-serif ${compact ? 'text-xl' : 'text-2xl'} leading-tight`}>Straight answers on order entry and Aryeo.</h3>
+        <h3 className={`font-serif ${compact ? 'text-xl' : 'text-2xl'} leading-tight`}>Straight answers on order entry, Aryeo and Spiro.</h3>
       </div>
       <a
         href="/guides"

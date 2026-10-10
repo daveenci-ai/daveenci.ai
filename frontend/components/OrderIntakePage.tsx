@@ -7,6 +7,7 @@ import type { Page } from './types';
 import { readAttribution } from '../lib/attribution';
 import { track } from '../lib/analytics';
 import { newProgressMarks, pickVideoVariant, videoSrc } from '../lib/videoVariant';
+import { platformTermsNote } from '../content/shootosModules';
 import AntonSketch from '../images/Anton_Sketch.webp';
 
 interface OrderIntakePageProps {
@@ -21,7 +22,7 @@ const VIDEO_POSTER = '/videos/concierge-order-intake-poster-v2.jpg';
 
 const INCLUDED = [
   'One email source',
-  'One Aryeo account',
+  'One destination platform (Aryeo or Spiro)',
   'Up to 12 service types mapped',
   'Every order logged: placed, verified or held',
   'Held orders flagged in your inbox with the reason',
@@ -55,7 +56,7 @@ const TWO_WEEKS = [
 ];
 
 const ACCESS = [
-  'A team-member login on your Aryeo account — not the owner login. You can revoke it any time.',
+  'A team-member login on your Aryeo or Spiro account — not the owner login. You can revoke it any time.',
   'Read access to the mailbox that receives the concierge emails, and permission to label them.',
   'It runs in your own Google and GitHub accounts. You keep the code. Nothing about your orders leaves your accounts.',
 ];
@@ -70,12 +71,16 @@ const FAQS = [
     a: 'That is what it is for. If it cannot read one, it holds the order and asks you rather than guessing.',
   },
   {
-    q: 'What happens when Aryeo changes something?',
+    q: 'What happens when Aryeo or Spiro changes something?',
     a: 'Their order forms change without notice — Aryeo changed its form layout on 1 September 2026. When a form no longer looks the way the module expects, it stops and tells you instead of placing wrong orders. If you want it repaired, we quote the repair first — there is no subscription and no obligation either way.',
   },
   {
     q: 'What happens after two weeks?',
     a: 'It keeps running. Nothing else is due. If something breaks later, a repair is quoted before any work, and you decide.',
+  },
+  {
+    q: 'Who owns the accounts it uses?',
+    a: `You do. ${platformTermsNote}`,
   },
 ];
 
@@ -178,7 +183,7 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
           </a>
           <h1 className="font-serif text-5xl md:text-6xl text-ink leading-tight mb-5">Concierge Order Intake</h1>
           <p className="font-serif text-xl text-ink-muted leading-relaxed">
-            Concierge order emails, placed in Aryeo — without anyone retyping them.
+            Concierge order emails, placed in Aryeo or Spiro — without anyone retyping them.
           </p>
         </div>
       </Section>
@@ -238,7 +243,7 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
             A concierge order arrives by email. The module reads it, opens the right order form for that office and
             region, fills the address, square footage, access notes and lockbox code, finds the agent by email, adds
             the package and selections, books the nearest open slot to the requested time and submits — no payment
-            step, you invoice as usual. Then it reads the order number back from Aryeo. An order only counts
+            step, you invoice as usual. Then it reads the order number back from Aryeo or Spiro. An order only counts
             as placed once it exists there.
           </p>
           <p className="font-sans text-lg text-ink-muted leading-relaxed">
@@ -275,7 +280,7 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
             </ul>
             <div className="font-sans text-sm text-ink-muted leading-relaxed mt-6 pt-6 border-t border-ink/10 space-y-3">
               <p>
-                <span className="text-ink">No subscription:</span> if an Aryeo change breaks something after the
+                <span className="text-ink">No subscription:</span> if an Aryeo or Spiro change breaks something after the
                 two weeks, the repair is quoted before any work. You decide; nothing is owed until you do.
               </p>
               <p>
