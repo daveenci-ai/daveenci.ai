@@ -31,7 +31,26 @@ describe('Fig. i links module rows to their pages (11 Oct 2026)', () => {
   it('Concierge Order Intake links to its page; modules without a page stay plain', async () => {
     const { modulePageFor } = await import('../frontend/content/shootOpsModules');
     expect(modulePageFor('Concierge Order Intake')).toEqual({ page: 'order-intake', path: '/shoot-ops/concierge-order-intake' });
-    expect(modulePageFor('Order Review')).toBeNull();
+    expect(modulePageFor('Order Review')).toEqual({ page: 'order-review', path: '/shoot-ops/order-review' });
+    expect(modulePageFor('Daily Report')).toBeNull();
     expect(modulePageFor('Nope')).toBeNull();
+  });
+});
+
+describe('Order Review page (11 Oct 2026)', () => {
+  it('is routed to its prerendered page and listed in the sitemap', () => {
+    const routes = JSON.parse(readFileSync(`${root}vercel.json`, 'utf8')).routes;
+    expect(routes.some((r: { src?: string; dest?: string }) => r.src === '/shoot-ops/order-review' && r.dest === '/_prerendered/order-review.html')).toBe(true);
+    expect(readFileSync(`${root}frontend/public/sitemap.xml`, 'utf8')).toContain('<loc>https://daveenci.ai/shoot-ops/order-review</loc>');
+  });
+
+  it('shows the terms Anton set: $2,500, Aryeo only, two-week refund, no subscription', () => {
+    const src = readFileSync(`${root}frontend/components/OrderReviewPage.tsx`, 'utf8');
+    expect(src).toContain('$2,500');
+    expect(src).toContain('One Aryeo account');
+    expect(src).toContain('Platforms other than Aryeo');
+    expect(src).toContain('Refund in full');
+    expect(src).toContain('No subscription:');
+    expect(src).not.toMatch(/Spiro|monthly plan/);
   });
 });

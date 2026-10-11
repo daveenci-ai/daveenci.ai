@@ -34,6 +34,7 @@ const GuidePage: React.FC<GuidePageProps> = ({ onNavigate, slug, isStatic = fals
     e.preventDefault();
     if (path === '/shoot-ops') onNavigate('autopilot');
     else if (path === '/shoot-ops/concierge-order-intake') onNavigate('order-intake');
+    else if (path === '/shoot-ops/order-review') onNavigate('order-review');
     else if (path === '/guides') onNavigate('guides');
     else if (path.startsWith('/guides/')) onNavigate('guide', undefined, path.split('/')[2]);
     else onNavigate('landing');
