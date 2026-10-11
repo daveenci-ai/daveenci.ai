@@ -3,6 +3,7 @@ import {
   AlertTriangle,
   CalendarCheck,
   CheckCircle2,
+  ChevronRight,
   Clock3,
   Database,
   Eye,
@@ -22,7 +23,7 @@ import { useScrollProgress } from '../../lib/useScrollProgress';
 import type { Page } from '../types';
 import { CaseEvidence } from '../CaseEvidence';
 import { shootOpsEvidence } from '../../content/shootOpsEvidence';
-import { platformTermsNote, shootOpsModules, shootOpsPlatforms } from '../../content/shootOpsModules';
+import { modulePageFor, platformTermsNote, shootOpsModules, shootOpsPlatforms } from '../../content/shootOpsModules';
 import { ModuleSchematic } from '../ShootOpsModuleSchematics';
 import { ShootOpsGuides } from '../ShootOpsGuides';
 
@@ -95,19 +96,38 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
         <div className="mt-8 hero-plate">
           <MobileScenePlate figLabel="Fig. i · Control loop">
             <div className="space-y-3">
-              {mobileWorkflow.map((step, index) => (
-                <React.Fragment key={step.number}>
-                  <div className="flex items-center gap-3 bg-canvas/45 border border-ink/10 p-3 rounded-sm">
+              {mobileWorkflow.map((step, index) => {
+                const link = modulePageFor(step.title);
+                const row = 'flex items-center gap-3 bg-canvas/45 border border-ink/10 p-3 rounded-sm';
+                const inner = (
+                  <>
                     <step.Icon className="w-5 h-5 text-accent flex-shrink-0" />
                     <div className="min-w-0">
                       <div className="font-mono text-[9px] uppercase tracking-widest text-ink-muted/60">{step.number}</div>
                       <div className="font-serif text-[17px] text-ink">{step.title}</div>
                     </div>
                     <CheckCircle2 className="w-4 h-4 text-green-600 ml-auto flex-shrink-0" />
-                  </div>
-                  {index < mobileWorkflow.length - 1 && <div className="h-3 w-px bg-accent/35 mx-auto" />}
-                </React.Fragment>
-              ))}
+                    {link && <ChevronRight className="w-4 h-4 text-accent flex-shrink-0" aria-hidden="true" />}
+                  </>
+                );
+                return (
+                  <React.Fragment key={step.number}>
+                    {link ? (
+                      <a
+                        href={link.path}
+                        onClick={(e) => { e.preventDefault(); onNavigate(link.page); }}
+                        aria-label={`${step.title} — see the module`}
+                        className={`${row} transition-colors active:bg-canvas/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
+                      >
+                        {inner}
+                      </a>
+                    ) : (
+                      <div className={row}>{inner}</div>
+                    )}
+                    {index < mobileWorkflow.length - 1 && <div className="h-3 w-px bg-accent/35 mx-auto" />}
+                  </React.Fragment>
+                );
+              })}
             </div>
             <div className="mt-4 flex items-center gap-2 border-t border-ink/10 pt-3 font-mono text-[9px] uppercase tracking-widest text-amber-800">
               <AlertTriangle className="w-4 h-4" /> uncertainty routes to a human

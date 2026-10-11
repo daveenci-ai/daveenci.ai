@@ -26,3 +26,12 @@ describe('Shoot Ops URLs (renamed from /shootos, 10 Oct 2026)', () => {
     expect(sm).toContain('<loc>https://daveenci.ai/shoot-ops/concierge-order-intake</loc>');
   });
 });
+
+describe('Fig. i links module rows to their pages (11 Oct 2026)', () => {
+  it('Concierge Order Intake links to its page; modules without a page stay plain', async () => {
+    const { modulePageFor } = await import('../frontend/content/shootOpsModules');
+    expect(modulePageFor('Concierge Order Intake')).toEqual({ page: 'order-intake', path: '/shoot-ops/concierge-order-intake' });
+    expect(modulePageFor('Order Review')).toBeNull();
+    expect(modulePageFor('Nope')).toBeNull();
+  });
+});
