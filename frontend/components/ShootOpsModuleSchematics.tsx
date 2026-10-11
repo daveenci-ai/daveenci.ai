@@ -64,7 +64,7 @@ export const OrderIntakeSchematic: React.FC = () => (
 
 /** One order, eight checks, safe repairs, one ticket for what a person must decide. */
 export const OrderReviewSchematic: React.FC = () => {
-  const checks = ['Notes', 'Add-on', 'Exteriors', 'Sq ft', 'Lockbox', 'Appt note', 'Floor plan', 'AI read'];
+  const checks = ['Profile', 'Placeholder', 'Exteriors', 'Sq ft', 'Lockbox', 'Notes', 'Arrival', 'Floor plan'];
   return (
     <svg viewBox="0 0 300 180" fill="none" className="w-full h-full" aria-hidden="true">
       {/* the order */}
