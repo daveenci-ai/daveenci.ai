@@ -4,12 +4,20 @@ How to connect daveenci.ai's analytics layer to a GA4 property, verify it, and a
 
 ## 1. Architecture (what's in the code)
 
-- **One typed module:** `frontend/lib/analytics.ts`. Everything flows through `track()` (typed against `AnalyticsEventMap`) and `trackPageView()`. gtag.js is injected at runtime by `initAnalytics()` only when the measurement ID env var is present; without it the module logs to the dev console and sends nothing.
+- **One typed module:** `frontend/lib/analytics.ts`. Everything flows through `track()` (typed against `AnalyticsEventMap`) and `trackPageView()`. `AnalyticsEventMap` is the contract: event names and params are decided in code, never in GTM.
+- **Transport — Google Tag Manager (since 11 Oct 2026).** With `VITE_GTM_ID` set (it is, in `frontend/.env.production`: `GTM-NHZP8KWM`), `initAnalytics()` loads gtm.js and every event is pushed as `{ event_params: null }` then `{ event, event_params }` — the reset stops GTM's merged data model leaking one event's params into the next. GTM forwards them to GA4 now and to ad pixels (Meta, LinkedIn) and custom conversions later, without a code deploy. GTM loads only on `daveenci.ai` / `www.daveenci.ai`, so Vercel previews and local builds send nothing. Without `VITE_GTM_ID` the module falls back to gtag.js with `VITE_GA_MEASUREMENT_ID` (the original path); never both.
+- **The GTM container lives in git:** `docs/gtm/daveenci-ai-container.json` (GTM → Admin → Import Container). `tests/gtmContainer.test.ts` fails if an event or param in `AnalyticsEventMap` is missing from the container's trigger or GA4 event tag. Add an event in code → add it to the JSON → re-import → publish.
+- **Internal traffic:** visit any page once with `?internal=1` (per browser; `?internal=0` undoes it). `lib/internalTraffic.ts` stores the mark and every event then carries `traffic_type=internal`, which the GA4 "Internal Traffic" data filter (Active) drops. IP rules don't fit a team that travels.
+- **Lead source:** `calendar_start` and `generate_lead` carry `lead_source` (`outreach` / `module` / `site`, from `lib/attribution.ts`), so bookings split by where the visitor came from. The per-prospect `?t=` token never goes to GA4 (it is also redacted at the stream).
 - **Manual pageviews only.** The site uses a custom `pushState` router (`frontend/App.tsx`), not react-router. `initAnalytics()` configures GA4 with `send_page_view: false`. Initial loads, in-app navigation, and back/forward all converge on one route-committed effect: it applies centralized route metadata first, then emits `page_view` with the destination title. Same-path links and landing anchors do not change route state and therefore do not inflate pageviews. A URL-key ref guards React StrictMode's development-only effect replay.
 - **Attribution-safe pageviews.** `page_view` sends `page_location` as the full `window.location.href` (query string included — UTM/gclid survive) and `page_path` as the canonical trailing-slash-free pathname so one page never splits into two report rows.
 - **Engagement hook:** `frontend/lib/useCaseEngaged.ts` fires `case_engaged` once per case-page visit at 30 visible-tab seconds OR 50% scroll depth (visibility-aware interval + IntersectionObserver sentinel). The scroll trigger additionally requires an actual scroll (`scrollY > 8`), so a page whose lazy content hasn't loaded yet can't false-fire on mount.
 
 ## 2. GA4 property setup
+
+**Current property:** account DaVeenci (185630691) → property 256359670 → web stream `https://daveenci.ai`, measurement ID `G-EE3V1J8LHS`. Configured 11 Oct 2026: history-change page views OFF, email + `t` query-param redaction ON, data retention 14 months, Internal Traffic + Developer Traffic filters Active, `generate_lead` is a key event, event-scoped custom dimensions registered for the params in §4 (plus `lead_source`).
+
+Original setup steps (for a new property):
 
 1. In Google Analytics: **Admin → Create → Property**, name it (e.g. "daveenci.ai"), set time zone/currency.
 2. Add a **Web data stream** for `https://daveenci.ai`. Copy the Measurement ID (`G-XXXXXXXXXX`).
@@ -41,9 +49,9 @@ Unset ⇒ analytics is a no-op (dev builds log `[analytics]` lines to the consol
 | `demo_start` | `demo_id: 'brandos_analyzer' \| 'purecode_ticket_sim' \| 'compoundiq_gate_sim'` | First user-initiated demo run per visit | `BrandOSPage.tsx`, `mobile/MobileBrandOSPage.tsx`, `PureCodePage.tsx`, gate simulator (Phase 4) |
 | `demo_complete` | `demo_id` | Demo run first reaches a finished/result state per visit | same files |
 | `next_case_click` | `from_case`, `to_case` | Next-case link clicked at the end of a case page | case pages, both trees (Phase 2) |
-| `calendar_start` | `booking_type` | First date/time selection in a booking flow (once per mount) | `Calendar.tsx`, `BookingWidget.tsx`, `mobile/MobileCalendarPage.tsx` |
+| `calendar_start` | `booking_type`, `lead_source` | First date/time selection in a booking flow (once per mount) | `Calendar.tsx`, `BookingWidget.tsx`, `mobile/MobileCalendarPage.tsx` |
 | `booking_step_viewed` | `booking_type`, `step: 'details'` | Prospect first reaches the details step (once per mounted funnel, even after Back/Next) | same files via `lib/useBookingStepAnalytics.ts` |
-| `generate_lead` | `booking_type` | `POST /calendar/book` returns success | same files |
+| `generate_lead` | `booking_type`, `lead_source`, `video_variant` (if assigned) | `POST /calendar/book` returns success | same files |
 | `newsletter_subscribe` | `source` | `POST /newsletter/subscribe` returns success | `Footer.tsx` + case-page subscribe blocks (Phase 3) |
 
 `select_content` and `generate_lead` are GA4 recommended events; the rest are custom. Register `case_id`, `demo_id`, `source`, `surface`, `from_case`, `to_case`, `booking_type`, `step`, `content_id`, `cta_id`, `from_page`, and `destination` as custom dimensions (event-scoped) if you want them in standard reports: Admin → Custom definitions.

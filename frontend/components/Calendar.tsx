@@ -16,7 +16,7 @@ import {
    type DisplaySlot,
 } from './calendarAvailability';
 import { BOOKING_HOSTS } from './bookingHosts';
-import { readAttribution } from '../lib/attribution';
+import { readAttribution, withLeadSource } from '../lib/attribution';
 import { withVideoVariant } from '../lib/videoVariant';
 import { TimezonePicker, downloadIcs } from './BookingBits';
 
@@ -65,7 +65,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' 
    const trackCalendarStart = () => {
       if (calendarStartFired.current) return;
       calendarStartFired.current = true;
-      track('calendar_start', { booking_type: copy.key });
+      track('calendar_start', withLeadSource({ booking_type: copy.key }));
    };
 
    // Apply pre-selection handed off from the landing page booking preview
@@ -190,7 +190,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' 
          const data = await response.json();
 
          if (response.ok) {
-            track('generate_lead', withVideoVariant({ booking_type: copy.key }));
+            track('generate_lead', withLeadSource(withVideoVariant({ booking_type: copy.key })));
             setStep('success');
          } else if (response.status === 429) {
             alert('Too many submissions from your network. Please try again in a while.');

@@ -76,3 +76,12 @@ export const readAttribution = (storage: Storage | null = defaultStorage()): Att
  */
 export const defaultBookingHost = (attribution: Attribution): 'anton' | null =>
   attribution.src === 'outreach' || attribution.src === 'module' || attribution.t ? 'anton' : null;
+
+/**
+ * Tag a booking event with how this visitor arrived (outreach / module / site), so GA4 can split bookings by
+ * source. The source only — the per-prospect token never goes to analytics.
+ */
+export const withLeadSource = <P extends object>(
+  params: P,
+  storage: Storage | null = defaultStorage(),
+): P & { lead_source: string } => ({ ...params, lead_source: readAttribution(storage).src });
