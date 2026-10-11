@@ -102,9 +102,9 @@ Naming (lower case, no spaces in source/medium):
 
 | Where | utm_source | utm_medium | utm_campaign | utm_content |
 |---|---|---|---|---|
-| LinkedIn ads | `linkedin` | `paid_social` | campaign name | ad / creative name |
+| LinkedIn ads | `linkedin` | `paid_social` | campaign name (+ `utm_id` = campaign ID) | ad ID |
 | Meta ads (FB + IG) | `facebook` / `instagram` | `paid_social` | campaign name | ad name |
 | Outreach email (go.daveenci.ai) | `outreach` | `email` | `shoot-ops` | link kind (`video` / `book` / `site`) |
 
-- LinkedIn: set once at account level — Campaign Manager → Account settings → Tracking parameters (dynamic campaign / creative names).
+- LinkedIn: **set** (11 Oct 2026) at account level for ad account DaVeenci 508457184 — Campaign Manager → Account settings → Tracking parameters: `utm_source=linkedin&utm_medium=paid_social&utm_campaign={{CAMPAIGN_NAME}}&utm_id={{CAMPAIGN_ID}}&utm_content={{AD_ID}}` (LinkedIn rejects `{{CREATIVE_ID}}` / creative names here). Applies to every ad in the account.
 - Meta: set per ad — Ad → Tracking → URL parameters: `utm_source={{site_source_name}}&utm_medium=paid_social&utm_campaign={{campaign.name}}&utm_content={{ad.name}}` (Meta fills `{{site_source_name}}` with fb / ig).
