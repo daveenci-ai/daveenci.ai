@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { ScrollReveal, Section, Button, Logo, CustomSelect } from './Shared';
 import { API_ENDPOINTS } from '../config';
 import { track } from '../lib/analytics';
+import { withLeadSource } from '../lib/attribution';
 import { useBookingStepAnalytics } from '../lib/useBookingStepAnalytics';
 import type { Page } from './types';
 import {
@@ -83,7 +84,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
   const trackCalendarStart = () => {
     if (calendarStartFired.current) return;
     calendarStartFired.current = true;
-    track('calendar_start', { booking_type: bookingType });
+    track('calendar_start', withLeadSource({ booking_type: bookingType }));
   };
 
   useEffect(() => {
@@ -165,7 +166,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
       });
       const data = await response.json();
       if (response.ok) {
-        track('generate_lead', { booking_type: bookingType });
+        track('generate_lead', withLeadSource({ booking_type: bookingType }));
         setStep('success');
       } else if (response.status === 409 && data.isDuplicate) {
         alert(data.error || 'You already have a demo scheduled at this time.');

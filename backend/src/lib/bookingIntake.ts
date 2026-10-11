@@ -13,6 +13,27 @@ export const sanitizeToken = (raw: unknown): string => {
 export const sanitizeSource = (raw: unknown): string =>
     typeof raw === 'string' && KNOWN_SOURCES.includes(raw) ? raw : 'site';
 
+// Campaign fields (utm_*, ad click ids) — see frontend/lib/campaign.ts. Only present when the visitor came from a
+// tagged link, so a plain booking keeps exactly the documented payload.
+const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+const CLICK_ID_KEYS = ['gclid', 'fbclid', 'li_fat_id'];
+
+export const campaignFields = (body: Record<string, any>): Record<string, string> => {
+    const out: Record<string, string> = {};
+    for (const k of UTM_KEYS) {
+        const raw = body?.[k];
+        // eslint-disable-next-line no-control-regex
+        const v = typeof raw === 'string' ? raw.replace(/[\u0000-\u001f\u007f<>"'`]/g, '').trim().slice(0, 100) : '';
+        if (v) out[k] = v;
+    }
+    for (const k of CLICK_ID_KEYS) {
+        const raw = body?.[k];
+        const v = typeof raw === 'string' ? raw.trim() : '';
+        if (v && v.length <= 255 && /^[A-Za-z0-9._-]+$/.test(v)) out[k] = v;
+    }
+    return out;
+};
+
 const text = (value: unknown): string => (value === undefined || value === null ? '' : String(value));
 
 /**
@@ -39,6 +60,7 @@ export const buildBookingIntake = (host: Host, body: Record<string, any>): Recor
         src: sanitizeSource(body.src),
         t: sanitizeToken(body.t),
         page: `/book/${host.key}`,
+        ...campaignFields(body),
         // Always present, always empty: a filled honeypot never reaches here.
         website: '',
     };
