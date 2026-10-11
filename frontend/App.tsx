@@ -23,6 +23,7 @@ const Calendar = lazy(() => import('./components/Calendar'));
 const BookPage = lazy(() => import('./components/BookPage'));
 const ModulesPage = lazy(() => import('./components/ModulesPage'));
 const OrderIntakePage = lazy(() => import('./components/OrderIntakePage'));
+const OrderReviewPage = lazy(() => import('./components/OrderReviewPage'));
 const GuidesPage = lazy(() => import('./components/GuidesPage'));
 const GuidePage = lazy(() => import('./components/GuidePage'));
 const PulseNotePage = lazy(() => import('./components/PulseNotePage'));
@@ -130,9 +131,11 @@ const App: React.FC = () => {
         // if a cached client reaches the old path.
         const next = path.replace(/^\/shootos/, '/shoot-ops');
         window.history.replaceState({}, '', `${next}${window.location.search}${window.location.hash}`);
-        setPage(next === '/shoot-ops' ? 'autopilot' : 'order-intake');
+        setPage(next === '/shoot-ops' ? 'autopilot' : next === '/shoot-ops/order-review' ? 'order-review' : 'order-intake');
       } else if (path === '/shoot-ops/concierge-order-intake') {
         setPage('order-intake');
+      } else if (path === '/shoot-ops/order-review') {
+        setPage('order-review');
       } else if (path === '/modules/order-intake') {
         // Legacy: the module now lives under Shoot Ops. Redirect client-side so
         // the outreach attribution (?t=, ?src=) and #video survive the move —
@@ -284,6 +287,7 @@ const App: React.FC = () => {
     if (targetPage === 'book-astrid') path = '/book/astrid';
     if (targetPage === 'modules') path = '/modules';
     if (targetPage === 'order-intake') path = '/shoot-ops/concierge-order-intake';
+    if (targetPage === 'order-review') path = '/shoot-ops/order-review';
     if (targetPage === 'guides') path = '/guides';
     if (targetPage === 'guide') path = `/guides/${id}`;
     if (targetPage === 'pulsenote') path = '/pulsenote';
@@ -337,6 +341,7 @@ const App: React.FC = () => {
         {page === 'book-astrid' && <Calendar onNavigate={handleNavigate} host="astrid" />}
         {page === 'modules' && <ModulesPage onNavigate={handleNavigate} />}
         {page === 'order-intake' && <OrderIntakePage onNavigate={handleNavigate} />}
+        {page === 'order-review' && <OrderReviewPage onNavigate={handleNavigate} />}
         {page === 'guides' && <GuidesPage onNavigate={handleNavigate} />}
         {page === 'guide' && <GuidePage onNavigate={handleNavigate} slug={selectedGuideSlug} />}
         {page === 'pulsenote' && <PulseNotePage onNavigate={handleNavigate} />}

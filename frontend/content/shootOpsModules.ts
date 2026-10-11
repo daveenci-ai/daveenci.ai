@@ -41,6 +41,9 @@ export const shootOpsModules: ShootOpsModule[] = [
     statusNote: 'Live · since Jul 2026, every 10 minutes',
     question: 'Is the order right while it is still fixable?',
     summary: 'Checks every new order against eight rules and repairs what is safe to repair.',
+    price: '$2,500 fixed · live within a week',
+    page: 'order-review',
+    path: '/shoot-ops/order-review',
     detail: 'Profile notes, skip-to-add-on items, exteriors-only, square-footage anomalies against public records, missing lockbox combos, appointment-note anomalies, floor-plan variant vs. square footage, and an AI read of the notes for order changes and constraints. Safe fixes are applied with read-back verification — dated note lines, cancelling a stray add-on, the agent on-camera email, a public-record note with beds and baths, the stand-alone floor-plan payout tier. Anything with an issue becomes one ticket listing everything found; clean orders are tagged reviewed. A field that cannot be read is inconclusive, never a pass.',
   },
   {
@@ -79,8 +82,9 @@ export const shootOpsPlatforms: { name: string; logo: string; width: number; hei
  * Shown on /shoot-ops and in the module FAQ (Anton, 10 Oct 2026). Deliberately general: the site never
  * discusses any platform's terms; the client owns the accounts and accepts those terms themselves.
  */
-export const platformTermsNote =
-  "DaVeenci builds and maintains software. We're not a law firm and don't give legal advice. Your Aryeo or Spiro account and its terms stay yours, and you decide how it's used.";
+export const termsNoteFor = (platforms: string): string =>
+  `DaVeenci builds and maintains software. We're not a law firm and don't give legal advice. Your ${platforms} account and its terms stay yours, and you decide how it's used.`;
+export const platformTermsNote = termsNoteFor('Aryeo or Spiro');
 
 /** The module page for a module title, if it has one — Fig. i links its rows here. */
 export const modulePageFor = (title: string): { page: Page; path: string } | null => {
