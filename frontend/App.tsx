@@ -7,6 +7,7 @@ import { applyRouteMetadata } from './lib/routeMetadata';
 import DaVeenciLandingPage from './DaVeenciLandingPage';
 import { installReducedMotionSmil } from './lib/reducedMotionSmil';
 import { rememberAttribution, defaultBookingHost, readAttribution } from './lib/attribution';
+import { rememberCampaign } from './lib/campaign';
 
 // Route-level code splitting — each page becomes its own lazy chunk.
 // Only the landing chunk downloads on initial load; other pages are
@@ -72,6 +73,7 @@ const App: React.FC = () => {
     // Record ?t= / ?src= before anything routes on them: the token arrives on
     // the module page and has to survive the click to the booking page.
     rememberAttribution(window.location.search);
+    rememberCampaign(window.location.search);
 
     const handleLocationChange = () => {
       // Normalize path: Remove trailing slash if it's not the root

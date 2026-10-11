@@ -17,6 +17,7 @@ import {
 } from './calendarAvailability';
 import { BOOKING_HOSTS } from './bookingHosts';
 import { readAttribution, withLeadSource } from '../lib/attribution';
+import { readCampaign } from '../lib/campaign';
 import { withVideoVariant } from '../lib/videoVariant';
 import { TimezonePicker, downloadIcs } from './BookingBits';
 
@@ -183,6 +184,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' 
                host,
                timezone: userTimezone,
                ...readAttribution(),
+               ...readCampaign(),
                page: `/book/${host}`,
             }),
          });

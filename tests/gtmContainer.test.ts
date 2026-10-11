@@ -71,8 +71,15 @@ describe('ad pixels in the GTM container', () => {
     expect(li.tagFiringOption).toBe('ONCE_PER_LOAD');
   });
 
+  it('LinkedIn counts a booked call as conversion 29519812 ("Booked call - daveenci.ai"), after the Insight tag', () => {
+    const conv = byName('LinkedIn - Booked call conversion');
+    expect(param(conv, 'html').value).toContain('conversion_id: 29519812');
+    expect(eventOf(firesOn('LinkedIn - Booked call conversion'))).toBe('generate_lead');
+    expect(conv.setupTag[0].tagName).toBe('LinkedIn - Insight tag');
+  });
+
   it("no ad pixel fires for the team's own (internal) visits", () => {
-    for (const n of ['Meta - base (init)', 'Meta - PageView', 'Meta - Lead (booked call)', 'LinkedIn - Insight tag']) {
+    for (const n of ['Meta - base (init)', 'Meta - PageView', 'Meta - Lead (booked call)', 'LinkedIn - Insight tag', 'LinkedIn - Booked call conversion']) {
       expect(excludesInternal(firesOn(n))).toBe(true);
     }
   });

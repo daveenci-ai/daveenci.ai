@@ -83,3 +83,28 @@ The known duplicate risk is GA4 Enhanced Measurement history tracking (step 2.3)
 3. Visit a legacy URL directly (`/brand-analyzer`): must produce exactly one `page_view`, with `page_path: /brandos` (the redirect resolves before the pageview fires).
 4. Confirm every pageview carries the destination title, including direct loads of `/compoundiq`, in-app navigation from `/work`, and browser Back.
 5. If you see pairs of near-simultaneous `page_view`s on navigation, EM history tracking is still ON — turn it off; do not "fix" this in code. (The route effect is already StrictMode-guarded, so a pair on *navigation* can only come from EM.)
+
+## 7. Ad pixels (GTM container GTM-NHZP8KWM, v4)
+
+| Platform | ID | Fires on | Notes |
+|---|---|---|---|
+| Meta pixel | 654295051667780 ("DaVeenci's Pixel - Generic", business 807542699631187) | init once per load; `PageView` on every routed `page_view`; `Lead` on `generate_lead` | Custom HTML; no PageView in the base code (the SPA router sends them) |
+| LinkedIn Insight | partner 2605460 (ad account DaVeenci 508457184) | once per load | Built-in LinkedIn Insight tag |
+| LinkedIn conversion | 29519812 "Booked call - daveenci.ai" (Book appointment, 90-day click/view, last touch) | `generate_lead` | `lintrk('track', {conversion_id})`, sequenced after the Insight tag |
+
+No pixel fires for internal traffic (`?internal=1`): every pixel trigger excludes `traffic_type=internal`.
+
+## 8. Source and campaign tracking (paid ads + outreach)
+
+Every ad and every outreach link carries UTM parameters. GA4 uses them for the session; `lib/campaign.ts` also keeps the last tagged touch for 90 days and sends it with the booking (`utm_*`, `gclid`/`fbclid`/`li_fat_id`), so the CRM interaction shows which source and campaign a booked call came from even when the booking happens days later.
+
+Naming (lower case, no spaces in source/medium):
+
+| Where | utm_source | utm_medium | utm_campaign | utm_content |
+|---|---|---|---|---|
+| LinkedIn ads | `linkedin` | `paid_social` | campaign name | ad / creative name |
+| Meta ads (FB + IG) | `facebook` / `instagram` | `paid_social` | campaign name | ad name |
+| Outreach email (go.daveenci.ai) | `outreach` | `email` | `shoot-ops` | link kind (`video` / `book` / `site`) |
+
+- LinkedIn: set once at account level — Campaign Manager → Account settings → Tracking parameters (dynamic campaign / creative names).
+- Meta: set per ad — Ad → Tracking → URL parameters: `utm_source={{site_source_name}}&utm_medium=paid_social&utm_campaign={{campaign.name}}&utm_content={{ad.name}}` (Meta fills `{{site_source_name}}` with fb / ig).

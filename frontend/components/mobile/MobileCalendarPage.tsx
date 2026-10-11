@@ -20,6 +20,7 @@ import {
 } from '../calendarAvailability';
 import { BOOKING_HOSTS } from '../bookingHosts';
 import { readAttribution, withLeadSource } from '../../lib/attribution';
+import { readCampaign } from '../../lib/campaign';
 import { withVideoVariant } from '../../lib/videoVariant';
 import { TimezonePicker, downloadIcs } from '../BookingBits';
 
@@ -160,6 +161,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate, host =
           host,
           timezone: userTimezone,
           ...readAttribution(),
+          ...readCampaign(),
           page: `/book/${host}`,
         }),
       });
