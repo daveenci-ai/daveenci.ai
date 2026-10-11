@@ -43,3 +43,37 @@ describe('GTM container matches the analytics contract', () => {
     expect(param(tag('gaawe'), 'measurementIdOverride').value).toBe(param(tag('googtag'), 'tagId').value);
   });
 });
+
+describe('ad pixels in the GTM container', () => {
+  const byName = (n: string) => c.tag.find((t: { name: string }) => t.name === n);
+  const trig = (id: string) => c.trigger.find((t: { triggerId: string }) => t.triggerId === id);
+  const firesOn = (tagName: string) => trig(byName(tagName).firingTriggerId[0]);
+  const eventOf = (t: { customEventFilter?: { parameter: Param[] }[] }) =>
+    t.customEventFilter?.[0].parameter.find((p) => p.key === 'arg1')?.value;
+  const excludesInternal = (t: { filter?: { type: string; parameter: Param[] }[] }) =>
+    (t.filter ?? []).some((f) => f.type === 'EQUALS' && f.parameter.some((p) => p.key === 'negate' && p.value === 'true') && f.parameter.some((p) => p.value === '{{DLV - traffic_type}}') && f.parameter.some((p) => p.value === 'internal'));
+
+  it('Meta pixel 654295051667780 is initialised once, without its own PageView (the router sends them)', () => {
+    const html = param(byName('Meta - base (init)'), 'html').value!;
+    expect(html).toContain("fbq('init', '654295051667780')");
+    expect(html).not.toContain("'PageView'");
+  });
+
+  it('Meta PageView follows every routed page_view; Meta Lead follows every booked call', () => {
+    expect(eventOf(firesOn('Meta - PageView'))).toBe('page_view');
+    expect(eventOf(firesOn('Meta - Lead (booked call)'))).toBe('generate_lead');
+    for (const n of ['Meta - PageView', 'Meta - Lead (booked call)']) expect(byName(n).setupTag[0].tagName).toBe('Meta - base (init)');
+  });
+
+  it('LinkedIn Insight tag 2605460 loads once per page load', () => {
+    const li = byName('LinkedIn - Insight tag');
+    expect(param(li, 'id').value).toBe('2605460');
+    expect(li.tagFiringOption).toBe('ONCE_PER_LOAD');
+  });
+
+  it("no ad pixel fires for the team's own (internal) visits", () => {
+    for (const n of ['Meta - base (init)', 'Meta - PageView', 'Meta - Lead (booked call)', 'LinkedIn - Insight tag']) {
+      expect(excludesInternal(firesOn(n))).toBe(true);
+    }
+  });
+});
