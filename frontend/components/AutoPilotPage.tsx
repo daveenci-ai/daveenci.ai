@@ -33,7 +33,7 @@ import { useCaseEngaged } from '../lib/useCaseEngaged';
 import type { Page } from './types';
 import { CaseEvidence } from './CaseEvidence';
 import { shootOpsEvidence } from '../content/shootOpsEvidence';
-import { platformTermsNote, shootOpsModules, shootOpsPlatforms } from '../content/shootOpsModules';
+import { modulePageFor, platformTermsNote, shootOpsModules, shootOpsPlatforms } from '../content/shootOpsModules';
 import { ModuleSchematic } from './ShootOpsModuleSchematics';
 
 interface AutoPilotPageProps {
@@ -106,7 +106,7 @@ const safety = [
   },
 ];
 
-const AutoPilotControlPanel: React.FC = () => (
+const AutoPilotControlPanel: React.FC<{ onNavigate: AutoPilotPageProps['onNavigate'] }> = ({ onNavigate }) => (
   <div className="relative bg-white/70 border border-ink/10 shadow-widget-raised p-5 md:p-7 rounded-sm overflow-hidden">
     <div className="absolute inset-0 opacity-[0.035] bg-[radial-gradient(rgb(var(--color-ink))_1px,transparent_1px)] [background-size:18px_18px]" />
     <div className="relative flex items-center justify-between border-b border-ink/10 pb-4 mb-5">
@@ -125,17 +125,30 @@ const AutoPilotControlPanel: React.FC = () => (
         { label: 'Order Review', detail: 'check + repair', Icon: ScanSearch },
         { label: 'Daily Report', detail: 'audit + report', Icon: CalendarCheck },
         { label: 'Real-time Photo Review', detail: 'look + ticket', Icon: Eye },
-      ].map((stage, index) => (
-        <React.Fragment key={stage.label}>
-          <div className="relative bg-canvas/50 border border-ink/10 p-4 rounded-sm">
+      ].map((stage, index) => {
+        const link = modulePageFor(stage.label);
+        const inner = (
+          <>
             <stage.Icon className="w-5 h-5 text-accent mb-5" />
             <div className="font-mono text-[9px] uppercase tracking-widest text-ink-muted/60">0{index + 1}</div>
             <div className="font-serif text-[17px] text-ink">{stage.label}</div>
             <div className="font-sans text-xs text-ink-muted mt-1">{stage.detail}</div>
-          </div>
-
-        </React.Fragment>
-      ))}
+            {link && <div className="font-serif italic text-xs text-accent mt-2">See the module →</div>}
+          </>
+        );
+        return link ? (
+          <a
+            key={stage.label}
+            href={link.path}
+            onClick={(e) => { e.preventDefault(); onNavigate(link.page); }}
+            className="relative block bg-canvas/50 border border-ink/10 p-4 rounded-sm transition-colors hover:border-accent/60 hover:bg-canvas/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            {inner}
+          </a>
+        ) : (
+          <div key={stage.label} className="relative bg-canvas/50 border border-ink/10 p-4 rounded-sm">{inner}</div>
+        );
+      })}
     </div>
 
     <div className="relative mt-5 grid grid-cols-2 gap-3">
@@ -207,7 +220,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
           </div>
           <div className="lg:col-span-6 hero-plate">
             <ScrollReveal delay={350} direction="left">
-              <AutoPilotControlPanel />
+              <AutoPilotControlPanel onNavigate={onNavigate} />
             </ScrollReveal>
           </div>
         </div>

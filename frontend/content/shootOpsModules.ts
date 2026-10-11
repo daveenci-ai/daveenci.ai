@@ -81,3 +81,9 @@ export const shootOpsPlatforms: { name: string; logo: string; width: number; hei
  */
 export const platformTermsNote =
   "DaVeenci builds and maintains software. We're not a law firm and don't give legal advice. Your Aryeo or Spiro account and its terms stay yours, and you decide how it's used.";
+
+/** The module page for a module title, if it has one — Fig. i links its rows here. */
+export const modulePageFor = (title: string): { page: Page; path: string } | null => {
+  const m = shootOpsModules.find((x) => x.title === title && x.page && x.path);
+  return m ? { page: m.page as Page, path: m.path as string } : null;
+};
