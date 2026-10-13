@@ -306,7 +306,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
           <div className="max-w-3xl mb-12">
             <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">The modules · September 2026</div>
             <h2 className="font-serif text-4xl md:text-5xl leading-tight">Four modules. One question each. Start with Concierge Order Intake.</h2>
-            <p className="font-sans text-canvas/65 mt-5 leading-relaxed">Each module runs inside the platform you already use and stops when it is not sure. Concierge Order Intake is the first, small one — a way to see how we work. The other three follow once it is live, each fitted to how your shop runs — and everything can be customised.</p>
+            <p className="font-sans text-canvas/65 mt-5 leading-relaxed">Each module runs inside the platform you already use and stops when it is not sure. Concierge Order Intake and Order Review are the two small ones — fixed price, live within a week, and a way to see how we work. Start with either; they work together. The other two follow once one is live, each fitted to how your shop runs — and everything can be customised.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {shootOpsModules.map((module) => {
