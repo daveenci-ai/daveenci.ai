@@ -19,7 +19,7 @@ const MODULES: { title: string; blurb: string; price: string; page: Page; path: 
   },
   {
     title: 'Order Review',
-    blurb: 'Checks every new Aryeo order against eight rules within ten minutes, fixes what is safe to fix, and sends one ticket for the rest.',
+    blurb: 'Checks every new Aryeo order against nine rules within ten minutes, fixes what is safe to fix, and sends one ticket for the rest.',
     price: '$2,500, fixed',
     page: 'order-review',
     path: '/shoot-ops/order-review',

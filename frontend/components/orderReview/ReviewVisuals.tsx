@@ -17,6 +17,7 @@ const HERO_CHECKS: { name: string; state: CheckState; note?: string }[] = [
   { name: 'Note: contact / scope', state: 'flag', note: '“call me before”' },
   { name: 'Note: arrival time', state: 'pass' },
   { name: 'Floor plan variant', state: 'pass' },
+  { name: 'Same-day order', state: 'pass' },
 ];
 
 const StateIcon: React.FC<{ s: CheckState }> = ({ s }) =>
@@ -28,7 +29,7 @@ const StateIcon: React.FC<{ s: CheckState }> = ({ s }) =>
     <span className="w-3.5 h-3.5 rounded-full bg-accent/80 inline-block" aria-hidden="true" />
   );
 
-/** Hero plate: one new order, eight checks, the outcome. */
+/** Hero plate: one new order, nine checks, the outcome. */
 export const HeroReview: React.FC = () => (
   <div className="space-y-3">
     <div className="bg-white/85 border border-ink/10 rounded-sm p-4 shadow-sm">

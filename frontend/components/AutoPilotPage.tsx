@@ -44,7 +44,7 @@ interface AutoPilotPageProps {
 const proof = [
   { value: '4', label: 'modules' },
   { value: '10 min', label: 'order-review cadence' },
-  { value: '8', label: 'order quality checks' },
+  { value: '9', label: 'order quality checks' },
   { value: '75', label: 'product mappings' },
   { value: '50', label: 'vision subtype rules' },
 ];
@@ -63,8 +63,8 @@ const workflow = [
     number: '02',
     eyebrow: 'Order Review',
     title: 'Inspect the order while it is still fixable.',
-    body: 'Every ten minutes, eight operational checks run against each new order. Known mechanical issues are corrected safely with read-back verification; anything ambiguous becomes one focused ticket for a person instead of a silent pass.',
-    bullets: ['Eight configurable business checks', 'Safe write-backs: notes, add-ons, on-camera email, payout tier', 'Reviewed, flagged, or retried — never quietly skipped'],
+    body: 'Every ten minutes, nine operational checks run against each new order. Known mechanical issues are corrected safely with read-back verification; anything ambiguous becomes one focused ticket for a person instead of a silent pass.',
+    bullets: ['Nine configurable business checks', 'Safe write-backs: notes, add-ons, on-camera email, payout tier', 'Reviewed, flagged, or retried — never quietly skipped'],
   },
   {
     id: 'daily-review',

@@ -19,3 +19,29 @@ describe('Order Review: the stacking step cards (13 Oct 2026)', () => {
     }
   });
 });
+
+describe('Order Review counts nine checks, including same-day (13 Oct 2026)', () => {
+  it('lists nine checks, the ninth being the same-day order', () => {
+    const block = page.slice(page.indexOf('const CHECKS'), page.indexOf('// Fig. iv'));
+    expect((block.match(/n: '0\d'/g) || []).length).toBe(9);
+    expect(block).toContain("title: 'Same-day order'");
+  });
+
+  it('no Shoot Ops page or metadata still says eight', () => {
+    for (const rel of [
+      'frontend/components/OrderReviewPage.tsx',
+      'frontend/components/orderReview/ReviewVisuals.tsx',
+      'frontend/components/ShootOpsModuleSchematics.tsx',
+      'frontend/components/ModulesPage.tsx',
+      'frontend/components/AutoPilotPage.tsx',
+      'frontend/components/mobile/MobileAutoPilotPage.tsx',
+      'frontend/content/shootOpsModules.ts',
+      'frontend/content/shootOpsEvidence.ts',
+      'frontend/lib/routeMetadata.ts',
+      'frontend/public/llms.txt',
+    ]) {
+      const src = readFileSync(`${root}${rel}`, 'utf8');
+      expect(src, rel).not.toMatch(/\beight\b|\b8 checks\b/i);
+    }
+  });
+});

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import {
+  CalendarClock,
   Check,
   ClipboardList,
   Clock,
@@ -34,13 +35,13 @@ interface OrderReviewPageProps {
 
 // Module 02 (Anton, 11 Oct 2026): $2,500 fixed, Aryeo only, same two-week refund and no-subscription terms as
 // Concierge Order Intake. Redesigned the same day in the Intake page's look. Every check, fix and outcome below is
-// taken from the module's production code and its checks reference (eight flag checks, six automatic fixes, the
+// taken from the module's production code and its checks reference (nine flag checks — the same-day check added 14 Aug 2026 — six automatic fixes, the
 // three-state result model, one ticket per flagged order). Client names never appear; order data is fictional.
 // The walkthrough video comes later; until then Fig. ii is the module drawing.
 
 const PROOF = [
   { value: '10 min', label: 'between sweeps' },
-  { value: '8', label: 'checks on every new order' },
+  { value: '9', label: 'checks on every new order' },
   { value: '6', label: 'fixes it makes on its own' },
   { value: '1', label: 'ticket per order — never two' },
   { value: 'Never', label: 'passes a field it couldn’t read' },
@@ -95,6 +96,12 @@ const CHECKS: { n: string; title: string; body: string; Icon: React.ComponentTyp
     body: 'A stand-alone floor plan ordered in a size band that doesn’t match the square footage. The ticket shows the band, the order’s figure and the public record.',
     Icon: FileWarning,
   },
+  {
+    n: '09',
+    title: 'Same-day order',
+    body: 'The requested appointment is today — or the order has no requested date at all. A person sees it the moment it lands, even if everything else is clean, and the ticket subject starts with SAME-DAY.',
+    Icon: CalendarClock,
+  },
 ];
 
 // Fig. iv — the module's run on one order, in the order the production code does it (sweep.js → extract →
@@ -136,7 +143,7 @@ const PIPELINE: {
   {
     n: '03',
     eyebrow: 'Check',
-    title: 'Eight checks. Three possible answers.',
+    title: 'Nine checks. Three possible answers.',
     body: 'Each check ends as pass, flag, or couldn’t read — and couldn’t read is never counted as a pass. The appointment notes are read twice: by fixed patterns and by an AI read of the wording.',
     bullets: [
       'A note over 1,000 characters always goes to a person, whatever the patterns say: a long note usually buries something.',
@@ -163,7 +170,7 @@ const PIPELINE: {
 ];
 
 const INCLUDED = [
-  'The eight checks, mapped to your products, add-ons and markets',
+  'The nine checks, mapped to your products, add-ons and markets',
   'One Aryeo account',
   'The automatic fixes you choose, each read back after it is made',
   'One ticket per order with issues, sent to your order queue',
@@ -174,7 +181,7 @@ const INCLUDED = [
 
 const NOT_INCLUDED = [
   'Platforms other than Aryeo',
-  'New kinds of checks beyond the eight',
+  'New kinds of checks beyond the nine',
   'Placing orders — that is Concierge Order Intake',
   'Photo QA — that is Real-time Photo Review',
 ];
@@ -285,12 +292,12 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
                   </a>
                 }
                 title={<>Order Review<br /><span className="italic text-ink-muted/80">caught while it’s still a note.</span></>}
-                description="Every new Aryeo order checked within ten minutes against eight rules. It fixes what is safe to fix, and sends one ticket for the rest — before the photographer is on the way, not after the revisit."
+                description="Every new Aryeo order checked within ten minutes against nine rules. It fixes what is safe to fix, and sends one ticket for the rest — before the photographer is on the way, not after the revisit."
                 size="md"
                 actions={
                   <>
                     <BookButton surface="hero" />
-                    <Button variant="secondary" onClick={toChecks} className="text-[16px] px-8 py-4">See the eight checks</Button>
+                    <Button variant="secondary" onClick={toChecks} className="text-[16px] px-8 py-4">See the nine checks</Button>
                   </>
                 }
               />
@@ -333,14 +340,14 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
               the line items, the square footage, the access fields, the appointment notes, the internal notes.
             </p>
             <p className="font-sans text-lg text-ink-muted leading-relaxed">
-              Then it runs eight checks, makes the fixes you’ve allowed, and ends every order one of three ways.
+              Then it runs nine checks, makes the fixes you’ve allowed, and ends every order one of three ways.
             </p>
           </div>
           <div className="lg:col-span-7">
             <figure className="border border-ink/10 rounded-sm bg-white/70 p-5 md:p-8 shadow-widget-raised">
               <ModuleSchematic id="order-review" className="aspect-[5/3] w-full" />
               <figcaption className="font-serif italic text-xs tracking-[0.2em] text-ink-muted uppercase mt-4">
-                One order, eight checks, one ticket
+                One order, nine checks, one ticket
               </figcaption>
             </figure>
             <div className="mt-8">
@@ -350,14 +357,14 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
         </div>
       </Section>
 
-      {/* The eight checks */}
+      {/* The nine checks */}
       <Section id="checks" className="py-20 md:py-28 bg-white/35 scroll-mt-20" pattern="circles">
         <SectionHeader
-          eyebrow="Fig. iii · The eight checks"
+          eyebrow="Fig. iii · The nine checks"
           title="The mistakes that turn into revisits."
           subtitle="Each one comes from orders that went wrong on site. The notes are read twice — by fixed patterns and by an AI read of the wording — and either one can raise the flag."
         />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {CHECKS.map((c) => (
             <ScrollReveal key={c.n}>
               <article className="h-full bg-white/85 border border-ink/10 rounded-sm p-6 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
