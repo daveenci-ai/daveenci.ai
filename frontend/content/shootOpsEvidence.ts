@@ -38,7 +38,7 @@ export const shootOpsEvidence: CaseEvidenceItem[] = [
   },
   {
     label: 'Evidence currently exposed',
-    value: '4 modules · 8 checks · 75 mappings · 50 vision rules',
+    value: '4 modules · 9 checks · 75 mappings · 50 vision rules',
     detail: 'The operating cadence is ten minutes, with persisted state and explicit evidence for every action and hold.',
   },
 ];

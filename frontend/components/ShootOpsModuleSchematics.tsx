@@ -62,9 +62,9 @@ export const OrderIntakeSchematic: React.FC = () => (
   </svg>
 );
 
-/** One order, eight checks, safe repairs, one ticket for what a person must decide. */
+/** One order, nine checks, safe repairs, one ticket for what a person must decide. */
 export const OrderReviewSchematic: React.FC = () => {
-  const checks = ['Profile', 'Placeholder', 'Exteriors', 'Sq ft', 'Lockbox', 'Notes', 'Arrival', 'Floor plan'];
+  const checks = ['Profile', 'Placeholder', 'Exteriors', 'Sq ft', 'Lockbox', 'Notes', 'Arrival', 'Floor plan', 'Same-day'];
   return (
     <svg viewBox="0 0 300 180" fill="none" className="w-full h-full" aria-hidden="true">
       {/* the order */}
@@ -72,9 +72,9 @@ export const OrderReviewSchematic: React.FC = () => {
       <line x1="18" y1="54" x2="88" y2="54" stroke={ink} strokeWidth="1" />
       {[64, 76, 88, 100, 112].map((y, i) => <line key={y} x1="26" y1={y} x2={i === 2 ? 62 : 78} y2={y} stroke={scaffold} strokeWidth="1" />)}
       <Label x={53} y={154}>Order · every 10 min</Label>
-      {/* the eight checks */}
+      {/* the nine checks */}
       {checks.map((c, i) => {
-        const y = 32 + i * 16;
+        const y = 28 + i * 15;
         const state = i === 3 ? 'flag' : i === 6 ? 'fix' : 'ok';
         return (
           <g key={c}>
@@ -87,7 +87,7 @@ export const OrderReviewSchematic: React.FC = () => {
           </g>
         );
       })}
-      <Label x={150} y={172}>8 checks</Label>
+      <Label x={150} y={172}>9 checks</Label>
       {/* outcomes */}
       <rect x="214" y="42" width="66" height="30" rx="1" fill="white" stroke={ink} strokeWidth="1.2" />
       <path d="M 222 57 L 227 62 L 236 50" stroke={success} strokeWidth="1.5" />

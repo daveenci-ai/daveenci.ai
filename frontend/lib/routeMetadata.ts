@@ -70,7 +70,7 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'guide' | 'not-fo
   },
   'order-review': {
     title: 'Order Review — every Aryeo order checked while it’s still fixable | DaVeenci',
-    description: 'Order Review checks every new Aryeo order against eight rules within ten minutes, fixes what is safe to fix, and sends one ticket for the rest. $2,500, fixed.',
+    description: 'Order Review checks every new Aryeo order against nine rules within ten minutes, fixes what is safe to fix, and sends one ticket for the rest. $2,500, fixed.',
     path: '/shoot-ops/order-review',
   },
   calendar: {

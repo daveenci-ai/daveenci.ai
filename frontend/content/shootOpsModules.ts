@@ -40,11 +40,11 @@ export const shootOpsModules: ShootOpsModule[] = [
     status: 'live',
     statusNote: 'Live · since Jul 2026, every 10 minutes',
     question: 'Is the order right while it is still fixable?',
-    summary: 'Checks every new order against eight rules and repairs what is safe to repair.',
+    summary: 'Checks every new order against nine rules and repairs what is safe to repair.',
     price: '$2,500 fixed · live within a week',
     page: 'order-review',
     path: '/shoot-ops/order-review',
-    detail: 'Profile notes, skip-to-add-on items, exteriors-only, square-footage anomalies against public records, missing lockbox combos, appointment-note anomalies, floor-plan variant vs. square footage, and an AI read of the notes for order changes and constraints. Safe fixes are applied with read-back verification — dated note lines, cancelling a stray add-on, the agent on-camera email, a public-record note with beds and baths, the stand-alone floor-plan payout tier. Anything with an issue becomes one ticket listing everything found; clean orders are tagged reviewed. A field that cannot be read is inconclusive, never a pass.',
+    detail: 'Profile notes, skip-to-add-on items, exteriors-only, square-footage anomalies against public records, missing lockbox combos, appointment-note anomalies, floor-plan variant vs. square footage, an AI read of the notes for order changes and constraints, and same-day orders, flagged the moment they land. Safe fixes are applied with read-back verification — dated note lines, cancelling a stray add-on, the agent on-camera email, a public-record note with beds and baths, the stand-alone floor-plan payout tier. Anything with an issue becomes one ticket listing everything found; clean orders are tagged reviewed. A field that cannot be read is inconclusive, never a pass.',
   },
   {
     number: '03',
