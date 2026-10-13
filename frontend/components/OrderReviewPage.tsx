@@ -3,15 +3,16 @@ import {
   Check,
   ClipboardList,
   Clock,
+  FileSearch,
   FileWarning,
   Home,
+  Inbox,
   KeyRound,
-  Link2,
+  ListChecks,
   MessageSquareWarning,
   Ruler,
   ScissorsLineDashed,
-  Video,
-  Wallet,
+  Wrench,
   X,
 } from 'lucide-react';
 import Header from './Header';
@@ -23,7 +24,7 @@ import { readAttribution } from '../lib/attribution';
 import { useScrollProgress } from '../lib/useScrollProgress';
 import { termsNoteFor } from '../content/shootOpsModules';
 import { ModuleSchematic } from './ShootOpsModuleSchematics';
-import { HeroReview, OUTCOMES, TicketMock } from './orderReview/ReviewVisuals';
+import { FixPanel, HeroReview, OUTCOMES, ReadPanel, ResultsPanel, SweepPanel, TicketMock } from './orderReview/ReviewVisuals';
 import ModulePairing from './ModulePairing';
 import AntonSketch from '../images/Anton_Sketch.webp';
 
@@ -96,36 +97,68 @@ const CHECKS: { n: string; title: string; body: string; Icon: React.ComponentTyp
   },
 ];
 
-const FIXES: { title: string; body: string; Icon: React.ComponentType<{ className?: string }> }[] = [
+// Fig. iv — the module's run on one order, in the order the production code does it (sweep.js → extract →
+// checks.js → execute.js). The 3-D stacking cards match the Concierge Order Intake page; the ticket and the three
+// endings follow in Fig. v.
+const PIPELINE: {
+  n: string;
+  eyebrow: string;
+  title: string;
+  body: string;
+  bullets: string[];
+  Icon: React.ComponentType<{ className?: string }>;
+  Panel: React.FC;
+}[] = [
   {
-    title: 'Beds and baths for the photographer',
-    body: 'Adds “Per public records: 3 Beds, 2 Baths” to the appointment notes, so a bedroom isn’t missed on the shoot.',
-    Icon: Home,
+    n: '01',
+    eyebrow: 'Find',
+    title: 'Every order nobody has looked at yet.',
+    body: 'Every ten minutes it opens your orders list, newest first, and picks up every order without a tag — scheduled or not. An order your team has already tagged is left alone.',
+    bullets: [
+      'A few orders per run, each with its own time limit, so one slow page never holds up the rest.',
+      'If the platform is slow or the login fails, it stops cleanly and the next sweep starts again. Nothing is marked reviewed after a hiccup.',
+    ],
+    Icon: Inbox,
+    Panel: SweepPanel,
   },
   {
-    title: 'Placeholder item cancelled',
-    body: 'Cancels the skipped-product placeholder and checks that every other item on the order is still there.',
-    Icon: ScissorsLineDashed,
+    n: '02',
+    eyebrow: 'Read',
+    title: 'Everything a careful admin reads, every time.',
+    body: 'The line items, square footage, access instructions and lockbox code, the appointment notes, the internal notes and the customer’s profile notes — then the address in public property records for beds, baths and square footage.',
+    bullets: [
+      'Line items come from the data behind the page, not from how the page looks, so a redesign doesn’t blind it.',
+      'An order with no line items means the read failed. It isn’t reviewed; it’s read again on the next sweep.',
+    ],
+    Icon: FileSearch,
+    Panel: ReadPanel,
   },
   {
-    title: 'Property website kept',
-    body: 'A web address the agent put in the appointment notes is copied to the top of your internal notes, dated.',
-    Icon: Link2,
+    n: '03',
+    eyebrow: 'Check',
+    title: 'Eight checks. Three possible answers.',
+    body: 'Each check ends as pass, flag, or couldn’t read — and couldn’t read is never counted as a pass. The appointment notes are read twice: by fixed patterns and by an AI read of the wording.',
+    bullets: [
+      'A note over 1,000 characters always goes to a person, whatever the patterns say: a long note usually buries something.',
+      'Its own lines are stripped before the notes are read, so it never flags something it wrote itself.',
+      'Public records only inform. Your square footage is never changed on their word.',
+    ],
+    Icon: ListChecks,
+    Panel: ResultsPanel,
   },
   {
-    title: 'On-camera prep for video orders',
-    body: 'When a video with the agent on camera is ordered, the agent gets your prep instructions by email — and a dated note says so, so nobody sends them twice.',
-    Icon: Video,
-  },
-  {
-    title: 'Floor-plan payout set',
-    body: 'For a stand-alone floor plan, the photographer’s payout is set to the right size tier and a dated note records the amount.',
-    Icon: Wallet,
-  },
-  {
-    title: 'Tagged when done',
-    body: 'Every order ends tagged Reviewed or Flagged, so the next sweep — and your team — knows it has been looked at.',
-    Icon: Check,
+    n: '04',
+    eyebrow: 'Fix',
+    title: 'The small fixes, made and checked.',
+    body: 'Only the fixes you agreed to during setup. After each one it reloads the order and confirms the change is there before it counts.',
+    bullets: [
+      'Cancels a skipped-product placeholder, then confirms every other item is still on the order.',
+      'Adds beds and baths from public records to the appointment notes, with “HOA property, check for amenities” when the home has an HOA fee.',
+      'Copies a property website from the notes to the top of your internal notes, dated; emails the agent your on-camera prep when a video with the agent is ordered.',
+      'Sets the photographer’s floor-plan payout to the right size tier — and waits for a photographer to be assigned rather than guessing. A fix that fails three times goes to a person.',
+    ],
+    Icon: Wrench,
+    Panel: FixPanel,
   },
 ];
 
@@ -342,25 +375,40 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
         </div>
       </Section>
 
-      {/* What it fixes on its own */}
-      <Section className="py-20 md:py-28" pattern="grid">
+      {/* From new order to done: the 3-D stacking cards, as on the Concierge Order Intake page */}
+      <Section id="pipeline" className="py-20 md:py-28" pattern="grid">
         <SectionHeader
-          eyebrow="Fig. iv · What it fixes on its own"
-          title="The small fixes, done and checked."
-          subtitle="Each fix is switched on only if you want it, and read back after it’s made. A fix that keeps failing is handed to a person instead of retried forever."
+          eyebrow="Fig. iv · From new order to done"
+          title="Four steps a careful admin takes — taken on every order."
+          subtitle="The same order of work your best person follows, by rule, every ten minutes. Where a person would stop and ask, it stops and puts it on the ticket."
         />
         <Stack>
-          {[FIXES.slice(0, 3), FIXES.slice(3)].map((group, gi) => (
-            <article key={gi} className="stack-card grid grid-cols-1 md:grid-cols-3 gap-6 bg-paper border border-ink/10 p-6 md:p-10 shadow-lg shadow-ink/5 rounded-sm">
-              {group.map((f) => (
-                <div key={f.title}>
-                  <span className="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mb-4">
-                    <f.Icon className="w-5 h-5 text-accent" />
-                  </span>
-                  <h3 className="font-serif text-2xl text-ink leading-tight mb-2">{f.title}</h3>
-                  <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{f.body}</p>
+          {PIPELINE.map((step) => (
+            <article key={step.n} className="stack-card grid grid-cols-1 lg:grid-cols-12 gap-8 bg-paper border border-ink/10 p-6 md:p-10 shadow-lg shadow-ink/5 rounded-sm">
+              <div className="lg:col-span-5 order-2 lg:order-1">
+                <div className="font-serif italic text-xs tracking-[0.2em] text-ink-muted uppercase mb-3">Step {step.n} · {step.eyebrow}</div>
+                <div className="border border-ink/10 bg-white/60 rounded-sm p-4">
+                  <step.Panel />
                 </div>
-              ))}
+              </div>
+              <div className="lg:col-span-7 order-1 lg:order-2 flex flex-col justify-center">
+                <div className="flex items-center gap-4 mb-3">
+                  <span className="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
+                    <step.Icon className="w-5 h-5 text-accent" />
+                  </span>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">{step.eyebrow}</span>
+                </div>
+                <h3 className="font-serif text-2xl md:text-4xl text-ink leading-tight mb-4">{step.title}</h3>
+                <p className="font-sans text-[17px] leading-relaxed text-ink-muted mb-5">{step.body}</p>
+                <ul className="space-y-2.5">
+                  {step.bullets.map((b) => (
+                    <li key={b} className="flex items-start gap-3 font-sans text-sm leading-relaxed text-ink-muted">
+                      <Check className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" aria-hidden="true" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </article>
           ))}
         </Stack>
