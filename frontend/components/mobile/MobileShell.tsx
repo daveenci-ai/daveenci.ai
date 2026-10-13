@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { isShootOpsPath } from '../../lib/shootOpsBooking';
 import { MobileTopBar } from './MobileTopBar';
 import { MobileButton } from './MobileButton';
 import { MobileErrorBoundary } from './MobileErrorBoundary';
@@ -60,7 +61,7 @@ export const MobileShell: React.FC<MobileShellProps> = ({
       >
         <MobileButton
           tabIndex={bottomCtaVisible ? 0 : -1}
-          analytics={{ cta_id: 'talk_to_us', surface: 'mobile_sticky', from_page: window.location.pathname, destination: '/calendar' }}
+          analytics={{ cta_id: 'talk_to_us', surface: 'mobile_sticky', from_page: window.location.pathname, destination: isShootOpsPath(window.location.pathname) ? '/book/anton' : '/calendar' }}
           onClick={() => onNavigate('calendar')}
         >Talk to us</MobileButton>
       </div>

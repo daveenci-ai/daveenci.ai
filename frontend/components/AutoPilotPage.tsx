@@ -31,6 +31,7 @@ import { MobileAutoPilotPage } from './mobile/MobileAutoPilotPage';
 import { ShootOpsGuides } from './ShootOpsGuides';
 import { useCaseEngaged } from '../lib/useCaseEngaged';
 import type { Page } from './types';
+import { openShootOpsBooking } from '../lib/shootOpsBooking';
 import { CaseEvidence } from './CaseEvidence';
 import { shootOpsEvidence } from '../content/shootOpsEvidence';
 import { modulePageFor, platformTermsNote, shootOpsModules, shootOpsPlatforms } from '../content/shootOpsModules';
@@ -196,7 +197,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
                 size="md"
                 actions={
                   <>
-                    <Button variant="primary" analytics={{ cta_id: 'name_handoff', surface: 'case_hero', from_page: 'autopilot', destination: '/calendar' }} onClick={() => onNavigate('calendar')} className="text-[16px] px-8 py-4">Name the handoff that breaks</Button>
+                    <Button variant="primary" analytics={{ cta_id: 'name_handoff', surface: 'case_hero', from_page: 'autopilot', destination: '/book/anton' }} onClick={() => openShootOpsBooking(onNavigate)} className="text-[16px] px-8 py-4">Name the handoff that breaks</Button>
                     <Button variant="secondary" onClick={() => document.getElementById('autopilot-workflow')?.scrollIntoView({ behavior: 'smooth' })} className="text-[16px] px-8 py-4">See the workflow</Button>
                   </>
                 }
@@ -353,7 +354,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
             <h2 className="font-serif text-4xl md:text-5xl text-ink mb-6">Where is your workflow still held together by attention?</h2>
             <p className="font-sans text-lg text-ink-muted leading-relaxed mb-8">Bring us the handoffs, spot checks, and exception queues your team carries in its head. We will map where specialists, safe actions, and human gates belong.</p>
             <div className="flex justify-center">
-              <Button variant="primary" onClick={() => onNavigate('calendar')} className="text-[16px] px-8 py-4">Name the handoff that breaks</Button>
+              <Button variant="primary" onClick={() => openShootOpsBooking(onNavigate)} className="text-[16px] px-8 py-4">Name the handoff that breaks</Button>
             </div>
           </ScrollReveal>
         </div>

@@ -21,6 +21,7 @@ import { Reveal } from '../motion/Parallax';
 import { Stack } from '../motion/Stack';
 import { useScrollProgress } from '../../lib/useScrollProgress';
 import type { Page } from '../types';
+import { openShootOpsBooking } from '../../lib/shootOpsBooking';
 import { CaseEvidence } from '../CaseEvidence';
 import { shootOpsEvidence } from '../../content/shootOpsEvidence';
 import { modulePageFor, platformTermsNote, shootOpsModules, shootOpsPlatforms } from '../../content/shootOpsModules';
@@ -84,7 +85,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
             ))}
           </ul>
         </div>
-        <MobileButton analytics={{ cta_id: 'name_handoff', surface: 'case_hero', from_page: 'autopilot', destination: '/calendar' }} onClick={() => onNavigate('calendar')}>Name the handoff that breaks</MobileButton>
+        <MobileButton analytics={{ cta_id: 'name_handoff', surface: 'case_hero', from_page: 'autopilot', destination: '/book/anton' }} onClick={() => openShootOpsBooking(onNavigate)}>Name the handoff that breaks</MobileButton>
         <MobileButton
           variant="secondary"
           className="mt-3"
@@ -246,7 +247,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
         <Clock3 className="w-7 h-7 text-accent mx-auto mb-5" strokeWidth={1.4} />
         <h2 className="font-serif text-[2.1rem] leading-[1.08] text-ink mb-5">Where is your workflow still held together by attention?</h2>
         <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-7">Bring us the handoffs, spot checks, and exception queues your team carries in its head.</p>
-        <MobileButton onClick={() => onNavigate('calendar')}>Name the handoff that breaks</MobileButton>
+        <MobileButton onClick={() => openShootOpsBooking(onNavigate)}>Name the handoff that breaks</MobileButton>
       </section>
 
       <MobileNextCase
