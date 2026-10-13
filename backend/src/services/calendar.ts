@@ -4,8 +4,8 @@ import type { Host } from '../hosts';
 const CALENDAR_SCOPES = ['https://www.googleapis.com/auth/calendar'];
 const GMAIL_SCOPES = ['https://www.googleapis.com/auth/gmail.send'];
 
-// Create auth client with Domain-Wide Delegation (impersonating the calendar owner)
-export const createAuthClient = (scopes: string[]) => {
+// Create auth client with Domain-Wide Delegation, impersonating `subject` (default: the calendar owner).
+export const createAuthClient = (scopes: string[], subject: string | undefined = process.env.GOOGLE_CALENDAR_OWNER_EMAIL) => {
     return new google.auth.GoogleAuth({
         credentials: {
             client_email: process.env.GOOGLE_CLIENT_EMAIL,
@@ -15,15 +15,44 @@ export const createAuthClient = (scopes: string[]) => {
         },
         scopes: scopes,
         clientOptions: {
-            subject: process.env.GOOGLE_CALENDAR_OWNER_EMAIL, // Impersonate this user
+            subject, // Impersonate this user
         },
     });
 };
 
+
+/** True when Google refused to let the service account act as that user (not a calendar error). */
+export const isDelegationError = (error: any): boolean => {
+    const code = error?.response?.data?.error || error?.code;
+    const text = `${error?.message || ''} ${JSON.stringify(error?.response?.data || '')}`;
+    return code === 'unauthorized_client' || code === 'invalid_grant' || code === 'access_denied'
+        || /unauthorized_client|invalid_grant|Client is unauthorized/i.test(text);
+};
+
+/**
+ * Run a Google call as the host (so invites and emails come from them). If Google won't let the
+ * service account act as the host, run it once more as the owner account — the pre-13-Oct behaviour —
+ * and log it, so a booking never fails because of per-host sending.
+ */
+export const withHostAuth = async <T>(
+    host: Pick<Host, 'key' | 'senderEmail'>,
+    scopes: string[],
+    run: (auth: any, subject: string | undefined) => Promise<T>,
+    makeAuth: (scopes: string[], subject?: string) => any = createAuthClient,
+): Promise<T> => {
+    const owner = process.env.GOOGLE_CALENDAR_OWNER_EMAIL;
+    const subject = host.senderEmail || owner;
+    try {
+        return await run(makeAuth(scopes, subject), subject);
+    } catch (error) {
+        if (subject === owner || !isDelegationError(error)) throw error;
+        console.warn(`[calendar] cannot act as ${host.key}'s account; falling back to the owner account`);
+        return run(makeAuth(scopes, owner), owner);
+    }
+};
+
 const sendOwnerEmail = async (eventDetails: any, host: Host) => {
     const { name, email, company, reason, notes, date, time, dateTime } = eventDetails;
-    const auth = createAuthClient([...CALENDAR_SCOPES, ...GMAIL_SCOPES]);
-    const gmail = google.gmail({ version: 'v1', auth });
 
     const subject = `New Booking: ${host.key === 'anton' ? 'Module call' : 'Meet Astrid'} | ${name}`;
 
@@ -52,8 +81,11 @@ Time: ${formattedTime}
 `;
 
     const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
+    const owner = process.env.GOOGLE_CALENDAR_OWNER_EMAIL;
+    const to = host.senderEmail || owner;
     const messageParts = [
-        `To: ${process.env.GOOGLE_CALENDAR_OWNER_EMAIL}`,
+        `To: ${to}`,
+        ...(owner && to !== owner ? [`Cc: ${owner}`] : []),
         'Content-Type: text/html; charset=utf-8',
         'MIME-Version: 1.0',
         `Subject: ${utf8Subject}`,
@@ -70,12 +102,14 @@ Time: ${formattedTime}
         .replace(/=+$/, '');
 
     try {
-        await gmail.users.messages.send({
-            userId: 'me',
-            requestBody: {
-                raw: encodedMessage,
-            },
-        });
+        await withHostAuth(host, [...CALENDAR_SCOPES, ...GMAIL_SCOPES], (auth) =>
+            google.gmail({ version: 'v1', auth }).users.messages.send({
+                userId: 'me',
+                requestBody: {
+                    raw: encodedMessage,
+                },
+            }),
+        );
     } catch (error: any) {
         console.error('Error sending owner confirmation email:', error?.response?.data || error?.message || error);
     }
@@ -83,9 +117,6 @@ Time: ${formattedTime}
 
 export const createCalendarEvent = async (eventDetails: any, host: Host) => {
     const { name, email, date, time, dateTime } = eventDetails;
-
-    const auth = createAuthClient(CALENDAR_SCOPES);
-    const calendar = google.calendar({ version: 'v3', auth });
 
     // Use provided ISO dateTime or fallback to constructing it (legacy support)
     let startDateTime: Date;
@@ -135,12 +166,14 @@ export const createCalendarEvent = async (eventDetails: any, host: Host) => {
     };
 
     try {
-        const response = await calendar.events.insert({
-            calendarId: host.calendarId,
-            conferenceDataVersion: 1, // Required to create Google Meet links
-            requestBody: event,
-            sendUpdates: 'all', // Send email invitations to attendees
-        });
+        const response = await withHostAuth(host, CALENDAR_SCOPES, (auth) =>
+            google.calendar({ version: 'v3', auth }).events.insert({
+                calendarId: host.calendarId,
+                conferenceDataVersion: 1, // Required to create Google Meet links
+                requestBody: event,
+                sendUpdates: 'all', // Send email invitations to attendees
+            }),
+        );
 
         // Send detailed email to owner in background
         sendOwnerEmail(eventDetails, host).catch(err => console.error('Background email error:', err?.response?.data || err?.message || err));
@@ -153,18 +186,18 @@ export const createCalendarEvent = async (eventDetails: any, host: Host) => {
 };
 
 export const getBusySlots = async (start: string, end: string, host: Host) => {
-    const auth = createAuthClient(CALENDAR_SCOPES);
-    const calendar = google.calendar({ version: 'v3', auth });
     const calendarId = host.calendarId || 'primary';
 
     try {
-        const response = await calendar.freebusy.query({
-            requestBody: {
-                timeMin: start,
-                timeMax: end,
-                items: [{ id: calendarId }],
-            },
-        });
+        const response = await withHostAuth(host, CALENDAR_SCOPES, (auth) =>
+            google.calendar({ version: 'v3', auth }).freebusy.query({
+                requestBody: {
+                    timeMin: start,
+                    timeMax: end,
+                    items: [{ id: calendarId }],
+                },
+            }),
+        );
 
         const busySlots = response.data.calendars?.[calendarId]?.busy || [];
         return busySlots;
