@@ -86,6 +86,31 @@ export const termsNoteFor = (platforms: string): string =>
   `DaVeenci builds and maintains software. We're not a law firm and don't give legal advice. Your ${platforms} account and its terms stay yours, and you decide how it's used.`;
 export const platformTermsNote = termsNoteFor('Aryeo or Spiro');
 
+/**
+ * The two fixed-price starter modules point at each other (Anton, 13 Oct 2026): each module page carries a
+ * "Pairs with" band for the other one, between the offer and the first two weeks. Same terms on both, so the
+ * band repeats them. The Order Review side names Aryeo only, like the rest of that page.
+ */
+export type StarterModuleId = 'order-intake' | 'order-review';
+
+export const modulePairings: Record<StarterModuleId, { with: StarterModuleId; eyebrow: string; title: string; body: string }> = {
+  'order-intake': {
+    with: 'order-review',
+    eyebrow: 'Pairs with · Module 02',
+    title: 'Placed without retyping. Then checked within ten minutes.',
+    body: 'Concierge Order Intake gets the order in. Order Review opens every new Aryeo order — placed by this module, by an agent or by your team — and checks the lockbox code, the square footage, the notes and five more things before the photographer is on the way. When an email had no square footage, it flags the placeholder with the public-record figure.',
+  },
+  'order-review': {
+    with: 'order-intake',
+    eyebrow: 'Pairs with · Module 01',
+    title: 'Checked here. Placed without retyping before it.',
+    body: 'Order Review checks every order, however it arrived. Concierge Order Intake takes the retyping out of the step before: it reads the concierge order email, places the order in Aryeo — right form, right agent, nearest open slot — and reads the order number back before it counts.',
+  },
+};
+
+/** Shared by both starter modules, so the pairing band can say "same terms" without restating them per page. */
+export const starterModuleTerms = 'Same terms as this module: full refund if it isn’t working after two weeks, no subscription, and you keep the code.';
+
 /** The module page for a module title, if it has one — Fig. i links its rows here. */
 export const modulePageFor = (title: string): { page: Page; path: string } | null => {
   const m = shootOpsModules.find((x) => x.title === title && x.page && x.path);

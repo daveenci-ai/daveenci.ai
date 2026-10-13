@@ -213,7 +213,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
       <section id="shoot-ops-modules" className="px-6 py-12 bg-ink text-canvas scroll-mt-16">
         <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">The modules · September 2026</div>
         <h2 className="font-serif text-[2.1rem] leading-[1.08] mb-4">Four modules. Start with Concierge Order Intake.</h2>
-        <p className="font-sans text-[14px] text-canvas/65 leading-relaxed mb-7">Each module runs inside the platform you already use and stops when it is not sure. Concierge Order Intake is the first, small one; the rest follow once it is live.</p>
+        <p className="font-sans text-[14px] text-canvas/65 leading-relaxed mb-7">Each module runs inside the platform you already use and stops when it is not sure. Concierge Order Intake and Order Review are the two small ones — fixed price, live within a week. Start with either; the other two follow once one is live.</p>
         <div className="space-y-4">
           {shootOpsModules.map((module) => {
             const tone = module.status === 'live' ? 'text-green-300' : 'text-amber-300';

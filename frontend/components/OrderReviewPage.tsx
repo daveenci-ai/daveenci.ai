@@ -24,6 +24,7 @@ import { useScrollProgress } from '../lib/useScrollProgress';
 import { termsNoteFor } from '../content/shootOpsModules';
 import { ModuleSchematic } from './ShootOpsModuleSchematics';
 import { HeroReview, OUTCOMES, TicketMock } from './orderReview/ReviewVisuals';
+import ModulePairing from './ModulePairing';
 import AntonSketch from '../images/Anton_Sketch.webp';
 
 interface OrderReviewPageProps {
@@ -472,6 +473,9 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
         </div>
       </Section>
 
+      {/* The other starter module */}
+      <ModulePairing current="order-review" onNavigate={onNavigate} />
+
       {/* The first two weeks + access */}
       <Section className="py-20 md:py-28 bg-white/35" pattern="grid">
         <SectionHeader eyebrow="Fig. vii · Getting started" title="How the first two weeks go." />
@@ -504,13 +508,6 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           <div className="lg:col-span-4">
             <SectionHeader eyebrow="Questions" title="What owners ask first." className="!mb-6" />
-            <p className="font-sans text-ink-muted leading-relaxed">
-              Also part of Shoot Ops:{' '}
-              <a href="/shoot-ops/concierge-order-intake" onClick={toPage('order-intake')} className="underline underline-offset-2 hover:text-ink">
-                Concierge Order Intake
-              </a>
-              , which places concierge orders from email.
-            </p>
           </div>
           <div className="lg:col-span-8 space-y-8">
             {FAQS.map(({ q, a }) => (

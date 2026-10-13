@@ -21,6 +21,7 @@ import {
   SlotsPanel,
   VerifyPanel,
 } from './orderIntake/IntakeVisuals';
+import ModulePairing from './ModulePairing';
 import AntonSketch from '../images/Anton_Sketch.webp';
 
 interface OrderIntakePageProps {
@@ -134,6 +135,7 @@ const NOT_INCLUDED = [
   'Order sources other than email (forms, phone)',
   'A second platform',
   'Custom pricing rules',
+  'Checking orders once they’re placed — that is Order Review',
   'Photo QA — that is the Real-time Photo Review module',
 ];
 
@@ -556,7 +558,18 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
                     {NOT_INCLUDED.map((item) => (
                       <li key={item} className="flex gap-3 items-baseline font-sans text-sm text-ink-muted leading-relaxed">
                         <X className="w-4 h-4 text-ink-muted/50 shrink-0 translate-y-0.5" aria-hidden="true" />
-                        <span>{item}</span>
+                        <span>
+                          {item.startsWith('Checking orders') ? (
+                            <>
+                              Checking orders once they’re placed — that is{' '}
+                              <a href="/shoot-ops/order-review" onClick={toPage('order-review')} className="underline underline-offset-2 hover:text-ink">
+                                Order Review
+                              </a>
+                            </>
+                          ) : (
+                            item
+                          )}
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -566,6 +579,9 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
           </div>
         </div>
       </Section>
+
+      {/* The other starter module */}
+      <ModulePairing current="order-intake" onNavigate={onNavigate} />
 
       {/* The first two weeks + access */}
       <Section className="py-20 md:py-28 bg-white/35" pattern="grid">
@@ -599,13 +615,6 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           <div className="lg:col-span-4">
             <SectionHeader eyebrow="Questions" title="What owners ask first." className="!mb-6" />
-            <p className="font-sans text-ink-muted leading-relaxed">
-              Also part of Shoot Ops:{' '}
-              <a href="/shoot-ops/order-review" onClick={toPage('order-review')} className="underline underline-offset-2 hover:text-ink">
-                Order Review
-              </a>
-              , which checks every new order against eight rules.
-            </p>
           </div>
           <div className="lg:col-span-8 space-y-8">
             {FAQS.map(({ q, a }) => (
