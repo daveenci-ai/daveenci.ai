@@ -7,6 +7,7 @@ import { applyRouteMetadata } from './lib/routeMetadata';
 import DaVeenciLandingPage from './DaVeenciLandingPage';
 import { installReducedMotionSmil } from './lib/reducedMotionSmil';
 import { rememberAttribution, defaultBookingHost, readAttribution } from './lib/attribution';
+import { bookingTargetFor, shootOpsBookingHref } from './lib/shootOpsBooking';
 import { rememberCampaign } from './lib/campaign';
 
 // Route-level code splitting — each page becomes its own lazy chunk.
@@ -260,7 +261,15 @@ const App: React.FC = () => {
     }
   }, [page, targetSection, scrollToHash]);
 
-  const handleNavigate = (targetPage: Page, hash?: string, id?: string) => {
+  const handleNavigate = (requestedPage: Page, hash?: string, id?: string) => {
+    // Shoot Ops calls are always booked with Anton: a generic "Talk to us" from a Shoot Ops page goes to his
+    // calendar, tagged as a module lead (lib/shootOpsBooking.ts).
+    const targetPage = bookingTargetFor(requestedPage, page);
+    if (targetPage !== requestedPage) {
+      rememberAttribution('?src=module');
+      window.history.pushState({ page: targetPage }, '', shootOpsBookingHref());
+    }
+
     // Update basic routing state
     setPage(targetPage);
     if (id && targetPage === 'guide') setSelectedGuideSlug(id);
