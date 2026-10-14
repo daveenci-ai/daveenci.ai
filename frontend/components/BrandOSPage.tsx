@@ -1022,9 +1022,6 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
 
       <Footer
         onNavigate={onNavigate}
-        newsletterHeading="Follow the workshop"
-        newsletterBody="Naming, scoring, and the rest of the studio's builds — field notes sent when the work earns it. Build-in-public, no fluff."
-        newsletterSource="brandos"
       />
     </div>
   );

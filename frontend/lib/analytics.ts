@@ -43,6 +43,7 @@ export interface AnalyticsEventMap {
   video_impression: { video_id: 'order_intake'; video_variant: VoiceVariant; forced: boolean };
   video_sound_on: { video_id: 'order_intake'; video_variant: VoiceVariant; via: 'button' | 'controls' };
   video_progress: { video_id: 'order_intake'; video_variant: VoiceVariant; percent: 25 | 50 | 75 | 100; sound: boolean };
+  // No longer sent (newsletter removed 14 Oct 2026). Kept while the GTM container still lists it; drop both together.
   newsletter_subscribe: { source: string };
 }
 

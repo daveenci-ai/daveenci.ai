@@ -2,7 +2,6 @@ import { Router, Request, Response } from 'express';
 import { createCalendarEvent, getBusySlots } from './services/calendar';
 import { saveConsultationRequest } from './services/consultation';
 import { registerForEvent } from './services/events';
-import { subscribeToNewsletter } from './services/newsletter';
 import { getAuthUrl, verifyGoogleToken } from './services/auth';
 import { analyzeBrands } from './services/brandAnalyzer';
 import { postToCrm } from './services/crmIntake';
@@ -31,10 +30,10 @@ const guard = (req: Request, res: Response): boolean => {
 
 /**
  * Hand a submission to the CRM intake. Never throws: intake being down must
- * not cost a booking or a subscription.
+ * not cost a booking or a registration.
  */
 const forwardToCrm = async (
-    kind: 'booking' | 'event' | 'newsletter',
+    kind: 'booking' | 'event',
     payload: Record<string, unknown>,
     req: Request,
 ) => {
@@ -45,65 +44,8 @@ const forwardToCrm = async (
     return result;
 };
 
-router.post('/newsletter/subscribe', async (req: Request, res: Response) => {
-    if (!guard(req, res)) return;
-    try {
-        const { email, source } = req.body;
-        if (!email) {
-            return res.status(400).json({ success: false, error: 'Email is required' });
-        }
-
-        // slice() can split a surrogate pair at the cap; strip any lone
-        // surrogate so the value stays valid UTF-8 for Postgres.
-        const cleanSource =
-            typeof source === 'string' && source.trim()
-                ? source.trim().slice(0, 100).replace(/[\uD800-\uDFFF]$/, '')
-                : undefined;
-        const crm = await forwardToCrm('newsletter', {
-            email,
-            source: cleanSource || 'site',
-            src: sanitizeSource(req.body.src),
-            t: sanitizeToken(req.body.t),
-            page: typeof req.body.page === 'string' ? req.body.page : '',
-            website: '',
-        }, req);
-
-        if (crm.rateLimited) {
-            return res.status(429).json({
-                success: false,
-                error: 'Too many submissions from your network. Please try again in a while.',
-            });
-        }
-
-        // The legacy Postgres record is on its way out with Supabase; a
-        // failure here must not lose a subscription the CRM already has.
-        let result: any = null;
-        try {
-            result = await subscribeToNewsletter(email, cleanSource || undefined);
-        } catch (error: any) {
-            if (error?.code === '23505') {
-                return res.status(409).json({
-                    success: false,
-                    error: 'You are already subscribed to the newsletter.',
-                    isDuplicate: true,
-                });
-            }
-            console.error('Newsletter legacy store failed (continuing):', error);
-        }
-
-        res.status(200).json({ success: true, result });
-    } catch (error: any) {
-        console.error('Newsletter subscription error:', error);
-        if (error?.code === '23505') {
-            return res.status(409).json({
-                success: false,
-                error: 'You are already subscribed to the newsletter.',
-                isDuplicate: true
-            });
-        }
-        res.status(500).json({ success: false, error: 'Failed to subscribe to newsletter' });
-    }
-});
+// No newsletter (14 Oct 2026): POST /newsletter/subscribe was removed with the site's signup forms. Rows already in
+// newsletter_request are left as they are.
 
 router.post('/events/register', async (req: Request, res: Response) => {
     if (!guard(req, res)) return;
@@ -126,7 +68,7 @@ router.post('/events/register', async (req: Request, res: Response) => {
             });
         }
 
-        // As with bookings and the newsletter, the legacy Postgres record is
+        // As with bookings, the legacy Postgres record is
         // on its way out with Supabase and must not cost a registration the
         // CRM already has.
         let result: any = null;

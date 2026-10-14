@@ -211,7 +211,7 @@ const Events: React.FC = () => {
             <SectionHeader
                eyebrow={scheduledEvents.length ? 'Upcoming' : 'Next dates'}
                title={scheduledEvents.length ? 'Come sit in.' : 'The next sessions are being planned.'}
-               subtitle={scheduledEvents.length ? 'Confirmed sessions are listed below with one shared source of truth for time and timezone.' : 'No public dates are open right now. Subscribe at the bottom of the page and we’ll send the next invitation when it is confirmed.'}
+               subtitle={scheduledEvents.length ? 'Confirmed sessions are listed below with one shared source of truth for time and timezone.' : 'No public dates are open right now. New sessions are listed here once they are confirmed.'}
             />
 
             {scheduledEvents.length > 0 ? (

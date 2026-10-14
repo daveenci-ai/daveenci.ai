@@ -1,48 +1,12 @@
-import React, { useState } from 'react';
-import { Logo, Button } from './Shared';
+import React from 'react';
+import { Logo } from './Shared';
 import type { Page } from './types';
-import { API_ENDPOINTS } from '../config';
-import { track } from '../lib/analytics';
 
 interface FooterProps {
   onNavigate?: (page: Page, hash?: string, id?: string) => void;
-  /** Contextual framing for the newsletter bar; falls back to the Codex default. */
-  newsletterHeading?: string;
-  newsletterBody?: string;
-  /** Attribution recorded with the subscription and the analytics event. */
-  newsletterSource?: string;
 }
 
-const Footer: React.FC<FooterProps> = ({
-  onNavigate,
-  newsletterHeading = 'Subscribe to the Codex',
-  newsletterBody = 'Field notes from active builds, sent when the work earns it. Build-in-public. No fluff.',
-  newsletterSource = 'footer',
-}) => {
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-
-  const handleSubscribe = async () => {
-    if (!email || status === 'loading') return;
-    setStatus('loading');
-    try {
-      const res = await fetch(API_ENDPOINTS.newsletter, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: newsletterSource }),
-      });
-      if (res.ok) {
-        track('newsletter_subscribe', { source: newsletterSource });
-        setStatus('success');
-        setEmail('');
-      } else {
-        setStatus('error');
-      }
-    } catch {
-      setStatus('error');
-    }
-  };
-
+const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const go = (page: Page, hash?: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     onNavigate?.(page, hash);
@@ -51,40 +15,6 @@ const Footer: React.FC<FooterProps> = ({
   return (
     <footer className="bg-ink text-canvas pt-16 pb-10 border-t border-white/10 [&_a]:focus-visible:outline-none [&_a]:focus-visible:ring-2 [&_a]:focus-visible:ring-accent [&_a]:focus-visible:ring-offset-2 [&_a]:focus-visible:ring-offset-ink">
       <div className="max-w-7xl mx-auto px-6">
-        {/* Newsletter bar */}
-        <div className="mb-16 pb-12 border-b border-white/10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          <div>
-            <h3 className="font-serif text-2xl md:text-3xl mb-2">{newsletterHeading}</h3>
-            <p className="font-sans text-canvas/70 leading-relaxed">{newsletterBody}</p>
-          </div>
-          {status === 'success' ? (
-            <p className="font-serif italic text-lg text-canvas/90">
-              You’re in. The next field note will arrive when it’s ready.
-            </p>
-          ) : (
-            <div className="flex flex-col sm:flex-row gap-3">
-              <label htmlFor={`newsletter-email-${newsletterSource}`} className="sr-only">Email address</label>
-              <input
-                id={`newsletter-email-${newsletterSource}`}
-                name="email"
-                autoComplete="email"
-                aria-label="Email address"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSubscribe()}
-                placeholder="you@company.com"
-                className="flex-1 bg-white/10 border border-white/20 px-4 py-3 text-base text-canvas placeholder:text-canvas/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus:border-accent rounded-sm"
-                disabled={status === 'loading'}
-              />
-              <Button type="button" variant="primary" onClick={handleSubscribe} className="px-6">
-                {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
-              </Button>
-              {status === 'error' && <p role="alert" className="self-center text-sm text-red-300">Please check your email and try again.</p>}
-            </div>
-          )}
-        </div>
-
         {/* Navigation hub */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-8 mb-12">
           <div>

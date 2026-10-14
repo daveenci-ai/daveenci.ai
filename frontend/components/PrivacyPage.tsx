@@ -29,7 +29,7 @@ const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
         <div className="max-w-3xl space-y-10 font-sans text-ink-muted leading-relaxed">
           <section>
             <h2 className="font-serif text-3xl text-ink mb-4">What we collect</h2>
-            <p>Newsletter signup stores your email address and the page or case study where you subscribed. Booking forms may store your name, email, phone number, company, reason for the call, notes, and the time you select. A confirmed event registration may store your name, email, event details, and the event timestamp.</p>
+            <p>Booking forms may store your name, email, phone number, company, reason for the call, notes, and the time you select. A confirmed event registration may store your name, email, event details, and the event timestamp.</p>
           </section>
 
           <section>

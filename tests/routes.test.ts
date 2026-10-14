@@ -5,12 +5,10 @@ import request from 'supertest';
 const createCalendarEvent = vi.fn(async () => ({ id: 'evt_1', htmlLink: 'https://cal' }));
 const getBusySlots = vi.fn(async () => [{ start: '2026-09-14T13:00:00Z', end: '2026-09-14T13:30:00Z' }]);
 const saveConsultationRequest = vi.fn(async () => ({ id: 1 }));
-const subscribeToNewsletter = vi.fn(async () => ({ id: 1 }));
 const registerForEvent = vi.fn(async () => ({ id: 1 }));
 
 vi.mock('../backend/src/services/calendar', () => ({ createCalendarEvent, getBusySlots }));
 vi.mock('../backend/src/services/consultation', () => ({ saveConsultationRequest }));
-vi.mock('../backend/src/services/newsletter', () => ({ subscribeToNewsletter }));
 vi.mock('../backend/src/services/events', () => ({ registerForEvent }));
 vi.mock('../backend/src/services/auth', () => ({ getAuthUrl: () => '', verifyGoogleToken: async () => ({}) }));
 vi.mock('../backend/src/services/brandAnalyzer', () => ({ analyzeBrands: async () => ({}) }));
@@ -158,35 +156,11 @@ describe('POST /api/events/register', () => {
   });
 });
 
-describe('POST /api/newsletter/subscribe', () => {
-  test('forwards the subscription to the CRM intake', async () => {
+describe('no newsletter (14 Oct 2026)', () => {
+  test('the subscribe endpoint is gone and nothing is sent to the CRM', async () => {
     const res = await request(app).post('/api/newsletter/subscribe').set('Origin', ORIGIN)
       .send({ email: 'a@b.com', source: 'footer', website: '' });
-    expect(res.status).toBe(200);
-    expect(crmCalls[0].url).toContain('/form/newsletter');
-    expect(crmCalls[0].body.email).toBe('a@b.com');
-  });
-
-  test('subscribes even when the legacy store is gone', async () => {
-    subscribeToNewsletter.mockRejectedValueOnce(new Error('no such table'));
-    const res = await request(app).post('/api/newsletter/subscribe').set('Origin', ORIGIN)
-      .send({ email: 'a@b.com', website: '' });
-    expect(res.status).toBe(200);
-    expect(res.body.success).toBe(true);
-  });
-
-  test('still reports a duplicate subscription', async () => {
-    subscribeToNewsletter.mockRejectedValueOnce(Object.assign(new Error('dup'), { code: '23505' }));
-    const res = await request(app).post('/api/newsletter/subscribe').set('Origin', ORIGIN)
-      .send({ email: 'a@b.com', website: '' });
-    expect(res.status).toBe(409);
-  });
-
-  test('a rate-limited intake asks the visitor to try again later', async () => {
-    stubCrm({ ok: false, status: 429, json: async () => ({}) });
-    const res = await request(app).post('/api/newsletter/subscribe').set('Origin', ORIGIN)
-      .send({ email: 'a@b.com', website: '' });
-    expect(res.status).toBe(429);
-    expect(res.body.error).toMatch(/try again/i);
+    expect(res.status).toBe(404);
+    expect(crmCalls).toHaveLength(0);
   });
 });

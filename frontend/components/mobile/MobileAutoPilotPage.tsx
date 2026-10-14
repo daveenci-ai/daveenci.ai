@@ -14,7 +14,6 @@ import {
 } from 'lucide-react';
 import { MobileButton } from './MobileButton';
 import { MobileNextCase } from './MobileNextCase';
-import { MobileSubscribe } from './MobileSubscribe';
 import { MobileScenePlate } from './MobileScenePlate';
 import { MobileShell } from './MobileShell';
 import { Reveal } from '../motion/Parallax';
@@ -258,11 +257,6 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
         onNavigate={onNavigate}
       />
 
-      <MobileSubscribe
-        heading="Follow the operations work"
-        body="How specialist teams take over real workflows — the handoffs, the gates, the morning reports. Sent when the work earns an update."
-        source="shoot-ops"
-      />
     </MobileShell>
   );
 };

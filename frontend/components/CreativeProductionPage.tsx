@@ -380,9 +380,6 @@ const CreativeProductionPageDesktop: React.FC<CreativeProductionPageProps> = ({ 
 
       <Footer
         onNavigate={onNavigate}
-        newsletterHeading="Follow the creative production work"
-        newsletterBody="Field notes on briefs, approvals, channel handoffs, and the production systems behind accountable creative output."
-        newsletterSource="creative-production"
       />
     </div>
   );
