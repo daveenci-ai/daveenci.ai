@@ -5,7 +5,12 @@
  * sentence direct answer that sits first on the page and in the structured data, sections carry the how, and `faq`
  * becomes FAQPage schema. Every guide is prerendered to static HTML at build time (scripts/prerender-routes.mjs) so
  * crawlers that do not run JavaScript still read the whole page. Never name a client here — proof stays anonymous.
+ *
+ * Since 14 Oct 2026 guides are generic and tagged (industry + topics) in content/guideTags.ts; every guide needs an
+ * entry there.
  */
+
+import { TAG_LABELS, tagListFor, type GuideTag } from './guideTags';
 
 export interface GuideSection {
   heading: string;
@@ -821,6 +826,10 @@ export const guides: Guide[] = [
 export const getGuide = (slug?: string | null): Guide | undefined =>
   slug ? guides.find((g) => g.slug === slug) : undefined;
 
+/** Guides carrying a tag (industry or topic); every guide when no tag is given. */
+export const guidesWithTag = (tag?: GuideTag | null): Guide[] =>
+  tag ? guides.filter((g) => tagListFor(g.slug).includes(tag)) : guides;
+
 /** Schema.org graph for a guide: the Article and its FAQPage, as JSON-LD-ready objects. */
 export const guideStructuredData = (guide: Guide, url: string, image: string, siteUrl: string) => ({
   '@context': 'https://schema.org',
@@ -834,6 +843,7 @@ export const guideStructuredData = (guide: Guide, url: string, image: string, si
       dateModified: guide.updatedAt,
       mainEntityOfPage: url,
       image,
+      keywords: tagListFor(guide.slug).map((t) => TAG_LABELS[t]).join(', '),
       author: { '@type': 'Person', name: guide.author, url: `${siteUrl}/who-we-are` },
       publisher: {
         '@type': 'Organization',
@@ -850,6 +860,15 @@ export const guideStructuredData = (guide: Guide, url: string, image: string, si
         name: f.q,
         acceptedAnswer: { '@type': 'Answer', text: f.a },
       })),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${url}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Library', item: `${siteUrl}/library` },
+        { '@type': 'ListItem', position: 2, name: 'Guides', item: `${siteUrl}/guides` },
+        { '@type': 'ListItem', position: 3, name: guide.question, item: url },
+      ],
     },
   ],
 });

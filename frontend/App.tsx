@@ -28,6 +28,7 @@ const OrderIntakePage = lazy(() => import('./components/OrderIntakePage'));
 const OrderReviewPage = lazy(() => import('./components/OrderReviewPage'));
 const GuidesPage = lazy(() => import('./components/GuidesPage'));
 const GuidePage = lazy(() => import('./components/GuidePage'));
+const LibraryPage = lazy(() => import('./components/LibraryPage'));
 const PulseNotePage = lazy(() => import('./components/PulseNotePage'));
 const BrandOSPage = lazy(() => import('./components/BrandOSPage'));
 const WorkPage = lazy(() => import('./components/WorkPage'));
@@ -57,6 +58,8 @@ const App: React.FC = () => {
   const [page, setPage] = useState<Page>(getInitialPage);
   const [selectedBriefingId, setSelectedBriefingId] = useState<string | null>(null);
   const [selectedGuideSlug, setSelectedGuideSlug] = useState<string | null>(null);
+  // Tag filter on the guides index (?tag=, content/guideTags.ts).
+  const [guideTag, setGuideTag] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [targetSection, setTargetSection] = useState<string | null>(null);
   const [routeReady, setRouteReady] = useState(false);
@@ -121,8 +124,11 @@ const App: React.FC = () => {
         }
       } else if (path === '/modules') {
         setPage('modules');
+      } else if (path === '/library') {
+        setPage('library');
       } else if (path === '/guides') {
         setPage('guides');
+        setGuideTag(new URLSearchParams(window.location.search).get('tag'));
       } else if (path.startsWith('/guides/')) {
         const slug = path.split('/')[2];
         if (slug) {
@@ -264,7 +270,7 @@ const App: React.FC = () => {
   const handleNavigate = (requestedPage: Page, hash?: string, id?: string) => {
     // Shoot Ops calls are always booked with Anton: a generic "Talk to us" from a Shoot Ops page goes to his
     // calendar, tagged as a module lead (lib/shootOpsBooking.ts).
-    const targetPage = bookingTargetFor(requestedPage, page);
+    const targetPage = bookingTargetFor(requestedPage, page, page === 'guide' ? selectedGuideSlug : null);
     if (targetPage !== requestedPage) {
       rememberAttribution('?src=module');
       window.history.pushState({ page: targetPage }, '', shootOpsBookingHref());
@@ -273,6 +279,7 @@ const App: React.FC = () => {
     // Update basic routing state
     setPage(targetPage);
     if (id && targetPage === 'guide') setSelectedGuideSlug(id);
+    else if (targetPage === 'guides') setGuideTag(id ?? null);
     else if (id) setSelectedBriefingId(id);
 
     // Handle Active Section State (Visual)
@@ -299,7 +306,9 @@ const App: React.FC = () => {
     if (targetPage === 'modules') path = '/modules';
     if (targetPage === 'order-intake') path = '/shoot-ops/concierge-order-intake';
     if (targetPage === 'order-review') path = '/shoot-ops/order-review';
-    if (targetPage === 'guides') path = '/guides';
+    if (targetPage === 'library') path = '/library';
+    // For the guides index, id is an optional tag filter (content/guideTags.ts), e.g. from the Shoot Ops pages.
+    if (targetPage === 'guides') path = id ? `/guides?tag=${encodeURIComponent(id)}` : '/guides';
     if (targetPage === 'guide') path = `/guides/${id}`;
     if (targetPage === 'pulsenote') path = '/pulsenote';
     if (targetPage === 'brandos') path = '/brandos';
@@ -317,7 +326,8 @@ const App: React.FC = () => {
     // landing) — otherwise every such click inflates page_view counts and
     // stacks redundant history entries.
     const currentPath =
-      window.location.pathname === '/' ? '/' : window.location.pathname.replace(/\/$/, '');
+      (window.location.pathname === '/' ? '/' : window.location.pathname.replace(/\/$/, '')) +
+      (targetPage === 'guides' ? window.location.search : '');
     if (path !== currentPath) {
       window.history.pushState({ page: targetPage, briefingId: id }, '', `${path}${hash || ''}`);
     }
@@ -353,7 +363,17 @@ const App: React.FC = () => {
         {page === 'modules' && <ModulesPage onNavigate={handleNavigate} />}
         {page === 'order-intake' && <OrderIntakePage onNavigate={handleNavigate} />}
         {page === 'order-review' && <OrderReviewPage onNavigate={handleNavigate} />}
-        {page === 'guides' && <GuidesPage onNavigate={handleNavigate} />}
+        {page === 'library' && <LibraryPage onNavigate={handleNavigate} />}
+        {page === 'guides' && (
+          <GuidesPage
+            onNavigate={handleNavigate}
+            tag={guideTag}
+            onTagChange={(next) => {
+              setGuideTag(next);
+              window.history.replaceState({ page: 'guides' }, '', next ? `/guides?tag=${encodeURIComponent(next)}` : '/guides');
+            }}
+          />
+        )}
         {page === 'guide' && <GuidePage onNavigate={handleNavigate} slug={selectedGuideSlug} />}
         {page === 'pulsenote' && <PulseNotePage onNavigate={handleNavigate} />}
         {page === 'brandos' && <BrandOSPage onNavigate={handleNavigate} />}

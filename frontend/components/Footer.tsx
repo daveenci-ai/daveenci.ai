@@ -37,17 +37,17 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <li><a href="/#services" onClick={go('landing', '#services')} className="text-sm text-canvas/80 hover:text-white transition-colors">Services</a></li>
               <li><a href="/thesis" onClick={go('thesis')} className="text-sm text-canvas/80 hover:text-white transition-colors">Thesis</a></li>
               <li><a href="/book" onClick={go('book')} className="text-sm text-canvas/80 hover:text-white transition-colors">Talk to us</a></li>
-              <li><a href="/guides" onClick={go('guides')} className="text-sm text-canvas/80 hover:text-white transition-colors">Guides</a></li>
               <li><a href="/brandos" onClick={go('brandos')} className="text-sm text-canvas/80 hover:text-white transition-colors">BrandOS</a></li>
               <li><a href="/pulsenote" onClick={go('pulsenote')} className="text-sm text-canvas/80 hover:text-white transition-colors">PulseNote</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-mono text-[10px] uppercase tracking-[0.2em] text-canvas/60 mb-4">Codex</h4>
+            <h4 className="font-mono text-[10px] uppercase tracking-[0.2em] text-canvas/60 mb-4">Library</h4>
             <ul className="space-y-2">
-              <li><a href="/codex" onClick={go('briefings')} className="text-sm text-canvas/80 hover:text-white transition-colors">Latest briefings</a></li>
-              <li><a href="/codex" onClick={go('briefings')} className="text-sm text-canvas/80 hover:text-white transition-colors">Archive</a></li>
+              <li><a href="/library" onClick={go('library')} className="text-sm text-canvas/80 hover:text-white transition-colors">Library</a></li>
+              <li><a href="/guides" onClick={go('guides')} className="text-sm text-canvas/80 hover:text-white transition-colors">Guides</a></li>
+              <li><a href="/codex" onClick={go('briefings')} className="text-sm text-canvas/80 hover:text-white transition-colors">Codex</a></li>
             </ul>
           </div>
 

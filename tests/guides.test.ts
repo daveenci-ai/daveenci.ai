@@ -30,11 +30,13 @@ describe('guides (AEO answer pages)', () => {
     }
   });
 
-  test('structured data carries an Article and a FAQPage with every question', () => {
+  test('structured data carries an Article, a FAQPage with every question, and the Library breadcrumb', () => {
     const g = guides[0];
     const ld = guideStructuredData(g, `https://daveenci.ai/guides/${g.slug}`, 'https://daveenci.ai/daveenci-og.png', 'https://daveenci.ai') as any;
     const types = ld['@graph'].map((n: any) => n['@type']);
-    expect(types).toEqual(['Article', 'FAQPage']);
+    expect(types).toEqual(['Article', 'FAQPage', 'BreadcrumbList']);
+    expect(ld['@graph'][2].itemListElement.map((i: any) => i.name)).toEqual(['Library', 'Guides', g.question]);
+    expect(ld['@graph'][0].keywords).toContain('Real-estate media');
     expect(ld['@graph'][1].mainEntity).toHaveLength(g.faq.length);
     expect(ld['@graph'][0].author.name).toBe('Anton Osipov');
   });

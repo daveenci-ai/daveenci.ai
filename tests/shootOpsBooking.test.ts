@@ -11,11 +11,16 @@ const root = new URL('..', import.meta.url).pathname;
 
 describe('Shoot Ops calls are booked with Anton only (13 Oct 2026)', () => {
   it('a generic booking from any Shoot Ops page goes to Anton', () => {
-    for (const from of ['autopilot', 'order-intake', 'order-review', 'modules', 'guides', 'guide'] as const) {
+    for (const from of ['autopilot', 'order-intake', 'order-review', 'modules', 'guides'] as const) {
       expect(isShootOpsPage(from)).toBe(true);
       expect(bookingTargetFor('calendar', from)).toBe('book-anton');
       expect(bookingTargetFor('book', from)).toBe('book-anton');
     }
+    // Since the Library restructure (14 Oct 2026) a guide counts when it is tagged Real-estate media.
+    const reGuide = 'does-aryeo-have-an-api-to-create-orders';
+    expect(isShootOpsPage('guide', reGuide)).toBe(true);
+    expect(bookingTargetFor('calendar', 'guide', reGuide)).toBe('book-anton');
+    expect(bookingTargetFor('book', 'guide', reGuide)).toBe('book-anton');
   });
 
   it('the rest of the site keeps its own booking route', () => {
@@ -32,7 +37,7 @@ describe('Shoot Ops calls are booked with Anton only (13 Oct 2026)', () => {
     for (const p of ['/shoot-ops', '/shoot-ops/order-review', '/shoot-ops/concierge-order-intake', '/modules', '/guides', '/guides/does-aryeo-have-an-api-to-create-orders']) {
       expect(isShootOpsPath(p)).toBe(true);
     }
-    for (const p of ['/', '/compoundiq', '/book', '/shoot-opsx']) expect(isShootOpsPath(p)).toBe(false);
+    for (const p of ['/', '/compoundiq', '/book', '/shoot-opsx', '/library', '/codex']) expect(isShootOpsPath(p)).toBe(false);
   });
 
   it('the booking link is tagged as a module lead and carries the outreach token', () => {

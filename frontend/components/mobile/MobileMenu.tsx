@@ -9,13 +9,15 @@ interface MobileMenuProps {
   onNavigate: (page: Page, hash?: string) => void;
 }
 
-const MENU_ITEMS: { label: string; page: Page; hash?: string }[] = [
+const MENU_ITEMS: { label: string; page: Page; hash?: string; sub?: boolean }[] = [
   { label: 'About', page: 'who-we-are' },
   { label: 'Services', page: 'landing', hash: '#services' },
   { label: 'Thesis', page: 'thesis' },
   { label: 'Work', page: 'work' },
-  { label: 'Codex', page: 'briefings' },
-  { label: 'Guides', page: 'guides' },
+  // Library and its two shelves (Library restructure, 14 Oct 2026).
+  { label: 'Library', page: 'library' },
+  { label: 'Guides', page: 'guides', sub: true },
+  { label: 'Codex', page: 'briefings', sub: true },
 ];
 
 export const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, onNavigate }) => {
@@ -102,7 +104,9 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, onNavigat
           <button
             key={item.label}
             onClick={() => go(item.page, item.hash)}
-            className="text-left font-serif text-4xl text-ink leading-none active:text-accent transition-colors"
+            className={`text-left font-serif leading-none active:text-accent transition-colors ${
+              item.sub ? 'text-2xl text-ink-muted pl-6 -mt-2' : 'text-4xl text-ink'
+            }`}
           >
             {item.label}
           </button>

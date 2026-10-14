@@ -7,6 +7,7 @@ import { MobileBriefingDetailPage } from './mobile/MobileBriefingDetailPage';
 import type { Page } from './types';
 import { Clock, Tag, ChevronRight, Check, X, AlertTriangle, Lightbulb, BookOpen, Layers } from 'lucide-react';
 import { CodexCover } from './CodexCover';
+import { LibraryTrail } from './LibraryTrail';
 import { Parallax } from './motion/Parallax';
 import { useScrollProgress } from '../lib/useScrollProgress';
 import { governedAgentOperations } from '../content/briefingGovernedAgents';
@@ -1652,6 +1653,7 @@ const BriefingDetailDesktop: React.FC<BriefingDetailPageProps> = ({ onNavigate, 
          {/* Article Header */}
          <Section className="pt-32 pb-16 md:pt-40 md:pb-24 bg-white/50" pattern="nodes" overflow={true} innerRef={heroRef}>
             <div className="max-w-4xl mx-auto text-center hero-copy">
+               <LibraryTrail onNavigate={onNavigate} shelf="codex" item className="mb-5" />
                <div className="flex items-center justify-center gap-3 mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
                   <span className="px-3 py-1 bg-white/50 backdrop-blur-sm border border-ink/10 rounded-xs text-[10px] font-bold tracking-widest uppercase text-accent">
                      {data.category}

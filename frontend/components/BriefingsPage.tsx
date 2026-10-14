@@ -7,6 +7,7 @@ import type { Page } from './types';
 import { ArrowUpRight, Filter } from 'lucide-react';
 import { briefings, type BriefingSummary } from '../content/briefings';
 import { CodexCover } from './CodexCover';
+import { LibraryTrail } from './LibraryTrail';
 import { CATEGORY_ACCENT, accentStyle, CategoryMotif } from './codexAccents';
 import { useIsMobile } from './mobile/useIsMobile';
 import { MobileBriefingsPage } from './mobile/MobileBriefingsPage';
@@ -199,6 +200,7 @@ const BriefingsPageDesktop: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
         </Parallax>
         <div className="text-center max-w-4xl mx-auto mb-16">
           <ScrollReveal immediate>
+            <LibraryTrail onNavigate={onNavigate} shelf="codex" className="mb-6" />
             <PageHero
               eyebrow="The DaVeenci Codex"
               title="Intelligence Briefings"

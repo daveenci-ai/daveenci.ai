@@ -6,6 +6,8 @@ import { Section, Button } from './Shared';
 import type { Page } from './types';
 import { getGuide } from '../content/guides';
 import NotFoundPage from './NotFoundPage';
+import { LibraryTrail } from './LibraryTrail';
+import { GuideTagChips } from './GuidesPage';
 
 interface GuidePageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -46,11 +48,7 @@ const GuidePage: React.FC<GuidePageProps> = ({ onNavigate, slug, isStatic = fals
 
       <Section className="pt-36 md:pt-44 pb-10" pattern="grid">
         <article className="max-w-3xl">
-          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent mb-5">
-            <a href="/guides" onClick={go('/guides')} className="hover:text-ink transition-colors">Guides</a>
-            <span className="mx-2 text-ink-muted/50">·</span>
-            Real-estate media
-          </div>
+          <LibraryTrail onNavigate={onNavigate} shelf="guides" item className="mb-5" />
           <h1 className="font-serif text-4xl md:text-5xl md:leading-none text-ink leading-tight mb-6">{guide.question}</h1>
           <p className="font-sans text-lg md:text-xl md:leading-7 text-ink leading-relaxed" data-answer>
             {guide.answer}
@@ -58,6 +56,7 @@ const GuidePage: React.FC<GuidePageProps> = ({ onNavigate, slug, isStatic = fals
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted mt-6">
             {guide.author} · Updated {fmtDate(guide.updatedAt)}
           </p>
+          <GuideTagChips slug={guide.slug} className="mt-4" />
         </article>
       </Section>
 
