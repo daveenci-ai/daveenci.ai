@@ -104,6 +104,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate, host =
       if (data.host) {
         setSlotConfig({
           durationMin: data.host.durationMin,
+          slotIntervalMin: data.host.slotIntervalMin,
           bufferMin: data.host.bufferMin,
           minLeadHours: data.host.minLeadHours,
           timezone: data.host.timezone,

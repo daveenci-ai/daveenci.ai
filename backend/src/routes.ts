@@ -217,6 +217,7 @@ router.get('/calendar/availability', async (req: Request, res: Response) => {
                 name: host.name,
                 role: host.role,
                 durationMin: host.durationMin,
+                slotIntervalMin: host.slotIntervalMin,
                 timezone: host.timezone,
                 businessHours: host.businessHours,
                 businessDays: host.businessDays,

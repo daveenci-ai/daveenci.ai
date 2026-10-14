@@ -3,8 +3,10 @@ import { fromZonedTime } from 'date-fns-tz';
 export type BusySlot = { start: string; end: string };
 
 export interface SlotConfig {
-  /** Meeting length; also the interval between offered slots. */
+  /** Meeting length. */
   durationMin: number;
+  /** Minutes between offered start times; the meeting length when absent. */
+  slotIntervalMin?: number;
   bufferMin: number;
   minLeadHours: number;
   /** Timezone the business hours below are expressed in. */
@@ -55,14 +57,15 @@ export interface DisplaySlot {
   timezone: string;
 }
 
-/** Slot start times for one day, as ISO strings, spaced by the meeting length. */
+/** Slot start times for one day, as ISO strings, spaced by the slot interval (default: the meeting length). */
 export const getSlotsForDate = (date: Date, config: SlotConfig): string[] => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
 
   const minutes: number[] = [];
-  for (let m = 0; m < 60; m += config.durationMin) minutes.push(m);
+  const step = config.slotIntervalMin && config.slotIntervalMin >= 5 ? config.slotIntervalMin : config.durationMin;
+  for (let m = 0; m < 60; m += step) minutes.push(m);
 
   return config.businessHours
     .flatMap((hour) =>
