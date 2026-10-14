@@ -362,21 +362,6 @@
                   {
                     "type": "TEMPLATE",
                     "key": "parameter",
-                    "value": "source"
-                  },
-                  {
-                    "type": "TEMPLATE",
-                    "key": "parameterValue",
-                    "value": "{{EP - source}}"
-                  }
-                ]
-              },
-              {
-                "type": "MAP",
-                "map": [
-                  {
-                    "type": "TEMPLATE",
-                    "key": "parameter",
                     "value": "step"
                   },
                   {
@@ -668,7 +653,7 @@
               {
                 "type": "TEMPLATE",
                 "key": "arg1",
-                "value": "^(page_view|select_content|work_preview_viewed|cta_click|case_engaged|demo_start|demo_complete|next_case_click|practice_open|practice_case_click|calendar_start|booking_step_viewed|generate_lead|video_impression|video_sound_on|video_progress|newsletter_subscribe)$"
+                "value": "^(page_view|select_content|work_preview_viewed|cta_click|case_engaged|demo_start|demo_complete|next_case_click|practice_open|practice_case_click|calendar_start|booking_step_viewed|generate_lead|video_impression|video_sound_on|video_progress)$"
               }
             ]
           }
@@ -1226,30 +1211,6 @@
             "type": "TEMPLATE",
             "key": "name",
             "value": "event_params.sound"
-          }
-        ]
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "variableId": "29",
-        "name": "EP - source",
-        "type": "v",
-        "parameter": [
-          {
-            "type": "INTEGER",
-            "key": "dataLayerVersion",
-            "value": "2"
-          },
-          {
-            "type": "BOOLEAN",
-            "key": "setDefaultValue",
-            "value": "false"
-          },
-          {
-            "type": "TEMPLATE",
-            "key": "name",
-            "value": "event_params.source"
           }
         ]
       },
