@@ -364,9 +364,6 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
 
       <Footer
         onNavigate={onNavigate}
-        newsletterHeading="Follow the operations work"
-        newsletterBody="How specialist teams take over real workflows — the handoffs, the gates, the morning reports. Sent when the work earns an update."
-        newsletterSource="shoot-ops"
       />
     </div>
   );

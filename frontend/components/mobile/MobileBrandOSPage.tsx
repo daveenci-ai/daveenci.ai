@@ -3,7 +3,6 @@ import { Loader2, Sparkles, Rocket, TrendingUp, Building2, Search, ChevronDown, 
 import { MobileShell } from './MobileShell';
 import { MobileButton } from './MobileButton';
 import { MobileNextCase } from './MobileNextCase';
-import { MobileSubscribe } from './MobileSubscribe';
 import { Widget } from '../Shared';
 import { BrandOSHeroDiagram, DimensionShowcase, StageWeightShifter } from '../BrandOSPage';
 import { BookingWidget } from '../BookingWidget';
@@ -533,11 +532,6 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
         onNavigate={onNavigate}
       />
 
-      <MobileSubscribe
-        heading="Follow the workshop"
-        body="Naming, scoring, and the rest of the studio's builds — field notes sent when the work earns it. Build-in-public, no fluff."
-        source="brandos"
-      />
     </MobileShell>
   );
 };

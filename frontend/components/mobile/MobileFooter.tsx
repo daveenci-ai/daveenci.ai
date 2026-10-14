@@ -41,9 +41,7 @@ const LINK_GROUPS: { heading: string; links: { label: string; page: Page; hash?:
  * navigation and — more seriously — no route to the privacy policy anywhere
  * in the UI. Rendered by MobileShell, so every mobile page gets it.
  *
- * Deliberately not a copy of the desktop Footer: no newsletter form here,
- * because the case pages already end with MobileSubscribe and two capture
- * forms on one screen reads as a bug.
+ * Deliberately not a copy of the desktop Footer: links only.
  */
 export const MobileFooter: React.FC<MobileFooterProps> = ({ onNavigate, className = '' }) => {
   const go = (page: Page, hash?: string) => (event: React.MouseEvent) => {

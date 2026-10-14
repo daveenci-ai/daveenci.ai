@@ -11,7 +11,6 @@ import { useIsMobile } from './mobile/useIsMobile';
 import { MobileShell } from './mobile/MobileShell';
 import { MobileButton } from './mobile/MobileButton';
 import { MobileNextCase } from './mobile/MobileNextCase';
-import { MobileSubscribe } from './mobile/MobileSubscribe';
 import { useCaseEngaged } from '../lib/useCaseEngaged';
 import { analyticsOSEvidence, analyticsOSDecisions, analyticsOSTiers, analyticsOSConstraints } from '../content/analyticsOS';
 import type { Page } from './types';
@@ -211,9 +210,6 @@ const AnalyticsOSPageDesktop: React.FC<AnalyticsOSPageProps> = ({ onNavigate }) 
 
     <Footer
       onNavigate={onNavigate}
-      newsletterHeading="Follow the measurement build"
-      newsletterBody="How a client-owned warehouse, a keep/kill rule, and an experiment registry get designed, tested, and handed over. Sent when the work earns an update."
-      newsletterSource="analytics-os"
     />
   </div>
 );
@@ -286,7 +282,6 @@ const MobileAnalyticsOSPage: React.FC<AnalyticsOSPageProps> = ({ onNavigate }) =
     </section>
 
     <MobileNextCase from="analytics-os" to="compoundiq" title="CompoundIQ" hook="Verdicts with probabilities, gates before actions — applied to trading research." onNavigate={onNavigate} />
-    <MobileSubscribe heading="Follow the measurement build" body="How a client-owned warehouse, a keep/kill rule, and an experiment registry get designed, tested, and handed over." source="analytics-os" />
   </MobileShell>
 );
 

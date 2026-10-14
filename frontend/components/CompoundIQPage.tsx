@@ -353,9 +353,6 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
 
       <Footer
         onNavigate={onNavigate}
-        newsletterHeading="Follow the CompoundIQ build"
-        newsletterBody="Working in paper, expanding in public — the Codex tracks how specialist teams like this one get designed, gated, and shipped. Sent when the work earns an update."
-        newsletterSource="compoundiq"
       />
     </div>
   );

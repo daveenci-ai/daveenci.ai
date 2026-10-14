@@ -10,7 +10,6 @@ import { MobileWorkPreview } from './MobileWorkPreview';
 import Principals from '../Principals';
 import { MobileBooking } from './MobileBooking';
 import { MobileButton } from './MobileButton';
-import { MobileSubscribe } from './MobileSubscribe';
 import type { Page } from '../types';
 import { ProofRail } from '../ProofRail';
 import CommercialOffers from '../CommercialOffers';
@@ -63,12 +62,6 @@ const MobileLanding: React.FC<MobileLandingProps> = ({ onNavigate }) => (
       </div>
     </MobileFolioScene>
 
-    {/* The mobile homepage had no newsletter capture of any kind. */}
-    <MobileSubscribe
-      heading="Subscribe to the Codex"
-      body="Field notes from active builds, sent when the work earns it. Build-in-public. No fluff."
-      source="mobile_landing"
-    />
   </MobileShell>
 );
 

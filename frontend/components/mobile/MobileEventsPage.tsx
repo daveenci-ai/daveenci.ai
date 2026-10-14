@@ -5,7 +5,6 @@ import { MobileButton } from './MobileButton';
 import { API_ENDPOINTS } from '../../config';
 import type { Page } from '../types';
 import { formatEventDate, scheduledEvents, workshopTopics, type ScheduledEvent } from '../eventCatalog';
-import { MobileSubscribe } from './MobileSubscribe';
 import { Reveal } from '../motion/Parallax';
 import { useScrollProgress } from '../../lib/useScrollProgress';
 
@@ -202,7 +201,7 @@ export const MobileEventsPage: React.FC<MobileEventsPageProps> = ({ onNavigate }
           <div className="bg-white/55 border border-ink/10 rounded-sm p-5 mb-7">
             <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-accent mb-2">Next dates</div>
             <h2 className="font-serif text-2xl text-ink mb-3">The next sessions are being planned.</h2>
-            <p className="font-sans text-[14px] leading-relaxed text-ink-muted">No public dates are open right now. Subscribe at the bottom of the page and we’ll send the next confirmed invitation.</p>
+            <p className="font-sans text-[14px] leading-relaxed text-ink-muted">No public dates are open right now. New sessions are listed here once they are confirmed.</p>
           </div>
         )}
 
@@ -265,11 +264,6 @@ export const MobileEventsPage: React.FC<MobileEventsPageProps> = ({ onNavigate }
         )}
       </section>
 
-      <MobileSubscribe
-        heading="Get the next workshop invitation"
-        body="Confirmed dates, practical field notes, and new builds from the workshop. Sent when the work earns an update."
-        source="events"
-      />
 
       <RegistrationSheet event={selected} onClose={() => setSelected(null)} />
     </MobileShell>

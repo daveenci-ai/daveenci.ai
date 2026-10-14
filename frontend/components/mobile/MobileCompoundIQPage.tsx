@@ -15,7 +15,6 @@ import {
 } from 'lucide-react';
 import { MobileButton } from './MobileButton';
 import { MobileNextCase } from './MobileNextCase';
-import { MobileSubscribe } from './MobileSubscribe';
 import { MobileGateSimulator } from './MobileGateSimulator';
 import { MobileScenePlate } from './MobileScenePlate';
 import { MobileShell } from './MobileShell';
@@ -260,11 +259,6 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
         onNavigate={onNavigate}
       />
 
-      <MobileSubscribe
-        heading="Follow the CompoundIQ build"
-        body="Working in paper, expanding in public — the Codex tracks how specialist teams like this one get designed, gated, and shipped. Sent when the work earns an update."
-        source="compoundiq"
-      />
     </MobileShell>
   );
 };
