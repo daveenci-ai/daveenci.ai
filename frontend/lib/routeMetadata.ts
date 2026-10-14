@@ -58,9 +58,14 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'guide' | 'not-fo
     description: 'Fixed-price modules that do one job inside an existing operation, live within a week.',
     path: '/modules',
   },
+  library: {
+    title: 'Library — Guides and the Codex | DaVeenci',
+    description: 'Everything DaVeenci writes, on two shelves: guides that answer one practical automation question each, and Codex essays and field notes from active AI systems.',
+    path: '/library',
+  },
   guides: {
-    title: 'Guides for real-estate media shops — order intake, Aryeo, Spiro | DaVeenci',
-    description: 'Straight answers to the questions real-estate media owners ask about concierge order intake, Aryeo and Spiro — from work that runs every day.',
+    title: 'Guides — straight answers before you automate (real-estate media, Aryeo, Spiro) | DaVeenci',
+    description: 'Answers to the questions teams ask before automating a workflow, tagged by industry and topic — starting with concierge order intake, Aryeo and Spiro for real-estate media shops.',
     path: '/guides',
   },
   'order-intake': {

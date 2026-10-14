@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Page } from './types';
-import { guides } from '../content/guides';
+import { guidesWithTag } from '../content/guides';
 
 interface ShootOpsGuidesProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -10,6 +10,7 @@ interface ShootOpsGuidesProps {
 /**
  * The guides strip on /shoot-ops: the module pages sell, the guides answer. Rendered inside the dark modules section
  * on desktop and mobile so a reader who is not ready for a call still leaves with the answer they came for.
+ * Lists only the guides tagged Real-estate media, and links to /guides filtered to that tag (Library, 14 Oct 2026).
  */
 export const ShootOpsGuides: React.FC<ShootOpsGuidesProps> = ({ onNavigate, compact = false }) => (
   <div className={`border-t border-white/10 ${compact ? 'mt-10 pt-8' : 'mt-14 pt-10'}`}>
@@ -19,15 +20,15 @@ export const ShootOpsGuides: React.FC<ShootOpsGuidesProps> = ({ onNavigate, comp
         <h3 className={`font-serif ${compact ? 'text-xl' : 'text-2xl'} leading-tight`}>Straight answers on order entry, Aryeo and Spiro.</h3>
       </div>
       <a
-        href="/guides"
-        onClick={(e) => { e.preventDefault(); onNavigate('guides'); }}
+        href="/guides?tag=real-estate-media"
+        onClick={(e) => { e.preventDefault(); onNavigate('guides', undefined, 'real-estate-media'); }}
         className={`font-serif italic text-sm text-accent-light hover:text-canvas transition-colors ${compact ? 'inline-block mt-2' : 'shrink-0'}`}
       >
         All guides →
       </a>
     </div>
     <ul className={compact ? 'space-y-3' : 'grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3'}>
-      {guides.map((g) => (
+      {guidesWithTag('real-estate-media').map((g) => (
         <li key={g.slug}>
           <a
             href={`/guides/${g.slug}`}

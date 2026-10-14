@@ -36,19 +36,30 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
     { label: "Services", href: "#services" },
     { label: "Thesis", href: "/thesis" },
     { label: "Work", href: "/work" },
-    { label: "Codex", href: "/codex" },
-    { label: "Guides", href: "/guides" },
+    { label: "Library", href: "/library" },
   ];
+
+  // Library sub-menu (Library restructure, 14 Oct 2026): one top-level item, two shelves.
+  const libraryShelves: { label: string; href: string; note: string; page: Page }[] = [
+    { label: "Guides", href: "/guides", note: "Straight answers before you automate", page: 'guides' },
+    { label: "Codex", href: "/codex", note: "Essays and field notes from our builds", page: 'briefings' },
+  ];
+  const libraryPages: Page[] = ['library', 'guides', 'guide', 'briefings', 'briefing-detail'];
+  const goShelf = (page: Page) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    closeMenu();
+    onNavigate?.(page);
+    window.scrollTo(0, 0);
+  };
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
 
   const isActive = (link: NavLink) => {
-    if (link.href === '/codex' && (currentPage === 'briefings' || currentPage === 'briefing-detail')) return true;
+    if (link.href === '/library' && (libraryPages as readonly string[]).includes(currentPage)) return true;
     if (link.href === '/who-we-are' && currentPage === 'who-we-are') return true;
     if (link.href === '/work' && (currentPage === 'work' || currentPage === 'purecode' || currentPage === 'autopilot' || currentPage === 'compoundiq' || currentPage === 'analytics-os' || currentPage === 'creative-production')) return true;
     if (link.href === '/thesis' && currentPage === 'thesis') return true;
-    if (link.href === '/guides' && (currentPage === 'guides' || currentPage === 'guide')) return true;
     if (link.href.startsWith('#') && currentPage === 'landing' && activeSection === link.href) return true;
     return false;
   };
@@ -63,8 +74,8 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
       return;
     }
 
-    if (link.href === '/codex') {
-      onNavigate?.('briefings');
+    if (link.href === '/library') {
+      onNavigate?.('library');
       window.scrollTo(0, 0);
       return;
     }
@@ -77,12 +88,6 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
 
     if (link.href === '/thesis') {
       onNavigate?.('thesis');
-      window.scrollTo(0, 0);
-      return;
-    }
-
-    if (link.href === '/guides') {
-      onNavigate?.('guides');
       window.scrollTo(0, 0);
       return;
     }
@@ -145,11 +150,12 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
         <nav className="hidden lg:flex items-center space-x-4">
           {navLinks.map((link) => {
             const active = isActive(link);
-            return (
+            const anchor = (
               <a
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link)}
+                aria-haspopup={link.href === '/library' ? 'true' : undefined}
                 className={`text-xs uppercase tracking-[0.18em] font-medium transition-colors relative group whitespace-nowrap px-2 py-1 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 ${active ? 'text-accent' : 'text-ink-muted hover:text-ink'
                   }`}
               >
@@ -157,6 +163,29 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
                 <span className={`absolute -bottom-1 left-0 h-px bg-accent transition-all duration-300 ${active ? 'w-full' : 'w-0 group-hover:w-full'
                   }`}></span>
               </a>
+            );
+            if (link.href !== '/library') return anchor;
+            // Hover or keyboard focus opens the two shelves; the Library link itself goes to /library.
+            return (
+              <div key={link.label} className="relative flex group/library">
+                {anchor}
+                <div className="absolute left-1/2 -translate-x-1/2 top-full pt-4 hidden group-hover/library:block group-focus-within/library:block z-50">
+                  <ul aria-label="Library" className="w-72 bg-canvas border border-ink/10 shadow-xl p-2" style={{ borderRadius: 'var(--radius-widget-document)' }}>
+                    {libraryShelves.map((shelf) => (
+                      <li key={shelf.href}>
+                        <a
+                          href={shelf.href}
+                          onClick={goShelf(shelf.page)}
+                          className="block px-4 py-3 hover:bg-white/70 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent"
+                        >
+                          <span className="block font-serif text-lg text-ink">{shelf.label}</span>
+                          <span className="block font-sans text-xs text-ink-muted mt-0.5">{shelf.note}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             );
           })}
           <Button variant="primary" analytics={{ cta_id: 'talk_to_us', surface: 'header', from_page: currentPage, destination: currentPage && isShootOpsPage(currentPage) ? '/book/anton' : '/calendar' }} className="py-2 px-5 text-xs uppercase tracking-[0.15em] shadow-md hover:shadow-lg whitespace-nowrap" onClick={goToCalendar}>Talk to us</Button>
@@ -192,6 +221,18 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
               </a>
             );
           })}
+          <div className="flex flex-col space-y-4 pl-6 -mt-2">
+            {libraryShelves.map((shelf) => (
+              <a
+                key={shelf.href}
+                href={shelf.href}
+                onClick={goShelf(shelf.page)}
+                className="text-lg font-serif text-ink-muted hover:text-accent transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4"
+              >
+                {shelf.label}
+              </a>
+            ))}
+          </div>
           <Button variant="primary" analytics={{ cta_id: 'talk_to_us', surface: 'header_menu', from_page: currentPage, destination: currentPage && isShootOpsPage(currentPage) ? '/book/anton' : '/calendar' }} className="w-full mt-4 py-4 text-base" onClick={goToCalendar}>Talk to us</Button>
         </div>
       )}

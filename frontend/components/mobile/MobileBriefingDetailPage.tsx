@@ -5,6 +5,7 @@ import { MobileTopBar } from './MobileTopBar';
 import { MobileErrorBoundary } from './MobileErrorBoundary';
 import type { Page } from '../types';
 import { CodexCover } from '../CodexCover';
+import { LibraryTrail } from '../LibraryTrail';
 import { useScrollProgress } from '../../lib/useScrollProgress';
 
 export interface MobileBriefingData {
@@ -57,6 +58,7 @@ export const MobileBriefingDetailPage: React.FC<MobileBriefingDetailPageProps> =
         {/* Article title block */}
         <div ref={heroRef}>
           <section className="px-6 pt-8 pb-6 hero-copy">
+            <LibraryTrail onNavigate={onNavigate} shelf="codex" item className="mb-4" />
             <div className="flex items-center gap-3 mb-4">
               <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{data.category}</span>
               <span className="text-ink-muted/40">·</span>

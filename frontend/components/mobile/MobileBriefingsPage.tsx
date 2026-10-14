@@ -6,6 +6,7 @@ import type { Page } from '../types';
 import { CodexCover } from '../CodexCover';
 import { Reveal } from '../motion/Parallax';
 import { useScrollProgress } from '../../lib/useScrollProgress';
+import { LibraryTrail } from '../LibraryTrail';
 
 interface MobileBriefingsPageProps {
   onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -36,6 +37,7 @@ export const MobileBriefingsPage: React.FC<MobileBriefingsPageProps> = ({ onNavi
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgb(var(--color-accent-strong)/0.07)_1px,transparent_1px),linear-gradient(90deg,rgb(var(--color-accent-strong)/0.07)_1px,transparent_1px)] bg-size-[32px_32px] mask-[radial-gradient(ellipse_80%_70%_at_30%_40%,black,transparent)] [-webkit-mask-image:radial-gradient(ellipse_80%_70%_at_30%_40%,black,transparent)]"
         />
         <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-16 h-72 w-72 bg-[radial-gradient(closest-side,rgb(var(--color-accent)/0.18),transparent)]" />
+        <LibraryTrail onNavigate={onNavigate} shelf="codex" className="relative mb-4" />
         <div className="relative flex items-center gap-3 mb-6">
           <span className="h-px w-8 bg-ink-muted/30" />
           <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">
