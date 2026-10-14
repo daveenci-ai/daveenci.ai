@@ -26,7 +26,7 @@ export const MobileFounderBlock: React.FC<MobileFounderBlockProps> = ({ onNaviga
           height={1040}
           loading="lazy"
           decoding="async"
-          className="relative w-full rounded-sm shadow-2xl shadow-black/40 border border-canvas/10 filter sepia-[0.15] contrast-105"
+          className="relative w-full rounded-xs shadow-2xl shadow-black/40 border border-canvas/10 filter sepia-[0.15] contrast-105"
         />
       </div>
       <div className="font-serif text-2xl text-canvas leading-none">{PRACTICES.operations.lead}</div>
@@ -50,7 +50,7 @@ export const MobileFounderBlock: React.FC<MobileFounderBlockProps> = ({ onNaviga
     <div className="relative z-10 mt-6 border-t border-canvas/15 pt-5">
       <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent-light">{PRACTICES.operations.name}</div>
       <p className="mt-3 font-sans text-[15px] leading-relaxed text-canvas/75">{PRACTICES.operations.summary}</p>
-      <ul className="mt-5 grid grid-cols-3 gap-2 text-center font-mono text-[8px] uppercase tracking-[0.1em] text-canvas/70">
+      <ul className="mt-5 grid grid-cols-3 gap-2 text-center font-mono text-[8px] uppercase tracking-widest text-canvas/70">
         <li className="border border-canvas/15 px-1.5 py-2">Code delivery</li>
         <li className="border border-canvas/15 px-1.5 py-2">Ops review</li>
         <li className="border border-canvas/15 px-1.5 py-2">Research</li>

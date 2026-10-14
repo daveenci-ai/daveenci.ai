@@ -32,7 +32,7 @@ const StateIcon: React.FC<{ s: CheckState }> = ({ s }) =>
 /** Hero plate: one new order, nine checks, the outcome. */
 export const HeroReview: React.FC = () => (
   <div className="space-y-3">
-    <div className="bg-white/85 border border-ink/10 rounded-sm p-4 shadow-sm">
+    <div className="bg-white/85 border border-ink/10 rounded-xs p-4 shadow-xs">
       <div className="flex items-center justify-between mb-3">
         <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-ink-muted">Order #24817 · 214 Juniper Lane</span>
         <span className="font-mono text-[9px] text-ink-muted/60">new · 4 min ago</span>
@@ -48,11 +48,11 @@ export const HeroReview: React.FC = () => (
       </ul>
     </div>
     <div className="grid grid-cols-2 gap-3">
-      <div className="bg-white/90 border border-ink/15 rounded-sm p-3 shadow-md">
+      <div className="bg-white/90 border border-ink/15 rounded-xs p-3 shadow-md">
         <div className="font-mono text-[9px] uppercase tracking-[0.16em] text-accent mb-1">Fixed on its own</div>
         <p className="font-sans text-[12px] text-ink leading-snug">Placeholder item cancelled · beds &amp; baths note added</p>
       </div>
-      <div className="bg-white/90 border border-amber-700/30 rounded-sm p-3 shadow-md">
+      <div className="bg-white/90 border border-amber-700/30 rounded-xs p-3 shadow-md">
         <div className="font-mono text-[9px] uppercase tracking-[0.16em] text-amber-800 mb-1">One ticket</div>
         <p className="font-sans text-[12px] text-ink leading-snug">2 issues for a person · tagged Flagged</p>
       </div>
@@ -62,7 +62,7 @@ export const HeroReview: React.FC = () => (
 
 /** The ticket a person gets — one per flagged order. */
 export const TicketMock: React.FC = () => (
-  <div className="bg-white text-ink border border-ink/10 rounded-sm shadow-md overflow-hidden">
+  <div className="bg-white text-ink border border-ink/10 rounded-xs shadow-md overflow-hidden">
     <div className="px-5 py-3 border-b border-ink/10">
       <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-ink-muted">To: your order queue</div>
       <div className="font-sans text-[14px] font-semibold mt-1">Order Review — Order #24817 — 214 Juniper Lane</div>
@@ -116,7 +116,7 @@ export const OUTCOMES: { name: string; Icon: React.ComponentType<{ className?: s
 /* ---- Small mock panels used inside the pipeline cards (Fig. iv). Same fictional order as the hero. ---- */
 
 const Field: React.FC<{ k: string; v: React.ReactNode; hot?: boolean; mono?: boolean }> = ({ k, v, hot, mono }) => (
-  <div className={`grid grid-cols-[6.5rem_1fr] gap-3 items-baseline py-1.5 border-b border-ink/5 last:border-0 ${hot ? 'bg-accent/[0.06] -mx-2 px-2 rounded-sm' : ''}`}>
+  <div className={`grid grid-cols-[6.5rem_1fr] gap-3 items-baseline py-1.5 border-b border-ink/5 last:border-0 ${hot ? 'bg-accent/6 -mx-2 px-2 rounded-xs' : ''}`}>
     <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-ink-muted/70">{k}</span>
     <span className={`${mono ? 'font-mono text-[11px]' : 'font-sans text-[13px]'} text-ink leading-snug`}>{v}</span>
   </div>
@@ -131,10 +131,10 @@ export const SweepPanel: React.FC = () => {
     { n: '24814', addr: '55 Marsh Hollow', tag: 'Rush', pick: false },
   ];
   return (
-    <div className="bg-white border border-ink/10 rounded-sm overflow-hidden">
+    <div className="bg-white border border-ink/10 rounded-xs overflow-hidden">
       <div className="px-3 py-2 border-b border-ink/10 font-mono text-[9px] uppercase tracking-[0.16em] text-ink-muted">All orders · newest first</div>
       {rows.map((r) => (
-        <div key={r.n} className={`flex items-center gap-3 px-3 py-2 border-b border-ink/5 last:border-0 ${r.pick ? 'bg-accent/[0.06]' : ''}`}>
+        <div key={r.n} className={`flex items-center gap-3 px-3 py-2 border-b border-ink/5 last:border-0 ${r.pick ? 'bg-accent/6' : ''}`}>
           <span className="font-mono text-[11px] text-ink">#{r.n}</span>
           <span className="font-sans text-[12.5px] text-ink truncate">{r.addr}</span>
           <span className="ml-auto shrink-0">
@@ -152,7 +152,7 @@ export const SweepPanel: React.FC = () => {
 
 /** Step 02 — what it reads from each order. */
 export const ReadPanel: React.FC = () => (
-  <div className="bg-white border border-ink/10 rounded-sm p-3">
+  <div className="bg-white border border-ink/10 rounded-xs p-3">
     <Field k="Line items" v="Signature photos · Floor plan · Skip to add-on menu" hot />
     <Field k="Sq ft" v="2,995" />
     <Field k="Access" v="Lockbox (code below)" />
@@ -178,7 +178,7 @@ export const ResultsPanel: React.FC = () => {
   return (
     <ul className="space-y-1.5">
       {items.map((c) => (
-        <li key={c.name} className="flex items-center gap-3 bg-white border border-ink/10 rounded-sm px-3 py-2">
+        <li key={c.name} className="flex items-center gap-3 bg-white border border-ink/10 rounded-xs px-3 py-2">
           <span className={`w-16 shrink-0 font-mono text-[9px] uppercase tracking-[0.14em] ${tone[c.state]}`}>{word[c.state]}</span>
           <span className="font-sans text-[13px] text-ink">{c.name}</span>
           <span className="ml-auto hidden sm:inline font-mono text-[9px] text-ink-muted truncate">{c.note}</span>
@@ -191,7 +191,7 @@ export const ResultsPanel: React.FC = () => {
 /** Step 04 — fixes made on the order, each confirmed by reading the order again. */
 export const FixPanel: React.FC = () => (
   <div className="space-y-2">
-    <div className="bg-white border border-ink/10 rounded-sm p-3">
+    <div className="bg-white border border-ink/10 rounded-xs p-3">
       <div className="font-mono text-[9px] uppercase tracking-[0.16em] text-ink-muted mb-1.5">Line items</div>
       <div className="flex items-center justify-between py-1 font-sans text-[12.5px] text-ink-muted">
         <span className="line-through">Skip to add-on menu</span>
@@ -202,11 +202,11 @@ export const FixPanel: React.FC = () => (
         <span className="inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-[0.12em] text-green-700"><Check className="w-3 h-3" aria-hidden="true" />still there</span>
       </div>
     </div>
-    <div className="bg-white border border-ink/10 rounded-sm p-3 font-mono text-[11px] leading-relaxed text-ink">
+    <div className="bg-white border border-ink/10 rounded-xs p-3 font-mono text-[11px] leading-relaxed text-ink">
       <div className="font-mono text-[9px] uppercase tracking-[0.16em] text-ink-muted mb-1.5">Appointment notes</div>
       <span className="text-ink-muted">Call me 30 min before you head over. Dog in the backyard.</span>
       <br />
-      <span className="bg-accent/10 rounded-sm px-1">Per public records: 3 Beds, 2 Baths. HOA property, check for amenities.</span>
+      <span className="bg-accent/10 rounded-xs px-1">Per public records: 3 Beds, 2 Baths. HOA property, check for amenities.</span>
     </div>
     <div className="flex items-center justify-end gap-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-green-700">
       <Check className="w-3 h-3" aria-hidden="true" /> reloaded · both changes confirmed

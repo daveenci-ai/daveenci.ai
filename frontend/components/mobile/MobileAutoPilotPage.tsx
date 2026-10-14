@@ -57,7 +57,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
   return (
     <MobileShell onNavigate={onNavigate}>
       <section ref={heroRef} className="px-6 pt-10 pb-10">
-        <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.22em] uppercase text-accent bg-accent/5 border border-accent/10 rounded-sm px-2.5 py-1">
+        <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.22em] uppercase text-accent bg-accent/5 border border-accent/10 rounded-xs px-2.5 py-1">
           Shoot Ops · A specialist practice by DaVeenci
         </div>
         <div className="hero-copy">
@@ -98,16 +98,16 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
             <div className="space-y-3">
               {mobileWorkflow.map((step, index) => {
                 const link = modulePageFor(step.title);
-                const row = 'flex items-center gap-3 bg-canvas/45 border border-ink/10 p-3 rounded-sm';
+                const row = 'flex items-center gap-3 bg-canvas/45 border border-ink/10 p-3 rounded-xs';
                 const inner = (
                   <>
-                    <step.Icon className="w-5 h-5 text-accent flex-shrink-0" />
+                    <step.Icon className="w-5 h-5 text-accent shrink-0" />
                     <div className="min-w-0">
                       <div className="font-mono text-[9px] uppercase tracking-widest text-ink-muted/60">{step.number}</div>
                       <div className="font-serif text-[17px] text-ink">{step.title}</div>
                     </div>
-                    <CheckCircle2 className="w-4 h-4 text-green-600 ml-auto flex-shrink-0" />
-                    {link && <ChevronRight className="w-4 h-4 text-accent flex-shrink-0" aria-hidden="true" />}
+                    <CheckCircle2 className="w-4 h-4 text-green-600 ml-auto shrink-0" />
+                    {link && <ChevronRight className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />}
                   </>
                 );
                 return (
@@ -117,7 +117,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
                         href={link.path}
                         onClick={(e) => { e.preventDefault(); onNavigate(link.page); }}
                         aria-label={`${step.title} — see the module`}
-                        className={`${row} transition-colors active:bg-canvas/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
+                        className={`${row} transition-colors active:bg-canvas/80 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent`}
                       >
                         {inner}
                       </a>
@@ -169,9 +169,9 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
         <Stack compact>
           {mobileWorkflow.map((step) => (
             <div key={step.number} className="stack-card">
-              <MobileScenePlate figLabel={`Fig. ${step.number} · ${step.title}`} className="!bg-paper !backdrop-blur-none shadow-lg shadow-ink/10">
-                <div className="border border-ink/10 bg-white/60 rounded-sm p-2 mb-4">
-                  <ModuleSchematic id={step.id} className="aspect-[5/3] w-full" />
+              <MobileScenePlate figLabel={`Fig. ${step.number} · ${step.title}`} className="bg-paper! backdrop-blur-none! shadow-lg shadow-ink/10">
+                <div className="border border-ink/10 bg-white/60 rounded-xs p-2 mb-4">
+                  <ModuleSchematic id={step.id} className="aspect-5/3 w-full" />
                 </div>
                 <h3 className="font-serif text-2xl text-ink mb-3">{step.title}</h3>
                 <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{step.body}</p>
@@ -200,7 +200,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
           ].map(([Icon, title, body]) => {
             const ItemIcon = Icon as React.ComponentType<{ className?: string; strokeWidth?: number }>;
             return (
-              <Reveal key={title as string} enterEnd={0.86} lift={16} className="bg-white/65 border border-ink/10 p-5 rounded-sm">
+              <Reveal key={title as string} enterEnd={0.86} lift={16} className="bg-white/65 border border-ink/10 p-5 rounded-xs">
                 <ItemIcon className="w-6 h-6 text-accent mb-4" strokeWidth={1.4} />
                 <h3 className="font-serif text-xl text-ink mb-2">{title as string}</h3>
                 <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{body as string}</p>
@@ -230,11 +230,11 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
               </>
             );
             return module.page ? (
-              <a key={module.title} href={module.path} onClick={(e) => { e.preventDefault(); onNavigate(module.page as Page); }} className="block border border-white/15 bg-white/5 p-5 rounded-sm">
+              <a key={module.title} href={module.path} onClick={(e) => { e.preventDefault(); onNavigate(module.page as Page); }} className="block border border-white/15 bg-white/5 p-5 rounded-xs">
                 {inner}
               </a>
             ) : (
-              <div key={module.title} className="border border-white/15 bg-white/5 p-5 rounded-sm">{inner}</div>
+              <div key={module.title} className="border border-white/15 bg-white/5 p-5 rounded-xs">{inner}</div>
             );
           })}
         </div>

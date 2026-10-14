@@ -156,7 +156,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
     <MobileShell onNavigate={onNavigate} showBottomCTA={false}>
       {/* Hero */}
       <section ref={heroRef} className="px-6 pt-10 pb-10">
-        <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.25em] uppercase text-accent bg-accent/5 border border-accent/10 rounded-sm px-2.5 py-1">
+        <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.25em] uppercase text-accent bg-accent/5 border border-accent/10 rounded-xs px-2.5 py-1">
           A DaVeenci team · Brand
         </div>
         <div className="hero-copy">
@@ -203,7 +203,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
               <ul className="space-y-2.5">
                 {['Each dimension has a diagnostic question', 'Scores come with evidence, not a thumbs-up', 'Negative Risk is inverse-scored — high = safe'].map((b, i) => (
                   <Reveal as="li" key={i} enterEnd={0.88 - i * 0.04} lift={12} className="flex items-start gap-2.5 text-ink-muted">
-                    <div className="w-1 h-1 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <div className="w-1 h-1 rounded-full bg-accent mt-2 shrink-0" />
                     <span className="font-sans text-[14px] leading-relaxed">{b}</span>
                   </Reveal>
                 ))}
@@ -221,7 +221,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
               <ul className="space-y-2.5">
                 {['Bootstrap · Clarity + Pronounceability lead', 'Seed · Relevance signals the category', 'Scale · Visual Identity + Negative Risk dominate'].map((b, i) => (
                   <Reveal as="li" key={i} enterEnd={0.88 - i * 0.04} lift={12} className="flex items-start gap-2.5 text-ink-muted">
-                    <div className="w-1 h-1 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <div className="w-1 h-1 rounded-full bg-accent mt-2 shrink-0" />
                     <span className="font-sans text-[14px] leading-relaxed">{b}</span>
                   </Reveal>
                 ))}
@@ -257,7 +257,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
                 key={key}
                 onClick={() => !loading && setStage(key)}
                 disabled={loading}
-                className={`relative p-4 border rounded-lg shadow-sm text-left transition-all ${
+                className={`relative p-4 border rounded-lg shadow-xs text-left transition-all ${
                   isActive
                     ? 'border-accent bg-accent/5 ring-1 ring-accent'
                     : 'border-ink/10 bg-white'
@@ -293,7 +293,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
                 onChange={(e) => setNames(e.target.value)}
                 placeholder="Up to 5, comma-separated"
                 disabled={loading}
-                className="w-full bg-canvas/30 border border-ink/20 rounded-lg p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50"
+                className="w-full bg-canvas/30 border border-ink/20 rounded-lg p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50"
               />
               <p className="text-[11px] text-ink-muted mt-1.5">Max 5 names.</p>
             </div>
@@ -310,7 +310,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
                 placeholder="AI-powered booking platform for B2B service companies"
                 disabled={loading}
                 rows={3}
-                className="w-full bg-canvas/30 border border-ink/20 rounded-lg p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent resize-none disabled:opacity-50"
+                className="w-full bg-canvas/30 border border-ink/20 rounded-lg p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent resize-none disabled:opacity-50"
               />
             </div>
 
@@ -359,14 +359,14 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
                     aria-expanded={isOpen}
                   >
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-lg border border-ink/10 bg-canvas/30 flex items-center justify-center">
+                      <div className="shrink-0 w-8 h-8 rounded-lg border border-ink/10 bg-canvas/30 flex items-center justify-center">
                         <span className="font-serif text-sm text-ink-muted">{rank + 1}</span>
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-baseline justify-between gap-3 mb-1">
                           <h3 className="font-serif text-xl text-ink truncate">{brand}</h3>
                           <span
-                            className={`font-serif font-bold text-2xl flex-shrink-0 ${scoreTextClass(weighted)}`}
+                            className={`font-serif font-bold text-2xl shrink-0 ${scoreTextClass(weighted)}`}
                           >
                             {Math.round(weighted)}
                           </span>
@@ -378,7 +378,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
                         )}
                       </div>
                       <ChevronDown
-                        className={`w-4 h-4 text-ink-muted/60 flex-shrink-0 mt-1 transition-transform ${
+                        className={`w-4 h-4 text-ink-muted/60 shrink-0 mt-1 transition-transform ${
                           isOpen ? 'rotate-180' : ''
                         }`}
                       />
@@ -450,7 +450,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
           ].map((uc) => {
             const Icon = uc.icon;
             return (
-              <Reveal key={uc.title} enterEnd={0.86} lift={20} className="bg-white border border-ink/10 p-5 shadow-sm rounded-lg text-center flex flex-col items-center">
+              <Reveal key={uc.title} enterEnd={0.86} lift={20} className="bg-white border border-ink/10 p-5 shadow-xs rounded-lg text-center flex flex-col items-center">
                 <div className="relative w-32 h-32 mx-auto mb-4 rounded-full bg-pulse-surface border border-ink/10 overflow-hidden flex items-center justify-center">
                   <svg className="absolute inset-0 w-full h-full" viewBox="0 0 176 176" fill="none">
                     <circle cx="88" cy="88" r="78" stroke="rgb(var(--color-ink))" strokeWidth="0.6" opacity="0.08" />
@@ -494,7 +494,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
                   aria-expanded={isOpen}
                 >
                   <span className="flex-1 font-serif text-base text-ink leading-snug">{item.q}</span>
-                  <span className="flex-shrink-0 pt-1 text-ink-muted/60">
+                  <span className="shrink-0 pt-1 text-ink-muted/60">
                     {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                   </span>
                 </button>

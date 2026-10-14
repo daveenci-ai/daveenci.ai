@@ -85,7 +85,7 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
   return (
     <MobileShell onNavigate={onNavigate}>
       <section ref={heroRef} className="px-6 pt-10 pb-10">
-        <div className="inline-block mb-3 font-mono text-[9px] tracking-[0.2em] uppercase text-amber-800 bg-amber-50/75 border border-amber-700/15 rounded-sm px-2.5 py-1">
+        <div className="inline-block mb-3 font-mono text-[9px] tracking-[0.2em] uppercase text-amber-800 bg-amber-50/75 border border-amber-700/15 rounded-xs px-2.5 py-1">
           Build in public · In development · Paper only
         </div>
         <div className="font-mono text-[9px] tracking-[0.2em] uppercase text-accent mb-5">
@@ -130,8 +130,8 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
                 const StepIcon = Icon as React.ComponentType<{ className?: string }>;
                 return (
                   <React.Fragment key={title as string}>
-                    <div className="flex items-center gap-3 bg-canvas/45 border border-ink/10 p-3 rounded-sm">
-                      <StepIcon className="w-5 h-5 text-accent flex-shrink-0" />
+                    <div className="flex items-center gap-3 bg-canvas/45 border border-ink/10 p-3 rounded-xs">
+                      <StepIcon className="w-5 h-5 text-accent shrink-0" />
                       <div className="min-w-0">
                         <div className="font-serif text-[17px] text-ink">{title as string}</div>
                         <div className="font-sans text-[11px] text-ink-muted">{detail as string}</div>
@@ -183,7 +183,7 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
         <Stack compact>
           {mobileSystem.map((step) => (
             <div key={step.number} className="stack-card">
-              <MobileScenePlate figLabel={`${step.number} · ${step.label}`} className="!bg-paper !backdrop-blur-none shadow-lg shadow-ink/10">
+              <MobileScenePlate figLabel={`${step.number} · ${step.label}`} className="bg-paper! backdrop-blur-none! shadow-lg shadow-ink/10">
                 <step.Icon className="w-7 h-7 text-accent mb-5" strokeWidth={1.4} />
                 <h3 className="font-serif text-2xl text-ink mb-3">{step.title}</h3>
                 <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{step.body}</p>
@@ -212,7 +212,7 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
           ].map(([Icon, title, body]) => {
             const ItemIcon = Icon as React.ComponentType<{ className?: string; strokeWidth?: number }>;
             return (
-              <Reveal key={title as string} enterEnd={0.86} lift={16} className="bg-white/65 border border-ink/10 p-5 rounded-sm">
+              <Reveal key={title as string} enterEnd={0.86} lift={16} className="bg-white/65 border border-ink/10 p-5 rounded-xs">
                 <ItemIcon className="w-6 h-6 text-accent mb-4" strokeWidth={1.4} />
                 <h3 className="font-serif text-xl text-ink mb-2">{title as string}</h3>
                 <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{body as string}</p>
@@ -231,7 +231,7 @@ export const MobileCompoundIQPage: React.FC<MobileCompoundIQPageProps> = ({ onNa
             const StatusIcon = Icon as React.ComponentType<{ className?: string }>;
             const toneClass = tone === 'green' ? 'text-green-300' : tone === 'sky' ? 'text-sky-300' : 'text-amber-300';
             return (
-              <div key={title} className="border border-white/15 bg-white/5 p-5 rounded-sm">
+              <div key={title} className="border border-white/15 bg-white/5 p-5 rounded-xs">
                 <div className="flex items-center justify-between gap-3 mb-5">
                   <StatusIcon className={`w-5 h-5 ${toneClass}`} />
                   <div className={`font-mono text-[9px] uppercase tracking-widest ${toneClass}`}>{status}</div>

@@ -21,7 +21,7 @@ export const MobileScenePlate: React.FC<MobileScenePlateProps> = ({
   children,
 }) => (
   <div
-    className={`relative border border-ink/10 bg-white/60 backdrop-blur-[2px] rounded-sm p-5 shadow-sm shadow-ink/5 ${className}`}
+    className={`relative border border-ink/10 bg-white/60 backdrop-blur-[2px] rounded-xs p-5 shadow-xs shadow-ink/5 ${className}`}
   >
     <div className="flex justify-between items-center mb-3 pb-2 border-b border-ink/10">
       <div className="flex gap-1.5">

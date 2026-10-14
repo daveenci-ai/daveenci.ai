@@ -186,7 +186,7 @@ const briefings: Record<string, BriefingData> = {
                <Callout variant="alt">
                   <p className="mb-4"><strong>The Problem:</strong> A SaaS company receives 500 tickets/day. Tier 1 support is drowning in repetitive queries about API limits.</p>
                   <p className="mb-4"><strong>The Workflow:</strong></p>
-                  <ol className="list-decimal list-inside space-y-3 font-medium text-ink bg-white/50 p-6 rounded-sm border border-ink/5">
+                  <ol className="list-decimal list-inside space-y-3 font-medium text-ink bg-white/50 p-6 rounded-xs border border-ink/5">
                      <li className="pl-2"><span className="font-bold">Trigger:</span> New Ticket arrives via Webhook.</li>
                      <li className="pl-2"><span className="font-bold">Agent 1 (Triage):</span> Classifies ticket urgency and category. Result: "Account Access."</li>
                      <li className="pl-2"><span className="font-bold">Agent 2 (Investigator):</span> Calls <code>stripe_api.get_customer_status(email)</code>. Observation: "Basic Plan".</li>
@@ -379,7 +379,7 @@ const briefings: Record<string, BriefingData> = {
                <Callout variant="alt">
                   <p className="mb-4"><strong>The Problem:</strong> A HealthTech startup wants to build a chatbot that helps triage patients in the ER. They have zero data because sharing patient logs is illegal.</p>
                   <p className="mb-4"><strong>The Synthetic Pipeline Solution:</strong></p>
-                  <ul className="list-disc list-inside space-y-2 font-medium text-ink bg-white/50 p-6 rounded-sm border border-ink/5">
+                  <ul className="list-disc list-inside space-y-2 font-medium text-ink bg-white/50 p-6 rounded-xs border border-ink/5">
                      <li><span className="font-bold">Seed:</span> Doctors write 20 fake but realistic patient dialogues.</li>
                      <li><span className="font-bold">Generation:</span> Pipeline generates 100,000 unique patient encounters using specific medical variables.</li>
                      <li><span className="font-bold">Validation:</span> An automated "Doctor Agent" reviews the synthetic diagnosis to ensure it follows medical guidelines.</li>
@@ -487,7 +487,7 @@ const briefings: Record<string, BriefingData> = {
                      <Callout size="sm">
                         <h4 className="font-bold text-ink mb-1">2. The Extraction Engine (The Brain)</h4>
                         <p className="text-sm mb-2">Unstructured text is passed through an LLM for Named Entity Recognition (NER).</p>
-                        <div className="bg-ink/5 p-2 rounded text-xs font-mono text-ink-muted">
+                        <div className="bg-ink/5 p-2 rounded-sm text-xs font-mono text-ink-muted">
                            Input: "Leonardo, VP of Eng @ TechFlow | +1-555-0199"<br />
                            Extraction: &#123; Name: "Leonardo", Role: "VP of Engineering", Company: "TechFlow" &#125;
                         </div>
@@ -664,10 +664,10 @@ const briefings: Record<string, BriefingData> = {
                <>
                   <p>This is where the battle is usually won or lost.</p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                     <div className="p-5 bg-white/40 border border-ink/10 rounded-sm">
+                     <div className="p-5 bg-white/40 border border-ink/10 rounded-xs">
                         <h4 className="font-bold text-ink mb-2">1. The Long Context Cost Model</h4>
                         <p className="text-sm mb-3">Long context models charge you per input token.</p>
-                        <div className="bg-ink/5 p-3 rounded text-xs text-ink-muted mb-3 space-y-1">
+                        <div className="bg-ink/5 p-3 rounded-sm text-xs text-ink-muted mb-3 space-y-1">
                            <p><strong>Scenario:</strong> 1,000-page manual (500k tokens).</p>
                            <p><strong>Action:</strong> Put the whole manual in the prompt.</p>
                            <p><strong>Cost:</strong> Pay for 500k tokens <em>every single query</em>.</p>
@@ -675,10 +675,10 @@ const briefings: Record<string, BriefingData> = {
                         </div>
                         <p className="text-xs text-ink-muted"><strong>Mitigation:</strong> Context Caching (pays a storage fee to keep memory loaded).</p>
                      </div>
-                     <div className="p-5 bg-white/40 border border-ink/10 rounded-sm">
+                     <div className="p-5 bg-white/40 border border-ink/10 rounded-xs">
                         <h4 className="font-bold text-ink mb-2">2. The RAG Cost Model</h4>
                         <p className="text-sm mb-3">RAG separates storage from compute.</p>
-                        <div className="bg-ink/5 p-3 rounded text-xs text-ink-muted mb-3 space-y-1">
+                        <div className="bg-ink/5 p-3 rounded-sm text-xs text-ink-muted mb-3 space-y-1">
                            <p><strong>Scenario:</strong> Same 1,000-page manual.</p>
                            <p><strong>Action:</strong> Retrieve only 3 relevant pages (1k tokens).</p>
                            <p><strong>Cost:</strong> Vector DB storage + 1k tokens.</p>
@@ -876,7 +876,7 @@ const briefings: Record<string, BriefingData> = {
                         </tbody>
                      </table>
                   </div>
-                  <div className="mt-6 p-4 border border-ink/10 rounded-sm">
+                  <div className="mt-6 p-4 border border-ink/10 rounded-xs">
                      <h4 className="font-bold text-ink mb-2">The \"Quantization\" Factor</h4>
                      <p className="text-sm text-ink-muted">You do not need to run the full, uncompressed model.</p>
                      <ul className="list-disc list-inside mt-2 text-sm text-ink-muted">
@@ -927,21 +927,21 @@ const briefings: Record<string, BriefingData> = {
                   <p>Don't use the command line. The 2025 stack is user-friendly.</p>
                   <div className="space-y-4 mt-6">
                      <div className="flex gap-4">
-                        <div className="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center font-bold flex-shrink-0">1</div>
+                        <div className="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center font-bold shrink-0">1</div>
                         <div>
                            <h4 className="font-bold text-ink">The Engine: Ollama</h4>
                            <p className="text-sm text-ink-muted">The "Docker of AI." One-click install. Model management via <code>ollama run llama4:70b</code>.</p>
                         </div>
                      </div>
                      <div className="flex gap-4">
-                        <div className="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center font-bold flex-shrink-0">2</div>
+                        <div className="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center font-bold shrink-0">2</div>
                         <div>
                            <h4 className="font-bold text-ink">The Interface: Open WebUI</h4>
                            <p className="text-sm text-ink-muted">Polished interface identical to ChatGPT. Supports document upload ("The Jones Case") with auto-chunking.</p>
                         </div>
                      </div>
                      <div className="flex gap-4">
-                        <div className="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center font-bold flex-shrink-0">3</div>
+                        <div className="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center font-bold shrink-0">3</div>
                         <div>
                            <h4 className="font-bold text-ink">The Backend (Advanced): vLLM</h4>
                            <p className="text-sm text-ink-muted">For deployments with 50+ concurrent users. Requires Linux Docker container but offers higher throughput.</p>
@@ -966,8 +966,8 @@ const briefings: Record<string, BriefingData> = {
                         <li><strong>Generation:</strong> Llama 4 analyzes those 10 pages and drafts the memo.</li>
                      </ol>
                   </Callout>
-                  <div className="mt-4 p-4 text-sm bg-orange-50 text-orange-900 border border-orange-100 rounded-sm flex gap-2">
-                     <Lightbulb className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                  <div className="mt-4 p-4 text-sm bg-orange-50 text-orange-900 border border-orange-100 rounded-xs flex gap-2">
+                     <Lightbulb className="w-4 h-4 shrink-0 mt-0.5" />
                      <span><strong>Tip:</strong> Ensure your RAG pipeline uses Hybrid Search (Keyword + Semantic). Legal documents often hinge on specific dates or names (Keyword) which semantic search sometimes misses.</span>
                   </div>
                </>
@@ -1060,7 +1060,7 @@ const briefings: Record<string, BriefingData> = {
                <>
                   <h4 className="font-bold text-ink mb-2">The Concept</h4>
                   <p className="mb-4">LLMs are often better at spotting errors than avoiding them. RCI asks the model to act as its own editor (Reflexion Loop).</p>
-                  <ul className="list-decimal list-inside space-y-2 bg-white/50 p-6 rounded-sm border border-ink/5">
+                  <ul className="list-decimal list-inside space-y-2 bg-white/50 p-6 rounded-xs border border-ink/5">
                      <li><strong>Draft:</strong> Model generates a response.</li>
                      <li><strong>Critique:</strong> "Review the previous response for security vulnerabilities, logic gaps, or tone inconsistencies."</li>
                      <li><strong>Refine:</strong> "Rewrite the response strictly following the critique."</li>
@@ -1075,7 +1075,7 @@ const briefings: Record<string, BriefingData> = {
             content: (
                <>
                   <p>Standard summaries are often \"lossy\". Chain of Density is a recursive technique to pack more entities into a fixed-length summary.</p>
-                  <div className="mt-4 p-4 border border-ink/10 rounded-sm">
+                  <div className="mt-4 p-4 border border-ink/10 rounded-xs">
                      <h4 className="font-bold text-ink mb-2">The Algorithm:</h4>
                      <ol className="list-decimal list-inside space-y-1 text-sm text-ink-muted">
                         <li>Write a sparse summary.</li>
@@ -1110,7 +1110,7 @@ const briefings: Record<string, BriefingData> = {
                   <p>By 2025, writing complex prompt chains by hand is considered brittle. The industry has moved toward <strong>DSPy</strong> (Declarative Self-Improving Language Programs).</p>
                   <h4 className="font-bold text-ink mt-6 mb-2">What is DSPy?</h4>
                   <p>Instead of writing text prompts ("You are a helpful assistant..."), you write Python code that compiles into prompts.</p>
-                  <ul className="list-disc list-inside space-y-2 mt-4 text-sm bg-white/50 p-4 border border-ink/10 rounded-sm">
+                  <ul className="list-disc list-inside space-y-2 mt-4 text-sm bg-white/50 p-4 border border-ink/10 rounded-xs">
                      <li>You define a module: <code>ChainOfThought("question &rarr; answer")</code>.</li>
                      <li>You give it examples (Few-Shot).</li>
                      <li>The <strong>Compiler</strong> optimizes the prompt for you. It tests 1,000 variations against a metric and selects the best one.</li>
@@ -1201,7 +1201,7 @@ const briefings: Record<string, BriefingData> = {
             content: (
                <>
                   <p>If you are building \"Automated Decision-Making\" (ADM) systems, you are likely in the High-Risk category (Annex III of the Act).</p>
-                  <ul className="list-disc list-inside space-y-2 mt-4 bg-white/50 p-6 rounded-sm border border-ink/5">
+                  <ul className="list-disc list-inside space-y-2 mt-4 bg-white/50 p-6 rounded-xs border border-ink/5">
                      <li><strong>Employment:</strong> Tools that filter CVs or rank candidates.</li>
                      <li><strong>Education:</strong> Proctoring software or grading algorithms.</li>
                      <li><strong>Financial Services:</strong> Creditworthiness assessments.</li>
@@ -1255,7 +1255,7 @@ const briefings: Record<string, BriefingData> = {
                      <Callout size="sm">
                         <h4 className="font-bold text-ink mb-2">1. The Model Card Generator</h4>
                         <p className="text-sm mb-2">Use <code>model-card-toolkit</code> to auto-generate reports.</p>
-                        <div className="bg-ink text-white p-3 rounded text-xs font-mono">
+                        <div className="bg-ink text-white p-3 rounded-sm text-xs font-mono">
                            with mlflow.start_run():<br />
                            &nbsp;&nbsp;mlflow.log_param("data_version", "v2.1-GDPR-cleaned")<br />
                            &nbsp;&nbsp;mlflow.log_metric("bias_disparity_index", 0.05)
@@ -1282,17 +1282,17 @@ const briefings: Record<string, BriefingData> = {
             content: (
                <>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                     <div className="p-4 bg-red-50 border border-red-100 rounded-sm text-center">
+                     <div className="p-4 bg-red-50 border border-red-100 rounded-xs text-center">
                         <div className="text-2xl font-bold text-red-800">35M &euro;</div>
                         <div className="text-xs text-red-600 uppercase tracking-widest font-bold mt-1">Prohibited AI</div>
                         <p className="text-xs text-ink-muted mt-2">or 7% of Global Turnover</p>
                      </div>
-                     <div className="p-4 bg-orange-50 border border-orange-100 rounded-sm text-center">
+                     <div className="p-4 bg-orange-50 border border-orange-100 rounded-xs text-center">
                         <div className="text-2xl font-bold text-orange-800">15M &euro;</div>
                         <div className="text-xs text-orange-600 uppercase tracking-widest font-bold mt-1">High-Risk Violations</div>
                         <p className="text-xs text-ink-muted mt-2">or 3% of Global Turnover</p>
                      </div>
-                     <div className="p-4 bg-yellow-50 border border-yellow-100 rounded-sm text-center">
+                     <div className="p-4 bg-yellow-50 border border-yellow-100 rounded-xs text-center">
                         <div className="text-2xl font-bold text-yellow-800">7.5M &euro;</div>
                         <div className="text-xs text-yellow-600 uppercase tracking-widest font-bold mt-1">Misinformation</div>
                         <p className="text-xs text-ink-muted mt-2">or 1.5% of Global Turnover</p>
@@ -1329,7 +1329,7 @@ const briefings: Record<string, BriefingData> = {
             content: (
                <>
                   <p>In 2025, we face the Copilot Paradox: You build an amazing AI Agent that automates 80% of the Legal Department's work. The client realizes they don't need 10 paralegals; they only need 2 paralegals and your AI.</p>
-                  <div className="p-4 bg-red-50 border border-red-100 rounded-sm mt-4">
+                  <div className="p-4 bg-red-50 border border-red-100 rounded-xs mt-4">
                      <p className="text-sm text-red-900 font-bold">Result: Your client saves millions, but your contract value drops from 10 seats to 2 seats. You effectively engineered your own revenue churn.</p>
                   </div>
                   <h4 className="font-bold text-ink mt-6 mb-2">The \"Service-as-Software\" Shift</h4>
@@ -1354,7 +1354,7 @@ const briefings: Record<string, BriefingData> = {
                         <p className="text-sm mb-2">Metric: 500 \"Generations\" per month.</p>
                         <p className="text-xs text-ink-muted"><strong>Cons:</strong> Friction. Users hesitate to click \"Generate\" because of hoarding mentality.</p>
                      </Callout>
-                     <div className="p-4 bg-accent/5 border border-accent/20 rounded-sm">
+                     <div className="p-4 bg-accent/5 border border-accent/20 rounded-xs">
                         <h4 className="font-bold text-accent mb-1">Level 3: Outcome-Based (Agency Model)</h4>
                         <p className="text-sm mb-2">Metric: Per Successful Resolution.</p>
                         <p className="text-xs text-ink-muted"><strong>Philosophy:</strong> \"We don't get paid for trying; we get paid for doing.\"</p>
@@ -1369,12 +1369,12 @@ const briefings: Record<string, BriefingData> = {
             content: (
                <>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                     <div className="p-4 border border-ink/10 rounded-sm">
+                     <div className="p-4 border border-ink/10 rounded-xs">
                         <h4 className="font-bold text-ink mb-2">Intercom (Fin AI)</h4>
                         <p className="text-sm text-ink-muted"><strong>Price:</strong> $0.99 per resolution.</p>
                         <p className="text-xs mt-2 text-ink-muted">The Hook: If the AI answers but the user still requests a human, you pay $0. Aligns incentives perfectly.</p>
                      </div>
-                     <div className="p-4 border border-ink/10 rounded-sm">
+                     <div className="p-4 border border-ink/10 rounded-xs">
                         <h4 className="font-bold text-ink mb-2">Salesforce (Agentforce)</h4>
                         <p className="text-sm text-ink-muted"><strong>Price:</strong> $2 per conversation.</p>
                         <p className="text-xs mt-2 text-ink-muted">Logic: An Agent capable of handling unlimited conversations is worth far more than a single $300 seat.</p>
@@ -1490,25 +1490,25 @@ const briefings: Record<string, BriefingData> = {
                   <p>To build this pipeline, you need three distinct engines working in harmony.</p>
                   <div className="space-y-6 mt-6">
                      <div className="flex gap-4">
-                        <div className="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center font-bold flex-shrink-0">1</div>
+                        <div className="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center font-bold shrink-0">1</div>
                         <div>
                            <h4 className="font-bold text-ink">The Visual Engine (Google Veo)</h4>
                            <p className="text-sm text-ink-muted">Generates the "Stock Footage." In 2025, Veo leads in "Prompt adherence" and text rendering.</p>
                         </div>
                      </div>
                      <div className="flex gap-4">
-                        <div className="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center font-bold flex-shrink-0">2</div>
+                        <div className="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center font-bold shrink-0">2</div>
                         <div>
                            <h4 className="font-bold text-ink">The Audio Engine (ElevenLabs)</h4>
                            <p className="text-sm text-ink-muted">Converts script to speech. "Speech-to-Speech" allows recording a rough draft with emotion that the AI polishes.</p>
                         </div>
                      </div>
                      <div className="flex gap-4">
-                        <div className="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center font-bold flex-shrink-0">3</div>
+                        <div className="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center font-bold shrink-0">3</div>
                         <div>
                            <h4 className="font-bold text-ink">The Compositor (Remotion)</h4>
                            <p className="text-sm text-ink-muted">The "Editor" that glues it together using React code.</p>
-                           <div className="mt-2 bg-ink text-white p-3 rounded text-xs font-mono">
+                           <div className="mt-2 bg-ink text-white p-3 rounded-sm text-xs font-mono">
                               &lt;Sequence from={'{'}0{'}'} durationInFrames={'{'}90{'}'}&gt;<br />
                               &nbsp;&nbsp;&lt;Title text={`{`}`Hello, ${'{'}customerName{'}'}!`{`}`} /&gt;<br />
                               &nbsp;&nbsp;&lt;BackgroundVideo src={'{'}veoGeneratedAsset{'}'} /&gt;<br />
@@ -1554,15 +1554,15 @@ const briefings: Record<string, BriefingData> = {
                <>
                   <p><strong>Scenario:</strong> Selling Cybersecurity software to CTOs.</p>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                     <div className="p-4 border border-ink/10 rounded-sm text-center">
+                     <div className="p-4 border border-ink/10 rounded-xs text-center">
                         <h5 className="font-bold text-ink text-sm mb-2">The Hook (0-10s)</h5>
                         <p className="text-xs text-ink-muted">Avatar stands in front of a generated server room. <br />"Hi James. I noticed [Company] scaled AWS usage..."</p>
                      </div>
-                     <div className="p-4 border border-ink/10 rounded-sm text-center bg-accent/5">
+                     <div className="p-4 border border-ink/10 rounded-xs text-center bg-accent/5">
                         <h5 className="font-bold text-ink text-sm mb-2">The Proof (10-30s)</h5>
                         <p className="text-xs text-ink-muted">Camera zooms into laptop screen showing James's ACTUAL website with a red "Security Alert" overlay.</p>
                      </div>
-                     <div className="p-4 border border-ink/10 rounded-sm text-center">
+                     <div className="p-4 border border-ink/10 rounded-xs text-center">
                         <h5 className="font-bold text-ink text-sm mb-2">The Close (30-45s)</h5>
                         <p className="text-xs text-ink-muted">Avatar returns. <br />"I made a full report. Click below."</p>
                      </div>
@@ -1653,13 +1653,13 @@ const BriefingDetailDesktop: React.FC<BriefingDetailPageProps> = ({ onNavigate, 
          <Section className="pt-32 pb-16 md:pt-40 md:pb-24 bg-white/50" pattern="nodes" overflow={true} innerRef={heroRef}>
             <div className="max-w-4xl mx-auto text-center hero-copy">
                <div className="flex items-center justify-center gap-3 mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                  <span className="px-3 py-1 bg-white/50 backdrop-blur border border-ink/10 rounded-sm text-[10px] font-bold tracking-widest uppercase text-accent">
+                  <span className="px-3 py-1 bg-white/50 backdrop-blur-sm border border-ink/10 rounded-xs text-[10px] font-bold tracking-widest uppercase text-accent">
                      {data.category}
                   </span>
                   <span className="text-ink-muted/40 font-mono text-xs">#{data.issueNo}</span>
                </div>
 
-               <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-ink leading-[1.1] mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100">
+               <h1 className="font-serif text-4xl md:text-5xl md:leading-none lg:text-6xl lg:leading-none text-ink leading-[1.1] mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100">
                   {data.title}
                </h1>
 
@@ -1708,12 +1708,12 @@ const BriefingDetailDesktop: React.FC<BriefingDetailPageProps> = ({ onNavigate, 
             <article className="lg:col-span-9 max-w-3xl mx-auto">
 
                {/* AEO: Quick Answer Box (Featured Snippet Optimization) */}
-               <div className="bg-accent/5 border border-accent/20 p-6 md:p-8 rounded-sm mb-12 relative overflow-hidden">
+               <div className="bg-accent/5 border border-accent/20 p-6 md:p-8 rounded-xs mb-12 relative overflow-hidden">
                   <div className="absolute top-0 right-0 p-4 opacity-10">
                      <Lightbulb className="w-12 h-12 text-accent" />
                   </div>
                   <h2 className="font-serif text-2xl text-accent mb-4 flex items-center gap-2">
-                     <span className="text-sm font-sans font-bold uppercase tracking-widest bg-white/50 px-2 py-1 rounded-sm text-ink-muted">Quick Answer</span>
+                     <span className="text-sm font-sans font-bold uppercase tracking-widest bg-white/50 px-2 py-1 rounded-xs text-ink-muted">Quick Answer</span>
                      {data.quickAnswerTitle}
                   </h2>
                   <div className="prose prose-lg text-ink-muted leading-relaxed">
@@ -1722,7 +1722,7 @@ const BriefingDetailDesktop: React.FC<BriefingDetailPageProps> = ({ onNavigate, 
                </div>
 
                {/* The cover plate lags the copy by a few pixels — the same depth cue as the case pages. */}
-               <Parallax plane="plate" as="figure" className="w-full aspect-[16/9] overflow-hidden rounded-sm mb-12 shadow-xl shadow-ink/5 border border-ink/10">
+               <Parallax plane="plate" as="figure" className="w-full aspect-video overflow-hidden rounded-xs mb-12 shadow-xl shadow-ink/5 border border-ink/10">
                   <CodexCover id={data.id} title={data.title} />
                </Parallax>
 
@@ -1751,7 +1751,7 @@ const BriefingDetailDesktop: React.FC<BriefingDetailPageProps> = ({ onNavigate, 
 
                {/* Further Reading */}
                {data.furtherResources && data.furtherResources.length > 0 && (
-                  <div id="further-reading" className="bg-ink text-canvas p-8 rounded-sm">
+                  <div id="further-reading" className="bg-ink text-canvas p-8 rounded-xs">
                      <h3 className="font-serif text-xl text-white mb-4">Further Resources</h3>
                      <ul className="space-y-2 text-white/70">
                         {data.furtherResources.map((resource, i) => (

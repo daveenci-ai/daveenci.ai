@@ -86,14 +86,14 @@ const HeroDiagram: React.FC = () => (
     {/* Annotation pills — the fastest plane. The outer div carries the scroll
         transform so the float keyframes on the inner div are not overridden. */}
     <div className="hero-pill absolute top-2 -left-4 md:-left-6">
-      <div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
+      <div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded-sm flex items-center gap-3 animate-float">
         <Cpu className="w-4 h-4 text-accent" />
         <span className="text-xs font-medium text-ink">Specialist team</span>
       </div>
     </div>
 
     <div className="hero-pill absolute bottom-2 -right-4 md:-right-6">
-      <div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
+      <div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded-sm flex items-center gap-3 animate-float-delayed">
         <Activity className="w-4 h-4 text-ink-muted" />
         <span className="text-xs font-medium text-ink">Human-gated</span>
       </div>

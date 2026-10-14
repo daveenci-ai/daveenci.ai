@@ -69,16 +69,16 @@ export const MobileAdvantage: React.FC = () => {
       {/* Swipeable card rail */}
       <div
         ref={scrollerRef}
-        className="-mx-6 overflow-x-auto snap-x snap-mandatory flex gap-4 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="-mx-6 overflow-x-auto snap-x snap-mandatory flex gap-4 pb-6 scrollbar-none [&::-webkit-scrollbar]:hidden"
       >
-        <div className="w-2 flex-shrink-0" />
+        <div className="w-2 shrink-0" />
         {CARDS.map((card, i) => (
           <article
             key={card.fig}
             data-card-index={i}
-            className="snap-center flex-shrink-0 w-[82vw] max-w-[360px]"
+            className="snap-center shrink-0 w-[82vw] max-w-[360px]"
           >
-            <MobileScenePlate figLabel={`Fig. ${card.fig}`} className="!bg-white/70">
+            <MobileScenePlate figLabel={`Fig. ${card.fig}`} className="bg-white/70!">
               <div className="font-serif italic tracking-[0.2em] text-[10px] font-semibold uppercase text-accent mb-2">
                 {card.eyebrow}
               </div>
@@ -87,7 +87,7 @@ export const MobileAdvantage: React.FC = () => {
             </MobileScenePlate>
           </article>
         ))}
-        <div className="w-2 flex-shrink-0" />
+        <div className="w-2 shrink-0" />
       </div>
 
       {/* Pager dots */}

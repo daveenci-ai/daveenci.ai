@@ -42,7 +42,7 @@ const PrivacyPage = lazy(() => import('./components/PrivacyPage'));
 const NotFoundPage = lazy(() => import('./components/NotFoundPage'));
 
 const RouteLoading: React.FC = () => (
-  <div className="min-h-[100dvh] flex items-center justify-center">
+  <div className="min-h-dvh flex items-center justify-center">
     <div className="w-6 h-6 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
   </div>
 );

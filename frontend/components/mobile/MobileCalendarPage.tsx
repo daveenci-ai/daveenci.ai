@@ -195,7 +195,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate, host =
   const canProceedFromDatetime = Boolean(selectedDate && selectedTime);
 
   return (
-    <div className="min-h-[100dvh] flex flex-col bg-canvas text-ink" data-mobile>
+    <div className="min-h-dvh flex flex-col bg-canvas text-ink" data-mobile>
       {/* Top bar: back + step indicator */}
       <header className="sticky top-0 z-40 bg-canvas/90 backdrop-blur-md border-b border-ink/10 px-4 py-3 flex items-center gap-4">
         <button
@@ -227,7 +227,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate, host =
           <div className="px-5 pt-6">
             {/* Intro strip */}
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-sm overflow-hidden border border-ink/10 flex-shrink-0">
+              <div className="w-12 h-12 rounded-xs overflow-hidden border border-ink/10 shrink-0">
                 <img src={copy.portrait} alt={copy.name} decoding="async" className="w-full h-full object-cover object-top scale-125 sepia-[0.15] contrast-105" />
               </div>
               <div>
@@ -255,7 +255,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate, host =
                     setSelectedDate(null);
                     setSelectedTime(null);
                   }}
-                  className="w-9 h-9 flex items-center justify-center border border-ink/10 rounded-sm text-ink-muted active:border-accent"
+                  className="w-9 h-9 flex items-center justify-center border border-ink/10 rounded-xs text-ink-muted active:border-accent"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
@@ -265,7 +265,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate, host =
                     setSelectedDate(null);
                     setSelectedTime(null);
                   }}
-                  className="w-9 h-9 flex items-center justify-center border border-ink/10 rounded-sm text-ink-muted active:border-accent"
+                  className="w-9 h-9 flex items-center justify-center border border-ink/10 rounded-xs text-ink-muted active:border-accent"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -293,7 +293,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate, host =
                     key={day}
                     disabled={disabled}
                     onClick={() => !disabled && handleDateClick(day)}
-                    className={`aspect-square rounded-sm font-serif text-sm transition-all ${
+                    className={`aspect-square rounded-xs font-serif text-sm transition-all ${
                       isSelected
                         ? 'bg-accent/10 text-ink font-semibold ring-1 ring-accent'
                         : disabled
@@ -309,7 +309,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate, host =
 
             {/* Error alert */}
             {availabilityError && (
-              <div role="alert" className="mb-4 text-xs font-serif italic text-amber-900 bg-amber-50/70 border border-amber-200/80 rounded-sm px-3 py-2 flex items-start gap-3">
+              <div role="alert" className="mb-4 text-xs font-serif italic text-amber-900 bg-amber-50/70 border border-amber-200/80 rounded-xs px-3 py-2 flex items-start gap-3">
                 <span className="flex-1 leading-relaxed">{availabilityError}</span>
                 <button onClick={fetchAvailability} type="button" className="not-italic font-sans text-amber-900 underline font-medium shrink-0">
                   Retry
@@ -345,7 +345,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate, host =
                           setSelectedTime(slot.value);
                         }}
                         aria-label={slot.label}
-                        className={`py-2.5 font-serif italic text-sm border rounded-sm transition-all ${
+                        className={`py-2.5 font-serif italic text-sm border rounded-xs transition-all ${
                           selectedTime === slot.value
                             ? 'bg-accent/10 text-accent border-accent ring-1 ring-accent'
                             : 'bg-white/60 border-ink/10 text-ink active:border-accent active:text-accent'
@@ -452,12 +452,12 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate, host =
 
         {step === 'success' && (
           <div className="px-5 pt-10 flex flex-col items-center text-center">
-            <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6 shadow-sm border border-green-100">
+            <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6 shadow-xs border border-green-100">
               <Check className="w-10 h-10 text-green-600" />
             </div>
             <h2 className="font-serif text-3xl text-ink mb-3">You're on the calendar.</h2>
             <p className="text-ink-muted text-base mb-8 max-w-sm">{copy.confirmation}</p>
-            <div className="w-full bg-white/60 border border-ink/10 p-5 rounded-sm mb-8">
+            <div className="w-full bg-white/60 border border-ink/10 p-5 rounded-xs mb-8">
               <div className="flex justify-between text-sm mb-2">
                 <span className="text-ink-muted">Date</span>
                 <span className="font-medium text-ink">{selectedDate?.toLocaleDateString()}</span>

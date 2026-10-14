@@ -51,8 +51,8 @@ const GuidePage: React.FC<GuidePageProps> = ({ onNavigate, slug, isStatic = fals
             <span className="mx-2 text-ink-muted/50">·</span>
             Real-estate media
           </div>
-          <h1 className="font-serif text-4xl md:text-5xl text-ink leading-tight mb-6">{guide.question}</h1>
-          <p className="font-sans text-lg md:text-xl text-ink leading-relaxed" data-answer>
+          <h1 className="font-serif text-4xl md:text-5xl md:leading-none text-ink leading-tight mb-6">{guide.question}</h1>
+          <p className="font-sans text-lg md:text-xl md:leading-7 text-ink leading-relaxed" data-answer>
             {guide.answer}
           </p>
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted mt-6">
@@ -61,7 +61,7 @@ const GuidePage: React.FC<GuidePageProps> = ({ onNavigate, slug, isStatic = fals
         </article>
       </Section>
 
-      <Section className="py-4 md:py-6 bg-white/35">
+      <Section padding="py-4 md:py-6" className="bg-white/35">
         <div className="max-w-3xl space-y-12 md:space-y-14 py-6">
           {guide.sections.map((s) => (
             <section key={s.heading}>
@@ -95,7 +95,7 @@ const GuidePage: React.FC<GuidePageProps> = ({ onNavigate, slug, isStatic = fals
 
       <Section className="py-12 md:py-16 bg-white/35">
         <div className="max-w-3xl">
-          <div className="border border-ink/15 bg-white/70 rounded-sm p-8 md:p-10">
+          <div className="border border-ink/15 bg-white/70 rounded-xs p-8 md:p-10">
             <p className="font-sans text-ink-muted leading-relaxed mb-6">{guide.cta.note}</p>
             <a href={guide.cta.path} onClick={go(guide.cta.path)} className="inline-block">
               <Button variant="primary">{guide.cta.label} <ArrowRight className="w-4 h-4 ml-2" aria-hidden="true" /></Button>

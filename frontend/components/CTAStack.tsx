@@ -45,7 +45,7 @@ const CTAStack: React.FC<CTAStackProps> = ({ onNavigate }) => {
               className="p-8 md:p-10 bg-white/60 border border-ink/10 h-full flex flex-col"
             >
               <h3 className="font-serif text-2xl text-ink mb-3">{card.title}</h3>
-              <p className="font-sans text-ink-muted leading-relaxed mb-8 flex-grow">{card.detail}</p>
+              <p className="font-sans text-ink-muted leading-relaxed mb-8 grow">{card.detail}</p>
               <Button variant={card.variant} onClick={card.onClick} className="w-full">
                 {card.cta}
               </Button>

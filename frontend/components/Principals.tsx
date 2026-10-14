@@ -48,12 +48,12 @@ const Principals: React.FC<PrincipalsProps> = ({ onNavigate, compact = false }) 
         height={height}
         loading="lazy"
         decoding="async"
-        className="relative w-full rounded-sm shadow-2xl shadow-black/30 border border-canvas/10 filter sepia-[0.15] contrast-105"
+        className="relative w-full rounded-xs shadow-2xl shadow-black/30 border border-canvas/10 filter sepia-[0.15] contrast-105"
       />
     </div>
   );
 
-  const linkClass = 'mt-6 inline-flex items-center font-sans text-sm font-medium text-accent-light underline decoration-accent-light/35 underline-offset-4 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4';
+  const linkClass = 'mt-6 inline-flex items-center font-sans text-sm font-medium text-accent-light underline decoration-accent-light/35 underline-offset-4 transition-colors hover:text-white focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4';
   const chipClass = 'border border-canvas/15 px-3 py-2';
 
   const antonEntry = (
@@ -122,11 +122,11 @@ const Principals: React.FC<PrincipalsProps> = ({ onNavigate, compact = false }) 
         <VitruvianBackground className="opacity-[0.04] text-canvas" />
         <div className="relative z-10 space-y-14">
           <div>
-            {portrait(AntonSketch, 'Anton Osipov', 1040, 'max-w-[13rem] mb-8')}
+            {portrait(AntonSketch, 'Anton Osipov', 1040, 'max-w-52 mb-8')}
             {antonEntry}
           </div>
           <div className="border-t border-canvas/15 pt-14">
-            {portrait(AstridSketch, 'Astrid Abrahamyan', 1024, 'max-w-[13rem] mb-8')}
+            {portrait(AstridSketch, 'Astrid Abrahamyan', 1024, 'max-w-52 mb-8')}
             {astridEntry}
           </div>
         </div>

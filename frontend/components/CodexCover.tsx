@@ -108,11 +108,11 @@ export const CodexCover: React.FC<CodexCoverProps> = ({ id, title, className = '
             <div key={stage} className="relative">
               <div className="relative z-10 min-h-16 border border-ink/15 bg-white/65 p-2.5 shadow-[3px_3px_0_rgba(26,26,26,0.06)] transition-all duration-500 group-hover:border-accent/40 group-hover:bg-white/85 md:min-h-20 md:p-4">
                 <span className="block font-mono text-[7px] uppercase tracking-[0.18em] text-ink-muted/60">0{index + 1}</span>
-                <strong className="mt-2 block font-serif text-[10px] font-normal leading-tight text-ink md:text-sm">{stage}</strong>
+                <strong className="mt-2 block font-serif text-[10px] font-normal leading-tight text-ink md:text-sm md:leading-5">{stage}</strong>
               </div>
               {index < blueprint.stages.length - 1 && (
                 <span className="absolute left-full top-1/2 z-20 h-px w-2 bg-accent/60 md:w-4">
-                  <span className="absolute -right-px -top-[2px] h-[5px] w-[5px] rotate-45 border-r border-t border-accent" />
+                  <span className="absolute -right-px top-[-2px] h-[5px] w-[5px] rotate-45 border-r border-t border-accent" />
                 </span>
               )}
             </div>
@@ -120,7 +120,7 @@ export const CodexCover: React.FC<CodexCoverProps> = ({ id, title, className = '
         </div>
 
         <div className="flex items-end justify-between gap-4 border-t border-ink/10 pt-3">
-          <p className="font-serif text-[9px] italic leading-snug text-ink-muted md:text-xs">{blueprint.caption}</p>
+          <p className="font-serif text-[9px] italic leading-snug text-ink-muted md:text-xs md:leading-4">{blueprint.caption}</p>
           <span className="font-mono text-[7px] uppercase tracking-[0.18em] text-ink-muted/55">Blueprint · not a black box</span>
         </div>
       </div>

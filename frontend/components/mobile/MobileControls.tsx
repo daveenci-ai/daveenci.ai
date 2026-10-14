@@ -60,7 +60,7 @@ export const MobileControls: React.FC = () => {
             <button
               key={c.id}
               onClick={() => setActiveId(c.id)}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-sm border transition-all ${
+              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xs border transition-all ${
                 isActive
                   ? 'bg-accent/10 border-accent text-accent ring-1 ring-accent'
                   : 'bg-white/50 border-ink/10 text-ink active:bg-accent/5'
@@ -77,7 +77,7 @@ export const MobileControls: React.FC = () => {
       {/* Active channel detail */}
       <article
         key={activeId}
-        className="relative bg-white/60 border border-ink/10 rounded-sm p-5 shadow-sm shadow-ink/5 animate-in fade-in duration-200"
+        className="relative bg-white/60 border border-ink/10 rounded-xs p-5 shadow-xs shadow-ink/5 animate-in fade-in duration-200"
       >
         <div className="flex items-center gap-3 mb-3">
           <Icon className="w-4 h-4 text-accent" />

@@ -73,8 +73,8 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
    };
 
    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/20 backdrop-blur-sm animate-in fade-in duration-200">
-         <div role="dialog" aria-modal="true" aria-labelledby="event-registration-title" className="bg-white w-full max-w-md p-8 rounded-sm shadow-2xl relative animate-in zoom-in-95 duration-200">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/20 backdrop-blur-xs animate-in fade-in duration-200">
+         <div role="dialog" aria-modal="true" aria-labelledby="event-registration-title" className="bg-white w-full max-w-md p-8 rounded-xs shadow-2xl relative animate-in zoom-in-95 duration-200">
             <button ref={closeButtonRef} type="button" aria-label="Close registration" onClick={onClose} className="absolute top-4 right-4 p-2 text-ink-muted hover:text-ink">
                <X className="w-5 h-5" />
             </button>
@@ -106,7 +106,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
                            required
                            value={formData.fullName}
                            onChange={e => setFormData({ ...formData, fullName: e.target.value })}
-                           className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus:border-accent transition-colors rounded-sm"
+                           className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus:border-accent transition-colors rounded-xs"
                            placeholder="Leonardo da Vinci"
                         />
                      </div>
@@ -120,13 +120,13 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
                            required
                            value={formData.email}
                            onChange={e => setFormData({ ...formData, email: e.target.value })}
-                           className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus:border-accent transition-colors rounded-sm"
+                           className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus:border-accent transition-colors rounded-xs"
                            placeholder="leo@florence.it"
                         />
                      </div>
 
                      {status === 'error' && (
-                        <div role="alert" className="text-red-500 text-sm bg-red-50 p-3 rounded-sm">
+                        <div role="alert" className="text-red-500 text-sm bg-red-50 p-3 rounded-xs">
                            {errorMessage}
                         </div>
                      )}
@@ -162,12 +162,12 @@ const CodexEventCard: React.FC<{ event: ScheduledEvent; index: number; onRegiste
                <span className="font-serif text-[11px] italic text-ink/40 mb-1">Codex DaVeenci</span>
                <span className="font-serif italic text-sm tracking-[0.12em] uppercase text-ink/60">Folio {100 + index}.v2</span>
             </div>
-            <div className="font-mono text-xs font-bold text-white bg-accent px-3 py-1.5 rounded-sm shadow-md tracking-tight">
+            <div className="font-mono text-xs font-bold text-white bg-accent px-3 py-1.5 rounded-xs shadow-md tracking-tight">
                {formatEventDate(event)}
             </div>
          </div>
 
-         <div className="relative aspect-square mb-6 overflow-hidden border border-ink/10 p-1 bg-white shadow-sm rotate-[0.5deg] group-hover:rotate-0 transition-transform duration-500">
+         <div className="relative aspect-square mb-6 overflow-hidden border border-ink/10 p-1 bg-white shadow-xs rotate-[0.5deg] group-hover:rotate-0 transition-transform duration-500">
             <div className="relative w-full h-full overflow-hidden bg-ink/5">
                <img
                   src={event.image}
@@ -180,7 +180,7 @@ const CodexEventCard: React.FC<{ event: ScheduledEvent; index: number; onRegiste
             </div>
          </div>
 
-         <div className="mb-6 flex-grow">
+         <div className="mb-6 grow">
             <h3 className="font-serif text-2xl md:text-3xl text-ink mb-4 group-hover:text-accent transition-colors">{event.title}</h3>
             {/* Date moved to top badge */}
             <p className="font-serif text-base leading-relaxed text-ink/70 italic border-l-2 border-ink/10 pl-4">
@@ -232,7 +232,7 @@ const Events: React.FC = () => {
                      {workshopTopics.map((topic, idx) => (
                         <Reveal key={topic.title} enterEnd={0.84 - (idx % 3) * 0.04} lift={32} className="h-full">
                            <Surface kind="document" as="article" className="h-full bg-white/55 border border-ink/10 overflow-hidden">
-                              <img src={topic.image} alt="" loading="lazy" decoding="async" className="w-full aspect-[16/10] object-cover grayscale-[0.2]" />
+                              <img src={topic.image} alt="" loading="lazy" decoding="async" className="w-full aspect-16/10 object-cover grayscale-[0.2]" />
                               <div className="p-7">
                                  <h3 className="font-serif text-2xl text-ink mb-3">{topic.title}</h3>
                                  <p className="font-sans text-sm leading-relaxed text-ink-muted">{topic.description}</p>

@@ -27,20 +27,20 @@ export const ProofRail: React.FC<ProofRailProps> = ({ onNavigate, compact = fals
       aria-labelledby="operating-proof-heading"
       // Desktop: the rail rides up over the hero's lower edge as it enters,
       // the first "layer over layer" moment on the page.
-      className={compact ? 'px-6 pb-10' : 'relative z-20 px-6 pb-14 md:pb-18 -mt-10 md:-mt-16'}
+      className={compact ? 'px-6 pb-10' : 'relative z-20 px-6 pb-14 -mt-10 md:-mt-16'}
     >
       <Reveal enterEnd={0.82} lift={compact ? 24 : 48}>
       <a
         href="/purecode#try-it"
         onClick={openDemo}
-        className={`group mx-auto block border border-ink/10 bg-white/65 backdrop-blur-md shadow-[0_18px_50px_-34px_rgba(26,26,26,0.55)] transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_24px_60px_-30px_rgba(139,111,71,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 ${compact ? 'rounded-sm p-5' : 'max-w-7xl rounded-lg p-5 md:p-7'}`}
+        className={`group mx-auto block border border-ink/10 bg-white/65 backdrop-blur-md shadow-[0_18px_50px_-34px_rgba(26,26,26,0.55)] transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_24px_60px_-30px_rgba(139,111,71,0.35)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 ${compact ? 'rounded-xs p-5' : 'max-w-7xl rounded-lg p-5 md:p-7'}`}
       >
         <div className={compact ? '' : 'grid items-center gap-6 lg:grid-cols-[1.1fr_2fr_auto]'}>
           <div>
             <p className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-accent mb-2">
               {homeProof.eyebrow}
             </p>
-            <h2 id="operating-proof-heading" className="font-serif text-lg md:text-xl leading-snug text-ink">
+            <h2 id="operating-proof-heading" className="font-serif text-lg md:text-xl md:leading-7 leading-snug text-ink">
               {homeProof.statement}
             </h2>
           </div>

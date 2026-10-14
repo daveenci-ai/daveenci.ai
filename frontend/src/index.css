@@ -1,6 +1,86 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme inline {
+  --color-canvas: rgb(var(--color-base));
+  --color-alt: rgb(var(--color-alt));
+
+  --color-ink: rgb(var(--color-ink));
+  --color-ink-muted: rgb(var(--color-ink-muted));
+
+  --color-accent: rgb(var(--color-accent));
+  --color-accent-light: rgb(var(--color-accent-light));
+  --color-accent-hover: rgb(var(--color-accent-hover));
+  --color-accent-strong: rgb(var(--color-accent-strong));
+
+  --color-paper-border: rgb(var(--color-paper-border));
+  --color-pulse-surface: rgb(var(--color-pulse-surface));
+  --color-paper: rgb(var(--color-paper));
+  --color-status-success: rgb(var(--color-status-success));
+  --color-status-danger: rgb(var(--color-status-danger));
+  --color-status-critical: rgb(var(--color-status-critical));
+  --color-linkedin: rgb(var(--color-linkedin));
+  --color-facebook: rgb(var(--color-facebook));
+  --color-instagram: rgb(var(--color-instagram));
+  --color-product-navy: rgb(var(--color-product-navy));
+  --color-product-navy-dark: rgb(var(--color-product-navy-dark));
+  --color-product-gold: rgb(var(--color-product-gold));
+  --color-product-charcoal: rgb(var(--color-product-charcoal));
+  --color-product-cream: rgb(var(--color-product-cream));
+
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', Arial, sans-serif;
+
+  --background-image-paper-texture: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-delayed: float 6s ease-in-out 3s infinite;
+  --animate-float-slow: float 10s ease-in-out infinite;
+  --animate-spin-slow: spin 12s linear infinite;
+  --animate-spin-slower: spin 60s linear infinite;
+  --animate-spin-reverse-slower: spin-reverse 50s linear infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  @keyframes spin-reverse {
+    from {
+      transform: rotate(360deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  /* Tailwind 4 preflight gives buttons the default cursor; Tailwind 3 used a pointer. Kept as it was. */
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
 
 /* Self-hosted variable fonts (latin subset).
    Replaces the render-blocking fonts.googleapis.com stylesheet, which cost

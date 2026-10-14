@@ -19,7 +19,7 @@ const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
       <Section className="pt-36 md:pt-44 pb-16" pattern="grid">
         <div className="max-w-3xl">
           <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent mb-5">Data use</div>
-          <h1 className="font-serif text-5xl md:text-6xl text-ink leading-tight mb-7">Privacy, in plain language.</h1>
+          <h1 className="font-serif text-5xl md:text-6xl md:leading-none text-ink leading-tight mb-7">Privacy, in plain language.</h1>
           <p className="font-serif text-xl text-ink-muted leading-relaxed">We collect only the information needed to respond, schedule a conversation, register interest, improve this site, and operate the services you ask us to use.</p>
           <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted mt-6">Last updated · 13 July 2026</p>
         </div>
@@ -54,7 +54,7 @@ const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
 
           <a
             href="mailto:anton@daveenci.ai?subject=Privacy%20request"
-            className="inline-flex text-accent-strong font-medium hover:text-accent-hover underline underline-offset-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+            className="inline-flex text-accent-strong font-medium hover:text-accent-hover underline underline-offset-4 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent rounded-xs"
           >Email us about your data</a>
         </div>
       </Section>

@@ -45,7 +45,7 @@ const fillRows = (spans: number[], cols: number) => {
 type OpenHandler = (event: React.MouseEvent<HTMLAnchorElement>) => void;
 
 const cardShell =
-  'group relative flex h-full flex-col overflow-hidden border border-ink/10 bg-paper/80 transition-[transform,box-shadow,border-color] duration-500 ease-out hover:-translate-y-1 hover:border-[rgb(var(--cat)/0.45)] hover:shadow-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-strong motion-reduce:hover:translate-y-0';
+  'group relative flex h-full flex-col overflow-hidden border border-ink/10 bg-paper/80 transition-[transform,box-shadow,border-color] duration-500 ease-out hover:-translate-y-1 hover:border-[rgb(var(--cat)/0.45)] hover:shadow-2xl focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-strong motion-reduce:hover:translate-y-0';
 
 const titleHover =
   'decoration-[rgb(var(--cat))] decoration-2 underline-offset-[6px] group-hover:underline group-focus-visible:underline';
@@ -78,16 +78,16 @@ const Meta: React.FC<{ briefing: BriefingSummary }> = ({ briefing }) => (
 );
 
 const BODY_SIZE = {
-  lead: { pad: 'p-8 lg:p-10', title: 'text-4xl lg:text-5xl', text: 'font-serif text-lg lg:text-xl max-w-xl' },
-  feature: { pad: 'p-8', title: 'text-3xl lg:text-[2.125rem]', text: 'font-serif text-base lg:text-lg' },
-  wide: { pad: 'p-8 lg:p-10', title: 'text-3xl lg:text-4xl', text: 'font-sans text-base' },
+  lead: { pad: 'p-8 lg:p-10', title: 'text-4xl lg:text-5xl lg:leading-none', text: 'font-serif text-lg lg:text-xl lg:leading-7 max-w-xl' },
+  feature: { pad: 'p-8', title: 'text-3xl lg:text-[2.125rem]', text: 'font-serif text-base lg:text-lg lg:leading-7' },
+  wide: { pad: 'p-8 lg:p-10', title: 'text-3xl lg:text-4xl lg:leading-10', text: 'font-sans text-base' },
   standard: { pad: 'p-7', title: 'text-2xl', text: 'font-sans text-sm' },
 };
 
 const CardBody: React.FC<{ briefing: BriefingSummary; size: keyof typeof BODY_SIZE; heading: 'h2' | 'h3' }> = ({ briefing, size, heading: Heading }) => {
   const s = BODY_SIZE[size];
   return (
-    <div className={`relative isolate flex flex-grow flex-col ${s.pad}`}>
+    <div className={`relative isolate flex grow flex-col ${s.pad}`}>
       {(size === 'lead' || size === 'feature') && (
         <span aria-hidden="true" className="pointer-events-none absolute right-6 top-2 -z-10 select-none font-serif text-[7rem] leading-none text-[rgb(var(--cat)/0.09)]">
           {briefing.issueNo}
@@ -97,7 +97,7 @@ const CardBody: React.FC<{ briefing: BriefingSummary; size: keyof typeof BODY_SI
       <Heading className={`mt-5 font-serif leading-[1.08] tracking-tight text-ink ${s.title} ${titleHover}`}>
         {briefing.title}
       </Heading>
-      <p className={`mt-4 mb-8 flex-grow leading-relaxed text-ink-muted ${s.text}`}>{briefing.description}</p>
+      <p className={`mt-4 mb-8 grow leading-relaxed text-ink-muted ${s.text}`}>{briefing.description}</p>
       <div className="mt-auto flex items-center justify-between border-t border-ink/10 pt-5">
         <span className="font-mono text-[10px] uppercase tracking-wider text-ink-muted">{briefing.readTime}</span>
         <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ink transition-colors group-hover:text-accent-strong">
@@ -121,7 +121,7 @@ const FeaturedCard: React.FC<{ briefing: BriefingSummary; lead: boolean; onOpen:
     }}
   >
     <AccentRule />
-    <Cover briefing={briefing} className={lead ? 'aspect-[16/9]' : 'aspect-[16/9] lg:aspect-[16/10]'} />
+    <Cover briefing={briefing} className={lead ? 'aspect-video' : 'aspect-video lg:aspect-16/10'} />
     <CardBody briefing={briefing} size={lead ? 'lead' : 'feature'} heading="h2" />
   </a>
 );
@@ -139,13 +139,13 @@ const ArchiveCard: React.FC<{ briefing: BriefingSummary; variant: ArchiveVariant
     {variant === 'compact' ? (
       <div
         aria-hidden="true"
-        className="relative flex h-52 items-end justify-between gap-4 overflow-hidden border-b border-ink/10 bg-[rgb(var(--cat)/0.07)] p-6 [background-image:linear-gradient(rgb(var(--cat)/0.09)_1px,transparent_1px),linear-gradient(90deg,rgb(var(--cat)/0.09)_1px,transparent_1px)] [background-size:24px_24px]"
+        className="relative flex h-52 items-end justify-between gap-4 overflow-hidden border-b border-ink/10 bg-[rgb(var(--cat)/0.07)] p-6 bg-[linear-gradient(rgb(var(--cat)/0.09)_1px,transparent_1px),linear-gradient(90deg,rgb(var(--cat)/0.09)_1px,transparent_1px)] bg-size-[24px_24px]"
       >
         <span className="font-serif text-7xl leading-none text-[rgb(var(--cat)/0.3)]">{briefing.issueNo}</span>
         <CategoryMotif category={briefing.category} className="h-28 w-44 self-center" />
       </div>
     ) : (
-      <Cover briefing={briefing} className={variant === 'wide' ? 'h-56 md:h-auto md:min-h-[18rem] md:border-b-0 md:border-r' : 'h-52'} />
+      <Cover briefing={briefing} className={variant === 'wide' ? 'h-56 md:h-auto md:min-h-72 md:border-b-0 md:border-r' : 'h-52'} />
     )}
     <CardBody briefing={briefing} size={variant === 'wide' ? 'wide' : 'standard'} heading="h3" />
   </a>
@@ -188,11 +188,11 @@ const BriefingsPageDesktop: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
       <Section className="pt-40 pb-12 md:pt-48 md:pb-20">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 -top-48 -z-10 h-[56rem] w-screen -translate-x-1/2 [background-image:linear-gradient(rgb(var(--color-accent-strong)/0.07)_1px,transparent_1px),linear-gradient(90deg,rgb(var(--color-accent-strong)/0.07)_1px,transparent_1px)] [background-size:56px_56px] [mask-image:radial-gradient(ellipse_55%_60%_at_50%_40%,black,transparent)] [-webkit-mask-image:radial-gradient(ellipse_55%_60%_at_50%_40%,black,transparent)]"
+          className="pointer-events-none absolute left-1/2 -top-48 -z-10 h-224 w-screen -translate-x-1/2 bg-[linear-gradient(rgb(var(--color-accent-strong)/0.07)_1px,transparent_1px),linear-gradient(90deg,rgb(var(--color-accent-strong)/0.07)_1px,transparent_1px)] bg-size-[56px_56px] mask-[radial-gradient(ellipse_55%_60%_at_50%_40%,black,transparent)] [-webkit-mask-image:radial-gradient(ellipse_55%_60%_at_50%_40%,black,transparent)]"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 -top-24 -z-10 h-[36rem] w-[min(70rem,100vw)] -translate-x-1/2 bg-[radial-gradient(closest-side,rgb(var(--color-accent)/0.16),transparent)]"
+          className="pointer-events-none absolute left-1/2 -top-24 -z-10 h-144 w-[min(70rem,100vw)] -translate-x-1/2 bg-[radial-gradient(closest-side,rgb(var(--color-accent)/0.16),transparent)]"
         />
         <Parallax plane="scaffold" className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <VitruvianBackground className="opacity-[0.12] -right-1/4 scale-[1.15]" />
@@ -241,7 +241,7 @@ const BriefingsPageDesktop: React.FC<BriefingsPageProps> = ({ onNavigate }) => {
                 onClick={() => setSelectedCategory(cat)}
                 aria-pressed={selectedCategory === cat}
                 style={accentStyle(cat)}
-                className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 ${selectedCategory === cat
+                className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 ${selectedCategory === cat
                   ? 'bg-ink text-canvas shadow-md'
                   : 'text-ink-muted hover:text-ink hover:bg-white/80'
                   }`}

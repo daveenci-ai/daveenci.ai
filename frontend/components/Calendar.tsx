@@ -225,12 +225,12 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' 
 
    return (
       <div className="min-h-screen bg-canvas font-sans text-ink selection:bg-accent/20 flex flex-col">
-         <main className="flex-grow flex items-center justify-center p-6 relative overflow-hidden min-h-screen">
-            <VitruvianBackground className="opacity-[0.08] fixed" />
+         <main className="grow flex items-center justify-center p-6 relative overflow-hidden min-h-screen">
+            <VitruvianBackground className="opacity-[0.08]" />
 
             <div className="relative z-10 w-full max-w-6xl">
                <ScrollReveal immediate>
-                  <div className="bg-white/60 backdrop-blur-xl shadow-2xl shadow-ink/10 border border-ink/10 rounded-sm overflow-hidden flex flex-col lg:flex-row min-h-[780px]">
+                  <div className="bg-white/60 backdrop-blur-xl shadow-2xl shadow-ink/10 border border-ink/10 rounded-xs overflow-hidden flex flex-col lg:flex-row min-h-[780px]">
 
                      {/* Left Panel: Context & Agenda - Increased Width */}
                      <div className="w-full lg:w-5/12 bg-white/40 border-b lg:border-b-0 lg:border-r border-ink/10 p-8 lg:p-12 flex flex-col relative">
@@ -247,7 +247,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' 
                               <span className="h-px w-8 bg-ink-muted/30" />
                               <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">{copy.eyebrow}</span>
                            </div>
-                           <h1 className="font-serif text-4xl lg:text-5xl text-ink leading-[1.05] mb-6">{copy.lead} <em className="italic text-accent">{copy.leadEmphasis}</em></h1>
+                           <h1 className="font-serif text-4xl lg:text-5xl lg:leading-none text-ink leading-[1.05] mb-6">{copy.lead} <em className="italic text-accent">{copy.leadEmphasis}</em></h1>
 
                            <div className="flex items-center gap-6 font-serif italic text-sm text-ink-muted mb-8">
                               <span className="flex items-center gap-2">
@@ -261,7 +261,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' 
                            <p className="text-ink-muted leading-relaxed mb-8 font-serif">{copy.blurb}</p>
 
                            <div className="flex items-center gap-4 py-6 border-y border-ink/5 mb-6">
-                              <div className="w-20 h-20 rounded-sm overflow-hidden border border-ink/10 flex-shrink-0">
+                              <div className="w-20 h-20 rounded-xs overflow-hidden border border-ink/10 shrink-0">
                                  <img src={copy.portrait} alt={copy.name} decoding="async" className="w-full h-full object-cover object-top scale-125" />
                               </div>
                               <div>
@@ -276,7 +276,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' 
                            <ol className="space-y-4 border-l border-ink/10 pl-5">
                               {copy.agenda.map((item, i) => (
                                  <li key={item} className="flex gap-4 items-baseline text-sm text-ink-muted leading-relaxed">
-                                    <span className="font-serif italic text-accent tracking-[0.1em] flex-shrink-0 w-4 text-right">{['i.', 'ii.', 'iii.', 'iv.'][i]}</span>
+                                    <span className="font-serif italic text-accent tracking-widest shrink-0 w-4 text-right">{['i.', 'ii.', 'iii.', 'iv.'][i]}</span>
                                     <span>{item}</span>
                                  </li>
                               ))}
@@ -295,12 +295,12 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' 
                      <div className="w-full lg:w-7/12 bg-white relative">
                         {step === 'success' ? (
                            <div className="absolute inset-0 flex flex-col items-center justify-center p-12 text-center animate-in fade-in zoom-in duration-500">
-                              <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6 shadow-sm border border-green-100">
+                              <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6 shadow-xs border border-green-100">
                                  <Check className="w-10 h-10 text-green-600" />
                               </div>
                               <h2 className="font-serif text-3xl text-ink mb-2">You're on the calendar.</h2>
                               <p className="text-ink-muted text-lg mb-8 max-w-md">{copy.confirmation}</p>
-                              <div className="bg-canvas/50 p-6 rounded-sm border border-ink/5 w-full max-w-sm mb-8">
+                              <div className="bg-canvas/50 p-6 rounded-xs border border-ink/5 w-full max-w-sm mb-8">
                                  <div className="flex justify-between text-sm mb-2">
                                     <span className="text-ink-muted">Date</span>
                                     <span className="font-medium text-ink">{selectedDate?.toLocaleDateString()}</span>
@@ -344,13 +344,13 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' 
                            <div className="p-8 lg:p-12 h-full flex flex-col justify-center items-center">
 
                               {/* Progress Bar */}
-                              <div className="w-full max-w-md flex items-center gap-5 mb-8 font-serif italic text-sm tracking-[0.1em]">
+                              <div className="w-full max-w-md flex items-center gap-5 mb-8 font-serif italic text-sm tracking-widest">
                                  <span className={`inline-flex items-baseline gap-1.5 pb-1 border-b transition-colors ${step === 'datetime' ? 'text-accent border-accent' : 'text-green-700 border-green-700'}`}>
-                                    <span className="text-[11px] tracking-[0.2em]">i.</span> Time
+                                    <span className="text-[11px] leading-5 tracking-[0.2em]">i.</span> Time
                                  </span>
                                  <span className="text-ink-muted/30">·</span>
                                  <span className={`inline-flex items-baseline gap-1.5 pb-1 border-b transition-colors ${step === 'details' ? 'text-accent border-accent' : 'text-ink-muted/40 border-transparent'}`}>
-                                    <span className="text-[11px] tracking-[0.2em]">ii.</span> Details
+                                    <span className="text-[11px] leading-5 tracking-[0.2em]">ii.</span> Details
                                  </span>
                               </div>
 
@@ -363,8 +363,8 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' 
                                              {monthNames[currentDate.getMonth()]} <span className="text-ink-muted">{currentDate.getFullYear()}</span>
                                           </h3>
                                           <div className="flex gap-1.5">
-                                             <button onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="w-8 h-8 flex items-center justify-center border border-ink/10 rounded-sm text-ink-muted hover:border-accent hover:text-accent transition-colors"><ChevronLeft className="w-4 h-4" /></button>
-                                             <button onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="w-8 h-8 flex items-center justify-center border border-ink/10 rounded-sm text-ink-muted hover:border-accent hover:text-accent transition-colors"><ChevronRight className="w-4 h-4" /></button>
+                                             <button onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="w-8 h-8 flex items-center justify-center border border-ink/10 rounded-xs text-ink-muted hover:border-accent hover:text-accent transition-colors"><ChevronLeft className="w-4 h-4" /></button>
+                                             <button onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="w-8 h-8 flex items-center justify-center border border-ink/10 rounded-xs text-ink-muted hover:border-accent hover:text-accent transition-colors"><ChevronRight className="w-4 h-4" /></button>
                                           </div>
                                        </div>
                                        <div className="grid grid-cols-7 gap-2 text-center font-serif italic text-[10px] tracking-[0.2em] text-ink-muted/60 uppercase mb-3">
@@ -381,8 +381,8 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' 
                                                    key={day}
                                                    disabled={disabled}
                                                    onClick={() => !disabled && handleDateClick(day)}
-                                                   className={`w-10 h-10 rounded-sm font-serif text-base transition-all ${isSelected
-                                                      ? 'bg-accent/10 text-ink font-semibold ring-1 ring-accent shadow-sm'
+                                                   className={`w-10 h-10 rounded-xs font-serif text-base transition-all ${isSelected
+                                                      ? 'bg-accent/10 text-ink font-semibold ring-1 ring-accent shadow-xs'
                                                       : disabled
                                                          ? 'text-ink-muted/25 cursor-not-allowed'
                                                          : 'text-ink hover:bg-accent/5 hover:text-accent'
@@ -406,7 +406,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' 
                                        </div>
 
                                        {availabilityError && (
-                                          <div role="alert" className="mb-4 text-xs font-serif italic text-amber-900 bg-amber-50/70 border border-amber-200/80 rounded-sm px-4 py-2.5 flex items-start gap-3">
+                                          <div role="alert" className="mb-4 text-xs font-serif italic text-amber-900 bg-amber-50/70 border border-amber-200/80 rounded-xs px-4 py-2.5 flex items-start gap-3">
                                              <span className="flex-1 leading-relaxed">{availabilityError}</span>
                                              <button onClick={fetchAvailability} type="button" className="not-italic font-sans text-amber-900 underline font-medium hover:text-ink transition-colors shrink-0">Retry</button>
                                           </div>
@@ -427,9 +427,9 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' 
                                                             onClick={() => { trackCalendarStart(); setSelectedTime(slot.value); }}
                                                             aria-label={slot.label}
                                                             title={slot.label}
-                                                            className={`py-2.5 px-2 font-serif italic text-sm border rounded-sm transition-all text-center ${selectedTime === slot.value
-                                                               ? 'bg-accent/10 text-accent border-accent ring-1 ring-accent shadow-sm'
-                                                               : 'bg-white border-ink/10 text-ink hover:border-accent hover:text-accent hover:bg-accent/5 hover:shadow-sm'
+                                                            className={`py-2.5 px-2 font-serif italic text-sm border rounded-xs transition-all text-center ${selectedTime === slot.value
+                                                               ? 'bg-accent/10 text-accent border-accent ring-1 ring-accent shadow-xs'
+                                                               : 'bg-white border-ink/10 text-ink hover:border-accent hover:text-accent hover:bg-accent/5 hover:shadow-xs'
                                                                }`}
                                                          >
                                                             <span className="block">{slot.display}</span>

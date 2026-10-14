@@ -51,15 +51,15 @@ export const MobileWorkPreview: React.FC<MobileWorkPreviewProps> = ({ onNavigate
           }}
           className="stack-card block w-full text-left"
         >
-          <MobileScenePlate figLabel={item.label} className="p-4 !bg-paper !backdrop-blur-none shadow-lg shadow-ink/10">
+          <MobileScenePlate figLabel={item.label} className="p-4 bg-paper! backdrop-blur-none! shadow-lg shadow-ink/10">
             <div className="flex items-baseline justify-between gap-3 mb-3">
               <span aria-hidden="true" className="font-serif italic text-[11px] text-ink-muted">{String(i + 1).padStart(2, '0')} / {String(featuredWork.length).padStart(2, '0')}</span>
               <span className={`font-mono text-[8px] uppercase tracking-[0.14em] text-right ${workStatusClass(item.statusTone)}`}>{item.status}</span>
             </div>
             <h3 className="font-serif text-[1.65rem] leading-none text-ink mb-2">{item.title}</h3>
             <p className="font-sans text-[13px] text-ink-muted leading-relaxed mb-4">{item.previewBlurb}</p>
-            <div className="border border-ink/10 bg-white/70 rounded-sm p-3">
-              <CaseSchematic id={item.page} className="aspect-[5/3] w-full" />
+            <div className="border border-ink/10 bg-white/70 rounded-xs p-3">
+              <CaseSchematic id={item.page} className="aspect-5/3 w-full" />
             </div>
             <span className="mt-4 inline-flex items-center gap-1 font-sans text-[13px] font-medium text-accent-strong">Read the case <span aria-hidden="true">→</span></span>
           </MobileScenePlate>

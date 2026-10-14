@@ -42,10 +42,10 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
               <span className="font-serif italic text-xs tracking-[0.3em] uppercase text-ink-muted">An Essay · Manifesto</span>
               <span className="h-px w-10 bg-ink-muted/40" />
             </div>
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-ink leading-[1.05] mb-8">
+            <h1 className="font-serif text-4xl md:text-5xl md:leading-none lg:text-6xl lg:leading-none text-ink leading-[1.05] mb-8">
               The case against <br /><span className="italic text-accent">generalist AI.</span>
             </h1>
-            <p className="font-serif text-lg md:text-xl text-ink-muted leading-relaxed max-w-2xl mx-auto mb-8">
+            <p className="font-serif text-lg md:text-xl md:leading-7 text-ink-muted leading-relaxed max-w-2xl mx-auto mb-8">
               The next era of knowledge work won't be won by bigger models. It'll be won by better teams. Here's the case — in six parts.
             </p>
             <div className="flex items-center justify-center gap-4 font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted/70">
@@ -67,7 +67,7 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
         <Section className="py-10 md:py-14">
           <div className="max-w-3xl mx-auto">
             <ScrollReveal>
-              <p className="font-serif italic text-xl md:text-2xl text-ink-muted leading-relaxed mb-4">
+              <p className="font-serif italic text-xl md:text-2xl md:leading-8 text-ink-muted leading-relaxed mb-4">
                 Short version: the industry is selling one generalist AI tool to do every knowledge-work job. That's a bad answer. A team of specialists is a better answer. We build the team.
               </p>
               <p className="font-sans text-ink-muted text-lg leading-relaxed">
@@ -82,7 +82,7 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
           <div className="max-w-3xl mx-auto">
             <ScrollReveal>
               <div className="font-mono text-xs uppercase tracking-[0.2em] text-accent mb-4">I · The Generalist Tax</div>
-              <h2 className="font-serif text-3xl md:text-4xl text-ink mb-6 leading-tight">
+              <h2 className="font-serif text-3xl md:text-4xl md:leading-10 text-ink mb-6 leading-tight">
                 One model, every job.
               </h2>
               <div className="space-y-5 font-sans text-ink text-lg leading-relaxed">
@@ -121,7 +121,7 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
           <div className="max-w-3xl mx-auto">
             <ScrollReveal>
               <div className="font-mono text-xs uppercase tracking-[0.2em] text-accent mb-4">II · Specialization Compounds</div>
-              <h2 className="font-serif text-3xl md:text-4xl text-ink mb-6 leading-tight">
+              <h2 className="font-serif text-3xl md:text-4xl md:leading-10 text-ink mb-6 leading-tight">
                 A specialist gets better at one thing. A generalist gets mediocre at many.
               </h2>
               <div className="space-y-5 font-sans text-ink text-lg leading-relaxed">
@@ -142,12 +142,12 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
         {/* Section 3: Governance Is the Product (cinematic dark) */}
         <Section className="py-14 md:py-20 bg-ink text-canvas relative overflow-hidden">
           <Parallax plane="scaffold" className="absolute inset-0 pointer-events-none" aria-hidden="true">
-            <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-accent/10 rounded-full blur-3xl -mr-40 -mt-40"></div>
+            <div className="absolute top-0 right-0 w-160 h-160 bg-accent/10 rounded-full blur-3xl -mr-40 -mt-40"></div>
           </Parallax>
           <div className="max-w-3xl mx-auto relative z-10">
             <ScrollReveal>
               <div className="font-mono text-xs uppercase tracking-[0.2em] text-accent mb-4">III · Governance Is the Product</div>
-              <h2 className="font-serif text-3xl md:text-4xl text-canvas mb-6 leading-tight">
+              <h2 className="font-serif text-3xl md:text-4xl md:leading-10 text-canvas mb-6 leading-tight">
                 The industry worships autonomy. For most work, that's an antifeature.
               </h2>
               <div className="space-y-5 font-sans text-canvas/85 text-lg leading-relaxed">
@@ -173,7 +173,7 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
           <div className="max-w-3xl mx-auto">
             <ScrollReveal>
               <div className="font-mono text-xs uppercase tracking-[0.2em] text-accent mb-4">IV · Orchestration Is the Moat</div>
-              <h2 className="font-serif text-3xl md:text-4xl text-ink mb-6 leading-tight">
+              <h2 className="font-serif text-3xl md:text-4xl md:leading-10 text-ink mb-6 leading-tight">
                 Models commoditize. Orchestration doesn't.
               </h2>
               <div className="space-y-5 font-sans text-ink text-lg leading-relaxed">
@@ -209,7 +209,7 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
           <div className="max-w-3xl mx-auto">
             <ScrollReveal>
               <div className="font-mono text-xs uppercase tracking-[0.2em] text-accent mb-4">V · The DaVeenci Playbook</div>
-              <h2 className="font-serif text-3xl md:text-4xl text-ink mb-6 leading-tight">
+              <h2 className="font-serif text-3xl md:text-4xl md:leading-10 text-ink mb-6 leading-tight">
                 Every team we build follows the same shape.
               </h2>
               <div className="space-y-5 font-sans text-ink text-lg leading-relaxed">
@@ -264,7 +264,7 @@ const ThesisPageDesktop: React.FC<ThesisPageProps> = ({ onNavigate }) => {
           <div className="max-w-3xl mx-auto">
             <ScrollReveal>
               <div className="font-mono text-xs uppercase tracking-[0.2em] text-accent mb-4">VI · What This Unlocks</div>
-              <h2 className="font-serif text-3xl md:text-4xl text-ink mb-6 leading-tight">
+              <h2 className="font-serif text-3xl md:text-4xl md:leading-10 text-ink mb-6 leading-tight">
                 One team per knowledge-work domain.
               </h2>
               <div className="space-y-5 font-sans text-ink text-lg leading-relaxed">

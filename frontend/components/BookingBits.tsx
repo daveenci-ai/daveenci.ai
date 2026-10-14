@@ -35,7 +35,7 @@ export const TimezonePicker: React.FC<{
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="bg-transparent font-serif italic text-sm text-ink-muted border-b border-ink/15 hover:border-accent focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm py-0.5 max-w-[16rem]"
+        className="bg-transparent font-serif italic text-sm text-ink-muted border-b border-ink/15 hover:border-accent focus:border-accent focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent rounded-xs py-0.5 max-w-[16rem]"
       >
         {zones.map((zone) => (
           <option key={zone} value={zone}>{zone.replace(/_/g, ' ')}</option>

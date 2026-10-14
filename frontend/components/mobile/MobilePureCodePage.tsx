@@ -50,7 +50,7 @@ const FeatureRow: React.FC<{
       <ul className="space-y-2.5">
         {bullets.map((b, i) => (
           <li key={i} className="flex items-start gap-2.5 text-ink-muted">
-            <div className="w-1 h-1 rounded-full bg-accent mt-2 flex-shrink-0" />
+            <div className="w-1 h-1 rounded-full bg-accent mt-2 shrink-0" />
             <span className="font-sans text-[14px] leading-relaxed">{b}</span>
           </li>
         ))}
@@ -81,7 +81,7 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
     <MobileShell onNavigate={onNavigate}>
       {/* Hero */}
       <section ref={heroRef} className="px-6 pt-10 pb-10">
-        <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.25em] uppercase text-accent bg-accent/5 border border-accent/10 rounded-sm px-2.5 py-1">
+        <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.25em] uppercase text-accent bg-accent/5 border border-accent/10 rounded-xs px-2.5 py-1">
           A DaVeenci team · Code
         </div>
         <div className="hero-copy">
@@ -172,7 +172,7 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
           {USE_CASES.map((uc) => {
             const Icon = uc.icon;
             return (
-              <Reveal key={uc.title} enterEnd={0.86} lift={16} className="bg-white border border-ink/10 p-5 shadow-sm rounded-lg text-center flex flex-col items-center">
+              <Reveal key={uc.title} enterEnd={0.86} lift={16} className="bg-white border border-ink/10 p-5 shadow-xs rounded-lg text-center flex flex-col items-center">
                 <div className="relative w-32 h-32 mx-auto mb-4 rounded-full bg-pulse-surface border border-ink/10 overflow-hidden flex items-center justify-center">
                   <svg className="absolute inset-0 w-full h-full" viewBox="0 0 176 176" fill="none">
                     <circle cx="88" cy="88" r="78" stroke="rgb(var(--color-ink))" strokeWidth="0.6" opacity="0.08" />
@@ -206,7 +206,7 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
                   aria-expanded={isOpen}
                 >
                   <span className="flex-1 font-serif text-base text-ink leading-snug">{item.q}</span>
-                  <span className="flex-shrink-0 pt-1 text-ink-muted/60">
+                  <span className="shrink-0 pt-1 text-ink-muted/60">
                     {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                   </span>
                 </button>

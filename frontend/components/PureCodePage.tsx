@@ -149,7 +149,7 @@ export const PureCodeHeroDiagram: React.FC = () => {
 
             {/* Gate 1 stamp */}
             <div className={`flex items-center gap-2 bg-white border rounded-lg px-3 py-2 transition-all duration-500 ${scopeStamp ? 'opacity-100 translate-y-0 border-green-400/50 bg-green-50/60' : 'opacity-0 translate-y-2 border-ink/10'}`}>
-              <div className="w-5 h-5 rounded-full bg-green-500/15 border border-green-500/40 flex items-center justify-center flex-shrink-0">
+              <div className="w-5 h-5 rounded-full bg-green-500/15 border border-green-500/40 flex items-center justify-center shrink-0">
                 <Check className="w-3 h-3 text-green-600" strokeWidth={3} />
               </div>
               <div className="flex-1 min-w-0">
@@ -161,7 +161,7 @@ export const PureCodeHeroDiagram: React.FC = () => {
 
             {/* Gate 2 stamp */}
             <div className={`flex items-center gap-2 bg-white border rounded-lg px-3 py-2 transition-all duration-500 ${designStamp ? 'opacity-100 translate-y-0 border-green-400/50 bg-green-50/60' : 'opacity-0 translate-y-2 border-ink/10'}`}>
-              <div className="w-5 h-5 rounded-full bg-green-500/15 border border-green-500/40 flex items-center justify-center flex-shrink-0">
+              <div className="w-5 h-5 rounded-full bg-green-500/15 border border-green-500/40 flex items-center justify-center shrink-0">
                 <Check className="w-3 h-3 text-green-600" strokeWidth={3} />
               </div>
               <div className="flex-1 min-w-0">
@@ -212,7 +212,7 @@ export const PureCodeHeroDiagram: React.FC = () => {
         {/* Phase 3 — Release */}
         <div className={`absolute inset-0 transition-opacity duration-300 ${phase === 'release' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
           <div className="space-y-3">
-            <div className="bg-white border border-ink/10 rounded-lg p-3 shadow-sm">
+            <div className="bg-white border border-ink/10 rounded-lg p-3 shadow-xs">
               <div className="flex items-center gap-2 mb-2">
                 <GitPullRequest className="w-3.5 h-3.5 text-accent" />
                 <span className="font-mono text-[10px] text-ink/50">#247</span>
@@ -230,7 +230,7 @@ export const PureCodeHeroDiagram: React.FC = () => {
             </div>
 
             <div className={`flex items-center gap-2 bg-white border rounded-lg px-3 py-2 transition-all duration-500 ${shipStamp ? 'opacity-100 translate-y-0 border-green-400/50 bg-green-50/60' : 'opacity-0 translate-y-2 border-ink/10'}`}>
-              <div className="w-5 h-5 rounded-full bg-green-500/15 border border-green-500/40 flex items-center justify-center flex-shrink-0">
+              <div className="w-5 h-5 rounded-full bg-green-500/15 border border-green-500/40 flex items-center justify-center shrink-0">
                 <Rocket className="w-3 h-3 text-green-600" />
               </div>
               <div className="flex-1 min-w-0">
@@ -311,9 +311,9 @@ export const SpecialistRoster: React.FC = () => {
                 return (
                   <div
                     key={m.label}
-                    className={`flex items-center gap-1.5 rounded-lg border px-2 py-1.5 transition-all duration-300 ${isActive ? 'bg-accent/5 border-accent/40 shadow-sm' : 'bg-white border-ink/10'}`}
+                    className={`flex items-center gap-1.5 rounded-lg border px-2 py-1.5 transition-all duration-300 ${isActive ? 'bg-accent/5 border-accent/40 shadow-xs' : 'bg-white border-ink/10'}`}
                   >
-                    <m.Icon className={`w-3.5 h-3.5 flex-shrink-0 ${isActive ? 'text-accent' : 'text-ink-muted/60'}`} />
+                    <m.Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-accent' : 'text-ink-muted/60'}`} />
                     <span className={`font-mono text-[10px] truncate ${isActive ? 'text-ink font-medium' : 'text-ink-muted/70'}`}>{m.label}</span>
                   </div>
                 );
@@ -383,9 +383,9 @@ export const BlueprintBuilder: React.FC = () => {
               key={f.path}
               className={`flex items-center gap-2 transition-all duration-300 ${i < visible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}`}
             >
-              <FileCode2 className="w-3 h-3 text-ink/40 flex-shrink-0" />
+              <FileCode2 className="w-3 h-3 text-ink/40 shrink-0" />
               <span className="font-mono text-[11px] text-ink/70 truncate">{f.path}</span>
-              <span className={`ml-auto font-mono text-[9px] px-1.5 py-0.5 rounded ${f.status === 'new' ? 'text-green-700 bg-green-50 border border-green-200/60' : 'text-amber-700 bg-amber-50 border border-amber-200/60'}`}>
+              <span className={`ml-auto font-mono text-[9px] px-1.5 py-0.5 rounded-sm ${f.status === 'new' ? 'text-green-700 bg-green-50 border border-green-200/60' : 'text-amber-700 bg-amber-50 border border-amber-200/60'}`}>
                 {f.status === 'new' ? '+ NEW' : '~ MOD'}
               </span>
             </div>
@@ -394,7 +394,7 @@ export const BlueprintBuilder: React.FC = () => {
       </div>
 
       <div className={`mt-3 flex items-center gap-2 bg-white border rounded-lg px-3 py-2 transition-all duration-500 ${approved ? 'opacity-100 translate-y-0 border-green-400/50 bg-green-50/60' : 'opacity-0 translate-y-2 border-ink/10'}`}>
-        <div className="w-5 h-5 rounded-full bg-green-500/15 border border-green-500/40 flex items-center justify-center flex-shrink-0">
+        <div className="w-5 h-5 rounded-full bg-green-500/15 border border-green-500/40 flex items-center justify-center shrink-0">
           <Check className="w-3 h-3 text-green-600" strokeWidth={3} />
         </div>
         <div className="flex-1 min-w-0">
@@ -661,12 +661,12 @@ export const TryItSimulator: React.FC = () => {
             <button
               key={t.id}
               onClick={() => handlePick(t.id)}
-              className={`text-left bg-white border rounded-lg p-4 transition-all duration-300 shadow-sm ${
-                isActive ? 'border-accent/40 bg-accent/[0.03] shadow-md' : 'border-ink/10 hover:border-accent/30 hover:shadow-md hover:-translate-y-0.5'
+              className={`text-left bg-white border rounded-lg p-4 transition-all duration-300 shadow-xs ${
+                isActive ? 'border-accent/40 bg-accent/3 shadow-md' : 'border-ink/10 hover:border-accent/30 hover:shadow-md hover:-translate-y-0.5'
               }`}
             >
               <div className="flex items-center gap-2 mb-2">
-                <span className={`font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 rounded border ${t.tagColor}`}>
+                <span className={`font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 rounded-sm border ${t.tagColor}`}>
                   {t.tag}
                 </span>
                 <span className="font-mono text-[9px] text-ink-muted/50 ml-auto">#{t.pr.number}</span>
@@ -717,7 +717,7 @@ export const TryItSimulator: React.FC = () => {
               <div className="font-mono text-[9px] uppercase tracking-widest text-ink/40 mb-1">Brief</div>
               <div className="bg-white border border-dashed border-ink/30 rounded-lg p-2.5">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className={`font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 rounded border ${ticket.tagColor}`}>{ticket.tag}</span>
+                  <span className={`font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 rounded-sm border ${ticket.tagColor}`}>{ticket.tag}</span>
                   <span className="font-serif text-sm text-ink">{ticket.label}</span>
                 </div>
                 <p className="font-sans text-[11px] text-ink-muted leading-relaxed">{ticket.brief}</p>
@@ -730,7 +730,7 @@ export const TryItSimulator: React.FC = () => {
               <div className={`absolute inset-0 transition-opacity duration-300 ${phase === 'scope' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                 <div className="font-mono text-[9px] uppercase tracking-widest text-ink/40 mb-2">Gate 1 · Scope</div>
                 <div className="bg-white border border-ink/10 rounded-lg p-3 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center shrink-0">
                     <Compass className="w-4 h-4 text-accent animate-pulse" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -747,9 +747,9 @@ export const TryItSimulator: React.FC = () => {
                   <div className="space-y-1.5">
                     {ticket.files.map((f, i) => (
                       <div key={f.path} className={`flex items-center gap-2 transition-all duration-300 ${i < visibleFiles ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}`}>
-                        <FileCode2 className="w-3 h-3 text-ink/40 flex-shrink-0" />
+                        <FileCode2 className="w-3 h-3 text-ink/40 shrink-0" />
                         <span className="font-mono text-[11px] text-ink/70 truncate">{f.path}</span>
-                        <span className={`ml-auto font-mono text-[9px] px-1.5 py-0.5 rounded ${f.status === 'new' ? 'text-green-700 bg-green-50 border border-green-200/60' : 'text-amber-700 bg-amber-50 border border-amber-200/60'}`}>
+                        <span className={`ml-auto font-mono text-[9px] px-1.5 py-0.5 rounded-sm ${f.status === 'new' ? 'text-green-700 bg-green-50 border border-green-200/60' : 'text-amber-700 bg-amber-50 border border-amber-200/60'}`}>
                           {f.status === 'new' ? '+ NEW' : '~ MOD'}
                         </span>
                       </div>
@@ -796,11 +796,11 @@ export const TryItSimulator: React.FC = () => {
               {/* Release */}
               <div className={`absolute inset-0 transition-opacity duration-300 ${phase === 'release' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                 <div className="font-mono text-[9px] uppercase tracking-widest text-green-600 mb-2">Gate 3 · Ship · ready for your sign-off</div>
-                <div className="bg-white border border-green-400/40 rounded-lg p-3 shadow-sm">
+                <div className="bg-white border border-green-400/40 rounded-lg p-3 shadow-xs">
                   <div className="flex items-center gap-2 mb-2">
                     <GitPullRequest className="w-4 h-4 text-accent" />
                     <span className="font-mono text-[10px] text-ink/50">#{ticket.pr.number}</span>
-                    <span className={`font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 rounded border ${ticket.tagColor}`}>{ticket.tag}</span>
+                    <span className={`font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 rounded-sm border ${ticket.tagColor}`}>{ticket.tag}</span>
                     <span className="font-serif text-sm text-ink flex-1 truncate">{ticket.label}</span>
                   </div>
                   <div className="flex items-center gap-3 font-mono text-[9px] text-ink/50 mb-2">
@@ -813,8 +813,8 @@ export const TryItSimulator: React.FC = () => {
                   </div>
                   <div className="grid grid-cols-3 gap-1.5 text-[10px] font-mono">
                     {['Scope', 'Design', 'Checks'].map(g => (
-                      <div key={g} className="flex items-center gap-1.5 bg-green-50/80 border border-green-200/60 rounded px-2 py-1">
-                        <Check className="w-2.5 h-2.5 text-green-600 flex-shrink-0" strokeWidth={3} />
+                      <div key={g} className="flex items-center gap-1.5 bg-green-50/80 border border-green-200/60 rounded-sm px-2 py-1">
+                        <Check className="w-2.5 h-2.5 text-green-600 shrink-0" strokeWidth={3} />
                         <span className="text-green-700/90 truncate">{g} ✓</span>
                       </div>
                     ))}
@@ -831,7 +831,7 @@ export const TryItSimulator: React.FC = () => {
         <div className="flex justify-center mt-5">
           <button
             onClick={() => setRunId(r => r + 1)}
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-accent hover:bg-accent-hover text-white font-sans text-sm shadow-sm hover:shadow-md transition-all active:scale-95"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-accent hover:bg-accent-hover text-white font-sans text-sm shadow-xs hover:shadow-md transition-all active:scale-95"
           >
             <GitPullRequest className="w-4 h-4" />
             Run again
@@ -875,7 +875,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
             <ScrollReveal immediate>
               <PageHero
                 eyebrow={
-                  <span className="inline-block mb-4 font-mono text-xs font-bold text-accent uppercase tracking-widest bg-accent/5 px-3 py-1 border border-accent/10 rounded-sm">
+                  <span className="inline-block mb-4 font-mono text-xs font-bold text-accent uppercase tracking-widest bg-accent/5 px-3 py-1 border border-accent/10 rounded-xs">
                     A DaVeenci team · Code
                   </span>
                 }
@@ -920,7 +920,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
               <ul className="space-y-3">
                 {['One specialist per concern — no context loss across files', 'Controller routes the request, specialists own their outputs', 'Sentinel validates before anything reaches a human', 'Every handoff logged — inspectable and replayable'].map((item, i) => (
                   <Reveal as="li" key={i} enterEnd={0.78} lift={14} className="flex items-start gap-3 text-ink-muted">
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
                     <span className="font-sans">{item}</span>
                   </Reveal>
                 ))}
@@ -940,7 +940,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
               <ul className="space-y-3">
                 {['Design proposal shown as a file-by-file plan', 'You approve the architecture, not a finished diff', 'Impossible to drift from scope — scope is the gate', 'Changes after Gate 2 re-trigger the review'].map((item, i) => (
                   <Reveal as="li" key={i} enterEnd={0.78} lift={14} className="flex items-start gap-3 text-ink-muted">
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
                     <span className="font-sans">{item}</span>
                   </Reveal>
                 ))}
@@ -970,7 +970,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
               <ul className="space-y-3">
                 {['Runs your repo\'s actual test / typecheck / lint / audit commands', 'Red blocks the PR — specialists iterate until green', 'Gate 3 arrives with passing checks + a full audit log', 'One-click replay of every agent action, every gate decision'].map((item, i) => (
                   <Reveal as="li" key={i} enterEnd={0.78} lift={14} className="flex items-start gap-3 text-ink-muted">
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
                     <span className="font-sans">{item}</span>
                   </Reveal>
                 ))}
@@ -1077,7 +1077,7 @@ const FAQItem: React.FC<{ q: string; a: string }> = ({ q, a }) => {
     <div className="border-b border-ink/10 last:border-0">
       <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between py-5 text-left group">
         <span className="font-serif text-lg text-ink group-hover:text-accent transition-colors pr-4">{q}</span>
-        <ChevronDown className={`w-5 h-5 text-ink-muted flex-shrink-0 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-5 h-5 text-ink-muted shrink-0 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
       </button>
       {open && (
         <p className="text-ink-muted leading-relaxed pb-5 animate-in fade-in slide-in-from-top-1 duration-200">{a}</p>

@@ -5,10 +5,10 @@ import { scrubTimeline, releaseTimeline } from '../lib/scrubTimeline';
 import { prefersReducedMotion } from '../lib/useScrollProgress';
 
 const DomainCard: React.FC<{ compact?: boolean }> = ({ compact = false }) => (
-  <div className="animate-card-active-1 rounded-sm h-full">
+  <div className="animate-card-active-1 rounded-xs h-full">
     <Plate fig="iii.a" title="Domain & Brief" tilt={false} compact={compact}>
       <div className={`relative h-full flex flex-col items-center pt-2 ${compact ? "pb-2" : "pb-6"}`}>
-        <div className="absolute top-[-1rem] left-1/2 -translate-x-1/2 w-px h-4 bg-accent/40" />
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-px h-4 bg-accent/40" />
 
         <svg viewBox="0 50 240 120" className={`w-full mx-auto ${compact ? "max-w-[250px]" : "max-w-[320px]"}`}>
           {/* Connection — DOMAIN → BRIEF with traveling mote */}
@@ -71,10 +71,10 @@ const DomainCard: React.FC<{ compact?: boolean }> = ({ compact = false }) => (
 );
 
 const CapabilityCard: React.FC<{ compact?: boolean }> = ({ compact = false }) => (
-  <div className="animate-card-active-2 rounded-sm h-full">
+  <div className="animate-card-active-2 rounded-xs h-full">
     <Plate fig="iii.b" title="Tools & Context" tilt={false} compact={compact}>
       <div className={`relative h-full flex flex-col items-center pt-2 ${compact ? "pb-2" : "pb-6"}`}>
-        <div className="absolute top-[-1rem] left-1/2 -translate-x-1/2 w-px h-4 bg-accent/40" />
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-px h-4 bg-accent/40" />
 
         <svg viewBox="0 50 240 120" className={`w-full mx-auto ${compact ? "max-w-[250px]" : "max-w-[320px]"}`}>
           {/* Connection — TOOLS → CONTEXT with traveling mote */}
@@ -162,10 +162,10 @@ const CapabilityCard: React.FC<{ compact?: boolean }> = ({ compact = false }) =>
 );
 
 const DeliveryCard: React.FC<{ compact?: boolean }> = ({ compact = false }) => (
-  <div className="animate-card-active-3 rounded-sm h-full">
+  <div className="animate-card-active-3 rounded-xs h-full">
     <Plate fig="iii.c" title="Gate & Output" tilt={false} compact={compact}>
       <div className={`relative h-full flex flex-col items-center pt-2 ${compact ? "pb-2" : "pb-6"}`}>
-        <div className="absolute top-[-1rem] left-1/2 -translate-x-1/2 w-px h-4 bg-accent/40" />
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-px h-4 bg-accent/40" />
 
         <svg viewBox="0 50 240 120" className={`w-full mx-auto ${compact ? "max-w-[250px]" : "max-w-[320px]"}`}>
           {/* Connection — approved work flows from the gate to the output */}
@@ -355,7 +355,7 @@ const Method: React.FC = () => {
   );
 
   return (
-    <Section id="method" pattern="circles" overflow={true} className={pinnable ? '!py-0' : ''}>
+    <Section id="method" pattern="circles" overflow={true} className={pinnable ? 'py-0!' : ''}>
       {pinnable ? (
         <Pinned length={2.4} top="0px" onProgress={scrub} stickyClassName="pt-20 pb-4">
           {scene}

@@ -257,7 +257,7 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
 
   const BookButton = ({ className = '', surface }: { className?: string; surface: string }) => (
     <a href={bookHref} onClick={bookNow} className={`inline-block ${className}`}>
-      <Button variant="primary" className="text-[16px] px-8 py-4" analytics={{ cta_id: 'book_anton', surface, from_page: PAGE_PATH, destination: '/book/anton' }}>
+      <Button variant="primary" className="px-8 py-4" analytics={{ cta_id: 'book_anton', surface, from_page: PAGE_PATH, destination: '/book/anton' }}>
         Book 15 minutes with Anton
       </Button>
     </a>
@@ -297,7 +297,7 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
                 actions={
                   <>
                     <BookButton surface="hero" />
-                    <Button variant="secondary" onClick={toChecks} className="text-[16px] px-8 py-4">See the nine checks</Button>
+                    <Button variant="secondary" onClick={toChecks} className="px-8 py-4">See the nine checks</Button>
                   </>
                 }
               />
@@ -334,7 +334,7 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
       <Section id="how" className="py-20 md:py-28" pattern="grid">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           <div className="lg:col-span-5">
-            <SectionHeader eyebrow="Fig. ii · How it works" title="Every ten minutes, every new order." className="!mb-6" />
+            <SectionHeader eyebrow="Fig. ii · How it works" title="Every ten minutes, every new order." className="mb-6!" />
             <p className="font-sans text-lg text-ink-muted leading-relaxed mb-4">
               It opens each order nobody has looked at yet — scheduled or not — and reads everything a careful admin would:
               the line items, the square footage, the access fields, the appointment notes, the internal notes.
@@ -344,8 +344,8 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
             </p>
           </div>
           <div className="lg:col-span-7">
-            <figure className="border border-ink/10 rounded-sm bg-white/70 p-5 md:p-8 shadow-widget-raised">
-              <ModuleSchematic id="order-review" className="aspect-[5/3] w-full" />
+            <figure className="border border-ink/10 rounded-xs bg-white/70 p-5 md:p-8 shadow-widget-raised">
+              <ModuleSchematic id="order-review" className="aspect-5/3 w-full" />
               <figcaption className="font-serif italic text-xs tracking-[0.2em] text-ink-muted uppercase mt-4">
                 One order, nine checks, one ticket
               </figcaption>
@@ -367,7 +367,7 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {CHECKS.map((c) => (
             <ScrollReveal key={c.n}>
-              <article className="h-full bg-white/85 border border-ink/10 rounded-sm p-6 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+              <article className="h-full bg-white/85 border border-ink/10 rounded-xs p-6 shadow-xs hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
                 <div className="flex items-center justify-between mb-5">
                   <span className="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
                     <c.Icon className="w-5 h-5 text-accent" />
@@ -391,10 +391,10 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
         />
         <Stack>
           {PIPELINE.map((step) => (
-            <article key={step.n} className="stack-card grid grid-cols-1 lg:grid-cols-12 gap-8 bg-paper border border-ink/10 p-6 md:p-10 shadow-lg shadow-ink/5 rounded-sm">
+            <article key={step.n} className="stack-card grid grid-cols-1 lg:grid-cols-12 gap-8 bg-paper border border-ink/10 p-6 md:p-10 shadow-lg shadow-ink/5 rounded-xs">
               <div className="lg:col-span-5 order-2 lg:order-1">
                 <div className="font-serif italic text-xs tracking-[0.2em] text-ink-muted uppercase mb-3">Step {step.n} · {step.eyebrow}</div>
-                <div className="border border-ink/10 bg-white/60 rounded-sm p-4">
+                <div className="border border-ink/10 bg-white/60 rounded-xs p-4">
                   <step.Panel />
                 </div>
               </div>
@@ -405,12 +405,12 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
                   </span>
                   <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">{step.eyebrow}</span>
                 </div>
-                <h3 className="font-serif text-2xl md:text-4xl text-ink leading-tight mb-4">{step.title}</h3>
+                <h3 className="font-serif text-2xl md:text-4xl md:leading-10 text-ink leading-tight mb-4">{step.title}</h3>
                 <p className="font-sans text-[17px] leading-relaxed text-ink-muted mb-5">{step.body}</p>
                 <ul className="space-y-2.5">
                   {step.bullets.map((b) => (
                     <li key={b} className="flex items-start gap-3 font-sans text-sm leading-relaxed text-ink-muted">
-                      <Check className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" aria-hidden="true" />
+                      <Check className="w-4 h-4 text-accent mt-0.5 shrink-0" aria-hidden="true" />
                       {b}
                     </li>
                   ))}
@@ -426,10 +426,10 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
         <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6">
             <div className="font-serif italic text-base tracking-[0.15em] uppercase text-canvas/60 mb-4">Fig. v · The ticket</div>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold leading-[1.05] tracking-tight mb-6">
+            <h2 className="font-serif text-4xl md:text-5xl md:leading-none font-bold leading-[1.05] tracking-tight mb-6">
               One ticket per order. Nothing when it’s fine.
             </h2>
-            <p className="font-serif text-lg md:text-xl text-canvas/75 leading-relaxed mb-8">
+            <p className="font-serif text-lg md:text-xl md:leading-7 text-canvas/75 leading-relaxed mb-8">
               The ticket says what needs a person, what it couldn’t verify, and what it already fixed — so your team finds
               problems in one place and never redoes a fix.
             </p>
@@ -459,7 +459,7 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
       <Section className="py-20 md:py-28" pattern="circles">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           <div className="lg:col-span-5">
-            <SectionHeader eyebrow="Fig. vi · The offer" title="One price. Live within a week." className="!mb-8" />
+            <SectionHeader eyebrow="Fig. vi · The offer" title="One price. Live within a week." className="mb-8!" />
             <p className="font-sans text-lg text-ink-muted leading-relaxed">
               The expensive mistakes in this business are found on site: no lockbox code at the door, a bedroom that wasn’t on
               anyone’s list, a note nobody read. Order Review moves those catches to the ten minutes after the order lands, when
@@ -468,9 +468,9 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
             </p>
           </div>
           <div className="lg:col-span-7">
-            <div className="border border-ink/15 bg-white/80 rounded-sm p-8 md:p-10 shadow-widget-raised">
+            <div className="border border-ink/15 bg-white/80 rounded-xs p-8 md:p-10 shadow-widget-raised">
               <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent mb-4">Price</div>
-              <div className="font-serif text-5xl md:text-6xl text-ink leading-none mb-5">
+              <div className="font-serif text-5xl md:text-6xl md:leading-none text-ink leading-none mb-5">
                 $2,500<span className="text-ink-muted text-2xl md:text-3xl ml-3">fixed</span>
               </div>
               <ul className="space-y-2 font-sans text-ink-muted leading-relaxed">
@@ -536,7 +536,7 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
         <SectionHeader eyebrow="Fig. vii · Getting started" title="How the first two weeks go." />
         <ol className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-16">
           {TWO_WEEKS.map(({ when, what }, i) => (
-            <li key={when} className="relative bg-white/80 border border-ink/10 rounded-sm p-6 shadow-sm">
+            <li key={when} className="relative bg-white/80 border border-ink/10 rounded-xs p-6 shadow-xs">
               <div className="font-serif italic text-3xl text-ink-muted/30 mb-2">0{i + 1}</div>
               <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-3">{when}</div>
               <p className="font-sans text-sm text-ink-muted leading-relaxed">{what}</p>
@@ -562,7 +562,7 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
       <Section className="py-20 md:py-28">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           <div className="lg:col-span-4">
-            <SectionHeader eyebrow="Questions" title="What owners ask first." className="!mb-6" />
+            <SectionHeader eyebrow="Questions" title="What owners ask first." className="mb-6!" />
           </div>
           <div className="lg:col-span-8 space-y-8">
             {FAQS.map(({ q, a }) => (

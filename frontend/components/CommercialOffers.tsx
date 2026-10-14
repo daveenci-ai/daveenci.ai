@@ -51,7 +51,7 @@ export const CommercialOffers: React.FC<CommercialOffersProps> = ({ onNavigate, 
 
   const cards = commercialOffers.map((offer) => {
     const card = (
-      <article className={`group h-full bg-white/65 border rounded-sm p-6 md:p-8 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${offer.productized ? 'border-accent/35 hover:border-accent/60' : 'border-ink/10 hover:border-accent/35'}`}>
+      <article className={`group h-full bg-white/65 border rounded-xs p-6 md:p-8 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${offer.productized ? 'border-accent/35 hover:border-accent/60' : 'border-ink/10 hover:border-accent/35'}`}>
         <div className="flex items-start justify-between gap-5 mb-7">
           <span className="font-serif italic text-3xl text-ink-muted/30">{offer.number}</span>
           <div className="text-right">
@@ -66,10 +66,10 @@ export const CommercialOffers: React.FC<CommercialOffersProps> = ({ onNavigate, 
         <h3 className="font-serif text-2xl md:text-3xl text-ink mb-3">{offer.title}</h3>
         <p className="font-sans text-sm md:text-[15px] text-ink-muted leading-relaxed mb-6">{offer.description}</p>
 
-        <ul className="space-y-3 mb-7 flex-grow">
+        <ul className="space-y-3 mb-7 grow">
           {offer.deliverables.map((deliverable) => (
             <li key={deliverable} className="flex items-start gap-3 font-sans text-sm text-ink-muted leading-relaxed">
-              <Check aria-hidden="true" className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" strokeWidth={1.8} />
+              <Check aria-hidden="true" className="w-4 h-4 text-accent shrink-0 mt-0.5" strokeWidth={1.8} />
               <span>{deliverable}</span>
             </li>
           ))}

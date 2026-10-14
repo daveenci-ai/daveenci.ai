@@ -49,7 +49,7 @@ export const MobileBriefingDetailPage: React.FC<MobileBriefingDetailPageProps> =
   const heroRef = useScrollProgress<HTMLDivElement>({ mode: 'exit' });
 
   return (
-    <div className="min-h-[100dvh] flex flex-col text-ink" data-mobile>
+    <div className="min-h-dvh flex flex-col text-ink" data-mobile>
       <MobileTopBar onNavigate={onNavigate} backTo="briefings" progress={progress} />
 
       <main className="flex-1 pt-14">
@@ -60,7 +60,7 @@ export const MobileBriefingDetailPage: React.FC<MobileBriefingDetailPageProps> =
             <div className="flex items-center gap-3 mb-4">
               <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{data.category}</span>
               <span className="text-ink-muted/40">·</span>
-              <span className="font-mono text-[10px] tracking-[0.1em] text-ink-muted">#{data.issueNo}</span>
+              <span className="font-mono text-[10px] tracking-widest text-ink-muted">#{data.issueNo}</span>
             </div>
             <h1 className="font-serif text-[2.25rem] leading-[1.1] text-ink mb-5 tracking-tight">
               {data.title}
@@ -82,7 +82,7 @@ export const MobileBriefingDetailPage: React.FC<MobileBriefingDetailPageProps> =
 
           {/* Hero image */}
           <div className="px-6 mb-8 hero-plate">
-            <div className="aspect-[16/10] w-full overflow-hidden rounded-sm bg-ink/5 border border-ink/10">
+            <div className="aspect-16/10 w-full overflow-hidden rounded-xs bg-ink/5 border border-ink/10">
               <CodexCover id={data.id} title={data.title} />
             </div>
           </div>
@@ -90,7 +90,7 @@ export const MobileBriefingDetailPage: React.FC<MobileBriefingDetailPageProps> =
 
         {/* Quick Answer callout */}
         <section className="px-6 mb-8">
-          <div className="bg-accent/5 border border-accent/20 rounded-sm p-5 relative overflow-hidden">
+          <div className="bg-accent/5 border border-accent/20 rounded-xs p-5 relative overflow-hidden">
             <Lightbulb className="absolute top-3 right-3 w-6 h-6 text-accent/15" />
             <div className="flex items-baseline gap-2 mb-3">
               <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent font-semibold">Quick Answer</span>
@@ -106,7 +106,7 @@ export const MobileBriefingDetailPage: React.FC<MobileBriefingDetailPageProps> =
         {/* Sections */}
         {data.sections.map((section) => (
           <section key={section.id} id={section.id} className="px-6 py-6 max-w-prose mx-auto">
-            <h3 className="font-serif text-[1.5rem] leading-[1.25] text-ink mb-4">{section.title}</h3>
+            <h3 className="font-serif text-[1.5rem] leading-tight text-ink mb-4">{section.title}</h3>
             <div className="prose prose-sm font-sans text-[15px] text-ink/90 leading-[1.7] [&_p]:mb-4 [&_strong]:text-ink [&_strong]:font-semibold [&_em]:italic [&_em]:text-ink-muted [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-2">
               {section.content}
             </div>

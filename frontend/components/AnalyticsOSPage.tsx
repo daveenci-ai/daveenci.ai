@@ -62,7 +62,7 @@ const TierList: React.FC<{ compact?: boolean }> = ({ compact = false }) => (
   <div className={`grid grid-cols-1 ${compact ? 'gap-4' : 'lg:grid-cols-3 gap-6'}`}>
     {analyticsOSTiers.map((tier, index) => (
       <Reveal key={tier.name} enterEnd={0.8} lift={compact ? 12 : 28}>
-        <article className={`h-full rounded-sm border p-6 md:p-8 flex flex-col ${index === 0 ? 'bg-ink text-canvas border-ink' : 'bg-white/65 border-ink/10'}`}>
+        <article className={`h-full rounded-xs border p-6 md:p-8 flex flex-col ${index === 0 ? 'bg-ink text-canvas border-ink' : 'bg-white/65 border-ink/10'}`}>
           <div className="flex items-baseline justify-between gap-4 mb-1">
             <h3 className={`font-mono text-[10px] uppercase tracking-[0.2em] ${index === 0 ? 'text-canvas/80' : 'text-ink-muted'}`}>{tier.name}</h3>
             <span className={`font-mono text-[9px] uppercase tracking-[0.14em] ${index === 0 ? 'text-canvas/60' : 'text-ink-muted/70'}`}>{tier.weeks}</span>
@@ -86,8 +86,8 @@ const TierList: React.FC<{ compact?: boolean }> = ({ compact = false }) => (
 const Constraints: React.FC<{ compact?: boolean }> = ({ compact = false }) => (
   <ul className={`grid grid-cols-1 ${compact ? 'gap-3' : 'md:grid-cols-2 gap-4'}`}>
     {analyticsOSConstraints.map((c) => (
-      <Reveal as="li" key={c.title} enterEnd={0.8} lift={16} className="flex gap-4 bg-white/60 border border-ink/10 rounded-sm p-5">
-        <ShieldCheck aria-hidden="true" className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+      <Reveal as="li" key={c.title} enterEnd={0.8} lift={16} className="flex gap-4 bg-white/60 border border-ink/10 rounded-xs p-5">
+        <ShieldCheck aria-hidden="true" className="w-5 h-5 text-accent shrink-0 mt-0.5" strokeWidth={1.5} />
         <div>
           <h3 className="font-serif text-lg text-ink mb-1">{c.title}</h3>
           <p className="font-sans text-sm text-ink-muted leading-relaxed">{c.detail}</p>
@@ -112,7 +112,7 @@ const AnalyticsOSPageDesktop: React.FC<AnalyticsOSPageProps> = ({ onNavigate }) 
               eyebrow={
                 <span className="flex flex-wrap items-center gap-3">
                   <span className="font-serif italic text-base tracking-[0.15em] uppercase text-ink-muted">Case · Marketing measurement</span>
-                  <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-amber-800 border border-amber-800/30 px-2 py-1 rounded-sm">{STATUS}</span>
+                  <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-amber-800 border border-amber-800/30 px-2 py-1 rounded-xs">{STATUS}</span>
                 </span>
               }
               title={<>Marketing Analytics OS<br /><span className="italic text-ink-muted/80">The measurement team.</span></>}
@@ -131,12 +131,12 @@ const AnalyticsOSPageDesktop: React.FC<AnalyticsOSPageProps> = ({ onNavigate }) 
         </div>
         <Parallax plane="plate" className="lg:col-span-5 relative flex items-center justify-center">
           <ScrollReveal delay={400} direction="left" className="w-full">
-            <Surface kind="document" raised className="relative w-full bg-white/70 border border-ink/10 p-6 md:p-8 rotate-[-2deg] hover:rotate-0 transition-transform duration-700">
+            <Surface kind="document" raised className="relative w-full bg-white/70 border border-ink/10 p-6 md:p-8 -rotate-2 hover:rotate-0 transition-transform duration-700">
               <div className="flex justify-between items-center mb-5 pb-3 border-b border-ink/10">
                 <div className="flex gap-1.5"><div className="w-3 h-3 rounded-full bg-ink/15" /><div className="w-3 h-3 rounded-full bg-ink/15" /><div className="w-3 h-3 rounded-full bg-ink/15" /></div>
                 <div className="font-serif italic text-xs tracking-[0.2em] text-ink-muted uppercase">Fig. i · Ad to verdict</div>
               </div>
-              <CaseSchematic id="analytics-os" className="aspect-[5/3] w-full" />
+              <CaseSchematic id="analytics-os" className="aspect-5/3 w-full" />
             </Surface>
           </ScrollReveal>
         </Parallax>
@@ -200,7 +200,7 @@ const AnalyticsOSPageDesktop: React.FC<AnalyticsOSPageProps> = ({ onNavigate }) 
           <h2 className="font-serif text-4xl md:text-5xl text-ink mb-6">Which campaign is earning its spend?</h2>
           <p className="font-sans text-lg text-ink-muted leading-relaxed mb-8">If the answer lives in three spreadsheets and one person's judgment, that is the workflow to bring. Thirty minutes, no deck.</p>
           <div className="flex justify-center">
-            <Button variant="primary" analytics={{ cta_id: 'bring_spreadsheet', surface: 'case_closing', from_page: 'analytics-os', destination: '/calendar' }} onClick={() => onNavigate('calendar')} className="text-[16px] px-8 py-4">Bring the spreadsheet you don't trust</Button>
+            <Button variant="primary" analytics={{ cta_id: 'bring_spreadsheet', surface: 'case_closing', from_page: 'analytics-os', destination: '/calendar' }} onClick={() => onNavigate('calendar')} className="px-8 py-4">Bring the spreadsheet you don't trust</Button>
           </div>
         </ScrollReveal>
       </div>
@@ -223,15 +223,15 @@ const MobileAnalyticsOSPage: React.FC<AnalyticsOSPageProps> = ({ onNavigate }) =
         <span className="h-px w-8 bg-ink-muted/30" />
         <span className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted">Case · Marketing measurement</span>
       </div>
-      <span className="inline-block font-mono text-[9px] uppercase tracking-[0.16em] text-amber-800 border border-amber-800/30 px-2 py-1 rounded-sm mb-4">{STATUS}</span>
+      <span className="inline-block font-mono text-[9px] uppercase tracking-[0.16em] text-amber-800 border border-amber-800/30 px-2 py-1 rounded-xs mb-4">{STATUS}</span>
       <h1 className="font-serif text-[2.6rem] leading-[1.06] text-ink tracking-tight mb-4">
         Marketing Analytics OS<br /><span className="italic text-ink-muted/70">The measurement team.</span>
       </h1>
       <p className="font-serif text-[17px] text-ink-muted leading-[1.6] mb-6">
         A measurement system that follows a visitor from the ad to the approved customer, with a keep / kill verdict on every campaign and test — computed, not read by eye.
       </p>
-      <div className="border border-ink/10 bg-white/60 rounded-sm p-4 mb-6">
-        <CaseSchematic id="analytics-os" className="aspect-[5/3] w-full" />
+      <div className="border border-ink/10 bg-white/60 rounded-xs p-4 mb-6">
+        <CaseSchematic id="analytics-os" className="aspect-5/3 w-full" />
       </div>
       <MobileButton analytics={{ cta_id: 'bring_spreadsheet', surface: 'case_hero', from_page: 'analytics-os', destination: '/calendar' }} onClick={() => onNavigate('calendar')}>Bring the spreadsheet you don't trust</MobileButton>
       <p className="mt-5 font-sans text-[13px] text-ink-muted leading-relaxed">
