@@ -91,10 +91,10 @@ const CreativeFaqItem: React.FC<{ index: number; question: string; answer: strin
           aria-expanded={open}
           aria-controls={panelId}
           onClick={() => setOpen((value) => !value)}
-          className="group flex w-full items-center justify-between gap-6 py-5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4"
+          className="group flex w-full items-center justify-between gap-6 py-5 text-left focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4"
         >
           <span className="font-serif text-lg text-ink transition-colors group-hover:text-accent-strong">{question}</span>
-          <ChevronDown className={`h-5 w-5 flex-shrink-0 text-ink-muted transition-transform ${open ? 'rotate-180' : ''}`} />
+          <ChevronDown className={`h-5 w-5 shrink-0 text-ink-muted transition-transform ${open ? 'rotate-180' : ''}`} />
         </button>
       </h3>
       {open && (
@@ -186,7 +186,7 @@ const CreativeProductionPageDesktop: React.FC<CreativeProductionPageProps> = ({ 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {creativeDeliverables.map((deliverable, index) => (
             <ScrollReveal key={deliverable.title} delay={index * 100} className="h-full">
-              <article className="flex h-full flex-col border border-ink/10 bg-white/65 p-7 shadow-sm md:p-8">
+              <article className="flex h-full flex-col border border-ink/10 bg-white/65 p-7 shadow-xs md:p-8">
                 <div className="mb-7 flex items-start justify-between gap-5">
                   <deliverable.Icon className="h-7 w-7 text-accent-strong" strokeWidth={1.45} />
                   <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-ink-muted">{deliverable.eyebrow}</span>
@@ -196,7 +196,7 @@ const CreativeProductionPageDesktop: React.FC<CreativeProductionPageProps> = ({ 
                 <ul className="mt-7 space-y-2 border-t border-ink/10 pt-5">
                   {deliverable.examples.map((example) => (
                     <li key={example} className="flex items-center gap-3 font-sans text-sm text-ink-muted">
-                      <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-accent-strong" />
+                      <CheckCircle2 className="h-4 w-4 shrink-0 text-accent-strong" />
                       {example}
                     </li>
                   ))}
@@ -255,7 +255,7 @@ const CreativeProductionPageDesktop: React.FC<CreativeProductionPageProps> = ({ 
         <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
           {creativeWorkflowPrinciples.map((principle) => (
             <div key={principle.title} className="flex items-start gap-4 border-t border-ink/15 pt-5">
-              <principle.Icon className="mt-0.5 h-5 w-5 flex-shrink-0 text-accent-strong" strokeWidth={1.5} />
+              <principle.Icon className="mt-0.5 h-5 w-5 shrink-0 text-accent-strong" strokeWidth={1.5} />
               <div>
                 <h3 className="font-serif text-xl text-ink">{principle.title}</h3>
                 <p className="mt-1 font-sans text-sm leading-relaxed text-ink-muted">{principle.body}</p>
@@ -272,7 +272,7 @@ const CreativeProductionPageDesktop: React.FC<CreativeProductionPageProps> = ({ 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
           <div>
             <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent-strong">Sectors served</div>
-            <h2 className="mt-4 font-serif text-4xl leading-tight text-ink md:text-5xl">Different contexts.<br /><span className="italic text-ink-muted/80">The same proof standard.</span></h2>
+            <h2 className="mt-4 font-serif text-4xl leading-tight text-ink md:text-5xl md:leading-none">Different contexts.<br /><span className="italic text-ink-muted/80">The same proof standard.</span></h2>
           </div>
           <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3" aria-label="Sectors served">
             {creativeSectors.map((sector) => (
@@ -306,7 +306,7 @@ const CreativeProductionPageDesktop: React.FC<CreativeProductionPageProps> = ({ 
       <Section id="creative-faq" className="bg-white/20 py-20 md:py-24">
         <SectionHeader eyebrow="FAQ" title="Common questions." />
         <ScrollReveal>
-          <div className="mx-auto max-w-3xl border border-ink/10 bg-white/65 px-7 shadow-sm md:px-9">
+          <div className="mx-auto max-w-3xl border border-ink/10 bg-white/65 px-7 shadow-xs md:px-9">
             {creativeFaqs.map((item, index) => (
               <CreativeFaqItem key={item.question} index={index} question={item.question} answer={item.answer} />
             ))}
@@ -336,7 +336,7 @@ const CreativeProductionPageDesktop: React.FC<CreativeProductionPageProps> = ({ 
         <GiocondaBackground className="text-ink opacity-[0.04]" />
         <div className="relative mx-auto max-w-3xl">
           <ScrollReveal>
-            <h2 className="font-serif text-4xl leading-tight text-ink md:text-5xl">Ready to make the next cycle visible?</h2>
+            <h2 className="font-serif text-4xl leading-tight text-ink md:text-5xl md:leading-none">Ready to make the next cycle visible?</h2>
             <p className="mx-auto mt-5 max-w-2xl font-sans text-lg leading-relaxed text-ink-muted">
               Start with the real brief, the channels it must cross, and the person who owns the release decision.
             </p>
@@ -361,7 +361,7 @@ const CreativeProductionPageDesktop: React.FC<CreativeProductionPageProps> = ({ 
           <a
             href="/pulsenote"
             onClick={openPulseNote}
-            className="group mt-6 inline-flex items-center gap-3 font-serif text-3xl text-ink transition-colors hover:text-accent-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 md:text-4xl"
+            className="group mt-6 inline-flex items-center gap-3 font-serif text-3xl text-ink transition-colors hover:text-accent-strong focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 md:text-4xl"
           >
             PulseNote
             <ArrowRight className="h-7 w-7 text-accent-strong transition-transform group-hover:translate-x-1" strokeWidth={1.4} />
@@ -370,7 +370,7 @@ const CreativeProductionPageDesktop: React.FC<CreativeProductionPageProps> = ({ 
             <a
               href="/work"
               onClick={(event) => { event.preventDefault(); onNavigate('work'); }}
-              className="font-sans text-sm text-ink-muted underline decoration-ink/20 underline-offset-4 transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4"
+              className="font-sans text-sm text-ink-muted underline decoration-ink/20 underline-offset-4 transition-colors hover:text-ink focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4"
             >
               All work
             </a>

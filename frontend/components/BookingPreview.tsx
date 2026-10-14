@@ -147,7 +147,7 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
 
               <div className="grid grid-cols-4 gap-2">
                 {days.map(({ date, slots }) => (
-                  <div key={date.toISOString()} className="border border-ink/10 rounded-sm bg-white/80 p-2 flex flex-col">
+                  <div key={date.toISOString()} className="border border-ink/10 rounded-xs bg-white/80 p-2 flex flex-col">
                     <div className="text-center mb-2 pb-1.5 border-b border-ink/5">
                       <div className="font-mono text-[8px] uppercase tracking-[0.2em] text-ink-muted">{WEEKDAY_SHORT[date.getDay()]}</div>
                       <div className="font-serif text-lg text-ink leading-none mt-0.5">{date.getDate()}</div>
@@ -161,10 +161,10 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
                             key={iso}
                             onClick={() => handleSlotClick(iso)}
                             disabled={busy}
-                            className={`w-full text-center font-serif italic text-[11px] tracking-[0.03em] py-2 rounded-sm border transition-all ${
+                            className={`w-full text-center font-serif italic text-[11px] tracking-[0.03em] py-2 rounded-xs border transition-all ${
                               busy
                                 ? 'text-ink-muted/40 border-ink/5 line-through cursor-not-allowed'
-                                : 'text-ink border-ink/15 hover:border-accent hover:bg-accent/10 hover:text-accent hover:shadow-sm'
+                                : 'text-ink border-ink/15 hover:border-accent hover:bg-accent/10 hover:text-accent hover:shadow-xs'
                             }`}
                           >
                             {formatChip(iso)}
@@ -179,14 +179,14 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
           </ScrollReveal>
 
           <Parallax plane="annotation" inherit className="absolute top-32 -left-4 md:-left-6 z-30">
-            <div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
+            <div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded-sm flex items-center gap-3 animate-float">
               <Clock className="w-4 h-4 text-accent" />
               <span className="text-xs font-medium text-ink">30 min</span>
             </div>
           </Parallax>
 
           <Parallax plane="annotation" inherit className="absolute bottom-2 -right-4 md:-right-6 z-30">
-            <div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
+            <div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded-sm flex items-center gap-3 animate-float-delayed">
               <CalendarDays className="w-4 h-4 text-status-success" />
               <span className="text-xs font-medium text-ink">Live availability</span>
             </div>
@@ -203,7 +203,7 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
 
             <div className="max-w-xl border-l border-ink/10 pl-6">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 rounded-sm overflow-hidden border border-ink/10 flex-shrink-0">
+                <div className="w-14 h-14 rounded-xs overflow-hidden border border-ink/10 shrink-0">
                   <img src={AstridSketch} alt="Astrid Abrahamyan" width={1024} height={1024} loading="lazy" decoding="async" className="w-full h-full object-cover object-top scale-125 sepia-[0.15] contrast-105" />
                 </div>
                 <div>
@@ -220,7 +220,7 @@ const BookingPreview: React.FC<BookingPreviewProps> = ({ onNavigate }) => {
                   'Whether a fixed-scope Workflow Blueprint is worth doing',
                 ].map((item) => (
                   <Reveal as="li" key={item} enterEnd={0.78} lift={16} className="flex gap-3">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
                     {item}
                   </Reveal>
                 ))}

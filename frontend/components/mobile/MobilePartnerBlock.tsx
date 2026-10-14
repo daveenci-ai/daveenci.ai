@@ -26,7 +26,7 @@ export const MobilePartnerBlock: React.FC<MobilePartnerBlockProps> = ({ onNaviga
           height={1024}
           loading="lazy"
           decoding="async"
-          className="relative w-full rounded-sm shadow-xl shadow-ink/10 border border-ink/10 filter sepia-[0.15] contrast-105"
+          className="relative w-full rounded-xs shadow-xl shadow-ink/10 border border-ink/10 filter sepia-[0.15] contrast-105"
         />
       </div>
       <div className="font-serif text-2xl text-ink leading-none">{PRACTICES.creative.lead}</div>
@@ -53,7 +53,7 @@ export const MobilePartnerBlock: React.FC<MobilePartnerBlockProps> = ({ onNaviga
       <p className="mt-3 font-serif text-[13px] italic leading-relaxed text-ink-muted/80">
         Law · Health · Non-profit · Ecommerce · Beverages
       </p>
-      <ul className="mt-5 grid grid-cols-3 gap-2 text-center font-mono text-[8px] uppercase tracking-[0.1em] text-ink-muted">
+      <ul className="mt-5 grid grid-cols-3 gap-2 text-center font-mono text-[8px] uppercase tracking-widest text-ink-muted">
         <li className="border border-ink/10 bg-white/40 px-1.5 py-2">Strategy</li>
         <li className="border border-ink/10 bg-white/40 px-1.5 py-2">Ads + content</li>
         <li className="border border-ink/10 bg-white/40 px-1.5 py-2">YouTube video</li>

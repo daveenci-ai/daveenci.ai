@@ -78,12 +78,12 @@ const ControlPanelDiagram: React.FC = () => (
       <text x="240" y="213" fontSize="7.5" textAnchor="middle" fill="rgb(var(--color-ink))" fontFamily="serif" fontStyle="italic" letterSpacing="0.2em">REROUTE</text>
     </svg>
 
-    <Parallax plane="annotation" inherit className="absolute top-2 -left-4 md:-left-6"><div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
+    <Parallax plane="annotation" inherit className="absolute top-2 -left-4 md:-left-6"><div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded-sm flex items-center gap-3 animate-float">
       <Eye className="w-4 h-4 text-accent" />
       <span className="text-xs font-medium text-ink">Live oversight</span>
     </div></Parallax>
 
-    <Parallax plane="annotation" inherit className="absolute bottom-2 -right-4 md:-right-6"><div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
+    <Parallax plane="annotation" inherit className="absolute bottom-2 -right-4 md:-right-6"><div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded-sm flex items-center gap-3 animate-float-delayed">
       <Check className="w-4 h-4 text-status-success" />
       <span className="text-xs font-medium text-ink">One-click control</span>
     </div></Parallax>
@@ -138,7 +138,7 @@ const Controls: React.FC = () => (
               const Icon = c.icon;
               return (
                 <Reveal as="li" key={c.n} enterEnd={0.72} className="flex gap-5 items-baseline">
-                  <span className="font-serif italic text-accent text-lg tracking-[0.1em] flex-shrink-0 w-6 text-right">{c.n}.</span>
+                  <span className="font-serif italic text-accent text-lg tracking-widest shrink-0 w-6 text-right">{c.n}.</span>
                   <div>
                     <div className="flex items-center gap-2 mb-2">
                       <Icon className="w-4 h-4 text-ink-muted" />

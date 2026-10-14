@@ -66,8 +66,8 @@ export const MobileWorkPage: React.FC<MobileWorkPageProps> = ({ onNavigate }) =>
               </h2>
               <p className="font-serif italic text-base text-ink-muted mb-4">{item.subtitle}</p>
               <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-4">{item.blurb}</p>
-              <div aria-hidden="true" className="border border-ink/10 bg-white/70 rounded-sm p-3 mb-4">
-                <CaseSchematic id={item.page} className="aspect-[5/3] w-full" />
+              <div aria-hidden="true" className="border border-ink/10 bg-white/70 rounded-xs p-3 mb-4">
+                <CaseSchematic id={item.page} className="aspect-5/3 w-full" />
               </div>
               <span className="font-sans text-sm font-medium text-accent">Read the case →</span>
             </MobileScenePlate>

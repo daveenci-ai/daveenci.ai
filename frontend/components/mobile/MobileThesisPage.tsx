@@ -40,7 +40,7 @@ export const MobileThesisPage: React.FC<MobileThesisPageProps> = ({ onNavigate }
   const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
 
   return (
-    <div className="min-h-[100dvh] flex flex-col text-ink" data-mobile>
+    <div className="min-h-dvh flex flex-col text-ink" data-mobile>
       <MobileTopBar onNavigate={onNavigate} progress={progress} />
 
       <main className="flex-1 pt-14">
@@ -128,7 +128,7 @@ export const MobileThesisPage: React.FC<MobileThesisPageProps> = ({ onNavigate }
 
           <div className="space-y-3">
             {PLAYBOOK.map((piece, i) => (
-              <Reveal key={piece.label} enterEnd={0.88 - i * 0.02} lift={16} className="bg-white/60 border border-ink/10 rounded-sm p-4">
+              <Reveal key={piece.label} enterEnd={0.88 - i * 0.02} lift={16} className="bg-white/60 border border-ink/10 rounded-xs p-4">
                 <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent mb-1.5">{piece.label}</div>
                 <p className="font-sans text-[14px] text-ink leading-relaxed">{piece.body}</p>
               </Reveal>

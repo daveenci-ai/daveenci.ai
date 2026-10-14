@@ -125,7 +125,7 @@ export const MobileCreativeProductionPage: React.FC<MobileCreativeProductionPage
               <ul className="mt-5 space-y-2 border-t border-ink/10 pt-4">
                 {deliverable.examples.map((example) => (
                   <li key={example} className="flex items-center gap-2.5 font-sans text-[13px] text-ink-muted">
-                    <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-accent-strong" /> {example}
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-accent-strong" /> {example}
                   </li>
                 ))}
               </ul>
@@ -230,7 +230,7 @@ export const MobileCreativeProductionPage: React.FC<MobileCreativeProductionPage
                     className="flex w-full items-baseline gap-3 py-4 text-left"
                   >
                     <span className="flex-1 font-serif text-base leading-snug text-ink">{item.question}</span>
-                    <span className="flex-shrink-0 pt-1 text-ink-muted/70">
+                    <span className="shrink-0 pt-1 text-ink-muted/70">
                       {isOpen ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
                     </span>
                   </button>
@@ -289,7 +289,7 @@ export const MobileCreativeProductionPage: React.FC<MobileCreativeProductionPage
         <a
           href="/pulsenote"
           onClick={openPulseNote}
-          className="mt-6 inline-flex items-center gap-3 font-serif text-3xl text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          className="mt-6 inline-flex items-center gap-3 font-serif text-3xl text-ink focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent"
         >
           PulseNote <ArrowRight className="h-6 w-6 text-accent-strong" strokeWidth={1.4} />
         </a>
@@ -297,7 +297,7 @@ export const MobileCreativeProductionPage: React.FC<MobileCreativeProductionPage
           <a
             href="/work"
             onClick={(event) => { event.preventDefault(); onNavigate('work'); }}
-            className="font-sans text-sm text-ink-muted underline decoration-ink/20 underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className="font-sans text-sm text-ink-muted underline decoration-ink/20 underline-offset-4 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent"
           >
             All work
           </a>

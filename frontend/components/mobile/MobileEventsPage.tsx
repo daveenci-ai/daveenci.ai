@@ -98,7 +98,7 @@ const RegistrationSheet: React.FC<{
         </p>
 
         {status === 'success' ? (
-          <div className="bg-green-50 border border-green-200 rounded-sm p-5 text-center">
+          <div className="bg-green-50 border border-green-200 rounded-xs p-5 text-center">
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
               <Check className="w-6 h-6 text-green-700" />
             </div>
@@ -121,7 +121,7 @@ const RegistrationSheet: React.FC<{
                 onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                 placeholder="Leonardo da Vinci"
                 disabled={status === 'loading'}
-                className="w-full bg-white border border-ink/20 rounded-sm p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50"
+                className="w-full bg-white border border-ink/20 rounded-xs p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50"
               />
             </div>
             <div>
@@ -138,12 +138,12 @@ const RegistrationSheet: React.FC<{
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="leo@florence.it"
                 disabled={status === 'loading'}
-                className="w-full bg-white border border-ink/20 rounded-sm p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50"
+                className="w-full bg-white border border-ink/20 rounded-xs p-3 text-[15px] text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50"
               />
             </div>
 
             {status === 'error' && errorMessage && (
-              <div role="alert" className="text-xs font-serif italic text-amber-900 bg-amber-50/70 border border-amber-200/80 rounded-sm px-4 py-2.5">
+              <div role="alert" className="text-xs font-serif italic text-amber-900 bg-amber-50/70 border border-amber-200/80 rounded-xs px-4 py-2.5">
                 {errorMessage}
               </div>
             )}
@@ -198,7 +198,7 @@ export const MobileEventsPage: React.FC<MobileEventsPageProps> = ({ onNavigate }
 
       <section className="px-6 pb-10 space-y-5">
         {scheduledEvents.length === 0 && (
-          <div className="bg-white/55 border border-ink/10 rounded-sm p-5 mb-7">
+          <div className="bg-white/55 border border-ink/10 rounded-xs p-5 mb-7">
             <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-accent mb-2">Next dates</div>
             <h2 className="font-serif text-2xl text-ink mb-3">The next sessions are being planned.</h2>
             <p className="font-sans text-[14px] leading-relaxed text-ink-muted">No public dates are open right now. New sessions are listed here once they are confirmed.</p>
@@ -211,9 +211,9 @@ export const MobileEventsPage: React.FC<MobileEventsPageProps> = ({ onNavigate }
             key={event.id}
             enterEnd={0.86}
             lift={20}
-            className="bg-white border border-ink/10 rounded-sm overflow-hidden shadow-sm shadow-ink/5"
+            className="bg-white border border-ink/10 rounded-xs overflow-hidden shadow-xs shadow-ink/5"
           >
-            <div className="aspect-[16/9] bg-ink/5 overflow-hidden">
+            <div className="aspect-video bg-ink/5 overflow-hidden">
               <img
                 src={event.image}
                 alt={event.title}
@@ -224,7 +224,7 @@ export const MobileEventsPage: React.FC<MobileEventsPageProps> = ({ onNavigate }
             </div>
             <div className="p-5">
               <div className="flex items-center gap-3 mb-2">
-                <span className="font-mono text-[10px] font-bold tracking-widest text-white bg-accent px-2 py-1 rounded-sm">
+                <span className="font-mono text-[10px] font-bold tracking-widest text-white bg-accent px-2 py-1 rounded-xs">
                   {formatEventDate(event, true)}
                 </span>
                 <span className="font-mono text-[9px] tracking-widest text-ink-muted/50 uppercase">
@@ -251,8 +251,8 @@ export const MobileEventsPage: React.FC<MobileEventsPageProps> = ({ onNavigate }
             <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-ink-muted mb-4">Topics from the workshop</div>
             <div className="space-y-5">
               {workshopTopics.map((topic) => (
-                <Reveal as="article" key={topic.title} enterEnd={0.86} lift={20} className="bg-white border border-ink/10 rounded-sm overflow-hidden shadow-sm shadow-ink/5">
-                  <img src={topic.image} alt="" loading="lazy" decoding="async" className="w-full aspect-[16/9] object-cover" />
+                <Reveal as="article" key={topic.title} enterEnd={0.86} lift={20} className="bg-white border border-ink/10 rounded-xs overflow-hidden shadow-xs shadow-ink/5">
+                  <img src={topic.image} alt="" loading="lazy" decoding="async" className="w-full aspect-video object-cover" />
                   <div className="p-5">
                     <h2 className="font-serif text-xl text-ink leading-snug mb-3">{topic.title}</h2>
                     <p className="font-sans text-[14px] text-ink-muted leading-relaxed">{topic.description}</p>

@@ -26,6 +26,9 @@ export interface SectionProps {
   overflow?: boolean;
   /** Ref to the <section> element (scroll-progress subscribers attach here). */
   innerRef?: React.Ref<HTMLElement>;
+  /** Vertical padding, replacing the default. Use this rather than a second py-* in className: with two py-* on one
+   *  element, which one applies depends on Tailwind's utility order, not on which was written last. */
+  padding?: string;
 }
 
 export interface EventCardProps {

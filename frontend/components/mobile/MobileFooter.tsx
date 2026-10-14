@@ -63,7 +63,7 @@ export const MobileFooter: React.FC<MobileFooterProps> = ({ onNavigate, classNam
                   <a
                     href={link.hash ? `/${link.hash}` : `/${link.page}`}
                     onClick={go(link.page, link.hash)}
-                    className="block py-2 text-[15px] text-canvas/85 active:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+                    className="block py-2 text-[15px] text-canvas/85 active:text-white focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent rounded-xs"
                   >
                     {link.label}
                   </a>
@@ -79,14 +79,14 @@ export const MobileFooter: React.FC<MobileFooterProps> = ({ onNavigate, classNam
         <div className="text-right text-[11px] text-canvas/60 leading-relaxed">
           <a
             href="mailto:anton@daveenci.ai"
-            className="block py-1 underline underline-offset-4 active:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+            className="block py-1 underline underline-offset-4 active:text-white focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent rounded-xs"
           >anton@daveenci.ai</a>
           <div>© {new Date().getFullYear()} DaVeenci. All rights reserved.</div>
           <div>Last updated: October 2026</div>
           <a
             href="/privacy"
             onClick={go('privacy')}
-            className="inline-block py-2 underline underline-offset-4 active:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+            className="inline-block py-2 underline underline-offset-4 active:text-white focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent rounded-xs"
           >
             Privacy
           </a>

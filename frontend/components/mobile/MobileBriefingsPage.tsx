@@ -33,7 +33,7 @@ export const MobileBriefingsPage: React.FC<MobileBriefingsPageProps> = ({ onNavi
         {/* Hero depth: faint blueprint grid and a cornflower glow. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgb(var(--color-accent-strong)/0.07)_1px,transparent_1px),linear-gradient(90deg,rgb(var(--color-accent-strong)/0.07)_1px,transparent_1px)] [background-size:32px_32px] [mask-image:radial-gradient(ellipse_80%_70%_at_30%_40%,black,transparent)] [-webkit-mask-image:radial-gradient(ellipse_80%_70%_at_30%_40%,black,transparent)]"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgb(var(--color-accent-strong)/0.07)_1px,transparent_1px),linear-gradient(90deg,rgb(var(--color-accent-strong)/0.07)_1px,transparent_1px)] bg-size-[32px_32px] mask-[radial-gradient(ellipse_80%_70%_at_30%_40%,black,transparent)] [-webkit-mask-image:radial-gradient(ellipse_80%_70%_at_30%_40%,black,transparent)]"
         />
         <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-16 h-72 w-72 bg-[radial-gradient(closest-side,rgb(var(--color-accent)/0.18),transparent)]" />
         <div className="relative flex items-center gap-3 mb-6">
@@ -55,7 +55,7 @@ export const MobileBriefingsPage: React.FC<MobileBriefingsPageProps> = ({ onNavi
 
       {/* Category filter — horizontal scroll */}
       <div className="sticky top-14 z-30 bg-canvas/90 backdrop-blur-md border-y border-ink/5">
-        <div role="group" aria-label="Filter briefings by category" className="flex gap-2 overflow-x-auto px-6 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div role="group" aria-label="Filter briefings by category" className="flex gap-2 overflow-x-auto px-6 py-3 scrollbar-none [&::-webkit-scrollbar]:hidden">
           {CATEGORIES.map((cat) => {
             const active = cat === selectedCategory;
             return (
@@ -64,7 +64,7 @@ export const MobileBriefingsPage: React.FC<MobileBriefingsPageProps> = ({ onNavi
                 onClick={() => setSelectedCategory(cat)}
                 aria-pressed={active}
                 style={accentStyle(cat)}
-                className={`flex flex-shrink-0 items-center gap-2 px-4 py-1.5 rounded-full border text-[13px] font-serif italic transition-all ${
+                className={`flex shrink-0 items-center gap-2 px-4 py-1.5 rounded-full border text-[13px] font-serif italic transition-all ${
                   active
                     ? 'bg-accent/10 text-accent-strong border-accent'
                     : 'bg-white/60 text-ink-muted border-ink/10'
@@ -91,8 +91,8 @@ export const MobileBriefingsPage: React.FC<MobileBriefingsPageProps> = ({ onNavi
                 onNavigate('briefing-detail', undefined, b.id);
               }}
               style={accentStyle(b.category)}
-              className={`group relative block overflow-hidden rounded-sm border bg-paper/80 active:opacity-70 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 ${
-                b.featured ? 'border-[rgb(var(--cat)/0.35)] shadow-lg' : 'border-ink/10 shadow-sm'
+              className={`group relative block overflow-hidden rounded-xs border bg-paper/80 active:opacity-70 transition-opacity focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 ${
+                b.featured ? 'border-[rgb(var(--cat)/0.35)] shadow-lg' : 'border-ink/10 shadow-xs'
               }`}
             >
               <span aria-hidden="true" className={`absolute inset-x-0 top-0 z-20 bg-[rgb(var(--cat))] ${b.featured ? 'h-1' : 'h-0.5'}`} />
@@ -102,7 +102,7 @@ export const MobileBriefingsPage: React.FC<MobileBriefingsPageProps> = ({ onNavi
                   <CategoryMotif category={b.category} className="h-20 w-36 self-center" />
                 </div>
               ) : (
-                <div className={`relative w-full overflow-hidden border-b border-ink/10 bg-ink/5 ${b.featured ? 'aspect-[4/3]' : 'aspect-[16/9]'}`}>
+                <div className={`relative w-full overflow-hidden border-b border-ink/10 bg-ink/5 ${b.featured ? 'aspect-4/3' : 'aspect-video'}`}>
                   <CodexCover id={b.id} title={b.title} />
                   <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_15%,rgb(var(--cat)/0.24),transparent_55%)] mix-blend-multiply" />
                 </div>
@@ -114,9 +114,9 @@ export const MobileBriefingsPage: React.FC<MobileBriefingsPageProps> = ({ onNavi
                     {b.category}
                   </span>
                   <span className="text-ink-muted/40">·</span>
-                  <span className="font-mono text-[9px] tracking-[0.1em] text-ink-muted">#{b.issueNo}</span>
+                  <span className="font-mono text-[9px] tracking-widest text-ink-muted">#{b.issueNo}</span>
                 </div>
-                <h2 className={`font-serif text-ink mb-2 ${b.featured ? 'text-[1.75rem] leading-[1.15] tracking-tight' : 'text-[1.375rem] leading-[1.25]'}`}>{b.title}</h2>
+                <h2 className={`font-serif text-ink mb-2 ${b.featured ? 'text-[1.75rem] leading-[1.15] tracking-tight' : 'text-[1.375rem] leading-tight'}`}>{b.title}</h2>
                 <p className="font-sans text-[14px] text-ink-muted leading-relaxed line-clamp-3">{b.description}</p>
                 <span className="mt-3 block font-mono text-[9px] uppercase tracking-[0.16em] text-ink-muted">{b.readTime}</span>
               </div>

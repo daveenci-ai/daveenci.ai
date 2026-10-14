@@ -55,14 +55,14 @@ export const MobileContrast: React.FC = () => {
                 className="w-full flex items-baseline gap-4 py-5 text-left active:opacity-60 transition-opacity"
                 aria-expanded={isOpen}
               >
-                <span className="font-serif italic text-accent text-base tracking-[0.1em] flex-shrink-0 w-5">
+                <span className="font-serif italic text-accent text-base tracking-widest shrink-0 w-5">
                   {s.n}.
                 </span>
                 <span className="flex-1">
                   <span className="block font-serif text-xl text-ink mb-1">{s.title}</span>
                   <span className="block font-serif italic text-base text-ink-muted leading-snug">{s.lead}</span>
                 </span>
-                <span className="flex-shrink-0 pt-2 text-ink-muted/60">
+                <span className="shrink-0 pt-2 text-ink-muted/60">
                   {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                 </span>
               </button>

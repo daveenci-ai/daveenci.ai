@@ -13,7 +13,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   };
 
   return (
-    <footer className="bg-ink text-canvas pt-16 pb-10 border-t border-white/10 [&_a]:focus-visible:outline-none [&_a]:focus-visible:ring-2 [&_a]:focus-visible:ring-accent [&_a]:focus-visible:ring-offset-2 [&_a]:focus-visible:ring-offset-ink">
+    <footer className="bg-ink text-canvas pt-16 pb-10 border-t border-white/10 focus-visible:[&_a]:outline-hidden focus-visible:[&_a]:ring-2 focus-visible:[&_a]:ring-accent focus-visible:[&_a]:ring-offset-2 focus-visible:[&_a]:ring-offset-ink">
       <div className="max-w-7xl mx-auto px-6">
         {/* Navigation hub */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-8 mb-12">
@@ -61,14 +61,14 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div className="text-xs text-canvas/60 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
             <a
               href="mailto:anton@daveenci.ai"
-              className="hover:text-canvas transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+              className="hover:text-canvas transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent rounded-xs"
             >anton@daveenci.ai</a>
             <span aria-hidden="true">·</span>
             <span>DaVeenci LLC · 2900 W Anderson Ln, Ste C-200, PMB 1049, Austin, TX 78757</span>
             <span aria-hidden="true">·</span>
             <span>© {new Date().getFullYear()} DaVeenci. All rights reserved.</span>
             <span aria-hidden="true">·</span>
-            <a href="/privacy" onClick={go('privacy')} className="hover:text-canvas transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm">Privacy</a>
+            <a href="/privacy" onClick={go('privacy')} className="hover:text-canvas transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent rounded-xs">Privacy</a>
           </div>
         </div>
         <div className="mt-4 text-xs text-canvas/60 text-center md:text-right">Last updated: October 2026</div>

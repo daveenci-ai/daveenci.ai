@@ -27,7 +27,7 @@ const FeaturedBriefing: React.FC<HomepageBriefingProps> = ({ briefing, onNavigat
    <a
       href={`/codex/${briefing.id}`}
       onClick={(event) => openBriefing(event, briefing, onNavigate)}
-      className="group grid h-full overflow-hidden border border-ink/10 bg-white/55 shadow-[0_18px_50px_-32px_rgba(26,26,26,0.3)] transition-all duration-500 hover:-translate-y-1 hover:border-accent/35 hover:shadow-[0_28px_70px_-35px_rgba(63,132,200,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 md:grid-cols-[1.08fr_0.92fr]"
+      className="group grid h-full overflow-hidden border border-ink/10 bg-white/55 shadow-[0_18px_50px_-32px_rgba(26,26,26,0.3)] transition-all duration-500 hover:-translate-y-1 hover:border-accent/35 hover:shadow-[0_28px_70px_-35px_rgba(63,132,200,0.3)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 md:grid-cols-[1.08fr_0.92fr]"
       style={{ borderRadius: 'var(--radius-widget-document)' }}
    >
       <div className="relative h-60 overflow-hidden border-b border-ink/10 md:h-auto md:min-h-[430px] md:border-b-0 md:border-r">
@@ -47,10 +47,10 @@ const FeaturedBriefing: React.FC<HomepageBriefingProps> = ({ briefing, onNavigat
          <span className="mb-4 text-[10px] font-bold uppercase tracking-[0.18em] text-ink-muted">
             {briefing.category}
          </span>
-         <h3 className="font-serif text-3xl leading-[1.08] text-ink transition-colors duration-300 group-hover:text-accent md:text-4xl">
+         <h3 className="font-serif text-3xl leading-[1.08] text-ink transition-colors duration-300 group-hover:text-accent md:text-4xl md:leading-10">
             {briefing.title}
          </h3>
-         <p className="mt-5 font-sans text-sm leading-relaxed text-ink-muted md:text-base">
+         <p className="mt-5 font-sans text-sm leading-relaxed text-ink-muted md:text-base md:leading-6">
             {briefing.description}
          </p>
 
@@ -71,7 +71,7 @@ const SupportingBriefing: React.FC<HomepageBriefingProps> = ({ briefing, onNavig
    <a
       href={`/codex/${briefing.id}`}
       onClick={(event) => openBriefing(event, briefing, onNavigate)}
-      className="group relative flex min-h-[202px] flex-1 flex-col overflow-hidden border border-ink/10 bg-white/45 p-7 transition-all duration-500 hover:-translate-y-0.5 hover:border-accent/35 hover:bg-white/65 hover:shadow-[0_22px_55px_-38px_rgba(63,132,200,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 md:p-8"
+      className="group relative flex min-h-[202px] flex-1 flex-col overflow-hidden border border-ink/10 bg-white/45 p-7 transition-all duration-500 hover:-translate-y-0.5 hover:border-accent/35 hover:bg-white/65 hover:shadow-[0_22px_55px_-38px_rgba(63,132,200,0.4)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 md:p-8"
       style={{ borderRadius: 'var(--radius-widget-document)' }}
    >
       <div className="absolute inset-y-0 left-0 w-0.5 origin-bottom scale-y-0 bg-accent transition-transform duration-500 group-hover:scale-y-100" />
@@ -81,7 +81,7 @@ const SupportingBriefing: React.FC<HomepageBriefingProps> = ({ briefing, onNavig
          <span>No. {briefing.issueNo}</span>
       </div>
 
-      <h3 className="mt-5 font-serif text-2xl leading-tight text-ink transition-colors duration-300 group-hover:text-accent md:text-3xl">
+      <h3 className="mt-5 font-serif text-2xl leading-tight text-ink transition-colors duration-300 group-hover:text-accent md:text-3xl md:leading-9">
          {briefing.title}
       </h3>
       <p className="mt-3 max-w-xl font-sans text-sm leading-relaxed text-ink-muted">

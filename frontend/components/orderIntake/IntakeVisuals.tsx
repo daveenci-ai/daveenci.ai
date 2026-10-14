@@ -20,7 +20,7 @@ const LISTING = {
 };
 
 export const Row: React.FC<{ k: string; v: React.ReactNode; hot?: boolean; mono?: boolean }> = ({ k, v, hot, mono }) => (
-  <div className={`grid grid-cols-[6.5rem_1fr] gap-3 items-baseline py-1.5 border-b border-ink/5 last:border-0 ${hot ? 'bg-accent/[0.06] -mx-2 px-2 rounded-sm' : ''}`}>
+  <div className={`grid grid-cols-[6.5rem_1fr] gap-3 items-baseline py-1.5 border-b border-ink/5 last:border-0 ${hot ? 'bg-accent/6 -mx-2 px-2 rounded-xs' : ''}`}>
     <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-ink-muted/70">{k}</span>
     <span className={`${mono ? 'font-mono text-[11px]' : 'font-sans text-[13px]'} text-ink leading-snug`}>{v}</span>
   </div>
@@ -29,7 +29,7 @@ export const Row: React.FC<{ k: string; v: React.ReactNode; hot?: boolean; mono?
 /** Hero plate: the concierge email in, the placed order out, with the order number read back. */
 export const HeroPipeline: React.FC = () => (
   <div className="space-y-3">
-    <div className="bg-white/80 border border-ink/10 rounded-sm p-4 shadow-sm">
+    <div className="bg-white/80 border border-ink/10 rounded-xs p-4 shadow-xs">
       <div className="flex items-center justify-between mb-2">
         <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-ink-muted">Inbox · new concierge order</span>
         <span className="font-mono text-[9px] text-ink-muted/60">9:42 AM</span>
@@ -45,7 +45,7 @@ export const HeroPipeline: React.FC = () => (
       <span className="font-mono text-[9px] uppercase tracking-[0.2em]">read · fill · book · verify</span>
       <span className="h-px w-10 bg-accent/30" />
     </div>
-    <div className="bg-white/90 border border-ink/15 rounded-sm p-4 shadow-md">
+    <div className="bg-white/90 border border-ink/15 rounded-xs p-4 shadow-md">
       <div className="flex items-center justify-between mb-2">
         <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-accent">Order placed</span>
         <span className="inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-[0.14em] text-green-700">
@@ -61,7 +61,7 @@ export const HeroPipeline: React.FC = () => (
 
 /** Fig. — the email, field by field. */
 export const ParsedEmail: React.FC = () => (
-  <div className="bg-white/85 border border-ink/10 rounded-sm p-5 shadow-sm">
+  <div className="bg-white/85 border border-ink/10 rounded-xs p-5 shadow-xs">
     <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-ink-muted mb-3">What it reads from every order email</div>
     <Row k="Address" v={LISTING.address} hot />
     <Row k="Sq ft" v={LISTING.sqft} />
@@ -79,19 +79,19 @@ export const ParsedEmail: React.FC = () => (
 /** Small mock panels used inside the pipeline cards. */
 export const AddressPanel: React.FC = () => (
   <div className="space-y-2">
-    <div className="flex items-center gap-2 bg-white border border-ink/15 rounded-sm px-3 py-2">
+    <div className="flex items-center gap-2 bg-white border border-ink/15 rounded-xs px-3 py-2">
       <MapPin className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
       <span className="font-sans text-[13px] text-ink truncate">214 Juniper Lane, Austin, TX 78704</span>
     </div>
     <div className="grid grid-cols-2 gap-2">
-      <div className="bg-green-50/70 border border-green-700/20 rounded-sm px-3 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-green-800">Map shown · accepted</div>
-      <div className="bg-white border border-ink/10 rounded-sm px-3 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-ink">Unit 4B · email wins</div>
+      <div className="bg-green-50/70 border border-green-700/20 rounded-xs px-3 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-green-800">Map shown · accepted</div>
+      <div className="bg-white border border-ink/10 rounded-xs px-3 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-ink">Unit 4B · email wins</div>
     </div>
   </div>
 );
 
 export const FormPanel: React.FC = () => (
-  <div className="bg-white border border-ink/10 rounded-sm p-3">
+  <div className="bg-white border border-ink/10 rounded-xs p-3">
     <Row k="Sq ft" v={LISTING.sqft} />
     <Row k="Access" v="Lockbox" />
     <Row k="Code" v={<span className="inline-flex items-center gap-1"><Lock className="w-3 h-3" aria-hidden="true" />4120</span>} />
@@ -102,13 +102,13 @@ export const FormPanel: React.FC = () => (
 
 export const ServicesPanel: React.FC = () => (
   <div className="space-y-2">
-    <div className="bg-white border border-ink/10 rounded-sm px-3 py-2 flex items-center justify-between">
+    <div className="bg-white border border-ink/10 rounded-xs px-3 py-2 flex items-center justify-between">
       <span className="font-sans text-[13px] text-ink">dana@realty.example</span>
       <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-green-700">agent on file</span>
     </div>
     <div className="flex flex-wrap gap-2">
       {['Reach package', 'Video tour · TX', '3D tour · TX'].map((s) => (
-        <span key={s} className="font-mono text-[10px] uppercase tracking-[0.1em] bg-accent/10 border border-accent/20 text-ink rounded-full px-3 py-1">{s}</span>
+        <span key={s} className="font-mono text-[10px] uppercase tracking-widest bg-accent/10 border border-accent/20 text-ink rounded-full px-3 py-1">{s}</span>
       ))}
     </div>
   </div>
@@ -117,7 +117,7 @@ export const ServicesPanel: React.FC = () => (
 export const SlotsPanel: React.FC = () => {
   const slots = ['11:00 AM', '12:30 PM', '1:30 PM', '3:00 PM', '4:30 PM'];
   return (
-    <div className="bg-white border border-ink/10 rounded-sm p-3">
+    <div className="bg-white border border-ink/10 rounded-xs p-3">
       <div className="flex items-center justify-between mb-2">
         <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-ink-muted">Thu, Nov 12 · Central</span>
         <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-accent">asked 1:00 PM · ±3 h</span>
@@ -126,7 +126,7 @@ export const SlotsPanel: React.FC = () => {
         {slots.map((s) => (
           <span
             key={s}
-            className={`text-center font-mono text-[10px] rounded-sm py-1.5 border ${s === '1:30 PM' ? 'bg-accent text-white border-accent' : 'bg-white text-ink-muted border-ink/10'}`}
+            className={`text-center font-mono text-[10px] rounded-xs py-1.5 border ${s === '1:30 PM' ? 'bg-accent text-white border-accent' : 'bg-white text-ink-muted border-ink/10'}`}
           >
             {s}
           </span>
@@ -143,7 +143,7 @@ export const VerifyPanel: React.FC = () => (
       ['Submit', 'no payment step'],
       ['Order #24817', 'read back · verified'],
     ].map(([a, b], i) => (
-      <li key={a} className="flex items-center gap-3 bg-white border border-ink/10 rounded-sm px-3 py-2">
+      <li key={a} className="flex items-center gap-3 bg-white border border-ink/10 rounded-xs px-3 py-2">
         <span className="w-5 h-5 rounded-full bg-accent/10 border border-accent/30 text-accent font-mono text-[10px] flex items-center justify-center">{i + 1}</span>
         <span className="font-sans text-[13px] text-ink">{a}</span>
         <span className="ml-auto font-mono text-[9px] uppercase tracking-[0.14em] text-ink-muted">{b}</span>
@@ -170,7 +170,7 @@ export const InboxMock: React.FC = () => {
     { subject: 'New concierge order — 402 Pecan Street', star: true },
   ];
   return (
-    <div className="bg-white border border-ink/10 rounded-sm shadow-md overflow-hidden">
+    <div className="bg-white border border-ink/10 rounded-xs shadow-md overflow-hidden">
       <div className="px-4 py-2.5 border-b border-ink/10 font-mono text-[9px] uppercase tracking-[0.18em] text-ink-muted">Orders inbox</div>
       {rows.map((r) => {
         const l = LABELS.find((x) => x.name === r.label);
@@ -178,7 +178,7 @@ export const InboxMock: React.FC = () => {
           <div key={r.subject} className="flex items-center gap-3 px-4 py-2.5 border-b border-ink/5 last:border-0">
             <Star className={`w-4 h-4 shrink-0 ${r.star ? 'fill-amber-400 text-amber-500' : 'text-ink/20'}`} aria-hidden="true" />
             {l && (
-              <span className="shrink-0 rounded-sm px-1.5 py-0.5 font-sans text-[10px] font-semibold" style={{ background: l.bg, color: l.text }}>
+              <span className="shrink-0 rounded-xs px-1.5 py-0.5 font-sans text-[10px] font-semibold" style={{ background: l.bg, color: l.text }}>
                 {l.name}
               </span>
             )}

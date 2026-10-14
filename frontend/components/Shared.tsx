@@ -338,7 +338,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({ label, value, onChan
           required={required}
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          className={`w-full appearance-none bg-canvas/30 border border-ink/20 p-3 pr-10 rounded-sm transition-colors hover:border-accent/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus:border-accent ${value ? 'text-ink' : 'text-ink-muted'}`}
+          className={`w-full appearance-none bg-canvas/30 border border-ink/20 p-3 pr-10 rounded-xs transition-colors hover:border-accent/50 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus:border-accent ${value ? 'text-ink' : 'text-ink-muted'}`}
         >
           <option value="" disabled>{placeholder || 'Select an option'}</option>
           {options.map((option) => (
@@ -360,12 +360,12 @@ interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>
 }
 
 export const Button: React.FC<ButtonProps> = ({ variant = 'primary', children, className = '', onClick, analytics, ...buttonProps }) => {
-  const baseStyles = "inline-flex items-center justify-center px-6 py-3 font-sans text-sm font-medium transition-all duration-500 ease-out group relative overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4";
+  const baseStyles = "inline-flex items-center justify-center px-6 py-3 font-sans text-sm font-medium transition-all duration-500 ease-out group relative overflow-hidden focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4";
 
   const variants = {
     // Fills use accent-hover / accent-strong rather than the base accent:
     // white on #3F84C8 is 3.93:1, which fails WCAG AA for button text.
-    primary: "bg-accent-hover hover:bg-accent-strong text-white shadow-sm hover:shadow-md",
+    primary: "bg-accent-hover hover:bg-accent-strong text-white shadow-xs hover:shadow-md",
     secondary: "bg-transparent border border-ink/20 text-ink hover:border-ink/50 hover:bg-ink/5",
     ghost: "bg-transparent text-accent-strong hover:text-accent-hover p-0",
   };
@@ -395,11 +395,11 @@ export const SectionHeader: React.FC<{ eyebrow: string; title: string; subtitle?
   <ScrollReveal className={`mb-12 md:mb-16 ${className}`}>
     <SectionDivider className="mb-6" width="w-full max-w-[60%]" />
     <Eyebrow className="mb-4">{eyebrow}</Eyebrow>
-    <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-ink mb-6 leading-[1.05] tracking-tight">
+    <h2 className="font-serif text-4xl md:text-5xl md:leading-none lg:text-6xl lg:leading-none font-bold text-ink mb-6 leading-[1.05] tracking-tight">
       {title}
     </h2>
     {subtitle && (
-      <p className="font-serif text-lg md:text-xl text-ink-muted max-w-2xl leading-relaxed">
+      <p className="font-serif text-lg md:text-xl md:leading-7 text-ink-muted max-w-2xl leading-relaxed">
         {subtitle}
       </p>
     )}
@@ -417,11 +417,11 @@ export const FolioHeader: React.FC<{
   <div className={className}>
     <SectionDivider className="mb-6" width="w-full max-w-[60%]" />
     <Eyebrow className="mb-4">{eyebrow}</Eyebrow>
-    <h2 className="font-serif font-bold text-5xl md:text-6xl lg:text-7xl text-ink leading-[1.02] tracking-tight mb-8 mt-4">
+    <h2 className="font-serif font-bold text-5xl md:text-6xl md:leading-none lg:text-7xl lg:leading-none text-ink leading-[1.02] tracking-tight mb-8 mt-4">
       {title}
     </h2>
     {subtitle && (
-      <p className="font-serif text-xl md:text-2xl text-ink-muted leading-relaxed mb-12 max-w-2xl">
+      <p className="font-serif text-xl md:text-2xl md:leading-8 text-ink-muted leading-relaxed mb-12 max-w-2xl">
         {subtitle}
       </p>
     )}
@@ -434,22 +434,22 @@ export const Card: React.FC<CardProps> = ({ title, children, label, className = 
     className={`relative bg-white border border-ink/10 p-0 overflow-hidden transition-all duration-700 hover:shadow-2xl hover:border-accent/30 group flex flex-col ${className}`}
   >
     <SchematicDecor className="opacity-0 group-hover:opacity-40 transition-opacity duration-500" />
-    <div className="absolute top-0 left-0 w-0 h-0 border-t-[12px] border-l-[12px] border-transparent group-hover:border-accent transition-all duration-300 z-20"></div>
+    <div className="absolute top-0 left-0 w-0 h-0 border-t-12 border-l-12 border-transparent group-hover:border-accent transition-all duration-300 z-20"></div>
 
     {image && (
-      <div className="w-full aspect-square overflow-hidden relative border-b border-ink/5 flex-shrink-0">
+      <div className="w-full aspect-square overflow-hidden relative border-b border-ink/5 shrink-0">
         <img src={image} alt={title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
       </div>
     )}
 
-    <div className="p-6 md:p-8 flex-grow flex flex-col">
+    <div className="p-6 md:p-8 grow flex flex-col">
       {label && (
         <span className="block text-xs font-bold text-accent uppercase tracking-wider mb-3">
           {label}
         </span>
       )}
       <h3 className="font-serif text-xl md:text-2xl text-ink mb-4">{title}</h3>
-      <div className="font-sans text-ink-muted leading-relaxed space-y-2 flex-grow">
+      <div className="font-sans text-ink-muted leading-relaxed space-y-2 grow">
         {children}
       </div>
     </div>
@@ -460,7 +460,7 @@ export const BriefingCard: React.FC<BriefingCardProps> = ({ title, description, 
   <a
     href={href}
     onClick={onNavigate}
-    className={`group relative flex flex-col h-full bg-white/40 backdrop-blur-md border border-ink/10 overflow-hidden transition-all duration-700 hover:shadow-[0_40px_80px_-20px_rgba(63,132,200,0.15)] hover:border-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 ${className}`}
+    className={`group relative flex flex-col h-full bg-white/40 backdrop-blur-md border border-ink/10 overflow-hidden transition-all duration-700 hover:shadow-[0_40px_80px_-20px_rgba(63,132,200,0.15)] hover:border-accent/30 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 ${className}`}
     style={{ borderRadius: 'var(--radius-widget-document)', boxShadow: 'var(--shadow-widget-document)' }}
   >
     <div className="absolute top-0 inset-x-0 h-1 bg-accent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-30"></div>
@@ -470,7 +470,7 @@ export const BriefingCard: React.FC<BriefingCardProps> = ({ title, description, 
       <CodexCover id={coverId} title={title} className="transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
 
       <div className="absolute top-4 left-4 z-20">
-        <span className="bg-white/95 backdrop-blur shadow-sm text-[10px] font-bold text-ink tracking-widest uppercase px-3 py-1.5 rounded-sm border border-ink/5 group-hover:text-accent group-hover:border-accent/20 transition-colors">
+        <span className="bg-white/95 backdrop-blur-sm shadow-xs text-[10px] font-bold text-ink tracking-widest uppercase px-3 py-1.5 rounded-xs border border-ink/5 group-hover:text-accent group-hover:border-accent/20 transition-colors">
           {category}
         </span>
       </div>
@@ -480,8 +480,8 @@ export const BriefingCard: React.FC<BriefingCardProps> = ({ title, description, 
       </div>
     </div>
 
-    <div className="p-8 flex flex-col flex-grow relative">
-      <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(rgb(var(--color-ink))_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+    <div className="p-8 flex flex-col grow relative">
+      <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(rgb(var(--color-ink))_1px,transparent_1px)] bg-size-[16px_16px] pointer-events-none"></div>
 
       <h3 className="relative font-serif text-2xl text-ink mb-3 group-hover:text-accent transition-colors duration-300 leading-tight">
         {title}
@@ -489,7 +489,7 @@ export const BriefingCard: React.FC<BriefingCardProps> = ({ title, description, 
 
       <div className="w-12 h-0.5 bg-ink/10 mb-4 group-hover:bg-accent/30 transition-colors duration-500"></div>
 
-      <p className="relative font-sans text-sm text-ink-muted leading-relaxed mb-8 flex-grow">
+      <p className="relative font-sans text-sm text-ink-muted leading-relaxed mb-8 grow">
         {description}
       </p>
 
@@ -507,8 +507,8 @@ export const BriefingCard: React.FC<BriefingCardProps> = ({ title, description, 
 // `overflow-clip`, not `overflow-hidden`: hidden makes the section a scroll
 // container, which pins any `position: sticky` descendant to the section box
 // instead of the viewport. clip clips identically without that side effect.
-export const Section: React.FC<SectionProps> = ({ id, className = '', children, pattern = 'none', overflow = false, innerRef }) => (
-  <section id={id} ref={innerRef} className={`relative py-20 md:py-28 px-6 ${overflow ? 'overflow-visible' : 'overflow-clip'} ${className}`}>
+export const Section: React.FC<SectionProps> = ({ id, className = '', children, pattern = 'none', overflow = false, innerRef, padding = 'py-20 md:py-28' }) => (
+  <section id={id} ref={innerRef} className={`relative ${padding} px-6 ${overflow ? 'overflow-visible' : 'overflow-clip'} ${className}`}>
     {pattern === 'grid' && <GridPattern />}
     {pattern === 'circles' && <VitruvianBackground className="opacity-[0.06]" />}
     {pattern === 'nodes' && <NodeNetworkBackground />}
@@ -570,7 +570,7 @@ export const Widget: React.FC<{
   return (
     <Tag
       onClick={onClick}
-      className={`bg-white border border-ink/10 rounded-lg shadow-sm ${hover} ${className}`}
+      className={`bg-white border border-ink/10 rounded-lg shadow-xs ${hover} ${className}`}
     >
       {children}
     </Tag>
@@ -589,7 +589,7 @@ export const IconBadge: React.FC<{
   const dimension = size === 'sm' ? 'w-8 h-8' : size === 'lg' ? 'w-12 h-12' : 'w-10 h-10';
   return (
     <div
-      className={`${dimension} rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center flex-shrink-0 ${className}`}
+      className={`${dimension} rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0 ${className}`}
     >
       {children}
     </div>
@@ -605,7 +605,7 @@ export const ProblemCallout: React.FC<{
   children: React.ReactNode;
 }> = ({ className = '', children }) => (
   <div
-    className={`bg-amber-50/40 border border-amber-200/40 rounded-lg shadow-sm p-6 md:p-8 ${className}`}
+    className={`bg-amber-50/40 border border-amber-200/40 rounded-lg shadow-xs p-6 md:p-8 ${className}`}
   >
     {children}
   </div>
@@ -625,7 +625,7 @@ export const Plate: React.FC<{
   /** Content-sized (no square aspect, tighter padding) — for pinned scenes that must fit one viewport. */
   compact?: boolean;
 }> = ({ fig, title, children, className = '', tilt = true, compact = false }) => {
-  const tiltClasses = tilt ? 'rotate-[-2deg] hover:rotate-0' : '';
+  const tiltClasses = tilt ? '-rotate-2 hover:rotate-0' : '';
   const sizeClasses = compact ? 'p-5 md:p-6' : 'aspect-square p-6 md:p-10';
   return (
     <Surface
@@ -691,11 +691,11 @@ export const PageHero: React.FC<{
   className?: string;
 }> = ({ eyebrow, title, description, actions, size = 'lg', centered = false, className = '' }) => {
   const titleSize = size === 'lg'
-    ? 'text-5xl md:text-6xl lg:text-7xl'
-    : 'text-4xl md:text-5xl lg:text-6xl';
+    ? 'text-5xl md:text-6xl md:leading-none lg:text-7xl lg:leading-none'
+    : 'text-4xl md:text-5xl md:leading-none lg:text-6xl lg:leading-none';
   const descriptionSize = size === 'lg'
-    ? 'text-xl md:text-2xl'
-    : 'text-lg md:text-xl';
+    ? 'text-xl md:text-2xl md:leading-8'
+    : 'text-lg md:text-xl md:leading-7';
   const alignmentClasses = centered ? 'text-center' : '';
   const descriptionCentering = centered ? 'mx-auto' : '';
   const actionsCentering = centered ? 'justify-center' : '';
@@ -733,7 +733,7 @@ type FormFieldProps = {
 export const FormField: React.FC<FormFieldProps> = ({
   label, name, value, onChange, type = 'text', required, placeholder, error, rows = 4, icon, optionalLabel, className = '',
 }) => {
-  const inputClasses = `w-full bg-canvas/30 border ${error ? 'border-red-500' : 'border-ink/20'} p-3 text-ink rounded-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus:border-accent placeholder:text-ink-muted/50`;
+  const inputClasses = `w-full bg-canvas/30 border ${error ? 'border-red-500' : 'border-ink/20'} p-3 text-ink rounded-xs transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus:border-accent placeholder:text-ink-muted/50`;
   const autoComplete = name === 'name' ? 'name' : name === 'email' ? 'email' : name === 'company' ? 'organization' : name === 'phone' ? 'tel' : undefined;
   const errorId = `${name}-error`;
 
@@ -783,7 +783,7 @@ export const ErrorAlert: React.FC<{
 }> = ({ message, onRetry, className = '' }) => (
   <div
     role="alert"
-    className={`text-sm text-red-700 bg-red-50 border border-red-200 rounded-sm px-3 py-2 flex items-start gap-2 ${className}`}
+    className={`text-sm text-red-700 bg-red-50 border border-red-200 rounded-xs px-3 py-2 flex items-start gap-2 ${className}`}
   >
     <span className="flex-1">{message}</span>
     {onRetry && (
@@ -808,7 +808,7 @@ export const Tag: React.FC<{
     : 'bg-white/90 text-ink border-ink/10';
   return (
     <span
-      className={`inline-block text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm border ${variantClass} ${className}`}
+      className={`inline-block text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-xs border ${variantClass} ${className}`}
     >
       {children}
     </span>
@@ -829,14 +829,14 @@ export const Quote: React.FC<{
     <figure className={`relative ${className}`}>
       <span
         aria-hidden="true"
-        className={`absolute -top-6 -left-2 md:-top-10 md:-left-6 font-serif text-7xl md:text-9xl leading-none select-none ${
+        className={`absolute -top-6 -left-2 md:-top-10 md:-left-6 font-serif text-7xl md:text-9xl md:leading-none leading-none select-none ${
           isDark ? 'text-canvas/10' : 'text-accent/15'
         }`}
       >
         &ldquo;
       </span>
       <blockquote
-        className={`relative font-serif italic text-2xl md:text-3xl lg:text-4xl leading-[1.3] ${textColor}`}
+        className={`relative font-serif italic text-2xl md:text-3xl md:leading-9 lg:text-4xl lg:leading-10 leading-[1.3] ${textColor}`}
       >
         {children}
       </blockquote>

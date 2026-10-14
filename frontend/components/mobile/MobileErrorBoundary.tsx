@@ -31,7 +31,7 @@ export class MobileErrorBoundary extends Component<Props, State> {
     return (
       <div
         data-mobile
-        className="min-h-[100dvh] flex flex-col items-center justify-center px-6 text-center"
+        className="min-h-dvh flex flex-col items-center justify-center px-6 text-center"
       >
         <div className="font-serif italic text-[11px] tracking-[0.3em] uppercase text-ink-muted mb-6">
           Something broke
@@ -45,7 +45,7 @@ export class MobileErrorBoundary extends Component<Props, State> {
         </p>
         <button
           onClick={() => window.location.reload()}
-          className="w-full max-w-xs py-3.5 bg-accent text-white font-medium tracking-[0.15em] uppercase text-sm rounded-sm shadow-md"
+          className="w-full max-w-xs py-3.5 bg-accent text-white font-medium tracking-[0.15em] uppercase text-sm rounded-xs shadow-md"
         >
           Reload
         </button>

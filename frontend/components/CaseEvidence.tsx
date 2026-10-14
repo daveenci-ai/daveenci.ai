@@ -26,9 +26,9 @@ const EvidenceGrid: React.FC<{ items: CaseEvidenceItem[]; compact: boolean }> = 
     {items.map((item, index) => {
       const Icon = item.icon || fallbackIcons[index % fallbackIcons.length];
       const card = (
-          <div className="h-full bg-white/60 border border-ink/10 p-5 md:p-7 rounded-sm">
+          <div className="h-full bg-white/60 border border-ink/10 p-5 md:p-7 rounded-xs">
             <div className="flex items-start gap-4">
-              <Icon aria-hidden="true" className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+              <Icon aria-hidden="true" className="w-5 h-5 text-accent shrink-0 mt-0.5" strokeWidth={1.5} />
               <div>
                 <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-ink-muted/70 mb-2">{item.label}</div>
                 <h3 className="font-serif text-xl md:text-2xl text-ink mb-2">{item.value}</h3>

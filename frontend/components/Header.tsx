@@ -108,7 +108,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
   };
 
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/85 backdrop-blur-md shadow-sm py-3 border-b border-ink/5' : 'bg-transparent py-6'}`}>
+    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/85 backdrop-blur-md shadow-xs py-3 border-b border-ink/5' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
 
         {/* Logo or Back Button */}
@@ -117,7 +117,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
             <a
               href="/codex"
               onClick={(event) => { event.preventDefault(); onNavigate?.('briefings'); }}
-              className="flex items-center gap-2 text-ink-muted hover:text-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4"
+              className="flex items-center gap-2 text-ink-muted hover:text-accent transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4"
             >
               <ArrowLeft className="w-5 h-5" />
               <span className="font-sans font-medium text-base hidden md:block">Back to the Codex</span>
@@ -127,7 +127,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
               href="/"
               onClick={handleLogoClick}
               aria-label="DaVeenci home"
-              className="group flex items-center gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4"
+              className="group flex items-center gap-4 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4"
             >
               <Logo className="w-12 h-12 md:w-14 md:h-14 text-ink group-hover:text-accent transition-colors duration-500" />
               <span className="hidden md:flex items-center gap-4">
@@ -150,7 +150,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link)}
-                className={`text-xs uppercase tracking-[0.18em] font-medium transition-colors relative group whitespace-nowrap px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 ${active ? 'text-accent' : 'text-ink-muted hover:text-ink'
+                className={`text-xs uppercase tracking-[0.18em] font-medium transition-colors relative group whitespace-nowrap px-2 py-1 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 ${active ? 'text-accent' : 'text-ink-muted hover:text-ink'
                   }`}
               >
                 <span className="relative z-10">{link.label}</span>
@@ -159,7 +159,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
               </a>
             );
           })}
-          <Button variant="primary" analytics={{ cta_id: 'talk_to_us', surface: 'header', from_page: currentPage, destination: currentPage && isShootOpsPage(currentPage) ? '/book/anton' : '/calendar' }} className="py-2 px-5 text-xs uppercase tracking-[0.15em] shadow-md hover:shadow-lg whitespace-nowrap ml-2" onClick={goToCalendar}>Talk to us</Button>
+          <Button variant="primary" analytics={{ cta_id: 'talk_to_us', surface: 'header', from_page: currentPage, destination: currentPage && isShootOpsPage(currentPage) ? '/book/anton' : '/calendar' }} className="py-2 px-5 text-xs uppercase tracking-[0.15em] shadow-md hover:shadow-lg whitespace-nowrap" onClick={goToCalendar}>Talk to us</Button>
         </nav>
 
         {/* Mobile Menu Button - Visible on screens smaller than LG */}
@@ -169,7 +169,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
           aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           aria-expanded={isMenuOpen}
           aria-controls="site-navigation-menu"
-          className="lg:hidden p-2 text-ink hover:text-accent transform transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4"
+          className="lg:hidden p-2 text-ink hover:text-accent transform transition-transform active:scale-95 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4"
         >
           {isMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
         </button>
@@ -185,7 +185,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link)}
-                className={`text-xl font-serif border-b border-ink/5 pb-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 ${active ? 'font-bold text-accent' : 'text-ink hover:text-accent'
+                className={`text-xl font-serif border-b border-ink/5 pb-3 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 ${active ? 'font-bold text-accent' : 'text-ink hover:text-accent'
                   }`}
               >
                 {link.label}

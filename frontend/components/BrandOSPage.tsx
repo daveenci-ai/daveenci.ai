@@ -118,7 +118,7 @@ const StageSelector: React.FC<{
           className={`relative p-4 md:p-6 border rounded-lg text-left transition-all duration-300 group
             ${isActive
               ? 'border-accent bg-accent/5 shadow-lg shadow-accent/10'
-              : 'border-ink/10 bg-white shadow-sm hover:border-accent/30 hover:shadow-xl hover:-translate-y-1'}
+              : 'border-ink/10 bg-white shadow-xs hover:border-accent/30 hover:shadow-xl hover:-translate-y-1'}
             ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
           `}
         >
@@ -168,7 +168,7 @@ const InputPanel: React.FC<{
             onKeyDown={handleKeyDown}
             placeholder="Enter up to 5 names, separated by commas (e.g. Apex, Meridian, Versa)"
             disabled={loading}
-            className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink rounded-lg placeholder:text-ink-muted/50 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors disabled:opacity-50"
+            className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink rounded-lg placeholder:text-ink-muted/50 focus:border-accent focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent transition-colors disabled:opacity-50"
           />
           <p className="text-xs text-ink-muted mt-1.5">Separate multiple names with commas. Max 5.</p>
         </div>
@@ -185,7 +185,7 @@ const InputPanel: React.FC<{
             placeholder="Describe your product or business in a sentence (e.g. 'AI-powered booking platform for B2B service companies')"
             disabled={loading}
             rows={2}
-            className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink rounded-lg placeholder:text-ink-muted/50 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors resize-none disabled:opacity-50"
+            className="w-full bg-canvas/30 border border-ink/20 p-3 text-ink rounded-lg placeholder:text-ink-muted/50 focus:border-accent focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent transition-colors resize-none disabled:opacity-50"
           />
         </div>
 
@@ -195,7 +195,7 @@ const InputPanel: React.FC<{
           className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 font-sans text-sm font-medium transition-all duration-500 rounded-lg
             ${disabled
               ? 'bg-ink/20 text-ink-muted cursor-not-allowed'
-              : 'bg-accent hover:bg-accent-hover text-white shadow-sm hover:shadow-md'}
+              : 'bg-accent hover:bg-accent-hover text-white shadow-xs hover:shadow-md'}
           `}
         >
           {loading ? (
@@ -243,7 +243,7 @@ const DimensionDetail: React.FC<{ scores: BrandScores }> = ({ scores }) => (
                 />
               </div>
               <span className={`text-sm font-bold w-8 text-right ${getScoreColor(data.score)}`}>{data.score}</span>
-              <span className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${priority.color} hidden sm:inline`}>
+              <span className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-sm ${priority.color} hidden sm:inline`}>
                 {priority.label}
               </span>
               <span className="text-[10px] text-ink-muted/70 hidden sm:inline">x{weight}</span>
@@ -356,12 +356,12 @@ const ResultsTable: React.FC<{ result: AnalysisResult }> = ({ result }) => {
               return (
                 <React.Fragment key={name}>
                   <tr
-                    className={`border-b border-ink/5 cursor-pointer transition-colors hover:bg-accent/5 ${isTop ? 'bg-accent/[0.03]' : ''}`}
+                    className={`border-b border-ink/5 cursor-pointer transition-colors hover:bg-accent/5 ${isTop ? 'bg-accent/3' : ''}`}
                     onClick={() => toggleRow(name)}
                   >
                     <td className="px-4 md:px-6 py-4 sticky left-0 bg-white z-10">
                       <div className="flex items-center gap-2">
-                        {isTop && <span className="text-[10px] font-bold text-accent bg-accent/10 px-1.5 py-0.5 rounded uppercase">Top</span>}
+                        {isTop && <span className="text-[10px] font-bold text-accent bg-accent/10 px-1.5 py-0.5 rounded-sm uppercase">Top</span>}
                         <span className="font-serif text-base font-bold text-ink">{name}</span>
                       </div>
                     </td>
@@ -511,7 +511,7 @@ export const BrandOSHeroDiagram: React.FC = () => {
             const scoreColor = dim.score >= 75 ? 'text-emerald-600' : dim.score >= 50 ? 'text-amber-600' : 'text-red-600';
             return (
               <div key={dim.name} className={`flex items-center gap-2 transition-opacity duration-200 ${visible ? 'opacity-100' : 'opacity-20'}`}>
-                <span className="font-mono text-[9px] text-ink/70 w-16 flex-shrink-0 truncate">{dim.name}</span>
+                <span className="font-mono text-[9px] text-ink/70 w-16 shrink-0 truncate">{dim.name}</span>
                 <div className="flex-1 h-1.5 bg-ink/5 rounded-full overflow-hidden">
                   <div className={`h-full rounded-full ${color}`} style={{ width: visible ? `${dim.score}%` : '0%', transition: 'width 0.8s ease-out' }} />
                 </div>
@@ -525,7 +525,7 @@ export const BrandOSHeroDiagram: React.FC = () => {
 
       {/* Verdict */}
       <div className={`mt-3 flex items-center gap-2 bg-white border rounded-lg px-3 py-2 transition-all duration-500 ${showVerdict ? 'opacity-100 translate-y-0 border-green-400/50 bg-green-50/60' : 'opacity-0 translate-y-2 border-ink/10'}`}>
-        <div className="w-10 h-10 rounded-full bg-green-500/15 border border-green-500/40 flex items-center justify-center flex-shrink-0">
+        <div className="w-10 h-10 rounded-full bg-green-500/15 border border-green-500/40 flex items-center justify-center shrink-0">
           <span className="font-serif text-lg font-bold text-green-700">{weightedScore}</span>
         </div>
         <div className="flex-1 min-w-0">
@@ -671,7 +671,7 @@ export const StageWeightShifter: React.FC = () => {
           const active = i === stageIdx;
           const Icon = stg.icon;
           return (
-            <div key={stg.key} className={`rounded-lg border p-2 text-center transition-all duration-500 ${active ? 'bg-accent/5 border-accent/40 shadow-sm' : 'bg-white border-ink/10'}`}>
+            <div key={stg.key} className={`rounded-lg border p-2 text-center transition-all duration-500 ${active ? 'bg-accent/5 border-accent/40 shadow-xs' : 'bg-white border-ink/10'}`}>
               <Icon className={`w-4 h-4 mx-auto mb-1 transition-colors ${active ? 'text-accent' : 'text-ink-muted/50'}`} />
               <div className={`font-mono text-[10px] uppercase tracking-widest transition-colors ${active ? 'text-accent' : 'text-ink-muted/50'}`}>{stg.label}</div>
             </div>
@@ -820,7 +820,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
             <ScrollReveal immediate>
               <PageHero
                 eyebrow={
-                  <span className="inline-block mb-4 font-mono text-xs font-bold text-accent uppercase tracking-widest bg-accent/5 px-3 py-1 border border-accent/10 rounded-sm">
+                  <span className="inline-block mb-4 font-mono text-xs font-bold text-accent uppercase tracking-widest bg-accent/5 px-3 py-1 border border-accent/10 rounded-xs">
                     A DaVeenci team · Brand
                   </span>
                 }
@@ -873,7 +873,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
               <ul className="space-y-3">
                 {['Each dimension has a specific diagnostic question', 'Scores come with evidence, not a thumbs-up', 'Negative Risk is inverse-scored — high = safe', 'No hand-waving — every number justifies itself'].map((item, i) => (
                   <Reveal as="li" key={i} enterEnd={0.86 - i * 0.05} lift={16} className="flex items-start gap-3 text-ink-muted">
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
                     <span className="font-sans">{item}</span>
                   </Reveal>
                 ))}
@@ -893,7 +893,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
               <ul className="space-y-3">
                 {['Bootstrap · Clarity + Pronounceability lead', 'Seed · Relevance signals the category', 'Growth · Memorability + Uniqueness kick in', 'Scale · Visual Identity + Negative Risk dominate'].map((item, i) => (
                   <Reveal as="li" key={i} enterEnd={0.86 - i * 0.05} lift={16} className="flex items-start gap-3 text-ink-muted">
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
                     <span className="font-sans">{item}</span>
                   </Reveal>
                 ))}
@@ -1033,7 +1033,7 @@ const FAQItem: React.FC<{ q: string; a: string }> = ({ q, a }) => {
     <div className="border-b border-ink/10 last:border-0">
       <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between py-5 text-left group">
         <span className="font-serif text-lg text-ink group-hover:text-accent transition-colors pr-4">{q}</span>
-        <ChevronDownIcon className={`w-5 h-5 text-ink-muted flex-shrink-0 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+        <ChevronDownIcon className={`w-5 h-5 text-ink-muted shrink-0 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
       </button>
       {open && (
         <p className="text-ink-muted leading-relaxed pb-5 animate-in fade-in slide-in-from-top-1 duration-200">{a}</p>

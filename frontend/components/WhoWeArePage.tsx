@@ -74,7 +74,7 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                               width={1024}
                               height={1040}
                               decoding="async"
-                              className="relative w-full rounded-sm shadow-2xl shadow-black/30 border border-canvas/10 filter sepia-[0.15] contrast-105"
+                              className="relative w-full rounded-xs shadow-2xl shadow-black/30 border border-canvas/10 filter sepia-[0.15] contrast-105"
                            />
                            <div className="mt-6 text-center">
                               <div className="font-serif text-2xl text-canvas">Anton Osipov</div>
@@ -141,7 +141,7 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                               height={1024}
                               loading="lazy"
                               decoding="async"
-                              className="relative w-full rounded-sm shadow-xl shadow-ink/10 border border-ink/10 filter sepia-[0.15] contrast-105"
+                              className="relative w-full rounded-xs shadow-xl shadow-ink/10 border border-ink/10 filter sepia-[0.15] contrast-105"
                            />
                            <div className="mt-6 text-center">
                               <div className="font-serif text-2xl text-ink">Astrid Abrahamyan</div>
@@ -203,7 +203,7 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
             <div className="max-w-7xl mx-auto relative z-10">
                <ScrollReveal className="mb-12 text-center max-w-2xl mx-auto">
                   <p className="font-serif italic text-sm tracking-[0.15em] uppercase text-ink-muted mb-3">The Distinction</p>
-                  <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-ink leading-tight">
+                  <h2 className="font-serif text-3xl md:text-4xl md:leading-10 lg:text-5xl lg:leading-none text-ink leading-tight">
                      Why DaVeenci.
                   </h2>
                </ScrollReveal>
@@ -386,7 +386,7 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                {/* CTA widget — Fig. d */}
                <ScrollReveal delay={300}>
                   <div className="max-w-5xl mx-auto">
-                     <Surface kind="document" raised className="relative bg-white/60 backdrop-blur-[2px] border border-ink/10 p-8 md:p-12 rounded-sm">
+                     <Surface kind="document" raised className="relative bg-white/60 backdrop-blur-[2px] border border-ink/10 p-8 md:p-12 rounded-xs">
                         <div className="flex justify-between items-center mb-8 border-b border-ink/10 pb-4">
                            <div className="flex gap-1.5">
                               <div className="w-3 h-3 rounded-full bg-ink/15" />
@@ -399,7 +399,7 @@ const WhoWeArePageDesktop: React.FC<WhoWeArePageProps> = ({ onNavigate }) => {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
                            <div className="md:col-span-7">
-                              <h3 className="font-serif text-3xl md:text-4xl text-ink mb-4 leading-tight">
+                              <h3 className="font-serif text-3xl md:text-4xl md:leading-10 text-ink mb-4 leading-tight">
                                  Want a team for <em className="italic text-accent">your domain?</em>
                               </h3>
                               <p className="font-sans text-ink-muted leading-relaxed mb-6 max-w-md">

@@ -38,7 +38,7 @@ const ModulesPage: React.FC<ModulesPageProps> = ({ onNavigate }) => {
       <Section className="pt-36 md:pt-44 pb-12" pattern="grid">
         <div className="max-w-3xl">
           <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent mb-5">Modules</div>
-          <h1 className="font-serif text-5xl md:text-6xl text-ink leading-tight mb-7">
+          <h1 className="font-serif text-5xl md:text-6xl md:leading-none text-ink leading-tight mb-7">
             One job, done properly.
           </h1>
           <p className="font-serif text-xl text-ink-muted leading-relaxed">
@@ -54,7 +54,7 @@ const ModulesPage: React.FC<ModulesPageProps> = ({ onNavigate }) => {
               key={module.title}
               href={module.path}
               onClick={(e) => { e.preventDefault(); onNavigate(module.page); }}
-              className="group block border border-ink/10 bg-white/70 rounded-sm p-8 transition-all hover:border-accent/40 hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="group block border border-ink/10 bg-white/70 rounded-xs p-8 transition-all hover:border-accent/40 hover:shadow-lg focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent"
             >
               <div className="flex items-baseline justify-between gap-4 mb-3">
                 <h2 className="font-serif text-3xl text-ink group-hover:text-accent transition-colors">{module.title}</h2>

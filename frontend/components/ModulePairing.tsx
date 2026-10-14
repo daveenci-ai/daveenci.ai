@@ -38,7 +38,7 @@ const ModulePairing: React.FC<ModulePairingProps> = ({ current, onNavigate }) =>
           <ScrollReveal>
             <SectionDivider className="mb-6" width="w-full max-w-[60%]" />
             <Eyebrow className="mb-4">{pairing.eyebrow}</Eyebrow>
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-ink leading-[1.1] tracking-tight mb-5">{pairing.title}</h2>
+            <h2 className="font-serif text-3xl md:text-4xl md:leading-10 font-bold text-ink leading-[1.1] tracking-tight mb-5">{pairing.title}</h2>
             <p className="font-sans text-lg text-ink-muted leading-relaxed">{pairing.body}</p>
           </ScrollReveal>
         </div>
@@ -47,13 +47,13 @@ const ModulePairing: React.FC<ModulePairingProps> = ({ current, onNavigate }) =>
             <a
               href={other.path}
               onClick={open}
-              className="group block border border-ink/15 bg-white/80 rounded-sm p-8 md:p-10 shadow-widget-raised hover:border-accent/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="group block border border-ink/15 bg-white/80 rounded-xs p-8 md:p-10 shadow-widget-raised hover:border-accent/40 transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent"
             >
               <div className="flex items-baseline justify-between gap-4 mb-4">
                 <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent">Shoot Ops · Module {other.number}</span>
                 <span className="font-serif italic text-3xl text-ink-muted/30">{other.number}</span>
               </div>
-              <h3 className="font-serif text-3xl md:text-4xl text-ink leading-tight mb-2 group-hover:text-accent transition-colors">{other.title}</h3>
+              <h3 className="font-serif text-3xl md:text-4xl md:leading-10 text-ink leading-tight mb-2 group-hover:text-accent transition-colors">{other.title}</h3>
               <p className="font-serif italic text-lg text-ink-muted mb-4">{other.question}</p>
               <p className="font-sans text-ink-muted leading-relaxed mb-6">{other.summary}</p>
               <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-ink/10">

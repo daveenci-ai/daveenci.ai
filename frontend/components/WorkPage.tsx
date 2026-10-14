@@ -63,7 +63,7 @@ const WorkPageDesktop: React.FC<WorkPageProps> = ({ onNavigate }) => {
               <Reveal key={item.title} enterEnd={0.78} lift={36}>
                 <a
                   href={item.href}
-                  className="block h-full rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                  className="block h-full rounded-xs focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                   onClick={(event) => {
                     track('select_content', { content_type: 'case_study', content_id: item.page, surface: 'work_page' });
                     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -80,12 +80,12 @@ const WorkPageDesktop: React.FC<WorkPageProps> = ({ onNavigate }) => {
                         </div>
                         <h2 className="font-serif text-3xl md:text-4xl text-ink mb-2 group-hover:text-accent transition-colors">{item.title}</h2>
                         <p className="font-serif italic text-lg text-ink-muted mb-4">{item.subtitle}</p>
-                        <p className="font-sans text-ink-muted leading-relaxed mb-6 flex-grow">{item.blurb}</p>
+                        <p className="font-sans text-ink-muted leading-relaxed mb-6 grow">{item.blurb}</p>
                         <span className="font-sans text-sm font-medium text-accent-strong inline-flex items-center gap-1 group-hover:gap-2 transition-all">Read the case <span aria-hidden="true">→</span></span>
                       </div>
                       <div className="md:col-span-5">
-                        <div aria-hidden="true" className="bg-white/70 border border-ink/10 rounded-sm p-4" style={{ boxShadow: 'var(--shadow-widget-document)' }}>
-                          <CaseSchematic id={item.page} className="aspect-[5/3] w-full" />
+                        <div aria-hidden="true" className="bg-white/70 border border-ink/10 rounded-xs p-4" style={{ boxShadow: 'var(--shadow-widget-document)' }}>
+                          <CaseSchematic id={item.page} className="aspect-5/3 w-full" />
                         </div>
                       </div>
                     </div>

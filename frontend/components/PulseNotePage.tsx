@@ -102,7 +102,7 @@ export const PulseHeroDiagram: React.FC = () => {
         <div className="flex items-center gap-3 mb-3">
           <div className="relative">
             {/* Avatar circle */}
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent/30 to-accent/10 border-2 border-accent/30 flex items-center justify-center overflow-hidden">
+            <div className="w-12 h-12 rounded-full bg-linear-to-br from-accent/30 to-accent/10 border-2 border-accent/30 flex items-center justify-center overflow-hidden">
               {/* Simple person silhouette */}
               <svg viewBox="0 0 40 40" className="w-10 h-10 text-accent/70">
                 <circle cx="20" cy="14" r="7" fill="currentColor" />
@@ -130,7 +130,7 @@ export const PulseHeroDiagram: React.FC = () => {
         </div>
 
         {/* Transcript area */}
-        <div className="flex-1 bg-white border border-ink/10 rounded-lg p-3.5 shadow-sm mb-3 overflow-hidden">
+        <div className="flex-1 bg-white border border-ink/10 rounded-lg p-3.5 shadow-xs mb-3 overflow-hidden">
           <div className="font-mono text-[10px] text-ink/40 uppercase tracking-widest mb-2">Live Transcript</div>
           <div className="space-y-2">
             {TRANSCRIPT_LINES.map((line, i) => (
@@ -195,7 +195,7 @@ const PulseHero: React.FC = () => {
           <ScrollReveal immediate>
             <PageHero
               eyebrow={
-                <span className="inline-block mb-4 font-mono text-xs font-bold text-accent uppercase tracking-widest bg-accent/5 px-3 py-1 border border-accent/10 rounded-sm">
+                <span className="inline-block mb-4 font-mono text-xs font-bold text-accent uppercase tracking-widest bg-accent/5 px-3 py-1 border border-accent/10 rounded-xs">
                   Introducing Pulse Note
                 </span>
               }
@@ -363,7 +363,7 @@ export const MeetingAnalyzerAnimation: React.FC = () => {
                   })}
                 </div>
               </div>
-              <div className="bg-white border border-ink/10 rounded-lg p-3 shadow-sm">
+              <div className="bg-white border border-ink/10 rounded-lg p-3 shadow-xs">
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
                   <span className="font-mono text-[9px] text-ink/40 uppercase tracking-wider">Live Transcript</span>
@@ -394,7 +394,7 @@ export const MeetingAnalyzerAnimation: React.FC = () => {
                       i < visibleAhas ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
                     } ${isSelected ? 'bg-accent/8 border-accent/30' : 'bg-white border-ink/10'}`}
                   >
-                    <div className={`rounded flex items-center justify-center flex-shrink-0 transition-colors ${
+                    <div className={`rounded flex items-center justify-center shrink-0 transition-colors ${
                       isSelected ? 'bg-accent text-white' : 'border border-ink/20'
                     }`} style={{ width: 18, height: 18 }}>
                       {isSelected && <Check className="w-3 h-3" />}
@@ -412,7 +412,7 @@ export const MeetingAnalyzerAnimation: React.FC = () => {
               <Sparkles className="w-3.5 h-3.5 text-accent" />
               <span className="font-mono text-[10px] text-accent uppercase tracking-widest font-bold">Content Generated</span>
             </div>
-            <div className="bg-white border border-ink/10 rounded-lg p-3 shadow-sm">
+            <div className="bg-white border border-ink/10 rounded-lg p-3 shadow-xs">
               <div className="flex items-center gap-2 mb-2">
                 <svg className="w-4 h-4 text-linkedin" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                 <span className="font-mono text-[10px] text-ink/60 font-medium">LinkedIn Post</span>
@@ -420,10 +420,10 @@ export const MeetingAnalyzerAnimation: React.FC = () => {
               </div>
 
               {/* Compact infographic: Onboarding time cut by 60% */}
-              <div className="rounded-lg overflow-hidden mb-2 bg-gradient-to-br from-product-navy-dark to-product-navy p-3">
+              <div className="rounded-lg overflow-hidden mb-2 bg-linear-to-br from-product-navy-dark to-product-navy p-3">
                 <div className="flex items-center gap-3">
                   {/* Before/After bar chart */}
-                  <svg viewBox="0 0 100 60" fill="none" className="w-20 flex-shrink-0">
+                  <svg viewBox="0 0 100 60" fill="none" className="w-20 shrink-0">
                     {/* Before bar */}
                     <rect x="10" y="8" width="30" height="44" rx="3" fill="white" fillOpacity="0.15" />
                     <rect x="10" y="8" width="30" height="44" rx="3" fill="rgb(var(--color-status-critical))" fillOpacity="0.3" />
@@ -456,7 +456,7 @@ export const MeetingAnalyzerAnimation: React.FC = () => {
                     <span key={tag} className="font-mono text-[9px] text-accent font-medium">{tag}</span>
                   ))}
                 </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-linkedin text-white text-[10px] font-semibold shadow-sm cursor-pointer">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-linkedin text-white text-[10px] font-semibold shadow-xs cursor-pointer">
                   <Send className="w-2.5 h-2.5" />
                   Post Now
                 </div>
@@ -521,7 +521,7 @@ export const IdeaToContentAnimation: React.FC = () => {
     <Surface kind="product" className="w-full bg-pulse-surface border border-ink/10 overflow-hidden h-[480px]">
       <div className="p-5 md:p-6 h-full flex flex-col">
         {/* Idea input — always visible */}
-        <div className="border border-ink/15 rounded-lg bg-white p-4 mb-4 shadow-sm">
+        <div className="border border-ink/15 rounded-lg bg-white p-4 mb-4 shadow-xs">
           <div className="font-mono text-[10px] text-ink uppercase tracking-widest mb-2">Your Idea</div>
           <div className="font-serif text-sm md:text-base min-h-[24px] text-ink">
             {IDEA_TO_CONTENT_TEXT.slice(0, typedChars)}
@@ -542,7 +542,7 @@ export const IdeaToContentAnimation: React.FC = () => {
         {/* Newsletter article — relative container for stable height */}
         <div className="relative flex-1">
           <div className={`absolute inset-0 transition-opacity duration-200 ${showArticle ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-            <div className="bg-white border border-ink/10 rounded-lg p-4 shadow-sm h-full overflow-hidden">
+            <div className="bg-white border border-ink/10 rounded-lg p-4 shadow-xs h-full overflow-hidden">
               <div className="flex items-center gap-2 mb-2">
                 <Mail className="w-4 h-4 text-accent" />
                 <span className="font-mono text-[10px] text-ink/50 font-medium uppercase tracking-wider">Newsletter Article</span>
@@ -628,7 +628,7 @@ export const ScheduleAnimation: React.FC = () => {
         </div>
 
         {/* Calendar grid */}
-        <div className="bg-white border border-ink/10 rounded-lg p-3 mb-4 shadow-sm">
+        <div className="bg-white border border-ink/10 rounded-lg p-3 mb-4 shadow-xs">
           {/* Day headers */}
           <div className="grid grid-cols-7 gap-1 mb-2">
             {CALENDAR_DAYS.map(day => (
@@ -646,13 +646,13 @@ export const ScheduleAnimation: React.FC = () => {
                   <div
                     key={dayIdx}
                     className={`relative rounded-md p-1.5 min-h-[44px] border transition-all duration-500 ${
-                      isNew ? 'border-accent/40 bg-accent/5 scale-105' : 'border-ink/5 bg-ink/[0.02]'
+                      isNew ? 'border-accent/40 bg-accent/5 scale-105' : 'border-ink/5 bg-ink/2'
                     }`}
                   >
                     <div className="font-mono text-[9px] text-ink/30 mb-0.5">{dayNum}</div>
                     {post && (
                       <div className={`transition-all duration-500 ${isNew ? 'animate-fade-in' : ''}`}>
-                        <div className={`${post.color} text-white text-[7px] font-mono px-1 py-0.5 rounded leading-tight`}>
+                        <div className={`${post.color} text-white text-[7px] font-mono px-1 py-0.5 rounded-sm leading-tight`}>
                           {post.label}
                         </div>
                       </div>
@@ -666,12 +666,12 @@ export const ScheduleAnimation: React.FC = () => {
 
         {/* New post card to schedule */}
         {phase === 'calendar' && (
-          <div className="flex items-center justify-between bg-white border border-ink/10 rounded-lg p-3 mb-3 shadow-sm">
+          <div className="flex items-center justify-between bg-white border border-ink/10 rounded-lg p-3 mb-3 shadow-xs">
             <div>
               <div className="font-serif text-xs text-ink font-medium">Outreach Guide</div>
               <div className="font-mono text-[9px] text-ink/40">Thursday, 9:00 AM</div>
             </div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent text-white text-xs font-semibold shadow-sm cursor-pointer">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent text-white text-xs font-semibold shadow-xs cursor-pointer">
               <CalendarDays className="w-3 h-3" />
               Schedule
             </div>
@@ -689,7 +689,7 @@ export const ScheduleAnimation: React.FC = () => {
         {/* Post Now button */}
         {phase === 'scheduled' && (
           <div className="flex justify-end">
-            <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-ink text-white text-xs font-semibold shadow-sm cursor-pointer">
+            <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-ink text-white text-xs font-semibold shadow-xs cursor-pointer">
               <Send className="w-3 h-3" />
               Post Now
             </div>
@@ -715,7 +715,7 @@ export const ScheduleAnimation: React.FC = () => {
             ].map((platform, i) => (
               <div
                 key={platform.name}
-                className={`flex items-center gap-2.5 bg-white border ${platform.color} rounded-lg p-2.5 shadow-sm transition-all duration-300`}
+                className={`flex items-center gap-2.5 bg-white border ${platform.color} rounded-lg p-2.5 shadow-xs transition-all duration-300`}
                 style={{ animationDelay: `${i * 150}ms` }}
               >
                 {platform.icon}
@@ -888,7 +888,7 @@ export const BrandingAnimation: React.FC = () => {
                 }`}
               >
                 {/* Fake meeting scene illustration */}
-                <div className={`bg-gradient-to-br ${img.bg} relative overflow-hidden`}>
+                <div className={`bg-linear-to-br ${img.bg} relative overflow-hidden`}>
                   <svg viewBox="0 0 240 160" fill="none" className="w-full">
                     {/* Conference table */}
                     <ellipse cx="120" cy="120" rx="80" ry="25" fill="white" fillOpacity="0.08" />
@@ -915,7 +915,7 @@ export const BrandingAnimation: React.FC = () => {
                 </div>
                 {/* Card label */}
                 <div className="bg-white p-2.5">
-                  <div className="w-4 h-0.5 bg-product-gold mb-1.5 rounded" />
+                  <div className="w-4 h-0.5 bg-product-gold mb-1.5 rounded-sm" />
                   <div className="font-serif text-xs text-ink font-semibold leading-tight">{img.title}</div>
                   <div className="font-sans text-ink/50 text-[9px] mt-0.5">{img.subtitle}</div>
                 </div>
@@ -1003,7 +1003,7 @@ const WhatPulseDoes: React.FC = () => (
 // ─── Insights Dashboard (Feature Spotlight) ────────────────────────────────────
 
 const InsightsDashboardDiagram: React.FC = () => (
-  <div className="relative w-full max-w-md mx-auto aspect-[4/3] bg-white shadow-2xl shadow-ink/20 rounded-sm border border-ink/10 p-6 rotate-[1deg] hover:rotate-0 transition-transform duration-700 ease-out">
+  <div className="relative w-full max-w-md mx-auto aspect-4/3 bg-white shadow-2xl shadow-ink/20 rounded-xs border border-ink/10 p-6 rotate-1 hover:rotate-0 transition-transform duration-700 ease-out">
     <div className="flex justify-between items-center mb-4 border-b border-ink/10 pb-3">
       <div className="flex gap-2">
         <div className="w-3 h-3 rounded-full bg-ink/10"></div>
@@ -1053,7 +1053,7 @@ const InsightsDashboard: React.FC = () => (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       <ScrollReveal>
         <Eyebrow className="mb-2">How It Works</Eyebrow>
-        <h2 className="font-serif text-3xl md:text-4xl text-ink mb-6 leading-tight">
+        <h2 className="font-serif text-3xl md:text-4xl md:leading-10 text-ink mb-6 leading-tight">
           From transcripts to&nbsp;<span className="italic">aha moments</span>
         </h2>
         <p className="text-ink-muted leading-relaxed mb-6">
@@ -1062,7 +1062,7 @@ const InsightsDashboard: React.FC = () => (
         <ul className="space-y-4">
           {['Full transcripts with speaker attribution', 'Key insight extraction & aha-moment highlighting', 'Theme clustering across multiple meetings', 'Searchable knowledge vault of all previous conversations'].map((item, i) => (
             <li key={i} className="flex items-start gap-3 text-ink-muted">
-              <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+              <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
               <span>{item}</span>
             </li>
           ))}
@@ -1080,11 +1080,11 @@ const InsightsDashboard: React.FC = () => (
 const ContentEngineCards: React.FC = () => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
     {/* Newsletter card */}
-    <div className="bg-white shadow-xl border border-ink/10 p-6 rounded-sm rotate-[-1deg] hover:rotate-0 transition-transform duration-500">
+    <div className="bg-white shadow-xl border border-ink/10 p-6 rounded-xs -rotate-1 hover:rotate-0 transition-transform duration-500">
       <div className="flex items-center gap-2 mb-4">
         <Mail className="w-4 h-4 text-accent" />
         <span className="font-mono text-[10px] uppercase tracking-widest text-ink-muted/60">Newsletter Draft</span>
-        <span className="ml-auto text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-sm">Ready</span>
+        <span className="ml-auto text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-xs">Ready</span>
       </div>
       <h4 className="font-serif text-lg text-ink mb-2">This Week in Product</h4>
       <p className="text-sm text-ink-muted leading-relaxed">
@@ -1100,11 +1100,11 @@ const ContentEngineCards: React.FC = () => (
     </div>
 
     {/* Social post card */}
-    <div className="bg-white shadow-xl border border-ink/10 p-6 rounded-sm rotate-[1deg] hover:rotate-0 transition-transform duration-500">
+    <div className="bg-white shadow-xl border border-ink/10 p-6 rounded-xs rotate-1 hover:rotate-0 transition-transform duration-500">
       <div className="flex items-center gap-2 mb-4">
         <MessageCircle className="w-4 h-4 text-accent" />
         <span className="font-mono text-[10px] uppercase tracking-widest text-ink-muted/60">LinkedIn Post</span>
-        <span className="ml-auto text-[10px] font-bold text-yellow-600 bg-yellow-50 px-2 py-0.5 rounded-sm">Draft</span>
+        <span className="ml-auto text-[10px] font-bold text-yellow-600 bg-yellow-50 px-2 py-0.5 rounded-xs">Draft</span>
       </div>
       <h4 className="font-serif text-lg text-ink mb-2">Integration-First Thinking</h4>
       <p className="text-sm text-ink-muted leading-relaxed">
@@ -1129,7 +1129,7 @@ const WeeklyContentEngine: React.FC = () => (
       </ScrollReveal>
       <ScrollReveal>
         <Eyebrow className="mb-2">Outputs</Eyebrow>
-        <h2 className="font-serif text-3xl md:text-4xl text-ink mb-6 leading-tight">
+        <h2 className="font-serif text-3xl md:text-4xl md:leading-10 text-ink mb-6 leading-tight">
           A content engine<br />that runs itself
         </h2>
         <p className="text-ink-muted leading-relaxed mb-6">
@@ -1138,7 +1138,7 @@ const WeeklyContentEngine: React.FC = () => (
         <ul className="space-y-4">
           {['Weekly newsletter drafts from meeting insights', 'Platform-optimized social posts (LinkedIn, Meta)', 'Maintains your authentic voice and tone', 'Review, edit, and approve before publishing'].map((item, i) => (
             <li key={i} className="flex items-start gap-3 text-ink-muted">
-              <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+              <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
               <span>{item}</span>
             </li>
           ))}
@@ -1160,10 +1160,10 @@ const ImageGeneration: React.FC = () => (
         { label: 'Blog Feature', src: BlogVisual, alt: 'Blog feature generated visual in editorial sketch style' },
       ].map((item, i) => (
         <Reveal key={item.label} enterEnd={0.84 - i * 0.03} lift={28}>
-          <div className="bg-white shadow-lg border border-ink/10 rounded-sm overflow-hidden group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <div className="aspect-[16/10] bg-canvas/50 flex items-center justify-center relative overflow-hidden">
+          <div className="bg-white shadow-lg border border-ink/10 rounded-xs overflow-hidden group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <div className="aspect-16/10 bg-canvas/50 flex items-center justify-center relative overflow-hidden">
               <img src={item.src} alt={item.alt} loading="lazy" decoding="async" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-white/20 to-transparent" />
             </div>
             <div className="p-4 flex items-center justify-between">
               <span className="font-mono text-[11px] uppercase tracking-widest text-ink-muted/60">{item.label}</span>
@@ -1393,7 +1393,7 @@ export const CreatorMode: React.FC = () => {
       <SectionHeader eyebrow="Creator Mode" title="Try Now - Pick insights, generate content." subtitle="Hand-pick the moments that matter, then let Pulse turn them into polished content." />
       <ScrollReveal>
         {showDemoPreview ? (
-          <div className="max-w-4xl mx-auto bg-white shadow-xl border border-ink/10 rounded-sm overflow-hidden">
+          <div className="max-w-4xl mx-auto bg-white shadow-xl border border-ink/10 rounded-xs overflow-hidden">
             {/* Header */}
             <div className="px-4 py-2.5 border-b border-ink/10 bg-canvas/20 flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -1413,7 +1413,7 @@ export const CreatorMode: React.FC = () => {
                 <span className="font-mono text-[9px] text-ink/50 uppercase tracking-widest">Newsletter</span>
               </div>
               <div className="flex gap-3 items-start">
-                <img src={activeScenario.article.heroImage} alt="" loading="lazy" decoding="async" className="w-20 h-14 rounded border border-ink/10 object-cover flex-shrink-0" />
+                <img src={activeScenario.article.heroImage} alt="" loading="lazy" decoding="async" className="w-20 h-14 rounded-sm border border-ink/10 object-cover shrink-0" />
                 <div className="min-w-0">
                   <h4 className="font-serif text-sm text-ink font-semibold leading-tight mb-0.5 truncate">{activeScenario.article.title}</h4>
                   <p className="text-[11px] text-ink-muted leading-snug line-clamp-2">{activeScenario.article.intro}</p>
@@ -1444,7 +1444,7 @@ export const CreatorMode: React.FC = () => {
             </div>
           </div>
         ) : (
-          <div className="max-w-2xl mx-auto bg-white shadow-xl border border-ink/10 rounded-sm overflow-hidden">
+          <div className="max-w-2xl mx-auto bg-white shadow-xl border border-ink/10 rounded-xs overflow-hidden">
             <div className="px-6 py-4 border-b border-ink/10 bg-canvas/30 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Lightbulb className="w-4 h-4 text-accent" />
@@ -1455,10 +1455,10 @@ export const CreatorMode: React.FC = () => {
             <div className="divide-y divide-ink/5">
               {insightChoices.map(choice => (
                 <label key={choice.id} className="flex items-start gap-4 px-6 py-4 cursor-pointer hover:bg-canvas/20 transition-colors">
-                  <div className="flex-shrink-0 mt-0.5">
+                  <div className="shrink-0 mt-0.5">
                     <div
                       onClick={() => toggle(choice.id)}
-                      className={`w-5 h-5 rounded-sm border-2 flex items-center justify-center transition-all ${checks[choice.id] ? 'bg-accent border-accent' : 'border-ink/20 hover:border-accent/50'}`}
+                      className={`w-5 h-5 rounded-xs border-2 flex items-center justify-center transition-all ${checks[choice.id] ? 'bg-accent border-accent' : 'border-ink/20 hover:border-accent/50'}`}
                     >
                       {checks[choice.id] && <Check className="w-3 h-3 text-white" />}
                     </div>
@@ -1534,7 +1534,7 @@ const FAQItem: React.FC<{ q: string; a: string }> = ({ q, a }) => {
     <div className="border-b border-ink/10 last:border-0">
       <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between py-5 text-left group">
         <span className="font-serif text-lg text-ink group-hover:text-accent transition-colors pr-4">{q}</span>
-        <ChevronDown className={`w-5 h-5 text-ink-muted flex-shrink-0 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-5 h-5 text-ink-muted shrink-0 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
       </button>
       <div
         ref={contentRef}
@@ -1551,7 +1551,7 @@ const FAQ: React.FC = () => (
   <Section id="faq" className="bg-alt/30">
     <SectionHeader eyebrow="FAQ" title="Common questions" />
     <ScrollReveal>
-      <div className="max-w-3xl mx-auto bg-white shadow-xl border border-ink/10 rounded-sm px-8">
+      <div className="max-w-3xl mx-auto bg-white shadow-xl border border-ink/10 rounded-xs px-8">
         {faqItems.map((item, i) => (
           <FAQItem key={i} q={item.q} a={item.a} />
         ))}
@@ -1592,10 +1592,10 @@ const FinalCTA: React.FC = () => {
     <section className="bg-ink text-white py-20 md:py-28 px-6">
       <div className="max-w-4xl mx-auto text-center">
         <ScrollReveal>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl mb-6 leading-tight">
+          <h2 className="font-serif text-3xl md:text-4xl md:leading-10 lg:text-5xl lg:leading-none mb-6 leading-tight">
             Stop leaving insights on the table.
           </h2>
-          <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="text-white/60 text-lg md:text-xl md:leading-7 max-w-2xl mx-auto mb-10 leading-relaxed">
             Every single idea you have is a goldmine of content. PulseNote makes sure nothing gets lost.
           </p>
           <button onClick={scrollTo} className="inline-flex items-center px-8 py-4 text-base font-medium bg-white text-ink hover:bg-canvas transition-all shadow-lg hover:shadow-xl active:scale-95">
@@ -1619,7 +1619,7 @@ const PulseNotePage: React.FC<PulseNotePageProps> = (props) => {
 
 const PulseNotePageDesktop: React.FC<PulseNotePageProps> = ({ onNavigate }) => {
   return (
-    <div className="min-h-screen text-ink overflow-x-clip [&_h1]:[text-wrap:balance] [&_h2]:[text-wrap:balance] [&_h3]:[text-wrap:balance] [&_p]:[text-wrap:pretty]">
+    <div className="min-h-screen text-ink overflow-x-clip [&_h1]:text-balance [&_h2]:text-balance [&_h3]:text-balance [&_p]:text-pretty">
       <Header onNavigate={onNavigate} currentPage="pulsenote" />
       <PulseHero />
       <WhatPulseDoes />

@@ -143,8 +143,8 @@ const buildStatus = [
 ];
 
 const CompoundIQControlLoop: React.FC = () => (
-  <div className="relative bg-white/70 border border-ink/10 shadow-widget-raised p-5 md:p-7 rounded-sm overflow-hidden">
-    <div className="absolute inset-0 opacity-[0.035] bg-[radial-gradient(rgb(var(--color-ink))_1px,transparent_1px)] [background-size:18px_18px]" />
+  <div className="relative bg-white/70 border border-ink/10 shadow-widget-raised p-5 md:p-7 rounded-xs overflow-hidden">
+    <div className="absolute inset-0 opacity-[0.035] bg-[radial-gradient(rgb(var(--color-ink))_1px,transparent_1px)] bg-size-[18px_18px]" />
     <div className="relative flex items-start justify-between border-b border-ink/10 pb-4 mb-5 gap-4">
       <div>
         <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">CompoundIQ · paper environment</div>
@@ -162,7 +162,7 @@ const CompoundIQControlLoop: React.FC = () => (
         { time: ':05', label: 'Paper executor', detail: 'gate + simulate fill', Icon: Activity },
       ].map((stage, index) => (
         <React.Fragment key={stage.label}>
-          <div className="relative bg-canvas/50 border border-ink/10 p-4 rounded-sm">
+          <div className="relative bg-canvas/50 border border-ink/10 p-4 rounded-xs">
             <div className="flex items-center justify-between mb-6">
               <stage.Icon className="w-5 h-5 text-accent" />
               <span className="font-mono text-[9px] uppercase tracking-widest text-ink-muted/60">{stage.time}</span>
@@ -176,14 +176,14 @@ const CompoundIQControlLoop: React.FC = () => (
     </div>
 
     <div className="relative mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
-      <div className="border border-green-700/20 bg-green-50/60 p-3 rounded-sm">
+      <div className="border border-green-700/20 bg-green-50/60 p-3 rounded-xs">
         <div className="flex items-center gap-2 text-green-800">
           <CheckCircle2 className="w-4 h-4" />
           <span className="font-mono text-[9px] uppercase tracking-widest">gate passed</span>
         </div>
         <p className="font-sans text-xs text-ink-muted mt-2">Approved · enabled · unexpired.</p>
       </div>
-      <div className="border border-accent/20 bg-accent/5 p-3 rounded-sm">
+      <div className="border border-accent/20 bg-accent/5 p-3 rounded-xs">
         <div className="flex items-center gap-2 text-accent">
           <RotateCcw className="w-4 h-4" />
           <span className="font-mono text-[9px] uppercase tracking-widest">feedback returns</span>
@@ -213,7 +213,7 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 items-center">
           <div className="lg:col-span-6 relative z-10 hero-copy">
             <ScrollReveal immediate>
-              <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.22em] uppercase text-amber-800 bg-amber-50/75 border border-amber-700/15 rounded-sm px-2.5 py-1">
+              <div className="inline-block mb-5 font-mono text-[10px] tracking-[0.22em] uppercase text-amber-800 bg-amber-50/75 border border-amber-700/15 rounded-xs px-2.5 py-1">
                 Build in public · In development · Paper only
               </div>
               <PageHero
@@ -227,13 +227,13 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
                       variant="primary"
                       analytics={{ cta_id: 'try_gate', surface: 'case_hero', from_page: 'compoundiq', destination: '#compoundiq-gate' }}
                       onClick={() => document.getElementById('compoundiq-gate')?.scrollIntoView({ behavior: 'smooth' })}
-                      className="text-[16px] px-8 py-4"
+                      className="px-8 py-4"
                     >Try the gate</Button>
                     <Button
                       variant="secondary"
                       analytics={{ cta_id: 'map_autonomy', surface: 'case_hero', from_page: 'compoundiq', destination: '/calendar' }}
                       onClick={() => onNavigate('calendar')}
-                      className="text-[16px] px-8 py-4"
+                      className="px-8 py-4"
                     >Map where autonomy stops</Button>
                   </>
                 }
@@ -270,21 +270,21 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
         {/* One stage at a time: the cards stack, each sliding over the last. */}
         <Stack>
           {system.map((step) => (
-            <article key={step.number} className="stack-card grid grid-cols-1 lg:grid-cols-12 gap-8 bg-paper border border-ink/10 p-8 md:p-10 shadow-lg shadow-ink/5 rounded-sm">
+            <article key={step.number} className="stack-card grid grid-cols-1 lg:grid-cols-12 gap-8 bg-paper border border-ink/10 p-8 md:p-10 shadow-lg shadow-ink/5 rounded-xs">
                 <div className="lg:col-span-2 flex lg:block items-center gap-4">
                   <step.Icon className="w-9 h-9 text-accent" strokeWidth={1.4} />
                   <div className="font-serif italic text-4xl text-ink-muted/35 lg:mt-8">{step.number}</div>
                 </div>
                 <div className="lg:col-span-6">
                   <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent mb-3">{step.eyebrow}</div>
-                  <h2 className="font-serif text-3xl md:text-4xl text-ink leading-tight mb-4">{step.title}</h2>
+                  <h2 className="font-serif text-3xl md:text-4xl md:leading-10 text-ink leading-tight mb-4">{step.title}</h2>
                   <p className="font-sans text-[17px] leading-relaxed text-ink-muted">{step.body}</p>
                 </div>
                 <div className="lg:col-span-4 lg:border-l border-ink/10 lg:pl-8 flex items-center">
                   <ul className="space-y-3 w-full">
                     {step.bullets.map((bullet) => (
                       <li key={bullet} className="flex items-start gap-3 font-sans text-sm leading-relaxed text-ink-muted">
-                        <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
+                        <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 shrink-0" />
                         {bullet}
                       </li>
                     ))}
@@ -304,7 +304,7 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {guardrails.map((item, index) => (
             <Reveal key={item.title} enterEnd={0.82 - (index % 2) * 0.05} lift={28} className="h-full">
-              <div className="h-full bg-white/65 border border-ink/10 p-7 md:p-8 rounded-sm">
+              <div className="h-full bg-white/65 border border-ink/10 p-7 md:p-8 rounded-xs">
                 <item.Icon className="w-7 h-7 text-accent mb-6" strokeWidth={1.4} />
                 <h3 className="font-serif text-2xl text-ink mb-3">{item.title}</h3>
                 <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{item.body}</p>
@@ -318,14 +318,14 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-3xl mb-12">
             <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">Build status · 10 July 2026</div>
-            <h2 className="font-serif text-4xl md:text-5xl leading-tight">Working in paper. Expanding in public.</h2>
+            <h2 className="font-serif text-4xl md:text-5xl md:leading-none leading-tight">Working in paper. Expanding in public.</h2>
             <p className="font-sans text-canvas/65 leading-relaxed mt-5">These labels describe engineering progress, not investment performance.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
             {buildStatus.map((item) => (
-              <div key={item.title} className="border border-white/15 bg-white/5 p-6 rounded-sm">
+              <div key={item.title} className="border border-white/15 bg-white/5 p-6 rounded-xs">
                 <div className="flex items-center justify-between mb-8 gap-3">
-                  <item.Icon className={`w-5 h-5 flex-shrink-0 ${item.tone}`} />
+                  <item.Icon className={`w-5 h-5 shrink-0 ${item.tone}`} />
                   <span className={`font-mono text-[9px] uppercase tracking-widest text-right ${item.tone}`}>{item.status}</span>
                 </div>
                 <h3 className="font-serif text-xl mb-3">{item.title}</h3>
@@ -343,7 +343,7 @@ const CompoundIQPageDesktop: React.FC<CompoundIQPageProps> = ({ onNavigate }) =>
             <h2 className="font-serif text-4xl md:text-5xl text-ink mb-6">Where does your system need judgment without giving up control?</h2>
             <p className="font-sans text-lg text-ink-muted leading-relaxed mb-8">Bring the decision you don't dare fully automate. We'll design the gate around it, together.</p>
             <div className="flex justify-center">
-              <Button variant="primary" onClick={() => onNavigate('calendar')} className="text-[16px] px-8 py-4">Map where autonomy stops</Button>
+              <Button variant="primary" onClick={() => onNavigate('calendar')} className="px-8 py-4">Map where autonomy stops</Button>
             </div>
           </ScrollReveal>
         </div>

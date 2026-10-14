@@ -130,7 +130,7 @@ export const GateSimulator: React.FC = () => {
         subtitle="An illustration of the policy gate above — flip a condition, send a signal, and watch where it stops. No live orders, no market data; the real loop runs on paper by design."
       />
       <ScrollReveal>
-        <div className="max-w-5xl mx-auto bg-white/55 border border-ink/10 rounded-sm shadow-sm p-6 md:p-10">
+        <div className="max-w-5xl mx-auto bg-white/55 border border-ink/10 rounded-xs shadow-xs p-6 md:p-10">
           <div className="flex items-center justify-between gap-4 mb-8">
             <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">Fig. ii · The action gate</div>
             <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-widest text-amber-800">
@@ -141,7 +141,7 @@ export const GateSimulator: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-5 space-y-4">
               {GATES.map((gate) => (
-                <div key={gate.key} className="flex items-center justify-between gap-4 border border-ink/10 bg-white/60 rounded-sm px-4 py-3">
+                <div key={gate.key} className="flex items-center justify-between gap-4 border border-ink/10 bg-white/60 rounded-xs px-4 py-3">
                   <div>
                     <div className="font-serif text-lg text-ink">{gate.label}</div>
                     <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-ink-muted mt-0.5">
@@ -154,7 +154,7 @@ export const GateSimulator: React.FC = () => {
                     aria-label={`${gate.label} ${gates[gate.key] ? 'passing' : 'blocking'}`}
                     onClick={() => toggleGate(gate.key)}
                     disabled={sending}
-                    className={`relative w-16 h-7 rounded-full border transition-colors flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent before:absolute before:inset-x-0 before:-inset-y-2 before:content-[''] ${
+                    className={`relative w-16 h-7 rounded-full border transition-colors shrink-0 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent before:absolute before:inset-x-0 before:-inset-y-2 before:content-[''] ${
                       gates[gate.key] ? 'bg-accent/15 border-accent/40' : 'bg-amber-800/10 border-amber-800/40'
                     }`}
                   >
@@ -175,7 +175,7 @@ export const GateSimulator: React.FC = () => {
                 <button
                   onClick={send}
                   disabled={sending}
-                  className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover disabled:opacity-60 text-white font-sans text-sm font-medium px-6 py-3 rounded-sm transition-colors"
+                  className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover disabled:opacity-60 text-white font-sans text-sm font-medium px-6 py-3 rounded-xs transition-colors"
                 >
                   <Send className="w-4 h-4" /> {sending ? 'Checking gates…' : 'Send signal'}
                 </button>
@@ -198,7 +198,7 @@ export const GateSimulator: React.FC = () => {
                     <React.Fragment key={gate.key}>
                       <div className={`h-px flex-1 ${state === 'idle' ? 'bg-ink/15' : 'bg-accent'}`} />
                       <div
-                        className={`flex items-center gap-1.5 border rounded-sm px-2.5 py-1.5 font-mono text-[9px] uppercase tracking-widest transition-colors ${
+                        className={`flex items-center gap-1.5 border rounded-xs px-2.5 py-1.5 font-mono text-[9px] uppercase tracking-widest transition-colors ${
                           state === 'pass'
                             ? 'border-green-700/40 bg-green-700/10 text-green-800'
                             : state === 'block'
@@ -222,16 +222,16 @@ export const GateSimulator: React.FC = () => {
               <div aria-live="polite" className="min-h-[56px] mb-5">
                 {outcome && (
                   <div
-                    className={`flex items-start gap-3 border rounded-sm px-4 py-3 ${
+                    className={`flex items-start gap-3 border rounded-xs px-4 py-3 ${
                       outcome.failIndex === -1
                         ? 'border-green-700/40 bg-green-700/10'
                         : 'border-amber-800/40 bg-amber-800/10'
                     }`}
                   >
                     {outcome.failIndex === -1 ? (
-                      <CheckCircle2 className="w-5 h-5 text-green-800 mt-0.5 flex-shrink-0" />
+                      <CheckCircle2 className="w-5 h-5 text-green-800 mt-0.5 shrink-0" />
                     ) : (
-                      <ShieldCheck className="w-5 h-5 text-amber-800 mt-0.5 flex-shrink-0" />
+                      <ShieldCheck className="w-5 h-5 text-amber-800 mt-0.5 shrink-0" />
                     )}
                     <div>
                       <div className="font-serif text-lg text-ink leading-snug">
@@ -254,7 +254,7 @@ export const GateSimulator: React.FC = () => {
                 )}
               </div>
 
-              <div className="border border-ink/15 bg-ink/[0.03] rounded-sm px-4 py-3 font-mono text-[11px] leading-relaxed text-ink-muted">
+              <div className="border border-ink/15 bg-ink/3 rounded-xs px-4 py-3 font-mono text-[11px] leading-relaxed text-ink-muted">
                 {runs.length === 0 ? (
                   <div className="text-ink-muted/60">{'// each signal writes one audit line'}</div>
                 ) : (

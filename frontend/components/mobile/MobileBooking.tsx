@@ -148,7 +148,7 @@ export const MobileBooking: React.FC<MobileBookingProps> = ({ onNavigate }) => {
 
       {/* Astrid mini row */}
       <div ref={sectionRef} className="flex items-center gap-3 mb-6">
-        <div className="w-12 h-12 rounded-sm overflow-hidden border border-ink/10 flex-shrink-0">
+        <div className="w-12 h-12 rounded-xs overflow-hidden border border-ink/10 shrink-0">
           <img src={AstridSketch} alt="Astrid Abrahamyan" width={1024} height={1024} loading="lazy" decoding="async" className="w-full h-full object-cover object-top scale-125 sepia-[0.15] contrast-105" />
         </div>
         <div>
@@ -175,7 +175,7 @@ export const MobileBooking: React.FC<MobileBookingProps> = ({ onNavigate }) => {
             'Whether a fixed-scope Workflow Blueprint is worth doing',
           ].map((item) => (
             <li key={item} className="flex gap-3">
-              <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+              <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
               {item}
             </li>
           ))}
@@ -190,14 +190,14 @@ export const MobileBooking: React.FC<MobileBookingProps> = ({ onNavigate }) => {
             <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-ink-muted">{userTimezone.replace(/_/g, ' ')}</span>
           </div>
 
-          <div className="flex gap-2 mb-4 overflow-x-auto -mx-6 px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex gap-2 mb-4 overflow-x-auto -mx-6 px-6 scrollbar-none [&::-webkit-scrollbar]:hidden">
             {days.map(({ date }, i) => {
               const isActive = i === activeDayIdx;
               return (
                 <button
                   key={date.toISOString()}
                   onClick={() => setActiveDayIdx(i)}
-                  className={`flex-shrink-0 flex flex-col items-center justify-center py-2 px-4 rounded-sm border transition-all ${
+                  className={`shrink-0 flex flex-col items-center justify-center py-2 px-4 rounded-xs border transition-all ${
                     isActive
                       ? 'bg-accent/10 border-accent ring-1 ring-accent'
                       : 'bg-white/60 border-ink/10'
@@ -223,7 +223,7 @@ export const MobileBooking: React.FC<MobileBookingProps> = ({ onNavigate }) => {
                     key={iso}
                     onClick={() => handleSlotClick(iso)}
                     disabled={busy}
-                    className={`py-3 font-serif italic text-[13px] tracking-[0.03em] rounded-sm border transition-all ${
+                    className={`py-3 font-serif italic text-[13px] tracking-[0.03em] rounded-xs border transition-all ${
                       busy
                         ? 'text-ink-muted/40 border-ink/5 line-through cursor-not-allowed'
                         : 'text-ink border-ink/15 active:border-accent active:bg-accent/10 active:text-accent'

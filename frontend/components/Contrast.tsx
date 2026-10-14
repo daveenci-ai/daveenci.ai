@@ -122,12 +122,12 @@ const GeneralistDiagram: React.FC = () => {
       </svg>
 
       {/* Annotation pills */}
-      <Parallax plane="annotation" inherit className="absolute top-2 -left-4 md:-left-6"><div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float">
+      <Parallax plane="annotation" inherit className="absolute top-2 -left-4 md:-left-6"><div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded-sm flex items-center gap-3 animate-float">
         <Cpu className="w-4 h-4 text-ink-muted" />
         <span className="text-xs font-medium text-ink">One tool, many handoffs</span>
       </div></Parallax>
 
-      <Parallax plane="annotation" inherit className="absolute bottom-2 -right-4 md:-right-6"><div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded flex items-center gap-3 animate-float-delayed">
+      <Parallax plane="annotation" inherit className="absolute bottom-2 -right-4 md:-right-6"><div className="bg-canvas shadow-lg border border-ink/10 px-4 py-2 rounded-sm flex items-center gap-3 animate-float-delayed">
         <AlertTriangle className="w-4 h-4 text-status-danger" />
         <span className="text-xs font-medium text-ink">No release gate</span>
       </div></Parallax>
@@ -177,7 +177,7 @@ const Contrast: React.FC = () => (
           <ol className="space-y-8 max-w-xl border-l border-ink/10 pl-6">
             {symptoms.map((s) => (
               <Reveal as="li" key={s.n} enterEnd={0.72} className="flex gap-5 items-baseline">
-                <span className="font-serif italic text-accent text-lg tracking-[0.1em] flex-shrink-0 w-6 text-right">{s.n}.</span>
+                <span className="font-serif italic text-accent text-lg tracking-widest shrink-0 w-6 text-right">{s.n}.</span>
                 <div>
                   <h3 className="font-serif text-xl text-ink mb-2">{s.title}</h3>
                   <p className="font-serif italic text-lg text-ink leading-snug mb-1">{s.lead}</p>

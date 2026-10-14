@@ -37,7 +37,7 @@ const BookPage: React.FC<BookPageProps> = ({ onNavigate }) => {
       <Section className="pt-36 md:pt-44 pb-12" pattern="grid">
         <div className="max-w-3xl">
           <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent mb-5">Book a call</div>
-          <h1 className="font-serif text-5xl md:text-6xl text-ink leading-tight mb-7">
+          <h1 className="font-serif text-5xl md:text-6xl md:leading-none text-ink leading-tight mb-7">
             Which conversation?
           </h1>
           <p className="font-serif text-xl text-ink-muted leading-relaxed">
@@ -55,10 +55,10 @@ const BookPage: React.FC<BookPageProps> = ({ onNavigate }) => {
                 key={card.host}
                 href={card.path}
                 onClick={(e) => { e.preventDefault(); onNavigate(card.page); }}
-                className="group flex flex-col border border-ink/10 bg-white/70 rounded-sm p-8 transition-all hover:border-accent/40 hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                className="group flex flex-col border border-ink/10 bg-white/70 rounded-xs p-8 transition-all hover:border-accent/40 hover:shadow-lg focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent"
               >
                 <div className="flex items-center gap-4 mb-5">
-                  <div className="w-16 h-16 rounded-sm overflow-hidden border border-ink/10 shrink-0">
+                  <div className="w-16 h-16 rounded-xs overflow-hidden border border-ink/10 shrink-0">
                     <img src={host.portrait} alt={host.name} decoding="async" className="w-full h-full object-cover object-top scale-125" />
                   </div>
                   <div>

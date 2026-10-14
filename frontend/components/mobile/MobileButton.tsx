@@ -9,7 +9,7 @@ interface MobileButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement
   analytics?: AnalyticsEventMap['cta_click'];
 }
 
-const BASE = 'py-3.5 font-medium tracking-[0.15em] uppercase text-sm rounded-sm transition-all';
+const BASE = 'py-3.5 font-medium tracking-[0.15em] uppercase text-sm rounded-xs transition-all';
 
 const VARIANT_CLASSES: Record<Variant, string> = {
   // accent-hover, not accent: white on the base accent is 3.93:1 and fails AA.

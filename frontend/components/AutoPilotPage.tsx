@@ -108,8 +108,8 @@ const safety = [
 ];
 
 const AutoPilotControlPanel: React.FC<{ onNavigate: AutoPilotPageProps['onNavigate'] }> = ({ onNavigate }) => (
-  <div className="relative bg-white/70 border border-ink/10 shadow-widget-raised p-5 md:p-7 rounded-sm overflow-hidden">
-    <div className="absolute inset-0 opacity-[0.035] bg-[radial-gradient(rgb(var(--color-ink))_1px,transparent_1px)] [background-size:18px_18px]" />
+  <div className="relative bg-white/70 border border-ink/10 shadow-widget-raised p-5 md:p-7 rounded-xs overflow-hidden">
+    <div className="absolute inset-0 opacity-[0.035] bg-[radial-gradient(rgb(var(--color-ink))_1px,transparent_1px)] bg-size-[18px_18px]" />
     <div className="relative flex items-center justify-between border-b border-ink/10 pb-4 mb-5">
       <div>
         <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">Shoot Ops · four modules</div>
@@ -142,25 +142,25 @@ const AutoPilotControlPanel: React.FC<{ onNavigate: AutoPilotPageProps['onNaviga
             key={stage.label}
             href={link.path}
             onClick={(e) => { e.preventDefault(); onNavigate(link.page); }}
-            className="relative block bg-canvas/50 border border-ink/10 p-4 rounded-sm transition-colors hover:border-accent/60 hover:bg-canvas/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className="relative block bg-canvas/50 border border-ink/10 p-4 rounded-xs transition-colors hover:border-accent/60 hover:bg-canvas/80 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent"
           >
             {inner}
           </a>
         ) : (
-          <div key={stage.label} className="relative bg-canvas/50 border border-ink/10 p-4 rounded-sm">{inner}</div>
+          <div key={stage.label} className="relative bg-canvas/50 border border-ink/10 p-4 rounded-xs">{inner}</div>
         );
       })}
     </div>
 
     <div className="relative mt-5 grid grid-cols-2 gap-3">
-      <div className="border border-green-700/20 bg-green-50/60 p-3 rounded-sm">
+      <div className="border border-green-700/20 bg-green-50/60 p-3 rounded-xs">
         <div className="flex items-center gap-2 text-green-800">
           <CheckCircle2 className="w-4 h-4" />
           <span className="font-mono text-[9px] uppercase tracking-widest">deliver</span>
         </div>
         <p className="font-sans text-xs text-ink-muted mt-2">Verified work advances.</p>
       </div>
-      <div className="border border-amber-700/20 bg-amber-50/60 p-3 rounded-sm">
+      <div className="border border-amber-700/20 bg-amber-50/60 p-3 rounded-xs">
         <div className="flex items-center gap-2 text-amber-800">
           <AlertTriangle className="w-4 h-4" />
           <span className="font-mono text-[9px] uppercase tracking-widest">human gate</span>
@@ -197,8 +197,8 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
                 size="md"
                 actions={
                   <>
-                    <Button variant="primary" analytics={{ cta_id: 'name_handoff', surface: 'case_hero', from_page: 'autopilot', destination: '/book/anton' }} onClick={() => openShootOpsBooking(onNavigate)} className="text-[16px] px-8 py-4">Name the handoff that breaks</Button>
-                    <Button variant="secondary" onClick={() => document.getElementById('autopilot-workflow')?.scrollIntoView({ behavior: 'smooth' })} className="text-[16px] px-8 py-4">See the workflow</Button>
+                    <Button variant="primary" analytics={{ cta_id: 'name_handoff', surface: 'case_hero', from_page: 'autopilot', destination: '/book/anton' }} onClick={() => openShootOpsBooking(onNavigate)} className="px-8 py-4">Name the handoff that breaks</Button>
+                    <Button variant="secondary" onClick={() => document.getElementById('autopilot-workflow')?.scrollIntoView({ behavior: 'smooth' })} className="px-8 py-4">See the workflow</Button>
                   </>
                 }
               />
@@ -253,13 +253,13 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
         {/* One stage at a time: the cards stack, each sliding over the last. */}
         <Stack>
           {workflow.map((step) => (
-            <article key={step.number} className="stack-card grid grid-cols-1 lg:grid-cols-12 gap-8 bg-paper border border-ink/10 p-8 md:p-10 shadow-lg shadow-ink/5 rounded-sm">
+            <article key={step.number} className="stack-card grid grid-cols-1 lg:grid-cols-12 gap-8 bg-paper border border-ink/10 p-8 md:p-10 shadow-lg shadow-ink/5 rounded-xs">
                 <div className="lg:col-span-5">
                   <div className="flex items-center justify-between mb-3">
                     <div className="font-serif italic text-xs tracking-[0.2em] text-ink-muted uppercase">Fig. {step.number} · {step.eyebrow}</div>
                   </div>
-                  <div className="border border-ink/10 bg-white/60 rounded-sm p-3">
-                    <ModuleSchematic id={step.id} className="aspect-[5/3] w-full" />
+                  <div className="border border-ink/10 bg-white/60 rounded-xs p-3">
+                    <ModuleSchematic id={step.id} className="aspect-5/3 w-full" />
                   </div>
                 </div>
                 <div className="lg:col-span-7 flex flex-col justify-center">
@@ -267,12 +267,12 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
                     <span className="font-serif italic text-3xl text-ink-muted/35">{step.number}</span>
                     <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">{step.eyebrow}</span>
                   </div>
-                  <h2 className="font-serif text-3xl md:text-4xl text-ink leading-tight mb-4">{step.title}</h2>
+                  <h2 className="font-serif text-3xl md:text-4xl md:leading-10 text-ink leading-tight mb-4">{step.title}</h2>
                   <p className="font-sans text-[17px] leading-relaxed text-ink-muted mb-6">{step.body}</p>
                   <ul className="space-y-2.5">
                     {step.bullets.map((bullet) => (
                       <li key={bullet} className="flex items-start gap-3 font-sans text-sm leading-relaxed text-ink-muted">
-                        <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
+                        <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 shrink-0" />
                         {bullet}
                       </li>
                     ))}
@@ -292,7 +292,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {safety.map((item, index) => (
             <Reveal key={item.title} enterEnd={0.82 - (index % 2) * 0.05} lift={28} className="h-full">
-              <div className="h-full bg-white/65 border border-ink/10 p-7 md:p-8 rounded-sm">
+              <div className="h-full bg-white/65 border border-ink/10 p-7 md:p-8 rounded-xs">
                 <item.Icon className="w-7 h-7 text-accent mb-6" strokeWidth={1.4} />
                 <h3 className="font-serif text-2xl text-ink mb-3">{item.title}</h3>
                 <p className="font-sans text-[15px] text-ink-muted leading-relaxed">{item.body}</p>
@@ -306,7 +306,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-3xl mb-12">
             <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">The modules · September 2026</div>
-            <h2 className="font-serif text-4xl md:text-5xl leading-tight">Four modules. One question each. Start with Concierge Order Intake.</h2>
+            <h2 className="font-serif text-4xl md:text-5xl md:leading-none leading-tight">Four modules. One question each. Start with Concierge Order Intake.</h2>
             <p className="font-sans text-canvas/65 mt-5 leading-relaxed">Each module runs inside the platform you already use and stops when it is not sure. Concierge Order Intake and Order Review are the two small ones — fixed price, live within a week, and a way to see how we work. Start with either; they work together. The other two follow once one is live, each fitted to how your shop runs — and everything can be customised.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -333,12 +333,12 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
                   key={module.title}
                   href={module.path}
                   onClick={(e) => { e.preventDefault(); onNavigate(module.page as Page); }}
-                  className="block border border-white/15 bg-white/5 p-6 rounded-sm transition-colors hover:border-accent-light/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-light"
+                  className="block border border-white/15 bg-white/5 p-6 rounded-xs transition-colors hover:border-accent-light/60 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-light"
                 >
                   {card}
                 </a>
               ) : (
-                <div key={module.title} className="border border-white/15 bg-white/5 p-6 rounded-sm">{card}</div>
+                <div key={module.title} className="border border-white/15 bg-white/5 p-6 rounded-xs">{card}</div>
               );
             })}
           </div>
@@ -354,7 +354,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
             <h2 className="font-serif text-4xl md:text-5xl text-ink mb-6">Where is your workflow still held together by attention?</h2>
             <p className="font-sans text-lg text-ink-muted leading-relaxed mb-8">Bring us the handoffs, spot checks, and exception queues your team carries in its head. We will map where specialists, safe actions, and human gates belong.</p>
             <div className="flex justify-center">
-              <Button variant="primary" onClick={() => openShootOpsBooking(onNavigate)} className="text-[16px] px-8 py-4">Name the handoff that breaks</Button>
+              <Button variant="primary" onClick={() => openShootOpsBooking(onNavigate)} className="px-8 py-4">Name the handoff that breaks</Button>
             </div>
           </ScrollReveal>
         </div>

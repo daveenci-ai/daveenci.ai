@@ -123,7 +123,7 @@ export const MobileGateSimulator: React.FC = () => {
         Flip a condition, send a signal, and watch where it stops. No live orders, no market data — an illustration of the policy gate above.
       </p>
 
-      <div className="bg-white/55 border border-ink/10 rounded-sm p-5">
+      <div className="bg-white/55 border border-ink/10 rounded-xs p-5">
         <div className="flex items-center justify-between gap-3 mb-6">
           <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">Fig. ii · The action gate</div>
           <div className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-widest text-amber-800">
@@ -133,7 +133,7 @@ export const MobileGateSimulator: React.FC = () => {
 
         <div className="space-y-3 mb-5">
           {GATES.map((gate) => (
-            <div key={gate.key} className="flex items-center justify-between gap-3 border border-ink/10 bg-white/60 rounded-sm px-3.5 py-3">
+            <div key={gate.key} className="flex items-center justify-between gap-3 border border-ink/10 bg-white/60 rounded-xs px-3.5 py-3">
               <div>
                 <div className="font-serif text-[17px] text-ink">{gate.label}</div>
                 <div className="font-mono text-[9px] uppercase tracking-[0.16em] text-ink-muted mt-0.5">
@@ -146,7 +146,7 @@ export const MobileGateSimulator: React.FC = () => {
                 aria-label={`${gate.label} ${gates[gate.key] ? 'passing' : 'blocking'}`}
                 onClick={() => toggleGate(gate.key)}
                 disabled={sending}
-                className={`relative w-16 h-8 rounded-full border transition-colors flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent before:absolute before:inset-x-0 before:-inset-y-1.5 before:content-[''] ${
+                className={`relative w-16 h-8 rounded-full border transition-colors shrink-0 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent before:absolute before:inset-x-0 before:-inset-y-1.5 before:content-[''] ${
                   gates[gate.key] ? 'bg-accent/15 border-accent/40' : 'bg-amber-800/10 border-amber-800/40'
                 }`}
               >
@@ -174,7 +174,7 @@ export const MobileGateSimulator: React.FC = () => {
               <React.Fragment key={gate.key}>
                 {i > 0 && <div className={`h-px flex-1 ${state === 'idle' ? 'bg-ink/15' : 'bg-accent'}`} />}
                 <div
-                  className={`flex items-center gap-1 border rounded-sm px-2 py-1 font-mono text-[9px] uppercase tracking-widest transition-colors ${
+                  className={`flex items-center gap-1 border rounded-xs px-2 py-1 font-mono text-[9px] uppercase tracking-widest transition-colors ${
                     state === 'pass'
                       ? 'border-green-700/40 bg-green-700/10 text-green-800'
                       : state === 'block'
@@ -197,7 +197,7 @@ export const MobileGateSimulator: React.FC = () => {
           <button
             onClick={send}
             disabled={sending}
-            className="flex-1 inline-flex items-center justify-center gap-2 bg-accent active:bg-accent-hover disabled:opacity-60 text-white font-sans text-[14px] font-medium px-5 py-3.5 rounded-sm transition-colors"
+            className="flex-1 inline-flex items-center justify-center gap-2 bg-accent active:bg-accent-hover disabled:opacity-60 text-white font-sans text-[14px] font-medium px-5 py-3.5 rounded-xs transition-colors"
           >
             <Send className="w-4 h-4" /> {sending ? 'Checking gates…' : 'Send signal'}
           </button>
@@ -209,7 +209,7 @@ export const MobileGateSimulator: React.FC = () => {
             }}
             disabled={sending}
             aria-label="Reset gates"
-            className="p-3.5 border border-ink/15 rounded-sm text-ink-muted active:text-ink"
+            className="p-3.5 border border-ink/15 rounded-xs text-ink-muted active:text-ink"
           >
             <RotateCcw className="w-4 h-4" />
           </button>
@@ -218,7 +218,7 @@ export const MobileGateSimulator: React.FC = () => {
         <div aria-live="polite" className="mb-4">
           {outcome && (
             <div
-              className={`border rounded-sm px-3.5 py-3 ${
+              className={`border rounded-xs px-3.5 py-3 ${
                 outcome.failIndex === -1 ? 'border-green-700/40 bg-green-700/10' : 'border-amber-800/40 bg-amber-800/10'
               }`}
             >
@@ -236,7 +236,7 @@ export const MobileGateSimulator: React.FC = () => {
           )}
         </div>
 
-        <div className="border border-ink/15 bg-ink/[0.03] rounded-sm px-3.5 py-2.5 font-mono text-[11px] leading-relaxed text-ink-muted overflow-x-auto">
+        <div className="border border-ink/15 bg-ink/3 rounded-xs px-3.5 py-2.5 font-mono text-[11px] leading-relaxed text-ink-muted overflow-x-auto">
           {runs.length === 0 ? (
             <div className="text-ink-muted/60">{'// each signal writes one audit line'}</div>
           ) : (
