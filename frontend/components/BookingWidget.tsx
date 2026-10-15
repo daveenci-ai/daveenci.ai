@@ -99,7 +99,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
       const response = await fetch(`${API_ENDPOINTS.availability}?start=${start}&end=${end}`);
       if (response.ok) {
         const data = await response.json();
-        setBusySlots(data.busySlots);
+        if (Array.isArray(data?.busySlots)) setBusySlots(data.busySlots);
       }
     } catch (error) {
       console.error('Failed to fetch availability', error);

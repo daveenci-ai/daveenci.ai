@@ -124,6 +124,23 @@ describe('GET /api/calendar/availability', () => {
     expect(getBusySlots.mock.calls[0][2]).toMatchObject({ calendarId: 'astrid@daveenci.ai' });
   });
 
+  test('bad or oversized date ranges are a 400, not a 500, and never reach Google (site audit, 15 Oct 2026)', async () => {
+    getBusySlots.mockClear();
+    for (const query of [
+      { host: 'anton', start: 'garbage', end: 'x' },
+      { host: 'anton', start: '2026-09-30T00:00:00Z', end: '2026-09-01T00:00:00Z' },
+      { host: 'anton', start: '2026-01-01T00:00:00Z', end: '2027-01-01T00:00:00Z' },
+    ]) {
+      const res = await request(app).get('/api/calendar/availability').query(query);
+      expect(res.status).toBe(400);
+    }
+    expect(getBusySlots).not.toHaveBeenCalled();
+    // The calendar's own window (a month plus a week either side) still works.
+    const ok = await request(app).get('/api/calendar/availability')
+      .query({ host: 'anton', start: '2026-08-25T00:00:00Z', end: '2026-10-07T23:59:59Z' });
+    expect(ok.status).toBe(200);
+  });
+
   test('an unknown host falls back to Astrid rather than erroring', async () => {
     const res = await request(app).get('/api/calendar/availability')
       .query({ host: 'mallory', start: '2026-09-01T00:00:00Z', end: '2026-09-30T00:00:00Z' });

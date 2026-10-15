@@ -1006,6 +1006,7 @@ const BrandOSPageDesktop: React.FC<BrandOSPageProps> = ({ onNavigate }) => {
       {/* Book an intro — inline calendar */}
       <div id="booking" className="scroll-mt-24">
       <BookingWidget
+        sectionId="booking-calendar"
         onNavigate={onNavigate}
         eyebrow="BrandOS Intro"
         title="Book a BrandOS intro"

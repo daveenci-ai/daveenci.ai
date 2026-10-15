@@ -105,6 +105,9 @@ export const MobileWhoWeArePage: React.FC<MobileWhoWeArePageProps> = ({ onNaviga
 
         <div
           ref={scrollerRef}
+          tabIndex={0}
+          role="region"
+          aria-label="Why DaVeenci, swipe for more"
           className="-mx-6 overflow-x-auto snap-x snap-mandatory flex gap-4 pb-6 scrollbar-none [&::-webkit-scrollbar]:hidden"
         >
           <div className="w-2 shrink-0" />

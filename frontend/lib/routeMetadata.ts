@@ -64,8 +64,8 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'guide' | 'not-fo
     path: '/library',
   },
   guides: {
-    title: 'Guides — straight answers before you automate (real-estate media, Aryeo, Spiro) | DaVeenci',
-    description: 'Answers to the questions teams ask before automating a workflow, tagged by industry and topic — starting with concierge order intake, Aryeo and Spiro for real-estate media shops.',
+    title: 'Guides — straight answers before you automate | DaVeenci',
+    description: 'Answers to what teams ask before automating a workflow, tagged by industry and topic — starting with order intake in Aryeo and Spiro for real-estate media.',
     path: '/guides',
   },
   'order-intake': {
@@ -80,12 +80,12 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'guide' | 'not-fo
   },
   'daily-report': {
     title: 'Daily Report — every Aryeo delivery checked before it goes out | DaVeenci',
-    description: 'Every morning the Daily Report checks each Aryeo listing due for delivery against what was ordered — photos, video, 3D, floor plans, files, property website, aerial and twilight shots — and sends one report before the delivery window. $2,500, fixed.',
+    description: 'Every morning, checks each Aryeo listing due for delivery against what was ordered and sends one report before the delivery window. $2,500, fixed.',
     path: '/shoot-ops/daily-report',
   },
   'photo-review': {
     title: 'Real-time Photo Review — every Aryeo photo checked as it lands | DaVeenci',
-    description: 'Real-time Photo Review checks every photo as it is uploaded to the Aryeo listing — focus, duplicates, verticals, framing, glare, reflections, signs and branding, the ordered photo types — and raises one ticket per order, only when something is wrong. $2,500 fixed, plus AI usage at cost.',
+    description: 'Checks every photo as it is uploaded to the Aryeo listing and raises one ticket per order, only when something is wrong. $2,500 fixed, plus AI usage at cost.',
     path: '/shoot-ops/photo-review',
   },
   calendar: {

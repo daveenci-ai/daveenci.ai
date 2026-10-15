@@ -41,7 +41,6 @@ export const reloadForNewDeploy = (now: number = Date.now()): boolean => {
 };
 
 /** React.lazy for a page: a chunk that is gone after a deploy triggers one reload instead of an error screen. */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function lazyPage<T extends ComponentType<any>>(load: () => Promise<{ default: T }>) {
   return lazy(() =>
     load().catch((error: unknown) => {

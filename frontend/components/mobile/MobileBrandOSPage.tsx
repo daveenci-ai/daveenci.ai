@@ -512,6 +512,7 @@ export const MobileBrandOSPage: React.FC<MobileBrandOSPageProps> = ({ onNavigate
       {/* Book a BrandOS intro */}
       <div id="booking" className="scroll-mt-16">
       <BookingWidget
+        sectionId="booking-calendar"
         onNavigate={onNavigate}
         eyebrow="BrandOS Intro"
         title="Book a BrandOS intro"
