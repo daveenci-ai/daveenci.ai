@@ -1350,7 +1350,8 @@ const demoScenarios: DemoScenario[] = [
   },
 ];
 
-export const CreatorMode: React.FC = () => {
+// sectionId: the phone page wraps this in its own #try-it section, so it passes another id (site audit, 15 Oct 2026).
+export const CreatorMode: React.FC<{ sectionId?: string }> = ({ sectionId = 'try-it' }) => {
   const [checks, setChecks] = useState<Record<number, boolean>>(
     Object.fromEntries(insightChoices.map(c => [c.id, c.checked]))
   );
@@ -1389,7 +1390,7 @@ export const CreatorMode: React.FC = () => {
   };
 
   return (
-    <Section id="try-it" className="bg-alt/30">
+    <Section id={sectionId} className="bg-alt/30">
       <SectionHeader eyebrow="Creator Mode" title="Try Now - Pick insights, generate content." subtitle="Hand-pick the moments that matter, then let Pulse turn them into polished content." />
       <ScrollReveal>
         {showDemoPreview ? (

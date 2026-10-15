@@ -29,7 +29,7 @@ export const governedAgentOperations: BriefingData = {
   id: 'governed-agent-operations',
   title: 'How We Run Our Own Agents: An Operating Model With an Enforceable Control Plane',
   metaDescription:
-    'The operating model DaVeenci uses for its own autonomous agents: an untrusted planner, isolated workers, and a separate control plane — approval ledger, deterministic policy engine, action broker — that decides what is permitted. Architecture v9, Phase 0 in build.',
+    'How DaVeenci runs its own agents: an untrusted planner, isolated workers, and a separate control plane — approvals, policy, action broker — that decides what is allowed.',
   publishDate: '2026-09-02',
   author: 'Anton Osipov',
   category: 'Operations',

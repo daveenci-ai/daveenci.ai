@@ -224,6 +224,7 @@ export const MobilePureCodePage: React.FC<MobilePureCodePageProps> = ({ onNaviga
       {/* Book a PureCode intro — the page's CTAs scroll here. */}
       <div id="booking" className="scroll-mt-16">
       <BookingWidget
+        sectionId="booking-calendar"
         onNavigate={onNavigate}
         eyebrow="PureCode Intro"
         title="Book a PureCode intro"

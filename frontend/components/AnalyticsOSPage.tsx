@@ -33,7 +33,7 @@ const STATUS = 'New engagement · Scoped Sep 2026';
 /* ------------------------------------------------------------------------ */
 
 const DecisionTable: React.FC<{ compact?: boolean }> = ({ compact = false }) => (
-  <div className="overflow-x-auto -mx-6 px-6">
+  <div className="overflow-x-auto -mx-6 px-6" tabIndex={0} role="region" aria-label="How each question is decided (scrolls sideways)">
     <table className={`w-full border-collapse ${compact ? 'min-w-[560px]' : 'min-w-[720px]'}`}>
       <thead>
         <tr className="border-b border-ink/15">

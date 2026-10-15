@@ -11,6 +11,7 @@ import { LibraryTrail } from './LibraryTrail';
 import { Parallax } from './motion/Parallax';
 import { useScrollProgress } from '../lib/useScrollProgress';
 import { governedAgentOperations } from '../content/briefingGovernedAgents';
+import { tocEntries } from '../lib/codexToc';
 
 interface BriefingDetailPageProps {
    onNavigate: (page: Page, hash?: string, id?: string) => void;
@@ -41,7 +42,7 @@ export interface BriefingData {
 }
 
 // Briefing Data Dictionary
-const briefings: Record<string, BriefingData> = {
+export const briefings: Record<string, BriefingData> = {
    "agentic-workflow": {
       id: "agentic-workflow",
       title: "The Agentic Workflow: Architecting Swarms",
@@ -1690,9 +1691,9 @@ const BriefingDetailDesktop: React.FC<BriefingDetailPageProps> = ({ onNavigate, 
                <div className="sticky top-32 p-6 border-l border-ink/10">
                   <h3 className="font-sans text-xs font-bold text-ink uppercase tracking-widest mb-4">Contents</h3>
                   <ul className="space-y-3">
-                     {data.toc.map((item, i) => (
+                     {tocEntries(data).map(({ label: item, id }, i) => (
                         <li key={i}>
-                           <a href={`#${item.toLowerCase().replace(/\s+/g, '-')}`} className="text-sm text-ink-muted hover:text-accent transition-colors flex items-center gap-2 group">
+                           <a href={`#${id}`} className="text-sm text-ink-muted hover:text-accent transition-colors flex items-center gap-2 group">
                               <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                               {item}
                            </a>
@@ -1710,7 +1711,7 @@ const BriefingDetailDesktop: React.FC<BriefingDetailPageProps> = ({ onNavigate, 
             <article className="lg:col-span-9 max-w-3xl mx-auto">
 
                {/* AEO: Quick Answer Box (Featured Snippet Optimization) */}
-               <div className="bg-accent/5 border border-accent/20 p-6 md:p-8 rounded-xs mb-12 relative overflow-hidden">
+               <div id="quick-answer" className="bg-accent/5 border border-accent/20 p-6 md:p-8 rounded-xs mb-12 relative overflow-hidden scroll-mt-28">
                   <div className="absolute top-0 right-0 p-4 opacity-10">
                      <Lightbulb className="w-12 h-12 text-accent" />
                   </div>

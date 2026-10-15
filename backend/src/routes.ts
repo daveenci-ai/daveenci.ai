@@ -139,11 +139,24 @@ router.post('/calendar/book', async (req: Request, res: Response) => {
     }
 });
 
+const MAX_AVAILABILITY_WINDOW_MS = 62 * 24 * 60 * 60 * 1000;
+
 router.get('/calendar/availability', async (req: Request, res: Response) => {
     try {
         const { start, end } = req.query;
         if (!start || !end) {
             return res.status(400).json({ error: 'Missing start or end date' });
+        }
+        // Site audit, 15 Oct 2026: bad dates used to reach Google and come back as a 500. Reject them here, and cap the
+        // window so one request can't ask Google for years of free/busy. The calendar asks for a month plus a week
+        // either side (about 45 days).
+        const startMs = Date.parse(String(start));
+        const endMs = Date.parse(String(end));
+        if (Number.isNaN(startMs) || Number.isNaN(endMs) || endMs <= startMs) {
+            return res.status(400).json({ error: 'Invalid start or end date' });
+        }
+        if (endMs - startMs > MAX_AVAILABILITY_WINDOW_MS) {
+            return res.status(400).json({ error: 'Date range too long' });
         }
 
         const host = getHost(req.query.host as string) || getHost('astrid')!;

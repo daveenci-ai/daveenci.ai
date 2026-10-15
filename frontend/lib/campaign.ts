@@ -26,7 +26,6 @@ const defaultStorage = (): Storage | null => {
 /** Campaign names come from ad platforms (spaces, pipes, dashes are normal); drop control chars and cap length. */
 export const cleanUtm = (raw: unknown): string => {
   if (typeof raw !== 'string') return '';
-  // eslint-disable-next-line no-control-regex
   return raw.replace(/[\u0000-\u001f\u007f<>"'`]/g, '').trim().slice(0, 100);
 };
 

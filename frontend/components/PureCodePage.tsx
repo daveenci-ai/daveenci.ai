@@ -1031,6 +1031,7 @@ const PureCodePageDesktop: React.FC<PureCodePageProps> = ({ onNavigate }) => {
           unsure whether they had actually booked. */}
       <div id="booking" className="scroll-mt-24">
       <BookingWidget
+        sectionId="booking-calendar"
         onNavigate={onNavigate}
         eyebrow="PureCode Intro"
         title="Book a PureCode intro"

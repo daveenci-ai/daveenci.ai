@@ -135,6 +135,9 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' 
             throw new Error(`Availability request failed (${response.status})`);
          }
          const data = await response.json();
+         // A 200 without a busySlots list (a proxy page, a changed API) must not crash the booking page (site audit,
+         // 15 Oct 2026): treat it like a failed load so the visitor still sees times and the warning.
+         if (!Array.isArray(data?.busySlots)) throw new Error('Availability response has no busySlots list');
          setBusySlots(data.busySlots);
          if (data.host) {
             setSlotConfig({
@@ -208,7 +211,7 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' 
             const availResponse = await fetch(`${API_ENDPOINTS.availability}?host=${host}&start=${start}&end=${end}`);
             if (availResponse.ok) {
                const availData = await availResponse.json();
-               setBusySlots(availData.busySlots);
+               if (Array.isArray(availData?.busySlots)) setBusySlots(availData.busySlots);
             }
             // Go back to time selection
             setStep('datetime');
@@ -363,8 +366,8 @@ const CalendarDesktop: React.FC<CalendarProps> = ({ onNavigate, host = 'astrid' 
                                              {monthNames[currentDate.getMonth()]} <span className="text-ink-muted">{currentDate.getFullYear()}</span>
                                           </h3>
                                           <div className="flex gap-1.5">
-                                             <button onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="w-8 h-8 flex items-center justify-center border border-ink/10 rounded-xs text-ink-muted hover:border-accent hover:text-accent transition-colors"><ChevronLeft className="w-4 h-4" /></button>
-                                             <button onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="w-8 h-8 flex items-center justify-center border border-ink/10 rounded-xs text-ink-muted hover:border-accent hover:text-accent transition-colors"><ChevronRight className="w-4 h-4" /></button>
+                                             <button aria-label="Previous month" onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="w-8 h-8 flex items-center justify-center border border-ink/10 rounded-xs text-ink-muted hover:border-accent hover:text-accent transition-colors"><ChevronLeft className="w-4 h-4" /></button>
+                                             <button aria-label="Next month" onClick={() => { setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)); setSelectedDate(null); setSelectedTime(null); }} className="w-8 h-8 flex items-center justify-center border border-ink/10 rounded-xs text-ink-muted hover:border-accent hover:text-accent transition-colors"><ChevronRight className="w-4 h-4" /></button>
                                           </div>
                                        </div>
                                        <div className="grid grid-cols-7 gap-2 text-center font-serif italic text-[10px] tracking-[0.2em] text-ink-muted/60 uppercase mb-3">

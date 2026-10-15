@@ -185,7 +185,7 @@ export const MobilePulseNotePage: React.FC<MobilePulseNotePageProps> = ({ onNavi
         <p className="font-serif text-[15px] text-ink-muted leading-relaxed mb-6">
           Give Pulse a topic and watch it draft a post, generate visuals, and queue it up — no setup required.
         </p>
-        <CreatorMode />
+        <CreatorMode sectionId="creator-mode" />
       </section>
 
       {/* Use Cases */}
@@ -255,6 +255,7 @@ export const MobilePulseNotePage: React.FC<MobilePulseNotePageProps> = ({ onNavi
       {/* Book a Pulse demo */}
       <div id="booking">
         <BookingWidget
+          sectionId="booking-calendar"
           onNavigate={onNavigate}
           eyebrow="Pulse Demo"
           title="Book a Pulse Demo"

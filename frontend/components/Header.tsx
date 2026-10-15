@@ -153,7 +153,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
             const anchor = (
               <a
                 key={link.label}
-                href={link.href}
+                href={link.href.startsWith('#') ? `/${link.href}` : link.href}
                 onClick={(e) => handleNavClick(e, link)}
                 aria-haspopup={link.href === '/library' ? 'true' : undefined}
                 className={`text-xs uppercase tracking-[0.18em] font-medium transition-colors relative group whitespace-nowrap px-2 py-1 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 ${active ? 'text-accent' : 'text-ink-muted hover:text-ink'
@@ -212,7 +212,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage = 'landing', ac
             return (
               <a
                 key={link.label}
-                href={link.href}
+                href={link.href.startsWith('#') ? `/${link.href}` : link.href}
                 onClick={(e) => handleNavClick(e, link)}
                 className={`text-xl font-serif border-b border-ink/5 pb-3 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 ${active ? 'font-bold text-accent' : 'text-ink hover:text-accent'
                   }`}

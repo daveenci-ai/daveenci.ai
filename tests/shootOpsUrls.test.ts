@@ -14,7 +14,8 @@ describe('Shoot Ops URLs (renamed from /shootos, 10 Oct 2026)', () => {
   });
 
   it('vercel 301s /shootos and every page under it to /shoot-ops, before any other route', () => {
-    const routes = JSON.parse(readFileSync(`${root}vercel.json`, 'utf8')).routes;
+    // Header-only routes (continue: true) don't resolve a request, so they may sit above the redirects (site audit, 15 Oct 2026).
+    const routes = JSON.parse(readFileSync(`${root}vercel.json`, 'utf8')).routes.filter((r: { continue?: boolean }) => !r.continue);
     expect(routes[0]).toEqual({ src: '/shootos/?', status: 301, headers: { Location: '/shoot-ops' } });
     expect(routes[1]).toEqual({ src: '/shootos/(.*)', status: 301, headers: { Location: '/shoot-ops/$1' } });
     expect(routes.some((r: { src?: string; dest?: string }) => r.src === '/shoot-ops/concierge-order-intake' && r.dest === '/_prerendered/concierge-order-intake.html')).toBe(true);

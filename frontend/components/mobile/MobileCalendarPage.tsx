@@ -100,6 +100,8 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate, host =
       const response = await fetch(`${API_ENDPOINTS.availability}?host=${host}&start=${start}&end=${end}`);
       if (!response.ok) throw new Error(`Availability request failed (${response.status})`);
       const data = await response.json();
+      // Same guard as Calendar.tsx (site audit, 15 Oct 2026): no busySlots list means the load failed.
+      if (!Array.isArray(data?.busySlots)) throw new Error('Availability response has no busySlots list');
       setBusySlots(data.busySlots);
       if (data.host) {
         setSlotConfig({
@@ -250,6 +252,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate, host =
               </h3>
               <div className="flex gap-1">
                 <button
+                  aria-label="Previous month"
                   onClick={() => {
                     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
                     setSelectedDate(null);
@@ -257,9 +260,10 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate, host =
                   }}
                   className="w-9 h-9 flex items-center justify-center border border-ink/10 rounded-xs text-ink-muted active:border-accent"
                 >
-                  <ChevronLeft className="w-4 h-4" />
+                  <ChevronLeft className="w-4 h-4" aria-hidden="true" />
                 </button>
                 <button
+                  aria-label="Next month"
                   onClick={() => {
                     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
                     setSelectedDate(null);
@@ -267,7 +271,7 @@ export const MobileCalendarPage: React.FC<CalendarProps> = ({ onNavigate, host =
                   }}
                   className="w-9 h-9 flex items-center justify-center border border-ink/10 rounded-xs text-ink-muted active:border-accent"
                 >
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-4 h-4" aria-hidden="true" />
                 </button>
               </div>
             </div>
