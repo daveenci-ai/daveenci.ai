@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo } from 'react';
-import { Check, FileSearch, ListChecks, ListTodo, Send, X } from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Check, FileSearch, ListChecks, ListTodo, Send, Volume2, X } from 'lucide-react';
 import Header from './Header';
 import Footer from './Footer';
 import { Button, Eyebrow, PageHero, Plate, ScrollReveal, Section, SectionHeader, VitruvianBackground } from './Shared';
@@ -8,7 +8,6 @@ import type { Page } from './types';
 import { readAttribution } from '../lib/attribution';
 import { useScrollProgress } from '../lib/useScrollProgress';
 import { termsNoteFor } from '../content/shootOpsModules';
-import { ModuleSchematic } from './ShootOpsModuleSchematics';
 import { HeroReport, ListPanel, ListingPanel, MatrixPanel, OUTCOMES, ReportMock, SendPanel } from './dailyReport/ReportVisuals';
 import ModulePairing from './ModulePairing';
 import AntonSketch from '../images/Anton_Sketch.webp';
@@ -24,6 +23,10 @@ interface DailyReportPageProps {
 // from the delivered files' names (no vision call since 19 Sep 2026), and one report a day with missing items first.
 // It does not move deliveries in Aryeo: the reschedule is built but switched off, so a person holds the delivery.
 // Client names never appear; listing data is fictional.
+// Fig. ii is a 20-second motion-graphics overview (Anton, 15 Oct 2026), the same style as the Order Intake and Order Review
+// ones, drawn from this page's own fictional listings. No A/B test: every visitor sees the same video.
+const OVERVIEW_SRC = '/videos/daily-report-motion.mp4';
+const OVERVIEW_POSTER = '/videos/daily-report-motion-poster.jpg';
 
 const PROOF = [
   { value: '6:00', label: 'first sweep of the morning' },
@@ -183,6 +186,20 @@ const DailyReportPage: React.FC<DailyReportPageProps> = ({ onNavigate }) => {
   }, []);
   const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
 
+  // Fig. ii overview: starts muted (browsers only autoplay muted video); "Play with sound" restarts it with sound.
+  const overviewRef = useRef<HTMLVideoElement>(null);
+  const [overviewSound, setOverviewSound] = useState(false);
+  const playOverviewWithSound = () => {
+    const v = overviewRef.current;
+    if (!v) return;
+    v.currentTime = 0;
+    v.muted = false;
+    setOverviewSound(true);
+    void v.play().catch(() => {
+      /* the browser refused; the controls are still there */
+    });
+  };
+
   // Carry the outreach token through to the booking page, so a call books against the email that produced it.
   const bookHref = useMemo(() => {
     const { t } = readAttribution();
@@ -303,12 +320,33 @@ const DailyReportPage: React.FC<DailyReportPageProps> = ({ onNavigate }) => {
             </p>
           </div>
           <div className="lg:col-span-7">
-            <figure className="border border-ink/10 rounded-xs bg-white/70 p-5 md:p-8 shadow-widget-raised">
-              <ModuleSchematic id="daily-review" className="aspect-5/3 w-full" />
-              <figcaption className="font-serif italic text-xs tracking-[0.2em] text-ink-muted uppercase mt-4">
-                Every listing due today, one report
-              </figcaption>
-            </figure>
+            <div className="aspect-video w-full border border-ink/10 rounded-xs overflow-hidden bg-ink/5 shadow-widget-raised">
+              <div className="relative w-full h-full">
+                <video
+                  ref={overviewRef}
+                  controls
+                  autoPlay
+                  muted
+                  playsInline
+                  preload="metadata"
+                  poster={OVERVIEW_POSTER}
+                  className="w-full h-full object-cover"
+                  src={OVERVIEW_SRC}
+                  onVolumeChange={(e) => { if (!e.currentTarget.muted && e.currentTarget.volume > 0) setOverviewSound(true); }}
+                  aria-label="Daily Report overview: every listing due for delivery is checked against what was ordered, and one report goes out before nine with missing items first"
+                />
+                {!overviewSound && (
+                  <button
+                    type="button"
+                    onClick={playOverviewWithSound}
+                    className="absolute left-1/2 top-[70%] -translate-x-1/2 -translate-y-1/2 inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-ink/85 hover:bg-ink text-white font-sans text-base px-5 py-3 shadow-lg transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent"
+                  >
+                    <Volume2 className="w-5 h-5" aria-hidden="true" />
+                    Play with sound
+                  </button>
+                )}
+              </div>
+            </div>
             <div className="mt-8">
               <BookButton surface="under_figure" />
             </div>
