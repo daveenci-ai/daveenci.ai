@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import type { Page } from '../components/types';
 import OrderIntakePage from '../components/OrderIntakePage';
 import OrderReviewPage from '../components/OrderReviewPage';
+import DailyReportPage from '../components/DailyReportPage';
 import GuidePage from '../components/GuidePage';
 import GuidesPage from '../components/GuidesPage';
 import LibraryPage from '../components/LibraryPage';
@@ -61,6 +62,7 @@ export function renderRoutes(): PrerenderedRoute[] {
 
   add('/shoot-ops/concierge-order-intake', 'concierge-order-intake.html', <OrderIntakePage onNavigate={noop} />, 'order-intake');
   add('/shoot-ops/order-review', 'order-review.html', <OrderReviewPage onNavigate={noop} />, 'order-review');
+  add('/shoot-ops/daily-report', 'daily-report.html', <DailyReportPage onNavigate={noop} />, 'daily-report');
   add('/library', 'library.html', <LibraryPage onNavigate={noop} />, 'library');
   add('/guides', 'guides.html', <GuidesPage onNavigate={noop} />, 'guides');
   for (const g of guides) {

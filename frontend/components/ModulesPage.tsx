@@ -24,6 +24,13 @@ const MODULES: { title: string; blurb: string; price: string; page: Page; path: 
     page: 'order-review',
     path: '/shoot-ops/order-review',
   },
+  {
+    title: 'Daily Report',
+    blurb: 'Every morning, checks each Aryeo listing due for delivery against what was ordered and sends one report before the delivery window: what is missing, what it couldn’t verify, what is complete.',
+    price: '$2,500, fixed',
+    page: 'daily-report',
+    path: '/shoot-ops/daily-report',
+  },
 ];
 
 const ModulesPage: React.FC<ModulesPageProps> = ({ onNavigate }) => {

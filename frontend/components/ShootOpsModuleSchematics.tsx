@@ -109,9 +109,9 @@ export const OrderReviewSchematic: React.FC = () => {
   );
 };
 
-/** The morning: everything due for delivery, sorted — complete, missing, urgent — into one report before nine. */
+/** The morning: everything due for delivery, sorted — complete, missing, couldn't verify — into one report before nine. */
 export const DailyReviewSchematic: React.FC = () => {
-  const rows: Array<[number, 'ok' | 'missing' | 'urgent']> = [[64, 'ok'], [58, 'ok'], [44, 'missing'], [66, 'ok'], [30, 'urgent'], [62, 'ok'], [50, 'missing'], [68, 'ok']];
+  const rows: Array<[number, 'ok' | 'missing' | 'unverified']> = [[64, 'ok'], [58, 'ok'], [44, 'missing'], [66, 'ok'], [30, 'unverified'], [62, 'ok'], [50, 'missing'], [68, 'ok']];
   return (
     <svg viewBox="0 0 300 180" fill="none" className="w-full h-full" aria-hidden="true">
       {/* the clock line */}
@@ -127,13 +127,13 @@ export const DailyReviewSchematic: React.FC = () => {
       {/* the listings, audited through the morning */}
       {rows.map(([h, s], i) => {
         const x = 26 + i * 20;
-        const color = s === 'ok' ? success : s === 'missing' ? accent : danger;
+        const color = s === 'ok' ? success : s === 'missing' ? danger : accent;
         return (
           <g key={i}>
             <rect x={x} y={140 - h} width="12" height={h} fill={color} fillOpacity={s === 'ok' ? 0.35 : 0.6} stroke={color} strokeWidth="0.8">
               <animate attributeName="opacity" values="0;1;1" keyTimes="0;0.15;1" dur="5s" begin={`${i * 0.35}s`} repeatCount="indefinite" />
             </rect>
-            {s !== 'ok' && <text x={x + 6} y={132 - h} textAnchor="middle" fontSize="7" fill={color} fontFamily="serif" fontStyle="italic">{s === 'missing' ? '−1' : '!'}</text>}
+            {s !== 'ok' && <text x={x + 6} y={132 - h} textAnchor="middle" fontSize="7" fill={color} fontFamily="serif" fontStyle="italic">{s === 'missing' ? '−1' : '?'}</text>}
           </g>
         );
       })}
@@ -142,7 +142,7 @@ export const DailyReviewSchematic: React.FC = () => {
       <rect x="216" y="48" width="66" height="92" rx="1" fill="white" stroke={ink} strokeWidth="1.2" />
       <line x1="216" y1="62" x2="282" y2="62" stroke={ink} strokeWidth="1" />
       <text x="249" y="58" textAnchor="middle" fontSize="6.5" fill={ink} fontFamily="sans-serif">Daily Report</text>
-      {[['Complete', success, '6'], ['Missing items', accent, '2'], ['Urgent', danger, '1'], ['Not checked', muted, '0']].map(([t, c, n], i) => (
+      {[['Complete', success, '5'], ['Missing items', danger, '2'], ["Couldn't verify", accent, '1'], ['Not checked', muted, '0']].map(([t, c, n], i) => (
         <g key={t as string}>
           <circle cx="224" cy={73 + i * 15} r="2.4" fill={c as string} />
           <text x="230" y={75.5 + i * 15} fontSize="6" fill={muted} fontFamily="sans-serif">{t}</text>

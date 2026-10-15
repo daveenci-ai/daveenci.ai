@@ -5,11 +5,12 @@ import { modulePairings, shootOpsModules, starterModuleTerms } from '../frontend
 const root = new URL('..', import.meta.url).pathname;
 const read = (rel: string) => readFileSync(`${root}${rel}`, 'utf8');
 
-describe('Order Intake and Order Review promote each other (13 Oct 2026)', () => {
-  it('each starter module pairs with the other, and both have a page, a path and the $2,500 price', () => {
-    expect(modulePairings['order-intake'].with).toBe('order-review');
-    expect(modulePairings['order-review'].with).toBe('order-intake');
-    for (const id of ['order-intake', 'order-review'] as const) {
+describe('The three fixed-price modules promote the other two (13 Oct 2026; Daily Report added 15 Oct 2026)', () => {
+  it('each module pairs with the other two, and all three have a page, a path and the $2,500 price', () => {
+    expect(modulePairings['order-intake'].with).toEqual(['order-review', 'daily-review']);
+    expect(modulePairings['order-review'].with).toEqual(['order-intake', 'daily-review']);
+    expect(modulePairings['daily-review'].with).toEqual(['order-intake', 'order-review']);
+    for (const id of ['order-intake', 'order-review', 'daily-review'] as const) {
       const m = shootOpsModules.find((x) => x.id === id);
       expect(m?.page).toBeTruthy();
       expect(m?.path).toMatch(/^\/shoot-ops\//);
@@ -21,6 +22,7 @@ describe('Order Intake and Order Review promote each other (13 Oct 2026)', () =>
     for (const [file, id] of [
       ['frontend/components/OrderIntakePage.tsx', 'order-intake'],
       ['frontend/components/OrderReviewPage.tsx', 'order-review'],
+      ['frontend/components/DailyReportPage.tsx', 'daily-review'],
     ] as const) {
       const src = read(file);
       const band = src.indexOf(`<ModulePairing current="${id}"`);
@@ -36,17 +38,19 @@ describe('Order Intake and Order Review promote each other (13 Oct 2026)', () =>
     expect(src).toContain('href="/shoot-ops/order-review"');
   });
 
-  it('the Order Review side stays Aryeo only, and no copy invents a bundle price or a monthly plan', () => {
-    const reviewSide = [modulePairings['order-review'].title, modulePairings['order-review'].body].join(' ');
-    expect(reviewSide).not.toMatch(/Spiro/);
+  it('the Order Review and Daily Report sides stay Aryeo only, and no copy invents a bundle price or a monthly plan', () => {
+    for (const id of ['order-review', 'daily-review'] as const) {
+      expect([modulePairings[id].title, modulePairings[id].body].join(' ')).not.toMatch(/Spiro/);
+    }
     const all = Object.values(modulePairings).map((p) => `${p.title} ${p.body}`).join(' ') + starterModuleTerms;
     expect(all).not.toMatch(/bundle|discount|monthly|\/mo|\$\d/i);
   });
 
-  it('the /shoot-ops hub names both as the small starter modules, desktop and mobile', () => {
+  it('the /shoot-ops hub names all three as the small modules at $2,500 each, desktop and mobile', () => {
     for (const file of ['frontend/components/AutoPilotPage.tsx', 'frontend/components/mobile/MobileAutoPilotPage.tsx']) {
       const src = read(file);
-      expect(src).toContain('Concierge Order Intake and Order Review are the two small ones');
+      expect(src).toContain('Concierge Order Intake, Order Review and the Daily Report are the three small ones — $2,500 each');
+      expect(src).not.toContain('are the two small ones');
       expect(src).not.toContain('is the first, small one');
     }
   });

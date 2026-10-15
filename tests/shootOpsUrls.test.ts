@@ -28,11 +28,12 @@ describe('Shoot Ops URLs (renamed from /shootos, 10 Oct 2026)', () => {
 });
 
 describe('Fig. i links module rows to their pages (11 Oct 2026)', () => {
-  it('Concierge Order Intake links to its page; modules without a page stay plain', async () => {
+  it('the three fixed-price modules link to their pages; Real-time Photo Review has none yet', async () => {
     const { modulePageFor } = await import('../frontend/content/shootOpsModules');
     expect(modulePageFor('Concierge Order Intake')).toEqual({ page: 'order-intake', path: '/shoot-ops/concierge-order-intake' });
     expect(modulePageFor('Order Review')).toEqual({ page: 'order-review', path: '/shoot-ops/order-review' });
-    expect(modulePageFor('Daily Report')).toBeNull();
+    expect(modulePageFor('Daily Report')).toEqual({ page: 'daily-report', path: '/shoot-ops/daily-report' });
+    expect(modulePageFor('Real-time Photo Review')).toBeNull();
     expect(modulePageFor('Nope')).toBeNull();
   });
 });
