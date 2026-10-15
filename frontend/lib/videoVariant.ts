@@ -1,14 +1,15 @@
 /**
- * A/B test of the narrator voice on the Concierge Order Intake walkthrough.
+ * A/B/C test of the video on the Concierge Order Intake page.
  *
- * Each visitor is assigned one voice, 50/50, and keeps it on later visits
- * (localStorage), so the same person never hears both. `?vv=mark` or
- * `?vv=rachel` forces a voice for that page view only — for previews and QA —
+ * Two narrated walkthroughs (voices Mark and Rachel, ~60 s) and, since 15 Oct 2026 (Anton), a 20-second motion-graphics
+ * overview ('motion'). Each new visitor is assigned one of the three, a third each, and keeps it on later visits
+ * (localStorage), so the same person never sees two. Visitors assigned before the third variant existed keep their
+ * voice. `?vv=mark`, `?vv=rachel` or `?vv=motion` forces a variant for that page view only — for previews and QA —
  * and is never stored, so it cannot skew the split.
  */
-export type VoiceVariant = 'mark' | 'rachel';
+export type VoiceVariant = 'mark' | 'rachel' | 'motion';
 
-export const VOICE_VARIANTS: readonly VoiceVariant[] = ['mark', 'rachel'];
+export const VOICE_VARIANTS: readonly VoiceVariant[] = ['mark', 'rachel', 'motion'];
 
 const KEY = 'daveenci-video-voice';
 
@@ -51,7 +52,8 @@ export const pickVideoVariant = (
   const stored = readVideoVariant(storage);
   if (stored) return { variant: stored, forced: false };
 
-  const variant: VoiceVariant = random() < 0.5 ? 'mark' : 'rachel';
+  const r = random();
+  const variant: VoiceVariant = r < 1 / 3 ? 'mark' : r < 2 / 3 ? 'rachel' : 'motion';
   try {
     storage?.setItem(KEY, variant);
   } catch {
@@ -61,6 +63,10 @@ export const pickVideoVariant = (
 };
 
 export const videoSrc = (variant: VoiceVariant): string => `/videos/concierge-order-intake-${variant}.mp4`;
+
+/** The narrated walkthroughs share one title-card poster; the motion overview has its own. */
+export const videoPoster = (variant: VoiceVariant): string =>
+  variant === 'motion' ? '/videos/concierge-order-intake-motion-poster.jpg' : '/videos/concierge-order-intake-poster-v2.jpg';
 
 /** Quarter marks a viewer has newly passed, given the marks already reported. */
 export const newProgressMarks = (

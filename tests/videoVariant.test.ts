@@ -4,6 +4,7 @@ import {
   parseVariant,
   pickVideoVariant,
   readVideoVariant,
+  videoPoster,
   videoSrc,
 } from '../frontend/lib/videoVariant';
 
@@ -26,25 +27,35 @@ const brokenStorage = {
 };
 
 describe('voice A/B assignment', () => {
-  it('splits new visitors by the random draw: below 0.5 is Mark, the rest Rachel', () => {
-    expect(pickVideoVariant('', memoryStorage(), () => 0.49).variant).toBe('mark');
-    expect(pickVideoVariant('', memoryStorage(), () => 0.5).variant).toBe('rachel');
+  it('splits new visitors in thirds (15 Oct 2026): Mark, Rachel, then the motion overview', () => {
+    expect(pickVideoVariant('', memoryStorage(), () => 0.33).variant).toBe('mark');
+    expect(pickVideoVariant('', memoryStorage(), () => 0.34).variant).toBe('rachel');
+    expect(pickVideoVariant('', memoryStorage(), () => 0.66).variant).toBe('rachel');
+    expect(pickVideoVariant('', memoryStorage(), () => 0.67).variant).toBe('motion');
+  });
+
+  it('a visitor assigned a voice before the motion variant existed keeps that voice', () => {
+    const s = memoryStorage();
+    s.setItem('daveenci-video-voice', 'mark');
+    expect(pickVideoVariant('', s, () => 0.9)).toEqual({ variant: 'mark', forced: false });
   });
 
   it('keeps a returning visitor on the voice they were first given', () => {
     const s = memoryStorage();
-    expect(pickVideoVariant('', s, () => 0.9).variant).toBe('rachel');
+    expect(pickVideoVariant('', s, () => 0.5).variant).toBe('rachel');
     expect(pickVideoVariant('', s, () => 0.1)).toEqual({ variant: 'rachel', forced: false });
     expect(readVideoVariant(s)).toBe('rachel');
   });
 
-  it('lands close to 50/50 over many visitors', () => {
+  it('lands close to a third each over many visitors', () => {
     let seed = 7;
     const lcg = () => ((seed = (seed * 1103515245 + 12345) % 2 ** 31) / 2 ** 31);
-    let mark = 0;
-    for (let i = 0; i < 10000; i++) if (pickVideoVariant('', memoryStorage(), lcg).variant === 'mark') mark++;
-    expect(mark).toBeGreaterThan(4800);
-    expect(mark).toBeLessThan(5200);
+    const n = { mark: 0, rachel: 0, motion: 0 };
+    for (let i = 0; i < 30000; i++) n[pickVideoVariant('', memoryStorage(), lcg).variant]++;
+    for (const v of Object.values(n)) {
+      expect(v).toBeGreaterThan(9600);
+      expect(v).toBeLessThan(10400);
+    }
   });
 
   it('?vv= forces a voice for that view only and never overwrites the assignment', () => {
@@ -66,7 +77,7 @@ describe('voice A/B assignment', () => {
   });
 
   it('still plays a voice when storage is blocked', () => {
-    expect(pickVideoVariant('', brokenStorage, () => 0.7).variant).toBe('rachel');
+    expect(pickVideoVariant('', brokenStorage, () => 0.5).variant).toBe('rachel');
     expect(pickVideoVariant('', null, () => 0.2).variant).toBe('mark');
     expect(readVideoVariant(brokenStorage)).toBeNull();
   });
@@ -74,6 +85,13 @@ describe('voice A/B assignment', () => {
   it('maps each voice to its own file', () => {
     expect(videoSrc('mark')).toBe('/videos/concierge-order-intake-mark.mp4');
     expect(videoSrc('rachel')).toBe('/videos/concierge-order-intake-rachel.mp4');
+    expect(videoSrc('motion')).toBe('/videos/concierge-order-intake-motion.mp4');
+    expect(videoPoster('mark')).toBe(videoPoster('rachel'));
+    expect(videoPoster('motion')).toBe('/videos/concierge-order-intake-motion-poster.jpg');
+  });
+
+  it('?vv=motion previews the motion overview', () => {
+    expect(pickVideoVariant('?vv=motion', memoryStorage(), () => 0.1)).toEqual({ variant: 'motion', forced: true });
   });
 });
 
