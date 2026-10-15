@@ -156,7 +156,7 @@ export const DailyReviewSchematic: React.FC = () => {
   );
 };
 
-/** A delivered set, every frame looked at; the one that is wrong is named. */
+/** Photos checked as they land, every frame looked at; the one that is wrong is named. */
 export const PhotoReviewSchematic: React.FC = () => {
   const cells = Array.from({ length: 12 }, (_, i) => i);
   const bad = 7;
@@ -181,7 +181,7 @@ export const PhotoReviewSchematic: React.FC = () => {
         );
       })}
       <path d={`M ${20 + 2 * 42 + 36} ${34 + 2 * 34 + 13} L ${20 + 3 * 42} ${34 + 2 * 34 + 13}`} stroke={accent} strokeWidth="1" strokeDasharray="2 2" />
-      <Label x={104} y={150}>Every frame · focus, exposure, duplicates</Label>
+      <Label x={104} y={150}>Every frame · focus, framing, duplicates</Label>
       {/* the ticket */}
       <rect x="206" y="52" width="76" height="70" rx="1" fill="white" stroke={danger} strokeWidth="1.2" />
       <text x="244" y="66" textAnchor="middle" fontSize="6.5" fill={ink} fontFamily="sans-serif">One ticket</text>

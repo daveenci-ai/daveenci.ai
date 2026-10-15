@@ -79,8 +79,8 @@ const workflow = [
     number: '04',
     eyebrow: 'Real-time Photo Review',
     title: 'Look at every photo the way an editor would.',
-    body: 'Each delivered image is checked for focus, exposure, duplicates, coverage and the photo types the order asked for. Findings name the specific frames, and a ticket is raised only when something is wrong — one per order, once.',
-    bullets: ['Per-image checks with a vision veto on outliers', 'Frames named by number, so the right picture gets fixed', 'Tuned per client from before-and-after examples'],
+    body: 'Each photo is checked as it is uploaded — focus, duplicates, verticals, framing, glare, reflections, signs and branding, and the photo types the order asked for. Findings name the specific frames, and a ticket is raised only when something is wrong — one per order.',
+    bullets: ['Twelve checks on every photo, each one switchable on its own', 'Frames named by number, so the right picture gets fixed', 'Tuned per client from the examples your team sends back'],
   },
 ];
 
@@ -92,7 +92,7 @@ const safety = [
   },
   {
     title: 'AI where perception helps',
-    body: 'Vision is used for aerial, twilight, virtual staging, coverage, duplicates, blur, and exposure — the parts that require looking rather than matching fields.',
+    body: 'Vision is used for photo review — focus, duplicates, framing, glare, signs and branding, and the ordered aerial, twilight and staged shots — the parts that require looking rather than matching fields.',
     Icon: Eye,
   },
   {
@@ -307,7 +307,7 @@ const AutoPilotPageDesktop: React.FC<AutoPilotPageProps> = ({ onNavigate }) => {
           <div className="max-w-3xl mb-12">
             <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">The modules · September 2026</div>
             <h2 className="font-serif text-4xl md:text-5xl md:leading-none leading-tight">Four modules. One question each. Start with Concierge Order Intake.</h2>
-            <p className="font-sans text-canvas/65 mt-5 leading-relaxed">Each module runs inside the platform you already use and stops when it is not sure. Concierge Order Intake, Order Review and the Daily Report are the three small ones — $2,500 each, fixed, live within a week, and a way to see how we work. Start with any of them; they work together. Real-time Photo Review follows once one is live, fitted to how your shop runs — and everything can be customised.</p>
+            <p className="font-sans text-canvas/65 mt-5 leading-relaxed">Each module runs inside the platform you already use and stops when it is not sure. Each one is $2,500, fixed, live within a week, and a way to see how we work — Real-time Photo Review adds its AI usage at cost. Start with any of them; they work together, and everything can be customised to how your shop runs.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {shootOpsModules.map((module) => {

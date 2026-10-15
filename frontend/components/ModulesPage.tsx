@@ -31,6 +31,13 @@ const MODULES: { title: string; blurb: string; price: string; page: Page; path: 
     page: 'daily-report',
     path: '/shoot-ops/daily-report',
   },
+  {
+    title: 'Real-time Photo Review',
+    blurb: 'Checks every photo as it is uploaded to the Aryeo listing — focus, duplicates, verticals, framing, glare, reflections, signs and branding, the ordered photo types — and raises one ticket per order, only when something is wrong.',
+    price: '$2,500, fixed + AI usage at cost',
+    page: 'photo-review',
+    path: '/shoot-ops/photo-review',
+  },
 ];
 
 const ModulesPage: React.FC<ModulesPageProps> = ({ onNavigate }) => {

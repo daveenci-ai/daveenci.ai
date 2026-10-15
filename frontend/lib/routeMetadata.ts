@@ -83,6 +83,11 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'guide' | 'not-fo
     description: 'Every morning the Daily Report checks each Aryeo listing due for delivery against what was ordered — photos, video, 3D, floor plans, files, property website, aerial and twilight shots — and sends one report before the delivery window. $2,500, fixed.',
     path: '/shoot-ops/daily-report',
   },
+  'photo-review': {
+    title: 'Real-time Photo Review — every Aryeo photo checked as it lands | DaVeenci',
+    description: 'Real-time Photo Review checks every photo as it is uploaded to the Aryeo listing — focus, duplicates, verticals, framing, glare, reflections, signs and branding, the ordered photo types — and raises one ticket per order, only when something is wrong. $2,500 fixed, plus AI usage at cost.',
+    path: '/shoot-ops/photo-review',
+  },
   calendar: {
     title: 'Talk to Us — DaVeenci',
     description: 'Book a 30-minute working session with DaVeenci to discuss a recurring workflow and whether it belongs in a fixed-scope Workflow Blueprint.',

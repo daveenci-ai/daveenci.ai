@@ -67,9 +67,15 @@ export const shootOpsModules: ShootOpsModule[] = [
     title: 'Real-time Photo Review',
     status: 'built',
     statusNote: 'Built · switched on per client after tuning',
-    question: 'Is each delivered photo right?',
-    summary: 'Judges every photo — focus, exposure, duplicates, coverage, ordered photo types — and raises one ticket per order, only when something is wrong.',
-    detail: 'Every image is fetched and checked: self-calibrating blur and exposure outliers with a vision veto, perceptual-hash duplicates, room coverage, and the photo types the order asked for. Findings name the specific frames, so an editor fixes the right picture rather than re-opening the job. Each order is reviewed once; the ticket is the handoff. Checks are tuned per client from before-and-after examples and can be muted individually without a deploy.',
+    question: 'Is each photo right before it goes out?',
+    summary: 'Checks every photo as it is uploaded — focus, duplicates, verticals, framing, glare, signs and branding, the ordered photo types — and raises one ticket per order, only when something is wrong.',
+    // Rewritten 15 Oct 2026 from the module's code (job-review-advanced): twelve checks on; exposure and room coverage
+    // are built but switched off after tuning. Real time (checking as photos are uploaded) is the offer; the code today
+    // reviews each order once from the morning list (Anton, 15 Oct 2026: describe real time, no minute figure).
+    detail: 'Each photo is checked as it lands on the listing: focus measured against the listing\'s own photos with an AI second look, near-duplicates by image fingerprint, and one AI pass for verticals, framing, camera angle, sun and glare, reflections, noise, colour cast, HDR artifacts, signs and branding, and the photo types the order asked for. Findings name the frame by number and file name, so the editor fixes the right picture. One ticket per order, only when something is wrong; a photo it could not check is never counted as good. Each check is tuned from the examples your team sends back and can be switched off on its own.',
+    price: '$2,500 fixed + AI usage at cost',
+    page: 'photo-review',
+    path: '/shoot-ops/photo-review',
   },
 ];
 
@@ -92,13 +98,15 @@ export const termsNoteFor = (platforms: string): string =>
 export const platformTermsNote = termsNoteFor('Aryeo or Spiro');
 
 /**
- * The three fixed-price modules promote each other (Anton, 13 Oct 2026 for two; 15 Oct 2026 for three): each module
- * page carries a "Pairs with" band showing the other two, between the offer and the first two weeks. Same price and
- * terms on all three, so the band repeats them. Order Review and Daily Report are Aryeo only; only Intake names Spiro.
+ * The fixed-price modules promote each other (Anton, 13 Oct 2026 for two; 15 Oct 2026 for three, then four): each module
+ * page carries a "Pairs with" band showing two others, between the offer and the first two weeks. With four modules the
+ * pairs rotate (Anton, 15 Oct 2026): Intake → Order Review + Daily Report, Order Review → Daily Report + Photo Review,
+ * Daily Report → Photo Review + Intake, Photo Review → Intake + Order Review. Same $2,500 and terms on all four; Photo
+ * Review adds its AI usage at cost. Only Intake names Spiro; the other three are Aryeo only.
  */
-export type StarterModuleId = 'order-intake' | 'order-review' | 'daily-review';
+export type StarterModuleId = 'order-intake' | 'order-review' | 'daily-review' | 'photo-review';
 
-export const STARTER_MODULES: StarterModuleId[] = ['order-intake', 'order-review', 'daily-review'];
+export const STARTER_MODULES: StarterModuleId[] = ['order-intake', 'order-review', 'daily-review', 'photo-review'];
 
 export const modulePairings: Record<StarterModuleId, { with: StarterModuleId[]; eyebrow: string; title: string; body: string }> = {
   'order-intake': {
@@ -108,20 +116,26 @@ export const modulePairings: Record<StarterModuleId, { with: StarterModuleId[]; 
     body: 'Concierge Order Intake gets the order in. Order Review opens every new Aryeo order within ten minutes and catches the missing lockbox code or the odd square footage before the shoot. The Daily Report checks the finished listing the next morning, before it goes to the agent.',
   },
   'order-review': {
-    with: ['order-intake', 'daily-review'],
-    eyebrow: 'Pairs with · Modules 01 and 03',
-    title: 'Checked here. Placed before it, audited after it.',
-    body: 'Order Review checks every order, however it arrived. Concierge Order Intake takes the retyping out of the step before: it places the order from the concierge email and reads the order number back. The Daily Report covers the step after: before delivery, it checks that everything ordered was actually delivered.',
+    with: ['daily-review', 'photo-review'],
+    eyebrow: 'Pairs with · Modules 03 and 04',
+    title: 'Checked here. Then the delivery, then every photo.',
+    body: 'Order Review makes sure the shoot starts from a correct order. The two modules after it check what comes back: Real-time Photo Review looks at every photo as it is uploaded and names the frame that needs fixing, and the Daily Report checks that everything ordered is on the listing before it goes to the agent.',
   },
   'daily-review': {
+    with: ['photo-review', 'order-intake'],
+    eyebrow: 'Pairs with · Modules 04 and 01',
+    title: 'Audited here. Each photo checked, each order placed.',
+    body: 'The Daily Report checks that everything ordered is there. Real-time Photo Review checks that each photo is right, as it is uploaded, so the editor fixes it before the morning. At the start of the job, Concierge Order Intake places orders from the concierge email without retyping.',
+  },
+  'photo-review': {
     with: ['order-intake', 'order-review'],
     eyebrow: 'Pairs with · Modules 01 and 02',
-    title: 'Audited here. Placed and checked before it.',
-    body: 'The Daily Report is the last look before delivery. The two modules before it keep problems from reaching that morning at all: Concierge Order Intake places orders from the concierge email without retyping, and Order Review checks every new order within ten minutes, while a mistake is still a note.',
+    title: 'Photos checked here. The order got right first.',
+    body: 'Many bad photos start as a bad order: the wrong package, a missing access note, a floor plan nobody booked. Concierge Order Intake places orders from the concierge email without retyping, and Order Review checks every new order within ten minutes, while a mistake is still a note.',
   },
 };
 
-/** Shared by the three fixed-price modules, so the pairing band can say "same terms" without restating them per page. */
+/** Shared by the four fixed-price modules, so the pairing band can say "same terms" without restating them per page. */
 export const starterModuleTerms = 'Same terms as this module: full refund if it isn’t working after two weeks, no subscription, and you keep the code.';
 
 /** The module page for a module title, if it has one — Fig. i links its rows here. */
