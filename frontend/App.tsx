@@ -1,6 +1,7 @@
 
-import React, { useState, useEffect, useCallback, useRef, Suspense, lazy } from 'react';
+import React, { useState, useEffect, useCallback, useRef, Suspense } from 'react';
 import type { Page } from './components/types';
+import { lazyPage } from './lib/staleChunk';
 import { MobileErrorBoundary } from './components/mobile/MobileErrorBoundary';
 import { initAnalytics, trackPageView } from './lib/analytics';
 import { applyRouteMetadata } from './lib/routeMetadata';
@@ -18,29 +19,29 @@ import { rememberCampaign } from './lib/campaign';
 // Suspense spinner before the real hero arrives — content appearing,
 // vanishing, then reappearing. Bundling the homepage into the entry costs
 // other routes ~20kB gz and removes that flash entirely.
-const BriefingsPage = lazy(() => import('./components/BriefingsPage'));
-const BriefingDetailPage = lazy(() => import('./components/BriefingDetailPage'));
-const WhoWeArePage = lazy(() => import('./components/WhoWeArePage'));
-const Calendar = lazy(() => import('./components/Calendar'));
-const BookPage = lazy(() => import('./components/BookPage'));
-const ModulesPage = lazy(() => import('./components/ModulesPage'));
-const OrderIntakePage = lazy(() => import('./components/OrderIntakePage'));
-const OrderReviewPage = lazy(() => import('./components/OrderReviewPage'));
-const GuidesPage = lazy(() => import('./components/GuidesPage'));
-const GuidePage = lazy(() => import('./components/GuidePage'));
-const LibraryPage = lazy(() => import('./components/LibraryPage'));
-const PulseNotePage = lazy(() => import('./components/PulseNotePage'));
-const BrandOSPage = lazy(() => import('./components/BrandOSPage'));
-const WorkPage = lazy(() => import('./components/WorkPage'));
-const PureCodePage = lazy(() => import('./components/PureCodePage'));
-const AutoPilotPage = lazy(() => import('./components/AutoPilotPage'));
-const CompoundIQPage = lazy(() => import('./components/CompoundIQPage'));
-const AnalyticsOSPage = lazy(() => import('./components/AnalyticsOSPage'));
-const CreativeProductionPage = lazy(() => import('./components/CreativeProductionPage'));
-const EventsPage = lazy(() => import('./components/EventsPage'));
-const ThesisPage = lazy(() => import('./components/ThesisPage'));
-const PrivacyPage = lazy(() => import('./components/PrivacyPage'));
-const NotFoundPage = lazy(() => import('./components/NotFoundPage'));
+const BriefingsPage = lazyPage(() => import('./components/BriefingsPage'));
+const BriefingDetailPage = lazyPage(() => import('./components/BriefingDetailPage'));
+const WhoWeArePage = lazyPage(() => import('./components/WhoWeArePage'));
+const Calendar = lazyPage(() => import('./components/Calendar'));
+const BookPage = lazyPage(() => import('./components/BookPage'));
+const ModulesPage = lazyPage(() => import('./components/ModulesPage'));
+const OrderIntakePage = lazyPage(() => import('./components/OrderIntakePage'));
+const OrderReviewPage = lazyPage(() => import('./components/OrderReviewPage'));
+const GuidesPage = lazyPage(() => import('./components/GuidesPage'));
+const GuidePage = lazyPage(() => import('./components/GuidePage'));
+const LibraryPage = lazyPage(() => import('./components/LibraryPage'));
+const PulseNotePage = lazyPage(() => import('./components/PulseNotePage'));
+const BrandOSPage = lazyPage(() => import('./components/BrandOSPage'));
+const WorkPage = lazyPage(() => import('./components/WorkPage'));
+const PureCodePage = lazyPage(() => import('./components/PureCodePage'));
+const AutoPilotPage = lazyPage(() => import('./components/AutoPilotPage'));
+const CompoundIQPage = lazyPage(() => import('./components/CompoundIQPage'));
+const AnalyticsOSPage = lazyPage(() => import('./components/AnalyticsOSPage'));
+const CreativeProductionPage = lazyPage(() => import('./components/CreativeProductionPage'));
+const EventsPage = lazyPage(() => import('./components/EventsPage'));
+const ThesisPage = lazyPage(() => import('./components/ThesisPage'));
+const PrivacyPage = lazyPage(() => import('./components/PrivacyPage'));
+const NotFoundPage = lazyPage(() => import('./components/NotFoundPage'));
 
 const RouteLoading: React.FC = () => (
   <div className="min-h-dvh flex items-center justify-center">

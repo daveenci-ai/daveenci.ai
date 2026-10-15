@@ -1,4 +1,5 @@
 import { Component, type ReactNode, type ErrorInfo } from 'react';
+import { isChunkLoadError, reloadForNewDeploy } from '../../lib/staleChunk';
 
 interface Props {
   children: ReactNode;
@@ -22,6 +23,8 @@ export class MobileErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
+    // A page chunk that is gone after a deploy: reload once onto the new build (lib/staleChunk.ts).
+    if (isChunkLoadError(error) && reloadForNewDeploy()) return;
     console.error('Mobile tree error:', error, info);
   }
 
