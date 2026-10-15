@@ -7,3 +7,6 @@ build/
 .vercel
 .claude/
 **/*.log
+
+# Working files from agent sessions never belong in the site repo (15 Oct 2026)
+outputs/
