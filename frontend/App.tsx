@@ -27,6 +27,7 @@ const BookPage = lazyPage(() => import('./components/BookPage'));
 const ModulesPage = lazyPage(() => import('./components/ModulesPage'));
 const OrderIntakePage = lazyPage(() => import('./components/OrderIntakePage'));
 const OrderReviewPage = lazyPage(() => import('./components/OrderReviewPage'));
+const DailyReportPage = lazyPage(() => import('./components/DailyReportPage'));
 const GuidesPage = lazyPage(() => import('./components/GuidesPage'));
 const GuidePage = lazyPage(() => import('./components/GuidePage'));
 const LibraryPage = lazyPage(() => import('./components/LibraryPage'));
@@ -141,11 +142,13 @@ const App: React.FC = () => {
         // if a cached client reaches the old path.
         const next = path.replace(/^\/shootos/, '/shoot-ops');
         window.history.replaceState({}, '', `${next}${window.location.search}${window.location.hash}`);
-        setPage(next === '/shoot-ops' ? 'autopilot' : next === '/shoot-ops/order-review' ? 'order-review' : 'order-intake');
+        setPage(next === '/shoot-ops' ? 'autopilot' : next === '/shoot-ops/order-review' ? 'order-review' : next === '/shoot-ops/daily-report' ? 'daily-report' : 'order-intake');
       } else if (path === '/shoot-ops/concierge-order-intake') {
         setPage('order-intake');
       } else if (path === '/shoot-ops/order-review') {
         setPage('order-review');
+      } else if (path === '/shoot-ops/daily-report') {
+        setPage('daily-report');
       } else if (path === '/modules/order-intake') {
         // Legacy: the module now lives under Shoot Ops. Redirect client-side so
         // the outreach attribution (?t=, ?src=) and #video survive the move —
@@ -307,6 +310,7 @@ const App: React.FC = () => {
     if (targetPage === 'modules') path = '/modules';
     if (targetPage === 'order-intake') path = '/shoot-ops/concierge-order-intake';
     if (targetPage === 'order-review') path = '/shoot-ops/order-review';
+    if (targetPage === 'daily-report') path = '/shoot-ops/daily-report';
     if (targetPage === 'library') path = '/library';
     // For the guides index, id is an optional tag filter (content/guideTags.ts), e.g. from the Shoot Ops pages.
     if (targetPage === 'guides') path = id ? `/guides?tag=${encodeURIComponent(id)}` : '/guides';
@@ -364,6 +368,7 @@ const App: React.FC = () => {
         {page === 'modules' && <ModulesPage onNavigate={handleNavigate} />}
         {page === 'order-intake' && <OrderIntakePage onNavigate={handleNavigate} />}
         {page === 'order-review' && <OrderReviewPage onNavigate={handleNavigate} />}
+        {page === 'daily-report' && <DailyReportPage onNavigate={handleNavigate} />}
         {page === 'library' && <LibraryPage onNavigate={handleNavigate} />}
         {page === 'guides' && (
           <GuidesPage

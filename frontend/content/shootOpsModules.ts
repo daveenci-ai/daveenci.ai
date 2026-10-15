@@ -53,8 +53,13 @@ export const shootOpsModules: ShootOpsModule[] = [
     status: 'live',
     statusNote: 'Live · since Jul 2026, every morning before 9 AM',
     question: 'What is about to go out, and what needs a person first?',
-    summary: 'Runs every morning over everything due for delivery and gives the whole picture in one report: complete, missing, urgent.',
-    detail: 'Resumable sweeps from six o\'clock over the delivery queue. Each listing is checked against the product matrix — photos, video, 3D, floor plans, files, URLs — and required image sub-types (aerial, twilight, virtual twilight, virtual staging) are confirmed by a vision model. The report before the 9 AM window lists what is complete, what is missing, what could not be verified and what needs urgent attention, with a direct link to every job. A sweep that cannot vouch for its scope sends nothing.',
+    summary: 'Every morning, checks that everything ordered was delivered — and sends one report before the delivery window: missing, could not verify, complete.',
+    // Corrected 15 Oct 2026 against the module's code: image sub-types are read from the delivered files' names
+    // (no vision call since 19 Sep 2026), and the report has no "urgent" section.
+    detail: 'Resumable sweeps from six o\'clock over the listings due for delivery. Each listing is checked against your product matrix — photos, video, 3D, floor plans, files, a custom property website — and ordered aerial, twilight, virtual twilight and virtual staging images are confirmed from the delivered files\' names. One report before the delivery window lists what is missing, what it could not verify and what is complete, with a direct link to every listing. A run that cannot vouch for its list sends nothing.',
+    price: '$2,500 fixed · live within a week',
+    page: 'daily-report',
+    path: '/shoot-ops/daily-report',
   },
   {
     number: '04',
@@ -87,28 +92,36 @@ export const termsNoteFor = (platforms: string): string =>
 export const platformTermsNote = termsNoteFor('Aryeo or Spiro');
 
 /**
- * The two fixed-price starter modules point at each other (Anton, 13 Oct 2026): each module page carries a
- * "Pairs with" band for the other one, between the offer and the first two weeks. Same terms on both, so the
- * band repeats them. The Order Review side names Aryeo only, like the rest of that page.
+ * The three fixed-price modules promote each other (Anton, 13 Oct 2026 for two; 15 Oct 2026 for three): each module
+ * page carries a "Pairs with" band showing the other two, between the offer and the first two weeks. Same price and
+ * terms on all three, so the band repeats them. Order Review and Daily Report are Aryeo only; only Intake names Spiro.
  */
-export type StarterModuleId = 'order-intake' | 'order-review';
+export type StarterModuleId = 'order-intake' | 'order-review' | 'daily-review';
 
-export const modulePairings: Record<StarterModuleId, { with: StarterModuleId; eyebrow: string; title: string; body: string }> = {
+export const STARTER_MODULES: StarterModuleId[] = ['order-intake', 'order-review', 'daily-review'];
+
+export const modulePairings: Record<StarterModuleId, { with: StarterModuleId[]; eyebrow: string; title: string; body: string }> = {
   'order-intake': {
-    with: 'order-review',
-    eyebrow: 'Pairs with · Module 02',
-    title: 'Placed without retyping. Then checked within ten minutes.',
-    body: 'Concierge Order Intake gets the order in. Order Review opens every new Aryeo order — placed by this module, by an agent or by your team — and checks the lockbox code, the square footage, the notes and five more things before the photographer is on the way. When an email had no square footage, it flags the placeholder with the public-record figure.',
+    with: ['order-review', 'daily-review'],
+    eyebrow: 'Pairs with · Modules 02 and 03',
+    title: 'Placed without retyping. Then checked, then audited.',
+    body: 'Concierge Order Intake gets the order in. Order Review opens every new Aryeo order within ten minutes and catches the missing lockbox code or the odd square footage before the shoot. The Daily Report checks the finished listing the next morning, before it goes to the agent.',
   },
   'order-review': {
-    with: 'order-intake',
-    eyebrow: 'Pairs with · Module 01',
-    title: 'Checked here. Placed without retyping before it.',
-    body: 'Order Review checks every order, however it arrived. Concierge Order Intake takes the retyping out of the step before: it reads the concierge order email, places the order in Aryeo — right form, right agent, nearest open slot — and reads the order number back before it counts.',
+    with: ['order-intake', 'daily-review'],
+    eyebrow: 'Pairs with · Modules 01 and 03',
+    title: 'Checked here. Placed before it, audited after it.',
+    body: 'Order Review checks every order, however it arrived. Concierge Order Intake takes the retyping out of the step before: it places the order from the concierge email and reads the order number back. The Daily Report covers the step after: before delivery, it checks that everything ordered was actually delivered.',
+  },
+  'daily-review': {
+    with: ['order-intake', 'order-review'],
+    eyebrow: 'Pairs with · Modules 01 and 02',
+    title: 'Audited here. Placed and checked before it.',
+    body: 'The Daily Report is the last look before delivery. The two modules before it keep problems from reaching that morning at all: Concierge Order Intake places orders from the concierge email without retyping, and Order Review checks every new order within ten minutes, while a mistake is still a note.',
   },
 };
 
-/** Shared by both starter modules, so the pairing band can say "same terms" without restating them per page. */
+/** Shared by the three fixed-price modules, so the pairing band can say "same terms" without restating them per page. */
 export const starterModuleTerms = 'Same terms as this module: full refund if it isn’t working after two weeks, no subscription, and you keep the code.';
 
 /** The module page for a module title, if it has one — Fig. i links its rows here. */

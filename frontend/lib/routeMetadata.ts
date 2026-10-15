@@ -78,6 +78,11 @@ const ROUTE_METADATA: Record<Exclude<Page, 'briefing-detail' | 'guide' | 'not-fo
     description: 'Order Review checks every new Aryeo order against nine rules within ten minutes, fixes what is safe to fix, and sends one ticket for the rest. $2,500, fixed.',
     path: '/shoot-ops/order-review',
   },
+  'daily-report': {
+    title: 'Daily Report — every Aryeo delivery checked before it goes out | DaVeenci',
+    description: 'Every morning the Daily Report checks each Aryeo listing due for delivery against what was ordered — photos, video, 3D, floor plans, files, property website, aerial and twilight shots — and sends one report before the delivery window. $2,500, fixed.',
+    path: '/shoot-ops/daily-report',
+  },
   calendar: {
     title: 'Talk to Us — DaVeenci',
     description: 'Book a 30-minute working session with DaVeenci to discuss a recurring workflow and whether it belongs in a fixed-scope Workflow Blueprint.',
