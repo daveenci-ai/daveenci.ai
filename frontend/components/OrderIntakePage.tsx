@@ -8,7 +8,7 @@ import type { Page } from './types';
 import { readAttribution } from '../lib/attribution';
 import { track } from '../lib/analytics';
 import { useScrollProgress } from '../lib/useScrollProgress';
-import { newProgressMarks, pickVideoVariant, videoSrc } from '../lib/videoVariant';
+import { newProgressMarks, pickVideoVariant, videoPoster, videoSrc, type VoiceVariant } from '../lib/videoVariant';
 import { platformTermsNote, shootOpsPlatforms } from '../content/shootOpsModules';
 import {
   AddressPanel,
@@ -38,7 +38,32 @@ interface OrderIntakePageProps {
 // one of two AI voices. Each visitor gets one voice, 50/50, and keeps it (lib/videoVariant.ts). Browsers only autoplay
 // muted video, so it starts muted and offers "Play with sound", which restarts it from the top with the voice on.
 // v2 (9 Oct 2026): the title card says Shoot Ops; a new file name so CDNs and browsers don't serve the old card.
-const VIDEO_POSTER = '/videos/concierge-order-intake-poster-v2.jpg';
+// 15 Oct 2026 (Anton): a third variant joins the test — a 20-second motion-graphics overview in the style of the DaVeenci
+// brand video, drawn from this page's own fictional order. Its copy can't call it "real screens", so the words around
+// the video follow the variant.
+const VIDEO_COPY: Record<VoiceVariant, { button: string; title: string; body: string; label: string; offerTail: string }> = {
+  mark: {
+    button: 'Watch the 60-second walkthrough',
+    title: 'One real order, start to finish.',
+    body: 'Sixty seconds on real screens, with the shop and the people changed: the email arrives, the order is placed, the number comes back.',
+    label: 'Concierge Order Intake walkthrough: a concierge order email becomes an Aryeo order',
+    offerTail: ' Your numbers will differ; the walkthrough shows the real thing.',
+  },
+  rachel: {
+    button: 'Watch the 60-second walkthrough',
+    title: 'One real order, start to finish.',
+    body: 'Sixty seconds on real screens, with the shop and the people changed: the email arrives, the order is placed, the number comes back.',
+    label: 'Concierge Order Intake walkthrough: a concierge order email becomes an Aryeo order',
+    offerTail: ' Your numbers will differ; the walkthrough shows the real thing.',
+  },
+  motion: {
+    button: 'Watch the 20-second overview',
+    title: 'One order, start to finish.',
+    body: 'Twenty seconds: the email arrives, the right order form fills itself, the nearest slot is booked, and the order number comes back.',
+    label: 'Concierge Order Intake overview: a concierge order email becomes a placed order, with the order number read back',
+    offerTail: ' Your numbers will differ.',
+  },
+};
 
 const PROOF = [
   { value: '10 min', label: 'between inbox sweeps' },
@@ -198,7 +223,7 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
     onNavigate('book-anton');
   };
 
-  // Voice A/B: which narrator this visitor hears, and what they do with the video.
+  // Video A/B/C: which video this visitor sees (Mark, Rachel or the motion overview), and what they do with it.
   // The static prerender has no visitor to assign, so it shows Mark; the live page re-renders with the real pick.
   const { variant, forced } = useMemo(
     () => (typeof window === 'undefined' ? { variant: 'mark' as const, forced: false } : pickVideoVariant(window.location.search)),
@@ -299,7 +324,7 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
                 actions={
                   <>
                     <BookButton surface="hero" />
-                    <Button variant="secondary" onClick={toVideo} className="px-8 py-4">Watch the 60-second walkthrough</Button>
+                    <Button variant="secondary" onClick={toVideo} className="px-8 py-4">{VIDEO_COPY[variant].button}</Button>
                   </>
                 }
               />
@@ -344,11 +369,8 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
       <Section id="video" className="py-20 md:py-28 scroll-mt-20" pattern="grid">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           <div className="lg:col-span-4">
-            <SectionHeader eyebrow="Fig. ii · The walkthrough" title="One real order, start to finish." className="mb-6!" />
-            <p className="font-sans text-lg text-ink-muted leading-relaxed">
-              Sixty seconds on real screens, with the shop and the people changed: the email arrives, the order is placed, the
-              number comes back.
-            </p>
+            <SectionHeader eyebrow="Fig. ii · The walkthrough" title={VIDEO_COPY[variant].title} className="mb-6!" />
+            <p className="font-sans text-lg text-ink-muted leading-relaxed">{VIDEO_COPY[variant].body}</p>
           </div>
           <div className="lg:col-span-8">
             <div className="aspect-video w-full border border-ink/10 rounded-xs overflow-hidden bg-ink/5 shadow-widget-raised">
@@ -360,12 +382,12 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
                   muted
                   playsInline
                   preload="metadata"
-                  poster={VIDEO_POSTER}
+                  poster={videoPoster(variant)}
                   className="w-full h-full object-cover"
                   src={videoSrc(variant)}
                   onVolumeChange={onVolumeChange}
                   onTimeUpdate={onTimeUpdate}
-                  aria-label="Concierge Order Intake walkthrough: a concierge order email becomes an Aryeo order"
+                  aria-label={VIDEO_COPY[variant].label}
                 />
                 {!soundOn && (
                   <button
@@ -516,7 +538,7 @@ const OrderIntakePage: React.FC<OrderIntakePageProps> = ({ onNavigate }) => {
             <p className="font-sans text-lg text-ink-muted leading-relaxed">
               If keying in an order takes five minutes and you get ten a day, that’s about twenty hours a month back — and no
               orders on the wrong order form, wrong region or wrong agent, which is where the expensive mistakes come from.
-              Your numbers will differ; the walkthrough shows the real thing.
+              {VIDEO_COPY[variant].offerTail}
             </p>
           </div>
           <div className="lg:col-span-7">

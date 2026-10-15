@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   CalendarClock,
   Check,
@@ -13,6 +13,7 @@ import {
   MessageSquareWarning,
   Ruler,
   ScissorsLineDashed,
+  Volume2,
   Wrench,
   X,
 } from 'lucide-react';
@@ -24,7 +25,6 @@ import type { Page } from './types';
 import { readAttribution } from '../lib/attribution';
 import { useScrollProgress } from '../lib/useScrollProgress';
 import { termsNoteFor } from '../content/shootOpsModules';
-import { ModuleSchematic } from './ShootOpsModuleSchematics';
 import { FixPanel, HeroReview, OUTCOMES, ReadPanel, ResultsPanel, SweepPanel, TicketMock } from './orderReview/ReviewVisuals';
 import ModulePairing from './ModulePairing';
 import AntonSketch from '../images/Anton_Sketch.webp';
@@ -37,7 +37,10 @@ interface OrderReviewPageProps {
 // Concierge Order Intake. Redesigned the same day in the Intake page's look. Every check, fix and outcome below is
 // taken from the module's production code and its checks reference (nine flag checks — the same-day check added 14 Aug 2026 — six automatic fixes, the
 // three-state result model, one ticket per flagged order). Client names never appear; order data is fictional.
-// The walkthrough video comes later; until then Fig. ii is the module drawing.
+// Fig. ii is a 20-second motion-graphics overview (Anton, 15 Oct 2026), in the style of the DaVeenci brand video and drawn
+// from this page's own fictional order. No A/B test here: every visitor sees the same video.
+const OVERVIEW_SRC = '/videos/order-review-motion.mp4';
+const OVERVIEW_POSTER = '/videos/order-review-motion-poster.jpg';
 
 const PROOF = [
   { value: '10 min', label: 'between sweeps' },
@@ -243,6 +246,20 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
   // Hero planes: copy settles, the figure lags as the hero scrolls out (same rules as /shoot-ops).
   const heroRef = useScrollProgress<HTMLElement>({ mode: 'exit' });
 
+  // Fig. ii overview: starts muted (browsers only autoplay muted video); "Play with sound" restarts it with sound.
+  const overviewRef = useRef<HTMLVideoElement>(null);
+  const [overviewSound, setOverviewSound] = useState(false);
+  const playOverviewWithSound = () => {
+    const v = overviewRef.current;
+    if (!v) return;
+    v.currentTime = 0;
+    v.muted = false;
+    setOverviewSound(true);
+    void v.play().catch(() => {
+      /* the browser refused; the controls are still there */
+    });
+  };
+
   // Carry the outreach token through to the booking page, so a call books against the email that produced it.
   const bookHref = useMemo(() => {
     const { t } = readAttribution();
@@ -344,12 +361,33 @@ const OrderReviewPage: React.FC<OrderReviewPageProps> = ({ onNavigate }) => {
             </p>
           </div>
           <div className="lg:col-span-7">
-            <figure className="border border-ink/10 rounded-xs bg-white/70 p-5 md:p-8 shadow-widget-raised">
-              <ModuleSchematic id="order-review" className="aspect-5/3 w-full" />
-              <figcaption className="font-serif italic text-xs tracking-[0.2em] text-ink-muted uppercase mt-4">
-                One order, nine checks, one ticket
-              </figcaption>
-            </figure>
+            <div className="aspect-video w-full border border-ink/10 rounded-xs overflow-hidden bg-ink/5 shadow-widget-raised">
+              <div className="relative w-full h-full">
+                <video
+                  ref={overviewRef}
+                  controls
+                  autoPlay
+                  muted
+                  playsInline
+                  preload="metadata"
+                  poster={OVERVIEW_POSTER}
+                  className="w-full h-full object-cover"
+                  src={OVERVIEW_SRC}
+                  onVolumeChange={(e) => { if (!e.currentTarget.muted && e.currentTarget.volume > 0) setOverviewSound(true); }}
+                  aria-label="Order Review overview: a new order runs through nine checks, safe fixes are made and read back, and one ticket goes to a person"
+                />
+                {!overviewSound && (
+                  <button
+                    type="button"
+                    onClick={playOverviewWithSound}
+                    className="absolute left-1/2 top-[70%] -translate-x-1/2 -translate-y-1/2 inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-ink/85 hover:bg-ink text-white font-sans text-base px-5 py-3 shadow-lg transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent"
+                  >
+                    <Volume2 className="w-5 h-5" aria-hidden="true" />
+                    Play with sound
+                  </button>
+                )}
+              </div>
+            </div>
             <div className="mt-8">
               <BookButton surface="under_figure" />
             </div>
