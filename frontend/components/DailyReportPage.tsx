@@ -159,7 +159,7 @@ const FAQS = [
   },
   {
     q: 'Does it need the other modules?',
-    a: 'No. It reads whatever is on your listings, however the orders were placed and checked. The three work well together: one places orders, one checks them when they land, and this one checks the delivery.',
+    a: 'No. It reads whatever is on your listings, however the orders were placed and checked. They work well together: one places orders, one checks them when they land, one checks each photo as it is uploaded, and this one checks the delivery.',
   },
   {
     q: 'What happens when Aryeo changes something?',
@@ -215,7 +215,7 @@ const DailyReportPage: React.FC<DailyReportPageProps> = ({ onNavigate }) => {
 
   const linked = (item: string) => {
     const links: [string, string, Page][] = [
-      ['Real-time Photo Review', '/shoot-ops', 'autopilot'],
+      ['Real-time Photo Review', '/shoot-ops/photo-review', 'photo-review'],
       ['Order Review', '/shoot-ops/order-review', 'order-review'],
     ];
     for (const [label, href, page] of links) {

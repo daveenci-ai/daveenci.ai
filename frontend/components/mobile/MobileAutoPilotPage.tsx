@@ -43,7 +43,7 @@ const mobileWorkflow = [
   { id: 'order-intake', number: '01', title: 'Concierge Order Intake', body: 'Read the order email, fill the platform\'s order form, match the agent by email, book the nearest slot, submit, and read the order number back.', Icon: Mail },
   { id: 'order-review', number: '02', title: 'Order Review', body: 'Run nine checks every ten minutes. Fix what is safe to fix, with read-back; route anything ambiguous to a person.', Icon: ScanSearch },
   { id: 'daily-review', number: '03', title: 'Daily Report', body: 'Every morning, check that everything ordered was delivered and report what is missing, unverified or complete before the delivery window.', Icon: CalendarCheck },
-  { id: 'photo-review', number: '04', title: 'Real-time Photo Review', body: 'Look at every photo — focus, exposure, duplicates, coverage — and ticket only what is wrong, naming the frame.', Icon: Eye },
+  { id: 'photo-review', number: '04', title: 'Real-time Photo Review', body: 'Check every photo as it is uploaded — focus, duplicates, framing, glare, signs — and ticket only what is wrong, naming the frame.', Icon: Eye },
 ];
 
 export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavigate }) => {
@@ -213,7 +213,7 @@ export const MobileAutoPilotPage: React.FC<MobileAutoPilotPageProps> = ({ onNavi
       <section id="shoot-ops-modules" className="px-6 py-12 bg-ink text-canvas scroll-mt-16">
         <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-light mb-4">The modules · September 2026</div>
         <h2 className="font-serif text-[2.1rem] leading-[1.08] mb-4">Four modules. Start with Concierge Order Intake.</h2>
-        <p className="font-sans text-[14px] text-canvas/65 leading-relaxed mb-7">Each module runs inside the platform you already use and stops when it is not sure. Concierge Order Intake, Order Review and the Daily Report are the three small ones — $2,500 each, fixed, live within a week. Start with any of them; Real-time Photo Review follows once one is live.</p>
+        <p className="font-sans text-[14px] text-canvas/65 leading-relaxed mb-7">Each module runs inside the platform you already use and stops when it is not sure. Each one is $2,500, fixed, live within a week — Real-time Photo Review adds its AI usage at cost. Start with any of them.</p>
         <div className="space-y-4">
           {shootOpsModules.map((module) => {
             const tone = module.status === 'live' ? 'text-green-300' : 'text-amber-300';

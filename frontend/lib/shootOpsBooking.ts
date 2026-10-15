@@ -9,7 +9,7 @@ import { allGuidesRealEstate, isRealEstateGuide } from '../content/guideTags';
  * stays a Shoot Ops page while every published guide is real-estate media.
  * From any Shoot Ops page, a generic "Talk to us" or "book a call" goes to Anton's calendar, never to the chooser or Astrid.
  */
-export const SHOOT_OPS_PAGES: readonly Page[] = ['autopilot', 'order-intake', 'order-review', 'daily-report', 'modules'];
+export const SHOOT_OPS_PAGES: readonly Page[] = ['autopilot', 'order-intake', 'order-review', 'daily-report', 'photo-review', 'modules'];
 
 /** The guide slug in the current address, when there is one (the header and App only know the page name). */
 const currentGuideSlug = (): string | null => {
