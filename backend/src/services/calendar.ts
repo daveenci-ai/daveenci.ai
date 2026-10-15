@@ -185,23 +185,44 @@ export const createCalendarEvent = async (eventDetails: any, host: Host) => {
     }
 };
 
+/**
+ * The busy list for one calendar from a free/busy reply (site audit, 15 Oct 2026). Google answers a calendar it
+ * can't read with 200 and an `errors` list instead of `busy`; reading that as "no busy times" would offer every slot
+ * and double-book the host. So an unreadable calendar is an error, never an empty day.
+ */
+export const busyFromFreeBusy = (data: any, calendarId: string): { start: string; end: string }[] => {
+    const cal = data?.calendars?.[calendarId];
+    const errors: { reason?: string }[] = cal?.errors || [];
+    if (!cal || errors.length) {
+        const reasons = errors.map((e) => e?.reason).filter(Boolean).join(', ') || 'calendar missing from the reply';
+        const err: any = new Error(`Calendar not readable for free/busy (${reasons})`);
+        err.code = 'calendar_unreadable';
+        throw err;
+    }
+    return cal.busy || [];
+};
+
 export const getBusySlots = async (start: string, end: string, host: Host) => {
     const calendarId = host.calendarId || 'primary';
+    const query = (auth: any) =>
+        google.calendar({ version: 'v3', auth }).freebusy
+            .query({ requestBody: { timeMin: start, timeMax: end, items: [{ id: calendarId }] } })
+            .then((response) => busyFromFreeBusy(response.data, calendarId));
 
     try {
-        const response = await withHostAuth(host, CALENDAR_SCOPES, (auth) =>
-            google.calendar({ version: 'v3', auth }).freebusy.query({
-                requestBody: {
-                    timeMin: start,
-                    timeMax: end,
-                    items: [{ id: calendarId }],
-                },
-            }),
-        );
-
-        const busySlots = response.data.calendars?.[calendarId]?.busy || [];
-        return busySlots;
-    } catch (error) {
+        return await withHostAuth(host, CALENDAR_SCOPES, query);
+    } catch (error: any) {
+        // The host's own account can't see the calendar: ask once more as the owner account, which has it shared.
+        const owner = process.env.GOOGLE_CALENDAR_OWNER_EMAIL;
+        if (error?.code === 'calendar_unreadable' && owner && host.senderEmail && host.senderEmail !== owner) {
+            console.warn(`[calendar] ${host.key}'s account can't read its calendar for free/busy; asking as the owner account`);
+            try {
+                return await withHostAuth({ key: host.key, senderEmail: owner }, CALENDAR_SCOPES, query);
+            } catch (ownerError) {
+                console.error('Error fetching busy slots:', ownerError);
+                throw ownerError;
+            }
+        }
         console.error('Error fetching busy slots:', error);
         throw error;
     }
