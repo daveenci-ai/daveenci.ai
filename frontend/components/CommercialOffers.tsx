@@ -75,6 +75,25 @@ export const CommercialOffers: React.FC<CommercialOffersProps> = ({ onNavigate, 
           ))}
         </ul>
 
+        {offer.examples && (
+          <div className="mb-6 -mt-2">
+            <div className="font-mono text-[9px] uppercase tracking-[0.16em] text-ink-muted mb-2">Example phases</div>
+            <ul className="flex flex-wrap gap-x-5 gap-y-2">
+              {offer.examples.map((ex) => (
+                <li key={ex.path}>
+                  <a
+                    href={ex.path}
+                    onClick={(e) => { e.preventDefault(); onNavigate(ex.page); }}
+                    className="inline-flex items-center gap-1.5 font-serif italic text-[15px] text-accent-strong hover:text-accent-hover underline decoration-accent/30 underline-offset-4"
+                  >
+                    {ex.label} <ArrowRight aria-hidden="true" className="w-3.5 h-3.5" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         <p className="border-t border-ink/10 pt-4 font-mono text-[9px] uppercase tracking-[0.12em] text-ink-muted/70 leading-relaxed">
           {offer.note}
         </p>

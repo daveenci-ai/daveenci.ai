@@ -256,7 +256,7 @@ export const buildStructuredData = (metadata: RouteMetadata, url: string, image:
             priceCurrency: 'USD',
             priceSpecification: {
               '@type': 'PriceSpecification',
-              minPrice: offer.id === 'blueprint' ? '5000' : offer.id === 'build' ? '14000' : '4000',
+              minPrice: String(offer.minPrice),
               priceCurrency: 'USD',
               unitText: offer.id === 'operate' ? 'MONTH' : offer.timeline,
             },

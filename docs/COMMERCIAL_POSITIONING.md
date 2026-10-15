@@ -11,7 +11,7 @@ The canonical public route is `/shoot-ops`. `/autopilot` is a legacy URL and red
 
 ## Offer ladder
 
-1. **Workflow Blueprint — $5,000 / one week.** Workflow map, failure points, system design, human gates, expected value, implementation scope, and fixed build proposal. Credited toward a build started within 30 days.
+1. **Workflow Blueprint — $2,500 / one week** (was $5,000 until 15 Oct 2026; the card shows Concierge Order Intake and Order Review as example phases). Workflow map, failure points, system design, human gates, expected value, implementation scope, and fixed build proposal. Credited toward a build started within 30 days.
 2. **Specialist Team Build — from $14,000 / three to six weeks.** A clearly scoped production implementation with integrations, state, observability, safeguards, deployment, and documentation. Larger or higher-consequence systems are quoted from the Blueprint.
 3. **Operate and Improve — from $2,500/month.** Monitoring, failure review, model and prompt improvements, workflow expansion, and a monthly operating report. Infrastructure, model usage, and response-time commitments are scoped separately.
 
