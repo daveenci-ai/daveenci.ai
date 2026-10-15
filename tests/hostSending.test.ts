@@ -106,3 +106,24 @@ describe('the sitemap lists only real pages', () => {
     expect(sm).not.toContain('<loc>https://daveenci.ai/calendar</loc>');
   });
 });
+
+describe('free/busy replies (site audit, 15 Oct 2026)', () => {
+  test('returns the busy list for a calendar Google could read', async () => {
+    const { busyFromFreeBusy } = await import('../backend/src/services/calendar');
+    const busy = [{ start: '2026-10-20T14:00:00Z', end: '2026-10-20T15:00:00Z' }];
+    expect(busyFromFreeBusy({ calendars: { 'a@x': { busy } } }, 'a@x')).toEqual(busy);
+    expect(busyFromFreeBusy({ calendars: { 'a@x': {} } }, 'a@x')).toEqual([]);
+  });
+
+  test('an unreadable or missing calendar is an error, never an empty (all-free) day', async () => {
+    const { busyFromFreeBusy } = await import('../backend/src/services/calendar');
+    expect(() => busyFromFreeBusy({ calendars: { 'a@x': { errors: [{ domain: 'global', reason: 'notFound' }], busy: [] } } }, 'a@x'))
+      .toThrow(/notFound/);
+    expect(() => busyFromFreeBusy({ calendars: {} }, 'a@x')).toThrow(/missing/);
+    try {
+      busyFromFreeBusy({ calendars: { 'a@x': { errors: [{ reason: 'internalError' }] } } }, 'a@x');
+    } catch (e) {
+      expect((e as { code?: string }).code).toBe('calendar_unreadable');
+    }
+  });
+});

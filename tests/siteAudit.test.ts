@@ -91,3 +91,13 @@ describe('Site audit fixes (15 Oct 2026) — security headers', () => {
     expect(routes[0].headers['Permissions-Policy']).toContain('camera=()');
   });
 });
+
+describe('Site audit fixes (15 Oct 2026) — the static 404 page', () => {
+  it('uses the site fonts and links to the Library, not the old briefings', () => {
+    const page = readFileSync(`${new URL('..', import.meta.url).pathname}frontend/public/404.html`, 'utf8');
+    expect(page).not.toMatch(/fonts\.googleapis|IM Fell/);
+    expect(page).toContain("url('/fonts/playfair-display-latin-var.woff2')");
+    expect(page).toContain('href="/library"');
+    expect(page).not.toContain('/briefings');
+  });
+});
