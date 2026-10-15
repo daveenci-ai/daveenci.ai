@@ -44,7 +44,7 @@ const DaVeenciLandingPage: React.FC<DaVeenciLandingPageProps> = ({ onNavigate, a
         <Advantage />
         <Controls />
         {/* Pricing sits after the problem (Contrast), the method, and the people
-            — not third, where it quoted $5,000 before saying what it buys. */}
+            — not third, where it quoted the Blueprint price before saying what it buys. */}
         <CommercialOffers onNavigate={onNavigate} />
         <BookingPreview onNavigate={onNavigate} />
         <Newsletter onNavigate={onNavigate} />

@@ -68,7 +68,7 @@ export const MobileHero: React.FC<MobileHeroProps> = ({ onNavigate }) => {
         See the work <span aria-hidden="true">→</span>
       </button>
       <p className="mt-4 font-mono text-[9px] uppercase tracking-[0.12em] text-ink-muted leading-relaxed">
-        Blueprint $5,000 · Builds from $14,000
+        Blueprint $2,500 · Builds from $14,000
       </p>
     </div>
   </MobileFolioScene>

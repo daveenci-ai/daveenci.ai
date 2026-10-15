@@ -29,6 +29,6 @@
 
 ## Company
 
-- [Services and pricing](https://daveenci.ai/): Workflow Blueprint $5,000 · Production Build from $14,000 · Ongoing Operation from $4,000/month.
+- [Services and pricing](https://daveenci.ai/): Workflow Blueprint $2,500 (example phases: [Concierge Order Intake](https://daveenci.ai/shoot-ops/concierge-order-intake), [Order Review](https://daveenci.ai/shoot-ops/order-review)) · Production Build from $14,000 · Ongoing Operation from $4,000/month.
 - [Who we are](https://daveenci.ai/who-we-are)
 - Contact: anton@daveenci.ai · https://daveenci.ai/book
