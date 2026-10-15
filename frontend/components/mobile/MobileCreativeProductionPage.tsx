@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { ArrowRight, CheckCircle2, Minus, Plus, ShieldCheck } from 'lucide-react';
 import { GiocondaBackground } from '../Shared';
 import { MobileButton } from './MobileButton';
@@ -17,8 +17,9 @@ import {
   creativeWorkflow,
 } from '../../content/creativeProduction';
 import { track } from '../../lib/analytics';
+import { lazyPage } from '../../lib/staleChunk';
 
-const BookingWidget = lazy(() =>
+const BookingWidget = lazyPage(() =>
   import('../BookingWidget').then((module) => ({ default: module.BookingWidget })),
 );
 

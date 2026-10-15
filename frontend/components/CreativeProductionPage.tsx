@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { ArrowRight, CheckCircle2, ChevronDown, ShieldCheck } from 'lucide-react';
 import Header from './Header';
 import Footer from './Footer';
@@ -27,8 +27,9 @@ import {
   creativeWorkflowPrinciples,
 } from '../content/creativeProduction';
 import { track } from '../lib/analytics';
+import { lazyPage } from '../lib/staleChunk';
 
-const BookingWidget = lazy(() =>
+const BookingWidget = lazyPage(() =>
   import('./BookingWidget').then((module) => ({ default: module.BookingWidget })),
 );
 
