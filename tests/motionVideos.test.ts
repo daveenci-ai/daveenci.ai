@@ -34,4 +34,13 @@ describe('motion-graphics overviews', () => {
     expect(src).not.toMatch(/pickVideoVariant|VOICE_VARIANTS/);
     expect(src.indexOf('src={OVERVIEW_SRC}')).toBeGreaterThan(src.indexOf('Fig. ii · How it works'));
   });
+
+  it('Daily Report shows its overview in Fig. ii, the same for every visitor', () => {
+    const src = read('frontend/components/DailyReportPage.tsx');
+    expect(src).toContain("const OVERVIEW_SRC = '/videos/daily-report-motion.mp4';");
+    expect(existsSync(pub('/videos/daily-report-motion.mp4'))).toBe(true);
+    expect(existsSync(pub('/videos/daily-report-motion-poster.jpg'))).toBe(true);
+    expect(src).not.toMatch(/pickVideoVariant|VOICE_VARIANTS/);
+    expect(src.indexOf('src={OVERVIEW_SRC}')).toBeGreaterThan(src.indexOf('Fig. ii · How it works'));
+  });
 });
